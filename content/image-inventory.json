@@ -1,0 +1,954 @@
+[
+  {
+    "page": "about",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "about",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "58",
+    "height": "56",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_58,h_56,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/134-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "about",
+    "alt": "background3.jpg",
+    "width": "490",
+    "height": "674",
+    "src": "https://static.wixstatic.com/media/f0e785_81aa265066944367b8928c3389fb9fd1~mv2.jpg/v1/fill/w_123,h_71,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/f0e785_81aa265066944367b8928c3389fb9fd1~mv2.jpg",
+    "local": "public/assets/wix/136-f0e785-81aa265066944367b8928c3389fb9fd1.jpg"
+  },
+  {
+    "page": "about",
+    "alt": "",
+    "width": "327",
+    "height": "398",
+    "src": "https://static.wixstatic.com/media/f0e785_08d97243e91440a0ba806e79164e2911f000.jpg/v1/fill/w_82,h_45,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/f0e785_08d97243e91440a0ba806e79164e2911f000.jpg",
+    "local": "public/assets/wix/137-f0e785-08d97243e91440a0ba806e79164e2911f000.jpg"
+  },
+  {
+    "page": "about",
+    "alt": "background11.jpg",
+    "width": "327",
+    "height": "398",
+    "src": "https://static.wixstatic.com/media/f0e785_87f57c17bf034cf3b934692bf322099c~mv2.jpg/v1/fill/w_82,h_54,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/f0e785_87f57c17bf034cf3b934692bf322099c~mv2.jpg",
+    "local": "public/assets/wix/138-f0e785-87f57c17bf034cf3b934692bf322099c.jpg"
+  },
+  {
+    "page": "about",
+    "alt": "background2.jpg",
+    "width": "490",
+    "height": "369",
+    "src": "https://static.wixstatic.com/media/f0e785_8e5c4b4256054b97866b33e151cab2d1~mv2.jpg/v1/fill/w_123,h_82,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/f0e785_8e5c4b4256054b97866b33e151cab2d1~mv2.jpg",
+    "local": "public/assets/wix/139-f0e785-8e5c4b4256054b97866b33e151cab2d1.jpg"
+  },
+  {
+    "page": "basic-computing",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "computer-repair",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "contact",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "contact",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "57",
+    "height": "59",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_57,h_59,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/140-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "contact",
+    "alt": "icon_edited.png",
+    "width": "27",
+    "height": "27",
+    "src": "https://static.wixstatic.com/media/f0e785_48f9c19af8be41088b302fd35e3c8562~mv2.png/v1/fill/w_27,h_27,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/icon_edited.png",
+    "local": "public/assets/wix/142-icon-edited.png"
+  },
+  {
+    "page": "contact",
+    "alt": "Facebook",
+    "width": "39",
+    "height": "39",
+    "src": "https://static.wixstatic.com/media/e316f544f9094143b9eac01f1f19e697.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/e316f544f9094143b9eac01f1f19e697.png",
+    "local": "public/assets/wix/144-e316f544f9094143b9eac01f1f19e697.png"
+  },
+  {
+    "page": "contact",
+    "alt": "YouTube",
+    "width": "39",
+    "height": "39",
+    "src": "https://static.wixstatic.com/media/a1b09fe8b7f04378a9fe076748ad4a6a.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/a1b09fe8b7f04378a9fe076748ad4a6a.png",
+    "local": "public/assets/wix/146-a1b09fe8b7f04378a9fe076748ad4a6a.png"
+  },
+  {
+    "page": "contact",
+    "alt": "Pinterest",
+    "width": "39",
+    "height": "39",
+    "src": "https://static.wixstatic.com/media/28e77d0b179d4121891d847ed43de6cc.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/28e77d0b179d4121891d847ed43de6cc.png",
+    "local": "public/assets/wix/148-28e77d0b179d4121891d847ed43de6cc.png"
+  },
+  {
+    "page": "contact",
+    "alt": "Instagram",
+    "width": "39",
+    "height": "39",
+    "src": "https://static.wixstatic.com/media/8d6893330740455c96d218258a458aa4.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/8d6893330740455c96d218258a458aa4.png",
+    "local": "public/assets/wix/150-8d6893330740455c96d218258a458aa4.png"
+  },
+  {
+    "page": "contact",
+    "alt": "background12.jpg",
+    "width": "490",
+    "height": "560",
+    "src": "https://static.wixstatic.com/media/f0e785_c6408e19cf904228ae3b50c621705cf4~mv2.jpg/v1/fill/w_123,h_82,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/f0e785_c6408e19cf904228ae3b50c621705cf4~mv2.jpg",
+    "local": "public/assets/wix/152-f0e785-c6408e19cf904228ae3b50c621705cf4.jpg"
+  },
+  {
+    "page": "contact",
+    "alt": "",
+    "width": "490",
+    "height": "803",
+    "src": "https://static.wixstatic.com/media/f0e785_fd00796923204eefa8fc070811dd7598f000.jpg/v1/fill/w_113,h_201,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/f0e785_fd00796923204eefa8fc070811dd7598f000.jpg",
+    "local": "public/assets/wix/153-f0e785-fd00796923204eefa8fc070811dd7598f000.jpg"
+  },
+  {
+    "page": "courses",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "courses",
+    "alt": "background7.jpg",
+    "width": "187",
+    "height": "136",
+    "src": "https://static.wixstatic.com/media/f0e785_d91ee515e717497eac23b537ab90f84c~mv2.jpg/v1/crop/x_218,y_0,w_1485,h_1080/fill/w_187,h_136,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/background7.jpg",
+    "local": "public/assets/wix/078-background7.jpg"
+  },
+  {
+    "page": "courses",
+    "alt": "Laptop Work",
+    "width": "187",
+    "height": "136",
+    "src": "https://static.wixstatic.com/media/ec01129eebde4653a19735c451d56dfb.jpg/v1/fill/w_187,h_136,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Laptop%20Work.jpg",
+    "local": "public/assets/wix/080-laptop-work.jpg"
+  },
+  {
+    "page": "courses",
+    "alt": "persona con microfono_edited.jpg",
+    "width": "187",
+    "height": "136",
+    "src": "https://static.wixstatic.com/media/f0e785_ac69a266e4324e7db6c9f53f340eeb27~mv2.jpg/v1/fill/w_187,h_136,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/persona%2520con%2520microfono_edited.jpg",
+    "local": "public/assets/wix/082-persona-20con-20microfono-edited.jpg"
+  },
+  {
+    "page": "courses",
+    "alt": "cursos%2520de%2520oficina_edited_edited.",
+    "width": "187",
+    "height": "136",
+    "src": "https://static.wixstatic.com/media/f0e785_8d344de642c541ec9ee9b0b8c7ba7490~mv2.jpg/v1/fill/w_187,h_136,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/cursos%252520de%252520oficina_edited_edited_.jpg",
+    "local": "public/assets/wix/084-cursos-2520de-2520oficina-edited-edited.jpg"
+  },
+  {
+    "page": "courses",
+    "alt": "MOTHERANDDAUGTHER.jpg",
+    "width": "187",
+    "height": "136",
+    "src": "https://static.wixstatic.com/media/f0e785_929f283c0b9545e29979f5347f5475a8~mv2.jpg/v1/fill/w_187,h_136,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/MOTHERANDDAUGTHER.jpg",
+    "local": "public/assets/wix/086-motheranddaugther.jpg"
+  },
+  {
+    "page": "courses",
+    "alt": "reparacion de computadoras.jpg",
+    "width": "187",
+    "height": "136",
+    "src": "https://static.wixstatic.com/media/f0e785_d4965191da104a3293c204de02df7e19~mv2.jpg/v1/fill/w_187,h_136,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/reparacion%20de%20computadoras.jpg",
+    "local": "public/assets/wix/088-reparacion-de-computadoras.jpg"
+  },
+  {
+    "page": "courses",
+    "alt": "spanish classes.jpg",
+    "width": "187",
+    "height": "136",
+    "src": "https://static.wixstatic.com/media/f0e785_8a5ef89834ed4707913d633f4e60b369~mv2.jpg/v1/fill/w_187,h_136,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/spanish%20classes.jpg",
+    "local": "public/assets/wix/090-spanish-classes.jpg"
+  },
+  {
+    "page": "courses",
+    "alt": "ged classes.png",
+    "width": "187",
+    "height": "136",
+    "src": "https://static.wixstatic.com/media/f0e785_21b2ae9651b94c2dbcb4a3c0e95aa566~mv2.png/v1/fill/w_187,h_136,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/ged%20classes.png",
+    "local": "public/assets/wix/092-ged-classes.png"
+  },
+  {
+    "page": "courses",
+    "alt": "Math Class",
+    "width": "187",
+    "height": "136",
+    "src": "https://static.wixstatic.com/media/11062b_87a54e59c5114ba0a6a6a0cc1f499ad1~mv2.jpg/v1/crop/x_216,y_0,w_4824,h_3508/fill/w_187,h_136,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Math%20Class.jpg",
+    "local": "public/assets/wix/094-math-class.jpg"
+  },
+  {
+    "page": "downloads",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "downloads",
+    "alt": "APPLE LOGO_edited.jpg",
+    "width": "63",
+    "height": "63",
+    "src": "https://static.wixstatic.com/media/f0e785_8da4813bb3524ce9aa4f933749d22105~mv2.jpg/v1/crop/x_0,y_19,w_474,h_474/fill/w_63,h_63,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/APPLE%2520LOGO_edited.jpg",
+    "local": "public/assets/wix/154-apple-20logo-edited.jpg"
+  },
+  {
+    "page": "downloads",
+    "alt": "",
+    "width": "48",
+    "height": "9",
+    "src": "https://static.wixstatic.com/media/5bfb6f_c2ae26a3c5004bca9ea2b860a535f4ab~mv2.png/v1/fill/w_32,h_9,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/5bfb6f_c2ae26a3c5004bca9ea2b860a535f4ab~mv2.png",
+    "local": "public/assets/wix/156-5bfb6f-c2ae26a3c5004bca9ea2b860a535f4ab.jpg"
+  },
+  {
+    "page": "downloads",
+    "alt": "",
+    "width": "48",
+    "height": "9",
+    "src": "https://static.wixstatic.com/media/5bfb6f_ff73ca63250240b2a3c975834afa9356~mv2.png/v1/fill/w_32,h_9,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/5bfb6f_ff73ca63250240b2a3c975834afa9356~mv2.png",
+    "local": "public/assets/wix/158-5bfb6f-ff73ca63250240b2a3c975834afa9356.jpg"
+  },
+  {
+    "page": "downloads",
+    "alt": "android logo.png",
+    "width": "63",
+    "height": "63",
+    "src": "https://static.wixstatic.com/media/f0e785_d70f996850a84f09bc6ad7d08e90b357~mv2.png/v1/crop/x_0,y_76,w_872,h_872/fill/w_63,h_63,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/android%20logo.png",
+    "local": "public/assets/wix/160-android-logo.png"
+  },
+  {
+    "page": "downloads",
+    "alt": "window logo.jpg",
+    "width": "63",
+    "height": "63",
+    "src": "https://static.wixstatic.com/media/f0e785_44009125abe644b18f592164ef4b9426~mv2.jpg/v1/crop/x_330,y_0,w_620,h_620/fill/w_63,h_63,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/window%20logo.jpg",
+    "local": "public/assets/wix/162-window-logo.jpg"
+  },
+  {
+    "page": "downloads",
+    "alt": "persona con microfono_edited.jpg",
+    "width": "132",
+    "height": "134",
+    "src": "https://static.wixstatic.com/media/f0e785_ac69a266e4324e7db6c9f53f340eeb27~mv2.jpg/v1/crop/x_207,y_0,w_575,h_595/fill/w_132,h_134,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/persona%2520con%2520microfono_edited.jpg",
+    "local": "public/assets/wix/164-persona-20con-20microfono-edited.jpg"
+  },
+  {
+    "page": "downloads",
+    "alt": "oersona con microfono t telefono 4.jpg",
+    "width": "137",
+    "height": "134",
+    "src": "https://static.wixstatic.com/media/f0e785_8c3ee45b8c1047e59cbdaca76cb3992e~mv2.jpg/v1/crop/x_1060,y_11,w_854,h_837/fill/w_137,h_134,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/oersona%20con%20microfono%20t%20telefono%204.jpg",
+    "local": "public/assets/wix/166-oersona-con-microfono-t-telefono-4.jpg"
+  },
+  {
+    "page": "downloads",
+    "alt": "audifono y microfono.jpg",
+    "width": "146",
+    "height": "146",
+    "src": "https://static.wixstatic.com/media/f0e785_08814d12a8464db88dbfb03605225360~mv2.jpg/v1/fill/w_146,h_146,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/audifono%20y%20microfono.jpg",
+    "local": "public/assets/wix/168-audifono-y-microfono.jpg"
+  },
+  {
+    "page": "downloads",
+    "alt": "laptop and phonhe 3.jpg",
+    "width": "146",
+    "height": "146",
+    "src": "https://static.wixstatic.com/media/f0e785_05c4b2102c9146969d8388f3e0683e63~mv2.jpg/v1/crop/x_57,y_0,w_487,h_487/fill/w_146,h_146,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/laptop%20and%20phonhe%203.jpg",
+    "local": "public/assets/wix/170-laptop-and-phonhe-3.jpg"
+  },
+  {
+    "page": "english-online",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "english-online",
+    "alt": "White Facebook Icon",
+    "width": "22",
+    "height": "22",
+    "src": "https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_22,h_22,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png",
+    "local": "public/assets/wix/008-23fd2a2be53141ed810f4d3dcdcd01fa.png"
+  },
+  {
+    "page": "english-online",
+    "alt": "White Instagram Icon",
+    "width": "22",
+    "height": "22",
+    "src": "https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png/v1/fill/w_22,h_22,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/81af6121f84c41a5b4391d7d37fce12a.png",
+    "local": "public/assets/wix/010-81af6121f84c41a5b4391d7d37fce12a.png"
+  },
+  {
+    "page": "english-online",
+    "alt": "",
+    "width": "319",
+    "height": "349",
+    "src": "https://static.wixstatic.com/media/0ad29cb9d94741debe3c0c516a8ee222.jpg/v1/crop/x_183,y_0,w_766,h_894/fill/w_319,h_349,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/0ad29cb9d94741debe3c0c516a8ee222.jpg",
+    "local": "public/assets/wix/112-0ad29cb9d94741debe3c0c516a8ee222.jpg"
+  },
+  {
+    "page": "english-online",
+    "alt": "",
+    "width": "319",
+    "height": "349",
+    "src": "https://static.wixstatic.com/media/eb7b30e78b58498781b44a63c4543c39.jpg/v1/crop/x_2749,y_877,w_2255,h_2468/fill/w_319,h_349,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/eb7b30e78b58498781b44a63c4543c39.jpg",
+    "local": "public/assets/wix/114-eb7b30e78b58498781b44a63c4543c39.jpg"
+  },
+  {
+    "page": "english-online",
+    "alt": "",
+    "width": "319",
+    "height": "349",
+    "src": "https://static.wixstatic.com/media/5bfb6f_19f97958a972415a8a70f3ce42e57548~mv2_d_4000_6016_s_4_2.jpg/v1/fill/w_319,h_349,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/5bfb6f_19f97958a972415a8a70f3ce42e57548~mv2_d_4000_6016_s_4_2.jpg",
+    "local": "public/assets/wix/116-5bfb6f-19f97958a972415a8a70f3ce42e57548.jpg"
+  },
+  {
+    "page": "english-online",
+    "alt": "",
+    "width": "319",
+    "height": "349",
+    "src": "https://static.wixstatic.com/media/1225c146e4c544c3ab8b4fc772b41373.jpg/v1/crop/x_251,y_0,w_843,h_922/fill/w_319,h_349,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1225c146e4c544c3ab8b4fc772b41373.jpg",
+    "local": "public/assets/wix/118-1225c146e4c544c3ab8b4fc772b41373.jpg"
+  },
+  {
+    "page": "english-presencial",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "english-presencial",
+    "alt": "White Facebook Icon",
+    "width": "22",
+    "height": "22",
+    "src": "https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_22,h_22,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png",
+    "local": "public/assets/wix/008-23fd2a2be53141ed810f4d3dcdcd01fa.png"
+  },
+  {
+    "page": "english-presencial",
+    "alt": "White Instagram Icon",
+    "width": "22",
+    "height": "22",
+    "src": "https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png/v1/fill/w_22,h_22,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/81af6121f84c41a5b4391d7d37fce12a.png",
+    "local": "public/assets/wix/010-81af6121f84c41a5b4391d7d37fce12a.png"
+  },
+  {
+    "page": "english-presencial",
+    "alt": "hablas ingles.jpg",
+    "width": "63",
+    "height": "65",
+    "src": "https://static.wixstatic.com/media/f0e785_bb3dd47869cb490abcf3d35fa6e5b6a0~mv2.jpg/v1/crop/x_48,y_0,w_504,h_514/fill/w_63,h_65,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/hablas%20ingles.jpg",
+    "local": "public/assets/wix/096-hablas-ingles.jpg"
+  },
+  {
+    "page": "english-presencial",
+    "alt": "hablando ingles.jpg",
+    "width": "63",
+    "height": "65",
+    "src": "https://static.wixstatic.com/media/f0e785_953479d1e7ee4d30874dc5034a56b4b6~mv2.jpg/v1/crop/x_77,y_0,w_245,h_250/fill/w_63,h_65,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/hablando%20ingles.jpg",
+    "local": "public/assets/wix/098-hablando-ingles.jpg"
+  },
+  {
+    "page": "english-presencial",
+    "alt": "background10.jpeg",
+    "width": "63",
+    "height": "65",
+    "src": "https://static.wixstatic.com/media/f0e785_fec3745238824c6a926d4e746a3f9232~mv2.jpeg/v1/crop/x_188,y_0,w_624,h_683/fill/w_63,h_65,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/background10.jpeg",
+    "local": "public/assets/wix/100-background10.jpeg"
+  },
+  {
+    "page": "english-presencial",
+    "alt": "metodologia.jpg",
+    "width": "63",
+    "height": "65",
+    "src": "https://static.wixstatic.com/media/f0e785_65d933b60b104c4ca9493e59cbf0d802~mv2.jpg/v1/crop/x_220,y_0,w_585,h_640/fill/w_63,h_65,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/metodologia.jpg",
+    "local": "public/assets/wix/102-metodologia.jpg"
+  },
+  {
+    "page": "english-presencial",
+    "alt": "background4.jpg",
+    "width": "63",
+    "height": "65",
+    "src": "https://static.wixstatic.com/media/f0e785_63c6106f087c4546af9c06af7625e675~mv2.jpg/v1/crop/x_101,y_0,w_298,h_326/fill/w_63,h_65,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/background4.jpg",
+    "local": "public/assets/wix/104-background4.jpg"
+  },
+  {
+    "page": "english-presencial",
+    "alt": "hablando ingles.jpg",
+    "width": "63",
+    "height": "65",
+    "src": "https://static.wixstatic.com/media/f0e785_953479d1e7ee4d30874dc5034a56b4b6~mv2.jpg/v1/crop/x_86,y_0,w_229,h_250/fill/w_63,h_65,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/hablando%20ingles.jpg",
+    "local": "public/assets/wix/106-hablando-ingles.jpg"
+  },
+  {
+    "page": "english-presencial",
+    "alt": "niveles de ingles_edited.jpg",
+    "width": "63",
+    "height": "65",
+    "src": "https://static.wixstatic.com/media/f0e785_b2d4193c90e9416287c7ad37eacf345c~mv2.jpg/v1/fill/w_63,h_65,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/niveles%2520de%2520ingles_edited.jpg",
+    "local": "public/assets/wix/108-niveles-20de-20ingles-edited.jpg"
+  },
+  {
+    "page": "english-presencial",
+    "alt": "becas.jpg",
+    "width": "63",
+    "height": "65",
+    "src": "https://static.wixstatic.com/media/f0e785_7068c7bb5fe04ad1ac91d6590cfae64e~mv2.jpg/v1/crop/x_190,y_0,w_219,h_240/fill/w_63,h_65,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/becas.jpg",
+    "local": "public/assets/wix/110-becas.jpg"
+  },
+  {
+    "page": "faq",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "ged",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "home",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "home",
+    "alt": "White Facebook Icon",
+    "width": "22",
+    "height": "22",
+    "src": "https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_22,h_22,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png",
+    "local": "public/assets/wix/008-23fd2a2be53141ed810f4d3dcdcd01fa.png"
+  },
+  {
+    "page": "home",
+    "alt": "White Instagram Icon",
+    "width": "22",
+    "height": "22",
+    "src": "https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png/v1/fill/w_22,h_22,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/81af6121f84c41a5b4391d7d37fce12a.png",
+    "local": "public/assets/wix/010-81af6121f84c41a5b4391d7d37fce12a.png"
+  },
+  {
+    "page": "home",
+    "alt": "Classroom",
+    "width": "1805",
+    "height": "599",
+    "src": "https://static.wixstatic.com/media/11062b_85295165c2554d56a16f7df195ad08e2~mv2.jpeg/v1/fill/w_135,h_90,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/11062b_85295165c2554d56a16f7df195ad08e2~mv2.jpeg",
+    "local": "public/assets/wix/012-11062b-85295165c2554d56a16f7df195ad08e2.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "",
+    "width": "107",
+    "height": "107",
+    "src": "https://static.wixstatic.com/media/11062b_c4d2ec607fa64586a9c09cdd0dda4212~mv2.png/v1/fill/w_107,h_107,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_c4d2ec607fa64586a9c09cdd0dda4212~mv2.png",
+    "local": "public/assets/wix/013-11062b-c4d2ec607fa64586a9c09cdd0dda4212.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "",
+    "width": "94",
+    "height": "90",
+    "src": "https://static.wixstatic.com/media/11062b_282ea19ac26346168a3a82e759b3bfdc~mv2.png/v1/fill/w_94,h_90,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_282ea19ac26346168a3a82e759b3bfdc~mv2.png",
+    "local": "public/assets/wix/015-11062b-282ea19ac26346168a3a82e759b3bfdc.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "",
+    "width": "85",
+    "height": "86",
+    "src": "https://static.wixstatic.com/media/11062b_b98080fa576849bc9fed37a138e07b6a~mv2.png/v1/fill/w_85,h_86,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_b98080fa576849bc9fed37a138e07b6a~mv2.png",
+    "local": "public/assets/wix/017-11062b-b98080fa576849bc9fed37a138e07b6a.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "Studying",
+    "width": "196",
+    "height": "487",
+    "src": "https://static.wixstatic.com/media/11062b_1c38143ca8dc4196af1cae1a74ac50e0~mv2.jpg/v1/fill/w_196,h_131,al_c,q_80,usm_0.66_1.00_0.01,blur_3,enc_avif,quality_auto/11062b_1c38143ca8dc4196af1cae1a74ac50e0~mv2.jpg",
+    "local": "public/assets/wix/019-11062b-1c38143ca8dc4196af1cae1a74ac50e0.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "32",
+    "height": "32",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_32,h_32,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/020-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "home",
+    "alt": "Distance Learning",
+    "width": "196",
+    "height": "487",
+    "src": "https://static.wixstatic.com/media/11062b_cf77c5043f4b4cf4a7c36e3afac87a84~mv2.jpeg/v1/fill/w_196,h_131,al_c,q_80,usm_0.66_1.00_0.01,blur_3,enc_avif,quality_auto/11062b_cf77c5043f4b4cf4a7c36e3afac87a84~mv2.jpeg",
+    "local": "public/assets/wix/022-11062b-cf77c5043f4b4cf4a7c36e3afac87a84.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "whatsapp_edited.png",
+    "width": "34",
+    "height": "32",
+    "src": "https://static.wixstatic.com/media/f0e785_d32aa02802af4602abf3ad58d2a1d6f0~mv2.png/v1/fill/w_34,h_32,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/whatsapp_edited.png",
+    "local": "public/assets/wix/023-whatsapp-edited.png"
+  },
+  {
+    "page": "home",
+    "alt": "hispanish flag.jpg",
+    "width": "980",
+    "height": "37",
+    "src": "https://static.wixstatic.com/media/f0e785_445a112b9be3450caf64baa3fe2376ce~mv2.jpg/v1/fill/w_144,h_6,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/f0e785_445a112b9be3450caf64baa3fe2376ce~mv2.jpg",
+    "local": "public/assets/wix/025-f0e785-445a112b9be3450caf64baa3fe2376ce.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "54",
+    "height": "51",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_54,h_51,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/026-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "home",
+    "alt": "whatsapp_edited.png",
+    "width": "49",
+    "height": "41",
+    "src": "https://static.wixstatic.com/media/f0e785_d32aa02802af4602abf3ad58d2a1d6f0~mv2.png/v1/fill/w_49,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/whatsapp_edited.png",
+    "local": "public/assets/wix/028-whatsapp-edited.png"
+  },
+  {
+    "page": "home",
+    "alt": "INTRO BOOK_portada.jpg",
+    "width": "160",
+    "height": "209",
+    "src": "https://static.wixstatic.com/media/f0e785_3ea74eefb0f8442d8f4fa82152549999~mv2.jpg/v1/crop/x_0,y_0,w_2476,h_3300/fill/w_160,h_209,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/INTRO%20BOOK_portada.jpg",
+    "local": "public/assets/wix/030-intro-book-portada.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "whatsapp_edited.png",
+    "width": "51",
+    "height": "41",
+    "src": "https://static.wixstatic.com/media/f0e785_d32aa02802af4602abf3ad58d2a1d6f0~mv2.png/v1/fill/w_51,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/whatsapp_edited.png",
+    "local": "public/assets/wix/032-whatsapp-edited.png"
+  },
+  {
+    "page": "home",
+    "alt": "STEP PLUS _1_portada.jpg",
+    "width": "174",
+    "height": "219",
+    "src": "https://static.wixstatic.com/media/f0e785_3331b4a2de3e4d5a8f9f2220bb83b9c8~mv2.jpg/v1/fill/w_174,h_219,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/STEP%20PLUS%20_1_portada.jpg",
+    "local": "public/assets/wix/034-step-plus-1-portada.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "STEP PLUS _2_portada.jpg",
+    "width": "177",
+    "height": "219",
+    "src": "https://static.wixstatic.com/media/f0e785_af5b9164bc0746b5821a01d92e9a7b81~mv2.jpg/v1/fill/w_177,h_219,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/STEP%20PLUS%20_2_portada.jpg",
+    "local": "public/assets/wix/036-step-plus-2-portada.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "STEP PLUS _3_portada.jpg",
+    "width": "177",
+    "height": "219",
+    "src": "https://static.wixstatic.com/media/f0e785_8794787929ed47a7a567f9560c13c0ab~mv2.jpg/v1/fill/w_177,h_219,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/STEP%20PLUS%20_3_portada.jpg",
+    "local": "public/assets/wix/038-step-plus-3-portada.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "STEP PLUS _4_portada.jpg",
+    "width": "174",
+    "height": "219",
+    "src": "https://static.wixstatic.com/media/f0e785_4cc6fe2f527c4d8c8e22676ee7910fc5~mv2.jpg/v1/crop/x_0,y_32,w_2552,h_3238/fill/w_174,h_219,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/STEP%20PLUS%20_4_portada.jpg",
+    "local": "public/assets/wix/040-step-plus-4-portada.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "STEP PLUS _5_portada.jpg",
+    "width": "174",
+    "height": "219",
+    "src": "https://static.wixstatic.com/media/f0e785_3c5007814dc84556b22dae725baadaff~mv2.jpg/v1/fill/w_174,h_219,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/STEP%20PLUS%20_5_portada.jpg",
+    "local": "public/assets/wix/042-step-plus-5-portada.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "STEP PLUS _6_portada.jpg",
+    "width": "177",
+    "height": "219",
+    "src": "https://static.wixstatic.com/media/f0e785_470077b9bf204f428731ea4aa990446d~mv2.jpg/v1/fill/w_177,h_219,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/STEP%20PLUS%20_6_portada.jpg",
+    "local": "public/assets/wix/044-step-plus-6-portada.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "",
+    "width": "316",
+    "height": "262",
+    "src": "https://static.wixstatic.com/media/83524445ca90408594501cacb2567307.jpg/v1/fill/w_73,h_66,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/83524445ca90408594501cacb2567307.jpg",
+    "local": "public/assets/wix/046-83524445ca90408594501cacb2567307.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "",
+    "width": "307",
+    "height": "262",
+    "src": "https://static.wixstatic.com/media/df81d0146a554f6c9a51a21ae7d95d4f.jpg/v1/fill/w_77,h_51,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/df81d0146a554f6c9a51a21ae7d95d4f.jpg",
+    "local": "public/assets/wix/047-df81d0146a554f6c9a51a21ae7d95d4f.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "",
+    "width": "307",
+    "height": "262",
+    "src": "https://static.wixstatic.com/media/035244_eac0cb69cd9842838188176a1cf524a6~mv2_d_5122_3415_s_4_2.jpg/v1/fill/w_77,h_51,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/035244_eac0cb69cd9842838188176a1cf524a6~mv2_d_5122_3415_s_4_2.jpg",
+    "local": "public/assets/wix/048-035244-eac0cb69cd9842838188176a1cf524a6.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "IMG_3178.JPG",
+    "width": "116",
+    "height": "116",
+    "src": "https://static.wixstatic.com/media/f0e785_59819bd5618845229bec28e2aeea5563~mv2.jpg/v1/crop/x_925,y_0,w_3850,h_3850/fill/w_116,h_116,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/IMG_3178_JPG.jpg",
+    "local": "public/assets/wix/049-img-3178-jpg.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "ait usa post 18.jpg",
+    "width": "331",
+    "height": "320",
+    "src": "https://static.wixstatic.com/media/f0e785_7b15cf76267b438ea9fac1f605f79ff9~mv2.jpg/v1/fill/w_331,h_320,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/ait%20usa%20post%2018.jpg",
+    "local": "public/assets/wix/051-ait-usa-post-18.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "IMG_3170.JPG",
+    "width": "117",
+    "height": "116",
+    "src": "https://static.wixstatic.com/media/f0e785_9980bd2848184c818950e3794bdddd00~mv2.jpg/v1/crop/x_0,y_992,w_4000,h_3992/fill/w_117,h_116,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/IMG_3170_JPG.jpg",
+    "local": "public/assets/wix/053-img-3170-jpg.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "",
+    "width": "1805",
+    "height": "283",
+    "src": "https://static.wixstatic.com/media/12c18de97a854bbe961f4b3d52f13b46.jpg/v1/fill/w_70,h_42,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/12c18de97a854bbe961f4b3d52f13b46.jpg",
+    "local": null
+  },
+  {
+    "page": "home",
+    "alt": "Facebook - White Circle",
+    "width": "32",
+    "height": "32",
+    "src": "https://static.wixstatic.com/media/e0678ef25486466ba65ef6ad47b559e1.png/v1/fill/w_32,h_32,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/e0678ef25486466ba65ef6ad47b559e1.png",
+    "local": "public/assets/wix/055-e0678ef25486466ba65ef6ad47b559e1.png"
+  },
+  {
+    "page": "home",
+    "alt": "LinkedIn - White Circle",
+    "width": "32",
+    "height": "32",
+    "src": "https://static.wixstatic.com/media/f61c7a3b4b4947b28511a25034973383.png/v1/fill/w_32,h_32,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/f61c7a3b4b4947b28511a25034973383.png",
+    "local": "public/assets/wix/057-f61c7a3b4b4947b28511a25034973383.png"
+  },
+  {
+    "page": "home",
+    "alt": "one.jpg",
+    "width": "53",
+    "height": "36",
+    "src": "https://static.wixstatic.com/media/f0e785_d7bca1b50d5046a1beb68bab911f2e71~mv2.jpg/v1/fill/w_53,h_36,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/one.jpg",
+    "local": "public/assets/wix/059-one.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "two.jpg",
+    "width": "53",
+    "height": "36",
+    "src": "https://static.wixstatic.com/media/f0e785_6b7b6970126e4159b7ea28790baafcb4~mv2.jpg/v1/fill/w_53,h_36,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/two.jpg",
+    "local": "public/assets/wix/061-two.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "three.jpg",
+    "width": "53",
+    "height": "36",
+    "src": "https://static.wixstatic.com/media/f0e785_6016c7e2a3a1419fbe043b0c5c2221fc~mv2.jpg/v1/fill/w_53,h_36,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/three.jpg",
+    "local": "public/assets/wix/063-three.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "four.jpg",
+    "width": "53",
+    "height": "36",
+    "src": "https://static.wixstatic.com/media/f0e785_42f3f3b1ccc94e3ea009f49e33b33772~mv2.jpg/v1/crop/x_0,y_117,w_800,h_576/fill/w_53,h_36,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/four.jpg",
+    "local": "public/assets/wix/065-four.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "foto10.jpg",
+    "width": "99",
+    "height": "99",
+    "src": "https://static.wixstatic.com/media/f0e785_786fdc96ca3847cbabf7b768ad3d05bb~mv2.jpg/v1/crop/x_270,y_90,w_112,h_119/fill/w_99,h_99,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/foto10.jpg",
+    "local": "public/assets/wix/067-foto10.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "9.jpg",
+    "width": "99",
+    "height": "99",
+    "src": "https://static.wixstatic.com/media/f0e785_249ebde150994414b02a65f7ed5463a2~mv2.jpg/v1/crop/x_434,y_163,w_117,h_117/fill/w_99,h_99,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/9.jpg",
+    "local": "public/assets/wix/069-9.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "foto2.jpg",
+    "width": "104",
+    "height": "99",
+    "src": "https://static.wixstatic.com/media/f0e785_9860eb2da96147889a811b5a5d3eb172~mv2.jpg/v1/crop/x_254,y_122,w_77,h_73/fill/w_104,h_99,al_c,lg_1,q_80,enc_avif,quality_auto/foto2.jpg",
+    "local": "public/assets/wix/071-foto2.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "on line classes 7.jpg",
+    "width": "99",
+    "height": "99",
+    "src": "https://static.wixstatic.com/media/f0e785_c0758f12001d4895ad84d9b4e3945d2c~mv2.jpg/v1/crop/x_348,y_13,w_280,h_290/fill/w_99,h_99,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/on%20line%20classes%207.jpg",
+    "local": "public/assets/wix/073-on-line-classes-7.jpg"
+  },
+  {
+    "page": "home",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "56",
+    "height": "59",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_56,h_59,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/075-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "kids-online",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "kids-online",
+    "alt": "Three Kids",
+    "width": "251",
+    "height": "644",
+    "src": "https://static.wixstatic.com/media/11062b_958e361438c746969b6cb4161fccd5b3~mv2.jpg/v1/fill/w_63,h_42,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/11062b_958e361438c746969b6cb4161fccd5b3~mv2.jpg",
+    "local": "public/assets/wix/120-11062b-958e361438c746969b6cb4161fccd5b3.jpg"
+  },
+  {
+    "page": "kids-online",
+    "alt": "Elementary School Student",
+    "width": "243",
+    "height": "644",
+    "src": "https://static.wixstatic.com/media/11062b_f2aa4156f5714586addffc18628a72b1~mv2.jpeg/v1/fill/w_61,h_40,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/11062b_f2aa4156f5714586addffc18628a72b1~mv2.jpeg",
+    "local": "public/assets/wix/121-11062b-f2aa4156f5714586addffc18628a72b1.jpg"
+  },
+  {
+    "page": "kids-online",
+    "alt": "Distance Learning",
+    "width": "243",
+    "height": "644",
+    "src": "https://static.wixstatic.com/media/11062b_cf77c5043f4b4cf4a7c36e3afac87a84~mv2.jpeg/v1/fill/w_61,h_41,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/11062b_cf77c5043f4b4cf4a7c36e3afac87a84~mv2.jpeg",
+    "local": "public/assets/wix/122-11062b-cf77c5043f4b4cf4a7c36e3afac87a84.jpg"
+  },
+  {
+    "page": "kids-online",
+    "alt": "ONECHILDREN.jpg",
+    "width": "72",
+    "height": "73",
+    "src": "https://static.wixstatic.com/media/f0e785_3f373bc1f9354eff98a7e00cdd797679~mv2.jpg/v1/fill/w_72,h_109,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/ONECHILDREN.jpg",
+    "local": "public/assets/wix/123-onechildren.jpg"
+  },
+  {
+    "page": "kids-online",
+    "alt": "TWOCHILDREN.jpg",
+    "width": "52",
+    "height": "84",
+    "src": "https://static.wixstatic.com/media/f0e785_c0a5c6587ba7405586bceb2a19077d9d~mv2.jpg/v1/fill/w_56,h_84,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/TWOCHILDREN.jpg",
+    "local": "public/assets/wix/125-twochildren.jpg"
+  },
+  {
+    "page": "kids-online",
+    "alt": "threechildren.jpg",
+    "width": "61",
+    "height": "78",
+    "src": "https://static.wixstatic.com/media/f0e785_2e742079e8e545ce81ee631531c30645~mv2.jpg/v1/fill/w_61,h_92,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/threechildren.jpg",
+    "local": "public/assets/wix/127-threechildren.jpg"
+  },
+  {
+    "page": "kids-online",
+    "alt": "four.jpg",
+    "width": "64",
+    "height": "75",
+    "src": "https://static.wixstatic.com/media/f0e785_42f3f3b1ccc94e3ea009f49e33b33772~mv2.jpg/v1/crop/x_140,y_49,w_568,h_681/fill/w_64,h_75,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/four.jpg",
+    "local": "public/assets/wix/129-four.jpg"
+  },
+  {
+    "page": "kids-online",
+    "alt": "clock.jpg",
+    "width": "61",
+    "height": "60",
+    "src": "https://static.wixstatic.com/media/f0e785_11082926d7174659a69b85a7c5665edd~mv2.jpg/v1/crop/x_13,y_0,w_1287,h_1270/fill/w_61,h_60,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/clock.jpg",
+    "local": "public/assets/wix/131-clock.jpg"
+  },
+  {
+    "page": "kids-online",
+    "alt": "",
+    "width": "326",
+    "height": "580",
+    "src": "https://static.wixstatic.com/media/f0e785_fd00796923204eefa8fc070811dd7598f000.jpg/v1/fill/w_82,h_145,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/f0e785_fd00796923204eefa8fc070811dd7598f000.jpg",
+    "local": "public/assets/wix/133-f0e785-fd00796923204eefa8fc070811dd7598f000.jpg"
+  },
+  {
+    "page": "math-tutoring",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "office-computing",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "payments",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "payments",
+    "alt": "",
+    "width": "",
+    "height": "",
+    "src": "https://static.wixstatic.com/media/f0e785_4cf3c85999ae4eaeb5b57143085d3002~mv2.jpg/v1/fill/w_144,h_96,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/f0e785_4cf3c85999ae4eaeb5b57143085d3002~mv2.jpg",
+    "local": "public/assets/wix/174-f0e785-4cf3c85999ae4eaeb5b57143085d3002.jpg"
+  },
+  {
+    "page": "payments",
+    "alt": "",
+    "width": "",
+    "height": "",
+    "src": "https://static.wixstatic.com/media/f0e785_f23230922ce948a18f6c6bf5e53ce1b2~mv2.jpg/v1/fill/w_147,h_98,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/f0e785_f23230922ce948a18f6c6bf5e53ce1b2~mv2.jpg",
+    "local": "public/assets/wix/175-f0e785-f23230922ce948a18f6c6bf5e53ce1b2.jpg"
+  },
+  {
+    "page": "payments",
+    "alt": "",
+    "width": "",
+    "height": "",
+    "src": "https://static.wixstatic.com/media/f0e785_4221602b01ec4243ab23f260aa5799d5~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80,blur_3,enc_avif,quality_auto/f0e785_4221602b01ec4243ab23f260aa5799d5~mv2.jpg",
+    "local": "public/assets/wix/176-f0e785-4221602b01ec4243ab23f260aa5799d5.jpg"
+  },
+  {
+    "page": "payments",
+    "alt": "",
+    "width": "",
+    "height": "",
+    "src": "https://static.wixstatic.com/media/f0e785_c0bce558a0a042bd947c8bec4e7bffb6~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80,blur_3,enc_avif,quality_auto/f0e785_c0bce558a0a042bd947c8bec4e7bffb6~mv2.jpg",
+    "local": "public/assets/wix/177-f0e785-c0bce558a0a042bd947c8bec4e7bffb6.jpg"
+  },
+  {
+    "page": "payments",
+    "alt": "",
+    "width": "",
+    "height": "",
+    "src": "https://static.wixstatic.com/media/f0e785_aef6504fe1844c2faaad1b32a30eebf9~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80,blur_3,enc_avif,quality_auto/f0e785_aef6504fe1844c2faaad1b32a30eebf9~mv2.jpg",
+    "local": "public/assets/wix/178-f0e785-aef6504fe1844c2faaad1b32a30eebf9.jpg"
+  },
+  {
+    "page": "registration",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  },
+  {
+    "page": "registration",
+    "alt": "",
+    "width": "245",
+    "height": "456",
+    "src": "https://static.wixstatic.com/media/77ccfde700bc44a8a884f2ef31c8d5ba.jpg/v1/fill/w_61,h_63,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/77ccfde700bc44a8a884f2ef31c8d5ba.jpg",
+    "local": "public/assets/wix/172-77ccfde700bc44a8a884f2ef31c8d5ba.jpg"
+  },
+  {
+    "page": "registration",
+    "alt": "",
+    "width": "245",
+    "height": "456",
+    "src": "https://static.wixstatic.com/media/f0e785_fd00796923204eefa8fc070811dd7598f000.jpg/v1/fill/w_61,h_109,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/f0e785_fd00796923204eefa8fc070811dd7598f000.jpg",
+    "local": "public/assets/wix/173-f0e785-fd00796923204eefa8fc070811dd7598f000.jpg"
+  },
+  {
+    "page": "spanish-foreigners",
+    "alt": "Solo Logo 4 x 4 Clases1.png",
+    "width": "48",
+    "height": "48",
+    "src": "https://static.wixstatic.com/media/f0e785_6f280cc0f9bd42bd8caffad2fb8a848e~mv2_d_1200_1200_s_2.png/v1/fill/w_48,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Solo%20Logo%204%20x%204%20Clases1.png",
+    "local": "public/assets/wix/006-solo-logo-4-x-4-clases1.png"
+  }
+]

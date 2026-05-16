@@ -1,0 +1,228 @@
+Mysite
+Explore
+Hire a Professional
+Help
+Upgrade
+5
+3
+1
+AI
+Quick Actions
+Get 250 monthly visitors
+173/250 visitors
+Home
+AI Agents
+NEW
+Marketing Agent
+Personal Assistant
+Front Desk Agent
+Custom Agent
+Events
+Published
+Drafts
+Categories
+Staff
+Getting Paid
+Connect & Setup
+Pay Links
+Invoices
+Price Quotes
+Proposals
+Point of Sale
+POS Home
+POS Checkout
+QuickBooks
+Sales
+Orders
+Subscriptions
+Gift Card Sales
+Payments & Finances
+All Payments
+Payouts
+Settlement Report
+Tax Documents
+Receipts
+Analytics
+Sales Overview
+Store
+Subscriptions
+Abandoned Carts
+Catalog
+Store Products
+Products
+Inventory
+Categories
+Back in Stock Requests
+Find Products to Sell
+Gift Cards
+Discounts
+Coupons
+Automatic Discounts
+Sales Channels
+Sales Channels Home
+Google & YouTube
+eBay
+Amazon
+TikTok Catalog
+Pinterest Catalogs
+PayPal
+Apps
+2
+Manage Apps
+2
+App Market
+Site & Mobile App
+Website Overview
+Website
+Site Speed
+Uptime & Security
+Mobile App
+Logo & Brand
+Hopp - Link in Bio
+Marketing
+SEO & GEO
+Google Ads
+Facebook & Instagram Ads
+Email Marketing
+Social Media Marketing
+Referral Program
+Google Business Profile
+Inbox
+50
+Customers & Leads
+Contacts
+Forms & Submissions
+Meetings
+Pipelines
+Community
+Loyalty Program
+Business Email
+Analytics
+Highlights
+Real-time
+Traffic
+Behavior
+Marketing
+NEW
+Session Recordings
+Insights
+Benchmarks
+All Reports
+Automations
+Settings
+Website Content
+CMS
+Multilingual
+Developer Tools
+Logging Tools
+Wix Logs
+Advanced Log Tools
+Monitoring
+Secrets Manager
+Triggered Emails
+Edit Site
+Products
+Registracion y Libro
+Registracion y Libro
+ Cancel Save
+Images and videos
+Product info
+BASIC INFO
+Name
+Ribbon 
+3. Registracion y Libro
+Description
+Generate AI Text
+
+Es importante reportar sus pagos al watsapp , abajo descrito 
+
+1. Si va a tomar clases presenciales, puede solicitar su libro en local de  AiT USA INSTITUTE
+
+2. Si va a tomar clases Online, puedes solicitar el envio fisico de su libro (Valido solo dentro USA)
+
+3. Si estas fuera de los Estados Unidos de America (Solicite por whatsapp,  el libro digital)
+
+Whatsapp : +1 732-379-0593
+
+ADDITIONAL INFO SECTIONS
+Horarios Online
+Mañanas (3 Dias) Mar a Jue 9:30 am a 10:30 am. Mar a Jue 10:30 am a 11:30 a.m. Tardes y Noches (3 Dias) Mar a Jue 6:30 pm - 7:30 pm Mar a Jue 7:30 pm - 8:30 pm Mar a Jue 8:30 pm - 9:30 pm Fines de Semana (Solo Sabados) Sabados 10 am - 12 m Sabados 3.30 pm - 5.30 pm
+Horarios en Persona
+Mananas (4 Dias) Lun a Jue 8:30 am - 9:30 am Lun a Jue 9:30 am - 10:30 am Lun a Jue 10:30 am - 11:30 am Tardes y Noches (4 Dias) Lun a Jue 6:30 pm - 7:30 pm Lun a Jue 7:30 pm - 8:30 pm Lun a Jue 8:30 pm - 9:30 pm Fin de Semana (1 Dia) Solo Sabados 10 am. - 1 pm. Solo Sabados 3.30 pm. - 5.30 pm.
+ Add an Info Section
+Pricing
+Price
+$	
+On sale
+Show price per unit
+Custom text
+Allow customers to personalize this product with a custom text field.
+Add Custom Text Field
+Product options
+Manage the options this product comes in.
+ 
+Type
+Online, In Person 
+Add Another Option
+Manage pricing and inventory for each product variant
+Manage variants
+Edit
+Variant
+	
+Price difference (+/-)
+	
+Variant price
+	
+Status
+	
+Visibility
+
+
+Online
+	
+—
+	
+95,00$
+	
+In stock
+	
+
+In Person
+	
+—
+	
+95,00$
+	
+In stock
+	
+Pre-order
+Let customers buy this product before it’s released or when it’s out of stock.
+
+Learn about pre-order
+Subscriptions
+Easily offer your products on a recurring basis with subscriptions.
+Create a Subscription
+Show in online store
+Show in Point of Sale
+Categories
+All Products
+Classes de Ingles
+Collection1
++ Create Category
+Marketing & SEO
+Create coupon
+Promote this product
+Edit SEO settings
+Advanced
+Product tax group 
+Products (default rate)
+Fulfilled by 
+You (self fulfilled)
+Brand
+Hire a professional
+Optimize your store's product pages with the help of an expert.
+Get Started
+Product insights
+Last 30 days
+View Full Report
+Cancel Save

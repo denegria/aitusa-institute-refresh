@@ -1,0 +1,14 @@
+{
+  "name": "aitusa-institute-refresh",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node ./scripts/serve.mjs",
+    "capture": "node ./scripts/capture-wix.mjs",
+    "inventory": "node ./scripts/extract-image-inventory.mjs",
+    "links": "node ./scripts/extract-links.mjs",
+    "check:assets": "node ./scripts/check-assets.mjs",
+    "verify:browser": "node ./scripts/verify-browser.mjs"
+  }
+}

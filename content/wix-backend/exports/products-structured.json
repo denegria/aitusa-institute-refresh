@@ -1,0 +1,163 @@
+{
+  "capturedAt": "2026-05-16T13:58:58.420Z",
+  "source": "Wix dashboard product detail pages plus local distilled catalog",
+  "products": [
+    {
+      "title": "Europa - Mes (4 weeks)",
+      "price": "$175.00",
+      "status": "In stock",
+      "sku": "",
+      "image": "./public/assets/wix/products/product-europa-mes-4weeks.jpg",
+      "note": "100% clases de inglés en línea para estudiantes en Europa. El dashboard indica reportar el pago por WhatsApp.",
+      "variants": []
+    },
+    {
+      "title": "Libro",
+      "price": "$55.00",
+      "status": "In stock",
+      "sku": "",
+      "image": "./public/assets/wix/products/product-libro.jpg",
+      "note": "Libro físico para clases presenciales u online dentro de Estados Unidos; fuera de USA se solicita versión digital por WhatsApp.",
+      "variants": []
+    },
+    {
+      "title": "Registración y Libro",
+      "price": "$95.00",
+      "status": "In stock",
+      "sku": "",
+      "image": "./public/assets/wix/products/product-registracion-y-libro.jpg",
+      "note": "Paquete de registro más libro. Las variantes del dashboard mantienen el mismo precio para online y presencial.",
+      "variants": [
+        {
+          "name": "Online",
+          "price": "$95.00"
+        },
+        {
+          "name": "In Person",
+          "price": "$95.00"
+        }
+      ]
+    },
+    {
+      "title": "Solo Registración - Pago único",
+      "price": "$55.00",
+      "status": "In stock",
+      "sku": "",
+      "image": "./public/assets/wix/products/product-solo-registracion-pago-unico.jpg",
+      "note": "Pago único de registración para niveles básico, intermedio y avanzado, disponible online o presencial.",
+      "variants": [
+        {
+          "name": "Básico | Online",
+          "price": "$55.00"
+        },
+        {
+          "name": "Intermedio | Online",
+          "price": "$55.00"
+        },
+        {
+          "name": "Avanzado | Online",
+          "price": "$55.00"
+        },
+        {
+          "name": "Básico | In Person",
+          "price": "$55.00"
+        },
+        {
+          "name": "Intermedio | In Person",
+          "price": "$55.00"
+        },
+        {
+          "name": "Avanzado | In Person",
+          "price": "$55.00"
+        }
+      ]
+    },
+    {
+      "title": "Cursos de Programming",
+      "price": "$3,500.00",
+      "status": "In stock",
+      "sku": "",
+      "image": "./public/assets/wix/products/product-cursos-de-programming.jpg",
+      "note": "Cursos online de tres meses: Graphic Design, Web Design y Computer Repair & Networking. El dashboard muestra el curso técnico con precio reducido.",
+      "variants": [
+        {
+          "name": "Graphic Design",
+          "price": "$3,500.00"
+        },
+        {
+          "name": "Web Design",
+          "price": "$3,500.00"
+        },
+        {
+          "name": "Computer Repair & Networking",
+          "price": "$2,400.00"
+        }
+      ]
+    },
+    {
+      "title": "Latinoamérica - Mes (4 weeks)",
+      "price": "$145.00",
+      "status": "In stock",
+      "sku": "364215376135191",
+      "image": "./public/assets/wix/products/product-latinoamerica-mes-4-weeks.jpg",
+      "note": "Mensualidad cada 4 semanas para niveles básico, intermedio y avanzado, con opciones online y presencial.",
+      "variants": [
+        {
+          "name": "Básico | Online | Mensual",
+          "price": "$145.00"
+        },
+        {
+          "name": "Intermedio | Online | Mensual",
+          "price": "$145.00"
+        },
+        {
+          "name": "Avanzado | Online | Mensual",
+          "price": "$145.00"
+        },
+        {
+          "name": "Básico | In Person | Mensual",
+          "price": "$145.00"
+        },
+        {
+          "name": "Intermedio | In Person | Mensual",
+          "price": "$145.00"
+        },
+        {
+          "name": "Avanzado | In Person | Mensual",
+          "price": "$145.00"
+        }
+      ]
+    },
+    {
+      "title": "GED",
+      "price": "$240.00",
+      "status": "In stock",
+      "sku": "364215375135191",
+      "image": "./public/assets/wix/products/product-ged.jpg",
+      "note": "Curso estimado de seis meses, dos clases de una hora por semana. Horarios capturados: sábados 9-11, 11-1, 2-4 y 4-6.",
+      "variants": []
+    },
+    {
+      "title": "Computación",
+      "price": "$325.00",
+      "status": "In stock",
+      "sku": "364115376135191",
+      "image": "./public/assets/wix/products/product-computacion.jpg",
+      "note": "Cursos básicos de internet, Mac o Windows, más cursos de oficina en Word, Excel y PowerPoint con horarios de mañana, tarde y noche.",
+      "variants": [
+        {
+          "name": "Internet",
+          "price": "$325.00"
+        },
+        {
+          "name": "Mac o Windows",
+          "price": "$325.00"
+        },
+        {
+          "name": "Microsoft Office",
+          "price": "$325.00"
+        }
+      ]
+    }
+  ]
+}
