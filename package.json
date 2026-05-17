@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node ./scripts/serve.mjs",
+    "build": "node ./scripts/build-static.mjs",
     "capture": "node ./scripts/capture-wix.mjs",
     "inventory": "node ./scripts/extract-image-inventory.mjs",
     "links": "node ./scripts/extract-links.mjs",
