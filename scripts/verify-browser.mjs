@@ -24,6 +24,10 @@ const types = {
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".txt": "text/plain; charset=utf-8",
+  ".webmanifest": "application/manifest+json; charset=utf-8",
+  ".xml": "application/xml; charset=utf-8",
   ".png": "image/png",
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
@@ -304,6 +308,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
 const results = [];
 try {
   results.push(await verifyViewport({ name: "desktop-home", width: 1440, height: 1400, mobile: false }));
+  results.push(await verifyViewport({ name: "tablet-home", width: 820, height: 1180, mobile: true }));
   results.push(await verifyViewport({ name: "mobile-home", width: 390, height: 1200, mobile: true }));
 } finally {
   socket.close();

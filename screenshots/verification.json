@@ -1,5 +1,5 @@
 {
-  "appUrl": "http://127.0.0.1:50116/index.html",
+  "appUrl": "http://127.0.0.1:54319/index.html",
   "chrome": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
   "results": [
     {
@@ -9,7 +9,7 @@
       "screenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\desktop-home.png",
       "productScreenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\desktop-home-products.png",
       "screenshotError": null,
-      "location": "http://127.0.0.1:50116/index.html",
+      "location": "http://127.0.0.1:54319/index.html",
       "title": "AiT USA Institute | Inglés ESL Presencial, Híbrido y Online",
       "h1": "AiT USA Institute",
       "programs": 9,
@@ -20,10 +20,35 @@
       "faqs": 6,
       "missingImages": [],
       "overflowing": [],
-      "pageHeight": 14773,
+      "pageHeight": 14676,
       "interactions": {
         "technologyVisible": 3,
-        "formStatus": "Mensaje listo. Usa el boton de WhatsApp para enviarlo al equipo.",
+        "formStatus": "Mensaje listo. Usa el botón de WhatsApp para enviarlo al equipo.",
+        "menuButtonPresent": true
+      }
+    },
+    {
+      "name": "tablet-home",
+      "width": 820,
+      "height": 1180,
+      "screenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\tablet-home.png",
+      "productScreenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\tablet-home-products.png",
+      "screenshotError": null,
+      "location": "http://127.0.0.1:54319/index.html",
+      "title": "AiT USA Institute | Inglés ESL Presencial, Híbrido y Online",
+      "h1": "AiT USA Institute",
+      "programs": 9,
+      "visiblePrograms": 9,
+      "books": 7,
+      "products": 8,
+      "variantLists": 5,
+      "faqs": 6,
+      "missingImages": [],
+      "overflowing": [],
+      "pageHeight": 18830,
+      "interactions": {
+        "technologyVisible": 3,
+        "formStatus": "Mensaje listo. Usa el botón de WhatsApp para enviarlo al equipo.",
         "menuButtonPresent": true
       }
     },
@@ -34,7 +59,7 @@
       "screenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\mobile-home.png",
       "productScreenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\mobile-home-products.png",
       "screenshotError": null,
-      "location": "http://127.0.0.1:50116/index.html",
+      "location": "http://127.0.0.1:54319/index.html",
       "title": "AiT USA Institute | Inglés ESL Presencial, Híbrido y Online",
       "h1": "AiT USA Institute",
       "programs": 9,
@@ -45,10 +70,10 @@
       "faqs": 6,
       "missingImages": [],
       "overflowing": [],
-      "pageHeight": 30773,
+      "pageHeight": 31712,
       "interactions": {
         "technologyVisible": 3,
-        "formStatus": "Mensaje listo. Usa el boton de WhatsApp para enviarlo al equipo.",
+        "formStatus": "Mensaje listo. Usa el botón de WhatsApp para enviarlo al equipo.",
         "menuButtonPresent": true
       }
     }

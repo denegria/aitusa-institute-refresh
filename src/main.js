@@ -5,6 +5,7 @@ const {
   downloads,
   faqs,
   heroPoints,
+  instructorClips,
   locations,
   methodBlocks,
   modalities,
@@ -20,17 +21,22 @@ const {
 } = window.AITUSA_DATA;
 
 const app = document.querySelector("#app");
-const initials = ["Todos", "Ingles", "Ninos", "Academico", "Tecnologia"];
+const initials = ["Todos", "Inglés", "Niños", "Académico", "Tecnología"];
 
 const categoryLabel = {
   Todos: "todos",
-  Ingles: "ingles",
-  Ninos: "ninos",
-  Academico: "academico",
-  Tecnologia: "tecnologia",
+  Inglés: "ingles",
+  Niños: "ninos",
+  Académico: "academico",
+  Tecnología: "tecnologia",
 };
 
 const joinList = (items) => items.map((item) => `<li>${item}</li>`).join("");
+const playIcon = `
+  <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+    <path d="M8 5.5v13l10.5-6.5L8 5.5Z" />
+  </svg>
+`;
 const renderVariants = (variants = []) => {
   if (!variants.length) return "";
   const preview = variants.slice(0, 3);
@@ -42,7 +48,7 @@ const renderVariants = (variants = []) => {
 };
 
 const contactMessage = encodeURIComponent(
-  "Hola AiT USA Institute, quiero informacion sobre clases de ingles.",
+  "Hola AiT USA Institute, quiero información sobre clases de inglés.",
 );
 
 app.innerHTML = `
@@ -54,8 +60,9 @@ app.innerHTML = `
         <small>Institute</small>
       </span>
     </a>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-      Menu
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú">
+      <span class="menu-toggle__icon" aria-hidden="true"></span>
+      <span class="menu-toggle__label">Menú</span>
     </button>
     <nav id="site-nav" class="site-nav" aria-label="Principal">
       ${nav.map(([label, id]) => `<a href="#${id}">${label}</a>`).join("")}
@@ -69,11 +76,11 @@ app.innerHTML = `
         <p class="section-kicker">${site.tagline}</p>
         <h1>${site.name}</h1>
         <p class="hero__lead">
-          Aprende tecnicas para hablar y comprender ingles sin traducir palabra por palabra.
-          Clases presenciales, hibridas y online para estudiantes dentro y fuera de Estados Unidos.
+          Aprende técnicas para hablar y comprender inglés sin traducir palabra por palabra.
+          Clases presenciales, híbridas y online para estudiantes dentro y fuera de Estados Unidos.
         </p>
         <div class="hero__actions">
-          <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Textanos por WhatsApp</a>
+          <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Textéanos por WhatsApp</a>
           <a class="button button--ghost" href="${site.forms.registration}" target="_blank" rel="noreferrer">Quiero inscribirme</a>
         </div>
         <ul class="hero__points">
@@ -97,16 +104,52 @@ app.innerHTML = `
       </div>
     </section>
 
+    <section class="section section--reel" aria-labelledby="reel-title">
+      <div class="section-inner reel-grid">
+        <div class="reel-copy">
+          <p class="section-kicker">Clases con presencia humana</p>
+          <h2 id="reel-title">La energía de una clase en vivo, incluso cuando estás online.</h2>
+          <p>
+            Recuperamos el ritmo visual del sitio original con una galería en movimiento:
+            profesoras, práctica oral, estudiantes reales y señales claras de acompañamiento.
+          </p>
+          <a class="button button--primary" href="#horarios">Ver horarios</a>
+        </div>
+        <div class="instructor-reel" aria-label="Momentos de clases e instructoras">
+          ${instructorClips
+            .map(
+              (clip, index) => `
+                <article class="clip-card clip-card--${index + 1}">
+                  <div class="clip-card__media">
+                    <img src="${clip.image}" alt="${clip.imageAlt}" loading="${index === 0 ? "eager" : "lazy"}" />
+                    <span class="clip-card__play">${playIcon}</span>
+                    <span class="clip-card__duration">${clip.duration}</span>
+                    <span class="clip-card__scan" aria-hidden="true"></span>
+                  </div>
+                  <div class="clip-card__body">
+                    <span>${clip.eyebrow}</span>
+                    <h3>${clip.title}</h3>
+                    <p>${clip.caption}</p>
+                    <div class="clip-card__progress" aria-hidden="true"><i></i></div>
+                  </div>
+                </article>
+              `,
+            )
+            .join("")}
+        </div>
+      </div>
+    </section>
+
     <section class="section section--white" aria-labelledby="diferente-title">
       <div class="section-inner intro-grid">
         <div>
-          <p class="section-kicker">Por que somos diferentes</p>
+          <p class="section-kicker">Por qué somos diferentes</p>
           <h2 id="diferente-title">Una ruta visual para dejar de traducir y empezar a responder.</h2>
         </div>
         <p>
           El sitio actual enfatiza una idea clara: el estudiante no necesita memorizar miles de palabras
-          para avanzar. AiT USA Institute organiza el aprendizaje con metodos, tecnicas y estrategias
-          propias desarrolladas durante mas de 20 anos con la comunidad.
+          para avanzar. AiT USA Institute organiza el aprendizaje con métodos, técnicas y estrategias
+          propias desarrolladas durante más de 20 años con la comunidad.
         </p>
       </div>
       <div class="section-inner reason-grid">
@@ -128,7 +171,7 @@ app.innerHTML = `
       <div class="section-inner section-heading">
         <p class="section-kicker">Cursos</p>
         <h2 id="cursos-title">Programas capturados del sitio actual</h2>
-        <p>Ingles ESL, ninos online, apoyo academico y tecnologia en un catalogo mas claro para escanear.</p>
+        <p>Inglés ESL, niños online, apoyo académico y tecnología en un catálogo más claro para escanear.</p>
       </div>
       <div class="section-inner filter-bar" role="group" aria-label="Filtrar cursos">
         ${initials
@@ -144,7 +187,7 @@ app.innerHTML = `
           .map(
             (program) => `
               <article class="program-card" data-category="${program.category}">
-                <img src="${program.image}" alt="" loading="lazy" />
+                <img src="${program.image}" alt="${program.imageAlt}" loading="lazy" />
                 <div>
                   <p>${program.mode}</p>
                   <h3>${program.title}</h3>
@@ -162,11 +205,11 @@ app.innerHTML = `
     <section id="metodo" class="section section--white" aria-labelledby="metodo-title">
       <div class="section-inner split">
         <div>
-          <p class="section-kicker">Metodo Graphic Concept</p>
+          <p class="section-kicker">Método Graphic Concept</p>
           <h2 id="metodo-title">El contenido se organiza alrededor de comprender, practicar y hablar.</h2>
           <p>
-            La metodologia GC aparece en varias paginas como el centro academico de AiT USA Institute:
-            una forma grafica de visualizar tiempos, palabras y estructura para que el ingles sea mas facil
+            La metodología GC aparece en varias páginas como el centro académico de AiT USA Institute:
+            una forma gráfica de visualizar tiempos, palabras y estructura para que el inglés sea más fácil
             de usar en situaciones reales.
           </p>
         </div>
@@ -175,7 +218,7 @@ app.innerHTML = `
             .map(
               (block) => `
                 <article class="method-item">
-                  <img src="${block.image}" alt="" loading="lazy" />
+                  <img src="${block.image}" alt="${block.imageAlt}" loading="lazy" />
                   <div>
                     <h3>${block.title}</h3>
                     <p>${block.text}</p>
@@ -191,8 +234,8 @@ app.innerHTML = `
     <section id="libros" class="section section--blue" aria-labelledby="libros-title">
       <div class="section-inner section-heading section-heading--inverted">
         <p class="section-kicker">Nuestros libros</p>
-        <h2 id="libros-title">Material academico propio para seguir la hoja de ruta.</h2>
-        <p>Los libros son soporte del metodo, la tecnica y la estrategia para poner en practica el ingles.</p>
+        <h2 id="libros-title">Material académico propio para seguir la hoja de ruta.</h2>
+        <p>Los libros son soporte del método, la técnica y la estrategia para poner en práctica el inglés.</p>
       </div>
       <div class="section-inner book-grid">
         ${books
@@ -248,8 +291,8 @@ app.innerHTML = `
     <section id="sedes" class="section section--soft" aria-labelledby="sedes-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Contacto y sedes</p>
-        <h2 id="sedes-title">New Jersey, New York online y atencion por WhatsApp.</h2>
-        <p>Los datos se copiaron del sitio publico actual para que puedan verificarse contra el dashboard de Wix.</p>
+        <h2 id="sedes-title">New Jersey, New York online y atención por WhatsApp.</h2>
+        <p>Los datos se copiaron del sitio público actual para que puedan verificarse contra el dashboard de Wix.</p>
       </div>
       <div class="section-inner location-grid">
         ${locations
@@ -275,21 +318,21 @@ app.innerHTML = `
       <div class="section-inner about-grid">
         <div>
           <p class="section-kicker">Nosotros</p>
-          <h2 id="about-title">Una institucion educativa creada en New Jersey para romper esquemas tradicionales.</h2>
+          <h2 id="about-title">Una institución educativa creada en New Jersey para romper esquemas tradicionales.</h2>
           <p>
-            AiT USA Institute comunica mas de 20 anos capacitando personas con metodos, tecnicas y estrategias
-            propias para hablar ingles facil y rapido. La escuela presenta su plataforma digital y sus sedes
-            fisicas como una forma de acercarse a estudiantes dentro y fuera de Estados Unidos.
+            AiT USA Institute comunica más de 20 años capacitando personas con métodos, técnicas y estrategias
+            propias para hablar inglés fácil y rápido. La escuela presenta su plataforma digital y sus sedes
+            físicas como una forma de acercarse a estudiantes dentro y fuera de Estados Unidos.
           </p>
         </div>
         <div class="mission-grid">
           <article>
-            <h3>Mision</h3>
-            <p>Ensenar con metodos propios, tecnicas y estrategias diferentes a la educacion tradicional.</p>
+            <h3>Misión</h3>
+            <p>Enseñar con métodos propios, técnicas y estrategias diferentes a la educación tradicional.</p>
           </article>
           <article>
-            <h3>Vision</h3>
-            <p>Ayudar a que las personas puedan hablar ingles facil y rapido en un mundo globalizado.</p>
+            <h3>Visión</h3>
+            <p>Ayudar a que las personas puedan hablar inglés fácil y rápido en un mundo globalizado.</p>
           </article>
         </div>
       </div>
@@ -307,7 +350,7 @@ app.innerHTML = `
             .map(
               (item) => `
                 <article class="testimonial-card">
-                  <img src="${item.image}" alt="" loading="lazy" />
+                  <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
                   <p>${item.text}</p>
                   <strong>${item.name}</strong>
                 </article>
@@ -322,14 +365,14 @@ app.innerHTML = `
       <div class="section-inner section-heading">
         <p class="section-kicker">Descargas</p>
         <h2 id="downloads-title">Herramientas para estudiantes registrados en clases online.</h2>
-        <p>Esta seccion conserva el contenido de descarga publico; los archivos reales deben validarse desde Wix.</p>
+        <p>Esta sección conserva el contenido de descarga público; los archivos reales deben validarse desde Wix.</p>
       </div>
       <div class="section-inner download-grid">
         ${downloads
           .map(
             (item) => `
               <article class="download-card">
-                <img src="${item.image}" alt="" loading="lazy" />
+                <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
                 <h3>${item.title}</h3>
                 <p>${item.text}</p>
               </article>
@@ -342,7 +385,7 @@ app.innerHTML = `
           .map(
             (item) => `
               <article class="requirement">
-                <img src="${item.image}" alt="" loading="lazy" />
+                <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
                 <div>
                   <h3>${item.title}</h3>
                   <p>${item.text}</p>
@@ -365,7 +408,7 @@ app.innerHTML = `
           .map(
             (item) => `
               <article class="payment-card">
-                <img src="${item.image}" alt="" loading="lazy" />
+                <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
                 <div class="payment-card__body">
                   <h3>${item.title}</h3>
                   <div class="payment-card__meta">
@@ -405,15 +448,15 @@ app.innerHTML = `
       <div class="section-inner contact-grid">
         <div>
           <p class="section-kicker">Comienza ahora</p>
-          <h2 id="contacto-title">Cada logro comienza con la decision de intentarlo.</h2>
+          <h2 id="contacto-title">Cada logro comienza con la decisión de intentarlo.</h2>
           <p>
-            Completa el formulario para preparar el mensaje por WhatsApp. Cuando el dashboard de Wix este disponible,
+            Completa el formulario para preparar el mensaje por WhatsApp. Cuando el dashboard de Wix esté disponible,
             este bloque se puede conectar al formulario real del cliente.
           </p>
           <div class="direct-contact">
             <a href="${site.phoneHref}">${site.phone}</a>
             <a href="${site.whatsappHref}?text=${contactMessage}">${site.whatsapp}</a>
-            <a href="${site.forms.registration}" target="_blank" rel="noreferrer">Inscripcion gratuita</a>
+            <a href="${site.forms.registration}" target="_blank" rel="noreferrer">Inscripción gratuita</a>
           </div>
         </div>
         <form class="lead-form" data-lead-form>
@@ -423,7 +466,7 @@ app.innerHTML = `
           </div>
           <label>Email <input name="email" type="email" autocomplete="email" required /></label>
           <div class="form-row">
-            <label>Para quien es
+            <label>Para quién es
               <select name="para">
                 <option>Mi</option>
                 <option>Hijo/a</option>
@@ -433,10 +476,10 @@ app.innerHTML = `
             <label>Edad <input name="edad" inputmode="numeric" /></label>
           </div>
           <div class="form-row">
-            <label>Codigo pais <input name="codigo" placeholder="+1" /></label>
-            <label>Telefono <input name="telefono" type="tel" autocomplete="tel" required /></label>
+            <label>Código país <input name="codigo" placeholder="+1" /></label>
+            <label>Teléfono <input name="telefono" type="tel" autocomplete="tel" required /></label>
           </div>
-          <label>Pais y ciudad <input name="ubicacion" required /></label>
+          <label>País y ciudad <input name="ubicacion" required /></label>
           <button class="button button--primary" type="submit">Preparar mensaje</button>
           <p class="form-status" role="status" data-form-status></p>
           <a class="button button--ghost form-whatsapp" data-form-whatsapp href="${site.whatsappHref}?text=${contactMessage}">Enviar por WhatsApp</a>
@@ -450,7 +493,7 @@ app.innerHTML = `
       <strong>${site.name}</strong>
       <span>${site.legal}</span>
     </div>
-    <p>Contenido capturado desde ${site.originalSite} para una reconstruccion local. © ${site.founded} ${site.name}.</p>
+    <p>Contenido capturado desde ${site.originalSite} para una reconstrucción local. © ${site.founded} ${site.name}.</p>
   </footer>
 `;
 
@@ -492,16 +535,16 @@ form.addEventListener("submit", (event) => {
   event.preventDefault();
   const data = new FormData(form);
   const message = [
-    "Hola AiT USA Institute, quiero informacion.",
+    "Hola AiT USA Institute, quiero información.",
     `Nombre: ${data.get("nombre")} ${data.get("apellido")}`,
     `Email: ${data.get("email")}`,
     `Para: ${data.get("para")}`,
     `Edad: ${data.get("edad") || "No indicado"}`,
-    `Telefono: ${data.get("codigo") || ""} ${data.get("telefono")}`,
-    `Ubicacion: ${data.get("ubicacion")}`,
+    `Teléfono: ${data.get("codigo") || ""} ${data.get("telefono")}`,
+    `Ubicación: ${data.get("ubicacion")}`,
   ].join("\n");
 
   whatsappDraft.href = `${site.whatsappHref}?text=${encodeURIComponent(message)}`;
-  status.textContent = "Mensaje listo. Usa el boton de WhatsApp para enviarlo al equipo.";
+  status.textContent = "Mensaje listo. Usa el botón de WhatsApp para enviarlo al equipo.";
 });
 })();
