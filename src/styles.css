@@ -324,6 +324,71 @@ select {
   gap: 10px;
 }
 
+.hero__signal {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.hero__signal-item {
+  min-height: 86px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  box-shadow: 0 10px 24px rgba(9, 17, 44, 0.22);
+  display: grid;
+  gap: 6px;
+}
+
+.hero__signal-item strong {
+  color: #fff;
+  font-size: 1.35rem;
+  font-family: var(--font-display);
+  line-height: 1;
+}
+
+.hero__signal-item span {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.86rem;
+}
+
+.hero__path {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.hero__path li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero__path span {
+  display: inline-grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 999px;
+  font-weight: 900;
+  color: var(--white);
+  background: linear-gradient(135deg, rgba(255, 78, 106, 0.95), rgba(24, 68, 211, 0.88));
+  flex-shrink: 0;
+}
+
+.hero__path p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
 .hero__highlights span {
   padding: 8px 12px;
   border-radius: 999px;
@@ -1702,7 +1767,8 @@ select {
   }
 
   .hero__proof,
-  .hero__points {
+  .hero__points,
+  .hero__signal {
     grid-template-columns: 1fr;
   }
 

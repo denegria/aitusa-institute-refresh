@@ -6,6 +6,8 @@ const {
   faqs,
   heroGallery,
   heroPoints,
+  heroSignal,
+  heroStartPath,
   instructorClips,
   heroProof,
   locations,
@@ -48,6 +50,41 @@ const contactMessage = encodeURIComponent(
 );
 
 const joinList = (items) => items.map((item) => `<li>${item}</li>`).join("");
+
+const heroSignalCards = () => {
+  if (!heroSignal.length) return "";
+
+  return `
+    <div class="hero__signal" aria-label="Promesas de resultado">
+      ${heroSignal
+        .map(
+          (signal) => `
+            <article class="hero__signal-item">
+              <strong>${signal.value}</strong>
+              <span>${signal.label}</span>
+            </article>
+          `,
+        )
+        .join("")}
+    </div>
+  `;
+};
+
+const heroPathList = () => {
+  if (!heroStartPath.length) return "";
+
+  return `
+    <ol class="hero__path" aria-label="Pasos para empezar">
+      ${heroStartPath
+        .map(
+          (item, index) => `
+            <li><span>${index + 1}</span><p>${item}</p></li>
+          `,
+        )
+        .join("")}
+    </ol>
+  `;
+};
 const clipMedia = (clip) => {
   if (clip.video) {
     return `
@@ -379,6 +416,8 @@ app.innerHTML = `
             <span>Planes para familias y adultos</span>
             <span>Clases en Nueva Jersey y online</span>
           </div>
+          ${heroSignalCards()}
+          ${heroPathList()}
           <ul class="hero__points">
             ${joinList(heroPoints)}
           </ul>

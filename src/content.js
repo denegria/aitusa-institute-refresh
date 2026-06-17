@@ -85,6 +85,27 @@ const heroPoints = [
   "Tareas de práctica semanal para que avances incluso cuando tu agenda esté llena.",
 ];
 
+const heroStartPath = [
+  "Agenda una clase de muestra por WhatsApp con tu horario preferido.",
+  "Recibe un diagnóstico inicial y tu plan de arranque en minutos.",
+  "Empieza en tu formato ideal (presencial, híbrido o online) sin perder ritmo.",
+];
+
+const heroSignal = [
+  {
+    value: "20+",
+    label: "años diseñando resultados reales.",
+  },
+  {
+    value: "100%",
+    label: "práctica guiada para convertirte en más seguro.",
+  },
+  {
+    value: "3",
+    label: "formatos disponibles para estudiar con flexibilidad.",
+  },
+];
+
 const stats = [
   { value: "+1000", label: "estudiantes guiados por enfoque práctico" },
   { value: "3", label: "formatos para estudiar: presencial, híbrido y online" },
@@ -713,6 +734,10 @@ window.AITUSA_DATA = {
   site,
   stats,
   storeProducts,
+  heroGallery,
+  heroPoints,
+  heroSignal,
+  heroStartPath,
   teachers,
   testimonials,
 };
