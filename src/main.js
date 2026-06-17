@@ -1030,9 +1030,16 @@ app.innerHTML = `
   </div>
 
   <footer class="site-footer">
-    <div>
+    <div class="site-footer__brand">
       <strong>${site.name}</strong>
       <span>${site.legal}</span>
+      <p>Una experiencia web más clara, humana y enfocada en convertir interés en una primera conversación real.</p>
+    </div>
+    <div class="site-footer__links" aria-label="Enlaces de pie de página">
+      <a href="#inicio">Inicio</a>
+      <a href="#cursos">Cursos</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contacto">Contacto</a>
     </div>
     <p>Experiencia web renovada para una comunicación más clara y efectiva. © ${site.founded} ${site.name}.</p>
   </footer>
