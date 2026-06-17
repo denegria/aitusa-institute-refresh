@@ -55,6 +55,10 @@ const contactMessage = encodeURIComponent(
 const programInquiryMessage = (program) =>
   encodeURIComponent(`Hola AiT USA Institute, quiero información sobre ${program.title}.`);
 
+const bookInquiryMessage = encodeURIComponent(
+  "Hola AiT USA Institute, quiero información sobre los libros y materiales académicos.",
+);
+
 const joinList = (items) => items.map((item) => `<li>${item}</li>`).join("");
 
 const heroSignalCards = () => {
@@ -723,6 +727,17 @@ app.innerHTML = `
             `,
           )
           .join("")}
+      </div>
+      <div class="section-inner books-cta">
+        <div>
+          <p class="section-kicker">Material y apoyo</p>
+          <h3>Te ayudamos a elegir el libro correcto según tu nivel y modalidad.</h3>
+          <p>Si no sabes cuál corresponde a tu etapa, escríbenos y te orientamos en minutos.</p>
+        </div>
+        <div class="books-cta__actions">
+          <a class="button button--primary" href="${site.whatsappHref}?text=${bookInquiryMessage}">Consultar libros</a>
+          <a class="button button--ghost" href="#contacto">Hablar con el equipo</a>
+        </div>
       </div>
     </section>
 
