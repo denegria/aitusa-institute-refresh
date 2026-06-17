@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
 const {
   books,
   differentiators,
@@ -44,12 +44,10 @@ const renderVariants = (variants = []) => {
 
   return `<ul class="variant-list">${preview
     .map((variant) => `<li><span>${variant.name}</span><strong>${variant.price}</strong></li>`)
-    .join("")}${remaining ? `<li><span>+ ${remaining} variantes más</span><strong>Ver Wix</strong></li>` : ""}</ul>`;
+    .join("")}${remaining ? `<li><span>+ ${remaining} variantes más</span><strong>Ver opciones</strong></li>` : ""}</ul>`;
 };
 
-const contactMessage = encodeURIComponent(
-  "Hola AiT USA Institute, quiero información sobre clases de inglés.",
-);
+const contactMessage = encodeURIComponent("Hola AiT USA Institute, quiero información sobre clases de inglés.");
 
 app.innerHTML = `
   <header class="site-header" data-header>
@@ -71,21 +69,32 @@ app.innerHTML = `
   </header>
 
   <main>
-    <section id="inicio" class="hero" style="background-image: linear-gradient(90deg, rgba(7, 17, 38, .92), rgba(7, 17, 38, .68), rgba(7, 17, 38, .18)), url('${site.images.hero}')">
+    <section id="inicio" class="hero" style="--hero-image: url('${site.images.hero}')">
       <div class="hero__inner">
-        <p class="section-kicker">${site.tagline}</p>
-        <h1>${site.name}</h1>
-        <p class="hero__lead">
-          Aprende técnicas para hablar y comprender inglés sin traducir palabra por palabra.
-          Clases presenciales, híbridas y online para estudiantes dentro y fuera de Estados Unidos.
-        </p>
-        <div class="hero__actions">
-          <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Textéanos por WhatsApp</a>
-          <a class="button button--ghost" href="${site.forms.registration}" target="_blank" rel="noreferrer">Quiero inscribirme</a>
+        <div class="hero__content">
+          <p class="section-kicker">${site.tagline}</p>
+          <h1>${site.heroHeadline || site.name}</h1>
+          <p class="hero__lead">${site.heroLead || site.description}</p>
+          <div class="hero__actions">
+            <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Textéanos por WhatsApp</a>
+            <a class="button button--ghost" href="${site.forms.registration}" target="_blank" rel="noreferrer">Quiero inscribirme</a>
+          </div>
+          <ul class="hero__points">
+            ${joinList(heroPoints)}
+          </ul>
         </div>
-        <ul class="hero__points">
-          ${joinList(heroPoints)}
-        </ul>
+          <div class="hero__media">
+            <div class="hero__media-frame">
+            <img src="${site.images.hero}" alt="${site.heroQuote}" loading="eager" />
+            <a class="hero__video-chip" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Enviar mensaje para agendar sesión de muestra">
+              <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
+              Ver sesión de muestra
+            </a>
+          </div>
+          <p class="hero__quote">
+            “${site.heroQuote}”
+          </p>
+        </div>
       </div>
     </section>
 
@@ -108,10 +117,10 @@ app.innerHTML = `
       <div class="section-inner reel-grid">
         <div class="reel-copy">
           <p class="section-kicker">Clases con presencia humana</p>
-          <h2 id="reel-title">La energía de una clase en vivo, incluso cuando estás online.</h2>
-          <p>
-            Recuperamos el ritmo visual del sitio original con una galería en movimiento:
-            profesoras, práctica oral, estudiantes reales y señales claras de acompañamiento.
+            <h2 id="reel-title">Energía real de aula, incluso cuando aprendes online.</h2>
+            <p>
+            Combinamos práctica guiada, corrección puntual y seguimiento de progreso para que avancemos sin
+            vacíos: cada clase te deja con una acción concreta para usar inglés de inmediato.
           </p>
           <a class="button button--primary" href="#horarios">Ver horarios</a>
         </div>
@@ -144,14 +153,14 @@ app.innerHTML = `
       <div class="section-inner intro-grid">
         <div>
           <p class="section-kicker">Por qué somos diferentes</p>
-          <h2 id="diferente-title">Una ruta visual para dejar de traducir y empezar a responder.</h2>
+          <h2 id="diferente-title">Una ruta visual para entender rápido, hablar con precisión y ganar confianza.</h2>
         </div>
-        <p>
-          El sitio actual enfatiza una idea clara: el estudiante no necesita memorizar miles de palabras
-          para avanzar. AiT USA Institute organiza el aprendizaje con métodos, técnicas y estrategias
-          propias desarrolladas durante más de 20 años con la comunidad.
-        </p>
-      </div>
+          <p>
+            El objetivo es práctico: comprender rápido, hablar con precisión y usar el inglés en
+            escenarios cotidianos y académicos sin fricción. Graphic Concept traduce estructura y vocabulario
+            en hábitos de comunicación para resultados visibles.
+          </p>
+        </div>
       <div class="section-inner reason-grid">
         ${differentiators
           .map(
@@ -170,8 +179,8 @@ app.innerHTML = `
     <section id="cursos" class="section section--soft" aria-labelledby="cursos-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Cursos</p>
-        <h2 id="cursos-title">Programas capturados del sitio actual</h2>
-        <p>Inglés ESL, niños online, apoyo académico y tecnología en un catálogo más claro para escanear.</p>
+          <h2 id="cursos-title">Programas pensados para resultados medibles y metas reales</h2>
+          <p>Inglés ESL, apoyo académico y tecnología en rutas claras para aprender, practicar y avanzar.</p>
       </div>
       <div class="section-inner filter-bar" role="group" aria-label="Filtrar cursos">
         ${initials
@@ -206,11 +215,10 @@ app.innerHTML = `
       <div class="section-inner split">
         <div>
           <p class="section-kicker">Método Graphic Concept</p>
-          <h2 id="metodo-title">El contenido se organiza alrededor de comprender, practicar y hablar.</h2>
+          <h2 id="metodo-title">Comprender. Practicar. Hablar. Repetir.</h2>
           <p>
-            La metodología GC aparece en varias páginas como el centro académico de AiT USA Institute:
-            una forma gráfica de visualizar tiempos, palabras y estructura para que el inglés sea más fácil
-            de usar en situaciones reales.
+            Graphic Concept organiza vocabulario, tiempos y estructura para acelerar la comprensión.
+            Cada bloque está diseñado para pasar de “lo teórico” a “lo útil” con más práctica y menos confusión.
           </p>
         </div>
         <div class="method-list">
@@ -234,8 +242,8 @@ app.innerHTML = `
     <section id="libros" class="section section--blue" aria-labelledby="libros-title">
       <div class="section-inner section-heading section-heading--inverted">
         <p class="section-kicker">Nuestros libros</p>
-        <h2 id="libros-title">Material académico propio para seguir la hoja de ruta.</h2>
-        <p>Los libros son soporte del método, la técnica y la estrategia para poner en práctica el inglés.</p>
+          <h2 id="libros-title">Material académico propio para reforzar tu progreso.</h2>
+        <p>Material desarrollado para practicar más allá del aula y construir hábitos diarios reales.</p>
       </div>
       <div class="section-inner book-grid">
         ${books
@@ -259,7 +267,7 @@ app.innerHTML = `
       <div class="section-inner split split--center">
         <div>
           <p class="section-kicker">Horarios y modalidad</p>
-          <h2 id="horarios-title">El estudiante elige el horario y la modalidad que mejor encaja.</h2>
+          <h2 id="horarios-title">Elige el horario y la modalidad que mejor se adapta a tu semana.</h2>
           <div class="modality-grid">
             ${modalities
               .map(
@@ -291,8 +299,8 @@ app.innerHTML = `
     <section id="sedes" class="section section--soft" aria-labelledby="sedes-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Contacto y sedes</p>
-        <h2 id="sedes-title">New Jersey, New York online y atención por WhatsApp.</h2>
-        <p>Los datos se copiaron del sitio público actual para que puedan verificarse contra el dashboard de Wix.</p>
+          <h2 id="sedes-title">New Jersey, acceso remoto y atención por WhatsApp.</h2>
+        <p>Opciones presenciales y remotas para aprender con la flexibilidad que tu calendario necesita.</p>
       </div>
       <div class="section-inner location-grid">
         ${locations
@@ -318,11 +326,10 @@ app.innerHTML = `
       <div class="section-inner about-grid">
         <div>
           <p class="section-kicker">Nosotros</p>
-          <h2 id="about-title">Una institución educativa creada en New Jersey para romper esquemas tradicionales.</h2>
+          <h2 id="about-title">Una institución de New Jersey enfocada en inglés práctico y resultados visibles.</h2>
           <p>
-            AiT USA Institute comunica más de 20 años capacitando personas con métodos, técnicas y estrategias
-            propias para hablar inglés fácil y rápido. La escuela presenta su plataforma digital y sus sedes
-            físicas como una forma de acercarse a estudiantes dentro y fuera de Estados Unidos.
+            Con más de 20 años de experiencia, ayudamos a estudiantes dentro y fuera de Estados Unidos
+            a aprender inglés mediante una metodología visual, práctica y centrada en objetivos reales.
           </p>
         </div>
         <div class="mission-grid">
@@ -342,7 +349,7 @@ app.innerHTML = `
       <div class="section-inner split">
         <div>
           <p class="section-kicker">Testimonios y profesores</p>
-          <h2 id="testimonios-title">El mensaje central es confianza para hablar.</h2>
+          <h2 id="testimonios-title">Resultado que se nota en cada conversación.</h2>
           <ul class="teacher-list">${joinList(teachers)}</ul>
         </div>
         <div class="testimonial-grid">
@@ -364,8 +371,8 @@ app.innerHTML = `
     <section class="section section--white" aria-labelledby="downloads-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Descargas</p>
-        <h2 id="downloads-title">Herramientas para estudiantes registrados en clases online.</h2>
-        <p>Esta sección conserva el contenido de descarga público; los archivos reales deben validarse desde Wix.</p>
+          <h2 id="downloads-title">Material de apoyo para repasar desde casa.</h2>
+        <p>Recursos para reforzar tareas, pronunciación y seguimiento semanal desde cualquier dispositivo.</p>
       </div>
       <div class="section-inner download-grid">
         ${downloads
@@ -400,8 +407,8 @@ app.innerHTML = `
     <section class="section section--soft" aria-labelledby="pagos-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Productos y pagos</p>
-        <h2 id="pagos-title">Catálogo real capturado desde el backend de Wix.</h2>
-        <p>Productos, precios, SKUs y variantes listos para conectar con Wix, Stripe, PayPal o la plataforma que el cliente apruebe.</p>
+          <h2 id="pagos-title">Opciones transparentes para estudiar sin sorpresas.</h2>
+        <p>Precios y productos claros para que el siguiente paso sea evidente desde el inicio.</p>
       </div>
       <div class="section-inner payment-grid">
         ${storeProducts
@@ -428,7 +435,7 @@ app.innerHTML = `
     <section id="faq" class="section section--white" aria-labelledby="faq-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Preguntas frecuentes</p>
-        <h2 id="faq-title">Objeciones comunes, respondidas con el mensaje original del instituto.</h2>
+          <h2 id="faq-title">Resolvemos tus dudas antes de inscribirte.</h2>
       </div>
       <div class="section-inner faq-list">
         ${faqs
@@ -448,10 +455,10 @@ app.innerHTML = `
       <div class="section-inner contact-grid">
         <div>
           <p class="section-kicker">Comienza ahora</p>
-          <h2 id="contacto-title">Cada logro comienza con la decisión de intentarlo.</h2>
+          <h2 id="contacto-title">Da el siguiente paso hoy mismo.</h2>
           <p>
-            Completa el formulario para preparar el mensaje por WhatsApp. Cuando el dashboard de Wix esté disponible,
-            este bloque se puede conectar al formulario real del cliente.
+            Completa el formulario y enviamos tu ruta inicial por WhatsApp en minutos.
+            Nuestro equipo confirmará cupo, calendario y documentos para empezar.
           </p>
           <div class="direct-contact">
             <a href="${site.phoneHref}">${site.phone}</a>
@@ -493,7 +500,7 @@ app.innerHTML = `
       <strong>${site.name}</strong>
       <span>${site.legal}</span>
     </div>
-    <p>Contenido capturado desde ${site.originalSite} para una reconstrucción local. © ${site.founded} ${site.name}.</p>
+    <p>Experiencia web renovada para una comunicación más clara y efectiva. © ${site.founded} ${site.name}.</p>
   </footer>
 `;
 
@@ -545,6 +552,7 @@ form.addEventListener("submit", (event) => {
   ].join("\n");
 
   whatsappDraft.href = `${site.whatsappHref}?text=${encodeURIComponent(message)}`;
-  status.textContent = "Mensaje listo. Usa el botón de WhatsApp para enviarlo al equipo.";
+  status.textContent = "Mensaje listo. Haz clic en WhatsApp para enviarlo al equipo y recibir respuesta inmediata.";
 });
 })();
+

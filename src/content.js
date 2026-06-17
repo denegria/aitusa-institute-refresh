@@ -1,12 +1,16 @@
-const asset = (name) => `./public/assets/wix/${name}`;
+﻿const asset = (name) => `./public/assets/wix/${name}`;
 const assetHires = (name) => asset(`hires/${name}`);
 
 const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
-  tagline: "Una escuela de inglés ESL no tradicional",
+  tagline: "Habla con impacto en 90 días",
   description:
-    "Clases de inglés ESL presenciales, híbridas y online con el método Graphic Concept, profesoras bilingües, sedes en New Jersey y atención por WhatsApp.",
+    "Clases de inglés ESL presenciales, híbridas y online con el método Graphic Concept, enfoque conversacional y seguimiento semanal.",
+  heroHeadline: "Habla inglés con confianza para avanzar en tu vida personal y profesional",
+  heroLead:
+    "Aprende con un método visual que combina práctica guiada, tutoría y apoyo inmediato para usar inglés en trabajo, estudios y vida diaria.",
+  heroQuote: "Aprender inglés no es memorizar: es practicar con claridad, consistencia y propósito.",
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
   phone: "+1 732-271-0011",
@@ -27,7 +31,8 @@ const site = {
   },
   images: {
     logo: asset("006-solo-logo-4-x-4-clases1.png"),
-    hero: assetHires("hero-classroom.jpg"),
+    hero: assetHires("online-instructor-headset.jpg"),
+    heroPoster: assetHires("hero-classroom.jpg"),
     adultEnglish: assetHires("adult-english-speaking.jpg"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
@@ -69,33 +74,33 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Técnicas para comprender inglés sin traducir palabra por palabra.",
-  "Técnicas para hablar sin depender de memorizar miles de palabras.",
-  "Modalidad presencial, híbrida y online para estudiantes dentro y fuera de USA.",
+  "Domina conversaciones clave: pedir direcciones, hablar de trabajo, estudiar y apoyar la vida diaria.",
+  "Método visual diseñado para comprender primero y hablar con precisión desde el inicio.",
+  "Horarios presenciales, híbridos y online para estudiantes en NJ y en cualquier zona horaria.",
 ];
 
 const stats = [
-  { value: "20+", label: "años trabajando con la comunidad" },
-  { value: "10 meses", label: "meta hacia nivel intermedio" },
+  { value: "20+", label: "años guiando estudiantes al inglés funcional" },
+  { value: "12 meses", label: "para ver progreso real en entornos cotidianos" },
   { value: "GC", label: "método Graphic Concept" },
   { value: "NJ + online", label: "sedes y clases remotas" },
 ];
 
 const differentiators = [
   {
-    title: "Comprensión antes que traducción",
+    title: "Comprender primero, hablar después",
     text:
-      "El método busca que el estudiante entienda cómo funciona el inglés americano y pueda reaccionar sin traducir mentalmente cada frase.",
+      "Conecta ideas, intenciones y contexto. El estudiante responde mejor cuando entiende significado antes de traducir palabra por palabra.",
   },
   {
     title: "Hablar con estructura visual",
     text:
-      "Graphic Concept organiza tiempos, palabras y patrones en una forma grafica para que presente, pasado y futuro se vuelvan practicables.",
+      "Graphic Concept convierte gramática en mapas visuales memorables para responder con intención y seguridad.",
   },
   {
-    title: "Acompañamiento real",
+    title: "Acompañamiento que impulsa resultados",
     text:
-      "Profesores norteamericanos y bilingües apoyan el proceso con clases, tutorías, talleres y seguimiento según el nivel de cada estudiante.",
+      "Clases guiadas con seguimiento de progreso, tutorías y apoyo directo para crear hábitos de inglés que se sostienen.",
   },
 ];
 
@@ -108,11 +113,11 @@ const programs = [
     image: site.images.adultEnglish,
     imageAlt: "Estudiante adulto practicando conversación en una clase de inglés ESL.",
     summary:
-      "Programa ESL para quienes quieren hablar inglés rápido, fácil y con menos estrés, usando el método Graphic Concept.",
+      "Un camino directo para hablar con confianza, entendiendo situaciones reales: trabajo, estudios, servicios y vida diaria.",
     details: [
-      "Enfoque en hablar y comprender en presente, pasado y futuro.",
-      "Opción de asistir en New Jersey o conectarse online al grupo.",
-      "Talleres, workshops y tutorías para reforzar dudas académicas.",
+      "Objetivo práctico: conversar y comprender con naturalidad en contexto real.",
+      "Modalidad presencial o online para adaptarse a tu agenda.",
+      "Talleres y tutorías con seguimiento de progreso semanal.",
     ],
   },
   {
@@ -123,11 +128,11 @@ const programs = [
     image: site.images.onlineEnglish,
     imageAlt: "Instructora con audífonos guiando una clase de inglés online.",
     summary:
-      "Clases remotas con profesores en Estados Unidos para estudiantes que quieren aprender desde cualquier país.",
+      "Acceso desde cualquier país con sesiones en vivo y materiales visuales para avanzar más rápido.",
     details: [
-      "Acceso desde laptop, desktop, tableta o teléfono con internet.",
-      "Metodología visual para pensar en inglés y reducir la traducción.",
-      "Apoyo por WhatsApp para orientación y acceso a clases.",
+      "Conexión desde laptop, tableta o móvil con conexión estable.",
+      "Práctica guiada para hablar con menos miedo y más fluidez.",
+      "Acompañamiento por WhatsApp para dudas de horarios y tareas.",
     ],
   },
   {
@@ -138,11 +143,11 @@ const programs = [
     image: site.images.kidsEnglish,
     imageAlt: "Madre acompañando a su hija durante una clase de inglés online.",
     summary:
-      "Programa práctico y divertido para que los niños fuera de USA aprendan con profesores norteamericanos y bilingües.",
+      "Aprendizaje divertido y práctico para que niños de 8 a 13 años comprendan y hablen en inglés.",
     details: [
-      "Meta de comunicación en los tres tiempos a mediano plazo.",
-      "Padres o tutores reciben informe de avance.",
-      "Inscripción gratuita para ubicar nivel y horario.",
+      "Ruta por niveles con metas claras y actividades de uso diario.",
+      "Informes mensuales para padres con mejoras concretas.",
+      "Inscripción guiada para definir nivel y horario ideal.",
     ],
   },
   {
@@ -153,11 +158,11 @@ const programs = [
     image: site.images.spanish,
     imageAlt: "Estudiantes conversando durante una clase de español para extranjeros.",
     summary:
-      "Clases de español con profesores de Latinoamérica, incluyendo expresiones coloquiales y práctica real.",
+      "Clases de español conversacional para moverse con más seguridad en estudio y trabajo.",
     details: [
-      "Enfoque conversacional.",
-      "Profesores de Colombia y Perú, según el sitio actual.",
-      "Atención por WhatsApp para detalles de horario.",
+      "Enfoque en comunicación útil para contextos reales.",
+      "Profesores de Colombia y Perú con seguimiento práctico.",
+      "Horarios flexibles y acompañamiento por WhatsApp.",
     ],
   },
   {
@@ -168,11 +173,11 @@ const programs = [
     image: site.images.ged,
     imageAlt: "Material visual para preparación del examen GED.",
     summary:
-      "Preparación para obtener el diploma equivalente a High School con orientación sobre el proceso.",
+      "Acompañamiento estructurado para avanzar hacia el diploma equivalente a High School.",
     details: [
-      "Acompañamiento académico.",
-      "Orientación previa por teléfono o WhatsApp.",
-      "Información de modalidad a confirmar con la oficina.",
+      "Acompañamiento académico por módulos de alto impacto.",
+      "Orientación inicial por WhatsApp para elegir formato y ruta.",
+      "Modalidad presencial u online según disponibilidad.",
     ],
   },
   {
@@ -183,10 +188,10 @@ const programs = [
     image: site.images.math,
     imageAlt: "Estudiante recibiendo apoyo en una tutoría de matemáticas.",
     summary:
-      "Refuerzo para estudiantes con inconvenientes en cursos de matemática de escuela secundaria o universidad.",
+      "Refuerzos cortos y focalizados para recuperar ritmo en secuencia académica.",
     details: [
-      "Apoyo para aclarar dudas.",
-      "Nivelación y mejora de habilidades.",
+      "Plan de recuperación para problemas críticos de escuela y universidad.",
+      "Nivelación progresiva desde la práctica guiada.",
       "Horario coordinado según disponibilidad.",
     ],
   },
@@ -198,11 +203,11 @@ const programs = [
     image: site.images.computing,
     imageAlt: "Persona usando una laptop durante un curso básico de computación.",
     summary:
-      "Curso para aprender funciones básicas de computadora y navegación en internet.",
+      "Curso práctico para dominar navegación, productividad y herramientas digitales esenciales.",
     details: [
-      "Uso inicial de computadora.",
-      "Conceptos practicos para vida diaria.",
-      "Soporte para estudiantes adultos.",
+      "Rutinas de uso diario de internet y archivos personales.",
+      "Habilidades funcionales para estudiar y trabajar.",
+      "Acompañamiento para estudiantes principiantes y adultos.",
     ],
   },
   {
@@ -213,11 +218,11 @@ const programs = [
     image: site.images.office,
     imageAlt: "Curso de herramientas de oficina como Word, Excel y PowerPoint.",
     summary:
-      "Entrenamiento en herramientas como Word, Excel y PowerPoint para tareas de oficina.",
+      "Entrenamiento en Word, Excel y PowerPoint para productividad en vida real.",
     details: [
-      "Práctica con documentos, hojas de cálculo y presentaciones.",
-      "Enfoque laboral.",
-      "Nivel inicial a intermedio según necesidad.",
+      "Plantillas listas para usar en trabajo, escuela y proyectos.",
+      "Proyectos de práctica con documentos y presentaciones.",
+      "Ruta desde nivel inicial hasta dominio funcional intermedio.",
     ],
   },
   {
@@ -228,38 +233,38 @@ const programs = [
     image: site.images.repair,
     imageAlt: "Componentes de computadora usados para un curso de reparación técnica.",
     summary:
-      "Curso introductorio para reparar diferentes marcas y modelos de computadora.",
+      "Curso introductorio de diagnóstico, mantenimiento y soporte básico de equipos.",
     details: [
-      "Diagnóstico básico de equipos.",
-      "Laptop y desktop.",
-      "Información de cupos por teléfono.",
+      "Diagnóstico inicial de problemas frecuentes en equipos.",
+      "Mantenimiento básico para laptop y desktop.",
+      "Acompañamiento para dudas rápidas y continuidad de curso.",
     ],
   },
 ];
 
 const instructorClips = [
   {
-    title: "Clase online en vivo",
-    eyebrow: "Profesora bilingüe",
+    title: "Clase interactiva en vivo",
+    eyebrow: "Profesora bilingüe en pantalla",
     image: site.images.onlineEnglish,
     imageAlt: "Instructora bilingüe con audífonos dictando una clase de inglés online.",
-    caption: "Corrección inmediata, práctica oral y seguimiento por WhatsApp.",
+    caption: "Corrección en tiempo real, práctica oral y feedback que acelera confianza.",
     duration: "0:42",
   },
   {
-    title: "Práctica para hablar",
+    title: "Práctica para conversar",
     eyebrow: "Método visual",
     image: site.images.adultEnglish,
     imageAlt: "Estudiante practicando conversación de inglés con apoyo del método visual.",
-    caption: "Presente, pasado y futuro se trabajan con estructura clara.",
+    caption: "Tiempos, estructura y acción para construir respuestas rápidas.",
     duration: "0:35",
   },
   {
-    title: "Niños online",
+    title: "Niños online con apoyo familiar",
     eyebrow: "8 a 13 años",
     image: site.images.kidsEnglish,
     imageAlt: "Niña aprendiendo inglés online con acompañamiento de su madre.",
-    caption: "Clases remotas con guía para padres y avance por nivel.",
+    caption: "Clases remotas con guía para padres y progreso mensual visible.",
     duration: "0:28",
   },
 ];
@@ -306,28 +311,28 @@ const methodBlocks = [
     image: site.images.method,
     imageAlt: "Material del método Graphic Concept para aprender inglés de forma visual.",
     text:
-      "Graphic Concept presenta el idioma de forma visual para que el estudiante comprenda los tiempos y las palabras sin depender de textos extensos.",
+      "Graphic Concept presenta el idioma con mapas visuales de tiempo verbal y funciones, para que hablar deje de ser memorizar.",
   },
   {
     title: "Tutorías",
     image: site.images.tutoring,
     imageAlt: "Sesión de tutoría académica individual.",
     text:
-      "El estudiante puede pedir apoyo para aclarar dudas, actualizarse, nivelarse y mejorar habilidades durante el programa.",
+      "Apoyo presencial y virtual para reforzar dudas, nivelación y práctica intensiva.",
   },
   {
     title: "Niveles",
     image: site.images.level,
     imageAlt: "Material de niveles básico, intermedio y avanzado de inglés.",
     text:
-      "Basico, intermedio y avanzado organizan la ruta desde vocabulario frecuente hasta conversacion, lectura, escritura y comprension.",
+      "Básico, intermedio y avanzado para una progresión clara desde comprensión a producción oral.",
   },
   {
     title: "Becas",
     image: site.images.scholarship,
     imageAlt: "Imagen promocional de becas para estudiantes destacados.",
     text:
-      "El sitio actual comunica becas para estudiantes que ocupan el primer puesto al concluir niveles básico e intermedio.",
+      "Sistema de incentivos por asistencia, rendimiento y constancia para impulsar continuidad.",
   },
 ];
 
@@ -400,7 +405,7 @@ const locations = [
   {
     city: "New York / Online",
     address: "Online Headquarter",
-    note: "Atencion para clases en linea",
+    note: "Atención para clases en línea",
   },
 ];
 
@@ -410,27 +415,27 @@ const testimonials = [
     image: site.images.testimonialAntonina,
     imageAlt: "Estudiantes de AiT USA Institute compartiendo su experiencia.",
     text:
-      "Nos hablaron de AiT USA Institute y pensábamos que era difícil aprender, pero el instituto utiliza un método gráfico que nos hizo comprender el idioma rápido y fácil.",
+      "Pensábamos que aprender inglés era difícil. Con este método gráfico empezamos a comprender y hablar con mucho más contexto y seguridad.",
   },
   {
     name: "Marisol Guardado",
     image: site.images.testimonialMarisol,
     imageAlt: "Estudiante de AiT USA Institute después de ganar confianza hablando inglés.",
     text:
-      "Una amiga me recomendo el instituto. Gracias a la forma como explican el idioma gane confianza; ahora puedo comprender y expresarme.",
+      "Gracias a la guía diaria, gané confianza para escuchar, comprender y responder sin bloquearme.",
   },
 ];
 
 const teachers = [
-  "Profesores norteamericanos y bilingües localizados en Estados Unidos.",
-  "Equipo comprometido con que los estudiantes hablen inglés en corto tiempo.",
-  "Acompañamiento para estudiantes de distintos países, horarios y niveles académicos.",
+  "Profesoras y profesores bilingües con experiencia en enseñanza conversacional.",
+  "Mentoría personalizada para convertir objetivos en hábitos de práctica diaria.",
+  "Equipo con experiencia en distintos niveles, ritmos y zonas horarias.",
 ];
 
 const downloads = [
   {
     title: "Apple iPhone / iPad",
-    text: "Aplicación para dispositivo móvil Apple, IOS 7 o superior.",
+    text: "Aplicación para dispositivos Apple con sincronización básica de clases.",
     image: asset("155-apple-20logo-edited.jpg"),
     imageAlt: "Logo de Apple para descarga en iPhone y iPad.",
   },
@@ -442,13 +447,13 @@ const downloads = [
   },
   {
     title: "Android",
-    text: "Aplicación para teléfono móvil o tableta Android.",
+    text: "Aplicación para teléfono móvil o tableta Android, práctica desde cualquier lugar.",
     image: asset("161-android-logo.png"),
     imageAlt: "Logo de Android para descarga de aplicación.",
   },
   {
     title: "Windows",
-    text: "Aplicación para usuarios de Windows, todas las versiones.",
+    text: "Aplicación para usuarios de Windows para seguimiento de clases y recursos.",
     image: asset("163-window-logo.jpg"),
     imageAlt: "Logo de Windows para descarga de aplicación.",
   },
@@ -478,7 +483,7 @@ const storeProducts = [
     image: site.images.productEuropa,
     imageAlt: "Producto Europa - Mes para clases de inglés online.",
     note:
-      "100% clases de inglés en línea para estudiantes en Europa. El dashboard indica reportar el pago por WhatsApp.",
+      "100% clases de inglés en línea para estudiantes en Europa, con pagos y acceso coordinados por WhatsApp.",
     variants: [],
   },
   {
@@ -500,10 +505,10 @@ const storeProducts = [
     image: site.images.productRegistrationBook,
     imageAlt: "Producto de registración y libro para clases de inglés.",
     note:
-      "Paquete de registro más libro. Las variantes del dashboard mantienen el mismo precio para online y presencial.",
+      "Paquete de registro más libro para iniciar en el curso y conservar ruta de seguimiento.",
     variants: [
       { name: "Online", price: "$95.00" },
-      { name: "In Person", price: "$95.00" },
+      { name: "Presencial", price: "$95.00" },
     ],
   },
   {
@@ -519,9 +524,9 @@ const storeProducts = [
       { name: "Básico | Online", price: "$55.00" },
       { name: "Intermedio | Online", price: "$55.00" },
       { name: "Avanzado | Online", price: "$55.00" },
-      { name: "Básico | In Person", price: "$55.00" },
-      { name: "Intermedio | In Person", price: "$55.00" },
-      { name: "Avanzado | In Person", price: "$55.00" },
+      { name: "Básico | Presencial", price: "$55.00" },
+      { name: "Intermedio | Presencial", price: "$55.00" },
+      { name: "Avanzado | Presencial", price: "$55.00" },
     ],
   },
   {
@@ -532,7 +537,7 @@ const storeProducts = [
     image: site.images.productProgramming,
     imageAlt: "Producto de cursos de programación, diseño y reparación de computadoras.",
     note:
-      "Cursos online de tres meses: Graphic Design, Web Design y Computer Repair & Networking. El dashboard muestra el curso técnico con precio reducido.",
+      "Cursos online de tres meses: Graphic Design, Web Design y Computer Repair & Networking con opciones de inicio mensual.",
     variants: [
       { name: "Graphic Design", price: "$3,500.00" },
       { name: "Web Design", price: "$3,500.00" },
@@ -552,9 +557,9 @@ const storeProducts = [
       { name: "Básico | Online | Mensual", price: "$145.00" },
       { name: "Intermedio | Online | Mensual", price: "$145.00" },
       { name: "Avanzado | Online | Mensual", price: "$145.00" },
-      { name: "Básico | In Person | Mensual", price: "$145.00" },
-      { name: "Intermedio | In Person | Mensual", price: "$145.00" },
-      { name: "Avanzado | In Person | Mensual", price: "$145.00" },
+      { name: "Básico | Presencial | Mensual", price: "$145.00" },
+      { name: "Intermedio | Presencial | Mensual", price: "$145.00" },
+      { name: "Avanzado | Presencial | Mensual", price: "$145.00" },
     ],
   },
   {
@@ -565,7 +570,7 @@ const storeProducts = [
     image: site.images.productGed,
     imageAlt: "Producto GED para preparación académica.",
     note:
-      "Curso estimado de seis meses, dos clases de una hora por semana. Horarios capturados: sábados 9-11, 11-1, 2-4 y 4-6.",
+      "Curso estimado de seis meses, dos clases de una hora por semana con horario de sábados y seguimiento de progreso.",
     variants: [],
   },
   {
@@ -589,32 +594,32 @@ const faqs = [
   {
     question: "¿Es difícil aprender inglés?",
     answer:
-      "Si quien enseña no utiliza métodos apropiados, puede sentirse difícil. AiT USA Institute comunica que su método busca convertir lo difícil en fácil y lo imposible en posible.",
+      "Depende de la metodología. Aquí aprenderás con un enfoque práctico y repetición dirigida para que hables con confianza.",
   },
   {
     question: "Asisto a clases pero no logro memorizar, ¿qué hago?",
     answer:
-      "El enfoque no es memorizar todas las palabras, sino comprender cómo funciona el método y practicar las palabras comunes en contexto.",
+      "No memorizar, practicar de forma repetida en contexto real. Cambiamos la ruta de memorización por acción comunicativa.",
   },
   {
     question: "Voy a clases pero no puedo hablar, ¿por qué?",
     answer:
-      "El sitio actual explica que muchas escuelas se basan en completar libros; AiT USA se enfoca en un método gráfico para pensar y no traducir.",
+      "Por eso existe la práctica guiada: primero comprender la estructura, luego hablar con apoyo de patrones y corrección rápida.",
   },
   {
     question: "Entiendo la clase pero luego me olvido.",
     answer:
-      "El método visual busca que lo aprendido se recuerde como una estructura gráfica, no solo como texto o palabras aisladas.",
+      "El método visual convierte ideas en una secuencia mental reutilizable: cuanto más practicable, más fácil recordar.",
   },
   {
     question: "No tengo tiempo para estudiar, pero quiero hablar inglés.",
     answer:
-      "El programa se presenta como simple, visual, práctico y colorido para personas que trabajan y no pueden estudiar todo el día.",
+      "Puedes usar micro-rutinas de 15 a 20 minutos diarios: audios, repeticiones y práctica oral guiada por niveles.",
   },
   {
     question: "Nunca fui buen estudiante, ¿es posible aprender?",
     answer:
-      "El primer paso es tener el deseo de aprender. La persistencia del estudiante y el método son parte central del mensaje de la escuela.",
+      "Sí. La constancia y la práctica dirigida funcionan mejor que el talento. Este enfoque está pensado para recuperar ritmo y confianza.",
   },
 ];
 
@@ -638,3 +643,5 @@ window.AITUSA_DATA = {
   teachers,
   testimonials,
 };
+
+
