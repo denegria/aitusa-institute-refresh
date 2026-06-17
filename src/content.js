@@ -4,15 +4,15 @@ const assetHires = (name) => asset(`hires/${name}`);
 const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
-  tagline: "Habla con confianza real desde la primera semana. Sin excusas.",
+  tagline: "Habla con confianza real desde la primera semana, sin memorizar listas infinitas.",
   description:
-    "Clases de inglés ESL presenciales, híbridas y online con el método Graphic Concept para convertir la práctica diaria en fluidez real, conversación útil y confianza para presentar tus ideas con claridad.",
+    "Cursos de inglés práctico para Nueva Jersey, presenciales y online, con sesiones reales de conversación para convertir la práctica diaria en resultados visibles desde la primera semana.",
   heroHeadline:
-    "Conviértete en la versión de ti que piensa en inglés y se comunica con claridad desde la primera clase.",
+    "Conviértete en la versión de ti que se expresa con seguridad y claridad en inglés desde hoy.",
   heroLead:
-    "Sin memorizar listas infinitas. Practicamos conversaciones auténticas, escenarios laborales y académicos reales, con método visual, tareas accionables y seguimiento semanal para que avances con resultados visibles.",
+    "Clases presenciales, híbridas y online con un método visual, tareas accionables y seguimiento semanal para ganar fluidez sin perder el ritmo de tu vida.",
   heroQuote:
-    "No se trata de perfección, se trata de comunicarte con presencia y sentido real en entrevistas, escuela, trabajo y vida cotidiana.",
+    "No se trata de perfección. Se trata de comunicarte con presencia en entrevistas, universidad, trabajo y vida cotidiana.",
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
   phone: "+1 732-271-0011",
@@ -36,6 +36,7 @@ const site = {
     hero: "./public/assets/wix/hires/hero-classroom.jpg",
     heroPoster: "./public/assets/wix/hires/hero-classroom.jpg",
     heroVideo: asset("live/hero-female-speaking-360p.mp4"),
+    heroVideoPortrait: asset("live/hero-female-speaking-1080p.mp4"),
     heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
     heroVideoPoster: "./public/assets/wix/live/hero-female-teacher.jpg",
     adultEnglish: assetHires("adult-english-speaking.jpg"),
@@ -79,16 +80,16 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Sesiones en vivo con docentes bilingües que corrigen, motivan y te ayudan a responder con naturalidad.",
-  "Método visual que convierte estructuras y vocabulario en conversaciones útiles para tu día a día.",
-  "Tareas de práctica y seguimiento semanal para mantener el progreso aunque estés ocupado.",
+  "Sesiones en vivo con docentes bilingües que corrigen y te ayudan a responder con naturalidad desde la 1ª práctica.",
+  "Método visual que convierte estructura gramatical y vocabulario en conversaciones reales de hoy.",
+  "Tareas de práctica semanal para que avances incluso cuando tu agenda esté llena.",
 ];
 
 const stats = [
-  { value: "20+", label: "años ayudando a hablar inglés con menos barreras" },
+  { value: "+1000", label: "estudiantes guiados por enfoque práctico" },
   { value: "3", label: "formatos para estudiar: presencial, híbrido y online" },
-  { value: "GC", label: "Método Graphic Concept, claro, visual y práctico" },
-  { value: "+", label: "clases con seguimiento real para sostener el hábito" },
+  { value: "GC", label: "Método Graphic Concept, claro, visual y efectivo" },
+  { value: "20+", label: "años construyendo una ruta de confianza en inglés" },
 ];
 
 const differentiators = [
@@ -250,21 +251,21 @@ const programs = [
 const heroGallery = [
   {
     label: "Clase en vivo",
-    title: "Corrección instantánea y conversación guiada para hablar con menos tensión.",
+    title: "Corrección instantánea y conversación guiada para hablar con más claridad desde el primer bloque.",
     image: "./public/assets/wix/hires/hero-classroom.jpg",
     imageAlt:
       "Docente de AiT USA y estudiantes practicando inglés en una clase en vivo con enfoque visual.",
   },
   {
     label: "Atención con presencia",
-    title: "Docentes bilingües corrigen en vivo para que hables sin perder el hilo.",
+    title: "Docentes bilingües corrigen en vivo para que avances con menos incertidumbre.",
     image: "./public/assets/wix/live/hero-female-teacher.jpg",
     imageAlt:
       "Instructora de AiT USA corrigiendo y motivando a una estudiante durante conversación oral.",
   },
   {
     label: "Escucha y retroalimentación",
-    title: "Interacción real por Zoom para entrenar comprensión y reacción en tiempo real.",
+    title: "Interacción real por Zoom para entrenar comprensión y respuesta en tiempo real.",
     image: "./public/assets/wix/live/hero-female-zoom.jpg",
     imageAlt:
       "Instructora de AiT USA interactuando con estudiantes en una sesión online de inglés.",
@@ -298,14 +299,16 @@ const heroProof = [
 
 const instructorClips = [
   {
-    title: "Clase conversacional en vivo",
-    eyebrow: "Profesora con presencia",
+    title: "Clase de entrevista en vivo",
+    eyebrow: "Muestra real",
     image: "./public/assets/wix/live/hero-female-teacher.jpg",
+    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
+    videoPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
     imageAlt:
-      "Docente de AiT USA enseñando inglés con enfoque práctico en clase presencial.",
+      "Instructora de AiT USA guiando práctica de entrevista en una clase con método visual.",
     caption:
-      "Corrección en vivo, simulaciones orales y seguimiento de progreso para salir de la zona de silencio.",
-    duration: "1:06",
+      "Simulación de entrevista con corrección instantánea para responder con intención y naturalidad.",
+    duration: "1:08",
   },
   {
     title: "Escucha y responde al instante",

@@ -796,6 +796,19 @@ select {
   animation: clipZoom 9s ease-in-out infinite alternate;
 }
 
+.clip-card__media-player {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.clip-card__media video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
 .clip-card__media::after {
   position: absolute;
   inset: 0;

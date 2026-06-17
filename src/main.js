@@ -34,14 +34,38 @@ const categoryLabel = {
 };
 
 const heroMediaPoster = site.heroVideoPoster || site.images.heroPoster || site.images.hero;
-const heroVideoSources = [site.heroVideo, site.heroVideoFallback]
-  .filter(Boolean)
-  .filter((value, index, list) => list.indexOf(value) === index);
+const heroVideoSources = (() => {
+  const isMobile = window.matchMedia("(max-width: 900px)").matches;
+  const desktopFirst = site.heroVideoPortrait || site.heroVideo;
+  const mobileFirst = site.heroVideo || site.heroVideoPortrait;
+
+  return (isMobile ? [mobileFirst, desktopFirst, site.heroVideoFallback] : [desktopFirst, mobileFirst, site.heroVideoFallback])
+    .filter(Boolean)
+    .filter((value, index, list) => list.indexOf(value) === index);
+})();
 const contactMessage = encodeURIComponent(
   "Hola AiT USA Institute, quiero información sobre clases de inglés.",
 );
 
 const joinList = (items) => items.map((item) => `<li>${item}</li>`).join("");
+const clipMedia = (clip) => {
+  if (clip.video) {
+    return `
+      <video
+        class="clip-card__media-player"
+        src="${clip.video}"
+        poster="${clip.videoPoster || clip.image}"
+        preload="none"
+        muted
+        playsinline
+        controls
+        aria-label="${clip.title}"
+      ></video>
+    `;
+  }
+
+  return `<img src="${clip.image}" alt="${clip.imageAlt}" loading="${clip.mediaPriority === "hero" ? "eager" : "lazy"}" />`;
+};
 const playIcon = `
   <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
     <path d="M8 5.5v13l10.5-6.5L8 5.5Z" />
@@ -348,12 +372,12 @@ app.innerHTML = `
         </div>
         <div class="instructor-reel" aria-label="Momentos de clases e instructoras">
           ${instructorClips
-            .map(
-              (clip, index) => `
+        .map(
+            (clip, index) => `
                 <article class="clip-card clip-card--${index + 1}">
                   <div class="clip-card__media">
-                    <img src="${clip.image}" alt="${clip.imageAlt}" loading="${index === 0 ? "eager" : "lazy"}" />
-                    <span class="clip-card__play">${playIcon}</span>
+                    ${clipMedia(clip)}
+                    ${clip.video ? "" : `<span class="clip-card__play" aria-hidden="true">${playIcon}</span>`}
                     <span class="clip-card__duration">${clip.duration}</span>
                     <span class="clip-card__scan" aria-hidden="true"></span>
                   </div>
