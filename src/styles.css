@@ -390,13 +390,14 @@ select {
 }
 
 .hero__highlights span {
-  padding: 8px 12px;
+  padding: 9px 13px;
   border-radius: 999px;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: #fefefe;
-  font-weight: 700;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  background: rgba(11, 37, 99, 0.4);
+  font-weight: 800;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  background: rgba(11, 37, 99, 0.52);
+  box-shadow: 0 10px 24px rgba(6, 14, 43, 0.16);
 }
 
 .hero__media {
@@ -649,9 +650,10 @@ select {
   min-height: 84px;
   padding: 12px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.08));
+  backdrop-filter: blur(10px);
+  box-shadow: 0 12px 26px rgba(7, 14, 34, 0.18);
 }
 
 .hero__proof-item strong {
@@ -672,6 +674,18 @@ select {
   flex-wrap: wrap;
   gap: 14px;
   margin-top: 32px;
+}
+
+.hero__actions .button {
+  min-width: 220px;
+}
+
+.hero__actions .button--primary {
+  flex: 1 1 260px;
+}
+
+.hero__actions .button--ghost {
+  flex: 1 1 220px;
 }
 
 .mobile-action-bar {

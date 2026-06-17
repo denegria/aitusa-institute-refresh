@@ -4,15 +4,15 @@ const assetHires = (name) => asset(`hires/${name}`);
 const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
-  tagline: "Habla inglés con presencia real desde la primera semana, sin memorizar listas infinitas.",
+  tagline: "Habla inglés con confianza desde la primera clase, con práctica real y guía humana.",
   description:
-    "Clases presenciales, híbridas y online en Nueva Jersey para hablar inglés con presencia real: conversación guiada, método visual y seguimiento semanal para avanzar desde hoy.",
+    "Clases presenciales, híbridas y online en Nueva Jersey para hablar inglés con más seguridad: conversación guiada, método visual y seguimiento semanal para avanzar desde hoy.",
   heroHeadline:
-    "Consigue fluidez real para entrevistas, estudios y vida diaria con un método práctico que te pone a hablar desde la primera semana.",
+    "Empieza a hablar inglés con más seguridad desde la primera semana con un método visual, guiado y pensado para resultados reales.",
   heroLead:
-    "Entrena con sesiones en vivo, retroalimentación inmediata y tareas orientadas a contexto para que hables con claridad en clase, trabajo y cualquier escenario real.",
+    "Entrena con sesiones en vivo, retroalimentación inmediata y tareas orientadas a contexto para que avances con una ruta clara, sin perder tiempo en memorizar sin contexto.",
   heroQuote:
-    "No se trata de perfección. Se trata de comunicarte con presencia en entrevistas, universidad, trabajo y vida cotidiana.",
+    "No se trata de memorizar más. Se trata de comunicarte con soltura en entrevistas, universidad, trabajo y vida cotidiana.",
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
   phone: "+1 732-271-0011",
@@ -82,25 +82,25 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Sesiones en vivo con docentes bilingües que corrigen en tiempo real para responder con naturalidad desde tu 1ª práctica.",
-  "Método visual que transforma estructura y vocabulario en conversaciones reales para comunicarte con claridad cada día.",
-  "Tareas de práctica semanal para que avances incluso cuando tu agenda esté llena.",
+  "Sesiones en vivo con docentes bilingües que corrigen en tiempo real para que ganes soltura desde tu primera práctica.",
+  "Método visual que convierte estructura y vocabulario en conversaciones reales para comunicarte con más claridad.",
+  "Tareas breves de práctica semanal para que avances aunque tu agenda esté llena.",
 ];
 
 const heroStartPath = [
-  "Agenda una clase de muestra por WhatsApp con tu horario preferido.",
+  "Agenda una clase de muestra por WhatsApp con el horario que prefieras.",
   "Recibe un diagnóstico inicial y tu plan de arranque en minutos.",
-  "Empieza en tu formato ideal (presencial, híbrido o online) sin perder ritmo.",
+  "Empieza en tu formato ideal, presencial, híbrido u online, sin perder ritmo.",
 ];
 
 const heroSignal = [
   {
     value: "20+",
-    label: "años diseñando resultados reales.",
+    label: "años guiando estudiantes con resultados visibles.",
   },
   {
     value: "100%",
-    label: "práctica guiada para convertirte en más seguro.",
+    label: "práctica guiada para convertir el miedo en acción.",
   },
   {
     value: "3",
@@ -337,7 +337,7 @@ const heroGallery = [
 
 const heroProof = [
   { value: "20+", label: "años de experiencia bilingüe" },
-  { value: "100%", label: "práctica guiada para convertir miedo en acción" },
+  { value: "1ª", label: "clase orientada a conversación real" },
   { value: "3", label: "formatos para estudiar: presencial, híbrido y online" },
 ];
 
