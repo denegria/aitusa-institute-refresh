@@ -523,7 +523,7 @@ const locations = [
   {
     city: "Bound Brook, New Jersey",
     address: "213 E. Main St., Bound Brook, NJ 08805",
-    note: "Oficina central / Headquarter",
+    note: "Oficina central / sede principal",
     highlight: "Recepción principal y coordinación administrativa.",
   },
   {
@@ -546,7 +546,7 @@ const locations = [
   },
   {
     city: "New York / Online",
-    address: "Online Headquarter",
+    address: "Atención online",
     note: "Atención para clases en línea",
     highlight: "Conexión remota para estudiantes fuera de Nueva Jersey.",
   },
@@ -619,48 +619,48 @@ const requirements = [
 
 const storeProducts = [
   {
-    title: "Europa - Mes (4 weeks)",
+    title: "Europa - mensualidad",
     price: "$175.00",
     status: "Disponible",
     sku: "",
     image: site.images.productEuropa,
-    imageAlt: "Producto Europa - Mes para clases de inglés online.",
+    imageAlt: "Plan Europa mensual para clases de inglés online.",
     note:
-      "100% clases de inglés en línea para estudiantes en Europa, con pagos y acceso coordinados por WhatsApp.",
+      "Plan 100% online para estudiantes en Europa, con pago y acceso coordinados por WhatsApp.",
     variants: [],
   },
   {
-    title: "Libro",
+    title: "Libro de estudio",
     price: "$55.00",
     status: "Disponible",
     sku: "",
     image: site.images.productLibro,
     imageAlt: "Libro físico de AiT USA Institute para estudiantes de inglés.",
     note:
-      "Libro físico para clases presenciales u online dentro de Estados Unidos; fuera de USA se solicita versión digital por WhatsApp.",
+      "Libro físico para clases presenciales u online dentro de Estados Unidos; fuera de USA se coordina la versión digital por WhatsApp.",
     variants: [],
   },
   {
-    title: "Registración y Libro",
+    title: "Registración + libro",
     price: "$95.00",
     status: "Disponible",
     sku: "",
     image: site.images.productRegistrationBook,
-    imageAlt: "Producto de registración y libro para clases de inglés.",
+    imageAlt: "Paquete de registración y libro para clases de inglés.",
     note:
-      "Paquete de registro más libro para iniciar en el curso y conservar ruta de seguimiento.",
+      "Paquete de registración más libro para iniciar el curso y mantener la ruta de seguimiento.",
     variants: [
       { name: "Online", price: "$95.00" },
       { name: "Presencial", price: "$95.00" },
     ],
   },
   {
-    title: "Solo Registración - Pago único",
+    title: "Solo registración",
     price: "$55.00",
     status: "Disponible",
     sku: "",
     image: site.images.productRegistration,
-    imageAlt: "Producto de solo registración para clases de inglés.",
+    imageAlt: "Opciones de solo registración para clases de inglés.",
     note:
       "Pago único de registración para niveles básico, intermedio y avanzado, disponible online o presencial.",
     variants: [
@@ -673,27 +673,27 @@ const storeProducts = [
     ],
   },
   {
-    title: "Cursos de Programming",
+    title: "Cursos de programación",
     price: "$3,500.00",
     status: "Disponible",
     sku: "",
     image: site.images.productProgramming,
-    imageAlt: "Producto de cursos de programación, diseño y reparación de computadoras.",
+    imageAlt: "Paquete de cursos de programación, diseño y reparación de computadoras.",
     note:
-      "Cursos online de tres meses: Graphic Design, Web Design y Computer Repair & Networking con opciones de inicio mensual.",
+      "Cursos online de tres meses: diseño gráfico, diseño web y reparación de computadoras y redes, con opciones de inicio mensual.",
     variants: [
-      { name: "Graphic Design", price: "$3,500.00" },
-      { name: "Web Design", price: "$3,500.00" },
-      { name: "Computer Repair & Networking", price: "$2,400.00" },
+      { name: "Diseño gráfico", price: "$3,500.00" },
+      { name: "Diseño web", price: "$3,500.00" },
+      { name: "Reparación de computadoras y redes", price: "$2,400.00" },
     ],
   },
   {
-    title: "Latinoamérica - Mes (4 weeks)",
+    title: "Latinoamérica - mensualidad",
     price: "$145.00",
     status: "Disponible",
     sku: "364215376135191",
     image: site.images.productLatam,
-    imageAlt: "Producto Latinoamérica - Mes para clases de inglés online.",
+    imageAlt: "Plan Latinoamérica mensual para clases de inglés online.",
     note:
       "Mensualidad cada 4 semanas para niveles básico, intermedio y avanzado, con opciones online y presencial.",
     variants: [
@@ -706,23 +706,23 @@ const storeProducts = [
     ],
   },
   {
-    title: "GED",
+    title: "Preparación GED",
     price: "$240.00",
     status: "Disponible",
     sku: "364215375135191",
     image: site.images.productGed,
-    imageAlt: "Producto GED para preparación académica.",
+    imageAlt: "Programa GED para preparación académica.",
     note:
-      "Curso estimado de seis meses, dos clases de una hora por semana con horario de sábados y seguimiento de progreso.",
+      "Curso estimado de seis meses, con dos clases de una hora por semana, horario de sábados y seguimiento de progreso.",
     variants: [],
   },
   {
-    title: "Computación",
+    title: "Computación básica y oficina",
     price: "$325.00",
     status: "Disponible",
     sku: "364115376135191",
     image: site.images.productComputing,
-    imageAlt: "Producto Computación para cursos básicos y de oficina.",
+    imageAlt: "Programa de computación para cursos básicos y de oficina.",
     note:
       "Cursos básicos de internet, Mac o Windows, más cursos de oficina en Word, Excel y PowerPoint con horarios de mañana, tarde y noche.",
     variants: [
