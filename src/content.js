@@ -4,15 +4,15 @@ const assetHires = (name) => asset(`hires/${name}`);
 const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
-  tagline: "Habla con impacto en 90 días",
+  tagline: "Habla con impacto en 90 días o menos",
   description:
-    "Clases de inglés ESL presenciales, híbridas y online con el método Graphic Concept, enfoque conversacional y seguimiento semanal.",
+    "Clases de inglés ESL presenciales, híbridas y online con el método Graphic Concept, enfoque conversacional y seguimiento semanal medible.",
   heroHeadline:
-    "Habla inglés con seguridad desde tu primera semana, con clases de alta interacción y progreso real",
+    "Conviértete en la persona que habla con confianza, desde la primera semana.",
   heroLead:
-    "Método Graphic Concept, práctica conversacional y seguimiento semanal para comunicarte con confianza en estudios, trabajo y vida diaria, sin memorizar listas sin sentido.",
+    "Te enseñamos a pensar en inglés mientras hablas, no solo a repetirlo. Método visual, práctica guiada y progreso tangible para escuela, trabajo y vida diaria.",
   heroQuote:
-    "No se trata de hablar perfecto, se trata de comprender rápido, responder claro y sonar natural desde la primera clase.",
+    "No se trata de hablar perfecto; se trata de comunicarte con claridad y seguridad en cada situación real.",
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
   phone: "+1 732-271-0011",
@@ -33,8 +33,8 @@ const site = {
   },
   images: {
     logo: asset("006-solo-logo-4-x-4-clases1.png"),
-    hero: "./public/assets/wix/live/hero-female-teacher.jpg",
-    heroPoster: "./public/assets/wix/live/hero-female-teacher.jpg",
+    hero: "./public/assets/wix/live/hero-female-classroom.jpg",
+    heroPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
     heroVideo: "",
     heroVideoPoster: "./public/assets/wix/live/hero-female-teacher.jpg",
     adultEnglish: assetHires("adult-english-speaking.jpg"),
@@ -78,33 +78,33 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clases conversacionales para que hables en contexto real desde la primera semana.",
-  "Metodología visual para traducir ideas en respuestas rápidas, claras y seguras.",
-  "Horarios presenciales, híbridos y online para aprender en tu agenda y ritmo.",
+  "Clases conversacionales diseñadas para que hables en situaciones reales desde tus primeras sesiones.",
+  "Mapa visual de aprendizaje: menos memorización, más respuestas rápidas, fluidas y con confianza.",
+  "Tres formatos (presencial, híbrido y online) para sostener tu progreso incluso con agenda ocupada.",
 ];
 
 const stats = [
-  { value: "20+", label: "años guiando estudiantes al inglés funcional" },
-  { value: "12 meses", label: "para ver progreso real en entornos cotidianos" },
-  { value: "GC", label: "método Graphic Concept" },
-  { value: "NJ + online", label: "sedes y clases remotas" },
+  { value: "20+", label: "años guiando a estudiantes hacia conversación funcional" },
+  { value: "18+", label: "meses para consolidar el nivel en entorno real" },
+  { value: "GC", label: "método Graphic Concept, paso a paso" },
+  { value: "3", label: "sedes de NJ y acceso online internacional" },
 ];
 
 const differentiators = [
   {
     title: "Comprender primero, hablar después",
     text:
-      "Conecta ideas, intenciones y contexto. El estudiante responde mejor cuando entiende significado antes de traducir palabra por palabra.",
+      "Conecta ideas, intención y contexto. Los estudiantes avanzan más cuando entienden significado, luego convierten esa comprensión en oralidad natural.",
   },
   {
     title: "Hablar con estructura visual",
     text:
-      "Graphic Concept convierte gramática en mapas visuales memorables para responder con intención y seguridad.",
+      "Graphic Concept traduce reglas y patrones a mapas visuales memorables, para que cada respuesta sea rápida, precisa y con menos errores.",
   },
   {
     title: "Acompañamiento que impulsa resultados",
     text:
-      "Clases guiadas con seguimiento de progreso, tutorías y apoyo directo para crear hábitos de inglés que se sostienen.",
+      "Seguimiento semanal, tutorías y ajustes de ruta para crear hábitos de inglés con continuidad real, sin abandono a mitad de camino.",
   },
 ];
 
@@ -250,27 +250,33 @@ const heroGallery = [
   {
     label: "Escena en vivo",
     title: "Corrección instantánea y práctica oral con soporte real.",
-    image: "./public/assets/wix/live/hero-female-teacher.jpg",
+    image: "./public/assets/wix/live/hero-female-classroom.jpg",
     imageAlt: "Docente de AiT USA en clase presencial mostrando técnica visual de inglés.",
   },
   {
     label: "Retroalimentación en tiempo real",
     title: "Aprende a responder con confianza desde cada intervención.",
-    image: "./public/assets/wix/067-foto10.jpg",
+    image: "./public/assets/wix/live/hero-female-teacher.jpg",
     imageAlt: "Instructora de AiT USA liderando práctica oral con estudiantes.",
   },
   {
     label: "Conexión online premium",
     title: "Sesiones en vivo para practicar de manera flexible desde cualquier lugar.",
-    image: "./public/assets/wix/071-foto2.jpg",
+    image: "./public/assets/wix/hires/online-instructor-headset.jpg",
     imageAlt: "Clase online de inglés con docente y participantes enfocados en conversación.",
   },
   {
     label: "Ritmo visible",
     title: "Ruta semanal con hitos concretos para que avances en conversación.",
-    image: "./public/assets/wix/073-on-line-classes-7.jpg",
-    imageAlt: "Instructora de inglés interactuando con estudiantes en formato online.",
+    image: "./public/assets/wix/live/hero-female-zoom.jpg",
+    imageAlt: "Docente de inglés interactuando con estudiantes en formato online.",
   },
+];
+
+const heroProof = [
+  { value: "20+", label: "años de experiencia bilingüe" },
+  { value: "12+", label: "rutas activas para diferentes edades" },
+  { value: "3", label: "formatos para estudiar: presencial, híbrido y online" },
 ];
 
 const instructorClips = [
@@ -278,16 +284,16 @@ const instructorClips = [
     title: "Clase conversacional en vivo",
     eyebrow: "Profesora con presencia",
     image: "./public/assets/wix/live/hero-female-teacher.jpg",
-    imageAlt: "Docente de AiT USA dando una clase conversacional en vivo.",
+    imageAlt: "Docente de AiT USA enseñando inglés con enfoque práctico en clase presencial.",
     caption:
-      "Corrección en tiempo real, simulaciones orales y seguimiento de progreso para salir de la zona de silencio.",
+      "Corrección en vivo, simulaciones orales y seguimiento de progreso para salir de la zona de silencio.",
     duration: "1:06",
   },
   {
     title: "Escucha y responde al instante",
     eyebrow: "Metodología visual",
     image: "./public/assets/wix/live/hero-female-zoom.jpg",
-    imageAlt: "Instructora y estudiante practicando inglés mediante Zoom con enfoque visual.",
+    imageAlt: "Instructora y estudiante practicando inglés mediante Zoom con enfoque visual y conversación real.",
     caption:
       "Escucha guiada con pausas estratégicas para dominar respuestas rápidas y con significado, no solo pronunciación.",
     duration: "0:48",
@@ -666,6 +672,7 @@ const faqs = [
 ];
 
 window.AITUSA_DATA = {
+  heroProof,
   books,
   differentiators,
   downloads,

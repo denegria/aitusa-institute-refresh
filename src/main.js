@@ -7,6 +7,7 @@ const {
   heroGallery,
   heroPoints,
   instructorClips,
+  heroProof,
   locations,
   methodBlocks,
   modalities,
@@ -38,8 +39,10 @@ const playIcon = `
     <path d="M8 5.5v13l10.5-6.5L8 5.5Z" />
   </svg>
 `;
+const heroVideoSource = site.heroVideo || site.images.heroVideo || "";
+
 const heroMedia = () => {
-  if (heroGallery.length && !site.images.heroVideo) {
+  if (heroGallery.length && !heroVideoSource) {
     const chips = heroGallery
       .map(
         (slide, index) =>
@@ -78,16 +81,20 @@ const heroMedia = () => {
     `;
   }
 
-  if (site.images.heroVideo) {
+  if (heroVideoSource) {
     return `
       <div class="hero__media-frame hero__media-frame--hero-carousel">
         <video
           class="hero__media-player"
           controls
+          autoplay
+          muted
+          playsinline
+          loop
           preload="metadata"
-          poster="${site.images.heroVideoPoster}"
+          poster="${site.images.heroVideoPoster || site.images.heroPoster}"
           aria-label="Video de clase de muestra de AiT USA Institute">
-          <source src="${site.images.heroVideo}" type="video/mp4" />
+          <source src="${heroVideoSource}" type="video/mp4" />
           Tu navegador no soporta video HTML5.
         </video>
         <div class="hero__media-overlay">
@@ -104,7 +111,7 @@ const heroMedia = () => {
 };
 
 const initHeroShowcase = () => {
-  if (site.images.heroVideo || heroGallery.length < 2) return;
+  if (heroVideoSource || heroGallery.length < 2) return;
 
   const stack = document.querySelector("[data-hero-stack]");
   const dots = [...document.querySelectorAll("[data-hero-dot]")];
@@ -191,12 +198,24 @@ app.innerHTML = `
           <h1>${site.heroHeadline || site.name}</h1>
           <p class="hero__lead">${site.heroLead || site.description}</p>
           <div class="hero__actions">
-            <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Textéanos por WhatsApp</a>
-            <a class="button button--ghost" href="${site.forms.registration}" target="_blank" rel="noreferrer">Quiero inscribirme</a>
+            <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Agenda tu clase de muestra</a>
+            <a class="button button--ghost" href="${site.forms.registration}" target="_blank" rel="noreferrer">Quiero inscribirme hoy</a>
           </div>
           <ul class="hero__points">
             ${joinList(heroPoints)}
           </ul>
+          <div class="hero__proof" aria-label="Indicadores de confianza">
+            ${heroProof
+              .map(
+                (item) => `
+                  <article class="hero__proof-item">
+                    <strong>${item.value}</strong>
+                    <span>${item.label}</span>
+                  </article>
+                `,
+              )
+              .join("")}
+          </div>
         </div>
         <div class="hero__media">
           ${heroMedia()}
@@ -225,8 +244,8 @@ app.innerHTML = `
     <section class="section section--reel" aria-labelledby="reel-title">
       <div class="section-inner reel-grid">
         <div class="reel-copy">
-          <p class="section-kicker">Clases con presencia humana</p>
-            <h2 id="reel-title">Energía real de aula, incluso cuando aprendes online.</h2>
+            <p class="section-kicker">Clases con presencia humana</p>
+            <h2 id="reel-title">Energía real de aula, también en línea.</h2>
             <p>
             Combinamos práctica guiada, corrección puntual y seguimiento de progreso para que avancemos sin
             vacíos: cada clase te deja con una acción concreta para usar inglés de inmediato.
@@ -288,8 +307,8 @@ app.innerHTML = `
     <section id="cursos" class="section section--soft" aria-labelledby="cursos-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Cursos</p>
-          <h2 id="cursos-title">Programas pensados para resultados medibles y metas reales</h2>
-          <p>Inglés ESL, apoyo académico y tecnología en rutas claras para aprender, practicar y avanzar.</p>
+            <h2 id="cursos-title">Programas pensados para resultados medibles y metas reales</h2>
+          <p>Inglés ESL, apoyo académico y tecnología en rutas claras para aprender, practicar y avanzar con disciplina.</p>
       </div>
       <div class="section-inner filter-bar" role="group" aria-label="Filtrar cursos">
         ${initials
@@ -596,7 +615,7 @@ app.innerHTML = `
             <label>Teléfono <input name="telefono" type="tel" autocomplete="tel" required /></label>
           </div>
           <label>País y ciudad <input name="ubicacion" required /></label>
-          <button class="button button--primary" type="submit">Preparar mensaje</button>
+          <button class="button button--primary" type="submit">Solicitar ruta inicial</button>
           <p class="form-status" role="status" data-form-status></p>
           <a class="button button--ghost form-whatsapp" data-form-whatsapp href="${site.whatsappHref}?text=${contactMessage}">Enviar por WhatsApp</a>
         </form>
