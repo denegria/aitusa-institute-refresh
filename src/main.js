@@ -51,6 +51,9 @@ const contactMessage = encodeURIComponent(
   "Hola AiT USA Institute, quiero información sobre clases de inglés.",
 );
 
+const programInquiryMessage = (program) =>
+  encodeURIComponent(`Hola AiT USA Institute, quiero información sobre ${program.title}.`);
+
 const joinList = (items) => items.map((item) => `<li>${item}</li>`).join("");
 
 const heroSignalCards = () => {
@@ -614,8 +617,13 @@ app.innerHTML = `
     <section id="cursos" class="section section--soft" aria-labelledby="cursos-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Cursos</p>
-            <h2 id="cursos-title">Programas pensados para resultados medibles y metas reales</h2>
-          <p>Inglés ESL, apoyo académico y tecnología en rutas claras para aprender, practicar y avanzar con disciplina.</p>
+        <h2 id="cursos-title">Programas pensados para resultados medibles y metas reales</h2>
+        <p>Inglés ESL, apoyo académico y tecnología en rutas claras para aprender, practicar y avanzar con disciplina.</p>
+        <div class="course-pill-row" aria-label="Enfoques principales">
+          <span>ESL en vivo</span>
+          <span>Apoyo académico</span>
+          <span>Tecnología práctica</span>
+        </div>
       </div>
       <div class="section-inner filter-bar" role="group" aria-label="Filtrar cursos">
         ${initials
@@ -629,15 +637,20 @@ app.innerHTML = `
       <div class="section-inner program-grid" data-program-grid>
         ${programs
           .map(
-            (program) => `
-              <article class="program-card" data-category="${program.category}">
-                <img src="${program.image}" alt="${program.imageAlt}" loading="lazy" />
-                <div>
-                  <p>${program.mode}</p>
+            (program, index) => `
+              <article class="program-card ${index === 0 ? "program-card--featured" : ""}" data-category="${program.category}">
+                <div class="program-card__media">
+                  <img src="${program.image}" alt="${program.imageAlt}" loading="lazy" />
+                  <span class="program-card__badge">${program.mode}</span>
+                </div>
+                <div class="program-card__body">
+                  <p class="program-card__eyebrow">${program.audience}</p>
                   <h3>${program.title}</h3>
-                  <span>${program.audience}</span>
-                  <p>${program.summary}</p>
-                  <ul>${joinList(program.details)}</ul>
+                  <p class="program-card__summary">${program.summary}</p>
+                  <ul class="program-card__details">${joinList(program.details)}</ul>
+                  <div class="program-card__footer">
+                    <a class="program-card__cta" href="${site.whatsappHref}?text=${programInquiryMessage(program)}">Preguntar por este curso</a>
+                  </div>
                 </div>
               </article>
             `,
