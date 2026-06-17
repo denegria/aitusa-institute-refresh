@@ -848,8 +848,22 @@ app.innerHTML = `
     <section class="section section--white" aria-labelledby="downloads-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Descargas</p>
-          <h2 id="downloads-title">Material de apoyo para repasar desde casa.</h2>
+        <h2 id="downloads-title">Material de apoyo para repasar desde casa.</h2>
         <p>Recursos para reforzar tareas, pronunciación y seguimiento semanal desde cualquier dispositivo.</p>
+      </div>
+      <div class="section-inner utility-strip">
+        <article>
+          <strong>Compatible</strong>
+          <span>iPhone, iPad, Mac, Android y Windows.</span>
+        </article>
+        <article>
+          <strong>Listo para usar</strong>
+          <span>Recursos pensados para estudiar sin configuración complicada.</span>
+        </article>
+        <article>
+          <strong>Seguimiento</strong>
+          <span>Material alineado con tu progreso semanal y tus clases.</span>
+        </article>
       </div>
       <div class="section-inner download-grid">
         ${downloads
@@ -884,8 +898,14 @@ app.innerHTML = `
     <section class="section section--soft" aria-labelledby="pagos-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Productos y pagos</p>
-          <h2 id="pagos-title">Opciones transparentes para estudiar sin sorpresas.</h2>
+        <h2 id="pagos-title">Opciones transparentes para estudiar sin sorpresas.</h2>
         <p>Precios y productos claros para que el siguiente paso sea evidente desde el inicio.</p>
+      </div>
+      <div class="section-inner payment-note">
+        <p>
+          Si no ves tu modalidad exacta, escríbenos por WhatsApp y te indicamos la opción correcta según
+          tu país, horario y tipo de acceso.
+        </p>
       </div>
       <div class="section-inner payment-grid">
         ${storeProducts

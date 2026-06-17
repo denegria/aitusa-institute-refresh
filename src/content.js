@@ -550,25 +550,25 @@ const teachers = [
 const downloads = [
   {
     title: "Apple iPhone / iPad",
-    text: "Aplicación para dispositivos Apple con sincronización básica de clases.",
+    text: "Acceso para dispositivos Apple con recursos y seguimiento de clases listos para usar.",
     image: asset("155-apple-20logo-edited.jpg"),
     imageAlt: "Logo de Apple para descarga en iPhone y iPad.",
   },
   {
     title: "Apple laptop",
-    text: "Aplicación para laptop Apple, Mac OS X 10.8 o superior.",
+    text: "Acceso para Mac con materiales y herramientas de estudio optimizados para laptop.",
     image: asset("157-5bfb6f-c2ae26a3c5004bca9ea2b860a535f4ab.jpg"),
     imageAlt: "Logo de Apple para descarga en laptop Mac.",
   },
   {
     title: "Android",
-    text: "Aplicación para teléfono móvil o tableta Android, práctica desde cualquier lugar.",
+    text: "Acceso para teléfono o tableta Android con práctica y seguimiento desde cualquier lugar.",
     image: asset("161-android-logo.png"),
     imageAlt: "Logo de Android para descarga de aplicación.",
   },
   {
     title: "Windows",
-    text: "Aplicación para usuarios de Windows para seguimiento de clases y recursos.",
+    text: "Acceso para usuarios de Windows con seguimiento de clases y recursos listos para continuar.",
     image: asset("163-window-logo.jpg"),
     imageAlt: "Logo de Windows para descarga de aplicación.",
   },
@@ -579,7 +579,7 @@ const requirements = [
     title: "Audífono y micrófono",
     image: site.images.headset,
     imageAlt: "Audífonos con micrófono para clases online.",
-    text: "Necesario para escuchar mejor, hablar con claridad y evitar interferencias.",
+    text: "Recomendado para escuchar mejor, hablar con claridad y evitar interferencias.",
   },
   {
     title: "Dispositivo con internet",
@@ -593,7 +593,7 @@ const storeProducts = [
   {
     title: "Europa - Mes (4 weeks)",
     price: "$175.00",
-    status: "In stock",
+    status: "Disponible",
     sku: "",
     image: site.images.productEuropa,
     imageAlt: "Producto Europa - Mes para clases de inglés online.",
@@ -604,7 +604,7 @@ const storeProducts = [
   {
     title: "Libro",
     price: "$55.00",
-    status: "In stock",
+    status: "Disponible",
     sku: "",
     image: site.images.productLibro,
     imageAlt: "Libro físico de AiT USA Institute para estudiantes de inglés.",
@@ -615,7 +615,7 @@ const storeProducts = [
   {
     title: "Registración y Libro",
     price: "$95.00",
-    status: "In stock",
+    status: "Disponible",
     sku: "",
     image: site.images.productRegistrationBook,
     imageAlt: "Producto de registración y libro para clases de inglés.",
@@ -629,7 +629,7 @@ const storeProducts = [
   {
     title: "Solo Registración - Pago único",
     price: "$55.00",
-    status: "In stock",
+    status: "Disponible",
     sku: "",
     image: site.images.productRegistration,
     imageAlt: "Producto de solo registración para clases de inglés.",
@@ -647,7 +647,7 @@ const storeProducts = [
   {
     title: "Cursos de Programming",
     price: "$3,500.00",
-    status: "In stock",
+    status: "Disponible",
     sku: "",
     image: site.images.productProgramming,
     imageAlt: "Producto de cursos de programación, diseño y reparación de computadoras.",
@@ -662,7 +662,7 @@ const storeProducts = [
   {
     title: "Latinoamérica - Mes (4 weeks)",
     price: "$145.00",
-    status: "In stock",
+    status: "Disponible",
     sku: "364215376135191",
     image: site.images.productLatam,
     imageAlt: "Producto Latinoamérica - Mes para clases de inglés online.",
@@ -680,7 +680,7 @@ const storeProducts = [
   {
     title: "GED",
     price: "$240.00",
-    status: "In stock",
+    status: "Disponible",
     sku: "364215375135191",
     image: site.images.productGed,
     imageAlt: "Producto GED para preparación académica.",
@@ -691,7 +691,7 @@ const storeProducts = [
   {
     title: "Computación",
     price: "$325.00",
-    status: "In stock",
+    status: "Disponible",
     sku: "364115376135191",
     image: site.images.productComputing,
     imageAlt: "Producto Computación para cursos básicos y de oficina.",
