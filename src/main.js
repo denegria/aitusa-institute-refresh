@@ -691,8 +691,22 @@ app.innerHTML = `
     <section id="libros" class="section section--blue" aria-labelledby="libros-title">
       <div class="section-inner section-heading section-heading--inverted">
         <p class="section-kicker">Nuestros libros</p>
-          <h2 id="libros-title">Material académico propio para reforzar tu progreso.</h2>
+        <h2 id="libros-title">Material académico propio para reforzar tu progreso.</h2>
         <p>Material desarrollado para practicar más allá del aula y construir hábitos diarios reales.</p>
+      </div>
+      <div class="section-inner books-strip">
+        <article>
+          <strong>Secuencia clara</strong>
+          <span>De la introducción al avance progresivo por niveles.</span>
+        </article>
+        <article>
+          <strong>Práctica diaria</strong>
+          <span>Diseñado para repasar sin depender solo de la clase.</span>
+        </article>
+        <article>
+          <strong>Ritmo realista</strong>
+          <span>Material pensado para sostener continuidad y confianza.</span>
+        </article>
       </div>
       <div class="section-inner book-grid">
         ${books
@@ -700,7 +714,7 @@ app.innerHTML = `
             (book) => `
               <article class="book-card">
                 <img src="${book.image}" alt="${book.title}" loading="lazy" />
-                <div>
+                <div class="book-card__body">
                   <h3>${book.title}</h3>
                   <span>${book.subtitle}</span>
                   <p>${book.text}</p>

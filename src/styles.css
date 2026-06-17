@@ -1604,8 +1604,46 @@ select {
   box-shadow: var(--shadow);
 }
 
-.book-card div {
+.books-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.books-strip article {
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.books-strip strong {
+  display: block;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+.books-strip span {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.92rem;
+}
+
+.book-card__body {
   margin-top: 14px;
+}
+
+.book-card h3 {
+  margin: 0;
+  line-height: 1.08;
+}
+
+.book-card span {
+  display: block;
+  margin-top: 8px;
 }
 
 .book-card p {
@@ -2477,6 +2515,10 @@ select {
     grid-template-columns: repeat(4, minmax(132px, 1fr));
   }
 
+  .books-strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .intro-grid,
   .split,
   .about-grid,
@@ -2636,6 +2678,7 @@ select {
   .modality-grid,
   .form-row,
   .outcome-grid,
+  .books-strip,
   .schedule-intro,
   .utility-strip,
   .path-grid,
