@@ -71,6 +71,28 @@ const playIcon = `
     <path d="M8 5.5v13l10.5-6.5L8 5.5Z" />
   </svg>
 `;
+const heroVideoBackground = () => {
+  if (!heroVideoSources.length) return "";
+
+  return `
+    <div class="hero__video-bg-wrap" data-hero-bg-wrap>
+      <video
+        class="hero__video-bg"
+        data-hero-bg-player
+        autoplay
+        muted
+        playsinline
+        loop
+        preload="metadata"
+        poster="${heroMediaPoster}"
+        aria-hidden="true"
+      >
+        ${heroVideoSources.map((source) => `<source src="${source}" type="video/mp4" />`).join("")}
+        Tu navegador no soporta video HTML5.
+      </video>
+    </div>
+  `;
+};
 const heroMedia = () => {
   if (heroGallery.length && !heroVideoSources.length) {
     const chips = heroGallery
@@ -268,6 +290,43 @@ const initHeroFallbacks = () => {
   });
 };
 
+const initHeroBackground = () => {
+  const heroVideoBg = document.querySelector("[data-hero-bg-player]");
+  if (!heroVideoBg) return;
+
+  const heroVideoBgWrap = document.querySelector("[data-hero-bg-wrap]");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reduceMotion) {
+    heroVideoBgWrap?.classList.add("is-hidden");
+    return;
+  }
+
+  const heroVideoBgSource = heroVideoBg.querySelector("source");
+  if (!heroVideoBgSource) return;
+
+  let attempt = 0;
+  const setNextSource = () => {
+    if (attempt + 1 >= heroVideoSources.length) {
+      heroVideoBgWrap?.classList.add("is-hidden");
+      return false;
+    }
+
+    attempt += 1;
+    heroVideoBgSource.src = heroVideoSources[attempt];
+    heroVideoBg.load();
+    return true;
+  };
+
+  const onBgError = () => {
+    if (!setNextSource()) {
+      heroVideoBg.removeEventListener("error", onBgError);
+    }
+  };
+
+  heroVideoBg.addEventListener("error", onBgError);
+};
+
 const renderVariants = (variants = []) => {
   if (!variants.length) return "";
   const preview = variants.slice(0, 3);
@@ -305,6 +364,7 @@ app.innerHTML = `
 
   <main>
     <section id="inicio" class="hero" style="--hero-image: url('${site.images.hero}')">
+      ${heroVideoBackground()}
       <div class="hero__inner">
         <div class="hero__content">
           <p class="section-kicker">${site.tagline}</p>
@@ -754,6 +814,7 @@ app.innerHTML = `
     <p>Experiencia web renovada para una comunicación más clara y efectiva. © ${site.founded} ${site.name}.</p>
   </footer>
 `;
+initHeroBackground();
 initHeroShowcase();
 initHeroFallbacks();
 

@@ -4,13 +4,13 @@ const assetHires = (name) => asset(`hires/${name}`);
 const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
-  tagline: "Habla con confianza real desde la primera semana, sin memorizar listas infinitas.",
+  tagline: "Habla inglés con presencia real desde la primera semana, sin memorizar listas infinitas.",
   description:
-    "Cursos de inglés práctico para Nueva Jersey, presenciales y online, con sesiones reales de conversación para convertir la práctica diaria en resultados visibles desde la primera semana.",
+    "Clases presenciales, híbridas y online en Nueva Jersey para hablar inglés con presencia real: conversación guiada, método visual y seguimiento semanal para avanzar desde hoy.",
   heroHeadline:
-    "Conviértete en la versión de ti que se expresa con seguridad y claridad en inglés desde hoy.",
+    "Consigue fluidez real para entrevistas, estudios y vida diaria con un método práctico que te pone a hablar desde la primera semana.",
   heroLead:
-    "Clases presenciales, híbridas y online con un método visual, tareas accionables y seguimiento semanal para ganar fluidez sin perder el ritmo de tu vida.",
+    "Entrena con sesiones en vivo, retroalimentación inmediata y tareas orientadas a contexto para que hables con claridad en clase, trabajo y cualquier escenario real.",
   heroQuote:
     "No se trata de perfección. Se trata de comunicarte con presencia en entrevistas, universidad, trabajo y vida cotidiana.",
   canonical: "https://www.aitusainstitute.com/",
@@ -80,8 +80,8 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Sesiones en vivo con docentes bilingües que corrigen y te ayudan a responder con naturalidad desde la 1ª práctica.",
-  "Método visual que convierte estructura gramatical y vocabulario en conversaciones reales de hoy.",
+  "Sesiones en vivo con docentes bilingües que corrigen en tiempo real para responder con naturalidad desde tu 1ª práctica.",
+  "Método visual que transforma estructura y vocabulario en conversaciones reales para comunicarte con claridad cada día.",
   "Tareas de práctica semanal para que avances incluso cuando tu agenda esté llena.",
 ];
 
