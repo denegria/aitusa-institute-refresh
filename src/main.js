@@ -290,6 +290,11 @@ app.innerHTML = `
             <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Agenda tu clase de muestra</a>
             <a class="button button--ghost" href="${site.forms.registration}" target="_blank" rel="noreferrer">Quiero inscribirme hoy</a>
           </div>
+          <div class="hero__highlights" aria-label="Beneficios">
+            <span>Respuesta en menos de 24h</span>
+            <span>Planes para familias y adultos</span>
+            <span>Clases en Nueva Jersey y online</span>
+          </div>
           <ul class="hero__points">
             ${joinList(heroPoints)}
           </ul>

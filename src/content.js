@@ -4,15 +4,15 @@ const assetHires = (name) => asset(`hires/${name}`);
 const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
-  tagline: "Habla con confianza real, desde tu primera clase, sin vueltas",
+  tagline: "Habla con confianza real desde la primera semana. Sin excusas.",
   description:
-    "Clases de inglés ESL presenciales, híbridas y online con el método Graphic Concept: práctica real, seguimiento semanal y progreso medible para hablar con confianza en menos de un mes.",
+    "Clases de inglés ESL presenciales, híbridas y online con el método Graphic Concept para convertir la práctica diaria en fluidez real, conversación útil y confianza para presentar tus ideas con claridad.",
   heroHeadline:
-    "Conviértete en la versión de ti que se expresa en inglés con seguridad, presencia y resultados visibles desde la primera semana.",
+    "Conviértete en la versión de ti que piensa en inglés y se comunica con claridad desde la primera clase.",
   heroLead:
-    "No memorizamos vocabulario para exámenes: practicamos conversaciones auténticas. Con método visual, tareas accionables y seguimiento semanal, avanzas hacia hablar con fluidez práctica desde el primer ciclo.",
+    "Sin memorizar listas infinitas. Practicamos conversaciones auténticas, escenarios laborales y académicos reales, con método visual, tareas accionables y seguimiento semanal para que avances con resultados visibles.",
   heroQuote:
-    "No se trata de perfección. Se trata de comunicarte con impacto real en entrevistas, escuela, trabajo y vida diaria.",
+    "No se trata de perfección, se trata de comunicarte con presencia y sentido real en entrevistas, escuela, trabajo y vida cotidiana.",
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
   phone: "+1 732-271-0011",
@@ -54,8 +54,8 @@ const site = {
     contact: asset("153-f0e785-fd00796923204eefa8fc070811dd7598f000.jpg"),
     headset: asset("169-audifono-y-microfono.jpg"),
     devices: asset("171-laptop-and-phonhe-3.jpg"),
-    testimonialAntonina: "./public/assets/wix/live/testimonial-antonina-live.jpg",
-    testimonialMarisol: "./public/assets/wix/live/testimonial-marisol-live.jpg",
+    testimonialAntonina: "./public/assets/wix/hires/testimonial-antonina-1200.jpg",
+    testimonialMarisol: "./public/assets/wix/hires/testimonial-marisol-1200.jpg",
     productEuropa: asset("products/product-europa-mes-4weeks.jpg"),
     productLibro: asset("products/product-libro.jpg"),
     productRegistrationBook: asset("products/product-registracion-y-libro.jpg"),
@@ -79,16 +79,16 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Sesiones con docentes bilingües que corrigen, guían y te sacan del silencio sin complicarte.",
-  "Método visual para convertir vocabulario en conversaciones útiles en tu contexto real.",
-  "Seguimiento semanal con tareas accionables para sostener el hábito de hablar.",
+  "Sesiones en vivo con docentes bilingües que corrigen, motivan y te ayudan a responder con naturalidad.",
+  "Método visual que convierte estructuras y vocabulario en conversaciones útiles para tu día a día.",
+  "Tareas de práctica y seguimiento semanal para mantener el progreso aunque estés ocupado.",
 ];
 
 const stats = [
-  { value: "20+", label: "años guiando a estudiantes hacia conversación funcional" },
-  { value: "4", label: "formatos (presencial, híbrido, online y digital)" },
-  { value: "GC", label: "método Graphic Concept, paso a paso y medible" },
-  { value: "+", label: "clases con acompañamiento real para avanzar cada semana" },
+  { value: "20+", label: "años ayudando a hablar inglés con menos barreras" },
+  { value: "3", label: "formatos para estudiar: presencial, híbrido y online" },
+  { value: "GC", label: "Método Graphic Concept, claro, visual y práctico" },
+  { value: "+", label: "clases con seguimiento real para sostener el hábito" },
 ];
 
 const differentiators = [
@@ -250,27 +250,43 @@ const programs = [
 const heroGallery = [
   {
     label: "Clase en vivo",
-    title: "Corrección instantánea y práctica oral con acompañamiento real.",
+    title: "Corrección instantánea y conversación guiada para hablar con menos tensión.",
     image: "./public/assets/wix/hires/hero-classroom.jpg",
-    imageAlt: "Docente de AiT USA en clase presencial mostrando técnica visual de inglés.",
+    imageAlt:
+      "Docente de AiT USA y estudiantes practicando inglés en una clase en vivo con enfoque visual.",
+  },
+  {
+    label: "Atención con presencia",
+    title: "Docentes bilingües corrigen en vivo para que hables sin perder el hilo.",
+    image: "./public/assets/wix/live/hero-female-teacher.jpg",
+    imageAlt:
+      "Instructora de AiT USA corrigiendo y motivando a una estudiante durante conversación oral.",
   },
   {
     label: "Escucha y retroalimentación",
-    title: "Instrucción personalizada para responder con claridad y menos miedo.",
-    image: "./public/assets/wix/live/hero-female-teacher.jpg",
-    imageAlt: "Instructora de AiT USA liderando práctica oral con estudiantes.",
+    title: "Interacción real por Zoom para entrenar comprensión y reacción en tiempo real.",
+    image: "./public/assets/wix/live/hero-female-zoom.jpg",
+    imageAlt:
+      "Instructora de AiT USA interactuando con estudiantes en una sesión online de inglés.",
   },
   {
-    label: "Sesión online premium",
+    label: "Práctica en contexto",
     title: "Aprendizaje flexible para practicar inglés desde cualquier lugar.",
-    image: "./public/assets/wix/hires/online-instructor-headset.jpg",
-    imageAlt: "Clase online de inglés con docente y participantes enfocados en conversación.",
+    image: "./public/assets/wix/live/hero-female-classroom.jpg",
+    imageAlt: "Grupo en clase presencial practicando conversación y pronunciación en inglés.",
   },
   {
     label: "Seguimiento semanal",
-    title: "Ruta semanal con hitos concretos para hablar con más claridad.",
-    image: "./public/assets/wix/live/hero-female-zoom.jpg",
-    imageAlt: "Docente de inglés interactuando con estudiantes en formato online.",
+    title: "Ruta semanal con acciones claras para convertir práctica en hábito.",
+    image: "./public/assets/wix/live/testimonial-marisol-live.jpg",
+    imageAlt:
+      "Instructora de AiT USA trabajando con una estudiante para mejorar la fluidez y la seguridad.",
+  },
+  {
+    label: "Resultados reales",
+    title: "Seguimiento de progreso con evidencia de resultados en cada módulo.",
+    image: "./public/assets/wix/live/testimonial-antonina-live.jpg",
+    imageAlt: "Estudiantes de AiT USA aplicando lo aprendido en clase de inglés.",
   },
 ];
 
@@ -285,7 +301,8 @@ const instructorClips = [
     title: "Clase conversacional en vivo",
     eyebrow: "Profesora con presencia",
     image: "./public/assets/wix/live/hero-female-teacher.jpg",
-    imageAlt: "Docente de AiT USA enseñando inglés con enfoque práctico en clase presencial.",
+    imageAlt:
+      "Docente de AiT USA enseñando inglés con enfoque práctico en clase presencial.",
     caption:
       "Corrección en vivo, simulaciones orales y seguimiento de progreso para salir de la zona de silencio.",
     duration: "1:06",
@@ -300,17 +317,19 @@ const instructorClips = [
     duration: "0:48",
   },
   {
-    title: "Niños online con apoyo familiar",
+    title: "Conexión auténtica en clases online",
     eyebrow: "8 a 13 años",
-    image: "./public/assets/wix/hires/hero-classroom.jpg",
-    imageAlt: "Clase de inglés en vivo para niños con apoyo de familias y docentes.",
-    caption: "Clases remotas con acompañamiento de padres y una rutina semanal de práctica visible.",
+    image: "./public/assets/wix/live/testimonial-antonina-live.jpg",
+    imageAlt:
+      "Estudiante practicando inglés en una clase remota con acompañamiento de la instructora.",
+    caption:
+      "Conversación guiada para recuperar estructura, ganar espontaneidad y hablar con más seguridad.",
     duration: "0:38",
   },
   {
     title: "Respuesta guiada en clase",
     eyebrow: "Sesión de progreso",
-    image: "./public/assets/wix/069-9.jpg",
+    image: "./public/assets/wix/live/testimonial-marisol-live.jpg",
     imageAlt: "Instructora de AiT USA interactuando con estudiantes en una clase de inglés.",
     caption:
       "Estrategias y corrección puntual para pasar de comprender a comunicar ideas con mayor naturalidad.",
