@@ -6,6 +6,7 @@ const {
   faqs,
   heroGallery,
   heroPoints,
+  launchPath,
   heroSignal,
   heroStartPath,
   instructorClips,
@@ -25,7 +26,7 @@ const {
 } = window.AITUSA_DATA;
 
 const app = document.querySelector("#app");
-const initials = ["Todos", "Inglés", "Niños", "Académico", "Tecnología"];
+const initials = ["Todos", "Inglés", "Niños", "Académico", "Tecnología", "Idiomas"];
 
 const categoryLabel = {
   Todos: "todos",
@@ -33,6 +34,7 @@ const categoryLabel = {
   Niños: "ninos",
   Académico: "academico",
   Tecnología: "tecnologia",
+  Idiomas: "idiomas",
 };
 
 const heroMediaPoster = site.heroVideoPoster || site.images.heroPoster || site.images.hero;
@@ -83,6 +85,38 @@ const heroPathList = () => {
         )
         .join("")}
     </ol>
+  `;
+};
+
+const launchPathSection = () => {
+  if (!launchPath.length) return "";
+
+  return `
+    <section id="ruta" class="section section--path section--white" aria-labelledby="ruta-title">
+      <div class="section-inner section-heading section-heading--compact">
+        <p class="section-kicker">Ruta de arranque</p>
+        <h2 id="ruta-title">Tu progreso real en tres semanas</h2>
+        <p>Combinamos diagnóstico real, práctica guiada y seguimiento para que avances sin esperar meses para ver resultados.</p>
+      </div>
+      <div class="section-inner path-grid">
+        ${launchPath
+          .map(
+            (item, index) => `
+              <article class="path-card">
+                <span class="path-card__step">Semana ${index + 1}</span>
+                <h3>${item.title}</h3>
+                <p>${item.description}</p>
+                <p class="path-card__outcome">${item.outcome}</p>
+              </article>
+            `,
+          )
+          .join("")}
+      </div>
+      <div class="section-inner path-cta">
+        <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Agenda tu clase de muestra</a>
+        <a class="button button--ghost" href="#cursos">Ver programas disponibles</a>
+      </div>
+    </section>
   `;
 };
 const clipMedia = (clip) => {
@@ -457,6 +491,7 @@ app.innerHTML = `
           .join("")}
       </div>
     </section>
+    ${launchPathSection()}
 
     <section class="section section--reel" aria-labelledby="reel-title">
       <div class="section-inner reel-grid">

@@ -1054,6 +1054,10 @@ select {
   margin-bottom: 30px;
 }
 
+.section-heading--compact {
+  margin-bottom: 22px;
+}
+
 .section-heading p:last-child {
   color: var(--muted);
   font-size: 1.05rem;
@@ -1063,6 +1067,85 @@ select {
 
 .section-heading--inverted p:last-child {
   color: rgba(255, 255, 255, 0.78);
+}
+
+.section--path {
+  background: linear-gradient(135deg, #f8f9ff 0%, #edf3ff 68%, #e6f0ff 100%);
+}
+
+.path-grid {
+  width: min(var(--max), calc(100% - 36px));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.path-card {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  min-height: 220px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.path-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(12, 28, 64, 0.16);
+}
+
+.path-card__step {
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.77rem;
+  font-weight: 900;
+  color: var(--blue);
+  background: rgba(12, 60, 231, 0.1);
+}
+
+.path-card h3 {
+  margin: 0;
+  font-size: 1.38rem;
+  line-height: 1.1;
+}
+
+.path-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.path-card__outcome {
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.path-card::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(12, 60, 231, 0.12);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.path-card:hover::before {
+  opacity: 1;
+}
+
+.path-cta {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
 }
 
 .reason-grid,
@@ -1785,7 +1868,8 @@ select {
   .program-grid,
   .location-grid,
   .download-grid,
-  .payment-grid {
+  .payment-grid,
+  .path-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1919,7 +2003,8 @@ select {
   .payment-grid,
   .mission-grid,
   .modality-grid,
-  .form-row {
+  .form-row,
+  .path-grid {
     grid-template-columns: 1fr;
   }
 

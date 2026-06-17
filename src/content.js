@@ -70,6 +70,7 @@ const site = {
 
 const nav = [
   ["Inicio", "inicio"],
+  ["Ruta", "ruta"],
   ["Cursos", "cursos"],
   ["Método", "metodo"],
   ["Libros", "libros"],
@@ -103,6 +104,27 @@ const heroSignal = [
   {
     value: "3",
     label: "formatos disponibles para estudiar con flexibilidad.",
+  },
+];
+
+const launchPath = [
+  {
+    title: "Evaluación diagnóstica y objetivo semanal",
+    description:
+      "Te explicamos tu nivel actual en 10 minutos y te proponemos un plan de 21 días adaptado a tus horarios y metas inmediatas.",
+    outcome: "Terminas esta semana con una ruta personal y tareas concretas para empezar a hablar.",
+  },
+  {
+    title: "Práctica guiada con retroalimentación en vivo",
+    description:
+      "Entrenas conversaciones reales en clase con correcciones puntuales para que conviertas teoría en respuesta inmediata.",
+    outcome: "Tu confianza en reuniones, entrevistas y clase mejora desde la segunda semana.",
+  },
+  {
+    title: "Seguimiento de progreso semanal",
+    description:
+      "Con tu coach de ruta revisamos avances, detectamos obstáculos y ajustamos tareas de micro-práctica.",
+    outcome: "Recibes evidencia de mejora para que continúes con disciplina y constancia.",
   },
 ];
 
@@ -738,6 +760,7 @@ window.AITUSA_DATA = {
   heroPoints,
   heroSignal,
   heroStartPath,
+  launchPath,
   teachers,
   testimonials,
 };
