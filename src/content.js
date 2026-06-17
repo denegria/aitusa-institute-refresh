@@ -477,43 +477,43 @@ const methodBlocks = [
 const books = [
   {
     title: "Intro Plus",
-    subtitle: "English Introductory Book",
+    subtitle: "Libro introductorio de inglés",
     image: asset("031-intro-book-portada.jpg"),
     text: "Aquí empieza la familiarización con el inglés y con la ruta académica del método.",
   },
   {
     title: "Step Plus 1",
-    subtitle: "Student's Book",
+    subtitle: "Libro del estudiante",
     image: asset("035-step-plus-1-portada.jpg"),
     text: "Introducción al método, la técnica y la estrategia.",
   },
   {
     title: "Step Plus 2",
-    subtitle: "Student's Book",
+    subtitle: "Libro del estudiante",
     image: asset("037-step-plus-2-portada.jpg"),
     text: "Continuación de la base visual para practicar patrones esenciales.",
   },
   {
     title: "Step Plus 3",
-    subtitle: "Student's Book",
+    subtitle: "Libro del estudiante",
     image: asset("039-step-plus-3-portada.jpg"),
     text: "Trabajo sobre tiempos presente, pasado y futuro.",
   },
   {
     title: "Step Plus 4",
-    subtitle: "Student's Book",
+    subtitle: "Libro del estudiante",
     image: asset("041-step-plus-4-portada.jpg"),
     text: "Refuerzo para usar los tiempos con mayor seguridad.",
   },
   {
     title: "Step Plus 5",
-    subtitle: "Student's Book",
+    subtitle: "Libro del estudiante",
     image: asset("043-step-plus-5-portada.jpg"),
     text: "Preparación para expresarse con más libertad.",
   },
   {
     title: "Step Plus 6",
-    subtitle: "Student's Book",
+    subtitle: "Libro del estudiante",
     image: asset("045-step-plus-6-portada.jpg"),
     text: "Cierre de ruta para estudiantes listos para avanzar.",
   },
@@ -577,13 +577,13 @@ const teachers = [
 
 const downloads = [
   {
-    title: "Apple iPhone / iPad",
+    title: "iPhone / iPad",
     text: "Acceso para dispositivos Apple con recursos y seguimiento de clases listos para usar.",
     image: asset("155-apple-20logo-edited.jpg"),
     imageAlt: "Logo de Apple para descarga en iPhone y iPad.",
   },
   {
-    title: "Apple laptop",
+    title: "Mac",
     text: "Acceso para Mac con materiales y herramientas de estudio optimizados para laptop.",
     image: asset("157-5bfb6f-c2ae26a3c5004bca9ea2b860a535f4ab.jpg"),
     imageAlt: "Logo de Apple para descarga en laptop Mac.",
