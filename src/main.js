@@ -717,6 +717,16 @@ app.innerHTML = `
         <div>
           <p class="section-kicker">Horarios y modalidad</p>
           <h2 id="horarios-title">Elige el horario y la modalidad que mejor se adapta a tu semana.</h2>
+          <div class="schedule-intro">
+            <article>
+              <strong>Flexible</strong>
+              <span>Turnos de mañana, noche, sábado y domingo.</span>
+            </article>
+            <article>
+              <strong>Guiado</strong>
+              <span>Te ayudamos a escoger el horario con mejor continuidad.</span>
+            </article>
+          </div>
           <div class="modality-grid">
             ${modalities
               .map(
@@ -736,6 +746,7 @@ app.innerHTML = `
               (schedule) => `
                 <article>
                   <h3>${schedule.label}</h3>
+                  <p>${schedule.bestFor}</p>
                   <ul>${joinList(schedule.times)}</ul>
                 </article>
               `,
@@ -758,6 +769,7 @@ app.innerHTML = `
               <article class="location-card">
                 <h3>${location.city}</h3>
                 <p>${location.address}</p>
+                <p class="location-card__highlight">${location.highlight}</p>
                 <span>${location.note}</span>
               </article>
             `,

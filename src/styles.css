@@ -1624,6 +1624,34 @@ select {
   padding: 20px;
 }
 
+.schedule-intro {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.schedule-intro article {
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--white);
+  box-shadow: var(--shadow-soft);
+}
+
+.schedule-intro strong {
+  display: block;
+  color: var(--blue);
+  font-family: var(--font-display);
+}
+
+.schedule-intro span {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
 .schedule-panel {
   display: grid;
   gap: 1px;
@@ -1642,6 +1670,11 @@ select {
   color: var(--blue);
 }
 
+.schedule-panel p {
+  margin: 0 0 10px;
+  color: var(--muted);
+}
+
 .schedule-panel ul {
   margin: 0;
   padding-left: 18px;
@@ -1655,6 +1688,13 @@ select {
 .location-card {
   min-height: 185px;
   padding: 22px;
+}
+
+.location-card__highlight {
+  margin: 10px 0 8px;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  font-weight: 700;
 }
 
 .contact-strip {
@@ -2459,6 +2499,10 @@ select {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .schedule-intro {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .site-footer {
     grid-template-columns: 1fr;
   }
@@ -2592,6 +2636,7 @@ select {
   .modality-grid,
   .form-row,
   .outcome-grid,
+  .schedule-intro,
   .utility-strip,
   .path-grid,
   .spotlight-proof,

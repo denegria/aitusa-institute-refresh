@@ -407,18 +407,22 @@ const schedules = [
   {
     label: "Mañanas",
     times: ["8:30 am a 9:30 am", "9:30 am a 10:30 am", "10:30 am a 11:30 am"],
+    bestFor: "Ideal para quienes quieren empezar el día con una rutina fija.",
   },
   {
     label: "Noches",
     times: ["6:20 pm a 7:30 pm", "7:30 pm a 8:40 pm", "8:40 pm a 9:50 pm"],
+    bestFor: "Pensado para después del trabajo o de las clases escolares.",
   },
   {
     label: "Sábados",
     times: ["10:00 am a 1:00 pm", "3:00 pm a 5:30 pm"],
+    bestFor: "Útil para quienes trabajan entre semana o tienen horarios variables.",
   },
   {
     label: "Domingos",
     times: ["10:00 am a 12:30 pm"],
+    bestFor: "Buena opción para mantener continuidad sin afectar la semana laboral.",
   },
 ];
 
@@ -520,26 +524,31 @@ const locations = [
     city: "Bound Brook, New Jersey",
     address: "213 E. Main St., Bound Brook, NJ 08805",
     note: "Oficina central / Headquarter",
+    highlight: "Recepción principal y coordinación administrativa.",
   },
   {
     city: "Plainfield, New Jersey",
     address: "108 Watchung Ave., Plainfield, NJ 07060",
     note: "Sede presencial",
+    highlight: "Acceso fácil para estudiantes del área central de Nueva Jersey.",
   },
   {
     city: "Piscataway, New Jersey",
     address: "451 S. Washington Ave., Piscataway, NJ 08854",
     note: "Sede presencial",
+    highlight: "Buena opción para quienes buscan una sede amplia y práctica.",
   },
   {
     city: "Flemington, New Jersey",
     address: "Flemington, NJ, USA",
     note: "Confirmar detalles de sede",
+    highlight: "Disponible según disponibilidad y coordinación previa.",
   },
   {
     city: "New York / Online",
     address: "Online Headquarter",
     note: "Atención para clases en línea",
+    highlight: "Conexión remota para estudiantes fuera de Nueva Jersey.",
   },
 ];
 
