@@ -912,7 +912,25 @@ app.innerHTML = `
     <section id="faq" class="section section--white" aria-labelledby="faq-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Preguntas frecuentes</p>
-          <h2 id="faq-title">Resolvemos tus dudas antes de inscribirte.</h2>
+        <h2 id="faq-title">Resolvemos tus dudas antes de inscribirte.</h2>
+        <p>Si todavía estás comparando opciones, aquí tienes una vista rápida de lo que normalmente aclaramos antes de arrancar.</p>
+      </div>
+      <div class="section-inner faq-intro">
+        <article class="faq-callout">
+          <p class="section-kicker">Antes de empezar</p>
+          <h3>Qué pasa después de enviar el formulario</h3>
+          <ol>
+            <li>Te contactamos por WhatsApp y confirmamos tu objetivo.</li>
+            <li>Revisamos nivel, horario y modalidad recomendada.</li>
+            <li>Te compartimos la ruta inicial para comenzar sin demora.</li>
+          </ol>
+        </article>
+        <article class="faq-callout faq-callout--accent">
+          <p class="section-kicker">Respuesta rápida</p>
+          <h3>Si prefieres hablar antes de llenar el formulario</h3>
+          <p>También puedes escribirnos por WhatsApp o llamar para validar disponibilidad, horarios y el mejor punto de inicio.</p>
+          <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Escribir por WhatsApp</a>
+        </article>
       </div>
       <div class="section-inner faq-list">
         ${faqs
@@ -937,6 +955,20 @@ app.innerHTML = `
             Completa el formulario y enviamos tu ruta inicial por WhatsApp en minutos.
             Nuestro equipo confirmará cupo, calendario y documentos para empezar.
           </p>
+          <div class="contact-steps" aria-label="Qué sucede al enviar el formulario">
+            <article>
+              <strong>1</strong>
+              <span>Te respondemos con una ruta clara.</span>
+            </article>
+            <article>
+              <strong>2</strong>
+              <span>Ajustamos horario, nivel y modalidad.</span>
+            </article>
+            <article>
+              <strong>3</strong>
+              <span>Empiezas con el plan de arranque.</span>
+            </article>
+          </div>
           <div class="direct-contact">
             <a href="${site.phoneHref}">${site.phone}</a>
             <a href="${site.whatsappHref}?text=${contactMessage}">${site.whatsapp}</a>

@@ -1950,8 +1950,91 @@ select {
   font-size: 1rem;
 }
 
+.faq-intro {
+  width: min(var(--max), calc(100% - 36px));
+  margin: 0 auto 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.faq-callout {
+  padding: 22px 24px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--white);
+  box-shadow: var(--shadow-soft);
+}
+
+.faq-callout h3 {
+  margin: 0;
+  font-size: 1.45rem;
+  line-height: 1.12;
+  font-family: var(--font-display);
+}
+
+.faq-callout p,
+.faq-callout li {
+  color: var(--muted);
+}
+
+.faq-callout ol {
+  margin: 14px 0 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 8px;
+}
+
+.faq-callout--accent {
+  background: linear-gradient(135deg, rgba(12, 60, 231, 0.06), rgba(255, 78, 106, 0.06));
+  border-color: rgba(12, 60, 231, 0.14);
+}
+
+.faq-callout--accent .button {
+  margin-top: 14px;
+}
+
 .contact-grid {
   align-items: start;
+  gap: clamp(28px, 5vw, 72px);
+}
+
+.contact-grid > div:first-child {
+  display: grid;
+  gap: 16px;
+}
+
+.contact-grid > div:first-child > p {
+  max-width: 560px;
+}
+
+.contact-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.contact-steps article {
+  padding: 16px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.contact-steps strong {
+  display: block;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.contact-steps span {
+  display: block;
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.9rem;
 }
 
 .direct-contact {
@@ -2199,6 +2282,11 @@ select {
     grid-template-columns: 1fr;
   }
 
+  .faq-intro,
+  .contact-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .trust-metrics {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -2324,7 +2412,9 @@ select {
   .modality-grid,
   .form-row,
   .path-grid,
-  .spotlight-proof {
+  .spotlight-proof,
+  .faq-intro,
+  .contact-steps {
     grid-template-columns: 1fr;
   }
 
@@ -2338,7 +2428,8 @@ select {
 
   .method-item,
   .testimonial-card,
-  .requirement {
+  .requirement,
+  .faq-callout {
     grid-template-columns: 1fr;
   }
 
