@@ -154,6 +154,25 @@ const differentiators = [
   },
 ];
 
+const learningOutcomes = [
+  {
+    title: "Comprensión rápida",
+    text: "Empiezas viendo estructura y contexto, no listas aisladas de vocabulario.",
+  },
+  {
+    title: "Habla guiada",
+    text: "Cada clase incluye repetición oral con corrección inmediata y práctica real.",
+  },
+  {
+    title: "Rutina sostenible",
+    text: "Microtareas semanales para avanzar incluso si tu agenda es muy apretada.",
+  },
+  {
+    title: "Seguimiento real",
+    text: "Ajustamos nivel y ritmo según tu progreso, tu horario y tu meta actual.",
+  },
+];
+
 const programs = [
   {
     title: "Inglés para jóvenes y adultos",
@@ -757,6 +776,7 @@ window.AITUSA_DATA = {
   site,
   stats,
   storeProducts,
+  learningOutcomes,
   heroSignal,
   heroStartPath,
   launchPath,

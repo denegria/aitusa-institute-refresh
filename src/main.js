@@ -4,6 +4,7 @@ const {
   differentiators,
   downloads,
   faqs,
+  learningOutcomes,
   heroGallery,
   heroPoints,
   launchPath,
@@ -772,23 +773,31 @@ app.innerHTML = `
 
     <section class="section section--white" aria-labelledby="about-title">
       <div class="section-inner about-grid">
-        <div>
+        <div class="about-copy">
           <p class="section-kicker">Nosotros</p>
           <h2 id="about-title">Una institución de New Jersey enfocada en inglés práctico y resultados visibles.</h2>
           <p>
             Con más de 20 años de experiencia, ayudamos a estudiantes dentro y fuera de Estados Unidos
             a aprender inglés mediante una metodología visual, práctica y centrada en objetivos reales.
           </p>
+          <div class="about-note">
+            <strong>Lo que cambia en tu primera etapa</strong>
+            <p>Dejas de estudiar en abstracciones y empiezas a reconocer patrones, responder con más naturalidad y mantener continuidad.</p>
+          </div>
+          <a class="button button--primary" href="#cursos">Explorar cursos</a>
         </div>
-        <div class="mission-grid">
-          <article>
-            <h3>Misión</h3>
-            <p>Enseñar con métodos propios, técnicas y estrategias diferentes a la educación tradicional.</p>
-          </article>
-          <article>
-            <h3>Visión</h3>
-            <p>Ayudar a que las personas puedan hablar inglés fácil y rápido en un mundo globalizado.</p>
-          </article>
+        <div class="outcome-grid" aria-label="Resultados que ofrece el método">
+          ${learningOutcomes
+            .map(
+              (item, index) => `
+                <article class="outcome-card outcome-card--${index + 1}">
+                  <span>${String(index + 1).padStart(2, "0")}</span>
+                  <h3>${item.title}</h3>
+                  <p>${item.text}</p>
+                </article>
+              `,
+            )
+            .join("")}
         </div>
       </div>
     </section>
