@@ -262,7 +262,19 @@ select {
   aspect-ratio: 16 / 10;
 }
 
-.hero__media-frame img,
+.hero__media-frame--hero-carousel,
+.hero__media-stack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 10;
+}
+
+.hero__media-stack {
+  display: block;
+}
+
+.hero__media-photo,
 .hero__media-player {
   width: 100%;
   aspect-ratio: 16/10;
@@ -270,7 +282,17 @@ select {
   display: block;
   transform: scale(1.01);
   border-radius: var(--radius);
-  transition: transform 0.35s ease;
+  transition: transform 0.35s ease, opacity 0.7s ease;
+}
+
+.hero__media-photo {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.hero__media-photo.is-active {
+  opacity: 1;
 }
 
 .hero__media-player {
@@ -288,8 +310,69 @@ select {
   position: absolute;
   inset: 14px;
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: space-between;
+  z-index: 3;
+}
+
+.hero__media-overlay--gallery {
+  gap: 12px;
+}
+
+.hero__media-meta {
+  display: grid;
+  gap: 6px;
+  max-width: 320px;
+}
+
+.hero__media-kicker {
+  margin: 0;
+  font-size: 0.72rem;
+  color: #ffe3e9;
+  letter-spacing: 0.12em;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.hero__media-title {
+  margin: 0;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+.hero__media-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.hero__media-dot {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.28);
+  color: transparent;
+  cursor: pointer;
+  transition: width 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+}
+
+.hero__media-dot.is-active {
+  width: 26px;
+  background: var(--white);
+}
+
+.hero__media-dot:hover,
+.hero__media-dot:focus-visible {
+  transform: scale(1.05);
+}
+
+.hero__media-dot:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 2px;
 }
 
 .hero__video-chip {
@@ -306,6 +389,10 @@ select {
   font-size: 0.87rem;
   letter-spacing: 0.01em;
   border-width: 2px;
+}
+
+.hero__media-overlay--gallery .hero__video-chip {
+  margin-top: auto;
 }
 
 .hero__video-chip-icon {

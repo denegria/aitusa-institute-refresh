@@ -7,11 +7,12 @@ const site = {
   tagline: "Habla con impacto en 90 días",
   description:
     "Clases de inglés ESL presenciales, híbridas y online con el método Graphic Concept, enfoque conversacional y seguimiento semanal.",
-  heroHeadline: "Domina el inglés con clases que se ven y se sienten reales desde el primer día",
+  heroHeadline:
+    "Habla inglés con seguridad desde tu primera semana, con clases de alta interacción y progreso real",
   heroLead:
-    "Método Graphic Concept, práctica conversacional y seguimiento semanal para hablar con confianza en estudios, trabajo y vida diaria.",
+    "Método Graphic Concept, práctica conversacional y seguimiento semanal para comunicarte con confianza en estudios, trabajo y vida diaria, sin memorizar listas sin sentido.",
   heroQuote:
-    "Aprender inglés no es memorizar reglas. Es aprender a pensar y responder con seguridad en el momento exacto que lo necesitas.",
+    "No se trata de hablar perfecto, se trata de comprender rápido, responder claro y sonar natural desde la primera clase.",
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
   phone: "+1 732-271-0011",
@@ -77,9 +78,9 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Domina conversaciones clave: pedir direcciones, hablar de trabajo, estudiar y apoyar la vida diaria.",
-  "Método visual diseñado para comprender primero y hablar con precisión desde el inicio.",
-  "Horarios presenciales, híbridos y online para estudiantes en NJ y en cualquier zona horaria.",
+  "Clases conversacionales para que hables en contexto real desde la primera semana.",
+  "Metodología visual para traducir ideas en respuestas rápidas, claras y seguras.",
+  "Horarios presenciales, híbridos y online para aprender en tu agenda y ritmo.",
 ];
 
 const stats = [
@@ -245,13 +246,41 @@ const programs = [
   },
 ];
 
+const heroGallery = [
+  {
+    label: "Escena en vivo",
+    title: "Corrección instantánea y práctica oral con soporte real.",
+    image: "./public/assets/wix/live/hero-female-teacher.jpg",
+    imageAlt: "Docente de AiT USA en clase presencial mostrando técnica visual de inglés.",
+  },
+  {
+    label: "Retroalimentación en tiempo real",
+    title: "Aprende a responder con confianza desde cada intervención.",
+    image: "./public/assets/wix/067-foto10.jpg",
+    imageAlt: "Instructora de AiT USA liderando práctica oral con estudiantes.",
+  },
+  {
+    label: "Conexión online premium",
+    title: "Sesiones en vivo para practicar de manera flexible desde cualquier lugar.",
+    image: "./public/assets/wix/071-foto2.jpg",
+    imageAlt: "Clase online de inglés con docente y participantes enfocados en conversación.",
+  },
+  {
+    label: "Ritmo visible",
+    title: "Ruta semanal con hitos concretos para que avances en conversación.",
+    image: "./public/assets/wix/073-on-line-classes-7.jpg",
+    imageAlt: "Instructora de inglés interactuando con estudiantes en formato online.",
+  },
+];
+
 const instructorClips = [
   {
     title: "Clase conversacional en vivo",
     eyebrow: "Profesora con presencia",
     image: "./public/assets/wix/live/hero-female-teacher.jpg",
     imageAlt: "Docente de AiT USA dando una clase conversacional en vivo.",
-    caption: "Corrección en tiempo real, simulaciones orales y seguimiento de progreso para salir de la zona de silencio.",
+    caption:
+      "Corrección en tiempo real, simulaciones orales y seguimiento de progreso para salir de la zona de silencio.",
     duration: "1:06",
   },
   {
@@ -270,6 +299,15 @@ const instructorClips = [
     imageAlt: "Clase de inglés en vivo para niños con apoyo de familias y docentes.",
     caption: "Clases remotas con acompañamiento de padres y una rutina semanal de práctica visible.",
     duration: "0:38",
+  },
+  {
+    title: "Respuesta guiada en clase",
+    eyebrow: "Sesión de progreso",
+    image: "./public/assets/wix/069-9.jpg",
+    imageAlt: "Instructora de AiT USA interactuando con estudiantes en una clase de inglés.",
+    caption:
+      "Estrategias y corrección puntual para pasar de comprender a comunicar ideas con mayor naturalidad.",
+    duration: "0:50",
   },
 ];
 
@@ -633,6 +671,7 @@ window.AITUSA_DATA = {
   downloads,
   faqs,
   heroPoints,
+  heroGallery,
   instructorClips,
   locations,
   methodBlocks,

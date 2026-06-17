@@ -4,6 +4,7 @@ const {
   differentiators,
   downloads,
   faqs,
+  heroGallery,
   heroPoints,
   instructorClips,
   locations,
@@ -38,21 +39,117 @@ const playIcon = `
   </svg>
 `;
 const heroMedia = () => {
+  if (heroGallery.length && !site.images.heroVideo) {
+    const chips = heroGallery
+      .map(
+        (slide, index) =>
+          `<button class="hero__media-dot ${index === 0 ? "is-active" : ""}" data-hero-dot="${index}" type="button" aria-label="Ver clip ${index + 1}: ${slide.label}"></button>`,
+      )
+      .join("");
+
+    const slides = heroGallery
+      .map(
+        (slide, index) =>
+          `<img
+              src="${slide.image}"
+              alt="${slide.imageAlt}"
+              loading="${index === 0 ? "eager" : "lazy"}"
+              data-hero-slide="${index}"
+              class="${index === 0 ? "hero__media-photo is-active" : "hero__media-photo"}"
+            />`,
+      )
+      .join("");
+
+    return `
+      <div class="hero__media-frame hero__media-frame--hero-carousel" data-hero-frame>
+        <div class="hero__media-stack" data-hero-stack>${slides}</div>
+        <div class="hero__media-overlay hero__media-overlay--gallery">
+          <div class="hero__media-meta">
+            <p class="hero__media-kicker" data-hero-kicker>${heroGallery[0].label}</p>
+            <p class="hero__media-title" data-hero-title>${heroGallery[0].title}</p>
+          </div>
+          <a class="hero__video-chip" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Enviar mensaje para agendar una sesión de muestra">
+            <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
+            Ver sesión de muestra
+          </a>
+          <div class="hero__media-dots" data-hero-dots>${chips}</div>
+        </div>
+      </div>
+    `;
+  }
+
   if (site.images.heroVideo) {
     return `
-      <video
-        class="hero__media-player"
-        controls
-        preload="metadata"
-        poster="${site.images.heroVideoPoster}"
-        aria-label="Video de clase de muestra de AiT USA Institute">
-        <source src="${site.images.heroVideo}" type="video/mp4" />
-        Tu navegador no soporta video HTML5.
-      </video>
+      <div class="hero__media-frame hero__media-frame--hero-carousel">
+        <video
+          class="hero__media-player"
+          controls
+          preload="metadata"
+          poster="${site.images.heroVideoPoster}"
+          aria-label="Video de clase de muestra de AiT USA Institute">
+          <source src="${site.images.heroVideo}" type="video/mp4" />
+          Tu navegador no soporta video HTML5.
+        </video>
+        <div class="hero__media-overlay">
+          <a class="hero__video-chip" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Enviar mensaje para agendar una sesión de muestra">
+            <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
+            Ver sesión de muestra
+          </a>
+        </div>
+      </div>
     `;
   }
 
   return `<img src="${site.images.hero}" alt="${site.heroQuote}" loading="eager" />`;
+};
+
+const initHeroShowcase = () => {
+  if (site.images.heroVideo || heroGallery.length < 2) return;
+
+  const stack = document.querySelector("[data-hero-stack]");
+  const dots = [...document.querySelectorAll("[data-hero-dot]")];
+  const kicker = document.querySelector("[data-hero-kicker]");
+  const title = document.querySelector("[data-hero-title]");
+  if (!stack || !dots.length || !kicker || !title) return;
+
+  const slides = [...stack.querySelectorAll("[data-hero-slide]")];
+  if (!slides.length) return;
+
+  let active = 0;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const setHeroSlide = (nextIndex) => {
+    if (nextIndex === active) return;
+
+    const previous = slides[active];
+    const next = slides[nextIndex];
+    const nextDot = dots[nextIndex];
+    const prevDot = dots[active];
+
+    previous.classList.remove("is-active");
+    prevDot.classList.remove("is-active");
+    next.classList.add("is-active");
+    nextDot.classList.add("is-active");
+    kicker.textContent = heroGallery[nextIndex].label;
+    title.textContent = heroGallery[nextIndex].title;
+    active = nextIndex;
+  };
+
+  if (reduceMotion) {
+    return;
+  }
+
+  const interval = setInterval(() => {
+    const nextIndex = (active + 1) % heroGallery.length;
+    setHeroSlide(nextIndex);
+  }, 4200);
+
+  dots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+      clearInterval(interval);
+      setHeroSlide(Number(dot.dataset.heroDot));
+    });
+  });
 };
 
 const renderVariants = (variants = []) => {
@@ -102,15 +199,7 @@ app.innerHTML = `
           </ul>
         </div>
         <div class="hero__media">
-          <div class="hero__media-frame">
-            ${heroMedia()}
-            <div class="hero__media-overlay">
-              <a class="hero__video-chip" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Enviar mensaje para agendar una sesión de muestra">
-                <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
-                Ver sesión de muestra
-              </a>
-            </div>
-          </div>
+          ${heroMedia()}
           <p class="hero__quote">
             “${site.heroQuote}”
           </p>
@@ -523,6 +612,7 @@ app.innerHTML = `
     <p>Experiencia web renovada para una comunicación más clara y efectiva. © ${site.founded} ${site.name}.</p>
   </footer>
 `;
+initHeroShowcase();
 
 const menuToggle = document.querySelector(".menu-toggle");
 const navEl = document.querySelector(".site-nav");
