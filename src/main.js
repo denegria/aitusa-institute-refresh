@@ -794,20 +794,49 @@ app.innerHTML = `
     </section>
 
     <section class="section section--blue" aria-labelledby="testimonios-title">
-      <div class="section-inner split">
-        <div>
-          <p class="section-kicker">Testimonios y profesores</p>
-          <h2 id="testimonios-title">Resultado que se nota en cada conversación.</h2>
-          <ul class="teacher-list">${joinList(teachers)}</ul>
+      <div class="section-inner section-heading section-heading--inverted">
+        <p class="section-kicker">Testimonios y profesores</p>
+        <h2 id="testimonios-title">Se nota en la clase, en la rutina y en la confianza con la que responden.</h2>
+        <p>Escucha a quienes ya viven el método y conoce al equipo que acompaña cada avance con práctica guiada, seguimiento y corrección en tiempo real.</p>
+      </div>
+      <div class="section-inner trust-grid">
+        <div class="trust-panel">
+          <div class="trust-metrics" aria-label="Datos de confianza">
+            <article>
+              <strong>20+</strong>
+              <span>años enseñando en New Jersey</span>
+            </article>
+            <article>
+              <strong>1:1</strong>
+              <span>seguimiento y orientación por WhatsApp</span>
+            </article>
+            <article>
+              <strong>3</strong>
+              <span>formatos para aprender con flexibilidad</span>
+            </article>
+          </div>
+          <div class="trust-copy">
+            <p class="section-kicker">Nuestro equipo</p>
+            <h3>Personas reales detrás de la experiencia.</h3>
+            <ul class="teacher-list teacher-list--chips">${joinList(teachers)}</ul>
+          </div>
+          <div class="trust-actions">
+            <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Hablar con un asesor</a>
+            <a class="button button--ghost" href="#contacto">Ir al formulario</a>
+          </div>
         </div>
         <div class="testimonial-grid">
           ${testimonials
             .map(
-              (item) => `
-                <article class="testimonial-card">
-                  <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
-                  <p>${item.text}</p>
-                  <strong>${item.name}</strong>
+              (item, index) => `
+                <article class="testimonial-card ${index === 0 ? "testimonial-card--featured" : ""}">
+                  <div class="testimonial-card__media">
+                    <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
+                  </div>
+                  <div class="testimonial-card__body">
+                    <p>“${item.text}”</p>
+                    <strong>${item.name}</strong>
+                  </div>
                 </article>
               `,
             )
