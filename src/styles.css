@@ -1148,6 +1148,113 @@ select {
   gap: 12px;
 }
 
+.section--spotlight {
+  background:
+    radial-gradient(circle at top left, rgba(255, 78, 106, 0.12), transparent 32%),
+    radial-gradient(circle at 78% 18%, rgba(12, 60, 231, 0.16), transparent 30%),
+    linear-gradient(180deg, #fff 0%, #f8fbff 100%);
+}
+
+.spotlight-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
+  gap: clamp(28px, 5vw, 60px);
+  align-items: center;
+}
+
+.spotlight-media {
+  position: relative;
+  border-radius: calc(var(--radius-lg) + 4px);
+  overflow: hidden;
+  box-shadow: 0 20px 48px rgba(12, 28, 64, 0.2);
+  background: #0f172a;
+}
+
+.spotlight-media img,
+.spotlight-media video {
+  width: 100%;
+  display: block;
+  aspect-ratio: 0.82;
+  object-fit: cover;
+}
+
+.spotlight-media__badge {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  color: var(--white);
+  font-size: 0.82rem;
+  font-weight: 850;
+  background: rgba(10, 19, 45, 0.72);
+  backdrop-filter: blur(10px);
+}
+
+.spotlight-copy {
+  display: grid;
+  gap: 18px;
+}
+
+.spotlight-copy p {
+  color: var(--muted);
+  font-size: 1.06rem;
+}
+
+.spotlight-points {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 10px;
+  color: var(--ink);
+}
+
+.spotlight-quote {
+  margin: 0;
+  padding: 18px 20px;
+  border-left: 4px solid var(--red);
+  border-radius: var(--radius);
+  color: var(--ink);
+  background: rgba(255, 78, 106, 0.07);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.spotlight-proof {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.spotlight-proof article {
+  padding: 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--white);
+  box-shadow: var(--shadow-soft);
+}
+
+.spotlight-proof strong {
+  display: block;
+  color: var(--blue);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.spotlight-proof span {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.spotlight-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .reason-grid,
 .program-grid,
 .book-grid,
@@ -1869,7 +1976,8 @@ select {
   .location-grid,
   .download-grid,
   .payment-grid,
-  .path-grid {
+  .path-grid,
+  .spotlight-proof {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1880,7 +1988,8 @@ select {
   .intro-grid,
   .split,
   .about-grid,
-  .contact-grid {
+  .contact-grid,
+  .spotlight-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -2004,7 +2113,8 @@ select {
   .mission-grid,
   .modality-grid,
   .form-row,
-  .path-grid {
+  .path-grid,
+  .spotlight-proof {
     grid-template-columns: 1fr;
   }
 
@@ -2016,6 +2126,11 @@ select {
   .testimonial-card,
   .requirement {
     grid-template-columns: 1fr;
+  }
+
+  .spotlight-media img,
+  .spotlight-media video {
+    aspect-ratio: 0.95;
   }
 
   .method-item img,

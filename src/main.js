@@ -119,6 +119,60 @@ const launchPathSection = () => {
     </section>
   `;
 };
+
+const spotlightSection = () => {
+  const clip = instructorClips[0];
+  const proofItems = [
+    { value: "1:08", label: "clase real con habla guiada" },
+    { value: "Live", label: "video local de alta calidad" },
+    { value: "100%", label: "enfoque humano y práctico" },
+  ];
+
+  return `
+    <section id="experiencia" class="section section--spotlight" aria-labelledby="experiencia-title">
+      <div class="section-inner spotlight-grid">
+        <div class="spotlight-media">
+          ${clipMedia(clip)}
+          <div class="spotlight-media__badge">Mira la clase en acción</div>
+        </div>
+        <div class="spotlight-copy">
+          <p class="section-kicker">Experiencia real</p>
+          <h2 id="experiencia-title">Antes de inscribirte, mira cómo se siente practicar con una instructora que corrige en vivo.</h2>
+          <p>
+            La diferencia es tangible: se ve, se escucha y se entiende. Esta es la parte que más confianza
+            construye, porque el estudiante deja de imaginar el método y empieza a percibirlo.
+          </p>
+          <ul class="spotlight-points">
+            ${joinList([
+              "Video local de alta calidad para mostrar conversación real sin depender de embeds externos.",
+              "Correcciones inmediatas para que la pronunciación y la estructura se afinen mientras hablas.",
+              "Ritmo visual pensado para que los padres y estudiantes entiendan la propuesta en segundos.",
+            ])}
+          </ul>
+          <blockquote class="spotlight-quote">
+            “Pensábamos que aprender inglés era difícil. Con este método gráfico empezamos a comprender y hablar con mucho más contexto y seguridad.”
+          </blockquote>
+          <div class="spotlight-proof" aria-label="Indicadores del video">
+            ${proofItems
+              .map(
+                (item) => `
+                  <article>
+                    <strong>${item.value}</strong>
+                    <span>${item.label}</span>
+                  </article>
+                `,
+              )
+              .join("")}
+          </div>
+          <div class="spotlight-actions">
+            <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Quiero una muestra</a>
+            <a class="button button--ghost" href="#cursos">Ver opciones de curso</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+};
 const clipMedia = (clip) => {
   if (clip.video) {
     return `
@@ -492,6 +546,7 @@ app.innerHTML = `
       </div>
     </section>
     ${launchPathSection()}
+    ${spotlightSection()}
 
     <section class="section section--reel" aria-labelledby="reel-title">
       <div class="section-inner reel-grid">

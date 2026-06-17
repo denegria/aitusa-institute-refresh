@@ -71,6 +71,7 @@ const site = {
 const nav = [
   ["Inicio", "inicio"],
   ["Ruta", "ruta"],
+  ["Experiencia", "experiencia"],
   ["Cursos", "cursos"],
   ["Método", "metodo"],
   ["Libros", "libros"],
@@ -756,8 +757,6 @@ window.AITUSA_DATA = {
   site,
   stats,
   storeProducts,
-  heroGallery,
-  heroPoints,
   heroSignal,
   heroStartPath,
   launchPath,
