@@ -37,6 +37,24 @@ const playIcon = `
     <path d="M8 5.5v13l10.5-6.5L8 5.5Z" />
   </svg>
 `;
+const heroMedia = () => {
+  if (site.images.heroVideo) {
+    return `
+      <video
+        class="hero__media-player"
+        controls
+        preload="metadata"
+        poster="${site.images.heroVideoPoster}"
+        aria-label="Video de clase de muestra de AiT USA Institute">
+        <source src="${site.images.heroVideo}" type="video/mp4" />
+        Tu navegador no soporta video HTML5.
+      </video>
+    `;
+  }
+
+  return `<img src="${site.images.hero}" alt="${site.heroQuote}" loading="eager" />`;
+};
+
 const renderVariants = (variants = []) => {
   if (!variants.length) return "";
   const preview = variants.slice(0, 3);
@@ -83,13 +101,15 @@ app.innerHTML = `
             ${joinList(heroPoints)}
           </ul>
         </div>
-          <div class="hero__media">
-            <div class="hero__media-frame">
-            <img src="${site.images.hero}" alt="${site.heroQuote}" loading="eager" />
-            <a class="hero__video-chip" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Enviar mensaje para agendar sesión de muestra">
-              <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
-              Ver sesión de muestra
-            </a>
+        <div class="hero__media">
+          <div class="hero__media-frame">
+            ${heroMedia()}
+            <div class="hero__media-overlay">
+              <a class="hero__video-chip" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Enviar mensaje para agendar una sesión de muestra">
+                <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
+                Ver sesión de muestra
+              </a>
+            </div>
           </div>
           <p class="hero__quote">
             “${site.heroQuote}”
