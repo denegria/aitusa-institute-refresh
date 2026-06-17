@@ -758,10 +758,12 @@ app.innerHTML = `
           ${schedules
             .map(
               (schedule) => `
-                <article>
+                <article class="schedule-card">
                   <h3>${schedule.label}</h3>
                   <p>${schedule.bestFor}</p>
-                  <ul>${joinList(schedule.times)}</ul>
+                  <div class="schedule-chip-list">${schedule.times
+                    .map((time) => `<span>${time}</span>`)
+                    .join("")}</div>
                 </article>
               `,
             )
@@ -785,6 +787,9 @@ app.innerHTML = `
                 <p>${location.address}</p>
                 <p class="location-card__highlight">${location.highlight}</p>
                 <span>${location.note}</span>
+                <div class="location-card__actions">
+                  <a href="${site.whatsappHref}?text=${encodeURIComponent(`Hola AiT USA Institute, quiero información sobre la sede de ${location.city}.`)}">Consultar sede</a>
+                </div>
               </article>
             `,
           )

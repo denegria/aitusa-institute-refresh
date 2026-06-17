@@ -1703,6 +1703,11 @@ select {
   background: var(--white);
 }
 
+.schedule-card {
+  display: grid;
+  gap: 10px;
+}
+
 .schedule-panel h3 {
   margin: 0 0 8px;
   color: var(--blue);
@@ -1719,6 +1724,21 @@ select {
   color: var(--muted);
 }
 
+.schedule-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.schedule-chip-list span {
+  padding: 8px 10px;
+  border-radius: 999px;
+  color: var(--blue);
+  background: rgba(12, 60, 231, 0.08);
+  font-size: 0.84rem;
+  font-weight: 850;
+}
+
 .location-grid {
   grid-template-columns: repeat(5, minmax(0, 1fr));
 }
@@ -1733,6 +1753,24 @@ select {
   color: var(--ink-soft);
   font-size: 0.92rem;
   font-weight: 700;
+}
+
+.location-card__actions {
+  margin-top: 12px;
+}
+
+.location-card__actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 9px 12px;
+  border-radius: 999px;
+  color: var(--white);
+  font-size: 0.84rem;
+  font-weight: 850;
+  text-decoration: none;
+  background: var(--blue);
+  box-shadow: 0 10px 20px rgba(12, 60, 231, 0.22);
 }
 
 .contact-strip {
