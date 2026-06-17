@@ -4,15 +4,15 @@ const assetHires = (name) => asset(`hires/${name}`);
 const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
-  tagline: "Habla con confianza y claridad en inglés desde tu primera semana",
+  tagline: "Habla con confianza real, desde tu primera clase, sin vueltas",
   description:
-    "Clases de inglés ESL presenciales, híbridas y online con el método Graphic Concept: conversación real, progreso medible y acompañamiento constante para hablar con naturalidad.",
+    "Clases de inglés ESL presenciales, híbridas y online con el método Graphic Concept: práctica real, seguimiento semanal y progreso medible para hablar con confianza en menos de un mes.",
   heroHeadline:
-    "Conviértete en la versión de ti que se expresa en inglés con seguridad y resultados reales.",
+    "Conviértete en la versión de ti que se expresa en inglés con seguridad, presencia y resultados visibles desde la primera semana.",
   heroLead:
-    "No memorizas, practicas. No repites, te expresas con intención. Con método visual, acompañamiento semanal y práctica guiada, hablas con fluidez desde sesiones tempranas.",
+    "No memorizamos vocabulario para exámenes: practicamos conversaciones auténticas. Con método visual, tareas accionables y seguimiento semanal, avanzas hacia hablar con fluidez práctica desde el primer ciclo.",
   heroQuote:
-    "No se trata de hablar perfecto; se trata de comunicarte con presencia en entrevistas, clases, trabajo y vida diaria.",
+    "No se trata de perfección. Se trata de comunicarte con impacto real en entrevistas, escuela, trabajo y vida diaria.",
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
   phone: "+1 732-271-0011",
@@ -33,10 +33,10 @@ const site = {
   },
   images: {
     logo: asset("006-solo-logo-4-x-4-clases1.png"),
-    hero: "./public/assets/wix/live/hero-female-classroom.jpg",
-    heroPoster: "./public/assets/wix/137-f0e785-08d97243e91440a0ba806e79164e2911f000.jpg",
-    heroVideo: "./public/assets/wix/videos/f0e785-08d97243e91440a0ba806e79164e2911-360p.mp4",
-    heroVideoFallback: "https://static.wixstatic.com/media/f0e785_08d97243e91440a0ba806e79164e2911/360p/mp4/file.mp4",
+    hero: "./public/assets/wix/hires/hero-classroom.jpg",
+    heroPoster: "./public/assets/wix/hires/hero-classroom.jpg",
+    heroVideo: "",
+    heroVideoFallback: "",
     heroVideoPoster: "./public/assets/wix/137-f0e785-08d97243e91440a0ba806e79164e2911f000.jpg",
     adultEnglish: assetHires("adult-english-speaking.jpg"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
@@ -79,16 +79,16 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Conversa desde la primera semana con práctica guiada en escenarios reales.",
-  "Método visual para convertir vocabulario en respuestas útiles y naturales.",
-  "Seguimiento semanal y tareas accionables para que tu progreso no se detenga.",
+  "Sesiones con docentes bilingües que corrigen, guían y te sacan del silencio sin complicarte.",
+  "Método visual para convertir vocabulario en conversaciones útiles en tu contexto real.",
+  "Seguimiento semanal con tareas accionables para sostener el hábito de hablar.",
 ];
 
 const stats = [
   { value: "20+", label: "años guiando a estudiantes hacia conversación funcional" },
-  { value: "18+", label: "meses para consolidar fluidez en escenarios reales" },
-  { value: "GC", label: "método Graphic Concept, paso a paso y medible" },
   { value: "4", label: "formatos (presencial, híbrido, online y digital)" },
+  { value: "GC", label: "método Graphic Concept, paso a paso y medible" },
+  { value: "+", label: "clases con acompañamiento real para avanzar cada semana" },
 ];
 
 const differentiators = [
@@ -249,26 +249,26 @@ const programs = [
 
 const heroGallery = [
   {
-    label: "Escena en vivo",
-    title: "Corrección instantánea y práctica oral con soporte real.",
-    image: "./public/assets/wix/live/hero-female-classroom.jpg",
+    label: "Clase en vivo",
+    title: "Corrección instantánea y práctica oral con acompañamiento real.",
+    image: "./public/assets/wix/hires/hero-classroom.jpg",
     imageAlt: "Docente de AiT USA en clase presencial mostrando técnica visual de inglés.",
   },
   {
-    label: "Retroalimentación en tiempo real",
-    title: "Aprende a responder con confianza desde cada intervención.",
+    label: "Escucha y retroalimentación",
+    title: "Instrucción personalizada para responder con claridad y menos miedo.",
     image: "./public/assets/wix/live/hero-female-teacher.jpg",
     imageAlt: "Instructora de AiT USA liderando práctica oral con estudiantes.",
   },
   {
-    label: "Conexión online premium",
-    title: "Sesiones en vivo para practicar de manera flexible desde cualquier lugar.",
+    label: "Sesión online premium",
+    title: "Aprendizaje flexible para practicar inglés desde cualquier lugar.",
     image: "./public/assets/wix/hires/online-instructor-headset.jpg",
     imageAlt: "Clase online de inglés con docente y participantes enfocados en conversación.",
   },
   {
-    label: "Ritmo visible",
-    title: "Ruta semanal con hitos concretos para que avances en conversación.",
+    label: "Seguimiento semanal",
+    title: "Ruta semanal con hitos concretos para hablar con más claridad.",
     image: "./public/assets/wix/live/hero-female-zoom.jpg",
     imageAlt: "Docente de inglés interactuando con estudiantes en formato online.",
   },
@@ -276,7 +276,7 @@ const heroGallery = [
 
 const heroProof = [
   { value: "20+", label: "años de experiencia bilingüe" },
-  { value: "12+", label: "rutas activas para diferentes edades" },
+  { value: "100%", label: "práctica guiada para convertir miedo en acción" },
   { value: "3", label: "formatos para estudiar: presencial, híbrido y online" },
 ];
 
@@ -302,7 +302,7 @@ const instructorClips = [
   {
     title: "Niños online con apoyo familiar",
     eyebrow: "8 a 13 años",
-    image: "./public/assets/wix/live/hero-female-classroom.jpg",
+    image: "./public/assets/wix/hires/hero-classroom.jpg",
     imageAlt: "Clase de inglés en vivo para niños con apoyo de familias y docentes.",
     caption: "Clases remotas con acompañamiento de padres y una rutina semanal de práctica visible.",
     duration: "0:38",

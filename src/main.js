@@ -37,6 +37,9 @@ const heroMediaPoster = site.heroVideoPoster || site.images.heroPoster || site.i
 const heroVideoSources = [site.heroVideo, site.heroVideoFallback]
   .filter(Boolean)
   .filter((value, index, list) => list.indexOf(value) === index);
+const contactMessage = encodeURIComponent(
+  "Hola AiT USA Institute, quiero información sobre clases de inglés.",
+);
 
 const joinList = (items) => items.map((item) => `<li>${item}</li>`).join("");
 const playIcon = `
@@ -154,19 +157,50 @@ const initHeroShowcase = () => {
     active = nextIndex;
   };
 
+  let interval;
+
+  const startShowcase = () => {
+    if (interval || reduceMotion) return;
+
+    interval = setInterval(() => {
+      const nextIndex = (active + 1) % heroGallery.length;
+      setHeroSlide(nextIndex);
+    }, 4200);
+  };
+
+  const stopShowcase = () => {
+    clearInterval(interval);
+    interval = null;
+  };
+
   if (reduceMotion) {
     return;
   }
 
-  const interval = setInterval(() => {
-    const nextIndex = (active + 1) % heroGallery.length;
+  startShowcase();
+
+  const frame = document.querySelector("[data-hero-frame]");
+  if (frame) {
+    frame.addEventListener("mouseenter", stopShowcase);
+    frame.addEventListener("mouseleave", startShowcase);
+    frame.addEventListener("focusin", stopShowcase);
+    frame.addEventListener("focusout", startShowcase);
+  }
+
+  frame?.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    const direction = event.key === "ArrowRight" ? 1 : -1;
+    const nextIndex = (active + direction + heroGallery.length) % heroGallery.length;
+    stopShowcase();
     setHeroSlide(nextIndex);
-  }, 4200);
+    startShowcase();
+  });
 
   dots.forEach((dot) => {
     dot.addEventListener("click", () => {
-      clearInterval(interval);
+      stopShowcase();
       setHeroSlide(Number(dot.dataset.heroDot));
+      startShowcase();
     });
   });
 };
@@ -220,9 +254,8 @@ const renderVariants = (variants = []) => {
     .join("")}${remaining ? `<li><span>+ ${remaining} variantes más</span><strong>Ver opciones</strong></li>` : ""}</ul>`;
 };
 
-const contactMessage = encodeURIComponent("Hola AiT USA Institute, quiero información sobre clases de inglés.");
-
 app.innerHTML = `
+  <a class="skip-link" href="#inicio">Saltar al contenido principal</a>
   <header class="site-header" data-header>
     <a class="brand" href="#inicio" aria-label="${site.name}">
       <img src="${site.images.logo}" alt="" />
@@ -235,9 +268,14 @@ app.innerHTML = `
       <span class="menu-toggle__icon" aria-hidden="true"></span>
       <span class="menu-toggle__label">Menú</span>
     </button>
-    <nav id="site-nav" class="site-nav" aria-label="Principal">
-      ${nav.map(([label, id]) => `<a href="#${id}">${label}</a>`).join("")}
-    </nav>
+      <nav id="site-nav" class="site-nav" aria-label="Principal">
+      ${nav
+        .map(
+          ([label, id], index) =>
+            `<a href="#${id}" data-nav-link="${id}" ${index === 0 ? 'aria-current="page"' : ""}>${label}</a>`,
+        )
+        .join("")}
+      </nav>
     <a class="header-cta" href="${site.whatsappHref}?text=${contactMessage}">WhatsApp</a>
   </header>
 
@@ -630,7 +668,7 @@ app.innerHTML = `
       </div>
     </section>
 
-    <section id="contacto" class="section section--contact" aria-labelledby="contacto-title">
+      <section id="contacto" class="section section--contact" aria-labelledby="contacto-title">
       <div class="section-inner contact-grid">
         <div>
           <p class="section-kicker">Comienza ahora</p>
@@ -673,6 +711,11 @@ app.innerHTML = `
       </div>
     </section>
   </main>
+  
+  <div class="mobile-action-bar" aria-label="Acciones rápidas">
+    <a class="button button--ghost" href="${site.phoneHref}">Llamar ${site.phone}</a>
+    <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Agendar clase</a>
+  </div>
 
   <footer class="site-footer">
     <div>
@@ -687,6 +730,46 @@ initHeroFallbacks();
 
 const menuToggle = document.querySelector(".menu-toggle");
 const navEl = document.querySelector(".site-nav");
+const navLinks = [...document.querySelectorAll("[data-nav-link]")];
+
+const setActiveNav = (id) => {
+  navLinks.forEach((link) => {
+    const isActive = link.dataset.navLink === id;
+    link.classList.toggle("is-active", isActive);
+    if (isActive) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+};
+
+const initNavSpy = () => {
+  const sectionAnchors = navLinks
+    .map((link) => document.getElementById(link.dataset.navLink))
+    .filter(Boolean);
+
+  if (!sectionAnchors.length) return;
+  setActiveNav("inicio");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const active = [...entries]
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!active?.target?.id) return;
+      setActiveNav(active.target.id);
+    },
+    { rootMargin: "-30% 0px -55% 0px", threshold: [0.2, 0.4, 0.6, 0.8] },
+  );
+
+  sectionAnchors.forEach((section) => {
+    observer.observe(section);
+  });
+};
+
+initNavSpy();
+
 menuToggle.addEventListener("click", () => {
   const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
   menuToggle.setAttribute("aria-expanded", String(!isOpen));
@@ -695,6 +778,7 @@ menuToggle.addEventListener("click", () => {
 
 navEl.addEventListener("click", (event) => {
   if (event.target instanceof HTMLAnchorElement) {
+    setActiveNav(event.target.dataset.navLink);
     menuToggle.setAttribute("aria-expanded", "false");
     navEl.classList.remove("is-open");
   }
