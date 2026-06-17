@@ -33,16 +33,19 @@ const categoryLabel = {
   Tecnología: "tecnologia",
 };
 
+const heroMediaPoster = site.heroVideoPoster || site.images.heroPoster || site.images.hero;
+const heroVideoSources = [site.heroVideo, site.heroVideoFallback]
+  .filter(Boolean)
+  .filter((value, index, list) => list.indexOf(value) === index);
+
 const joinList = (items) => items.map((item) => `<li>${item}</li>`).join("");
 const playIcon = `
   <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
     <path d="M8 5.5v13l10.5-6.5L8 5.5Z" />
   </svg>
 `;
-const heroVideoSource = site.heroVideo || site.images.heroVideo || "";
-
 const heroMedia = () => {
-  if (heroGallery.length && !heroVideoSource) {
+  if (heroGallery.length && !heroVideoSources.length) {
     const chips = heroGallery
       .map(
         (slide, index) =>
@@ -81,10 +84,11 @@ const heroMedia = () => {
     `;
   }
 
-  if (heroVideoSource) {
+  if (heroVideoSources.length) {
     return `
       <div class="hero__media-frame hero__media-frame--hero-carousel">
         <video
+          data-hero-player
           class="hero__media-player"
           controls
           autoplay
@@ -92,11 +96,19 @@ const heroMedia = () => {
           playsinline
           loop
           preload="metadata"
-          poster="${site.images.heroVideoPoster || site.images.heroPoster}"
+          poster="${heroMediaPoster}"
+          data-hero-poster="${heroMediaPoster}"
           aria-label="Video de clase de muestra de AiT USA Institute">
-          <source src="${heroVideoSource}" type="video/mp4" />
+          <source data-hero-source src="${heroVideoSources[0]}" type="video/mp4" />
           Tu navegador no soporta video HTML5.
         </video>
+        <img
+          data-hero-fallback
+          class="hero__media-fallback is-hidden"
+          loading="eager"
+          src="${heroMediaPoster}"
+          alt="${site.heroQuote}"
+        />
         <div class="hero__media-overlay">
           <a class="hero__video-chip" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Enviar mensaje para agendar una sesión de muestra">
             <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
@@ -111,7 +123,7 @@ const heroMedia = () => {
 };
 
 const initHeroShowcase = () => {
-  if (heroVideoSource || heroGallery.length < 2) return;
+  if (heroVideoSources.length || heroGallery.length < 2) return;
 
   const stack = document.querySelector("[data-hero-stack]");
   const dots = [...document.querySelectorAll("[data-hero-dot]")];
@@ -156,6 +168,45 @@ const initHeroShowcase = () => {
       clearInterval(interval);
       setHeroSlide(Number(dot.dataset.heroDot));
     });
+  });
+};
+
+const initHeroFallbacks = () => {
+  const heroVideo = document.querySelector("[data-hero-player]");
+  if (!heroVideo) return;
+
+  const heroSource = heroVideo.querySelector("[data-hero-source]");
+  const heroFallbackImage = document.querySelector("[data-hero-fallback]");
+
+  if (!heroSource || !heroFallbackImage) return;
+
+  let attempt = 0;
+  const setNextSource = () => {
+    if (attempt + 1 >= heroVideoSources.length) return false;
+
+    attempt += 1;
+    heroSource.src = heroVideoSources[attempt];
+    heroVideo.load();
+    return true;
+  };
+
+  const revealFallbackImage = () => {
+    heroVideo.classList.add("is-hidden");
+    heroFallbackImage.classList.remove("is-hidden");
+  };
+
+  const onVideoError = () => {
+    if (!setNextSource()) {
+      revealFallbackImage();
+      heroVideo.removeEventListener("error", onVideoError);
+    }
+  };
+
+  heroVideo.addEventListener("error", onVideoError);
+
+  heroVideo.addEventListener("loadeddata", () => {
+    heroVideo.classList.remove("is-hidden");
+    heroFallbackImage.classList.add("is-hidden");
   });
 };
 
@@ -632,6 +683,7 @@ app.innerHTML = `
   </footer>
 `;
 initHeroShowcase();
+initHeroFallbacks();
 
 const menuToggle = document.querySelector(".menu-toggle");
 const navEl = document.querySelector(".site-nav");

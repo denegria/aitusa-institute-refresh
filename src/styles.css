@@ -281,8 +281,33 @@ select {
   object-fit: cover;
   display: block;
   transform: scale(1.01);
+  transition: opacity 0.45s ease, transform 0.35s ease;
   border-radius: var(--radius);
-  transition: transform 0.35s ease, opacity 0.7s ease;
+}
+
+.hero__media-player,
+.hero__media-fallback {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16/10;
+}
+
+.hero__media-fallback {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  opacity: 1;
+}
+
+.hero__media-player.is-hidden,
+.hero__media-fallback.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.hero__media-player.is-hidden {
+  position: absolute;
 }
 
 .hero__media-photo {

@@ -4,15 +4,15 @@ const assetHires = (name) => asset(`hires/${name}`);
 const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
-  tagline: "Habla con impacto en 90 días o menos",
+  tagline: "Habla con confianza y claridad en inglés desde tu primera semana",
   description:
-    "Clases de inglés ESL presenciales, híbridas y online con el método Graphic Concept, enfoque conversacional y seguimiento semanal medible.",
+    "Clases de inglés ESL presenciales, híbridas y online con el método Graphic Concept: conversación real, progreso medible y acompañamiento constante para hablar con naturalidad.",
   heroHeadline:
-    "Conviértete en la persona que habla con confianza, desde la primera semana.",
+    "Conviértete en la versión de ti que se expresa en inglés con seguridad y resultados reales.",
   heroLead:
-    "Te enseñamos a pensar en inglés mientras hablas, no solo a repetirlo. Método visual, práctica guiada y progreso tangible para escuela, trabajo y vida diaria.",
+    "No memorizas, practicas. No repites, te expresas con intención. Con método visual, acompañamiento semanal y práctica guiada, hablas con fluidez desde sesiones tempranas.",
   heroQuote:
-    "No se trata de hablar perfecto; se trata de comunicarte con claridad y seguridad en cada situación real.",
+    "No se trata de hablar perfecto; se trata de comunicarte con presencia en entrevistas, clases, trabajo y vida diaria.",
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
   phone: "+1 732-271-0011",
@@ -34,9 +34,10 @@ const site = {
   images: {
     logo: asset("006-solo-logo-4-x-4-clases1.png"),
     hero: "./public/assets/wix/live/hero-female-classroom.jpg",
-    heroPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
-    heroVideo: "",
-    heroVideoPoster: "./public/assets/wix/live/hero-female-teacher.jpg",
+    heroPoster: "./public/assets/wix/137-f0e785-08d97243e91440a0ba806e79164e2911f000.jpg",
+    heroVideo: "./public/assets/wix/videos/f0e785-08d97243e91440a0ba806e79164e2911-360p.mp4",
+    heroVideoFallback: "https://static.wixstatic.com/media/f0e785_08d97243e91440a0ba806e79164e2911/360p/mp4/file.mp4",
+    heroVideoPoster: "./public/assets/wix/137-f0e785-08d97243e91440a0ba806e79164e2911f000.jpg",
     adultEnglish: assetHires("adult-english-speaking.jpg"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
@@ -78,16 +79,16 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clases conversacionales diseñadas para que hables en situaciones reales desde tus primeras sesiones.",
-  "Mapa visual de aprendizaje: menos memorización, más respuestas rápidas, fluidas y con confianza.",
-  "Tres formatos (presencial, híbrido y online) para sostener tu progreso incluso con agenda ocupada.",
+  "Conversa desde la primera semana con práctica guiada en escenarios reales.",
+  "Método visual para convertir vocabulario en respuestas útiles y naturales.",
+  "Seguimiento semanal y tareas accionables para que tu progreso no se detenga.",
 ];
 
 const stats = [
   { value: "20+", label: "años guiando a estudiantes hacia conversación funcional" },
-  { value: "18+", label: "meses para consolidar el nivel en entorno real" },
-  { value: "GC", label: "método Graphic Concept, paso a paso" },
-  { value: "3", label: "sedes de NJ y acceso online internacional" },
+  { value: "18+", label: "meses para consolidar fluidez en escenarios reales" },
+  { value: "GC", label: "método Graphic Concept, paso a paso y medible" },
+  { value: "4", label: "formatos (presencial, híbrido, online y digital)" },
 ];
 
 const differentiators = [
