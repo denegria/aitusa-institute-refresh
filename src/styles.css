@@ -2205,6 +2205,33 @@ select {
   margin-top: 28px;
 }
 
+.schedule-filter-bar {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.schedule-filter-button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 14px;
+  color: var(--ink);
+  background: #fff;
+  font-size: 0.85rem;
+  font-weight: 800;
+  font-family: var(--font-display);
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(12, 16, 45, 0.08);
+}
+
+.schedule-filter-button.is-active,
+.schedule-filter-button[aria-pressed="true"] {
+  color: #fff;
+  border-color: rgba(12, 60, 231, 0.95);
+  background: var(--blue);
+}
+
 .modality-grid article {
   padding: 20px;
 }

@@ -1138,6 +1138,7 @@ app.innerHTML = `
             <div>
               <p class="section-kicker">Horarios y modalidad</p>
               <h2 id="horarios-title">Elige el horario y la modalidad que mejor se adapta a tu semana.</h2>
+              <p class="section-kicker">Filtra por horario para decidir en 30 segundos.</p>
               <div class="schedule-intro">
                 <article>
                   <strong>Flexible</strong>
@@ -1154,8 +1155,8 @@ app.innerHTML = `
               </div>
               <div class="modality-grid">
                 ${modalities
-                  .map(
-                    (mode) => `
+              .map(
+                (mode) => `
                   <article>
                     <h3>${mode.title}</h3>
                     <p>${mode.text}</p>
@@ -1164,12 +1165,18 @@ app.innerHTML = `
               )
               .join("")}
           </div>
+          <div class="schedule-filter-bar" data-schedule-filter-bar aria-label="Filtrar horarios por momento del día">
+            <button class="schedule-filter-button is-active" type="button" data-schedule-filter="todos" aria-pressed="true">Todos</button>
+            <button class="schedule-filter-button" type="button" data-schedule-filter="mañana" aria-pressed="false">Mañana</button>
+            <button class="schedule-filter-button" type="button" data-schedule-filter="noche" aria-pressed="false">Noche</button>
+            <button class="schedule-filter-button" type="button" data-schedule-filter="fin-de-semana" aria-pressed="false">Fin de semana</button>
+          </div>
         </div>
         <div class="schedule-panel">
           ${schedules
             .map(
               (schedule) => `
-                <article class="schedule-card">
+                <article class="schedule-card" data-schedule-profile="${schedule.timeProfile}">
                   ${schedule.badge ? `<p class="schedule-card__badge">${schedule.badge}</p>` : ""}
                   <h3>${schedule.label}</h3>
                   <p>${schedule.bestFor}</p>
@@ -1721,6 +1728,9 @@ const courseCount = document.querySelector("[data-course-count]");
 const clearFiltersButton = document.querySelector("[data-clear-filters]");
 const courseInterestSelect = document.querySelector('select[name="interes"]');
 const programFilters = new Set(Object.values(categoryLabel));
+const scheduleFilterButtons = [...document.querySelectorAll("[data-schedule-filter]")];
+const scheduleCards = [...document.querySelectorAll(".schedule-card[data-schedule-profile]")];
+const scheduleFilterValues = new Set(scheduleFilterButtons.map((button) => button.dataset.scheduleFilter).filter(Boolean));
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const mobileActionBar = document.querySelector("[data-mobile-action-bar]");
 
@@ -1742,6 +1752,20 @@ const initialCourseFilter = (() => {
 })();
 
 const initialCourseInterest = courseInterestMap[initialCourseFilter] || courseInterestMap.todos;
+
+const applyScheduleFilter = (filter = "todos", activeButton = null) => {
+  const nextFilter = scheduleFilterValues.has(filter) ? filter : "todos";
+
+  scheduleFilterButtons.forEach((item) => item.classList.toggle("is-active", item === activeButton));
+  scheduleFilterButtons.forEach((item) =>
+    item.setAttribute("aria-pressed", String(item === activeButton)),
+  );
+
+  scheduleCards.forEach((card) => {
+    const matches = nextFilter === "todos" || card.dataset.scheduleProfile === nextFilter;
+    card.hidden = !matches;
+  });
+};
 
 const applyProgramFilter = (filter, activeButton = null, { updateHistory = true, scrollToResults = false } = {}) => {
   const nextFilter = programFilters.has(filter) ? filter : "todos";
@@ -1817,6 +1841,12 @@ filterButtons.forEach((button) => {
   });
 });
 
+scheduleFilterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    applyScheduleFilter(button.dataset.scheduleFilter || "todos", button);
+  });
+});
+
 clearFiltersButton?.addEventListener("click", () => {
   const allButton = filterButtons.find((button) => button.dataset.filter === "todos") || filterButtons[0];
   applyProgramFilter("todos", allButton, { scrollToResults: true });
@@ -1824,6 +1854,8 @@ clearFiltersButton?.addEventListener("click", () => {
 
 const activeFilterButton = filterButtons.find((button) => button.dataset.filter === initialCourseFilter) || filterButtons[0];
 applyProgramFilter(initialCourseFilter, activeFilterButton, { updateHistory: false });
+const activeScheduleButton = scheduleFilterButtons.find((button) => button.dataset.scheduleFilter === "todos") || scheduleFilterButtons[0];
+applyScheduleFilter("todos", activeScheduleButton);
 
 window.addEventListener("popstate", () => {
   const param = new URL(window.location.href).searchParams.get("curso");

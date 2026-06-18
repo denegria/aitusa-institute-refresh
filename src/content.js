@@ -473,6 +473,7 @@ const instructorClips = [
 const schedules = [
   {
     label: "Mañanas",
+    timeProfile: "mañana",
     times: ["8:30 am a 9:30 am", "9:30 am a 10:30 am", "10:30 am a 11:30 am"],
     bestFor: "Ideal para quienes quieren aprender al inicio de la semana con energía y constancia.",
     badge: "Más elegido",
@@ -484,6 +485,7 @@ const schedules = [
   },
   {
     label: "Noches",
+    timeProfile: "noche",
     times: ["6:20 pm a 7:30 pm", "7:30 pm a 8:40 pm", "8:40 pm a 9:50 pm"],
     bestFor: "Pensado para después del trabajo o de las clases de la semana.",
     badge: "Máxima flexibilidad",
@@ -495,6 +497,7 @@ const schedules = [
   },
   {
     label: "Sábados",
+    timeProfile: "fin-de-semana",
     times: ["10:00 am a 1:00 pm", "3:00 pm a 5:30 pm"],
     bestFor: "Perfecto si entre semana estás ocupado y prefieres recuperar el ritmo en fin de semana.",
     badge: "Para familias",
@@ -506,6 +509,7 @@ const schedules = [
   },
   {
     label: "Domingos",
+    timeProfile: "fin-de-semana",
     times: ["10:00 am a 12:30 pm"],
     bestFor: "Conserva el impulso semanal sin sacrificar tus días laborales.",
     badge: "Reentrada",
