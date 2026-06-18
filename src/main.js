@@ -43,6 +43,13 @@ const categoryLabel = {
   Idiomas: "idiomas",
 };
 
+const programCounts = initials.reduce((acc, label) => {
+  const filter = categoryLabel[label];
+  acc[filter] =
+    filter === "todos" ? programs.length : programs.filter((program) => program.category === filter).length;
+  return acc;
+}, {});
+
 const heroMediaPoster = site.heroVideoPoster || site.images.heroPoster || site.images.hero;
 const heroVideoSources = (() => {
   const isMobile = window.matchMedia("(max-width: 900px)").matches;
@@ -666,7 +673,10 @@ app.innerHTML = `
         ${initials
           .map(
             (label, index) => `
-              <button class="filter-button" type="button" data-filter="${categoryLabel[label]}" aria-pressed="${index === 0 ? "true" : "false"}">${label}</button>
+              <button class="filter-button" type="button" data-filter="${categoryLabel[label]}" aria-pressed="${index === 0 ? "true" : "false"}">
+                <span class="filter-button__label">${label}</span>
+                <span class="filter-button__count">${programCounts[categoryLabel[label]]}</span>
+              </button>
             `,
           )
           .join("")}
@@ -1272,10 +1282,11 @@ filterButtons.forEach((button) => {
     });
 
     if (courseCount) {
+      const activeLabel = button.querySelector(".filter-button__label")?.textContent || "este filtro";
       courseCount.textContent =
         filter === "todos"
           ? `Mostrando ${visibleCount} programas.`
-          : `Mostrando ${visibleCount} programas para ${button.textContent?.toLowerCase() || "este filtro"}.`;
+          : `Mostrando ${visibleCount} programas para ${activeLabel.toLowerCase()}.`;
     }
   });
 });
