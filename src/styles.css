@@ -2157,6 +2157,13 @@ select {
   gap: 12px;
 }
 
+.payment-card__best-for {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
 .payment-card__meta {
   display: grid;
   gap: 6px;
@@ -2199,6 +2206,30 @@ select {
 
 .payment-card__body > p {
   margin: 0;
+}
+
+.payment-card__footer {
+  display: flex;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.payment-card__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 850;
+  background: var(--blue);
+  box-shadow: 0 12px 22px rgba(12, 60, 231, 0.24);
+}
+
+.payment-card__cta:hover {
+  transform: translateY(-1px);
 }
 
 .variant-list strong {

@@ -625,6 +625,7 @@ const storeProducts = [
     sku: "",
     image: site.images.productEuropa,
     imageAlt: "Plan Europa mensual para clases de inglés online.",
+    bestFor: "Ideal para estudiantes en Europa que quieren estudiar 100% online.",
     note:
       "Plan 100% online para estudiantes en Europa, con pago y acceso coordinados por WhatsApp.",
     variants: [],
@@ -636,6 +637,7 @@ const storeProducts = [
     sku: "",
     image: site.images.productLibro,
     imageAlt: "Libro físico de AiT USA Institute para estudiantes de inglés.",
+    bestFor: "Ideal si ya estás inscrito y solo necesitas el material de estudio.",
     note:
       "Libro físico para clases presenciales u online dentro de Estados Unidos; fuera de USA se coordina la versión digital por WhatsApp.",
     variants: [],
@@ -647,6 +649,7 @@ const storeProducts = [
     sku: "",
     image: site.images.productRegistrationBook,
     imageAlt: "Paquete de registración y libro para clases de inglés.",
+    bestFor: "Recomendado para comenzar una ruta nueva con seguimiento completo.",
     note:
       "Paquete de registración más libro para iniciar el curso y mantener la ruta de seguimiento.",
     variants: [
@@ -661,6 +664,7 @@ const storeProducts = [
     sku: "",
     image: site.images.productRegistration,
     imageAlt: "Opciones de solo registración para clases de inglés.",
+    bestFor: "Ideal si solo necesitas asegurar tu cupo en el nivel correcto.",
     note:
       "Pago único de registración para niveles básico, intermedio y avanzado, disponible online o presencial.",
     variants: [
@@ -679,6 +683,7 @@ const storeProducts = [
     sku: "",
     image: site.images.productProgramming,
     imageAlt: "Paquete de cursos de programación, diseño y reparación de computadoras.",
+    bestFor: "Perfecto para estudiantes que buscan formación técnica con salida laboral.",
     note:
       "Cursos online de tres meses: diseño gráfico, diseño web y reparación de computadoras y redes, con opciones de inicio mensual.",
     variants: [
@@ -694,6 +699,7 @@ const storeProducts = [
     sku: "364215376135191",
     image: site.images.productLatam,
     imageAlt: "Plan Latinoamérica mensual para clases de inglés online.",
+    bestFor: "Ideal para estudiantes de Latinoamérica que quieren avanzar cada mes.",
     note:
       "Mensualidad cada 4 semanas para niveles básico, intermedio y avanzado, con opciones online y presencial.",
     variants: [
@@ -712,6 +718,7 @@ const storeProducts = [
     sku: "364215375135191",
     image: site.images.productGed,
     imageAlt: "Programa GED para preparación académica.",
+    bestFor: "Pensado para adultos que buscan completar equivalencia de High School.",
     note:
       "Curso estimado de seis meses, con dos clases de una hora por semana, horario de sábados y seguimiento de progreso.",
     variants: [],
@@ -723,6 +730,7 @@ const storeProducts = [
     sku: "364115376135191",
     image: site.images.productComputing,
     imageAlt: "Programa de computación para cursos básicos y de oficina.",
+    bestFor: "Ideal para principiantes que necesitan habilidades de computadora y oficina.",
     note:
       "Cursos básicos de internet, Mac o Windows, más cursos de oficina en Word, Excel y PowerPoint con horarios de mañana, tarde y noche.",
     variants: [

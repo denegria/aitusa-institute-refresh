@@ -59,6 +59,9 @@ const bookInquiryMessage = encodeURIComponent(
   "Hola AiT USA Institute, quiero información sobre los libros y materiales académicos.",
 );
 
+const productInquiryMessage = (product) =>
+  encodeURIComponent(`Hola AiT USA Institute, quiero información sobre ${product.title}.`);
+
 const joinList = (items) => items.map((item) => `<li>${item}</li>`).join("");
 
 const heroSignalCards = () => {
@@ -970,12 +973,16 @@ app.innerHTML = `
                 <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
                 <div class="payment-card__body">
                   <h3>${item.title}</h3>
+                  <p class="payment-card__best-for">${item.bestFor}</p>
                   <div class="payment-card__meta">
                     <strong class="payment-card__price">${item.price}</strong>
                     <span>${item.status}${item.sku ? ` · SKU ${item.sku}` : ""}</span>
                   </div>
                   <p>${item.note}</p>
                   ${renderVariants(item.variants)}
+                  <div class="payment-card__footer">
+                    <a class="payment-card__cta" href="${site.whatsappHref}?text=${productInquiryMessage(item)}">Consultar este plan</a>
+                  </div>
                 </div>
               </article>
             `,
