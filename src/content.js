@@ -142,9 +142,9 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clase real de 1:08 para validar estilo, ritmo y encaje antes de inscribirte.",
-  "Método visual para entrenamiento práctico de conversación: entrevistas, trabajo y vida diaria.",
-  "Ruta inicial con acompañamiento real para sostener continuidad sin que tu agenda sea la excusa.",
+  "Clase real de 1:08 para validar estilo, ritmo y encaje antes de invertir tiempo ni dinero.",
+  "Método visual para hablar en inglés en entrevistas, estudio y vida diaria desde la primera semana.",
+  "Ruta inicial y acompañamiento real para que avances aunque tu agenda esté llena.",
 ];
 const heroHighlights = site.heroHighlights || [];
 

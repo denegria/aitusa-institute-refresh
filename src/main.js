@@ -965,22 +965,22 @@ const launchPathSection = () => {
 
   const pathIntents = ["classSample", "scheduleFlex", "familySupport"];
   const pathIntentsLabel = {
-    classSample: "Ver clase real y empezar",
-    scheduleFlex: "Ver horarios y continuar",
+    classSample: "Ver clase real",
+    scheduleFlex: "Ver horarios",
     familySupport: "Recibir ruta familiar",
   };
   const pathSecondaryLabel = {
-    classSample: "Empezar con clase real",
-    scheduleFlex: "Ver opciones de agenda",
-    familySupport: "Ruta para familias",
+    classSample: "sin vueltas",
+    scheduleFlex: "con agenda real",
+    familySupport: "para tu familia",
   };
 
   return `
     <section id="ruta" class="section section--path section--white" aria-labelledby="ruta-title">
       <div class="section-inner section-heading section-heading--compact">
         <p class="section-kicker">Ruta de arranque</p>
-        <h2 id="ruta-title">Sin ambigüedad: estas son tus tres decisiones para empezar.</h2>
-        <p>Ves la clase real, validamos agenda y elegimos formato sin promesas vacías; luego te proponemos una ruta que sí se puede ejecutar.</p>
+        <h2 id="ruta-title">Tres pasos simples para decidir con criterio hoy.</h2>
+        <p>Primero observas una clase real, luego validamos agenda y objetivo, y finalmente definimos una ruta que sí puedas ejecutar.</p>
       </div>
       <div class="section-inner path-grid">
         ${launchPath
@@ -996,7 +996,7 @@ const launchPathSection = () => {
                   href="#contacto"
                   data-intent-card
                   data-intent="${pathIntents[index] || "default"}"
-                >${pathIntentsLabel[pathIntents[index]] || "Definir mi ruta"} — ${pathSecondaryLabel[pathIntents[index]] || "ruta inicial"}</a>
+                >${pathIntentsLabel[pathIntents[index]] || "Definir mi ruta"} · ${pathSecondaryLabel[pathIntents[index]] || "ruta inicial"}</a>
               </article>
             `,
           )
