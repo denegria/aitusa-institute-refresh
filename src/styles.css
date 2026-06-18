@@ -402,7 +402,7 @@ select {
 
 .hero__media {
   justify-self: end;
-  width: min(100%, 520px);
+  width: min(100%, 600px);
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -416,6 +416,11 @@ select {
   background: linear-gradient(140deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
   box-shadow: var(--shadow-soft);
   aspect-ratio: 16 / 10;
+}
+
+.hero__media-frame--hero-primary {
+  border-color: rgba(255, 255, 255, 0.56);
+  box-shadow: 0 24px 42px rgba(6, 12, 46, 0.44);
 }
 
 .hero__media-frame--hero-carousel,
@@ -495,10 +500,40 @@ select {
   align-items: flex-start;
   justify-content: space-between;
   z-index: 3;
+  pointer-events: none;
 }
 
 .hero__media-overlay--gallery {
   gap: 12px;
+}
+
+.hero__media-overlay--hero {
+  gap: 10px;
+  padding: 4px;
+}
+
+.hero__media-overlay--hero .hero__video-chip {
+  pointer-events: auto;
+}
+
+.hero__media-quickfacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.hero__media-quickfacts span {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.46);
+  background: rgba(11, 22, 58, 0.45);
+  color: #eff2ff;
+  font-size: 0.73rem;
+  font-weight: 800;
+  padding: 6px 10px;
+  backdrop-filter: blur(6px);
 }
 
 .hero__media-meta {

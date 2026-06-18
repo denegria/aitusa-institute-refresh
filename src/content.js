@@ -363,7 +363,7 @@ const heroGallery = [
   {
     label: "Clase en vivo",
     title: "Corrección instantánea y conversación guiada para hablar con más claridad desde el primer bloque.",
-    image: "./public/assets/wix/hires/hero-classroom.jpg",
+    image: "./public/assets/wix/live/hero-female-teacher.jpg",
     imageAlt:
       "Docente de AiT USA y estudiantes practicando inglés en una clase en vivo con enfoque visual.",
   },

@@ -177,6 +177,14 @@ const heroSignalCards = () => {
   `;
 };
 
+const heroVideoFacts = () => `
+  <div class="hero__media-quickfacts" aria-label="Qué verás en este recorte de clase">
+    <span>Clase real de práctica</span>
+    <span>Corrección en vivo</span>
+    <span>Sin costo de consulta</span>
+  </div>
+`;
+
 const heroPathList = () => {
   if (!heroStartPath.length) return "";
 
@@ -367,12 +375,12 @@ const heroMedia = () => {
   if (heroVideoSources.length) {
     const previewItems = heroGallery.slice(0, 3);
     return `
-      <div class="hero__media-frame hero__media-frame--hero-carousel">
-        <video
-          data-hero-player
-          class="hero__media-player"
-          controls
-          autoplay
+        <div class="hero__media-frame hero__media-frame--hero-primary hero__media-frame--hero-carousel">
+          <video
+            data-hero-player
+            class="hero__media-player"
+            controls
+            autoplay
           muted
           playsinline
           loop
@@ -390,8 +398,9 @@ const heroMedia = () => {
           src="${heroMediaPoster}"
           alt="${site.heroQuote}"
         />
-        <div class="hero__media-overlay">
+        <div class="hero__media-overlay hero__media-overlay--hero">
           <div class="hero__media-tag">Video real · 1:08</div>
+          ${heroVideoFacts()}
           <a class="hero__video-chip" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Enviar mensaje para agendar una sesión de muestra">
             <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
             Ver sesión de muestra
