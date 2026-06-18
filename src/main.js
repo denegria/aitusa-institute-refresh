@@ -81,7 +81,7 @@ const leadIntentProfiles = {
     panelTitle: "Ruta sugerida: conversación inicial",
     panelCopy:
       "Te ayudamos a definir con claridad tu objetivo, tiempo disponible y formato ideal antes de avanzar.",
-    panelAction: "Recibir ruta inicial por WhatsApp",
+    panelAction: "Ver opciones y empezar ruta inicial",
   },
   classSample: {
     intent: "Clase real",
@@ -91,7 +91,7 @@ const leadIntentProfiles = {
     panelTitle: "Ruta sugerida: primera mirada práctica",
     panelCopy:
       "Mira un fragmento real de clase y luego pasamos al formulario con la mejor opción para ti.",
-    panelAction: "Ver clase real y orientar mi ruta",
+    panelAction: "Ver clase real y definir mi ruta",
   },
   scheduleFlex: {
     intent: "Agenda flexible",
@@ -101,7 +101,7 @@ const leadIntentProfiles = {
     panelTitle: "Ruta sugerida: horario inteligente",
     panelCopy:
       "Tu caso ideal para comparar opciones de mañana, noche o fin de semana antes de registrarte.",
-    panelAction: "Revisar horarios + ruta de inicio",
+    panelAction: "Revisar horarios y reservar ruta",
   },
   familySupport: {
     intent: "Opciones familiares",
@@ -111,7 +111,7 @@ const leadIntentProfiles = {
     panelTitle: "Ruta sugerida: decisión familiar",
     panelCopy:
       "Compara opciones para familias con acompañamiento de seguimiento y te damos un plan sin complicarte el proceso.",
-    panelAction: "Recibir ruta familiar por WhatsApp",
+    panelAction: "Ver ruta familiar y reservar orientación",
   },
 };
 
@@ -771,7 +771,7 @@ app.innerHTML = `
         )
         .join("")}
       </nav>
-    <a class="header-cta" href="#experiencia" aria-label="Ver la clase real antes de escribir por WhatsApp">Ver clase real</a>
+    <a class="header-cta" href="#experiencia" aria-label="Ver la clase real antes de escribir por WhatsApp">Ver clase real ahora</a>
   </header>
 
   <main>
@@ -783,13 +783,13 @@ app.innerHTML = `
           <h1>${site.heroHeadline || site.name}</h1>
           <p class="hero__lead">${site.heroLead || site.description}</p>
           <div class="hero__actions">
-            <a class="button button--primary" href="#experiencia">Ver la clase real</a>
-            <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Pedir orientación</a>
+            <a class="button button--primary" href="#experiencia">Ver clase real en vivo</a>
+            <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Quiero orientación por WhatsApp</a>
           </div>
           ${heroIntentCards()}
           <p class="hero__microcopy">
-            Mira la clase real primero; si luego quieres elegir nivel, sede o modalidad, escríbenos por WhatsApp.
-            <a href="${site.whatsappHref}?text=${contactMessage}">Pedir orientación</a>
+            Mira una clase real, revisa horarios y deja que te guiemos hacia la mejor ruta.
+            <a href="${site.whatsappHref}?text=${contactMessage}">Quiero empezar</a>
           </p>
           <div class="hero__highlights" aria-label="Beneficios">
             <span>Respuesta en menos de 24h</span>
@@ -1424,10 +1424,10 @@ app.innerHTML = `
       <div class="section-inner contact-grid">
         <div>
           <p class="section-kicker">Comienza ahora</p>
-          <h2 id="contacto-title">Cuéntanos tu meta y te damos la ruta más directa.</h2>
+          <h2 id="contacto-title">Cuéntanos tu meta y armamos tu ruta en minutos.</h2>
           <p>
-            Completa el formulario y te respondemos por WhatsApp con nivel, horario y modalidad sugerida en minutos.
-            Si prefieres ver la clase primero, puedes hacerlo en la sección de experiencia y luego volver para escribirnos.
+            Completa el formulario y en minutos te proponemos nivel, horario y formato ideal.
+            Si quieres, primero ve la clase real y luego regresas para avanzar más rápido.
           </p>
           <div class="contact-prep" aria-label="Qué conviene tener listo antes de enviar el formulario">
             ${contactPrep
@@ -1463,7 +1463,7 @@ app.innerHTML = `
               href="${site.whatsappHref}?text=${contactMessage}"
               data-contact-intent-action
               aria-label="Continuar por WhatsApp: Ruta sugerida"
-            >Recibir ruta inicial por WhatsApp</a>
+            >Ver opciones y empezar ruta inicial</a>
           </div>
           <div class="direct-contact">
             <a href="${site.phoneHref}">${site.phone}</a>
@@ -1504,7 +1504,7 @@ app.innerHTML = `
             <label>Teléfono <input name="telefono" type="tel" autocomplete="tel" required /></label>
           </div>
           <label>País y ciudad <input name="ubicacion" required /></label>
-          <button class="button button--primary" type="submit">Solicitar orientación</button>
+          <button class="button button--primary" type="submit">Quiero mi ruta inicial</button>
           <p class="form-progress" role="status" aria-live="polite" data-form-progress></p>
           <p class="form-status" role="status" data-form-status></p>
           <a class="button button--ghost form-whatsapp" data-form-whatsapp href="${site.whatsappHref}?text=${contactMessage}">Continuar por WhatsApp</a>
@@ -1514,8 +1514,8 @@ app.innerHTML = `
   </main>
   
   <div class="mobile-action-bar" aria-label="Acciones rápidas">
-    <a class="button button--ghost" href="${site.phoneHref}" aria-label="Llamar para pedir orientación">Pedir orientación</a>
-    <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Escribir por WhatsApp para ver la clase real y continuar con la orientación">Ver clase real</a>
+    <a class="button button--ghost" href="${site.phoneHref}" aria-label="Llamar para pedir orientación">Llamar por teléfono</a>
+    <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Escribir por WhatsApp para ver la clase real y continuar con la orientación">Ver clase real y empezar</a>
   </div>
 
   <footer class="site-footer">

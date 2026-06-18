@@ -4,13 +4,13 @@ const assetHires = (name) => asset(`hires/${name}`);
 const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
-  tagline: "Mira la clase real en vivo, reduce la duda y empieza con una ruta de inglés que sí funciona.",
+  tagline: "Mira clases reales en vivo y comienza hoy con una ruta de inglés clara.",
   description:
     "Clases presenciales, híbridas y online en Nueva Jersey con video real de aula, instructoras bilingües y seguimiento semanal para avanzar desde hoy.",
   heroHeadline:
-    "Mira primero la clase real y empieza una ruta de inglés con resultados visibles.",
+    "Mira la clase real en vivo y comienza hoy con un plan de inglés que sí avanza.",
   heroLead:
-    "Aquí ves la dinámica de una clase real: correcciones inmediatas, ejercicios guiados y un plan práctico para avanzar desde hoy.",
+    "Conoce cómo se ve una sesión real: correcciones al instante, práctica guiada y un plan práctico para progresar esta semana.",
   heroQuote:
     "No se trata de memorizar más. Se trata de comunicarte con soltura en entrevistas, universidad, trabajo y vida cotidiana.",
   canonical: "https://www.aitusainstitute.com/",
