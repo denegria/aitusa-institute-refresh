@@ -1641,8 +1641,21 @@ app.innerHTML = `
   </main>
   
   <div class="mobile-action-bar" aria-label="Acciones rápidas" data-mobile-action-bar>
-    <a class="button button--ghost" href="#experiencia" aria-label="Ver clase real en el bloque de experiencia">Ver clase real</a>
-    <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}" aria-label="WhatsApp para empezar tu ruta de inglés hoy">Empieza por WhatsApp</a>
+    <a
+      class="button button--ghost"
+      href="#experiencia"
+      data-mobile-action
+      data-intent="classSample"
+      aria-label="Ver clase real en el bloque de experiencia"
+    >Ver clase real</a>
+    <a
+      class="button button--primary"
+      href="#contacto"
+      data-mobile-action
+      data-intent="classSample"
+      data-mobile-target="#contacto"
+      aria-label="WhatsApp para empezar tu ruta de inglés hoy"
+    >Quiero mi ruta por WhatsApp</a>
   </div>
 
   <footer class="site-footer">
@@ -2031,7 +2044,58 @@ if (form && status && whatsappDraft) {
     });
   };
 
+  const initMobileLeadIntentActions = () => {
+    const mobileActionButtons = [...document.querySelectorAll("[data-mobile-action]")];
+
+    mobileActionButtons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        const targetHash =
+          button.getAttribute("data-mobile-target") || button.getAttribute("href") || "#contacto";
+        const intent = button.dataset.intent || "default";
+        const isExternal = /^https?:\/\//i.test(targetHash);
+
+        if (!isExternal) {
+          event.preventDefault();
+        }
+
+        setActiveLeadIntent(intent, { silent: true });
+        syncWhatsAppDraft();
+
+        const shouldOpenContact = targetHash === "#contacto" || intent !== "classSample";
+
+        if (shouldOpenContact && targetHash !== "#horarios") {
+          const contactSection = document.querySelector("#contacto");
+          if (contactSection) {
+            contactSection.scrollIntoView({
+              behavior: reduceMotion ? "auto" : "smooth",
+              block: "start",
+            });
+            const nameInput = form?.querySelector('input[name="nombre"]');
+            if (nameInput) {
+              nameInput.focus({ preventScroll: true });
+            }
+          }
+        } else if (targetHash.startsWith("#") && targetHash !== "#contacto") {
+          const target = document.querySelector(targetHash);
+          if (target) {
+            target.scrollIntoView({
+              behavior: reduceMotion ? "auto" : "smooth",
+              block: "start",
+            });
+          }
+        }
+
+        if (window.history?.pushState && !isExternal) {
+          window.history.pushState({}, "", targetHash);
+        } else if (!isExternal) {
+          window.location.hash = targetHash || "#contacto";
+        }
+      });
+    });
+  };
+
   syncWhatsAppDraft();
+  initMobileLeadIntentActions();
   initLeadIntentFromHero();
   setActiveLeadIntent(
     new URLSearchParams(window.location.search).get("intento") || "default",
