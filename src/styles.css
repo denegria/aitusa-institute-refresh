@@ -2452,6 +2452,22 @@ select {
   justify-content: center;
 }
 
+.site-footer__contact {
+  display: grid;
+  gap: 10px;
+  justify-content: end;
+}
+
+.site-footer__contact a {
+  padding: 9px 12px;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
 .site-footer__links a {
   padding: 9px 12px;
   border-radius: 999px;
@@ -2655,6 +2671,10 @@ select {
 
   .site-footer {
     grid-template-columns: 1fr;
+  }
+
+  .site-footer__contact {
+    justify-content: start;
   }
 
   .site-footer__links {

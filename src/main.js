@@ -1098,6 +1098,11 @@ app.innerHTML = `
       <span>${site.legal}</span>
       <p>Una experiencia web más clara, humana y enfocada en convertir interés en una primera conversación real.</p>
     </div>
+    <div class="site-footer__contact" aria-label="Contactos directos">
+      <a href="${site.phoneHref}">${site.phone}</a>
+      <a href="${site.whatsappHref}?text=${contactMessage}">${site.whatsapp}</a>
+      <a href="${site.emailHref}">info@aitusainstitute.com</a>
+    </div>
     <div class="site-footer__links" aria-label="Enlaces de pie de página">
       <a href="#inicio">Inicio</a>
       <a href="#cursos">Cursos</a>
