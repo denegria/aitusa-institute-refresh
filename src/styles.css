@@ -3045,6 +3045,12 @@ select {
   justify-self: start;
 }
 
+.form-whatsapp.form-whatsapp--disabled {
+  opacity: 0.62;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 .site-footer {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);

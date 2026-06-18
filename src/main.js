@@ -65,11 +65,11 @@ const contactMessage = encodeURIComponent(
 );
 
 const requiredLeadFields = [
-  { name: "nombre", label: "Nombre" },
-  { name: "apellido", label: "Apellido" },
-  { name: "email", label: "Email" },
-  { name: "telefono", label: "Teléfono" },
-  { name: "ubicacion", label: "País y ciudad" },
+  { name: "nombre" },
+  { name: "apellido" },
+  { name: "email" },
+  { name: "telefono" },
+  { name: "ubicacion" },
 ];
 
 const leadIntentProfiles = {
@@ -1793,11 +1793,24 @@ if (form && status && whatsappDraft) {
     const data = new FormData(form);
     const total = requiredLeadFields.length;
     const done = requiredLeadFields.filter((field) => `${data.get(field.name) || ""}`.trim().length > 0).length;
+    const isComplete = done === total;
 
     progressIndicator.textContent =
-      done === total
+      isComplete
         ? "✅ Listo para enviar: todos los datos clave están completos."
         : `🧩 Campos completados: ${done} de ${total}. Completa los requeridos para activar una recomendación precisa.`;
+
+    if (isComplete) {
+      whatsappDraft.classList.remove("form-whatsapp--disabled");
+      whatsappDraft.setAttribute("aria-disabled", "false");
+      whatsappDraft.removeAttribute("tabindex");
+    } else {
+      whatsappDraft.classList.add("form-whatsapp--disabled");
+      whatsappDraft.setAttribute("aria-disabled", "true");
+      whatsappDraft.setAttribute("tabindex", "-1");
+    }
+
+    return isComplete;
   };
 
   const initLeadIntentFromHero = () => {
@@ -1853,6 +1866,13 @@ if (form && status && whatsappDraft) {
 
   form.addEventListener("input", syncWhatsAppDraft);
   form.addEventListener("change", syncWhatsAppDraft);
+  whatsappDraft.addEventListener("click", (event) => {
+    const isReady = updateLeadProgress();
+    if (!isReady) {
+      event.preventDefault();
+      status.textContent = "Completa los campos obligatorios antes de continuar por WhatsApp.";
+    }
+  });
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
