@@ -1257,7 +1257,7 @@ app.innerHTML = `
   
   <div class="mobile-action-bar" aria-label="Acciones rápidas">
     <a class="button button--ghost" href="${site.phoneHref}" aria-label="Llamar para pedir orientación">Pedir orientación</a>
-    <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Escribir por WhatsApp para continuar con la orientación">WhatsApp</a>
+    <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Escribir por WhatsApp para ver la clase real y continuar con la orientación">Ver clase real</a>
   </div>
 
   <footer class="site-footer">
