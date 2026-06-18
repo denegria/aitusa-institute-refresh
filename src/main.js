@@ -64,6 +64,33 @@ const contactMessage = encodeURIComponent(
   "Hola AiT USA Institute, quiero ver la clase real y recibir información sobre clases, horarios y modalidad.",
 );
 
+const leadIntentProfiles = {
+  default: {
+    intent: "Información general",
+    interest: "No estoy seguro",
+    forWhom: "Para mí",
+    message: "quiero información general sobre sus programas y opciones.",
+  },
+  classSample: {
+    intent: "Clase real",
+    interest: "Inglés",
+    forWhom: "Para mí",
+    message: "quiero ver la clase real y recibir una recomendación de inicio.",
+  },
+  scheduleFlex: {
+    intent: "Agenda flexible",
+    interest: "Inglés",
+    forWhom: "Para mí",
+    message: "tengo agenda limitada; por eso quiero ver opciones de horarios flexibles.",
+  },
+  familySupport: {
+    intent: "Opciones familiares",
+    interest: "Niños",
+    forWhom: "Para mi hijo/a",
+    message: "quiero ayuda para elegir opciones para mi familia o para alguien más.",
+  },
+};
+
 const courseInterestMap = {
   ingles: "Inglés",
   ninos: "Niños",
@@ -187,15 +214,15 @@ const heroVideoFacts = () => `
 
 const heroIntentCards = () => `
   <div class="hero__intent" aria-label="¿Qué objetivo tienes hoy?">
-    <a class="hero__intent-card" href="#experiencia">
+    <a class="hero__intent-card" href="#experiencia" data-intent-card data-intent="classSample">
       <span class="hero__intent-card__label">Quiero ver la clase real</span>
       <strong>Ver experiencia en vivo</strong>
     </a>
-    <a class="hero__intent-card" href="#horarios">
+    <a class="hero__intent-card" href="#horarios" data-intent-card data-intent="scheduleFlex">
       <span class="hero__intent-card__label">Tengo agenda limitada</span>
       <strong>Ver horarios disponibles</strong>
     </a>
-    <a class="hero__intent-card" href="#contacto">
+    <a class="hero__intent-card" href="#contacto" data-intent-card data-intent="familySupport">
       <span class="hero__intent-card__label">Soy mamá, padre o asesorando a otro</span>
       <strong>Consultar opciones para familias</strong>
     </a>
@@ -1591,16 +1618,46 @@ const status = document.querySelector("[data-form-status]");
 const whatsappDraft = document.querySelector("[data-form-whatsapp]");
 
 if (form && status && whatsappDraft) {
-  const buildLeadMessage = (data) => [
-    "Hola AiT USA Institute, quiero información.",
-    `Nombre: ${data.get("nombre") || "No indicado"} ${data.get("apellido") || ""}`.trim(),
-    `Email: ${data.get("email") || "No indicado"}`,
-    `Es para: ${data.get("para") || "No indicado"}`,
-    `Curso de interés: ${data.get("interes") || "No indicado"}`,
-    `Edad: ${data.get("edad") || "No indicado"}`,
-    `Teléfono: ${(data.get("codigo") || "").trim()} ${data.get("telefono") || "No indicado"}`.trim(),
-    `Ubicación: ${data.get("ubicacion") || "No indicada"}`,
-  ].join("\n");
+  const leadIntentCards = [...document.querySelectorAll("[data-intent-card]")];
+  const leadPersonaSelect = form.querySelector('select[name="para"]');
+  let activeLeadIntent = "default";
+
+  const getLeadIntentProfile = (intent) => leadIntentProfiles[intent] || leadIntentProfiles.default;
+  const setActiveLeadIntent = (intent = "default", { silent = false } = {}) => {
+    const profile = getLeadIntentProfile(intent);
+    activeLeadIntent = intent;
+
+    if (courseInterestSelect) {
+      courseInterestSelect.value = profile.interest;
+    }
+
+    if (leadPersonaSelect && profile.forWhom) {
+      leadPersonaSelect.value = profile.forWhom;
+    }
+
+    leadIntentCards.forEach((card) => {
+      card.classList.toggle("is-active", card.dataset.intent === activeLeadIntent);
+    });
+
+    if (!silent) {
+      syncWhatsAppDraft();
+    }
+  };
+
+  const buildLeadMessage = (data) => {
+    const profile = getLeadIntentProfile(activeLeadIntent);
+    return [
+      `Hola AiT USA Institute, ${profile.message}`,
+      `Objetivo: ${profile.intent}`,
+      `Nombre: ${data.get("nombre") || "No indicado"} ${data.get("apellido") || ""}`.trim(),
+      `Email: ${data.get("email") || "No indicado"}`,
+      `Es para: ${data.get("para") || "No indicado"}`,
+      `Curso de interés: ${data.get("interes") || "No indicado"}`,
+      `Edad: ${data.get("edad") || "No indicado"}`,
+      `Teléfono: ${(data.get("codigo") || "").trim()} ${data.get("telefono") || "No indicado"}`.trim(),
+      `Ubicación: ${data.get("ubicacion") || "No indicada"}`,
+    ].join("\n");
+  };
 
   const syncWhatsAppDraft = () => {
     const data = new FormData(form);
@@ -1609,7 +1666,41 @@ if (form && status && whatsappDraft) {
     return message;
   };
 
+  const initLeadIntentFromHero = () => {
+    leadIntentCards.forEach((card) => {
+      card.addEventListener("click", (event) => {
+        event.preventDefault();
+        const intent = card.dataset.intent || "default";
+        const targetHash = card.getAttribute("href") || "";
+
+        setActiveLeadIntent(intent, { silent: true });
+        syncWhatsAppDraft();
+
+        if (targetHash.startsWith("#")) {
+          const target = document.querySelector(targetHash);
+          if (target) {
+            target.scrollIntoView({
+              behavior: reduceMotion ? "auto" : "smooth",
+              block: "start",
+            });
+          }
+          if (window.history?.pushState) {
+            window.history.pushState({}, "", targetHash);
+          } else {
+            window.location.hash = targetHash;
+          }
+        }
+      });
+    });
+  };
+
   syncWhatsAppDraft();
+  initLeadIntentFromHero();
+  setActiveLeadIntent(
+    new URLSearchParams(window.location.search).get("intento") || "default",
+    { silent: true },
+  );
+
   form.addEventListener("input", syncWhatsAppDraft);
   form.addEventListener("change", syncWhatsAppDraft);
 

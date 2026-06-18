@@ -827,6 +827,12 @@ select {
   box-shadow: 0 12px 24px rgba(4, 10, 43, 0.28);
 }
 
+.hero__intent-card.is-active {
+  border-color: rgba(255, 225, 230, 0.86);
+  background: linear-gradient(180deg, rgba(255, 225, 230, 0.26), rgba(255, 214, 223, 0.12));
+  box-shadow: 0 14px 24px rgba(6, 6, 26, 0.34);
+}
+
 .hero__intent-card__label {
   color: #ffcfd4;
   font-size: 0.73rem;
