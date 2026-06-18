@@ -1087,7 +1087,7 @@ app.innerHTML = `
       <div class="section-inner section-heading">
         <p class="section-kicker">Preguntas frecuentes</p>
         <h2 id="faq-title">Resolvemos tus dudas antes de inscribirte.</h2>
-        <p>Si todavía estás comparando opciones, aquí tienes una vista rápida de lo que normalmente aclaramos antes de arrancar.</p>
+        <p>Si todavía estás comparando opciones, aquí tienes una vista rápida de lo que normalmente aclaramos antes de arrancar, incluyendo cómo se ve una clase real.</p>
       </div>
       <div class="section-inner faq-intro">
         <article class="faq-callout">
@@ -1101,8 +1101,9 @@ app.innerHTML = `
         </article>
         <article class="faq-callout faq-callout--accent">
           <p class="section-kicker">Respuesta rápida</p>
-          <h3>Si prefieres hablar antes de llenar el formulario</h3>
-          <p>También puedes escribirnos por WhatsApp o llamar para validar disponibilidad, horarios y el mejor punto de inicio.</p>
+          <h3>Si quieres ver la clase primero</h3>
+          <p>Empieza por el video real de la experiencia y luego escríbenos por WhatsApp o llama para validar disponibilidad, horarios y el mejor punto de inicio.</p>
+          <a class="button button--ghost" href="#experiencia">Ver clase real</a>
           <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Escribir por WhatsApp</a>
         </article>
       </div>

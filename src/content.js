@@ -845,6 +845,11 @@ const faqs = [
       "Te orientamos con un diagnóstico inicial y una primera conversación para ubicarte en básico, intermedio o avanzado.",
   },
   {
+    question: "¿Puedo ver una clase real antes de inscribirme?",
+    answer:
+      "Sí. En la sección de experiencia puedes ver video real de una instructora corrigiendo en vivo para entender el estilo de clase antes de hablar con el equipo.",
+  },
+  {
     question: "¿Es difícil aprender inglés?",
     answer:
       "No cuando la metodología es práctica. Primero entiendes la estructura y luego la conviertes en conversación real con apoyo constante.",
