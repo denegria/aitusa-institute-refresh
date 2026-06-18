@@ -37,8 +37,8 @@ const site = {
     hero: assetHires("hero-classroom.jpg"),
     heroPoster: assetHires("hero-classroom.jpg"),
     heroVideo: asset("live/hero-female-speaking-1080p.mp4"),
-    heroVideoPortrait: asset("live/hero-female-speaking-360p.mp4"),
-    heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
+    heroVideoPortrait: asset("live/hero-female-speaking-1080p.mp4"),
+    heroVideoFallback: asset("live/hero-female-speaking-1080p.mp4"),
     heroVideoPoster: assetHires("hero-classroom.jpg"),
     adultEnglish: assetHires("adult-english-speaking.jpg"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
@@ -83,7 +83,7 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clase real desde 0:58 para ver corrección, ritmo y estructura antes de tomar decisión.",
+  "Clase real desde 0:58 en 1080p para ver corrección, ritmo y estructura antes de tomar decisión.",
   "Método visual para entrenar inglés práctico en entrevistas, trabajo y vida diaria.",
   "Ruta semanal flexible con acompañamiento real para mantener continuidad aunque tu agenda sea limitada.",
 ];
@@ -101,7 +101,7 @@ const heroSignal = [
   },
   {
     value: "1:08",
-    label: "clase real de muestra para que sepas cómo se trabaja.",
+    label: "clase real de muestra en HD para que sepas cómo se trabaja.",
   },
   {
     value: "48h",
@@ -374,7 +374,7 @@ const heroGallery = [
     label: "Atención con presencia",
     title: "Docentes bilingües corrigen en vivo para que avances con menos incertidumbre.",
     image: "./public/assets/wix/live/hero-female-zoom.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-360p.mp4",
+    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
     videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
     imageAlt:
       "Instructora de AiT USA corrigiendo y motivando a una estudiante durante conversación oral.",
@@ -383,7 +383,7 @@ const heroGallery = [
     label: "Escucha y retroalimentación",
     title: "Interacción real por Zoom para entrenar comprensión y respuesta en tiempo real.",
     image: "./public/assets/wix/live/hero-female-zoom.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-360p.mp4",
+    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
     videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
     imageAlt:
       "Instructora de AiT USA interactuando con estudiantes en una sesión online de inglés.",
@@ -392,7 +392,7 @@ const heroGallery = [
     label: "Práctica en contexto",
     title: "Aprendizaje flexible para practicar inglés desde cualquier lugar.",
     image: "./public/assets/wix/live/hero-female-classroom.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-360p.mp4",
+    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
     videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
     imageAlt: "Grupo en clase presencial practicando conversación y pronunciación en inglés.",
   },
@@ -409,7 +409,7 @@ const heroGallery = [
     label: "Resultados reales",
     title: "Seguimiento de progreso con evidencia de resultados en cada módulo.",
     image: "./public/assets/wix/live/hero-female-zoom.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-360p.mp4",
+    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
     videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
     imageAlt: "Estudiantes de AiT USA aplicando lo aprendido en clase de inglés.",
   },
@@ -438,7 +438,7 @@ const instructorClips = [
     title: "Escucha y responde al instante",
     eyebrow: "Metodología visual",
     image: "./public/assets/wix/live/hero-female-zoom.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-360p.mp4",
+    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
     videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
     imageAlt: "Instructora y estudiante practicando inglés mediante Zoom con enfoque visual y conversación real.",
     caption:
@@ -449,7 +449,7 @@ const instructorClips = [
     title: "Conexión auténtica en clases online",
     eyebrow: "8 a 13 años",
     image: "./public/assets/wix/live/hero-female-zoom.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-360p.mp4",
+    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
     videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
     imageAlt:
       "Estudiante practicando inglés en una clase remota con acompañamiento de la instructora.",
@@ -1060,5 +1060,4 @@ window.AITUSA_DATA = {
   footerFacts,
   courseGuides,
 };
-
 
