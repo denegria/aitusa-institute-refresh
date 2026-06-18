@@ -226,7 +226,7 @@ const initHeroQuickCaptureBridge = () => {
   return true;
 };
 const contactMessage = encodeURIComponent(
-  "Hola AiT USA Institute, vi su muestra de clase y quiero arrancar con una ruta inicial personalizada para decidir hoy: objetivo, nivel y horario.",
+  "Hola AiT USA Institute, vi su clase real y quiero una ruta inicial para decidir hoy con claridad: objetivo, nivel y horario.",
 );
 
 const heroQuickCaptureWidget = () => {
@@ -914,15 +914,15 @@ const heroIntentCards = () => `
   <div class="hero__intent" aria-label="¿Qué objetivo tienes hoy?">
     <a class="hero__intent-card" href="#experiencia" data-intent-card data-intent="classSample">
       <span class="hero__intent-card__label">Clase real en 1:08</span>
-      <strong>Ver el recorrido real de 1:08</strong>
+      <strong>Validar método y ritmo en vivo</strong>
     </a>
     <a class="hero__intent-card" href="#horarios" data-intent-card data-intent="scheduleFlex">
-      <span class="hero__intent-card__label">Necesito empezar ya</span>
-      <strong>Comparar opciones con flexibilidad</strong>
+      <span class="hero__intent-card__label">Necesito empezar esta semana</span>
+      <strong>Comparar opciones con mi agenda real</strong>
     </a>
     <a class="hero__intent-card" href="#contacto" data-intent-card data-intent="familySupport">
-      <span class="hero__intent-card__label">Ruta familiar para mi hijo/a</span>
-      <strong>Ruta para mi hijo o mi familia</strong>
+      <span class="hero__intent-card__label">Ruta familiar para mi hijo o hija</span>
+      <strong>Decidir con menos incertidumbre desde hoy</strong>
     </a>
   </div>
 `;
@@ -931,15 +931,15 @@ const heroCommitment = () => `
   <div class="hero__commitment" aria-label="Compromiso de calidad del hero">
     <article>
       <strong>Clases reales primero</strong>
-      <span>Muestra real de clase para validar ritmo, metodología y nivel desde el minuto uno.</span>
+      <span>Ves una clase real para validar si el método funciona para ti sin adivinar.</span>
     </article>
     <article>
       <strong>Decisión en 60 segundos</strong>
-      <span>En dos pasos: mira el clip, valida horario y recibe una sugerencia inicial.</span>
+      <span>En 1–2 pasos: reproduce el clip, valida horario y recibe una sugerencia inicial.</span>
     </article>
     <article>
       <strong>Rutas listas para arrancar</strong>
-      <span>Objetivo, horario y formato preparados para que comiences esta semana.</span>
+      <span>Objetivo, horario y formato preparados para que comiences con criterio.</span>
     </article>
   </div>
 `;
@@ -1209,7 +1209,7 @@ const heroMedia = () => {
           ${heroVideoFacts()}
           <div class="hero__media-route">
             <p class="hero__media-route__title">Tu decisión en 60 segundos</p>
-            <p class="hero__media-route__copy">Mira, valida y toma acción: ritmo + encaje + siguiente paso en un minuto.</p>
+            <p class="hero__media-route__copy">Mira, valida y decide: ritmo, encaje y siguiente paso en menos de un minuto.</p>
           </div>
           <button class="hero__video-chip" type="button" data-hero-play-button aria-label="Reproducir video de clase real">
             <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
@@ -1610,7 +1610,7 @@ app.innerHTML = `
       data-intent-action
       data-intent="classSample"
       aria-label="Ver la clase real antes de escribir por WhatsApp"
-    >Ver clase real ahora</a>
+    >Ver clase real en 1:08</a>
   </header>
 
   <div class="quick-cta" aria-label="Acciones rápidas de inicio">
@@ -1619,13 +1619,13 @@ app.innerHTML = `
       href="#experiencia"
       data-intent-action
       data-intent="classSample"
-    >Ver clase real en 1:08</a>
+    >Ver clase real y comparar</a>
     <a
       class="button button--ghost"
       href="${site.whatsappHref}?text=${contactMessage}"
       data-intent-action
       data-intent="default"
-    >Quiero ruta guiada por WhatsApp</a>
+    >Quiero ruta inicial por WhatsApp</a>
   </div>
 
     <main>
@@ -1642,7 +1642,7 @@ app.innerHTML = `
               href="#experiencia"
               data-intent-action
               data-intent="classSample"
-            >Ver clase real y decidir</a>
+            >Ver clase real y decidir hoy</a>
             <a
               class="button button--ghost"
               href="${site.whatsappHref}?text=${contactMessage}"
@@ -1658,7 +1658,7 @@ app.innerHTML = `
           ${heroCommitment()}
           ${heroInstructorStrip()}
           <div class="hero__conversion-strip">
-            <a class="button button--primary" href="#contacto" data-intent-action data-intent="default">Quiero mi ruta inicial</a>
+            <a class="button button--primary" href="#contacto" data-intent-action data-intent="default">Recibir ruta inicial por WhatsApp</a>
             <a class="button button--ghost" href="#horarios" data-intent-action data-intent="scheduleFlex">Ver horarios y elegir ruta</a>
           </div>
           <div class="hero__highlights" aria-label="Beneficios">

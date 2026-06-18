@@ -5,34 +5,34 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Clase real en 1:08, sin simulación: decide hoy si este método te sirve de verdad.",
+    "Clase real de 1:08 para decidir hoy: método, ritmo y encaje con evidencia.",
   description:
-    "Mira una clase real en video, valida si el ritmo y el estilo te funcionan, y define tu siguiente paso con evidencia práctica.",
+    "Mira una clase real en video y valida si este estilo de clase encaja contigo antes de invertir tiempo ni dinero.",
   heroHeadline:
-    "Mira una clase real en 1:08 y decide hoy si esta experiencia te convence.",
+    "¿Funciona para ti? Mira una clase real de 1:08 y toma la mejor decisión hoy.",
   heroLead:
-    "Observa una clase real en acción, valida ritmo, método y energía de clase, y decide con evidencia práctica si esta ruta encaja contigo.",
+    "Observa una clase real, valida si hay ritmo, claridad y acompañamiento, y define una ruta inicial con criterio.",
   heroQuote:
-    "Sin simulaciones: lo que escuchas y ves en el video es una clase real y activa de verdadera práctica conversacional.",
+    "Lo que ves en el video es una clase real: conversación auténtica, corrección inmediata y clase que sí ocurre en vivo.",
   heroMicrocopy:
-    "Reproduce el clip, valida nivel, ritmo y encaje, y define una ruta inicial con horario concreto para empezar esta misma semana.",
+    "Reproduce el clip y descubre en segundos si el método, el ritmo y la energía de clase te ayudan o no.",
   heroQuickCapture: {
-    title: "Empieza tu ruta en menos de 60 segundos",
+    title: "Empieza tu ruta en 60 segundos",
     copy:
-      "Déjanos tu nombre y WhatsApp; te respondemos en minutos con una ruta inicial de hoy: objetivo, horario y formato ideal.",
+      "Déjanos tu nombre y WhatsApp y te respondemos en minutos con una ruta inicial clara: objetivo, horario y formato recomendado.",
     options: [
-      "Quiero validar método y estilo con clase real",
+      "Quiero validar método y estilo con clase real (1:08)",
       "Quiero comparar presencial, híbrido y online",
-      "Busco ruta para mi hijo/a",
-      "Quiero mejorar inglés para trabajo o entrevistas",
+      "Busco ruta para mi hijo o hija",
+      "Quiero hablar inglés para trabajo o entrevistas",
     ],
-    button: "Quiero ruta inicial por WhatsApp",
-    note: "Sin costo, sin compromiso y sin venta forzada: solo una recomendación útil para decidir con criterio.",
+    button: "Ver mi ruta inicial",
+    note: "Sin costo ni compromiso. Te respondemos rápido con una recomendación útil y concreta.",
   },
   heroHighlights: [
-    "Clase real, sin simulaciones: método, ritmo y estilo visibles desde el primer minuto.",
-    "Compara presencial, híbrido y online para elegir el formato que sí encaja con tu agenda.",
-    "Recibe una ruta inicial clara para decidir con más certeza desde hoy.",
+    "Clase real, sin simulaciones: metodología, ritmo y estilo visibles desde el primer minuto.",
+    "Compara presencial, híbrido y online para elegir el formato que sí encaja con tu semana.",
+    "Recibe una ruta inicial concreta para empezar con mayor certeza esta semana.",
   ],
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
@@ -41,9 +41,9 @@ const site = {
   whatsapp: "+1 732-379-0593",
   whatsappHref: "https://wa.me/17323790593",
   twitterHandle: "@AiTUSA_Institute",
-  seoTitle: "AiT USA Institute | Clase real en video + ruta personalizada de inglés en Nueva Jersey",
+  seoTitle: "AiT USA Institute | Clase real en video y ruta personalizada de inglés en Nueva Jersey",
   seoDescription:
-    "Mira una clase real de inglés de 1:08, valida tu estilo y ritmo, y arranca con una ruta personalizada presencial, híbrida u online en Nueva Jersey.",
+    "Mira una clase real de inglés de 1:08, valida método y ritmo, y arranca con una ruta inicial presencial, híbrida u online en Nueva Jersey.",
   seoKeywords:
     "AiT USA Institute, clases de inglés en Nueva Jersey, clase real de inglés en video, clases presenciales de inglés, clases híbridas de inglés, clases online de inglés, método visual de inglés, ruta personalizada de aprendizaje",
   seoImage: assetHires("hero-female-teacher.jpg"),
@@ -142,29 +142,30 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clase real de 1:08 para validar método, ritmo y encaje antes de invertir tiempo ni dinero.",
-  "Ruta inicial visual y práctica para hablar en entrevistas, estudio y vida diaria desde esta semana.",
-  "Plan de arranque y acompañamiento real para avanzar aunque tu agenda esté llena.",
+  "Clase real de 1:08 para validar método, ritmo y encaje antes de invertir tiempo.",
+  "Ruta inicial visual para entrevistas, trabajo y vida diaria desde esta semana.",
+  "Acompañamiento práctico para avanzar incluso con agenda ocupada.",
 ];
 const heroHighlights = site.heroHighlights || [];
 
 const heroVideoHighlights = [
-  "Clase real grabada en alta calidad (1080p)",
-  "Corrección en vivo + seguimiento semanal",
+  "Clase real en 1:08 con corrección en vivo",
+  "Audio e imagen nítidos para evaluar la dinámica de clase",
+  "Corrección instantánea + seguimiento semanal",
   "Sin costo de consulta inicial",
   "Presencial, híbrido y online en Nueva Jersey",
 ];
 
 const heroStartPath = [
-  "Mira la clase real y valida en segundos si el ritmo te sirve.",
-  "Define objetivo, horario y nivel de compromiso en un solo paso inicial.",
-  "Compara opciones y deja lista una ruta realista para empezar esta semana.",
+  "Mira una clase real de 1:08 y valida ritmo, método y encaje.",
+  "Define objetivo, horario y nivel de compromiso en minutos.",
+  "Compara opciones y deja lista una ruta realista para comenzar esta semana.",
 ];
 
 const heroSignal = [
   {
     value: "20+",
-    label: "años guiando rutas prácticas de inglés en Nueva Jersey.",
+    label: "años guiando rutas reales de inglés con enfoque práctico.",
   },
   {
     value: "1:08",
@@ -180,13 +181,13 @@ const launchPath = [
   {
     title: "Semana 1: diagnóstico y objetivo",
     description:
-      "En 10 minutos validamos nivel, objetivo y agenda para diseñar una ruta inicial realista y accionable.",
-    outcome: "Sales con recomendación, formato y horario inicial para arrancar hoy.",
+      "En 10 minutos validamos nivel, objetivo y agenda para diseñar una ruta inicial realista.",
+    outcome: "Sales con recomendación, formato y horario inicial para avanzar hoy.",
   },
   {
     title: "Semana 2: práctica guiada",
     description:
-      "Entrenas conversaciones reales con correcciones puntuales para convertir teoría en respuesta inmediata.",
+      "Entrenas conversaciones reales con corrección puntual para convertir teoría en respuesta inmediata.",
     outcome: "Con cada práctica tu inglés se vuelve más utilizable y con menos bloqueo.",
   },
   {
@@ -198,10 +199,10 @@ const launchPath = [
 ];
 
 const stats = [
-  { value: "+1000", label: "estudiantes guiados por enfoque práctico" },
-  { value: "3", label: "formatos para estudiar: presencial, híbrido y online" },
-  { value: "GC", label: "Método Graphic Concept: visual, práctico y rápido de dominar" },
-  { value: "20+", label: "años construyendo una ruta de confianza en inglés" },
+  { value: "+1000", label: "estudiantes guiados con experiencia práctica de clase real" },
+  { value: "3", label: "formatos: presencial, híbrido y online" },
+  { value: "GC", label: "Método Graphic Concept: visual, práctico y directo" },
+  { value: "20+", label: "años de método aplicado a resultados en Nueva Jersey" },
 ];
 
 const differentiators = [
@@ -488,21 +489,21 @@ const heroGallery = [
 const heroProof = [
   {
     value: "20+",
-    label: "años ofreciendo clases reales en Nueva Jersey con enfoque práctico y medible.",
+    label: "años ofreciendo clases reales en Nueva Jersey con seguimiento continuo y medible.",
     href: "#about",
     cta: "Ver trayectoria",
     intent: "default",
   },
   {
     value: "1:08",
-    label: "para validar método, ritmo y encaje antes de invertir tiempo y dinero.",
+    label: "para validar método, ritmo y encaje antes de tomar tu siguiente paso.",
     href: "#experiencia",
     cta: "Ver clase real",
     intent: "classSample",
   },
   {
     value: "3",
-    label: "formatos para elegir tu estudio: presencial, híbrido y online.",
+    label: "formatos para estudiar sin romper tu agenda: presencial, híbrido y online.",
     href: "#horarios",
     cta: "Comparar horarios",
     intent: "scheduleFlex",
