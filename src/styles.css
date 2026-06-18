@@ -905,6 +905,34 @@ select {
   text-transform: uppercase;
 }
 
+.hero__commitment {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.hero__commitment article {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.hero__commitment strong {
+  display: block;
+  font-size: 0.9rem;
+  color: #ffdee5;
+}
+
+.hero__commitment span {
+  color: rgba(255, 255, 255, 0.79);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
 .hero__microcopy {
   margin: 12px 0 0;
   color: rgba(255, 255, 255, 0.78);
@@ -3345,7 +3373,8 @@ select {
 
   .hero__proof,
   .hero__points,
-  .hero__signal {
+  .hero__signal,
+  .hero__commitment {
     grid-template-columns: 1fr;
   }
 

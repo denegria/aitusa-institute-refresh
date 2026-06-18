@@ -260,6 +260,23 @@ const heroIntentCards = () => `
   </div>
 `;
 
+const heroCommitment = () => `
+  <div class="hero__commitment" aria-label="Compromiso de calidad del hero">
+    <article>
+      <strong>Clases reales primero</strong>
+      <span>Sin animaciones: solo clase en vivo grabada para que veas método y dinámica real.</span>
+    </article>
+    <article>
+      <strong>Decisión en 60 segundos</strong>
+      <span>Dos clics para ver muestra, validar horario y hablar con asesoría concreta.</span>
+    </article>
+    <article>
+      <strong>Rutas listas para arrancar</strong>
+      <span>Tu objetivo, horario y formato se adaptan al momento en que escribes.</span>
+    </article>
+  </div>
+`;
+
 const heroPathList = () => {
   if (!heroStartPath.length) return "";
 
@@ -817,6 +834,7 @@ app.innerHTML = `
             <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Quiero orientación por WhatsApp</a>
           </div>
           ${heroIntentCards()}
+          ${heroCommitment()}
           <p class="hero__microcopy">
             Mira una clase real, revisa horarios y deja que te guiemos hacia la mejor ruta.
             <a href="${site.whatsappHref}?text=${contactMessage}">Quiero empezar</a>
