@@ -6,11 +6,11 @@ const site = {
   legal: "Division of Arrieta Institute LLC",
   tagline: "Mira clases reales en vivo y comienza hoy con una ruta de inglés clara.",
   description:
-    "Clases presenciales, híbridas y online en Nueva Jersey con video real de aula, instructoras bilingües y seguimiento semanal para avanzar desde hoy.",
+    "Clases presenciales, híbridas y online en Nueva Jersey con clases reales en vivo, instructoras bilingües y seguimiento semanal para que avances desde esta semana.",
   heroHeadline:
-    "Mira la clase real en vivo y comienza hoy con un plan de inglés que sí avanza.",
+    "Mira una clase real en vivo y activa tu ruta de inglés personalizada.",
   heroLead:
-    "Conoce cómo se ve una sesión real: correcciones al instante, práctica guiada y un plan práctico para progresar esta semana.",
+    "Observa una clase real con correcciones al instante, práctica guiada y un plan concreto para hablar con seguridad desde tu primer módulo.",
   heroQuote:
     "No se trata de memorizar más. Se trata de comunicarte con soltura en entrevistas, universidad, trabajo y vida cotidiana.",
   canonical: "https://www.aitusainstitute.com/",
@@ -82,15 +82,15 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clase real desde el minuto 1: ve la dinámica, la corrección y la energía de la clase en vivo.",
-  "Método visual para hablar con claridad en entrevistas, escuela y vida diaria.",
-  "Plan semanal con seguimiento para avanzar incluso con agenda apretada.",
+  "Clase real desde el minuto 1: corrección, ritmo y energía se traducen en avance real.",
+  "Método visual para pasar de la comprensión a la conversación en entrevistas, universidad y trámites diarios.",
+  "Plan semanal con seguimiento semanal para que avances aunque tengas agenda apretada.",
 ];
 
 const heroStartPath = [
-  "Agenda una clase de muestra por WhatsApp con el horario que te quede mejor.",
-  "Recibe un diagnóstico inicial y tu plan de arranque en minutos.",
-  "Empieza en tu formato ideal, presencial, híbrido u online, sin perder ritmo.",
+  "Agenda una clase de muestra por WhatsApp en el horario que te funcione.",
+  "Recibe un diagnóstico inicial y define tu ruta de arranque en minutos.",
+  "Empieza en tu formato ideal: presencial, híbrido u online, con continuidad garantizada.",
 ];
 
 const heroSignal = [
