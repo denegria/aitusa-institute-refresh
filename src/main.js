@@ -1125,10 +1125,10 @@ app.innerHTML = `
       <div class="section-inner contact-grid">
         <div>
           <p class="section-kicker">Comienza ahora</p>
-          <h2 id="contacto-title">Da el siguiente paso hoy mismo.</h2>
+          <h2 id="contacto-title">Cuéntanos tu meta y te damos la ruta más directa.</h2>
           <p>
-            Completa el formulario y enviamos tu ruta inicial por WhatsApp en minutos.
-            Nuestro equipo confirmará cupo, calendario y documentos para empezar.
+            Completa el formulario y te respondemos por WhatsApp con nivel, horario y modalidad sugerida en minutos.
+            Si prefieres ver la clase primero, puedes hacerlo en la sección de experiencia y luego volver para escribirnos.
           </p>
           <div class="contact-prep" aria-label="Qué conviene tener listo antes de enviar el formulario">
             ${contactPrep
@@ -1159,10 +1159,10 @@ app.innerHTML = `
           <div class="direct-contact">
             <a href="${site.phoneHref}">${site.phone}</a>
             <a href="${site.whatsappHref}?text=${contactMessage}">${site.whatsapp}</a>
-            <a href="${site.forms.registration}" target="_blank" rel="noreferrer">Formulario de inscripción</a>
+            <a href="${site.forms.registration}" target="_blank" rel="noreferrer">Ver formulario oficial</a>
           </div>
-          <p>Primero validamos tu nivel y horario; después confirmamos tu inscripción y el punto de arranque más adecuado.</p>
-          <p>Mientras completas el formulario, el botón de WhatsApp se adapta con tus datos para que enviar la información sea más rápido.</p>
+          <p>Primero validamos tu nivel, horario y modalidad; después confirmamos tu punto de arranque más adecuado.</p>
+          <p>Mientras completas el formulario, el botón de WhatsApp se adapta con tus datos para que enviar la información sea más rápido y claro.</p>
         </div>
         <form class="lead-form" data-lead-form>
           <div class="form-row">
@@ -1195,9 +1195,9 @@ app.innerHTML = `
             <label>Teléfono <input name="telefono" type="tel" autocomplete="tel" required /></label>
           </div>
           <label>País y ciudad <input name="ubicacion" required /></label>
-          <button class="button button--primary" type="submit">Solicitar ruta inicial</button>
+          <button class="button button--primary" type="submit">Solicitar orientación</button>
           <p class="form-status" role="status" data-form-status></p>
-          <a class="button button--ghost form-whatsapp" data-form-whatsapp href="${site.whatsappHref}?text=${contactMessage}">Enviar por WhatsApp</a>
+          <a class="button button--ghost form-whatsapp" data-form-whatsapp href="${site.whatsappHref}?text=${contactMessage}">Continuar por WhatsApp</a>
         </form>
       </div>
     </section>

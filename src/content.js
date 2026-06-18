@@ -644,16 +644,16 @@ const paymentGuides = [
 
 const contactPrep = [
   {
-    title: "Tu nivel",
-    text: "Si no lo sabes, no pasa nada. Lo revisamos contigo en el primer contacto.",
+    title: "Nivel de entrada",
+    text: "Si no lo sabes, no pasa nada. Hacemos una orientación breve para ubicarte mejor.",
   },
   {
-    title: "Tu horario",
-    text: "Nos ayuda a sugerirte un bloque realista de mañana, noche o fin de semana.",
+    title: "Horario ideal",
+    text: "Así te sugerimos un bloque realista de mañana, noche o fin de semana.",
   },
   {
-    title: "Tu meta",
-    text: "Trabajo, universidad, entrevista, niño/a o apoyo técnico: así afinamos la ruta.",
+    title: "Meta principal",
+    text: "Trabajo, universidad, entrevista, niño/a o apoyo técnico: afinamos la ruta según eso.",
   },
 ];
 
