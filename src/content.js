@@ -674,26 +674,26 @@ const footerFacts = [
 
 const downloads = [
   {
-    title: "iPhone / iPad",
-    text: "Acceso para dispositivos Apple con recursos y seguimiento de clases listos para usar.",
+    title: "iPhone y iPad",
+    text: "Acceso para Apple con seguimiento de clase y recursos listos para revisar desde el móvil o tablet.",
     image: asset("155-apple-20logo-edited.jpg"),
     imageAlt: "Logo de Apple para descarga en iPhone y iPad.",
   },
   {
     title: "Mac",
-    text: "Acceso para Mac con materiales y herramientas de estudio optimizados para laptop.",
+    text: "Acceso para Mac con materiales de estudio optimizados para laptop y trabajo diario.",
     image: asset("157-5bfb6f-c2ae26a3c5004bca9ea2b860a535f4ab.jpg"),
     imageAlt: "Logo de Apple para descarga en laptop Mac.",
   },
   {
     title: "Android",
-    text: "Acceso para teléfono o tableta Android con práctica y seguimiento desde cualquier lugar.",
+    text: "Acceso para Android con práctica y seguimiento desde cualquier lugar.",
     image: asset("161-android-logo.png"),
     imageAlt: "Logo de Android para descarga de aplicación.",
   },
   {
     title: "Windows",
-    text: "Acceso para usuarios de Windows con seguimiento de clases y recursos listos para continuar.",
+    text: "Acceso para Windows con seguimiento de clases y recursos listos para continuar.",
     image: asset("163-window-logo.jpg"),
     imageAlt: "Logo de Windows para descarga de aplicación.",
   },

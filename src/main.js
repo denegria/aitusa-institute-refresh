@@ -984,22 +984,22 @@ app.innerHTML = `
 
     <section class="section section--white" aria-labelledby="downloads-title">
       <div class="section-inner section-heading">
-        <p class="section-kicker">Descargas</p>
-        <h2 id="downloads-title">Material de apoyo para repasar desde casa.</h2>
-        <p>Recursos para reforzar tareas, pronunciación y seguimiento semanal desde cualquier dispositivo.</p>
+        <p class="section-kicker">Acceso y preparación</p>
+        <h2 id="downloads-title">Ten listo tu dispositivo y tu material antes de la primera clase.</h2>
+        <p>Si estudias online o híbrido, aquí te dejamos lo mínimo para que tu clase funcione sin tropiezos.</p>
       </div>
       <div class="section-inner utility-strip">
         <article>
           <strong>Compatible</strong>
-          <span>iPhone, iPad, Mac, Android y Windows.</span>
+          <span>iPhone, iPad, Mac, Android y Windows para estudiar con flexibilidad.</span>
         </article>
         <article>
           <strong>Listo para usar</strong>
-          <span>Recursos pensados para estudiar sin configuración complicada.</span>
+          <span>Te guiamos para que abras recursos y clases sin configuración complicada.</span>
         </article>
         <article>
           <strong>Seguimiento</strong>
-          <span>Material alineado con tu progreso semanal y tus clases.</span>
+          <span>Material alineado con tu progreso semanal para que no estudies a ciegas.</span>
         </article>
       </div>
       <div class="section-inner download-grid">
@@ -1029,6 +1029,17 @@ app.innerHTML = `
             `,
           )
           .join("")}
+      </div>
+      <div class="section-inner books-cta">
+        <div>
+          <p class="section-kicker">¿Necesitas ayuda para configurarte?</p>
+          <h3>Si no estás seguro de qué equipo usar, te orientamos antes de tu primera clase.</h3>
+          <p>Puedes escribirnos por WhatsApp o pasar por el formulario para que el equipo te ayude a dejarlo listo.</p>
+        </div>
+        <div class="books-cta__actions">
+          <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Pedir ayuda</a>
+          <a class="button button--ghost" href="#contacto">Ir al contacto</a>
+        </div>
       </div>
     </section>
 
