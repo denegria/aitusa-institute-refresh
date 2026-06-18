@@ -101,6 +101,44 @@ const heroQuickCaptureWidget = () => {
   `;
 };
 
+const heroInstructorStrip = () => {
+  if (!teachers.length) return "";
+
+  const featuredTeachers = teachers.slice(0, 3).map((teacher) => {
+    const href = teacher.href || "#contacto";
+    const intent = teacher.intent || "default";
+    const name = teacher.name || "Instructora de AiT USA";
+    const role = teacher.role || teacher.description || "Acompañamiento real para avanzar con continuidad.";
+    const image = teacher.image || site.images.hero;
+    const alt = teacher.imageAlt || `${name} de AiT USA Institute.`;
+
+    return `
+      <a
+        class="hero__teacher-strip__item"
+        href="${href}"
+        data-intent-action
+        data-intent="${intent}"
+        aria-label="${name}: ${role}"
+      >
+        <img src="${image}" alt="${alt}" loading="lazy" decoding="async" />
+        <div class="hero__teacher-strip__content">
+          <strong>${name}</strong>
+          <span>${role}</span>
+        </div>
+      </a>
+    `;
+  });
+
+  return `
+    <section class="hero__teacher-strip" aria-label="Instructoras de clase real">
+      <p class="hero__teacher-strip__title">Conoce quién te guiará</p>
+      <div class="hero__teacher-strip__grid" data-hero-teacher-strip>
+        ${featuredTeachers.join("")}
+      </div>
+    </section>
+  `;
+};
+
 const requiredLeadFields = [
   { name: "nombre" },
   { name: "apellido" },
@@ -815,18 +853,50 @@ const initHeroQuickCapture = () => {
   const quickStatus = form.querySelector("[data-hero-quick-status]");
   if (!quickName || !quickPhone || !quickGoal || !quickStatus) return;
 
+  const getCleanPhone = (value) => String(value || "").replace(/\D/g, "");
+  const isValidPhone = (value) => {
+    const digits = getCleanPhone(value);
+    return digits.length >= 10 && digits.length <= 15;
+  };
+  const toWaPhone = (value) => {
+    const digits = getCleanPhone(value);
+    if (!digits) return "";
+    if (digits.length === 10) return `+1${digits}`;
+    if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
+    return `+${digits}`;
+  };
+  const setQuickStatus = (message, isError = false) => {
+    quickStatus.textContent = message;
+    quickStatus.classList.toggle("is-error", Boolean(isError));
+    if (!message) quickStatus.classList.remove("is-error");
+  };
+
   form.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const name = String(quickName.value || "un interesado").trim();
     const phone = String(quickPhone.value || "").trim();
     const goal = String(quickGoal.value || "ruta inicial").trim();
+
+    if (name.length < 2) {
+      setQuickStatus("Escribe tu nombre para personalizar el mensaje.", true);
+      quickName.focus();
+      return;
+    }
+
+    if (!isValidPhone(phone)) {
+      setQuickStatus("Tu número debe tener al menos 10 dígitos. Ejemplo: +1 555 000 0000.", true);
+      quickPhone.focus();
+      return;
+    }
+
+    const normalizedPhone = toWaPhone(phone);
     const message = encodeURIComponent(
-      `Hola AiT USA Institute, soy ${name} y quiero una ruta inicial para ${goal}. Mi número de contacto es ${phone || "el que me registran"}.`
+      `Hola AiT USA Institute, soy ${name} y quiero una ruta inicial para ${goal}. Mi número de contacto es ${normalizedPhone || "el que me registran"}.`
       + " Quiero clases, horarios y modalidad para empezar.",
     );
 
-    quickStatus.textContent = "Abriendo WhatsApp con tu mensaje listo para enviar…";
+    setQuickStatus("Abriendo WhatsApp con tu mensaje listo para enviar…");
     window.location.href = `${site.whatsappHref}?text=${message}`;
   });
 };
@@ -925,9 +995,10 @@ app.innerHTML = `
           </div>
           ${heroIntentCards()}
           ${heroCommitment()}
-          <p class="hero__microcopy">
+        <p class="hero__microcopy">
             ${site.heroMicrocopy || "Empieza en 60 segundos: mira una clase real, valida ritmo y decide con menos incertidumbre."}
           </p>
+          ${heroInstructorStrip()}
           <div class="hero__conversion-strip">
             <a class="button button--primary" href="#contacto" data-intent-action data-intent="default">Quiero mi ruta personalizada</a>
             <a class="button button--ghost" href="#horarios" data-intent-action data-intent="scheduleFlex">Ver horarios disponibles</a>
