@@ -1056,14 +1056,14 @@ app.innerHTML = `
 
     <section class="section section--soft" aria-labelledby="pagos-title">
       <div class="section-inner section-heading">
-        <p class="section-kicker">Productos y pagos</p>
-        <h2 id="pagos-title">Opciones transparentes para estudiar sin sorpresas.</h2>
-        <p>Precios y productos claros para que el siguiente paso sea evidente desde el inicio.</p>
+        <p class="section-kicker">Tu punto de entrada</p>
+        <h2 id="pagos-title">Elige la ruta que mejor encaja con tu meta y tu momento.</h2>
+        <p>Si ya sabes lo que buscas, ve directo al plan; si no, te dejamos una guía rápida para elegir sin perder tiempo.</p>
       </div>
       <div class="section-inner payment-note">
         <p>
           Si no ves tu modalidad exacta, escríbenos por WhatsApp y te indicamos la opción correcta según
-          tu país, horario y tipo de acceso.
+          tu país, horario, nivel y tipo de acceso.
         </p>
       </div>
       <div class="section-inner payment-guide" aria-label="Ayuda para elegir producto">
@@ -1073,7 +1073,7 @@ app.innerHTML = `
               <article>
                 <strong>${item.title}</strong>
                 <p>${item.text}</p>
-                <span>${item.cta}</span>
+                <a href="#contacto">${item.cta}</a>
               </article>
             `,
           )
@@ -1095,13 +1095,24 @@ app.innerHTML = `
                   <p>${item.note}</p>
                   ${renderVariants(item.variants)}
                   <div class="payment-card__footer">
-                    <a class="payment-card__cta" href="${site.whatsappHref}?text=${productInquiryMessage(item)}">Consultar este plan</a>
+                    <a class="payment-card__cta" href="${site.whatsappHref}?text=${productInquiryMessage(item)}">Elegir este plan</a>
                   </div>
                 </div>
               </article>
             `,
           )
           .join("")}
+      </div>
+      <div class="section-inner books-cta">
+        <div>
+          <p class="section-kicker">¿Aún comparas opciones?</p>
+          <h3>Te ayudamos a decidir entre mensualidad, libro, registración o una ruta técnica.</h3>
+          <p>Escríbenos y te decimos cuál conviene según tu meta, tu ritmo y tu presupuesto.</p>
+        </div>
+        <div class="books-cta__actions">
+          <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Pedir recomendación</a>
+          <a class="button button--ghost" href="#faq">Ver dudas frecuentes</a>
+        </div>
       </div>
     </section>
 
