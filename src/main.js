@@ -53,8 +53,8 @@ const programCounts = initials.reduce((acc, label) => {
 const heroMediaPoster = site.heroVideoPoster || site.images.heroPoster || site.images.hero;
 const heroVideoSources = (() => {
   const isMobile = window.matchMedia("(max-width: 900px)").matches;
-  const desktopFirst = site.heroVideoPortrait || site.heroVideo;
-  const mobileFirst = site.heroVideo || site.heroVideoPortrait;
+  const desktopFirst = site.heroVideo || site.heroVideoPortrait;
+  const mobileFirst = site.heroVideoPortrait || site.heroVideo;
 
   return (isMobile ? [mobileFirst, desktopFirst, site.heroVideoFallback] : [desktopFirst, mobileFirst, site.heroVideoFallback])
     .filter(Boolean)

@@ -36,7 +36,7 @@ const site = {
     hero: asset("live/hero-female-classroom.jpg"),
     heroPoster: asset("live/hero-female-classroom.jpg"),
     heroVideo: asset("live/hero-female-speaking-1080p.mp4"),
-    heroVideoPortrait: asset("live/hero-female-speaking-1080p.mp4"),
+    heroVideoPortrait: asset("live/hero-female-speaking-360p.mp4"),
     heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
     heroVideoPoster: asset("live/hero-female-classroom.jpg"),
     adultEnglish: assetHires("adult-english-speaking.jpg"),
