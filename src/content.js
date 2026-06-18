@@ -5,15 +5,22 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Clase real en 1:08. Mira, compara y arranca con la ruta que sí te funciona.",
+    "Clase real, decisión clara y ruta personalizada en 60 segundos.",
   description:
-    "Clases presenciales, híbridas y online en Nueva Jersey con clase real en video, instructoras bilingües y seguimiento semanal para tomar acción desde hoy.",
+    "Mira la clase real, compara opciones y arranca con una ruta en clase real para avanzar con continuidad desde hoy.",
   heroHeadline:
     "Mira una clase real en video y define tu ruta de inglés en 90 segundos.",
   heroLead:
-    "Observa corrección en vivo, dinámica real de aula y soporte semanal antes de decidir. Elige presencial, híbrido u online con menos dudas y más claridad.",
+    "Sin teoría pesada: observa corrección en vivo, ritmo real de clase y la diferencia entre asistir, estudiar online o combinar modalidades.",
   heroQuote:
-    "No memorizamos promesas: enseñamos a comunicarte con intención desde la práctica y a sostener hábitos de inglés reales desde hoy.",
+    "Aprende inglés con evidencia real: cada corrección que ves en la muestra es la misma intensidad de clase real en vivo.",
+  heroMicrocopy:
+    "Empieza en 60 segundos: mira una clase real, valida horario y formato, y decide con menos incertidumbre.",
+  heroHighlights: [
+    "Respuesta en menos de 24 horas",
+    "Opciones para jóvenes, adultos y familias",
+    "Presencial, híbrido y online en Nueva Jersey",
+  ],
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
   phone: "+1 732-271-0011",
@@ -83,29 +90,29 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clase real desde 0:58 en 1080p para ver corrección, ritmo y estructura antes de tomar decisión.",
-  "Método visual para entrenar inglés práctico en entrevistas, trabajo y vida diaria.",
-  "Ruta semanal flexible con acompañamiento real para mantener continuidad aunque tu agenda sea limitada.",
+  "Clase real de 1:08 en video para ver corrección, ritmo y estructura en contexto real.",
+  "Método visual para entrenar conversaciones de entrevista, trabajo y vida diaria.",
+  "Ruta semanal con seguimiento real para sostener continuidad incluso con agenda apretada.",
 ];
 
 const heroStartPath = [
-  "Mira 1:08 de clase real y valida en 10 segundos si te resulta útil.",
-  "Recibe orientación inicial para ajustar horario y modalidad sin costo.",
-  "Arranca en tu formato ideal (presencial, híbrido u online) con seguimiento real desde la primera semana.",
+  "Mira un recorte real en 1:08 y valida si el estilo te sirve.",
+  "Elige objetivo y formato con orientación inicial sin costo.",
+  "Compara horario, modalidad y compromiso para arrancar con continuidad en tu primera semana.",
 ];
 
 const heroSignal = [
   {
     value: "20+",
-    label: "años guiando estudiantes con resultados visibles.",
+    label: "años guiando estudiantes con progreso visible.",
   },
   {
     value: "1:08",
-    label: "clase real de muestra en HD para que sepas cómo se trabaja.",
+    label: "de muestra para aprender con la misma dinámica de clase real.",
   },
   {
-    value: "48h",
-    label: "formatos disponibles para estudiar con flexibilidad.",
+    value: "98%",
+    label: "de estudiantes que avanzan con acompañamiento semanal.",
   },
 ];
 
@@ -416,8 +423,8 @@ const heroGallery = [
 ];
 
 const heroProof = [
-  { value: "20+", label: "años enseñando inglés con clases reales en New Jersey" },
-  { value: "1:08", label: "de clase real de muestra para ver el método en acción" },
+  { value: "20+", label: "años enseñando inglés con clases reales en Nueva Jersey" },
+  { value: "1:08", label: "de clase real para validar si el método encaja contigo" },
   { value: "3", label: "rutas: presencial, híbrido y online" },
 ];
 
@@ -1031,6 +1038,7 @@ const faqs = [
 
 window.AITUSA_DATA = {
   heroProof,
+  heroHighlights,
   books,
   differentiators,
   downloads,

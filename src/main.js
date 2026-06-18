@@ -4,6 +4,7 @@ const {
   differentiators,
   downloads,
   faqs,
+  heroHighlights,
   learningOutcomes,
   courseGuides,
   heroGallery,
@@ -863,16 +864,16 @@ app.innerHTML = `
           ${heroIntentCards()}
           ${heroCommitment()}
           <p class="hero__microcopy">
-            Empieza en 60 segundos: mira una clase real, valida ritmo y decide con menos incertidumbre.
+            ${site.heroMicrocopy || "Empieza en 60 segundos: mira una clase real, valida ritmo y decide con menos incertidumbre."}
           </p>
           <div class="hero__conversion-strip">
             <a class="button button--primary" href="#contacto" data-intent-action data-intent="default">Quiero mi ruta personalizada</a>
             <a class="button button--ghost" href="#horarios" data-intent-action data-intent="scheduleFlex">Ver horarios disponibles</a>
           </div>
           <div class="hero__highlights" aria-label="Beneficios">
-            <span>Respuesta en menos de 24h</span>
-            <span>Rutas para jóvenes, adultos y familias</span>
-            <span>Clases en Nueva Jersey y online</span>
+            ${(site.heroHighlights || site.heroHighlight || [])
+              .map((copy) => `<span>${copy}</span>`)
+              .join("")}
           </div>
           ${heroSignalCards()}
           ${heroPathList()}
