@@ -1290,7 +1290,7 @@ app.innerHTML = `
       <a href="#faq">Preguntas frecuentes</a>
       <a href="#contacto">Contacto</a>
     </div>
-    <p>Experiencia web renovada para una comunicación más clara y efectiva. © ${site.founded} ${site.name}. Mira la clase real antes de escribirnos.</p>
+    <p>Experiencia web renovada para mostrar video real de clase y una ruta más clara antes de escribirnos. © ${site.founded} ${site.name}.</p>
   </footer>
 `;
 initHeroBackground();
