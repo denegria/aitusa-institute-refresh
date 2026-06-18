@@ -126,6 +126,7 @@ const site = {
     productComputing: asset("products/product-computacion.jpg"),
   },
 };
+const heroQuickCapture = site.heroQuickCapture;
 
 const nav = [
   ["Inicio", "inicio"],
@@ -145,6 +146,7 @@ const heroPoints = [
   "Método visual para entrenamiento práctico de conversación: entrevistas, trabajo y vida diaria.",
   "Ruta inicial con acompañamiento real para sostener continuidad sin que tu agenda sea la excusa.",
 ];
+const heroHighlights = site.heroHighlights || [];
 
 const heroVideoHighlights = [
   "Clase real grabada en alta calidad",
