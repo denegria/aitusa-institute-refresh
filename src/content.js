@@ -630,6 +630,21 @@ const contactPrep = [
   },
 ];
 
+const footerFacts = [
+  {
+    title: "Respuesta rápida",
+    text: "Te contestamos por WhatsApp para avanzar con el siguiente paso sin perder tiempo.",
+  },
+  {
+    title: "Horarios flexibles",
+    text: "Mañanas, noches, sábados y domingos, con opciones presencial, híbrida y online.",
+  },
+  {
+    title: "Sedes y online",
+    text: "Nueva Jersey o distancia, según tu ubicación y el formato que mejor te funcione.",
+  },
+];
+
 const downloads = [
   {
     title: "iPhone / iPad",
@@ -862,6 +877,7 @@ window.AITUSA_DATA = {
   trustHighlights,
   paymentGuides,
   contactPrep,
+  footerFacts,
 };
 
 

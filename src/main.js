@@ -27,6 +27,7 @@ const {
   trustHighlights,
   paymentGuides,
   contactPrep,
+  footerFacts,
 } = window.AITUSA_DATA;
 
 const app = document.querySelector("#app");
@@ -1145,6 +1146,18 @@ app.innerHTML = `
       <strong>${site.name}</strong>
       <span>${site.legal}</span>
       <p>Una experiencia web más clara, humana y enfocada en convertir interés en una primera conversación real.</p>
+    </div>
+    <div class="site-footer__facts" aria-label="Resumen rápido">
+      ${footerFacts
+        .map(
+          (item) => `
+            <article>
+              <strong>${item.title}</strong>
+              <span>${item.text}</span>
+            </article>
+          `,
+        )
+        .join("")}
     </div>
     <div class="site-footer__contact" aria-label="Contactos directos">
       <a href="${site.phoneHref}">${site.phone}</a>
