@@ -5,15 +5,15 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Clase real, sin filtros: ve cómo se aprende en AiT USA Institute y decide en 60 segundos si es tu mejor ruta.",
+    "Clase real, sin simulaciones: mira cómo aprendemos y decide hoy si esta ruta funciona para ti.",
   description:
-    "Mira una clase real de 1:08, valida nivel, ritmo y encaje, y define tu siguiente paso con evidencia práctica.",
+    "Mira una clase real de 1:08, valida tu nivel y ritmo, y define tu siguiente paso con evidencia práctica y un plan inicial.",
   heroHeadline:
-    "Mira una clase real de 1:08 y decide hoy si este método encaja con tu meta.",
+    "Mira una clase real de 1:08 y decide hoy si este método es para ti.",
   heroLead:
-    "Observa una clase real en acción: corrección en vivo, conversación real y ritmo auténtico para saber si es tu forma de aprender.",
+    "Observa una clase real en acción: corrección en vivo, conversación real y ritmo auténtico para saber si encaja con tu estilo de aprendizaje.",
   heroQuote:
-    "Sin simulaciones: cada corrección y avance que ves pertenece a una clase real, diseñada para que avances en minutos.",
+    "Sin simulaciones: cada corrección y avance que ves pertenece a una clase real de enseñanza activa.",
   heroMicrocopy:
     "Reproduce el clip, valida si el ritmo encaja contigo y define tu ruta inicial con plan y horario de arranque.",
   heroQuickCapture: {
@@ -21,18 +21,18 @@ const site = {
     copy:
       "Déjanos tu nombre y WhatsApp. Te respondemos con objetivo, horario viable y siguiente paso para empezar hoy.",
     options: [
-      "Quiero comprobar método y estilo con clase real",
+      "Quiero validar método y estilo con clase real",
       "Quiero revisar opciones de horario",
       "Necesito ruta para mi hijo o hija",
       "Quiero una ruta para niños o adultos",
     ],
-    button: "Ver mi ruta inicial por WhatsApp",
-    note: "Sin costo y sin compromiso. Te enviamos una recomendación inicial clara y rápida.",
+    button: "Recibir ruta inicial por WhatsApp",
+    note: "Sin costo y sin compromiso. Te enviamos una recomendación inicial clara y accionable.",
   },
   heroHighlights: [
-    "Clase real sin simulaciones: método, ritmo y estilo visibles desde el primer clip.",
-    "Compara presencial, híbrido y online sin trámites largos, en minutos.",
-    "Recibe una ruta inicial concreta para decidir hoy y empezar con criterio.",
+    "Clase real sin simulaciones: método, ritmo y estilo visibles desde el primer minuto.",
+    "Compara presencial, híbrido y online en minutos para elegir formato realista.",
+    "Recibe una ruta inicial concreta para decidir hoy y comenzar con menos dudas.",
   ],
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
@@ -143,7 +143,7 @@ const nav = [
 const heroPoints = [
   "Clase real de 1:08 para validar estilo, ritmo y encaje antes de inscribirte.",
   "Método visual para entrenamiento práctico de conversación: entrevistas, trabajo y vida diaria.",
-  "Ruta inicial con acompañamiento real para sostener continuidad sin que tu agenda sea la excusa."
+  "Ruta inicial con acompañamiento real para sostener continuidad sin que tu agenda sea la excusa.",
 ];
 
 const heroStartPath = [
@@ -155,11 +155,11 @@ const heroStartPath = [
 const heroSignal = [
   {
     value: "20+",
-    label: "años de experiencia acompañando metas reales en inglés.",
+    label: "años acompañando rutas reales de aprendizaje en inglés.",
   },
   {
     value: "1:08",
-    label: "de muestra para validar método, ritmo y formato antes de avanzar.",
+    label: "de muestra para validar método, ritmo y formato antes de decidir.",
   },
   {
     value: "7 días",
@@ -171,19 +171,19 @@ const launchPath = [
   {
     title: "Semana 1: diagnóstico y objetivo",
     description:
-      "Te explicamos tu nivel actual en 10 minutos y te proponemos un plan de 21 días adaptado a tus horarios y metas inmediatas.",
+      "Te explicamos tu nivel actual en 10 minutos y proponemos un plan de 21 días adaptado a tu horario y meta inmediata.",
     outcome: "Sales con una ruta personal y tareas concretas para arrancar.",
   },
   {
     title: "Semana 2: práctica guiada",
     description:
-      "Entrenas conversaciones reales en clase con correcciones puntuales para que conviertas teoría en respuesta inmediata.",
-    outcome: "La conversación empieza a salir con menos fricción y más control.",
+      "Entrenas conversaciones reales con correcciones puntuales para convertir teoría en respuesta inmediata.",
+    outcome: "La conversación mejora con menos fricción y más control.",
   },
   {
     title: "Semana 3: seguimiento y ajuste",
     description:
-      "Con tu coach de ruta revisamos avances, detectamos obstáculos y ajustamos tareas de micro-práctica.",
+      "Con tu coach de ruta revisamos avances, detectamos obstáculos y ajustamos micro-prácticas.",
     outcome: "Ves evidencia de mejora y sabes exactamente cómo seguir.",
   },
 ];
@@ -191,7 +191,7 @@ const launchPath = [
 const stats = [
   { value: "+1000", label: "estudiantes guiados por enfoque práctico" },
   { value: "3", label: "formatos para estudiar: presencial, híbrido y online" },
-  { value: "GC", label: "Método Graphic Concept, claro, visual y efectivo" },
+  { value: "GC", label: "Método Graphic Concept: visual, práctico y rápido de dominar" },
   { value: "20+", label: "años construyendo una ruta de confianza en inglés" },
 ];
 
@@ -199,36 +199,39 @@ const differentiators = [
   {
     title: "Comprender primero, hablar después",
     text:
-      "Conecta ideas, intención y contexto. Los estudiantes avanzan más cuando entienden significado, luego convierten esa comprensión en oralidad natural.",
+      "Conecta intención, contexto y vocabulario. Comprender primero reduce el bloqueo y acelera cada intervención oral.",
   },
   {
     title: "Hablar con estructura visual",
     text:
-      "Graphic Concept traduce reglas y patrones a mapas visuales memorables, para que cada respuesta sea rápida, precisa y con menos errores.",
+      "Graphic Concept traduce reglas y patrones en mapas visuales memorables para hablar más rápido y con menos errores.",
   },
   {
     title: "Acompañamiento que impulsa resultados",
     text:
-      "Seguimiento semanal, tutorías y ajustes de ruta para crear hábitos de inglés con continuidad real, sin abandono a mitad de camino.",
+      "Seguimiento semanal, tutorías y ajustes de ruta para crear hábitos de inglés con continuidad real y progresión constante.",
   },
 ];
 
 const learningOutcomes = [
   {
     title: "Comprensión rápida",
-    text: "Empiezas viendo estructura y contexto, no listas aisladas de vocabulario.",
+    text:
+      "Comienzas construyendo estructura y contexto para entender primero y responder después con más seguridad.",
   },
   {
     title: "Habla guiada",
-    text: "Cada clase incluye repetición oral con corrección inmediata y práctica real.",
+    text:
+      "Cada clase incluye repetición oral con corrección inmediata para pasar de escuchar a hablar sin improvisar.",
   },
   {
     title: "Rutina sostenible",
-    text: "Microtareas semanales para avanzar incluso si tu agenda es muy apretada.",
+    text: "Microtareas semanales diseñadas para avanzar incluso con agendas muy apretadas.",
   },
   {
     title: "Seguimiento real",
-    text: "Ajustamos nivel y ritmo según tu progreso, tu horario y tu meta actual.",
+    text:
+      "Ajustamos nivel y ritmo según tu progreso, tu horario y tu meta, semana tras semana.",
   },
 ];
 
