@@ -364,6 +364,8 @@ const heroGallery = [
     label: "Clase en vivo",
     title: "Corrección instantánea y conversación guiada para hablar con más claridad desde el primer bloque.",
     image: "./public/assets/wix/hires/hero-classroom.jpg",
+    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
+    videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
     imageAlt:
       "Docente de AiT USA y estudiantes practicando inglés en una clase en vivo con enfoque visual.",
   },
@@ -390,14 +392,14 @@ const heroGallery = [
   {
     label: "Seguimiento semanal",
     title: "Ruta semanal con acciones claras para convertir práctica en hábito.",
-    image: "./public/assets/wix/live/testimonial-marisol-live.jpg",
+    image: "./public/assets/wix/hires/testimonial-marisol-1200.jpg",
     imageAlt:
       "Instructora de AiT USA trabajando con una estudiante para mejorar la fluidez y la seguridad.",
   },
   {
     label: "Resultados reales",
     title: "Seguimiento de progreso con evidencia de resultados en cada módulo.",
-    image: "./public/assets/wix/live/testimonial-antonina-live.jpg",
+    image: "./public/assets/wix/hires/testimonial-antonina-1200.jpg",
     imageAlt: "Estudiantes de AiT USA aplicando lo aprendido en clase de inglés.",
   },
 ];
@@ -433,7 +435,7 @@ const instructorClips = [
   {
     title: "Conexión auténtica en clases online",
     eyebrow: "8 a 13 años",
-    image: "./public/assets/wix/live/testimonial-antonina-live.jpg",
+    image: "./public/assets/wix/hires/testimonial-antonina-1200.jpg",
     imageAlt:
       "Estudiante practicando inglés en una clase remota con acompañamiento de la instructora.",
     caption:
@@ -443,7 +445,7 @@ const instructorClips = [
   {
     title: "Respuesta guiada en clase",
     eyebrow: "Sesión de progreso",
-    image: "./public/assets/wix/live/testimonial-marisol-live.jpg",
+    image: "./public/assets/wix/hires/testimonial-marisol-1200.jpg",
     imageAlt: "Instructora de AiT USA interactuando con estudiantes en una clase de inglés.",
     caption:
       "Estrategias y corrección puntual para pasar de comprender a comunicar ideas con mayor naturalidad.",

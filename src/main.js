@@ -472,15 +472,18 @@ const heroMedia = () => {
         </div>
       </div>
         <div class="hero__preview-rail" aria-label="Momentos reales de clase">
-        ${previewItems
-          .map(
-            (item, index) => `
+      ${previewItems
+        .map(
+          (item, index) => `
               <button
                 class="hero__preview-card ${index === 0 ? "hero__preview-card--featured" : ""}"
                 type="button"
                 data-hero-preview="${index}"
+                data-hero-preview-source="${item.video || ""}"
+                data-hero-preview-poster="${item.videoPoster || item.image}"
                 aria-label="${item.label}: ${item.title}"
               >
+                ${item.video ? '<span class="hero__preview-card__video-badge">VIDEO REAL</span>' : ""}
                 <img src="${item.image}" alt="${item.imageAlt}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async" />
                 <div class="hero__preview-copy">
                   <span>${item.label}</span>
@@ -585,7 +588,10 @@ const initHeroPreviewCards = () => {
   const kicker = document.querySelector("[data-hero-kicker]");
   const title = document.querySelector("[data-hero-title]");
   const poster = document.querySelector("[data-hero-poster]");
-  if (!previewCards.length || !kicker || !title || !poster) return;
+  const heroSource = heroVideo.querySelector("[data-hero-source]");
+  const heroFallbackImage = document.querySelector("[data-hero-fallback]");
+
+  if (!previewCards.length || !kicker || !title || !poster || !heroSource || !heroFallbackImage) return;
 
   const setPreviewFocus = (nextIndex) => {
     previewCards.forEach((card, cardIndex) => {
@@ -595,13 +601,28 @@ const initHeroPreviewCards = () => {
   };
 
   const setHeroContext = (nextIndex) => {
+    const card = previewCards[nextIndex];
     const item = heroGallery[nextIndex];
-    if (!item) return;
+    if (!card || !item) return;
 
-    poster.src = item.image || poster.src;
+    const nextSource = card.dataset.heroPreviewSource || "";
+    const nextPoster = card.dataset.heroPreviewPoster || item.image;
+
+    poster.src = nextPoster || item.image || poster.src;
     poster.alt = item.imageAlt || poster.alt;
     kicker.textContent = item.label;
     title.textContent = item.title;
+
+    if (nextSource) {
+      heroSource.src = nextSource;
+      heroVideo.load();
+      heroVideo.play().catch(() => {});
+      heroVideo.classList.remove("is-hidden");
+      heroFallbackImage.classList.add("is-hidden");
+    } else {
+      heroSource.src = heroVideoSources[0];
+      heroVideo.load();
+    }
   };
 
   previewCards.forEach((card) => {

@@ -682,6 +682,24 @@ select {
   background: rgba(255, 255, 255, 0.08);
   box-shadow: 0 12px 28px rgba(9, 17, 44, 0.16);
   color: inherit;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.hero__preview-card__video-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fce7ec;
+  background: linear-gradient(130deg, rgba(255, 78, 106, 0.95), rgba(28, 66, 255, 0.94));
+  z-index: 2;
+  pointer-events: none;
 }
 
 .hero__preview-card--featured {
