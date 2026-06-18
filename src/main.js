@@ -5,6 +5,7 @@ const {
   downloads,
   faqs,
   learningOutcomes,
+  courseGuides,
   heroGallery,
   heroPoints,
   launchPath,
@@ -648,6 +649,18 @@ app.innerHTML = `
           <span>Apoyo académico</span>
           <span>Tecnología práctica</span>
         </div>
+      </div>
+      <div class="section-inner course-guide" aria-label="Ayuda para elegir el curso correcto">
+        ${courseGuides
+          .map(
+            (item) => `
+              <article>
+                <strong>${item.title}</strong>
+                <p>${item.text}</p>
+              </article>
+            `,
+          )
+          .join("")}
       </div>
       <div class="section-inner filter-bar" role="group" aria-label="Filtrar cursos">
         ${initials
