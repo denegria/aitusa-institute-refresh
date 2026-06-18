@@ -1310,7 +1310,23 @@ app.innerHTML = `
           <div class="trust-copy">
             <p class="section-kicker">Nuestro equipo</p>
             <h3>Personas reales detrás de la clase.</h3>
-            <ul class="teacher-list teacher-list--chips">${joinList(teachers)}</ul>
+            <div class="teacher-grid" aria-label="Instructoras de AiT USA">
+              ${teachers
+                .map(
+                  (teacher) => `
+                    <article class="teacher-card">
+                      <img src="${teacher.image}" alt="${teacher.imageAlt}" loading="lazy" />
+                      <div class="teacher-card__body">
+                        <span class="teacher-card__badge">${teacher.badge}</span>
+                        <p class="teacher-card__name">${teacher.name}</p>
+                        <p class="teacher-card__role">${teacher.role}</p>
+                        <p class="teacher-card__description">${teacher.description}</p>
+                      </div>
+                    </article>
+                  `,
+                )
+                .join("")}
+            </div>
           </div>
           <div class="trust-actions">
             <a class="button button--primary" href="#experiencia">Ver clase real</a>

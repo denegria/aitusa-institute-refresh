@@ -691,9 +691,33 @@ const testimonials = [
 ];
 
 const teachers = [
-  "Profesoras y profesores bilingües con experiencia en enseñanza conversacional.",
-  "Mentoría personalizada para convertir objetivos en hábitos de práctica diaria.",
-  "Equipo con experiencia en distintos niveles, ritmos y zonas horarias.",
+  {
+    name: "Instructora de inglés conversacional",
+    image: "./public/assets/wix/live/hero-female-teacher.jpg",
+    imageAlt: "Instructora de AiT USA corrigiendo pronunciación durante una clase real de conversación.",
+    role: "Corrección en vivo con seguimiento semanal.",
+    description:
+      "Trabaja contigo para que cada intervención sea más natural, clara y útil desde el primer bloque.",
+    badge: "Clase real",
+  },
+  {
+    name: "Instructora de práctica online",
+    image: "./public/assets/wix/live/hero-female-zoom.jpg",
+    imageAlt: "Instructora de AiT USA guiando una clase de inglés por videollamada.",
+    role: "Aprendizaje remoto con participación guiada.",
+    description:
+      "Guía la dinámica desde la distancia para que practiques confianza oral con apoyo y estructura.",
+    badge: "Formato online",
+  },
+  {
+    name: "Instructora de continuidad académica",
+    image: "./public/assets/wix/live/hero-female-classroom.jpg",
+    imageAlt: "Instructora de AiT USA motivando a estudiantes en una clase práctica.",
+    role: "Soporte constante y ruta personalizada.",
+    description:
+      "Acompaña el seguimiento de metas semanales para que avances sin perder ritmo ni motivación.",
+    badge: "Seguimiento semanal",
+  },
 ];
 
 const trustHighlights = [
