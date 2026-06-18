@@ -185,6 +185,23 @@ const heroVideoFacts = () => `
   </div>
 `;
 
+const heroIntentCards = () => `
+  <div class="hero__intent" aria-label="¿Qué objetivo tienes hoy?">
+    <a class="hero__intent-card" href="#experiencia">
+      <span class="hero__intent-card__label">Quiero ver la clase real</span>
+      <strong>Ver experiencia en vivo</strong>
+    </a>
+    <a class="hero__intent-card" href="#horarios">
+      <span class="hero__intent-card__label">Tengo agenda limitada</span>
+      <strong>Ver horarios disponibles</strong>
+    </a>
+    <a class="hero__intent-card" href="#contacto">
+      <span class="hero__intent-card__label">Soy mamá, padre o asesorando a otro</span>
+      <strong>Consultar opciones para familias</strong>
+    </a>
+  </div>
+`;
+
 const heroPathList = () => {
   if (!heroStartPath.length) return "";
 
@@ -649,6 +666,7 @@ app.innerHTML = `
             <a class="button button--primary" href="#experiencia">Ver la clase real</a>
             <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Pedir orientación</a>
           </div>
+          ${heroIntentCards()}
           <p class="hero__microcopy">
             Mira la clase real primero; si luego quieres elegir nivel, sede o modalidad, escríbenos por WhatsApp.
             <a href="${site.whatsappHref}?text=${contactMessage}">Pedir orientación</a>
