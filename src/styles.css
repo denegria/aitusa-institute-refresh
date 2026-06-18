@@ -599,6 +599,13 @@ select {
   box-shadow: 0 14px 30px rgba(11, 27, 80, 0.35);
 }
 
+.hero__media-note {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
 .section-kicker {
   margin: 0 0 14px;
   color: var(--red);

@@ -543,6 +543,7 @@ app.innerHTML = `
           <p class="hero__quote">
             “${site.heroQuote}”
           </p>
+          <p class="hero__media-note">Video real de clases con instructoras bilingües, cargado desde los archivos locales del proyecto.</p>
         </div>
       </div>
     </section>
