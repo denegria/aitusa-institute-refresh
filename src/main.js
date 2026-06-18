@@ -499,7 +499,7 @@ app.innerHTML = `
         )
         .join("")}
       </nav>
-    <a class="header-cta" href="${site.whatsappHref}?text=${contactMessage}">WhatsApp</a>
+    <a class="header-cta" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Escribir por WhatsApp para recibir orientación">WhatsApp directo</a>
   </header>
 
   <main>
@@ -1137,8 +1137,8 @@ app.innerHTML = `
   </main>
   
   <div class="mobile-action-bar" aria-label="Acciones rápidas">
-    <a class="button button--ghost" href="${site.phoneHref}">Llamar ${site.phone}</a>
-    <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Agendar clase</a>
+    <a class="button button--ghost" href="${site.phoneHref}" aria-label="Llamar para recibir orientación">Llamar ahora</a>
+    <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Escribir por WhatsApp para agendar una clase de muestra">WhatsApp directo</a>
   </div>
 
   <footer class="site-footer">

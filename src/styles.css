@@ -729,6 +729,8 @@ select {
 .mobile-action-bar .button {
   min-height: 52px;
   flex: 1;
+  white-space: nowrap;
+  font-size: 0.84rem;
 }
 
 .mobile-action-bar .button--ghost {
