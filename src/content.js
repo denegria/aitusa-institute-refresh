@@ -5,17 +5,17 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Clase real, decisión clara y ruta personalizada en menos de 60 segundos.",
+    "Clase real, decisión clara y ruta personalizada en menos de 60 segundos en Nueva Jersey.",
   description:
-    "Mira una clase real, valida el ritmo de aprendizaje y llega a una ruta clara para arrancar con continuidad.",
+    "Mira una clase real en vivo y descubre en minutos si AiT USA Institute encaja con tu ritmo, horario y objetivo: presencial, híbrido u online.",
   heroHeadline:
     "Mira una clase real en video y define tu ruta de inglés en 60 segundos.",
   heroLead:
-    "Sin teoría pesada: observa corrección en vivo, ritmo real de clase y cómo elegimos modalidad según tu semana.",
+    "Sin teoría pesada: observa corrección en vivo, ritmo real de clase y cómo elige la modalidad perfecta según tu semana.",
   heroQuote:
     "Aprende inglés con evidencia real: cada corrección que ves en la muestra es la misma intensidad de clase real en vivo.",
   heroMicrocopy:
-    "Mira una clase real de 1:08, valida horario y formato, y decide con más confianza.",
+    "Mira una clase real de 1:08, valida horario y formato, y decide con más confianza en menos de 2 minutos.",
   heroQuickCapture: {
     title: "Tu ruta inicial en 60 segundos",
     copy: "Déjanos nombre y WhatsApp y te mandamos opciones de modalidad, horario y siguiente paso al instante.",
@@ -39,6 +39,16 @@ const site = {
   phoneHref: "tel:+17322710011",
   whatsapp: "+1 732-379-0593",
   whatsappHref: "https://wa.me/17323790593",
+  twitterHandle: "@AiTUSA_Institute",
+  seoTitle: "AiT USA Institute | Clase real de inglés con ruta personalizada en Nueva Jersey",
+  seoDescription:
+    "Mira una clase real en 1:08, valida tu estilo de aprendizaje y arranca con una ruta personalizada de inglés presencial, híbrido u online en Nueva Jersey.",
+  seoKeywords:
+    "AiT USA Institute, clases de inglés en Nueva Jersey, clase real de inglés en video, clases presenciales de inglés, clases híbridas de inglés, clases online de inglés",
+  seoImage: assetHires("hero-classroom.jpg"),
+  seoImageAlt: "Instructora de AiT USA Institute guiando una clase real de inglés.",
+  seoVideo: asset("live/hero-female-speaking-1080p.mp4"),
+  seoVideoDuration: "PT1M8S",
   emailHref:
     "mailto:info@aitusainstitute.com?subject=Informaci%C3%B3n%20sobre%20clases%20AiT%20USA%20Institute",
   facebookHref: "https://www.facebook.com/aitusainstitute/",

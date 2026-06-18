@@ -284,6 +284,71 @@ const syncFaqSchema = () => {
   script.textContent = JSON.stringify(payload, null, 2);
 };
 
+const toAbsoluteSiteUrl = (value) => {
+  if (!value) return "";
+  if (/^(https?:|mailto:|tel:)/i.test(value)) return value;
+
+  try {
+    return new URL(value, site.canonical || window.location.href).toString();
+  } catch {
+    return value;
+  }
+};
+
+const syncSeoHead = () => {
+  const setContent = (selector, value) => {
+    if (!value) return;
+    const node = document.querySelector(selector);
+    if (node) {
+      node.setAttribute("content", value);
+    }
+  };
+
+  const setHref = (selector, value) => {
+    if (!value) return;
+    const node = document.querySelector(selector);
+    if (node) {
+      node.setAttribute("href", value);
+    }
+  };
+
+  const canonical = site.canonical || `${window.location.origin}/`;
+  const seoTitle = `${site.seoTitle || `${site.name} | ${site.heroHeadline}`}`.trim();
+  const seoDescription = site.seoDescription || site.description || "";
+  const seoImage = toAbsoluteSiteUrl(site.seoImage || site.images?.heroPoster || site.images?.hero);
+  const seoVideo = toAbsoluteSiteUrl(site.seoVideo || site.heroVideo || site.images?.heroVideo);
+  const seoImageAlt = site.seoImageAlt || `${site.name} en clase real.`;
+  const seoKeywords = site.seoKeywords || "";
+
+  const titleNode = document.querySelector("title");
+  if (titleNode && seoTitle) {
+    titleNode.textContent = seoTitle;
+  }
+
+  setContent('meta[name="description"]', seoDescription);
+  setContent('meta[name="keywords"]', seoKeywords);
+  setContent('meta[property="og:title"]', seoTitle);
+  setContent('meta[property="og:description"]', seoDescription);
+  setContent('meta[property="og:url"]', canonical);
+  setContent('meta[property="og:image"]', seoImage);
+  setContent('meta[property="og:image:secure_url"]', seoImage);
+  setContent('meta[property="og:image:alt"]', seoImageAlt);
+  setContent("meta[property='og:video']", seoVideo);
+  setContent("meta[property='og:video:secure_url']", seoVideo);
+  setContent("meta[property='og:video:duration']", site.seoVideoDuration || "PT1M8S");
+  setContent("meta[name='twitter:card']", "summary_large_image");
+  setContent("meta[name='twitter:title']", seoTitle);
+  setContent("meta[name='twitter:description']", seoDescription);
+  setContent("meta[name='twitter:image']", seoImage);
+  setContent("meta[name='twitter:image:alt']", seoImageAlt);
+  setContent("meta[name='twitter:site']", site.twitterHandle || "@AiTUSA_Institute");
+  setContent("meta[name='twitter:creator']", site.twitterHandle || "@AiTUSA_Institute");
+
+  setHref("link[rel='canonical']", canonical);
+  setHref("link[rel='alternate'][hreflang='es-US']", canonical);
+  setHref("link[rel='alternate'][hreflang='x-default']", canonical);
+};
+
 const initFaqAccordion = () => {
   const faqItems = [...document.querySelectorAll(".faq-list .faq-item")];
   if (!faqItems.length) return;
@@ -1969,6 +2034,7 @@ const initNavSpy = () => {
 initNavSpy();
 initFaqAccordion();
 syncFaqSchema();
+syncSeoHead();
 
 menuToggle.addEventListener("click", () => {
   const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
