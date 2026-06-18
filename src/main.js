@@ -1275,7 +1275,7 @@ const initialCourseFilter = (() => {
   return param && programFilters.has(param) ? param : "todos";
 })();
 
-const applyProgramFilter = (filter, activeButton = null) => {
+const applyProgramFilter = (filter, activeButton = null, { updateHistory = true } = {}) => {
   const nextFilter = programFilters.has(filter) ? filter : "todos";
   filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === activeButton)));
 
@@ -1294,13 +1294,15 @@ const applyProgramFilter = (filter, activeButton = null) => {
         : `Mostrando ${visibleCount} programas para ${activeLabel.toLowerCase()}.`;
   }
 
-  const url = new URL(window.location.href);
-  if (nextFilter === "todos") {
-    url.searchParams.delete("curso");
-  } else {
-    url.searchParams.set("curso", nextFilter);
+  if (updateHistory) {
+    const url = new URL(window.location.href);
+    if (nextFilter === "todos") {
+      url.searchParams.delete("curso");
+    } else {
+      url.searchParams.set("curso", nextFilter);
+    }
+    window.history.pushState({}, "", `${url.pathname}${url.search}${url.hash}`);
   }
-  window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
 };
 
 filterButtons.forEach((button) => {
@@ -1310,7 +1312,14 @@ filterButtons.forEach((button) => {
 });
 
 const activeFilterButton = filterButtons.find((button) => button.dataset.filter === initialCourseFilter) || filterButtons[0];
-applyProgramFilter(initialCourseFilter, activeFilterButton);
+applyProgramFilter(initialCourseFilter, activeFilterButton, { updateHistory: false });
+
+window.addEventListener("popstate", () => {
+  const param = new URL(window.location.href).searchParams.get("curso");
+  const nextFilter = param && programFilters.has(param) ? param : "todos";
+  const nextButton = filterButtons.find((button) => button.dataset.filter === nextFilter) || filterButtons[0];
+  applyProgramFilter(nextFilter, nextButton, { updateHistory: false });
+});
 
 const form = document.querySelector("[data-lead-form]");
 const status = document.querySelector("[data-form-status]");
