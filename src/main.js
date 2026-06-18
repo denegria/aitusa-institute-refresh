@@ -159,11 +159,35 @@ const faqShortcuts = () =>
     ${faqs
       .map(
         (faq, index) => `
-          <a class="faq-link-chip" href="#pregunta-${index + 1}">${faq.question}</a>
+          <a
+            class="faq-link-chip"
+            href="#pregunta-${index + 1}"
+            aria-label="Ir a la pregunta: ${faq.question}"
+          >${faq.question}</a>
         `,
       )
       .join("")}
   </div>`;
+
+const syncFaqSchema = () => {
+  const script = document.querySelector('script[type="application/ld+json"][data-schema="faq"]');
+  if (!script) return;
+
+  const payload = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
+  script.textContent = JSON.stringify(payload, null, 2);
+};
 
 const initFaqAccordion = () => {
   const faqItems = [...document.querySelectorAll(".faq-list .faq-item")];
@@ -1670,6 +1694,7 @@ const initNavSpy = () => {
 
 initNavSpy();
 initFaqAccordion();
+syncFaqSchema();
 
 menuToggle.addEventListener("click", () => {
   const isOpen = menuToggle.getAttribute("aria-expanded") === "true";

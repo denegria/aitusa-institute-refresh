@@ -929,51 +929,63 @@ const storeProducts = [
 
 const faqs = [
   {
-    question: "¿Cómo sé qué nivel me toca?",
+    question: "¿Cómo sé qué nivel me toca en inglés?",
     answer:
-      "Te orientamos con un diagnóstico inicial y una primera conversación para ubicarte en básico, intermedio o avanzado.",
+      "Hacemos un diagnóstico inicial de 10 minutos para ubicar tu nivel (básico, intermedio o avanzado) y definir un plan de avance que sí encaje con tu semana.",
     cta: "Ver clase real",
   },
   {
     question: "¿Puedo ver una clase real antes de inscribirme?",
     answer:
-      "Sí. En la sección de experiencia puedes ver video real de una instructora corrigiendo en vivo para entender el estilo de clase antes de hablar con el equipo.",
+      "Sí. Ve el video de experiencia para observar el ritmo de clase, la corrección en vivo y cómo se maneja la práctica oral con tus mismas dudas iniciales.",
     cta: "Ver clase real",
   },
   {
-    question: "¿Es difícil aprender inglés?",
+    question: "¿Es difícil aprender inglés si nunca fui bueno en idiomas?",
     answer:
-      "No cuando la metodología es práctica. Primero entiendes la estructura y luego la conviertes en conversación real con apoyo constante.",
+      "No cuando trabajamos con práctica guiada y hábitos consistentes. Empezamos con comprensión funcional, pasamos a expresión y luego repetición estructurada en contexto real.",
     cta: "Pedir orientación",
   },
   {
     question: "Voy a clases pero no logro hablar, ¿qué hago?",
     answer:
-      "Necesitas más práctica oral, no más teoría. Corregimos en vivo para que pases de entender a responder con seguridad.",
+      "Necesitas más práctica oral de baja presión. Aquí corregimos en vivo y te damos micro-objetivos para que, en pocos días, hables con más naturalidad.",
     cta: "Pedir orientación",
   },
   {
-    question: "Entiendo la clase pero luego me olvido, ¿es normal?",
+    question: "Entiendo la clase, pero luego se me olvida la práctica, ¿es normal?",
     answer:
-      "Sí, y por eso usamos apoyo visual, repetición breve y rutina semanal para que el contenido se vuelva recordable y útil.",
+      "Sí, es normal al inicio. Usamos mapas visuales, repetición corta y rutina semanal para que lo que aprendes pase de escuchar a usarlo.",
     cta: "Ver libro",
   },
   {
-    question: "No tengo tiempo para estudiar, pero quiero hablar inglés.",
+    question: "No tengo mucho tiempo, pero quiero aprender a hablar inglés.",
     answer:
-      "Puedes avanzar con micro-rutinas de 15 a 20 minutos diarios y horarios de mañana, noche o fin de semana.",
+      "Puedes empezar con 15 a 20 minutos diarios y elegir horario flexible (mañana, noche o fin de semana) con metas pequeñas y medibles.",
     cta: "Ver horarios",
   },
   {
     question: "Trabajo todo el día, ¿sí puedo estudiar?",
     answer:
-      "Sí. Tenemos formatos presencial, híbrido y online para que el estudio encaje con tu agenda, no al revés.",
+      "Sí. Tenemos opciones presenciales, híbridas y online para estudiar sin romper tu rutina laboral, con continuidad semanal realista.",
     cta: "Ver horarios",
   },
   {
     question: "Nunca fui buen estudiante, ¿todavía puedo aprender?",
     answer:
-      "Sí. La ruta está pensada para recuperar ritmo con apoyo real, metas pequeñas y seguimiento que te mantiene avanzando.",
+      "Sí. Si te cuesta mantener ritmo, esta ruta se enfoca en objetivos semanales claros, práctica oral guiada y seguimiento cercano para recuperar confianza.",
+    cta: "Pedir orientación",
+  },
+  {
+    question: "¿Puedo estudiar desde otro país o por videollamada?",
+    answer:
+      "Sí. Nuestra modalidad online permite asistir desde cualquier lugar con conexión estable; te ayudamos con requisitos técnicos mínimos para empezar rápido.",
+    cta: "Ver horarios",
+  },
+  {
+    question: "¿Qué pasa si no puedo cubrir una clase o me atraso?",
+    answer:
+      "Contactanos y te ayudamos a recuperar con un plan corto para que no pierdas continuidad: ajustes de horario, repaso dirigido y próximos pasos claros.",
     cta: "Pedir orientación",
   },
 ];

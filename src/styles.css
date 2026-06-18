@@ -2937,6 +2937,24 @@ select {
   font-size: 1rem;
 }
 
+.faq-list .faq-link {
+  display: inline-flex;
+  margin-top: 14px;
+  align-items: center;
+  gap: 7px;
+  color: var(--blue);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 750;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.faq-list .faq-link:hover,
+.faq-list .faq-link:focus-visible {
+  transform: translateX(4px);
+  color: #082f90;
+}
+
 .faq-intro {
   width: min(var(--max), calc(100% - 36px));
   margin: 0 auto 18px;
