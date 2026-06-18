@@ -64,6 +64,18 @@ const contactMessage = encodeURIComponent(
   "Hola AiT USA Institute, quiero información sobre clases de inglés.",
 );
 
+const initialCourseInterest = (() => {
+  const interestMap = {
+    ingles: "Inglés",
+    ninos: "Niños",
+    academico: "Académico",
+    tecnologia: "Tecnología",
+    idiomas: "Idiomas",
+  };
+
+  return interestMap[initialCourseFilter] || "No estoy seguro";
+})();
+
 const programInquiryMessage = (program) =>
   encodeURIComponent(`Hola AiT USA Institute, quiero información sobre ${program.title}.`);
 
@@ -1157,6 +1169,16 @@ app.innerHTML = `
             </label>
             <label>Edad <input name="edad" inputmode="numeric" /></label>
           </div>
+          <label>Curso de interés
+            <select name="interes">
+              <option ${initialCourseInterest === "No estoy seguro" ? "selected" : ""}>No estoy seguro</option>
+              <option ${initialCourseInterest === "Inglés" ? "selected" : ""}>Inglés</option>
+              <option ${initialCourseInterest === "Niños" ? "selected" : ""}>Niños</option>
+              <option ${initialCourseInterest === "Académico" ? "selected" : ""}>Académico</option>
+              <option ${initialCourseInterest === "Tecnología" ? "selected" : ""}>Tecnología</option>
+              <option ${initialCourseInterest === "Idiomas" ? "selected" : ""}>Idiomas</option>
+            </select>
+          </label>
           <div class="form-row">
             <label>Código país (+1) <input name="codigo" placeholder="+1" /></label>
             <label>Teléfono <input name="telefono" type="tel" autocomplete="tel" required /></label>
@@ -1355,6 +1377,7 @@ if (form && status && whatsappDraft) {
     `Nombre: ${data.get("nombre") || "No indicado"} ${data.get("apellido") || ""}`.trim(),
     `Email: ${data.get("email") || "No indicado"}`,
     `Para: ${data.get("para") || "No indicado"}`,
+    `Curso de interés: ${data.get("interes") || "No indicado"}`,
     `Edad: ${data.get("edad") || "No indicado"}`,
     `Teléfono: ${(data.get("codigo") || "").trim()} ${data.get("telefono") || "No indicado"}`.trim(),
     `Ubicación: ${data.get("ubicacion") || "No indicada"}`,
