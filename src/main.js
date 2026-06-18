@@ -24,6 +24,7 @@ const {
   storeProducts,
   teachers,
   testimonials,
+  trustHighlights,
 } = window.AITUSA_DATA;
 
 const app = document.querySelector("#app");
@@ -863,6 +864,18 @@ app.innerHTML = `
         <p class="section-kicker">Testimonios y profesores</p>
         <h2 id="testimonios-title">Se nota en la clase, en la rutina y en la confianza con la que responden.</h2>
         <p>Escucha a quienes ya viven el método y conoce al equipo que acompaña cada avance con práctica guiada, seguimiento y corrección en tiempo real.</p>
+      </div>
+      <div class="section-inner trust-strip" aria-label="Puntos clave del servicio">
+        ${trustHighlights
+          .map(
+            (item) => `
+              <article>
+                <strong>${item.title}</strong>
+                <span>${item.text}</span>
+              </article>
+            `,
+          )
+          .join("")}
       </div>
       <div class="section-inner trust-grid">
         <div class="trust-panel">

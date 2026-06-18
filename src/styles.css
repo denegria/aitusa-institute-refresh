@@ -2006,6 +2006,36 @@ select {
   align-items: start;
 }
 
+.trust-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.trust-strip article {
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 28px rgba(2, 18, 50, 0.12);
+}
+
+.trust-strip strong {
+  display: block;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+}
+
+.trust-strip span {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
 .trust-panel {
   display: grid;
   gap: 18px;
@@ -2723,6 +2753,10 @@ select {
     grid-template-columns: 1fr;
   }
 
+  .trust-strip {
+    grid-template-columns: 1fr;
+  }
+
   .faq-intro,
   .contact-steps {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2909,6 +2943,10 @@ select {
 
   .trust-metrics {
     grid-template-columns: 1fr;
+  }
+
+  .trust-strip {
+    margin-bottom: 16px;
   }
 
   .testimonial-card--featured {

@@ -582,6 +582,21 @@ const teachers = [
   "Equipo con experiencia en distintos niveles, ritmos y zonas horarias.",
 ];
 
+const trustHighlights = [
+  {
+    title: "Corrección real",
+    text: "Docentes bilingües corrigen en vivo para que veas el avance desde la primera clase.",
+  },
+  {
+    title: "Seguimiento continuo",
+    text: "WhatsApp y orientación semanal para resolver dudas y no perder el ritmo.",
+  },
+  {
+    title: "Horarios flexibles",
+    text: "Presencial, híbrido y online para adaptarse a tu semana sin fricción.",
+  },
+];
+
 const downloads = [
   {
     title: "iPhone / iPad",
@@ -806,6 +821,7 @@ window.AITUSA_DATA = {
   launchPath,
   teachers,
   testimonials,
+  trustHighlights,
 };
 
 
