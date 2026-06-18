@@ -455,17 +455,22 @@ const heroMedia = () => {
           </a>
         </div>
       </div>
-      <div class="hero__preview-rail" aria-label="Momentos reales de clase">
+        <div class="hero__preview-rail" aria-label="Momentos reales de clase">
         ${previewItems
           .map(
             (item, index) => `
-              <article class="hero__preview-card ${index === 0 ? "hero__preview-card--featured" : ""}">
-                <img src="${item.image}" alt="${item.imageAlt}" loading="${index === 0 ? "eager" : "lazy"}" />
+              <button
+                class="hero__preview-card ${index === 0 ? "hero__preview-card--featured" : ""}"
+                type="button"
+                data-hero-preview="${index}"
+                aria-label="${item.label}: ${item.title}"
+              >
+                <img src="${item.image}" alt="${item.imageAlt}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async" />
                 <div class="hero__preview-copy">
                   <span>${item.label}</span>
                   <strong>${item.title}</strong>
                 </div>
-              </article>
+              </button>
             `,
           )
           .join("")}
@@ -555,6 +560,45 @@ const initHeroShowcase = () => {
       startShowcase();
     });
   });
+};
+
+const initHeroPreviewCards = () => {
+  if (!heroVideoSources.length) return;
+
+  const previewCards = [...document.querySelectorAll("[data-hero-preview]")];
+  const kicker = document.querySelector("[data-hero-kicker]");
+  const title = document.querySelector("[data-hero-title]");
+  const poster = document.querySelector("[data-hero-poster]");
+  if (!previewCards.length || !kicker || !title || !poster) return;
+
+  const setPreviewFocus = (nextIndex) => {
+    previewCards.forEach((card, cardIndex) => {
+      card.classList.toggle("hero__preview-card--featured", cardIndex === nextIndex);
+      card.setAttribute("aria-pressed", String(cardIndex === nextIndex));
+    });
+  };
+
+  const setHeroContext = (nextIndex) => {
+    const item = heroGallery[nextIndex];
+    if (!item) return;
+
+    poster.src = item.image || poster.src;
+    poster.alt = item.imageAlt || poster.alt;
+    kicker.textContent = item.label;
+    title.textContent = item.title;
+  };
+
+  previewCards.forEach((card) => {
+    const nextIndex = Number(card.dataset.heroPreview || 0);
+
+    card.addEventListener("click", () => {
+      setHeroContext(nextIndex);
+      setPreviewFocus(nextIndex);
+    });
+  });
+
+  setHeroContext(0);
+  setPreviewFocus(0);
 };
 
 const initHeroFallbacks = () => {
@@ -1449,6 +1493,7 @@ app.innerHTML = `
 `;
 initHeroBackground();
 initHeroShowcase();
+initHeroPreviewCards();
 initHeroFallbacks();
 initHeroPlayButton();
 

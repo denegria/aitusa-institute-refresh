@@ -33,12 +33,12 @@ const site = {
   },
   images: {
     logo: asset("006-solo-logo-4-x-4-clases1.png"),
-    hero: "./public/assets/wix/live/hero-female-teacher.jpg",
-    heroPoster: "./public/assets/wix/live/hero-female-teacher.jpg",
+    hero: assetHires("hero-classroom.jpg"),
+    heroPoster: assetHires("hero-classroom.jpg"),
     heroVideo: asset("live/hero-female-speaking-360p.mp4"),
     heroVideoPortrait: asset("live/hero-female-speaking-1080p.mp4"),
     heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
-    heroVideoPoster: "./public/assets/wix/live/hero-female-teacher.jpg",
+    heroVideoPoster: assetHires("hero-classroom.jpg"),
     adultEnglish: assetHires("adult-english-speaking.jpg"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
@@ -370,7 +370,7 @@ const heroGallery = [
   {
     label: "Atención con presencia",
     title: "Docentes bilingües corrigen en vivo para que avances con menos incertidumbre.",
-    image: "./public/assets/wix/live/hero-female-teacher.jpg",
+    image: assetHires("hero-classroom.jpg"),
     imageAlt:
       "Instructora de AiT USA corrigiendo y motivando a una estudiante durante conversación oral.",
   },

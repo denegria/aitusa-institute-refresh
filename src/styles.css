@@ -667,20 +667,39 @@ select {
 }
 
 .hero__preview-card {
+  appearance: none;
+  border: 0;
   display: grid;
   grid-template-columns: 92px minmax(0, 1fr);
   gap: 12px;
   align-items: center;
   padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.08);
   box-shadow: 0 12px 28px rgba(9, 17, 44, 0.16);
+  color: inherit;
 }
 
 .hero__preview-card--featured {
   background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-2px);
+}
+
+.hero__preview-card:hover,
+.hero__preview-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.44);
+  box-shadow: 0 14px 30px rgba(9, 17, 44, 0.22);
+}
+
+.hero__preview-card:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 2px;
 }
 
 .hero__preview-card img {
