@@ -5,28 +5,28 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Clase real primero. Descubre si esta ruta te funciona en menos de 60 segundos.",
+    "Clase real primero: valida tu formato, agenda y meta en menos de 60 segundos.",
   description:
-    "Mira una clase real de 1:08, compara formato y ritmo, y decide con claridad tu ruta de inicio.",
+    "Mira una clase real de 1:08, valida ritmo y formato, y decide con evidencia qué ruta de inglés te conviene.",
   heroHeadline:
-    "Mira una clase real de 1:08 y decide tu ruta de inglés con evidencia, no con promesas.",
+    "Mira una clase real de 1:08 y elige tu ruta de inglés con evidencia, no con promesas.",
   heroLead:
-    "Observa corrección en vivo y la dinámica de clase real para validar si el método y el ritmo te convienen.",
+    "Observa corrección en vivo, dinámica real de aula y ritmo de clase para validar de inmediato si el método te encaja.",
   heroQuote:
-    "Aquí no hay simulación: cada corrección que ves es la dinámica real de una clase en vivo.",
+    "No hay simulación: cada corrección que ves pertenece a una clase real y útil desde el minuto uno.",
   heroMicrocopy:
-    "Mira la muestra, valida tu horario y formato, y pasa a una ruta inicial con seguimiento en minutos.",
+    "Mira la muestra, valida tu horario y formato, y define tu ruta inicial con acompañamiento real en el día.",
   heroQuickCapture: {
-    title: "Tu ruta en 60 segundos",
-    copy: "Déjanos tu nombre y WhatsApp para recibir objetivo recomendado, horario ideal y siguiente paso.",
+    title: "Tu ruta inicial en 60 segundos",
+    copy: "Déjanos tu nombre y WhatsApp y te respondemos con objetivo recomendado, horario ideal y siguiente paso.",
     options: [
-      "Quiero clase real",
+      "Quiero clase real primero",
       "Quiero revisar horarios",
       "Necesito opción para mi hijo/a",
-      "Busco ruta para niños o adultos",
+      "Quiero ruta para niños o adultos",
     ],
-    button: "Recibir ruta inicial por WhatsApp",
-    note: "Sin costo. Sin compromiso. Solo un mensaje inicial de orientación y ruta clara.",
+    button: "Ver mi ruta por WhatsApp",
+    note: "Sin costo y sin compromiso. Recibes orientación práctica y próxima acción clara.",
   },
   heroHighlights: [
     "Observa clase real: sin simulaciones y con contexto real de aula.",
@@ -40,12 +40,12 @@ const site = {
   whatsapp: "+1 732-379-0593",
   whatsappHref: "https://wa.me/17323790593",
   twitterHandle: "@AiTUSA_Institute",
-  seoTitle: "AiT USA Institute | Clase real de inglés con ruta personalizada en Nueva Jersey",
+  seoTitle: "AiT USA Institute | Clase real de inglés y ruta personalizada en Nueva Jersey",
   seoDescription:
     "Mira una clase real en 1:08, valida tu estilo de aprendizaje y arranca con una ruta personalizada de inglés presencial, híbrido u online en Nueva Jersey.",
   seoKeywords:
     "AiT USA Institute, clases de inglés en Nueva Jersey, clase real de inglés en video, clases presenciales de inglés, clases híbridas de inglés, clases online de inglés",
-  seoImage: assetHires("hero-classroom.jpg"),
+  seoImage: assetHires("hero-female-teacher.jpg"),
   seoImageAlt: "Instructora de AiT USA Institute guiando una clase real de inglés.",
   seoVideo: asset("live/hero-female-speaking-1080p.mp4"),
   seoVideoDuration: "PT1M8S",

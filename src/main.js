@@ -62,6 +62,139 @@ const heroVideoSources = (() => {
     .filter(Boolean)
     .filter((value, index, list) => list.indexOf(value) === index);
 })();
+
+(function initHeroQuickCaptureBridge() {
+  const init = () => {
+    const quickCaptureForm = document.querySelector("[data-hero-quick-capture]");
+    const leadForm = document.querySelector("[data-lead-form]");
+    const leadStatus = document.querySelector("[data-form-status]");
+
+    if (!quickCaptureForm || !leadForm) {
+      return;
+    }
+
+    const goalToInterest = {
+      "Quiero clase real primero": "Inglés",
+      "Quiero clase real": "Inglés",
+      "Quiero revisar horarios": "Inglés",
+      "Necesito opción para mi hijo/a": "Niños",
+      "Quiero ruta para niños o adultos": "Inglés",
+      "Busco ruta para niños o adultos": "Inglés",
+    };
+
+    const quickName = quickCaptureForm.querySelector("[data-hero-quick-name]");
+    const quickPhone = quickCaptureForm.querySelector("[data-hero-quick-phone]");
+    const quickGoal = quickCaptureForm.querySelector("[data-hero-quick-goal]");
+    const quickStatus = quickCaptureForm.querySelector("[data-hero-quick-status]");
+
+    const leadName = leadForm.querySelector('input[name="nombre"]');
+    const leadLastName = leadForm.querySelector('input[name="apellido"]');
+    const leadCode = leadForm.querySelector('input[name="codigo"]');
+    const leadPhone = leadForm.querySelector('input[name="telefono"]');
+    const leadInterest = leadForm.querySelector('select[name="interes"]');
+    const leadPersona = leadForm.querySelector('select[name="para"]');
+    const leadLocation = leadForm.querySelector('input[name="ubicacion"]');
+
+    if (!leadName || !leadPhone || !quickName || !quickPhone) {
+      return;
+    }
+
+    const toDigits = (value) => `${value || ""}`.replace(/\D/g, "");
+
+    const buildName = (value) => {
+      const clean = `${value || ""}`.trim();
+      return clean.length ? clean : "";
+    };
+
+    const syncQuickCaptureToForm = () => {
+      const quickNameValue = buildName(quickName.value);
+      const quickPhoneValue = toDigits(quickPhone.value);
+      const quickGoalValue = quickGoal?.value || "";
+
+      if (quickNameValue) {
+        leadName.value = quickNameValue;
+        if (leadLastName) {
+          const names = quickNameValue.split(" ").filter(Boolean);
+          if (names.length > 1) {
+            const first = names.shift();
+            leadName.value = first || "";
+            leadLastName.value = names.length ? names.join(" ") : leadLastName.value;
+          }
+        }
+      }
+
+      if (quickPhoneValue) {
+        if (quickPhoneValue.length > 10) {
+          const normalized = quickPhoneValue.startsWith("1")
+            ? quickPhoneValue.slice(1)
+            : quickPhoneValue;
+          if (leadCode) {
+            leadCode.value = "+1";
+          }
+          leadPhone.value = normalized.slice(-10);
+        } else {
+          leadPhone.value = quickPhoneValue;
+          if (leadCode && !leadCode.value.trim()) {
+            leadCode.value = "+1";
+          }
+        }
+      }
+
+      if (leadInterest && goalToInterest[quickGoalValue]) {
+        leadInterest.value = goalToInterest[quickGoalValue];
+      }
+
+      if (leadPersona && !leadPersona.value) {
+        leadPersona.value = "Para mí";
+      }
+
+      if (leadLocation && !leadLocation.value.trim()) {
+        leadLocation.value = "Nueva Jersey / Estados Unidos";
+      }
+
+      leadForm.dispatchEvent(new Event("input", { bubbles: true }));
+      if (quickStatus) {
+        quickStatus.textContent =
+          "Información copiada al formulario. En 1 paso te conectas con tu ruta inicial.";
+      }
+    };
+
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      syncQuickCaptureToForm();
+
+      if (leadStatus) {
+        leadStatus.textContent =
+          "Te dejé tu información en el formulario. Completa 2 campos para abrir WhatsApp.";
+      }
+
+      const contactSection = document.querySelector("#contacto");
+      if (contactSection) {
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        contactSection.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "start",
+        });
+        const nameInput = leadForm.querySelector('input[name="nombre"]');
+        if (nameInput) {
+          nameInput.focus({ preventScroll: true });
+        }
+      }
+    };
+
+    quickCaptureForm.removeEventListener("submit", handleSubmit);
+    quickCaptureForm.addEventListener("input", syncQuickCaptureToForm);
+    quickCaptureForm.addEventListener("change", syncQuickCaptureToForm);
+    quickCaptureForm.addEventListener("submit", handleSubmit);
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+    return;
+  }
+
+  init();
+})();
 const contactMessage = encodeURIComponent(
   "Hola AiT USA Institute, vi la clase real y quiero una ruta clara de inicio: clases, horarios y modalidad para mi caso.",
 );
