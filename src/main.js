@@ -1103,7 +1103,7 @@ app.innerHTML = `
                   <p>${item.note}</p>
                   ${renderVariants(item.variants)}
                   <div class="payment-card__footer">
-                    <a class="payment-card__cta" href="${site.whatsappHref}?text=${productInquiryMessage(item)}">Elegir este plan</a>
+                    <a class="payment-card__cta" href="${site.whatsappHref}?text=${productInquiryMessage(item)}">${item.cta || "Elegir este plan"}</a>
                   </div>
                 </div>
               </article>
