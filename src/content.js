@@ -483,11 +483,11 @@ const instructorClips = [
   {
     title: "Clase de entrevista en vivo",
     eyebrow: "Muestra real",
-    image: asset("live/hero-female-teacher.jpg"),
+    image: site.images.heroPoster,
     video: site.images.heroVideo,
     videoPoster: site.images.heroVideoPoster,
     imageAlt:
-      "Instructora de AiT USA guiando una práctica de entrevista en una clase con método visual.",
+      "Instructora de AiT USA guiando una práctica de entrevista en clase con método visual en inglés.",
     caption:
       "Simulación de entrevista con corrección instantánea para responder con intención y naturalidad.",
     duration: "1:08",
@@ -495,18 +495,18 @@ const instructorClips = [
   {
     title: "Escucha y responde al instante",
     eyebrow: "Metodología visual",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: site.images.adultEnglish,
     video: site.images.heroVideo,
     videoPoster: site.images.heroVideoPoster,
     imageAlt: "Instructora y estudiante practicando inglés mediante Zoom con enfoque visual y conversación real.",
     caption:
-      "Escucha guiada con pausas estratégicas para dominar respuestas rápidas y con significado, no solo pronunciación.",
+      "Escucha guiada con pausas estratégicas para dominar respuestas rápidas con significado, no solo pronunciación.",
     duration: "0:48",
   },
   {
     title: "Conexión auténtica en clases online",
     eyebrow: "8 a 13 años",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: site.images.onlineEnglish,
     video: site.images.heroVideoPortrait,
     videoPoster: site.images.heroVideoPoster,
     imageAlt:
@@ -518,7 +518,7 @@ const instructorClips = [
   {
     title: "Respuesta guiada en clase",
     eyebrow: "Sesión de progreso",
-    image: asset("live/hero-female-teacher.jpg"),
+    image: site.images.heroPoster,
     video: site.images.heroVideo,
     videoPoster: site.images.heroVideoPoster,
     imageAlt: "Instructora de AiT USA interactuando con estudiantes en una clase de inglés.",
@@ -754,7 +754,7 @@ const teachers = [
     name: "Instructora de inglés conversacional",
     intent: "classSample",
     href: "#experiencia",
-    image: asset("live/hero-female-teacher.jpg"),
+    image: site.images.adultEnglish,
     imageAlt: "Instructora de AiT USA corrigiendo pronunciación durante una clase real de conversación.",
     role: "Corrección en vivo con seguimiento semanal.",
     description:
@@ -765,7 +765,7 @@ const teachers = [
     name: "Instructora de práctica online",
     intent: "classSample",
     href: "#experiencia",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: site.images.onlineEnglish,
     imageAlt: "Instructora de AiT USA guiando una clase de inglés por videollamada.",
     role: "Aprendizaje remoto con participación guiada.",
     description:
@@ -776,7 +776,7 @@ const teachers = [
     name: "Instructora de continuidad académica",
     intent: "default",
     href: "#contacto",
-    image: asset("live/hero-female-classroom.jpg"),
+    image: site.images.hero,
     imageAlt: "Instructora de AiT USA motivando a estudiantes en una clase práctica.",
     role: "Soporte constante y ruta personalizada.",
     description:
@@ -1030,60 +1030,70 @@ const faqs = [
     question: "¿Cómo sé qué nivel me toca en inglés?",
     answer:
       "Hacemos un diagnóstico inicial de 10 minutos para ubicar tu nivel (básico, intermedio o avanzado) y definir un plan de avance que sí encaje con tu semana.",
+    outcome: "Sin perder tiempo, saldrás con claridad de por dónde arrancas.",
     cta: "Ver clase real",
   },
   {
     question: "¿Puedo ver una clase real antes de inscribirme?",
     answer:
       "Sí. Ve el video de experiencia para observar el ritmo de clase, la corrección en vivo y cómo se maneja la práctica oral con tus mismas dudas iniciales.",
+    outcome: "Si el formato te funciona, ya sabes qué esperar antes de escribir.",
     cta: "Ver clase real",
   },
   {
     question: "¿Es difícil aprender inglés si nunca fui bueno en idiomas?",
     answer:
       "No cuando trabajamos con práctica guiada y hábitos consistentes. Empezamos con comprensión funcional, pasamos a expresión y luego repetición estructurada en contexto real.",
+    outcome: "La dificultad baja cuando el método te da un camino de práctica corto y medible.",
     cta: "Pedir orientación",
   },
   {
     question: "Voy a clases pero no logro hablar, ¿qué hago?",
     answer:
       "Necesitas más práctica oral de baja presión. Aquí corregimos en vivo y te damos micro-objetivos para que, en pocos días, hables con más naturalidad.",
+    outcome: "La corrección llega al instante y te evita practicar con errores repetidos.",
     cta: "Pedir orientación",
   },
   {
     question: "Entiendo la clase, pero luego se me olvida la práctica, ¿es normal?",
     answer:
       "Sí, es normal al inicio. Usamos mapas visuales, repetición corta y rutina semanal para que lo que aprendes pase de escuchar a usarlo.",
+    outcome: "En una sola semana pasas de memorización aislada a conversación útil.",
     cta: "Ver libro",
   },
   {
     question: "No tengo mucho tiempo, pero quiero aprender a hablar inglés.",
     answer:
       "Puedes empezar con 15 a 20 minutos diarios y elegir horario flexible (mañana, noche o fin de semana) con metas pequeñas y medibles.",
+    outcome: "Te proponemos un plan realista para avanzar sin colapsar tu agenda.",
     cta: "Ver horarios",
   },
   {
     question: "Trabajo todo el día, ¿sí puedo estudiar?",
     answer:
       "Sí. Tenemos opciones presenciales, híbridas y online para estudiar sin romper tu rutina laboral, con continuidad semanal realista.",
+    outcome: "Puedes mantener continuidad aunque tu semana cambie.",
     cta: "Ver horarios",
   },
   {
     question: "Nunca fui buen estudiante, ¿todavía puedo aprender?",
     answer:
       "Sí. Si te cuesta mantener ritmo, esta ruta se enfoca en objetivos semanales claros, práctica oral guiada y seguimiento cercano para recuperar confianza.",
+    outcome: "Lo difícil deja de ser confuso y se convierte en un proceso con metas.",
     cta: "Pedir orientación",
   },
   {
     question: "¿Puedo estudiar desde otro país o por videollamada?",
     answer:
       "Sí. Nuestra modalidad online permite asistir desde cualquier lugar con conexión estable; te ayudamos con requisitos técnicos mínimos para empezar rápido.",
+    outcome: "No te limitas a una ubicación para probar si esta ruta te conviene.",
     cta: "Ver horarios",
   },
   {
     question: "¿Qué pasa si no puedo cubrir una clase o me atraso?",
     answer:
       "Contactanos y te ayudamos a recuperar con un plan corto para que no pierdas continuidad: ajustes de horario, repaso dirigido y próximos pasos claros.",
+    outcome: "Te devolvemos ritmo sin sanciones ni vueltas innecesarias.",
     cta: "Pedir orientación",
   },
 ];

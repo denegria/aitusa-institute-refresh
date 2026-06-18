@@ -2299,17 +2299,17 @@ app.innerHTML = `
       </div>
     </section>
 
-    <section id="faq" class="section section--white" aria-labelledby="faq-title">
-      <div class="section-inner section-heading">
-        <p class="section-kicker">Preguntas frecuentes</p>
-        <h2 id="faq-title">Resolvemos tus dudas antes de inscribirte.</h2>
-        <p>Si todavía estás comparando opciones, aquí tienes una vista rápida de lo que normalmente aclaramos antes de arrancar, incluyendo cómo se ve una clase real.</p>
-      </div>
-      <div class="section-inner faq-intro">
-        <article class="faq-callout">
-          <p class="section-kicker">Antes de empezar</p>
-          <h3>Qué pasa después de enviar el formulario</h3>
-          <ol>
+      <section id="faq" class="section section--white" aria-labelledby="faq-title">
+        <div class="section-inner section-heading">
+          <p class="section-kicker">Preguntas frecuentes</p>
+          <h2 id="faq-title">Resolvemos tus dudas antes de inscribirte.</h2>
+          <p>Antes de decidir, te mostramos las respuestas que más suelen definir si esta ruta encaja con tu rutina y tus metas.</p>
+        </div>
+        <div class="section-inner faq-intro">
+          <article class="faq-callout">
+            <p class="section-kicker">Antes de empezar</p>
+            <h3>Qué pasa después de enviar el formulario</h3>
+            <ol>
             <li>Te contactamos por WhatsApp y confirmamos tu objetivo.</li>
             <li>Revisamos nivel, horario y modalidad recomendada.</li>
             <li>Te compartimos la ruta inicial para comenzar sin demora.</li>
@@ -2319,18 +2319,19 @@ app.innerHTML = `
           <p class="section-kicker">Respuesta rápida</p>
           <h3>Si quieres ver la clase primero</h3>
           <p>Empieza por el video real de la experiencia y luego escríbenos por WhatsApp o llama para validar disponibilidad, horarios y el mejor punto de inicio.</p>
-          <a class="button button--ghost" href="#experiencia">Ver clase real</a>
-          <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Escribir por WhatsApp</a>
-        </article>
-      </div>
-      ${faqShortcuts()}
-      <div class="section-inner faq-list">
+            <a class="button button--ghost" href="#experiencia">Ver clase real</a>
+            <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Escribir por WhatsApp</a>
+          </article>
+        </div>
+        ${faqShortcuts()}
+        <div class="section-inner faq-list">
         ${faqs
           .map(
             (faq, index) => `
-              <details id="pregunta-${index + 1}" class="faq-item" ${index === 0 ? "open" : ""}>
+            <details id="pregunta-${index + 1}" class="faq-item" ${index === 0 ? "open" : ""}>
                 <summary>${faq.question}</summary>
                 <p>${faq.answer}</p>
+                ${faq.outcome ? `<p class="faq-item__outcome"><strong>Resultado:</strong> ${faq.outcome}</p>` : ""}
                 <a class="faq-link" href="${
                   faq.cta === "Ver clase real"
                     ? "#experiencia"
