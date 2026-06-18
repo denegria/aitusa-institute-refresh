@@ -231,7 +231,7 @@ const heroQuickCaptureWidget = () => {
 
   const options = Array.isArray(heroQuickCaptureData.options)
     ? heroQuickCaptureData.options
-    : ["Quiero clase real", "Quiero revisar horarios", "Necesito opción para mi hijo/a"];
+    : ["Ver clase real y decidir", "Revisar opciones con mi agenda", "Necesito ruta familiar"];
   const optionsMarkup = options.map((option) => `<option>${option}</option>`).join("");
 
   return `
@@ -903,15 +903,15 @@ const heroVideoFacts = () => `
 const heroIntentCards = () => `
   <div class="hero__intent" aria-label="¿Qué objetivo tienes hoy?">
     <a class="hero__intent-card" href="#experiencia" data-intent-card data-intent="classSample">
-      <span class="hero__intent-card__label">Primero quiero clase real</span>
+      <span class="hero__intent-card__label">Ver clase real primero</span>
       <strong>Ver el recorrido real de 1:08</strong>
     </a>
     <a class="hero__intent-card" href="#horarios" data-intent-card data-intent="scheduleFlex">
-      <span class="hero__intent-card__label">Tengo agenda corta</span>
+      <span class="hero__intent-card__label">Quiero empezar esta semana</span>
       <strong>Comparar opciones con flexibilidad</strong>
     </a>
     <a class="hero__intent-card" href="#contacto" data-intent-card data-intent="familySupport">
-      <span class="hero__intent-card__label">Busco opción familiar</span>
+      <span class="hero__intent-card__label">Soy padre/madre</span>
       <strong>Ruta para mi hijo o mi familia</strong>
     </a>
   </div>
@@ -1199,7 +1199,7 @@ const heroMedia = () => {
           ${heroVideoFacts()}
           <div class="hero__media-route">
             <p class="hero__media-route__title">Tu decisión en 60 segundos</p>
-            <p class="hero__media-route__copy">Mira la muestra real, valida ritmo y formato, y deja tu ruta inicial en marcha.</p>
+            <p class="hero__media-route__copy">Mira, valida y toma acción: ritmo + encaje + siguiente paso en un minuto.</p>
           </div>
           <button class="hero__video-chip" type="button" data-hero-play-button aria-label="Reproducir video de clase real">
             <span class="hero__video-chip-icon" aria-hidden="true">▶</span>

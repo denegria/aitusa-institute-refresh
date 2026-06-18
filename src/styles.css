@@ -329,14 +329,14 @@ select {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.95fr);
   gap: clamp(34px, 6vw, 56px);
-  align-items: stretch;
+  align-items: center;
   justify-items: stretch;
 }
 
 .hero__content {
   position: relative;
   z-index: 1;
-  max-width: 520px;
+  max-width: 560px;
   display: grid;
   gap: 16px;
   align-content: start;
@@ -446,7 +446,7 @@ select {
 
 .hero__media {
   justify-self: end;
-  width: min(100%, 860px);
+  width: min(100%, 900px);
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -459,13 +459,14 @@ select {
   border: 1px solid rgba(255, 255, 255, 0.4);
   background: linear-gradient(140deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05));
   box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(4px);
   aspect-ratio: 16 / 10;
 }
 
 .hero__media-frame--hero-primary {
   border-color: rgba(255, 255, 255, 0.56);
-  box-shadow: 0 24px 42px rgba(6, 12, 46, 0.44);
-  min-height: clamp(340px, 45vw, 520px);
+  box-shadow: 0 28px 55px rgba(2, 8, 42, 0.48);
+  min-height: clamp(360px, 46vw, 560px);
   aspect-ratio: 16 / 9.1;
 }
 
@@ -560,9 +561,19 @@ select {
 
 .hero__media-overlay--hero {
   gap: 12px;
-  padding: 4px;
+  padding: 10px;
   justify-content: space-between;
   align-items: flex-start;
+  border-radius: 16px;
+  background: linear-gradient(
+    155deg,
+    rgba(8, 12, 32, 0.72) 0%,
+    rgba(11, 22, 58, 0.42) 55%,
+    rgba(4, 11, 35, 0.08) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 14px 30px rgba(6, 13, 44, 0.38);
+  backdrop-filter: blur(10px);
 }
 
 .hero__media-overlay--hero .hero__video-chip {
@@ -572,12 +583,12 @@ select {
 .hero__media-route {
   display: grid;
   gap: 6px;
-  padding: 10px 12px;
+  padding: 12px 14px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.28);
   background: rgba(12, 22, 56, 0.43);
   backdrop-filter: blur(9px);
-  max-width: 320px;
+  max-width: 360px;
 }
 
 .hero__media-route__title {
@@ -614,6 +625,7 @@ select {
   font-weight: 800;
   padding: 6px 10px;
   backdrop-filter: blur(6px);
+  letter-spacing: 0.01em;
 }
 
 .hero__media-meta {
@@ -921,7 +933,7 @@ select {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 32px;
+  margin-top: 22px;
   align-items: stretch;
 }
 
@@ -938,6 +950,11 @@ select {
   box-shadow: 0 16px 32px rgba(12, 60, 231, 0.24);
   font-size: 0.99rem;
   letter-spacing: 0.01em;
+}
+
+.hero__media-note {
+  margin-top: 4px;
+  color: rgba(241, 245, 255, 0.9);
 }
 
 .hero__actions .button--ghost {
@@ -957,7 +974,7 @@ select {
   margin-top: 14px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  gap: 11px;
   align-items: stretch;
 }
 

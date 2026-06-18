@@ -5,33 +5,34 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Clase real primero: valida si el método encaja con tu objetivo, agenda y nivel en menos de 60 segundos.",
+    "Clase real, sin filtros: ve cómo se aprende en AiT USA Institute y decide en 60 segundos si es tu mejor ruta.",
   description:
-    "Mira una clase real de 1:08, valida ritmo y formato con criterio, y decide con evidencia qué ruta de inglés te conviene.",
+    "Mira una clase real de 1:08, valida nivel, ritmo y encaje, y define tu siguiente paso con evidencia práctica.",
   heroHeadline:
-    "Mira una clase real de 1:08 y elige tu ruta de inglés con evidencia, no con promesas.",
+    "Mira una clase real de 1:08 y decide hoy si este método encaja con tu meta.",
   heroLead:
-    "Observa una clase real en acción: corrección en vivo, conversación útil y el ritmo real del aula para decidir con claridad.",
+    "Observa una clase real en acción: corrección en vivo, conversación real y ritmo auténtico para saber si es tu forma de aprender.",
   heroQuote:
-    "No hay simulaciones: cada corrección y avance que ves pertenece a una clase real, pensada para que avances desde el primer minuto.",
+    "Sin simulaciones: cada corrección y avance que ves pertenece a una clase real, diseñada para que avances en minutos.",
   heroMicrocopy:
-    "Reproduce el clip, valida la metodología y define tu ruta inicial con fecha real de inicio y acompañamiento desde hoy.",
+    "Reproduce el clip, valida si el ritmo encaja contigo y define tu ruta inicial con plan y horario de arranque.",
   heroQuickCapture: {
     title: "Empieza tu ruta en 60 segundos",
-    copy: "Déjanos tu nombre y WhatsApp y te respondemos con objetivo sugerido, horario viable y siguiente paso.",
+    copy:
+      "Déjanos tu nombre y WhatsApp. Te respondemos con objetivo, horario viable y siguiente paso para empezar hoy.",
     options: [
-      "Quiero comprobar método y estilo en clase real",
+      "Quiero comprobar método y estilo con clase real",
       "Quiero revisar opciones de horario",
       "Necesito ruta para mi hijo o hija",
       "Quiero una ruta para niños o adultos",
     ],
-    button: "Recibir ruta inicial por WhatsApp",
-    note: "Sin costo y sin compromiso. Respuesta rápida con una propuesta de ruta inicial.",
+    button: "Ver mi ruta inicial por WhatsApp",
+    note: "Sin costo y sin compromiso. Te enviamos una recomendación inicial clara y rápida.",
   },
   heroHighlights: [
-    "Observa clase real en pocos segundos: sin simulaciones, con contexto auténtico de aula.",
-    "Compara presencial, híbrido y online desde el primer vistazo con datos de horario y ritmo.",
-    "Obtén una ruta inicial concreta para decidir hoy, no después de una semana.",
+    "Clase real sin simulaciones: método, ritmo y estilo visibles desde el primer clip.",
+    "Compara presencial, híbrido y online sin trámites largos, en minutos.",
+    "Recibe una ruta inicial concreta para decidir hoy y empezar con criterio.",
   ],
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
@@ -91,12 +92,12 @@ const site = {
   },
   images: {
     logo: asset("006-solo-logo-4-x-4-clases1.png"),
-    hero: asset("live/hero-female-classroom.jpg"),
-    heroPoster: asset("live/hero-female-teacher.jpg"),
+    hero: assetHires("hero-classroom.jpg"),
+    heroPoster: assetHires("hero-classroom.jpg"),
     heroVideo: asset("live/hero-female-speaking-1080p.mp4"),
     heroVideoPortrait: asset("live/hero-female-speaking-360p.mp4"),
     heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
-    heroVideoPoster: asset("live/hero-female-classroom.jpg"),
+    heroVideoPoster: assetHires("hero-classroom.jpg"),
     adultEnglish: assetHires("adult-english-speaking.jpg"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
@@ -140,15 +141,15 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clase real de 1:08 para validar estilo, ritmo y encaje del método antes de inscribirte.",
+  "Clase real de 1:08 para validar estilo, ritmo y encaje antes de inscribirte.",
   "Método visual para entrenamiento práctico de conversación: entrevistas, trabajo y vida diaria.",
-  "Ruta inicial con acompañamiento real para sostener continuidad sin saltos de energía ni agenda."
+  "Ruta inicial con acompañamiento real para sostener continuidad sin que tu agenda sea la excusa."
 ];
 
 const heroStartPath = [
-  "Mira el clip real en 1:08 y valida en minutos si el formato te da claridad.",
+  "Mira el clip real y valida en segundos si el ritmo y el método te encajan.",
   "Define objetivo, horario y nivel de compromiso en una sola consulta inicial.",
-  "Compara opciones y elige una ruta realista para empezar desde esta semana.",
+  "Compara opciones y elige una ruta realista para empezar en pocos días.",
 ];
 
 const heroSignal = [
@@ -421,7 +422,7 @@ const heroGallery = [
   {
     label: "Clase en vivo",
     title: "Corrección instantánea y conversación guiada para hablar con más claridad desde el primer bloque.",
-    image: asset("live/hero-female-classroom.jpg"),
+    image: assetHires("hero-classroom.jpg"),
     video: site.images.heroVideo,
     videoPoster: site.images.heroVideoPoster,
     imageAlt:
@@ -474,8 +475,8 @@ const heroGallery = [
 
 const heroProof = [
   { value: "20+", label: "años enseñando inglés con clases reales en Nueva Jersey" },
-  { value: "1:08", label: "de clase real para validar si el método encaja contigo" },
-  { value: "3", label: "rutas: presencial, híbrido y online" },
+  { value: "1:08", label: "para validar método, ritmo y encaje antes de decidir" },
+  { value: "3", label: "formatos: presencial, híbrido y online" },
 ];
 
 const instructorClips = [
