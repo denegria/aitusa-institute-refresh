@@ -3474,6 +3474,47 @@ select {
   margin-top: 2px;
 }
 
+.contact-quick-intent__label {
+  margin: 4px 0 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.contact-quick-intent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.contact-quick-intent__chip {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  padding: 9px 14px;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.84rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.contact-quick-intent__chip:hover {
+  border-color: rgba(255, 255, 255, 0.48);
+}
+
+.contact-quick-intent__chip:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.45);
+  outline-offset: 2px;
+}
+
+.contact-quick-intent__chip.is-active {
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.22);
+}
+
 .contact-trust article {
   display: grid;
   grid-template-columns: 24px 1fr;

@@ -1759,6 +1759,13 @@ app.innerHTML = `
             Completa el formulario y en minutos te proponemos nivel, horario y formato ideal.
             Si quieres, primero ve la clase real y luego regresas para avanzar más rápido.
           </p>
+          <p class="contact-quick-intent__label">Elige tu prioridad y te preparamos el mensaje inicial exacto:</p>
+          <div class="contact-quick-intent" role="group" aria-label="Prioridad para iniciar">
+            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="classSample">Ver clase real primero</button>
+            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="scheduleFlex">Necesito horario rápido</button>
+            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="familySupport">Busco opción para mi familia</button>
+            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="default">Sin definir aún</button>
+          </div>
           <div class="contact-trust" aria-label="Compromisos de atención">
             <article>
               <strong>⚡</strong>
@@ -2146,6 +2153,7 @@ const whatsappDraft = document.querySelector("[data-form-whatsapp]");
 
 if (form && status && whatsappDraft) {
   const leadIntentCards = [...document.querySelectorAll("[data-intent-card]")];
+  const contactQuickIntentButtons = [...document.querySelectorAll("[data-contact-intent-quick]")];
   const leadPersonaSelect = form.querySelector('select[name="para"]');
   const contactIntentTitle = form.querySelector("[data-contact-intent-title]");
   const contactIntentCopy = form.querySelector("[data-contact-intent-copy]");
@@ -2174,6 +2182,11 @@ if (form && status && whatsappDraft) {
 
     leadIntentCards.forEach((card) => {
       card.classList.toggle("is-active", card.dataset.intent === activeLeadIntent);
+    });
+    contactQuickIntentButtons.forEach((button) => {
+      const isActive = button.dataset.contactIntentQuick === activeLeadIntent;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", String(isActive));
     });
 
     if (contactIntentTitle && contactIntentCopy && contactIntentAction) {
@@ -2302,6 +2315,18 @@ if (form && status && whatsappDraft) {
     });
   };
 
+  const initContactQuickIntents = () => {
+    contactQuickIntentButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        setActiveLeadIntent(button.dataset.contactIntentQuick || "default");
+        const nameInput = form?.querySelector('input[name="nombre"]');
+        if (nameInput) {
+          nameInput.focus({ preventScroll: true });
+        }
+      });
+    });
+  };
+
   const initIntentActionLinks = () => {
     const intentActionLinks = [...document.querySelectorAll("[data-intent-action]")];
     intentActionLinks.forEach((link) => {
@@ -2312,6 +2337,7 @@ if (form && status && whatsappDraft) {
   syncWhatsAppDraft();
   initIntentActionLinks();
   initLeadIntentFromHero();
+  initContactQuickIntents();
   const initialLeadIntent = new URLSearchParams(window.location.search).get("intento") || "default";
   setActiveLeadIntent(initialLeadIntent, { silent: true });
   if (initialLeadIntent === "scheduleFlex") {
