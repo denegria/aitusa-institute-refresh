@@ -259,6 +259,7 @@ const heroMedia = () => {
       <div class="hero__media-frame hero__media-frame--hero-carousel" data-hero-frame>
         <div class="hero__media-stack" data-hero-stack>${slides}</div>
         <div class="hero__media-overlay hero__media-overlay--gallery">
+          <div class="hero__media-tag">Video real · 1:08</div>
           <div class="hero__media-meta">
             <p class="hero__media-kicker" data-hero-kicker>${heroGallery[0].label}</p>
             <p class="hero__media-title" data-hero-title>${heroGallery[0].title}</p>
@@ -299,6 +300,7 @@ const heroMedia = () => {
           alt="${site.heroQuote}"
         />
         <div class="hero__media-overlay">
+          <div class="hero__media-tag">Video real · 1:08</div>
           <a class="hero__video-chip" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Enviar mensaje para agendar una sesión de muestra">
             <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
             Ver sesión de muestra
