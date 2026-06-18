@@ -686,16 +686,16 @@ const heroVideoFacts = () => `
 const heroIntentCards = () => `
   <div class="hero__intent" aria-label="¿Qué objetivo tienes hoy?">
     <a class="hero__intent-card" href="#experiencia" data-intent-card data-intent="classSample">
-      <span class="hero__intent-card__label">Quiero ver la clase real</span>
-      <strong>Ver experiencia de 1:08</strong>
+      <span class="hero__intent-card__label">Primero quiero clase real</span>
+      <strong>Ver el recorrido real de 1:08</strong>
     </a>
     <a class="hero__intent-card" href="#horarios" data-intent-card data-intent="scheduleFlex">
-      <span class="hero__intent-card__label">Tengo agenda limitada</span>
-      <strong>Ver horarios y opciones</strong>
+      <span class="hero__intent-card__label">Tengo agenda corta</span>
+      <strong>Comparar opciones con flexibilidad</strong>
     </a>
     <a class="hero__intent-card" href="#contacto" data-intent-card data-intent="familySupport">
-      <span class="hero__intent-card__label">Busco opción para familia</span>
-      <strong>Consultar rutas para mi hijo/a</strong>
+      <span class="hero__intent-card__label">Busco opción familiar</span>
+      <strong>Ruta para mi hijo o mi familia</strong>
     </a>
   </div>
 `;
@@ -704,15 +704,15 @@ const heroCommitment = () => `
   <div class="hero__commitment" aria-label="Compromiso de calidad del hero">
     <article>
       <strong>Clases reales primero</strong>
-      <span>Todo parte de una sesión real grabada para que entiendas la dinámica sin dudas.</span>
+      <span>Muestra real de clase para validar ritmo, metodología y nivel desde el minuto uno.</span>
     </article>
     <article>
       <strong>Decisión en 60 segundos</strong>
-      <span>Dos pasos para ver muestra, validar disponibilidad y recibir orientación inicial.</span>
+      <span>En dos pasos: mira el clip, valida horario y recibe una sugerencia inicial.</span>
     </article>
     <article>
       <strong>Rutas listas para arrancar</strong>
-      <span>Objetivo, horario y formato adaptados a lo que puedes sostener hoy.</span>
+      <span>Objetivo, horario y formato preparados para que comiences esta semana.</span>
     </article>
   </div>
 `;
@@ -1344,12 +1344,28 @@ app.innerHTML = `
         )
         .join("")}
       </nav>
-    <a class="header-cta" href="#experiencia" aria-label="Ver la clase real antes de escribir por WhatsApp">Ver clase real ahora</a>
+    <a
+      class="header-cta"
+      href="#experiencia"
+      data-intent-action
+      data-intent="classSample"
+      aria-label="Ver la clase real antes de escribir por WhatsApp"
+    >Ver clase real ahora</a>
   </header>
 
   <div class="quick-cta" aria-label="Acciones rápidas de inicio">
-    <a class="button button--primary" href="#experiencia">Ver clase real en 1:08</a>
-    <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Quiero ruta guiada por WhatsApp</a>
+    <a
+      class="button button--primary"
+      href="#experiencia"
+      data-intent-action
+      data-intent="classSample"
+    >Ver clase real en 1:08</a>
+    <a
+      class="button button--ghost"
+      href="${site.whatsappHref}?text=${contactMessage}"
+      data-intent-action
+      data-intent="default"
+    >Quiero ruta guiada por WhatsApp</a>
   </div>
 
   <main>
@@ -1364,8 +1380,18 @@ app.innerHTML = `
           <h1>${site.heroHeadline || site.name}</h1>
           <p class="hero__lead">${site.heroLead || site.description}</p>
           <div class="hero__actions">
-            <a class="button button--primary" href="#experiencia">Ver clase real ahora</a>
-            <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Quiero hablar por WhatsApp</a>
+            <a
+              class="button button--primary"
+              href="#experiencia"
+              data-intent-action
+              data-intent="classSample"
+            >Ver clase real ahora</a>
+            <a
+              class="button button--ghost"
+              href="${site.whatsappHref}?text=${contactMessage}"
+              data-intent-action
+              data-intent="default"
+            >Quiero hablar por WhatsApp</a>
           </div>
           ${heroIntentCards()}
           ${heroCommitment()}

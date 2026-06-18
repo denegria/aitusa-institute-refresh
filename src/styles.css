@@ -902,15 +902,20 @@ select {
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 32px;
+  align-items: stretch;
 }
 
 .hero__actions .button {
   min-width: 220px;
+  min-height: 54px;
+  padding-top: 0.78rem;
+  padding-bottom: 0.78rem;
 }
 
 .hero__actions .button--primary {
   flex: 1 1 260px;
   box-shadow: 0 16px 32px rgba(12, 60, 231, 0.24);
+  font-size: 0.99rem;
 }
 
 .hero__actions .button--ghost {
@@ -931,18 +936,21 @@ select {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
+  align-items: stretch;
 }
 
 .hero__intent-card {
   text-decoration: none;
   display: grid;
-  gap: 6px;
+  gap: 8px;
   padding: 12px 13px;
   border-radius: 12px;
   color: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.28);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.06));
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 98px;
+  backdrop-filter: blur(5px);
 }
 
 .hero__intent-card:hover,
@@ -960,10 +968,18 @@ select {
 
 .hero__intent-card__label {
   color: #ffcfd4;
-  font-size: 0.73rem;
+  font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  text-transform: none;
+}
+
+.hero__intent-card strong {
+  display: block;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  color: #fff;
 }
 
 .hero__commitment {
@@ -971,6 +987,7 @@ select {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
+  align-items: stretch;
 }
 
 .hero__commitment article {
@@ -980,18 +997,28 @@ select {
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   background: rgba(255, 255, 255, 0.06);
+  min-height: 120px;
+  backdrop-filter: blur(2px);
 }
 
 .hero__commitment strong {
   display: block;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   color: #ffdee5;
 }
 
 .hero__commitment span {
   color: rgba(255, 255, 255, 0.79);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   line-height: 1.45;
+}
+
+.hero__microcopy {
+  margin: 12px 0 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  max-width: 540px;
 }
 
 .hero__teacher-strip {
@@ -1069,7 +1096,7 @@ select {
 }
 
 .hero__conversion-strip {
-  margin-top: 12px;
+  margin-top: 16px;
   display: grid;
   gap: 10px;
   width: min(100%, 520px);
