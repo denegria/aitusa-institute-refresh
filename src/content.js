@@ -16,6 +16,18 @@ const site = {
     "Aprende inglés con evidencia real: cada corrección que ves en la muestra es la misma intensidad de clase real en vivo.",
   heroMicrocopy:
     "Empieza en 60 segundos: mira una clase real, valida horario y formato, y decide con menos incertidumbre.",
+  heroQuickCapture: {
+    title: "Tu ruta inicial en 30 segundos",
+    copy: "Déjanos tu número y te enviamos por WhatsApp la mejor opción para empezar sin perder tiempo.",
+    options: [
+      "Quiero clase real",
+      "Quiero revisar horarios",
+      "Necesito opción para mi hijo/a",
+      "Busco ruta para niños o adultos",
+    ],
+    button: "Recibir ruta por WhatsApp",
+    note: "Sin costo y sin compromiso. Enviamos una ruta clara y un siguiente paso.",
+  },
   heroHighlights: [
     "Respuesta en menos de 24 horas",
     "Opciones para jóvenes, adultos y familias",
@@ -1039,6 +1051,7 @@ const faqs = [
 window.AITUSA_DATA = {
   heroProof,
   heroHighlights,
+  heroQuickCapture,
   books,
   differentiators,
   downloads,

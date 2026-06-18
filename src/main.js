@@ -5,6 +5,7 @@ const {
   downloads,
   faqs,
   heroHighlights,
+  heroQuickCapture: heroQuickCaptureData,
   learningOutcomes,
   courseGuides,
   heroGallery,
@@ -64,6 +65,41 @@ const heroVideoSources = (() => {
 const contactMessage = encodeURIComponent(
   "Hola AiT USA Institute, vi la clase real y quiero una ruta clara de inicio: clases, horarios y modalidad para mi caso.",
 );
+
+const heroQuickCaptureWidget = () => {
+  if (!heroQuickCaptureData) return "";
+
+  const options = Array.isArray(heroQuickCaptureData.options)
+    ? heroQuickCaptureData.options
+    : ["Quiero clase real", "Quiero revisar horarios", "Necesito opción para mi hijo/a"];
+  const optionsMarkup = options.map((option) => `<option>${option}</option>`).join("");
+
+  return `
+    <form class="hero__quick-capture" data-hero-quick-capture action="#" method="post">
+      <p class="hero__quick-capture__title">${heroQuickCaptureData.title || "Tu ruta inicial en 30 segundos"}</p>
+      <p class="hero__quick-capture__copy">${heroQuickCaptureData.copy || "Déjanos tu contacto y te escribimos por WhatsApp con una ruta inicial."}</p>
+      <div class="hero__quick-capture__row">
+        <label class="hero__quick-capture__field">
+          Nombre
+          <input name="hero-quick-name" autocomplete="name" placeholder="Tu nombre" data-hero-quick-name required />
+        </label>
+        <label class="hero__quick-capture__field">
+          WhatsApp
+          <input name="hero-quick-phone" inputmode="tel" autocomplete="tel" placeholder="+1 555 000 0000" data-hero-quick-phone required />
+        </label>
+      </div>
+      <label class="hero__quick-capture__field">
+        Objetivo principal
+        <select data-hero-quick-goal aria-label="Objetivo principal">
+          ${optionsMarkup}
+        </select>
+      </label>
+      <button class="button button--primary" type="submit">${heroQuickCaptureData.button || "Recibir ruta por WhatsApp"}</button>
+      <p class="hero__quick-capture__status" data-hero-quick-status aria-live="polite"></p>
+      <p class="hero__quick-capture__note">${heroQuickCaptureData.note || "Sin costo y sin compromiso."}</p>
+    </form>
+  `;
+};
 
 const requiredLeadFields = [
   { name: "nombre" },
@@ -769,6 +805,32 @@ const initHeroPlayButton = () => {
   });
 };
 
+const initHeroQuickCapture = () => {
+  const form = document.querySelector("[data-hero-quick-capture]");
+  if (!form) return;
+
+  const quickName = form.querySelector("[data-hero-quick-name]");
+  const quickPhone = form.querySelector("[data-hero-quick-phone]");
+  const quickGoal = form.querySelector("[data-hero-quick-goal]");
+  const quickStatus = form.querySelector("[data-hero-quick-status]");
+  if (!quickName || !quickPhone || !quickGoal || !quickStatus) return;
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const name = String(quickName.value || "un interesado").trim();
+    const phone = String(quickPhone.value || "").trim();
+    const goal = String(quickGoal.value || "ruta inicial").trim();
+    const message = encodeURIComponent(
+      `Hola AiT USA Institute, soy ${name} y quiero una ruta inicial para ${goal}. Mi número de contacto es ${phone || "el que me registran"}.`
+      + " Quiero clases, horarios y modalidad para empezar.",
+    );
+
+    quickStatus.textContent = "Abriendo WhatsApp con tu mensaje listo para enviar…";
+    window.location.href = `${site.whatsappHref}?text=${message}`;
+  });
+};
+
 const initHeroBackground = () => {
   const heroVideoBg = document.querySelector("[data-hero-bg-player]");
   if (!heroVideoBg) return;
@@ -870,6 +932,7 @@ app.innerHTML = `
             <a class="button button--primary" href="#contacto" data-intent-action data-intent="default">Quiero mi ruta personalizada</a>
             <a class="button button--ghost" href="#horarios" data-intent-action data-intent="scheduleFlex">Ver horarios disponibles</a>
           </div>
+          ${heroQuickCaptureWidget()}
           <div class="hero__highlights" aria-label="Beneficios">
             ${(site.heroHighlights || site.heroHighlight || [])
               .map((copy) => `<span>${copy}</span>`)
@@ -1699,6 +1762,7 @@ initHeroShowcase();
 initHeroPreviewCards();
 initHeroFallbacks();
 initHeroPlayButton();
+initHeroQuickCapture();
 
 const menuToggle = document.querySelector(".menu-toggle");
 const navEl = document.querySelector(".site-nav");

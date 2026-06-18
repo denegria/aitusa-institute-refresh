@@ -994,6 +994,87 @@ select {
   color: #fff;
 }
 
+.hero__quick-capture {
+  margin-top: 10px;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(7, 16, 45, 0.45);
+  backdrop-filter: blur(10px);
+  display: grid;
+  gap: 10px;
+  width: min(100%, 620px);
+  box-shadow: 0 14px 32px rgba(8, 12, 31, 0.32);
+}
+
+.hero__quick-capture__title {
+  margin: 0;
+  color: #fff;
+  font-weight: 850;
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+  font-size: 1.12rem;
+}
+
+.hero__quick-capture__copy {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.hero__quick-capture__row {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.hero__quick-capture__field {
+  display: grid;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.hero__quick-capture__field input,
+.hero__quick-capture__field select {
+  min-height: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 10px;
+  padding: 0 12px;
+  background: rgba(5, 12, 33, 0.74);
+  color: #fff;
+  font: inherit;
+}
+
+.hero__quick-capture__field input::placeholder {
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.hero__quick-capture .button {
+  margin-top: 4px;
+  width: 100%;
+  min-height: 50px;
+  justify-content: center;
+}
+
+.hero__quick-capture__status {
+  margin: 0;
+  min-height: 1.2rem;
+  color: #e9eeff;
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.hero__quick-capture__note {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.8rem;
+  line-height: 1.42;
+}
+
 .mobile-action-bar {
   position: fixed;
   left: 0;
@@ -3597,6 +3678,10 @@ select {
     grid-template-columns: 1fr;
   }
 
+  .hero__quick-capture__row {
+    grid-template-columns: 1fr;
+  }
+
   .reel-grid {
     grid-template-columns: 1fr;
   }
@@ -3766,6 +3851,10 @@ select {
 
   .hero__conversion-strip {
     grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .hero__quick-capture {
     width: 100%;
   }
 
