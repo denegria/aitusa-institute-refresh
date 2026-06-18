@@ -588,6 +588,7 @@ const initHeroPreviewCards = () => {
   const kicker = document.querySelector("[data-hero-kicker]");
   const title = document.querySelector("[data-hero-title]");
   const poster = document.querySelector("[data-hero-poster]");
+  const heroVideo = document.querySelector("[data-hero-player]");
   const heroSource = heroVideo.querySelector("[data-hero-source]");
   const heroFallbackImage = document.querySelector("[data-hero-fallback]");
 
@@ -620,8 +621,11 @@ const initHeroPreviewCards = () => {
       heroVideo.classList.remove("is-hidden");
       heroFallbackImage.classList.add("is-hidden");
     } else {
+      heroVideo.pause();
       heroSource.src = heroVideoSources[0];
       heroVideo.load();
+      heroVideo.classList.remove("is-hidden");
+      heroFallbackImage.classList.add("is-hidden");
     }
   };
 
