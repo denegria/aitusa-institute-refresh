@@ -19,7 +19,7 @@ const site = {
   heroQuickCapture: {
     title: "Empieza tu ruta en menos de 60 segundos",
     copy:
-      "Déjanos tu nombre y WhatsApp; te respondemos en minutos con una ruta inicial, objetivo y opciones de horario realistas.",
+      "Déjanos tu nombre y WhatsApp; te respondemos en minutos con una ruta inicial de hoy: objetivo, horario y formato ideal.",
     options: [
       "Quiero validar método y estilo con clase real",
       "Quiero comparar presencial, híbrido y online",
@@ -27,7 +27,7 @@ const site = {
       "Quiero mejorar inglés para trabajo o entrevistas",
     ],
     button: "Quiero ruta inicial por WhatsApp",
-    note: "Sin costo, sin compromiso y sin venta forzada: solo una recomendación inicial útil para decidir.",
+    note: "Sin costo, sin compromiso y sin venta forzada: solo una recomendación útil para decidir con criterio.",
   },
   heroHighlights: [
     "Clase real, sin simulaciones: método, ritmo y estilo visibles desde el primer minuto.",
@@ -142,9 +142,9 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clase real de 1:08 para validar estilo, ritmo y encaje antes de invertir tiempo ni dinero.",
-  "Método visual para hablar en inglés en entrevistas, estudio y vida diaria desde la primera semana.",
-  "Ruta inicial y acompañamiento real para que avances aunque tu agenda esté llena.",
+  "Clase real de 1:08 para validar método, ritmo y encaje antes de invertir tiempo ni dinero.",
+  "Ruta inicial visual y práctica para hablar en entrevistas, estudio y vida diaria desde la primera semana.",
+  "Plan de arranque y acompañamiento real para avanzar aunque tu agenda esté llena.",
 ];
 const heroHighlights = site.heroHighlights || [];
 
@@ -156,15 +156,15 @@ const heroVideoHighlights = [
 ];
 
 const heroStartPath = [
-  "Mira el clip real y valida en segundos si el ritmo y el método te encajan.",
-  "Define objetivo, horario y nivel de compromiso en una sola consulta inicial.",
-  "Compara opciones y elige una ruta realista para empezar en pocos días.",
+  "Mira la clase real y valida en segundos si el ritmo te sirve.",
+  "Define objetivo, horario y nivel de compromiso en un solo paso inicial.",
+  "Compara opciones y deja lista una ruta realista para empezar esta semana.",
 ];
 
 const heroSignal = [
   {
     value: "20+",
-    label: "años guiando rutas reales de aprendizaje en inglés en Nueva Jersey.",
+    label: "años guiando rutas prácticas de inglés en Nueva Jersey.",
   },
   {
     value: "1:08",
@@ -180,20 +180,20 @@ const launchPath = [
   {
     title: "Semana 1: diagnóstico y objetivo",
     description:
-      "En 10 minutos validamos nivel, meta y agenda para diseñar una ruta inicial realista y accionable.",
-    outcome: "Sales con una recomendación clara y tareas concretas para arrancar esta semana.",
+      "En 10 minutos validamos nivel, objetivo y agenda para diseñar una ruta inicial realista y accionable.",
+    outcome: "Sales con recomendación, formato y horario inicial para arrancar hoy.",
   },
   {
     title: "Semana 2: práctica guiada",
     description:
       "Entrenas conversaciones reales con correcciones puntuales para convertir teoría en respuesta inmediata.",
-    outcome: "La conversación mejora con menos fricción y más control.",
+    outcome: "Con cada práctica tu inglés se vuelve más utilizable y con menos bloqueo.",
   },
   {
     title: "Semana 3: seguimiento y ajuste",
     description:
       "Con tu coach de ruta revisamos avances, detectamos obstáculos y ajustamos micro-prácticas.",
-    outcome: "Ves evidencia de mejora y sabes exactamente cómo seguir.",
+    outcome: "Ves evidencia de mejora y sabes exactamente el siguiente ajuste semanal.",
   },
 ];
 

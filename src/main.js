@@ -342,11 +342,11 @@ const leadIntentProfiles = {
     interest: "No estoy seguro",
     forWhom: "Para mí",
     message:
-      "quiero una ruta inicial de inglés personalizada para decidir hoy con un criterio práctico y sin perder tiempo.",
-    panelTitle: "Ruta sugerida: decisión segura",
+      "quiero una ruta inicial de inglés y decidir hoy con criterio práctico sin perder tiempo.",
+    panelTitle: "Ruta sugerida: decisión con criterio",
     panelCopy:
-      "Definimos objetivo, tiempo y formato contigo para pasar de duda a una ruta concreta en menos de 5 minutos.",
-    panelAction: "Ver opciones y empezar mi ruta inicial",
+      "Te dejamos un plan claro de objetivo, horario y formato para pasar de duda a acción en menos de 5 minutos.",
+    panelAction: "Ver opciones y confirmar mi ruta inicial",
   },
   classSample: {
     intent: "Clase real",
@@ -356,7 +356,7 @@ const leadIntentProfiles = {
       "quiero ver una clase real y recibir una recomendación clara de inicio para mi caso.",
     panelTitle: "Ruta sugerida: primera mirada práctica",
     panelCopy:
-      "Mira un fragmento real de clase y recibe la mejor ruta de inicio según tu nivel y metas actuales.",
+      "Mira un fragmento real y valida método, ritmo y encaje antes de avanzar.",
     panelAction: "Ver clase real y decidir mi siguiente paso",
   },
   scheduleFlex: {
@@ -364,21 +364,21 @@ const leadIntentProfiles = {
     interest: "Inglés",
     forWhom: "Para mí",
     message:
-      "tengo agenda limitada y necesito opciones de horario con una ruta de arranque realista para esta semana.",
+      "tengo agenda limitada y necesito horario con ruta realista para empezar sin fricción.",
     panelTitle: "Ruta sugerida: horario inteligente",
     panelCopy:
-      "Compara mañana, noche o fin de semana y elige un plan que respete tu rutina real sin fricción.",
-    panelAction: "Revisar horarios y reservar ruta inicial",
+      "Compara mañana, noche o fin de semana y elige una ruta que se ajuste a tu rutina real.",
+    panelAction: "Revisar horarios y reservar mi ruta inicial",
   },
   familySupport: {
     intent: "Opciones familiares",
     interest: "Niños",
     forWhom: "Para mi hijo/a",
     message:
-      "quiero ayuda para elegir opciones para mi familia o alguien a mi cargo con seguridad y continuidad.",
+      "quiero una ruta para mi hijo/a con seguimiento y continuidad real desde el inicio.",
     panelTitle: "Ruta sugerida: decisión familiar",
     panelCopy:
-      "Compara opciones para familias y recibe una ruta clara con continuidad para que toda la decisión sea más fácil.",
+      "Compara opciones para familias y dejamos una ruta clara con continuidad desde el primer paso.",
     panelAction: "Ver ruta familiar y reservar orientación",
   },
 };
@@ -913,15 +913,15 @@ const heroVideoFacts = () => `
 const heroIntentCards = () => `
   <div class="hero__intent" aria-label="¿Qué objetivo tienes hoy?">
     <a class="hero__intent-card" href="#experiencia" data-intent-card data-intent="classSample">
-      <span class="hero__intent-card__label">Ver clase real primero</span>
+      <span class="hero__intent-card__label">Clase real en 1:08</span>
       <strong>Ver el recorrido real de 1:08</strong>
     </a>
     <a class="hero__intent-card" href="#horarios" data-intent-card data-intent="scheduleFlex">
-      <span class="hero__intent-card__label">Quiero empezar esta semana</span>
+      <span class="hero__intent-card__label">Necesito empezar ya</span>
       <strong>Comparar opciones con flexibilidad</strong>
     </a>
     <a class="hero__intent-card" href="#contacto" data-intent-card data-intent="familySupport">
-      <span class="hero__intent-card__label">Soy padre/madre</span>
+      <span class="hero__intent-card__label">Ruta familiar para mi hijo/a</span>
       <strong>Ruta para mi hijo o mi familia</strong>
     </a>
   </div>
@@ -1658,8 +1658,8 @@ app.innerHTML = `
           ${heroCommitment()}
           ${heroInstructorStrip()}
           <div class="hero__conversion-strip">
-            <a class="button button--primary" href="#contacto" data-intent-action data-intent="default">Quiero mi ruta inicial personalizada</a>
-            <a class="button button--ghost" href="#horarios" data-intent-action data-intent="scheduleFlex">Ver horarios disponibles</a>
+            <a class="button button--primary" href="#contacto" data-intent-action data-intent="default">Quiero mi ruta inicial</a>
+            <a class="button button--ghost" href="#horarios" data-intent-action data-intent="scheduleFlex">Ver horarios y elegir ruta</a>
           </div>
           <div class="hero__highlights" aria-label="Beneficios">
             ${(site.heroHighlights || site.heroHighlight || [])
@@ -2383,10 +2383,10 @@ app.innerHTML = `
           </p>
           <p class="contact-quick-intent__label">Elige tu prioridad y te preparamos el mensaje inicial exacto:</p>
           <div class="contact-quick-intent" role="group" aria-label="Prioridad para iniciar">
-            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="classSample">Ver clase real primero</button>
-            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="scheduleFlex">Necesito horario rápido</button>
-            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="familySupport">Busco opción para mi familia</button>
-            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="default">Sin definir aún</button>
+            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="classSample">Clase real primero</button>
+            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="scheduleFlex">Horario para empezar</button>
+            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="familySupport">Ruta familiar</button>
+            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="default">Aún no decido</button>
           </div>
           <div class="contact-trust" aria-label="Compromisos de atención">
             <article>
