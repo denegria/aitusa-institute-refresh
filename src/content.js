@@ -559,30 +559,35 @@ const locations = [
     address: "213 E. Main St., Bound Brook, NJ 08805",
     note: "Oficina central / sede principal",
     highlight: "Recepción principal y coordinación administrativa.",
+    cta: "Escribir sobre Bound Brook",
   },
   {
     city: "Plainfield, New Jersey",
     address: "108 Watchung Ave., Plainfield, NJ 07060",
     note: "Sede presencial",
     highlight: "Acceso fácil para estudiantes del área central de Nueva Jersey.",
+    cta: "Escribir sobre Plainfield",
   },
   {
     city: "Piscataway, New Jersey",
     address: "451 S. Washington Ave., Piscataway, NJ 08854",
     note: "Sede presencial",
     highlight: "Buena opción para quienes buscan una sede amplia y práctica.",
+    cta: "Escribir sobre Piscataway",
   },
   {
     city: "Flemington, New Jersey",
     address: "Flemington, NJ, USA",
     note: "Confirmar detalles de sede",
     highlight: "Disponible según disponibilidad y coordinación previa.",
+    cta: "Confirmar Flemington",
   },
   {
     city: "New York / Online",
     address: "Atención online",
     note: "Atención para clases en línea",
     highlight: "Conexión remota para estudiantes fuera de Nueva Jersey.",
+    cta: "Consultar online",
   },
 ];
 

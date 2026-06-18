@@ -872,12 +872,23 @@ app.innerHTML = `
                 <p class="location-card__highlight">${location.highlight}</p>
                 <span>${location.note}</span>
                 <div class="location-card__actions">
-                  <a href="${site.whatsappHref}?text=${encodeURIComponent(`Hola AiT USA Institute, quiero información sobre la sede de ${location.city}.`)}">Consultar sede</a>
+                  <a href="${site.whatsappHref}?text=${encodeURIComponent(`Hola AiT USA Institute, quiero información sobre ${location.city}.`)}">${location.cta}</a>
                 </div>
               </article>
             `,
           )
           .join("")}
+      </div>
+      <div class="section-inner books-cta">
+        <div>
+          <p class="section-kicker">¿No sabes cuál sede te conviene?</p>
+          <h3>Te ayudamos a comparar ubicación, horario y modalidad antes de elegir.</h3>
+          <p>Escríbenos y te orientamos con la opción más práctica según tu zona y tu rutina.</p>
+        </div>
+        <div class="books-cta__actions">
+          <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Pedir orientación</a>
+          <a class="button button--ghost" href="#horarios">Ver horarios</a>
+        </div>
       </div>
       <div class="section-inner contact-strip">
         <a href="${site.phoneHref}">${site.phone}</a>
