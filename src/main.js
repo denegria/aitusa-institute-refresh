@@ -271,6 +271,8 @@ const syncFaqSchema = () => {
   const payload = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    name: "Preguntas frecuentes de AiT USA Institute",
+    inLanguage: "es",
     "mainEntity": faqs.map((faq) => ({
       "@type": "Question",
       name: faq.question,
@@ -282,6 +284,259 @@ const syncFaqSchema = () => {
   };
 
   script.textContent = JSON.stringify(payload, null, 2);
+};
+
+const syncCoreSchemas = () => {
+  const schemaTarget = (name) =>
+    document.querySelector(`script[type="application/ld+json"][data-schema="${name}"]`);
+  const setSchema = (name, payload) => {
+    const script = schemaTarget(name);
+    if (!script) return;
+    script.textContent = JSON.stringify(payload, null, 2);
+  };
+
+  const canonical = site.canonical || `${window.location.origin}/`;
+  const websiteUrl = toAbsoluteSiteUrl(canonical);
+  const today = new Date().toISOString().split("T")[0];
+  const seoImage = toAbsoluteSiteUrl(site.seoImage || site.images?.heroPoster || site.images?.hero);
+  const seoVideo = toAbsoluteSiteUrl(site.seoVideo || site.heroVideo || site.images?.heroVideo);
+  const schemaCourses = (programs || []).slice(0, 4).map((program, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    item: {
+      "@type": "Course",
+      name: program.title,
+      description: program.fit || program.description || "",
+      provider: {
+        "@type": "EducationalOrganization",
+        name: site.name,
+        "@id": `${websiteUrl}#organization`,
+      },
+      courseMode: `${program.mode || "Presencial, Híbrido, Online"}`
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean),
+      inLanguage: "en",
+      offers: {
+        "@type": "Offer",
+        priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
+        name: program.title,
+      },
+    },
+  }));
+
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    name: site.name,
+    alternateName: site.legal,
+    url: websiteUrl,
+    "@id": `${websiteUrl}#organization`,
+    logo: toAbsoluteSiteUrl(site.images.logo),
+    image: seoImage,
+    description: site.seoDescription || site.description || site.tagline,
+    telephone: site.phone,
+    email: site.email,
+    foundingDate: site.founded,
+    sameAs: [site.facebookHref].filter(Boolean),
+    address: (site.locations || []).map((location) => ({
+      "@type": "PostalAddress",
+      streetAddress: location.streetAddress,
+      addressLocality: location.addressLocality,
+      addressRegion: location.addressRegion,
+      postalCode: location.postalCode,
+      addressCountry: location.addressCountry || "US",
+    })),
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Cursos de AiT USA Institute",
+      itemListElement: (programs || []).slice(0, 6).map((program) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Course",
+          name: program.title,
+          description: program.description || program.fit || "",
+        },
+      })),
+    },
+  };
+
+  const webpageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${websiteUrl}#webpage`,
+    url: websiteUrl,
+    name: site.seoTitle || site.heroHeadline,
+    description: site.seoDescription || site.description,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["#inicio h1", "#inicio .hero__lead", "#contacto-title"],
+    },
+    isPartOf: {
+      "@id": `${websiteUrl}#website`,
+    },
+    about: {
+      "@id": `${websiteUrl}#organization`,
+    },
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      url: seoImage,
+    },
+    inLanguage: "es-US",
+    breadcrumb: {
+      "@id": `${websiteUrl}#breadcrumb`,
+    },
+  };
+
+  const videoSchema = {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "@id": `${websiteUrl}#clase-real-video`,
+    name: "Clase real en vivo de AiT USA Institute",
+    description: site.heroLead || site.heroMicrocopy || "Clase real en vivo de inglés con corrección inmediata.",
+    inLanguage: "en-US",
+    isFamilyFriendly: true,
+    uploadDate: today,
+    contentUrl: seoVideo,
+    embedUrl: `${websiteUrl}#experiencia`,
+    thumbnailUrl: [seoImage, toAbsoluteSiteUrl("./public/assets/wix/live/hero-female-teacher.jpg")],
+    duration: site.seoVideoDuration || "PT1M8S",
+    encodingFormat: "video/mp4",
+    hasPart: [
+      {
+        "@type": "Clip",
+        name: "Clase real de entrevista y conversación guiada",
+        startOffset: "PT0S",
+        endOffset: site.seoVideoDuration || "PT1M8S",
+      },
+    ],
+    mainEntityOfPage: {
+      "@id": `${websiteUrl}#webpage`,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: site.name,
+      logo: {
+        "@type": "ImageObject",
+        url: toAbsoluteSiteUrl(site.images.logo),
+      },
+    },
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.name,
+    url: websiteUrl,
+    "@id": `${websiteUrl}#website`,
+    inLanguage: "es",
+  };
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Clases de inglés con clase real y ruta personalizada",
+    description: site.seoDescription || site.description,
+    provider: {
+      "@id": `${websiteUrl}#organization`,
+    },
+    serviceType: "English language training",
+    areaServed: {
+      "@type": "AdministrativeArea",
+      name: "New Jersey, United States",
+    },
+    availableChannel: {
+      "@type": "ServiceChannel",
+      serviceUrl: `${websiteUrl}#contacto`,
+      serviceSmsNumber: "+1-732-379-0593",
+    },
+    audience: {
+      "@type": "PeopleAudience",
+      audienceType: ["Jóvenes", "Adultos", "Familias"],
+    },
+    offers: {
+      "@type": "Offer",
+      url: websiteUrl,
+      availability: "https://schema.org/InStock",
+      priceCurrency: "USD",
+      areaServed: "New Jersey",
+      itemOffered: {
+        "@type": "Service",
+        name: "Clase inicial de diagnóstico y recomendación",
+      },
+    },
+  };
+
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Cursos destacados AiT USA Institute",
+    itemListElement: schemaCourses,
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "@id": `${websiteUrl}#breadcrumb`,
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: websiteUrl },
+      { "@type": "ListItem", position: 2, name: "Cursos", item: `${websiteUrl}#cursos` },
+      { "@type": "ListItem", position: 3, name: "Horario", item: `${websiteUrl}#horarios` },
+      { "@type": "ListItem", position: 4, name: "Contacto", item: `${websiteUrl}#contacto` },
+    ],
+  };
+
+  const firstLocation = (site.locations || [])[0];
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: site.name,
+    foundingDate: site.founded,
+    image: seoImage,
+    "@id": `${websiteUrl}`,
+    url: websiteUrl,
+    telephone: site.phone,
+    email: site.email,
+    priceRange: "$",
+    address: firstLocation
+      ? {
+          "@type": "PostalAddress",
+          streetAddress: firstLocation.streetAddress,
+          addressLocality: firstLocation.addressLocality,
+          addressRegion: firstLocation.addressRegion,
+          postalCode: firstLocation.postalCode,
+          addressCountry: firstLocation.addressCountry || "US",
+        }
+      : undefined,
+    geo: firstLocation?.geo
+      ? {
+          "@type": "GeoCoordinates",
+          latitude: firstLocation.geo.latitude,
+          longitude: firstLocation.geo.longitude,
+        }
+      : undefined,
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        opens: "08:20",
+        closes: "22:00",
+      },
+    ],
+    sameAs: [site.facebookHref].filter(Boolean),
+    paymentAccepted: ["Cash", "Credit Card"],
+    areaServed: "New Jersey",
+  };
+
+  setSchema("organization", organizationSchema);
+  setSchema("webpage", webpageSchema);
+  setSchema("video", videoSchema);
+  setSchema("website", websiteSchema);
+  setSchema("service", serviceSchema);
+  setSchema("itemlist", itemListSchema);
+  setSchema("breadcrumb", breadcrumbSchema);
+  setSchema("localbusiness", localBusinessSchema);
 };
 
 const toAbsoluteSiteUrl = (value) => {
@@ -2034,6 +2289,7 @@ const initNavSpy = () => {
 initNavSpy();
 initFaqAccordion();
 syncFaqSchema();
+syncCoreSchemas();
 syncSeoHead();
 
 menuToggle.addEventListener("click", () => {

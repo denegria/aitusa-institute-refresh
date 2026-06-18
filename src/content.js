@@ -49,9 +49,37 @@ const site = {
   seoImageAlt: "Instructora de AiT USA Institute guiando una clase real de inglés.",
   seoVideo: asset("live/hero-female-speaking-1080p.mp4"),
   seoVideoDuration: "PT1M8S",
+  email: "info@aitusainstitute.com",
   emailHref:
     "mailto:info@aitusainstitute.com?subject=Informaci%C3%B3n%20sobre%20clases%20AiT%20USA%20Institute",
   facebookHref: "https://www.facebook.com/aitusainstitute/",
+  locations: [
+    {
+      streetAddress: "213 E. Main St.",
+      addressLocality: "Bound Brook",
+      addressRegion: "NJ",
+      postalCode: "08805",
+      addressCountry: "US",
+      geo: {
+        latitude: 40.5689,
+        longitude: -74.5386,
+      },
+    },
+    {
+      streetAddress: "108 Watchung Ave.",
+      addressLocality: "Plainfield",
+      addressRegion: "NJ",
+      postalCode: "07060",
+      addressCountry: "US",
+    },
+    {
+      streetAddress: "451 S. Washington Ave.",
+      addressLocality: "Piscataway",
+      addressRegion: "NJ",
+      postalCode: "08854",
+      addressCountry: "US",
+    },
+  ],
   originalSite: "https://www.aitusainstitute.com/",
   forms: {
     level:
