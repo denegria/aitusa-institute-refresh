@@ -950,17 +950,25 @@ select {
   line-height: 1.5;
 }
 
-.hero__microcopy a {
-  display: inline-block;
-  margin-left: 10px;
-  color: #fff;
-  font-weight: 850;
-  text-decoration: underline;
-  text-underline-offset: 0.18em;
+.hero__microcopy-actions {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: min(100%, 520px);
 }
 
-.hero__microcopy a:hover {
-  opacity: 0.92;
+.hero__microcopy-actions .button {
+  min-width: 180px;
+  padding-top: 0.77rem;
+  padding-bottom: 0.77rem;
+  justify-content: center;
+}
+
+.hero__microcopy-actions .button--ghost {
+  min-width: 164px;
+  border-color: rgba(255, 255, 255, 0.42);
+  color: #fff;
 }
 
 .mobile-action-bar {

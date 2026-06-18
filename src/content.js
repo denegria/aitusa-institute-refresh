@@ -392,6 +392,8 @@ const heroGallery = [
     label: "Práctica en contexto",
     title: "Aprendizaje flexible para practicar inglés desde cualquier lugar.",
     image: "./public/assets/wix/live/hero-female-classroom.jpg",
+    video: "./public/assets/wix/live/hero-female-speaking-360p.mp4",
+    videoPoster: "./public/assets/wix/live/hero-female-teacher.jpg",
     imageAlt: "Grupo en clase presencial practicando conversación y pronunciación en inglés.",
   },
   {

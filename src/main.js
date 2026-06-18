@@ -862,8 +862,10 @@ app.innerHTML = `
           <p class="hero__microcopy">
             Mira una clase real, valida el ritmo y elige mejor formato con confianza.
             Si te gusta, primero revisa horarios o pasa directo al WhatsApp.
-            <a href="#horarios">Ver horarios</a> ·
-            <a href="${site.whatsappHref}?text=${contactMessage}">Empezar con WhatsApp</a>
+            <span class="hero__microcopy-actions">
+              <a class="button button--ghost" href="#horarios">Ver horarios</a>
+              <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Empezar con WhatsApp</a>
+            </span>
           </p>
           <div class="hero__highlights" aria-label="Beneficios">
             <span>Respuesta en menos de 24h</span>
