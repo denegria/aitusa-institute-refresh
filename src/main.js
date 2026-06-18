@@ -1628,13 +1628,10 @@ app.innerHTML = `
     >Quiero ruta guiada por WhatsApp</a>
   </div>
 
-  <main>
+    <main>
       <section id="inicio" class="hero" style="--hero-image: url('${site.heroVideoPoster || site.images.heroPoster || site.images.hero}')">
       ${heroVideoBackground()}
       <div class="hero__inner">
-        <div class="hero__media">
-          ${heroMedia()}
-        </div>
         <div class="hero__content">
           <p class="section-kicker">${site.tagline}</p>
           <h1>${site.heroHeadline || site.name}</h1>
@@ -1653,17 +1650,17 @@ app.innerHTML = `
               data-intent="default"
             >Quiero ruta personalizada por WhatsApp</a>
           </div>
+          ${heroQuickCaptureWidget()}
           ${heroIntentCards()}
-          ${heroCommitment()}
-        <p class="hero__microcopy">
+          <p class="hero__microcopy">
             ${site.heroMicrocopy || "Empieza en 60 segundos: mira una clase real, valida ritmo y decide con menos incertidumbre."}
           </p>
+          ${heroCommitment()}
           ${heroInstructorStrip()}
           <div class="hero__conversion-strip">
             <a class="button button--primary" href="#contacto" data-intent-action data-intent="default">Quiero mi ruta inicial personalizada</a>
             <a class="button button--ghost" href="#horarios" data-intent-action data-intent="scheduleFlex">Ver horarios disponibles</a>
           </div>
-          ${heroQuickCaptureWidget()}
           <div class="hero__highlights" aria-label="Beneficios">
             ${(site.heroHighlights || site.heroHighlight || [])
               .map((copy) => `<span>${copy}</span>`)
@@ -1698,6 +1695,9 @@ app.innerHTML = `
               )
               .join("")}
           </div>
+        </div>
+        <div class="hero__media">
+          ${heroMedia()}
         </div>
       </div>
     </section>
