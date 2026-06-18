@@ -5,17 +5,17 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Clase real en 1:08, sin simulación: decide hoy si este método encaja contigo.",
+    "Clase real en 1:08, sin simulación: decide hoy si este método te sirve de verdad.",
   description:
     "Mira una clase real en video, valida si el ritmo y el estilo te funcionan, y define tu siguiente paso con evidencia práctica.",
   heroHeadline:
-    "Mira una clase real en 1:08 y decide hoy si esta experiencia te conviene.",
+    "Mira una clase real en 1:08 y decide hoy si esta experiencia te convence.",
   heroLead:
-    "Observa una clase real en acción: corrección en vivo, conversación práctica y resultados visibles para validar con calma si esta es la ruta correcta para ti.",
+    "Observa una clase real en acción, valida ritmo, método y energía de clase, y decide con evidencia práctica si esta ruta encaja contigo.",
   heroQuote:
     "Sin simulaciones: lo que escuchas y ves en el video es una clase real y activa de verdadera práctica conversacional.",
   heroMicrocopy:
-    "Reproduce el clip, valida tu nivel, ritmo y encaje, y define una ruta inicial con horario concreto para empezar.",
+    "Reproduce el clip, valida nivel, ritmo y encaje, y define una ruta inicial con horario concreto para empezar esta misma semana.",
   heroQuickCapture: {
     title: "Empieza tu ruta en menos de 60 segundos",
     copy:
@@ -143,7 +143,7 @@ const nav = [
 
 const heroPoints = [
   "Clase real de 1:08 para validar método, ritmo y encaje antes de invertir tiempo ni dinero.",
-  "Ruta inicial visual y práctica para hablar en entrevistas, estudio y vida diaria desde la primera semana.",
+  "Ruta inicial visual y práctica para hablar en entrevistas, estudio y vida diaria desde esta semana.",
   "Plan de arranque y acompañamiento real para avanzar aunque tu agenda esté llena.",
 ];
 const heroHighlights = site.heroHighlights || [];
@@ -452,9 +452,9 @@ const heroGallery = [
   {
     label: "Atención con presencia",
     title: "Docentes bilingües corrigen en vivo para que avances con menos incertidumbre.",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: assetHires("hero-female-teacher.jpg"),
     video: site.images.heroVideoPortrait,
-    videoPoster: asset("live/hero-female-zoom.jpg"),
+    videoPoster: assetHires("hero-female-teacher.jpg"),
     imageAlt:
       "Instructora de AiT USA corrigiendo y motivando a una estudiante durante conversación oral.",
   },
@@ -469,9 +469,9 @@ const heroGallery = [
   {
     label: "Seguimiento semanal",
     title: "Ruta semanal con acciones claras para convertir práctica en hábito.",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: assetHires("hero-classroom.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-zoom.jpg"),
+    videoPoster: assetHires("hero-classroom.jpg"),
     imageAlt:
       "Instructora de AiT USA trabajando con una estudiante para mejorar la fluidez y la seguridad.",
   },
@@ -525,9 +525,9 @@ const instructorClips = [
   {
     title: "Escucha y responde al instante",
     eyebrow: "Metodología visual",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: assetHires("hero-female-teacher.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-zoom.jpg"),
+    videoPoster: assetHires("hero-female-teacher.jpg"),
     imageAlt: "Instructora y estudiante practicando inglés mediante Zoom con enfoque visual y conversación real.",
     caption:
       "Escucha guiada con pausas estratégicas para dominar respuestas rápidas con significado, no solo pronunciación.",
@@ -784,7 +784,7 @@ const teachers = [
     name: "Instructora de inglés conversacional",
     intent: "classSample",
     href: "#experiencia",
-    image: asset("live/hero-female-teacher.jpg"),
+    image: assetHires("hero-female-teacher.jpg"),
     imageAlt: "Instructora de AiT USA corrigiendo pronunciación durante una clase real de conversación.",
     role: "Corrección en vivo con seguimiento semanal.",
     description:
@@ -795,7 +795,7 @@ const teachers = [
     name: "Instructora de práctica online",
     intent: "classSample",
     href: "#experiencia",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: assetHires("hero-female-teacher.jpg"),
     imageAlt: "Instructora de AiT USA guiando una clase de inglés por videollamada.",
     role: "Aprendizaje remoto con participación guiada.",
     description:
@@ -806,7 +806,7 @@ const teachers = [
     name: "Instructora de continuidad académica",
     intent: "default",
     href: "#contacto",
-    image: asset("live/hero-female-classroom.jpg"),
+    image: assetHires("hero-classroom.jpg"),
     imageAlt: "Instructora de AiT USA motivando a estudiantes en una clase práctica.",
     role: "Soporte constante y ruta personalizada.",
     description:

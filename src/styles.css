@@ -187,7 +187,6 @@ select {
   isolation: isolate;
   overflow: hidden;
 }
-}
 
 .quick-cta .button {
   min-height: 44px;
