@@ -288,15 +288,15 @@ const heroCommitment = () => `
   <div class="hero__commitment" aria-label="Compromiso de calidad del hero">
     <article>
       <strong>Clases reales primero</strong>
-      <span>Sin animaciones: solo clase en vivo grabada para que veas método y dinámica real.</span>
+      <span>Todo parte de una sesión real grabada para que entiendas la dinámica sin dudas.</span>
     </article>
     <article>
       <strong>Decisión en 60 segundos</strong>
-      <span>Dos clics para ver muestra, validar horario y hablar con asesoría concreta.</span>
+      <span>Dos pasos para ver muestra, validar disponibilidad y recibir orientación inicial.</span>
     </article>
     <article>
       <strong>Rutas listas para arrancar</strong>
-      <span>Tu objetivo, horario y formato se adaptan al momento en que escribes.</span>
+      <span>Objetivo, horario y formato adaptados a lo que puedes sostener hoy.</span>
     </article>
   </div>
 `;
@@ -841,12 +841,12 @@ app.innerHTML = `
   </header>
 
   <div class="quick-cta" aria-label="Acciones rápidas de inicio">
-    <a class="button button--primary" href="#experiencia">Ver clase real en vivo</a>
-    <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Quiero hablar por WhatsApp</a>
+    <a class="button button--primary" href="#experiencia">Ver clase real en 1:08</a>
+    <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Quiero ruta guiada por WhatsApp</a>
   </div>
 
   <main>
-    <section id="inicio" class="hero" style="--hero-image: url('${site.images.hero}')">
+      <section id="inicio" class="hero" style="--hero-image: url('${site.heroVideoPoster || site.images.heroPoster || site.images.hero}')">
       ${heroVideoBackground()}
       <div class="hero__inner">
         <div class="hero__content">
@@ -854,14 +854,14 @@ app.innerHTML = `
           <h1>${site.heroHeadline || site.name}</h1>
           <p class="hero__lead">${site.heroLead || site.description}</p>
           <div class="hero__actions">
-            <a class="button button--primary" href="#experiencia">Ver clase real en vivo</a>
-            <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Quiero orientación por WhatsApp</a>
+            <a class="button button--primary" href="#experiencia">Ver clase real ahora</a>
+            <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Quiero hablar por WhatsApp</a>
           </div>
           ${heroIntentCards()}
           ${heroCommitment()}
           <p class="hero__microcopy">
-            Mira una clase real, revisa horarios y deja que te guiemos hacia la mejor ruta.
-            <a href="${site.whatsappHref}?text=${contactMessage}">Quiero empezar</a>
+            Escucha una clase real, decide formato y deja que el equipo te guíe a la mejor ruta para tu meta.
+            <a href="${site.whatsappHref}?text=${contactMessage}">Empezar ahora</a>
           </p>
           <div class="hero__highlights" aria-label="Beneficios">
             <span>Respuesta en menos de 24h</span>

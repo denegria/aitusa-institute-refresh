@@ -4,15 +4,15 @@ const assetHires = (name) => asset(`hires/${name}`);
 const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
-  tagline: "Mira clases reales en vivo y comienza hoy con una ruta de inglés clara.",
+  tagline: "Clase real en vivo, ruta práctica y horarios que sí se ajustan a tu semana.",
   description:
     "Clases presenciales, híbridas y online en Nueva Jersey con clases reales en vivo, instructoras bilingües y seguimiento semanal para que avances desde esta semana.",
   heroHeadline:
-    "Mira una clase real en vivo y activa tu ruta de inglés personalizada.",
+    "Mira una clase real en vivo y define tu ruta de inglés en minutos.",
   heroLead:
-    "Observa una clase real con correcciones al instante, práctica guiada y un plan concreto para hablar con seguridad desde tu primer módulo.",
+    "Observa una clase real con correcciones en vivo, decide el formato ideal y avanza con un plan práctico para hablar con más seguridad desde el inicio.",
   heroQuote:
-    "No se trata de memorizar más. Se trata de comunicarte con soltura en entrevistas, universidad, trabajo y vida cotidiana.",
+    "No se trata de memorizar más. Se trata de comunicarte con soltura en entrevistas, universidad, trabajo y vida cotidiana desde el día 1.",
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
   phone: "+1 732-271-0011",
@@ -34,11 +34,11 @@ const site = {
   images: {
     logo: asset("006-solo-logo-4-x-4-clases1.png"),
     hero: asset("live/hero-female-classroom.jpg"),
-    heroPoster: asset("live/hero-female-classroom.jpg"),
+    heroPoster: asset("live/hero-female-teacher.jpg"),
     heroVideo: asset("live/hero-female-speaking-1080p.mp4"),
     heroVideoPortrait: asset("live/hero-female-speaking-360p.mp4"),
     heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
-    heroVideoPoster: asset("live/hero-female-classroom.jpg"),
+    heroVideoPoster: asset("live/hero-female-teacher.jpg"),
     adultEnglish: assetHires("adult-english-speaking.jpg"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
@@ -82,14 +82,14 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clase real desde el minuto 1: corrección, ritmo y energía se traducen en avance real.",
-  "Método visual para pasar de la comprensión a la conversación en entrevistas, universidad y trámites diarios.",
-  "Plan semanal con seguimiento semanal para que avances aunque tengas agenda apretada.",
+  "Clase real desde el minuto 1: corrección, ritmo y estructura para pasar de entender a hablar.",
+  "Método visual para entrenar inglés práctico en entrevistas, trabajo y vida diaria.",
+  "Ruta semanal flexible para mantener continuidad aunque tu agenda sea limitada.",
 ];
 
 const heroStartPath = [
-  "Agenda una clase de muestra por WhatsApp en el horario que te funcione.",
-  "Recibe un diagnóstico inicial y define tu ruta de arranque en minutos.",
+  "Mira una clase real de 1:08 y valida si el ritmo te sirve.",
+  "Recibe orientación inicial para elegir horario y modalidad según tu rutina.",
   "Empieza en tu formato ideal: presencial, híbrido u online, con continuidad garantizada.",
 ];
 
@@ -99,11 +99,11 @@ const heroSignal = [
     label: "años guiando estudiantes con resultados visibles.",
   },
   {
-    value: "100%",
-    label: "práctica guiada para convertir el miedo en acción.",
+    value: "1:08",
+    label: "clase real de muestra para que sepas cómo se trabaja.",
   },
   {
-    value: "3",
+    value: "48h",
     label: "formatos disponibles para estudiar con flexibilidad.",
   },
 ];
@@ -365,16 +365,16 @@ const heroGallery = [
     title: "Corrección instantánea y conversación guiada para hablar con más claridad desde el primer bloque.",
     image: "./public/assets/wix/live/hero-female-teacher.jpg",
     video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
-    videoPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
+    videoPoster: "./public/assets/wix/live/hero-female-teacher.jpg",
     imageAlt:
       "Docente femenina de AiT USA guiando una clase en vivo de conversación en inglés.",
   },
   {
     label: "Atención con presencia",
     title: "Docentes bilingües corrigen en vivo para que avances con menos incertidumbre.",
-    image: "./public/assets/wix/live/hero-female-teacher.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
-    videoPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
+    image: "./public/assets/wix/live/hero-female-zoom.jpg",
+    video: "./public/assets/wix/live/hero-female-speaking-360p.mp4",
+    videoPoster: "./public/assets/wix/live/hero-female-teacher.jpg",
     imageAlt:
       "Instructora de AiT USA corrigiendo y motivando a una estudiante durante conversación oral.",
   },
@@ -383,7 +383,7 @@ const heroGallery = [
     title: "Interacción real por Zoom para entrenar comprensión y respuesta en tiempo real.",
     image: "./public/assets/wix/live/hero-female-zoom.jpg",
     video: "./public/assets/wix/live/hero-female-speaking-360p.mp4",
-    videoPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
+    videoPoster: "./public/assets/wix/live/hero-female-teacher.jpg",
     imageAlt:
       "Instructora de AiT USA interactuando con estudiantes en una sesión online de inglés.",
   },
@@ -398,7 +398,7 @@ const heroGallery = [
     title: "Ruta semanal con acciones claras para convertir práctica en hábito.",
     image: "./public/assets/wix/live/hero-female-teacher.jpg",
     video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
-    videoPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
+    videoPoster: "./public/assets/wix/live/hero-female-teacher.jpg",
     imageAlt:
       "Instructora de AiT USA trabajando con una estudiante para mejorar la fluidez y la seguridad.",
   },
@@ -407,7 +407,7 @@ const heroGallery = [
     title: "Seguimiento de progreso con evidencia de resultados en cada módulo.",
     image: "./public/assets/wix/live/hero-female-zoom.jpg",
     video: "./public/assets/wix/live/hero-female-speaking-360p.mp4",
-    videoPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
+    videoPoster: "./public/assets/wix/live/hero-female-teacher.jpg",
     imageAlt: "Estudiantes de AiT USA aplicando lo aprendido en clase de inglés.",
   },
 ];
