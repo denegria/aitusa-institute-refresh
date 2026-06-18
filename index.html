@@ -143,9 +143,12 @@
       "about": {
         "@id": "https://www.aitusainstitute.com/#organization"
       },
-        "primaryImageOfPage": {
+      "primaryImageOfPage": {
         "@type": "ImageObject",
         "url": "/public/assets/wix/live/hero-female-teacher.jpg"
+      },
+      "mainEntity": {
+        "@id": "https://www.aitusainstitute.com/#clase-real-video"
       },
       "inLanguage": "es-US",
       "breadcrumb": {
@@ -157,15 +160,35 @@
     {
       "@context": "https://schema.org",
       "@type": "VideoObject",
-      "name": "Clase de muestra AiT USA Institute",
-      "description": "Clase en vivo con instructoras bilingües para practicar entrevista y conversación real.",
+      "@id": "https://www.aitusainstitute.com/#clase-real-video",
+      "name": "Clase real en vivo de AiT USA Institute",
+      "description": "Clase en vivo con instructoras bilingües para practicar entrevista y conversación real desde el primer vistazo.",
+      "inLanguage": "en-US",
+      "isFamilyFriendly": true,
       "contentUrl": "/public/assets/wix/live/hero-female-speaking-1080p.mp4",
+      "embedUrl": "/#experiencia",
       "thumbnailUrl": [
         "/public/assets/wix/live/hero-female-classroom.jpg",
         "/public/assets/wix/live/hero-female-teacher.jpg"
       ],
       "duration": "PT1M8S",
+      "encodingFormat": "video/mp4",
+      "hasPart": [
+        {
+          "@type": "Clip",
+          "name": "Clase real de entrevista y conversación guiada",
+          "startOffset": "PT0S",
+          "endOffset": "PT1M8S"
+        }
+      ],
       "uploadDate": "2026-06-17",
+      "mainEntityOfPage": {
+        "@id": "https://www.aitusainstitute.com/#webpage"
+      },
+      "potentialAction": {
+        "@type": "WatchAction",
+        "target": "https://www.aitusainstitute.com/#experiencia"
+      },
       "publisher": {
         "@type": "Organization",
         "name": "AiT USA Institute",
