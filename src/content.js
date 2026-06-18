@@ -114,8 +114,8 @@ const site = {
     contact: asset("153-f0e785-fd00796923204eefa8fc070811dd7598f000.jpg"),
     headset: asset("169-audifono-y-microfono.jpg"),
     devices: asset("171-laptop-and-phonhe-3.jpg"),
-    testimonialAntonina: asset("live/testimonial-antonina-live.jpg"),
-    testimonialMarisol: asset("live/testimonial-marisol-live.jpg"),
+    testimonialAntonina: assetHires("testimonial-antonina-1200.jpg"),
+    testimonialMarisol: assetHires("testimonial-marisol-1200.jpg"),
     productEuropa: asset("products/product-europa-mes-4weeks.jpg"),
     productLibro: asset("products/product-libro.jpg"),
     productRegistrationBook: asset("products/product-registracion-y-libro.jpg"),
@@ -431,7 +431,7 @@ const heroGallery = [
   {
     label: "Atención con presencia",
     title: "Docentes bilingües corrigen en vivo para que avances con menos incertidumbre.",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: site.images.adultEnglish,
     video: site.images.heroVideoPortrait,
     videoPoster: site.images.heroVideoPoster,
     imageAlt:
@@ -440,7 +440,7 @@ const heroGallery = [
   {
     label: "Escucha y retroalimentación",
     title: "Interacción real por Zoom para entrenar comprensión y respuesta en tiempo real.",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: site.images.onlineEnglish,
     video: site.images.heroVideo,
     videoPoster: site.images.heroVideoPoster,
     imageAlt:
@@ -733,19 +733,19 @@ const testimonials = [
   {
     name: "Antonina Silvero y Zulma",
     image: site.images.testimonialAntonina,
-    imageAlt: "Primer plano de Antonina y Zulma compartiendo su experiencia en clase real de inglés.",
+    imageAlt: "Antonina y Zulma compartiendo su experiencia real en una clase de inglés de AiT USA.",
     result: "Comprender y hablar con más contexto",
     text:
-      "Entramos porque no sabíamos por dónde empezar. Después de un par de sesiones reales, entendimos estructura, ritmo y ya hablamos con menos miedo.",
+      "Entramos sin saber por dónde empezar. Tras ver una clase real, entendimos estructura, ritmo y empezamos a hablar con menos bloqueo desde la primera semana.",
   },
   {
     name: "Marisol Guardado",
     image: site.images.testimonialMarisol,
     imageAlt:
       "Marisol, estudiante de AiT USA Institute, compartiendo cómo mejoró su confianza con clases en vivo.",
-    result: "Escuchar, comprender y responder sin bloquearse",
+    result: "Escuchar, comprender y responder sin trabarse",
     text:
-      "Lo que más valoré fue ver clase real desde el inicio. Aprendí a responder con más naturalidad sin quedarme en silencio.",
+      "Ver clase real desde el primer momento me quitó la incertidumbre. Hoy entiendo mejor, respondo con mayor seguridad y tengo un plan real para sostener la práctica.",
   },
 ];
 
@@ -788,15 +788,15 @@ const teachers = [
 const trustHighlights = [
   {
     title: "Corrección visible",
-    text: "Docentes bilingües corrigen en vivo para que veas el avance desde la primera clase.",
+    text: "Docentes bilingües corrigen en vivo para que identifiques tu progreso antes de decidir.",
   },
   {
     title: "Seguimiento continuo",
-    text: "WhatsApp y orientación semanal para resolver dudas y no perder el ritmo.",
+    text: "WhatsApp y seguimiento semanal para mantenerte con práctica, no con dudas pendientes.",
   },
   {
     title: "Horarios flexibles",
-    text: "Presencial, híbrido y online para adaptarse a tu semana sin fricción.",
+    text: "Presencial, híbrido y online para adaptar la rutina de clases a tu agenda real.",
   },
 ];
 

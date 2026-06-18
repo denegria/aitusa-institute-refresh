@@ -1003,25 +1003,25 @@ const launchPathSection = () => {
 const spotlightSection = () => {
   const clip = instructorClips[0];
   const proofItems = [
-    { value: "1:08", label: "muestra real de clase en vivo" },
-    { value: "100%", label: "corrección personalizada al instante" },
-    { value: "Local", label: "video alojado en el sitio, sin dependencias externas" },
+    { value: "1:08", label: "clase real para validar método y ritmo" },
+    { value: "100%", label: "corrección personalizada en vivo, no scripts" },
+    { value: "Video local", label: "calidad HD sin redirecciones ni enlaces rotos" },
   ];
   const steps = [
     {
-      title: "Reproduce la clase",
+      title: "Verifica el estilo de clase",
       description:
-        "Mira exactamente cómo suena y se siente aprender con una instructora guiándote en vivo.",
+        "Observa inicio, dinámica y cierre en un solo clip para confirmar si el ritmo de trabajo te resulta natural.",
     },
     {
-      title: "Compara modalidad",
+      title: "Compara formato y agenda",
       description:
-        "Escoge online o presencial y revisa qué opción se adapta mejor a tu agenda y objetivos.",
+        "Decide entre presencial, híbrido y online con base en tu tiempo real, no en una promesa genérica.",
     },
     {
-      title: "Habla por WhatsApp",
+      title: "Pide tu ruta inicial",
       description:
-        "Solicita una muestra más larga o pide que te ayude el asesor para arrancar esta semana.",
+        "Solicita ruta inicial personalizada para empezar esta semana si el método te encaja de verdad.",
     },
   ];
 
@@ -1034,20 +1034,20 @@ const spotlightSection = () => {
         </div>
         <div class="spotlight-copy">
           <p class="section-kicker">Experiencia real</p>
-          <h2 id="experiencia-title">Antes de decidir, mira cómo se siente una clase real de principio a fin.</h2>
+          <h2 id="experiencia-title">Mira la clase real primero y decide con criterio en menos de un minuto.</h2>
           <p>
-            Aquí puedes ver una clase local de alta calidad para que evalúes si el método, el ritmo y la forma de
-            corrección encajan contigo. En menos de un minuto tienes una idea real de la experiencia.
+            Te mostramos una clase real de alta calidad para que veas rápidamente si el método, el ritmo y el enfoque de
+            corrección realmente encajan contigo antes de avanzar.
           </p>
           <ul class="spotlight-points">
             ${joinList([
-              "Verás la dinámica de clase completa, no un clip promocional editado.",
-              "La profesora corrige pronunciación y estructura en tiempo real.",
-              "El enfoque visual facilita entender la metodología incluso en el primer vistazo.",
+              "La clase se muestra completa y contextual, no un fragmento aislado.",
+              "La instructora corrige pronunciación y estructura en vivo para que avances sin adivinar.",
+              "La metodología visual te deja una decisión clara sin esperar semanas para validar.",
             ])}
           </ul>
           <blockquote class="spotlight-quote">
-            “Con esta clase entendimos rápido el tipo de enseñanza. Se siente práctico, claro y fácil de seguir.”
+            “Con esta clase vimos el estilo real: ritmo práctico, corrección puntual y una dinámica clara para empezar sin miedo.”
           </blockquote>
           <div class="spotlight-journey" aria-label="Ruta para empezar">
             ${steps
@@ -1074,8 +1074,8 @@ const spotlightSection = () => {
               .join("")}
           </div>
           <div class="spotlight-actions">
-            <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Quiero una muestra completa</a>
-            <a class="button button--ghost" href="#cursos">Ver modalidades y cursos</a>
+            <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Quiero mi ruta inicial hoy</a>
+            <a class="button button--ghost" href="#cursos">Ver modalidades y precios</a>
           </div>
         </div>
       </div>
@@ -2090,8 +2090,11 @@ app.innerHTML = `
     <section class="section section--blue" aria-labelledby="testimonios-title">
       <div class="section-inner section-heading section-heading--inverted">
         <p class="section-kicker">Prueba social y equipo</p>
-        <h2 id="testimonios-title">Dos historias reales, una misma sensación: hablar con más seguridad.</h2>
-        <p>Escucha cómo cambió la experiencia de estudiantes que hoy entienden mejor, responden con menos bloqueo y se sienten acompañadas por un equipo que corrige en vivo.</p>
+        <h2 id="testimonios-title">Antes de inscribirte, ya puedes confirmar si este método te encaja.</h2>
+        <p>
+          Revisamos experiencia real, no promesas: clases visibles, corrección en vivo y una ruta concreta para avanzar con
+          continuidad desde la primera semana.
+        </p>
       </div>
       <div class="section-inner trust-strip" aria-label="Puntos clave del servicio">
         ${trustHighlights
