@@ -611,7 +611,7 @@ const teachers = [
 
 const trustHighlights = [
   {
-    title: "Corrección real",
+    title: "Corrección visible",
     text: "Docentes bilingües corrigen en vivo para que veas el avance desde la primera clase.",
   },
   {
@@ -659,8 +659,8 @@ const contactPrep = [
 
 const footerFacts = [
   {
-    title: "Respuesta rápida",
-    text: "Te contestamos por WhatsApp para avanzar con el siguiente paso sin perder tiempo.",
+    title: "Ver la clase primero",
+    text: "Mira el video real de experiencia antes de escribirnos si quieres comparar con calma.",
   },
   {
     title: "Horarios flexibles",

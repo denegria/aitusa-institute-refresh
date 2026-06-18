@@ -1223,7 +1223,7 @@ app.innerHTML = `
     <div class="site-footer__brand">
       <strong>${site.name}</strong>
       <span>${site.legal}</span>
-      <p>Una experiencia web más clara, humana y enfocada en convertir interés en una primera conversación real.</p>
+      <p>Una experiencia web más clara, humana y enfocada en mostrar la clase real antes de dar el siguiente paso.</p>
     </div>
     <div class="site-footer__facts" aria-label="Resumen rápido">
       ${footerFacts
@@ -1244,11 +1244,12 @@ app.innerHTML = `
     </div>
     <div class="site-footer__links" aria-label="Enlaces de pie de página">
       <a href="#inicio">Inicio</a>
+      <a href="#experiencia">Ver clase real</a>
       <a href="#cursos">Cursos</a>
       <a href="#faq">FAQ</a>
       <a href="#contacto">Contacto</a>
     </div>
-    <p>Experiencia web renovada para una comunicación más clara y efectiva. © ${site.founded} ${site.name}.</p>
+    <p>Experiencia web renovada para una comunicación más clara y efectiva. © ${site.founded} ${site.name}. Mira la clase real antes de escribirnos.</p>
   </footer>
 `;
 initHeroBackground();
