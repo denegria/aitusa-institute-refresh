@@ -77,7 +77,7 @@ const nav = [
   ["Libros", "libros"],
   ["Horarios", "horarios"],
   ["Sedes", "sedes"],
-  ["Preguntas", "faq"],
+  ["Preguntas frecuentes", "faq"],
   ["Contacto", "contacto"],
 ];
 
