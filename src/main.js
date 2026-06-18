@@ -1057,6 +1057,7 @@ app.innerHTML = `
             <a href="${site.whatsappHref}?text=${contactMessage}">${site.whatsapp}</a>
             <a href="${site.forms.registration}" target="_blank" rel="noreferrer">Inscripción gratuita</a>
           </div>
+          <p>El botón de WhatsApp se actualiza con tus datos mientras completas el formulario para que enviar tu información sea más rápido.</p>
         </div>
         <form class="lead-form" data-lead-form>
           <div class="form-row">
@@ -1191,21 +1192,36 @@ const form = document.querySelector("[data-lead-form]");
 const status = document.querySelector("[data-form-status]");
 const whatsappDraft = document.querySelector("[data-form-whatsapp]");
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const data = new FormData(form);
-  const message = [
+if (form && status && whatsappDraft) {
+  const buildLeadMessage = (data) => [
     "Hola AiT USA Institute, quiero información.",
-    `Nombre: ${data.get("nombre")} ${data.get("apellido")}`,
-    `Email: ${data.get("email")}`,
-    `Para: ${data.get("para")}`,
+    `Nombre: ${data.get("nombre") || "No indicado"} ${data.get("apellido") || ""}`.trim(),
+    `Email: ${data.get("email") || "No indicado"}`,
+    `Para: ${data.get("para") || "No indicado"}`,
     `Edad: ${data.get("edad") || "No indicado"}`,
-    `Teléfono: ${data.get("codigo") || ""} ${data.get("telefono")}`,
-    `Ubicación: ${data.get("ubicacion")}`,
+    `Teléfono: ${(data.get("codigo") || "").trim()} ${data.get("telefono") || "No indicado"}`.trim(),
+    `Ubicación: ${data.get("ubicacion") || "No indicada"}`,
   ].join("\n");
 
-  whatsappDraft.href = `${site.whatsappHref}?text=${encodeURIComponent(message)}`;
-  status.textContent = "Mensaje listo. Haz clic en WhatsApp para enviarlo al equipo y recibir respuesta inmediata.";
-});
+  const syncWhatsAppDraft = () => {
+    const data = new FormData(form);
+    const message = buildLeadMessage(data);
+    whatsappDraft.href = `${site.whatsappHref}?text=${encodeURIComponent(message)}`;
+    return message;
+  };
+
+  syncWhatsAppDraft();
+  form.addEventListener("input", syncWhatsAppDraft);
+  form.addEventListener("change", syncWhatsAppDraft);
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const message = syncWhatsAppDraft();
+    status.textContent = "Mensaje listo. Haz clic en WhatsApp para enviarlo al equipo y recibir respuesta inmediata.";
+    whatsappDraft.focus();
+    whatsappDraft.setAttribute("aria-label", `Enviar a WhatsApp: ${message.split("\n")[0]}`);
+  });
+}
+
 })();
 
