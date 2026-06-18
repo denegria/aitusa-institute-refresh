@@ -1089,9 +1089,21 @@ select {
   padding: 12px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.22);
-  background: rgba(255, 255, 255, 0.06);
+  background: linear-gradient(170deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
   min-height: 120px;
   backdrop-filter: blur(2px);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero__commitment article::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at left top, rgba(255, 78, 106, 0.35), transparent 40%);
+  z-index: -1;
+  pointer-events: none;
 }
 
 .hero__commitment strong {

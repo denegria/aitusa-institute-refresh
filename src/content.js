@@ -9,30 +9,31 @@ const site = {
   description:
     "Mira una clase real en video y valida si este estilo de clase encaja contigo antes de invertir tiempo ni dinero.",
   heroHeadline:
-    "¿Funciona para ti? Mira una clase real de 1:08 y toma la mejor decisión hoy.",
+    "¿Funciona para ti? Mira una clase real de 1:08 y decide hoy con criterio.",
   heroLead:
-    "Observa una clase real, valida si hay ritmo, claridad y acompañamiento, y define una ruta inicial con criterio.",
+    "Observa una clase real de inglés y valida en segundos si hay ritmo, claridad y acompañamiento antes de dar el siguiente paso.",
   heroQuote:
-    "Lo que ves en el video es una clase real: conversación auténtica, corrección inmediata y clase que sí ocurre en vivo.",
+    "Lo que ves en el video es una clase real: conversación auténtica, corrección inmediata y práctica que ocurre en vivo.",
   heroMicrocopy:
-    "Reproduce el clip y descubre en segundos si el método, el ritmo y la energía de clase te ayudan o no.",
+    "Reproduce el clip y sabrás si el método, el ritmo y la energía de clase te ayudan a empezar hoy.",
   heroQuickCapture: {
-    title: "Empieza tu ruta en 60 segundos",
+    title: "Confirma en 60 segundos si esta ruta te encaja",
     copy:
-      "Déjanos tu nombre y WhatsApp y te respondemos en minutos con una ruta inicial clara: objetivo, horario y formato recomendado.",
+      "Déjanos tu nombre y WhatsApp y te respondemos en minutos con una ruta inicial clara: objetivo, horario y formato ideal para tu agenda.",
     options: [
       "Quiero validar método y estilo con clase real (1:08)",
-      "Quiero comparar presencial, híbrido y online",
-      "Busco ruta para mi hijo o hija",
-      "Quiero hablar inglés para trabajo o entrevistas",
+      "Quiero comparar presencial, híbrido y online con mi agenda",
+      "Busco ruta para mi hijo o hija (8-13)",
+      "Quiero mejorar mi inglés para trabajo o entrevistas",
+      "Quiero empezar esta semana",
     ],
     button: "Ver mi ruta inicial",
-    note: "Sin costo ni compromiso. Te respondemos rápido con una recomendación útil y concreta.",
+    note: "Sin costo ni compromiso. Te escribimos en pocos minutos con una recomendación útil y clara.",
   },
   heroHighlights: [
     "Clase real, sin simulaciones: metodología, ritmo y estilo visibles desde el primer minuto.",
     "Compara presencial, híbrido y online para elegir el formato que sí encaja con tu semana.",
-    "Recibe una ruta inicial concreta para empezar con mayor certeza esta semana.",
+    "Recibe una ruta inicial concreta para empezar con mayor certeza hoy.",
   ],
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
@@ -41,12 +42,12 @@ const site = {
   whatsapp: "+1 732-379-0593",
   whatsappHref: "https://wa.me/17323790593",
   twitterHandle: "@AiTUSA_Institute",
-  seoTitle: "AiT USA Institute | Clase real en video y ruta personalizada de inglés en Nueva Jersey",
+  seoTitle: "AiT USA Institute | Clase real de inglés y ruta personalizada en Nueva Jersey",
   seoDescription:
     "Mira una clase real de inglés de 1:08, valida método y ritmo, y arranca con una ruta inicial presencial, híbrida u online en Nueva Jersey.",
   seoKeywords:
-    "AiT USA Institute, clases de inglés en Nueva Jersey, clase real de inglés en video, clases presenciales de inglés, clases híbridas de inglés, clases online de inglés, método visual de inglés, ruta personalizada de aprendizaje",
-  seoImage: assetHires("hero-female-teacher.jpg"),
+    "AiT USA Institute, clases de inglés en Nueva Jersey, clase real de inglés en video, clases presenciales de inglés, clases híbridas de inglés, clases online de inglés, método visual de inglés, ruta personalizada de aprendizaje, Bound Brook clases de inglés, Plainfield clases de inglés",
+  seoImage: asset("live/hero-female-classroom.jpg"),
   seoImageAlt: "Instructora de AiT USA Institute guiando una clase real de inglés.",
   seoVideo: asset("live/hero-female-speaking-1080p.mp4"),
   seoVideoDuration: "PT1M8S",
@@ -92,12 +93,12 @@ const site = {
   },
   images: {
     logo: asset("006-solo-logo-4-x-4-clases1.png"),
-    hero: assetHires("hero-female-teacher.jpg"),
-    heroPoster: assetHires("hero-female-teacher.jpg"),
+    hero: asset("live/hero-female-classroom.jpg"),
+    heroPoster: asset("live/hero-female-zoom.jpg"),
     heroVideo: asset("live/hero-female-speaking-1080p.mp4"),
     heroVideoPortrait: asset("live/hero-female-speaking-360p.mp4"),
     heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
-    heroVideoPoster: assetHires("hero-female-teacher.jpg"),
+    heroVideoPoster: asset("live/hero-female-classroom.jpg"),
     adultEnglish: assetHires("adult-english-speaking.jpg"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
@@ -444,9 +445,9 @@ const heroGallery = [
   {
     label: "Clase en vivo",
     title: "Corrección instantánea y conversación guiada para hablar con más claridad desde el primer bloque.",
-    image: assetHires("hero-female-teacher.jpg"),
+    image: asset("live/hero-female-classroom.jpg"),
     video: site.images.heroVideo,
-    videoPoster: assetHires("hero-female-teacher.jpg"),
+    videoPoster: asset("live/hero-female-classroom.jpg"),
     imageAlt:
       "Docente femenina de AiT USA guiando una clase en vivo de conversación en inglés.",
   },
@@ -785,7 +786,7 @@ const teachers = [
     name: "Instructora de inglés conversacional",
     intent: "classSample",
     href: "#experiencia",
-    image: assetHires("hero-female-teacher.jpg"),
+    image: asset("live/hero-female-zoom.jpg"),
     imageAlt: "Instructora de AiT USA corrigiendo pronunciación durante una clase real de conversación.",
     role: "Corrección en vivo con seguimiento semanal.",
     description:
@@ -796,7 +797,7 @@ const teachers = [
     name: "Instructora de práctica online",
     intent: "classSample",
     href: "#experiencia",
-    image: assetHires("hero-female-teacher.jpg"),
+    image: asset("live/hero-female-classroom.jpg"),
     imageAlt: "Instructora de AiT USA guiando una clase de inglés por videollamada.",
     role: "Aprendizaje remoto con participación guiada.",
     description:
@@ -807,7 +808,7 @@ const teachers = [
     name: "Instructora de continuidad académica",
     intent: "default",
     href: "#contacto",
-    image: assetHires("hero-female-teacher.jpg"),
+    image: asset("live/hero-female-zoom.jpg"),
     imageAlt: "Instructora de AiT USA motivando a estudiantes en una clase práctica.",
     role: "Soporte constante y ruta personalizada.",
     description:

@@ -1642,7 +1642,7 @@ app.innerHTML = `
               href="#experiencia"
               data-intent-action
               data-intent="classSample"
-            >Ver clase real y decidir hoy</a>
+            >Ver clase real de 1:08 y decidir hoy</a>
             <a
               class="button button--ghost"
               href="${site.whatsappHref}?text=${contactMessage}"
