@@ -432,6 +432,15 @@ const programs = [
 
 const heroGallery = [
   {
+    label: "Escucha y retroalimentación",
+    title: "Interacción real por Zoom para entrenar comprensión y respuesta en tiempo real.",
+    image: asset("live/hero-female-teacher.jpg"),
+    video: site.images.heroVideo,
+    videoPoster: asset("live/hero-female-teacher.jpg"),
+    imageAlt:
+      "Instructora de AiT USA interactuando con estudiantes en una sesión online de inglés.",
+  },
+  {
     label: "Clase en vivo",
     title: "Corrección instantánea y conversación guiada para hablar con más claridad desde el primer bloque.",
     image: asset("live/hero-female-classroom.jpg"),
@@ -448,15 +457,6 @@ const heroGallery = [
     videoPoster: asset("live/hero-female-zoom.jpg"),
     imageAlt:
       "Instructora de AiT USA corrigiendo y motivando a una estudiante durante conversación oral.",
-  },
-  {
-    label: "Escucha y retroalimentación",
-    title: "Interacción real por Zoom para entrenar comprensión y respuesta en tiempo real.",
-    image: asset("live/hero-female-teacher.jpg"),
-    video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-teacher.jpg"),
-    imageAlt:
-      "Instructora de AiT USA interactuando con estudiantes en una sesión online de inglés.",
   },
   {
     label: "Práctica en contexto",
@@ -513,9 +513,9 @@ const instructorClips = [
   {
     title: "Clase de entrevista en vivo",
     eyebrow: "Muestra real",
-    image: asset("live/hero-female-classroom.jpg"),
+    image: asset("live/hero-female-teacher.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-classroom.jpg"),
+    videoPoster: asset("live/hero-female-teacher.jpg"),
     imageAlt:
       "Instructora de AiT USA guiando una práctica de entrevista en clase con método visual en inglés.",
     caption:
