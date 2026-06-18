@@ -1149,6 +1149,17 @@ app.innerHTML = `
               <details ${index === 0 ? "open" : ""}>
                 <summary>${faq.question}</summary>
                 <p>${faq.answer}</p>
+                <a class="faq-link" href="${
+                  faq.cta === "Ver clase real"
+                    ? "#experiencia"
+                    : faq.cta === "Ver horarios"
+                      ? "#horarios"
+                      : faq.cta === "Ver libro"
+                        ? "#libros"
+                        : faq.cta === "Pedir orientación"
+                          ? `${site.whatsappHref}?text=${contactMessage}`
+                          : "#contacto"
+                }">${faq.cta}</a>
               </details>
             `,
           )

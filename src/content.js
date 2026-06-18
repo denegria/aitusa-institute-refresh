@@ -863,41 +863,49 @@ const faqs = [
     question: "¿Cómo sé qué nivel me toca?",
     answer:
       "Te orientamos con un diagnóstico inicial y una primera conversación para ubicarte en básico, intermedio o avanzado.",
+    cta: "Ver clase real",
   },
   {
     question: "¿Puedo ver una clase real antes de inscribirme?",
     answer:
       "Sí. En la sección de experiencia puedes ver video real de una instructora corrigiendo en vivo para entender el estilo de clase antes de hablar con el equipo.",
+    cta: "Ver clase real",
   },
   {
     question: "¿Es difícil aprender inglés?",
     answer:
       "No cuando la metodología es práctica. Primero entiendes la estructura y luego la conviertes en conversación real con apoyo constante.",
+    cta: "Pedir orientación",
   },
   {
     question: "Voy a clases pero no logro hablar, ¿qué hago?",
     answer:
       "Necesitas más práctica oral, no más teoría. Corregimos en vivo para que pases de entender a responder con seguridad.",
+    cta: "Pedir orientación",
   },
   {
     question: "Entiendo la clase pero luego me olvido, ¿es normal?",
     answer:
       "Sí, y por eso usamos apoyo visual, repetición breve y rutina semanal para que el contenido se vuelva recordable y útil.",
+    cta: "Ver libro",
   },
   {
     question: "No tengo tiempo para estudiar, pero quiero hablar inglés.",
     answer:
       "Puedes avanzar con micro-rutinas de 15 a 20 minutos diarios y horarios de mañana, noche o fin de semana.",
+    cta: "Ver horarios",
   },
   {
     question: "Trabajo todo el día, ¿sí puedo estudiar?",
     answer:
       "Sí. Tenemos formatos presencial, híbrido y online para que el estudio encaje con tu agenda, no al revés.",
+    cta: "Ver horarios",
   },
   {
     question: "Nunca fui buen estudiante, ¿todavía puedo aprender?",
     answer:
       "Sí. La ruta está pensada para recuperar ritmo con apoyo real, metas pequeñas y seguimiento que te mantiene avanzando.",
+    cta: "Pedir orientación",
   },
 ];
 
