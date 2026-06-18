@@ -693,6 +693,8 @@ const testimonials = [
 const teachers = [
   {
     name: "Instructora de inglés conversacional",
+    intent: "classSample",
+    href: "#experiencia",
     image: "./public/assets/wix/live/hero-female-teacher.jpg",
     imageAlt: "Instructora de AiT USA corrigiendo pronunciación durante una clase real de conversación.",
     role: "Corrección en vivo con seguimiento semanal.",
@@ -702,6 +704,8 @@ const teachers = [
   },
   {
     name: "Instructora de práctica online",
+    intent: "classSample",
+    href: "#experiencia",
     image: "./public/assets/wix/live/hero-female-zoom.jpg",
     imageAlt: "Instructora de AiT USA guiando una clase de inglés por videollamada.",
     role: "Aprendizaje remoto con participación guiada.",
@@ -711,6 +715,8 @@ const teachers = [
   },
   {
     name: "Instructora de continuidad académica",
+    intent: "default",
+    href: "#contacto",
     image: "./public/assets/wix/live/hero-female-classroom.jpg",
     imageAlt: "Instructora de AiT USA motivando a estudiantes en una clase práctica.",
     role: "Soporte constante y ruta personalizada.",

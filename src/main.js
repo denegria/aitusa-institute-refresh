@@ -1314,7 +1314,13 @@ app.innerHTML = `
               ${teachers
                 .map(
                   (teacher) => `
-                    <article class="teacher-card">
+                    <a
+                      class="teacher-card"
+                      href="${teacher.href || "#contacto"}"
+                      data-intent-card
+                      data-intent="${teacher.intent || "default"}"
+                      aria-label="${teacher.name}"
+                    >
                       <img src="${teacher.image}" alt="${teacher.imageAlt}" loading="lazy" />
                       <div class="teacher-card__body">
                         <span class="teacher-card__badge">${teacher.badge}</span>
@@ -1322,7 +1328,7 @@ app.innerHTML = `
                         <p class="teacher-card__role">${teacher.role}</p>
                         <p class="teacher-card__description">${teacher.description}</p>
                       </div>
-                    </article>
+                    </a>
                   `,
                 )
                 .join("")}
