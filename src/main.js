@@ -1105,25 +1105,29 @@ app.innerHTML = `
       </div>
     </section>
 
-    <section id="horarios" class="section section--white" aria-labelledby="horarios-title">
-      <div class="section-inner split split--center">
-        <div>
-          <p class="section-kicker">Horarios y modalidad</p>
-          <h2 id="horarios-title">Elige el horario y la modalidad que mejor se adapta a tu semana.</h2>
-          <div class="schedule-intro">
-            <article>
-              <strong>Flexible</strong>
-              <span>Turnos de mañana, noche, sábado y domingo.</span>
-            </article>
-            <article>
-              <strong>Guiado</strong>
-              <span>Te ayudamos a escoger el horario con mejor continuidad.</span>
-            </article>
-          </div>
-          <div class="modality-grid">
-            ${modalities
-              .map(
-                (mode) => `
+        <section id="horarios" class="section section--white" aria-labelledby="horarios-title">
+          <div class="section-inner split split--center">
+            <div>
+              <p class="section-kicker">Horarios y modalidad</p>
+              <h2 id="horarios-title">Elige el horario y la modalidad que mejor se adapta a tu semana.</h2>
+              <div class="schedule-intro">
+                <article>
+                  <strong>Flexible</strong>
+                  <span>Turnos de mañana, noche, sábado y domingo.</span>
+                </article>
+                <article>
+                  <strong>Guiado</strong>
+                  <span>Te ayudamos a escoger el horario con mejor continuidad.</span>
+                </article>
+                <article>
+                  <strong>Ritmo</strong>
+                  <span>Todas las clases son de 60 o 90 minutos según el horario.</span>
+                </article>
+              </div>
+              <div class="modality-grid">
+                ${modalities
+                  .map(
+                    (mode) => `
                   <article>
                     <h3>${mode.title}</h3>
                     <p>${mode.text}</p>
@@ -1138,11 +1142,14 @@ app.innerHTML = `
             .map(
               (schedule) => `
                 <article class="schedule-card">
+                  ${schedule.badge ? `<p class="schedule-card__badge">${schedule.badge}</p>` : ""}
                   <h3>${schedule.label}</h3>
                   <p>${schedule.bestFor}</p>
+                  <p class="schedule-card__meta">${schedule.duration} · ${schedule.availability}</p>
                   <div class="schedule-chip-list">${schedule.times
                     .map((time) => `<span>${time}</span>`)
                     .join("")}</div>
+                  ${schedule.commitment ? `<p class="schedule-card__commitment">${schedule.commitment}</p>` : ""}
                   <a
                     class="schedule-card__cta button button--ghost"
                     href="${site.whatsappHref}?text=${encodeURIComponent(`Hola AiT USA Institute, quiero más información sobre el horario de ${schedule.label.toLowerCase()}. ${schedule.whatsappHint}`)}"
