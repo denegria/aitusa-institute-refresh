@@ -562,12 +562,17 @@ app.innerHTML = `
     <section class="section section--reel" aria-labelledby="reel-title">
       <div class="section-inner reel-grid">
         <div class="reel-copy">
-            <p class="section-kicker">Clases con presencia humana</p>
-            <h2 id="reel-title">Energía real de aula, también en línea.</h2>
-            <p>
-            Combinamos práctica guiada, corrección puntual y seguimiento de progreso para que avancemos sin
-            vacíos: cada clase te deja con una acción concreta para usar inglés de inmediato.
+          <p class="section-kicker">Clases con presencia humana</p>
+          <h2 id="reel-title">Voces reales, corrección visible y una energía de aula que sí se siente.</h2>
+          <p>
+            Las instructoras hablan, corrigen y acompañan en video para que entiendas cómo se ve una sesión real
+            antes de inscribirte. Llegas con menos dudas y más confianza para empezar.
           </p>
+          <ul class="reel-copy__points" aria-label="Lo que muestran los clips">
+            <li>Video real de clase, sin simulaciones genéricas.</li>
+            <li>Corrección puntual y seguimiento que se ve en la práctica.</li>
+            <li>Momentos distintos de aula, Zoom y conversación guiada.</li>
+          </ul>
           <a class="button button--primary" href="#horarios">Ver horarios</a>
         </div>
         <div class="instructor-reel" aria-label="Momentos de clases e instructoras">
@@ -849,6 +854,7 @@ app.innerHTML = `
             )
             .join("")}
         </div>
+        <p class="reel-note">El primer clip muestra la clase más completa; los demás acercan diferentes ritmos de acompañamiento y conversación.</p>
       </div>
     </section>
 
