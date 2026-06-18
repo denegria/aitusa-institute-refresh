@@ -866,8 +866,8 @@ app.innerHTML = `
             Empieza en 60 segundos: mira una clase real, valida ritmo y decide con menos incertidumbre.
           </p>
           <div class="hero__conversion-strip">
-            <a class="button button--primary" href="#contacto">Quiero mi ruta personalizada</a>
-            <a class="button button--ghost" href="#horarios">Ver horarios disponibles</a>
+            <a class="button button--primary" href="#contacto" data-intent-action data-intent="default">Quiero mi ruta personalizada</a>
+            <a class="button button--ghost" href="#horarios" data-intent-action data-intent="scheduleFlex">Ver horarios disponibles</a>
           </div>
           <div class="hero__highlights" aria-label="Beneficios">
             <span>Respuesta en menos de 24h</span>
@@ -1644,15 +1644,17 @@ app.innerHTML = `
     <a
       class="button button--ghost"
       href="#experiencia"
-      data-mobile-action
+      data-intent-action
       data-intent="classSample"
+      data-mobile-action
       aria-label="Ver clase real en el bloque de experiencia"
     >Ver clase real</a>
     <a
       class="button button--primary"
       href="#contacto"
+      data-intent-action
+      data-intent="default"
       data-mobile-action
-      data-intent="classSample"
       data-mobile-target="#contacto"
       aria-label="WhatsApp para empezar tu ruta de inglés hoy"
     >Quiero mi ruta por WhatsApp</a>
@@ -1768,11 +1770,11 @@ const scheduleFilterValues = new Set(scheduleFilterButtons.map((button) => butto
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const mobileActionBar = document.querySelector("[data-mobile-action-bar]");
 
-const initMobileActionBar = () => {
-  if (!mobileActionBar) return;
-  const mobileMatcher = window.matchMedia("(max-width: 720px)");
-  const applyState = () => {
-    mobileActionBar.classList.toggle("is-visible", mobileMatcher.matches);
+  const initMobileActionBar = () => {
+    if (!mobileActionBar) return;
+    const mobileMatcher = window.matchMedia("(max-width: 720px)");
+    const applyState = () => {
+      mobileActionBar.classList.toggle("is-visible", mobileMatcher.matches);
   };
 
   applyState();
@@ -1947,6 +1949,58 @@ if (form && status && whatsappDraft) {
     }
   };
 
+  const navigateFromIntentAction = (trigger, event) => {
+    if (!trigger) return;
+    const rawTarget = trigger.getAttribute("data-mobile-target") || trigger.getAttribute("href") || "#contacto";
+    const targetHash = rawTarget.trim();
+    const intent = trigger.dataset.intent || "default";
+    const isExternal = /^https?:\/\//i.test(targetHash);
+
+    if (!isExternal) {
+      event?.preventDefault();
+    }
+
+    setActiveLeadIntent(intent, { silent: true });
+    syncWhatsAppDraft();
+
+    if (targetHash === "#horarios") {
+      const scheduleSection = document.querySelector("#horarios");
+      const activeScheduleButton =
+        scheduleFilterButtons.find((button) => button.dataset.scheduleFilter === "todos") || scheduleFilterButtons[0];
+
+      if (activeScheduleButton) {
+        applyScheduleFilter("todos", activeScheduleButton);
+      }
+
+      if (scheduleSection) {
+        scheduleSection.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      }
+    } else if (
+      targetHash === "#contacto" ||
+      (targetHash.startsWith("#") && intent !== "classSample")
+    ) {
+      const contactSection = document.querySelector("#contacto");
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+        const nameInput = form?.querySelector('input[name="nombre"]');
+        if (nameInput) {
+          nameInput.focus({ preventScroll: true });
+        }
+      }
+    } else if (targetHash.startsWith("#")) {
+      const target = document.querySelector(targetHash);
+      if (target) {
+        target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      }
+    }
+
+    if (!isExternal && window.history?.pushState) {
+      window.history.pushState({}, "", targetHash);
+    } else if (!isExternal) {
+      window.location.hash = targetHash || "#contacto";
+    }
+  };
+
   const buildLeadMessage = (data) => {
     const profile = getLeadIntentProfile(activeLeadIntent);
     return [
@@ -2003,104 +2057,31 @@ if (form && status && whatsappDraft) {
   const initLeadIntentFromHero = () => {
     leadIntentCards.forEach((card) => {
       card.addEventListener("click", (event) => {
-        event.preventDefault();
-        const intent = card.dataset.intent || "default";
-        const targetHash = card.getAttribute("href") || "";
-
-        setActiveLeadIntent(intent, { silent: true });
-        syncWhatsAppDraft();
-
-        const shouldOpenContact = targetHash === "#contacto" || intent !== "classSample";
-        if (shouldOpenContact) {
-          const contactSection = document.querySelector("#contacto");
-          if (contactSection) {
-            contactSection.scrollIntoView({
-              behavior: reduceMotion ? "auto" : "smooth",
-              block: "start",
-            });
-            const nameInput = form?.querySelector('input[name="nombre"]');
-            if (nameInput) {
-              nameInput.focus({ preventScroll: true });
-            }
-          }
-        }
-
-        if (!shouldOpenContact && targetHash.startsWith("#") && targetHash !== "#contacto") {
-          const target = document.querySelector(targetHash);
-          if (target) {
-            target.scrollIntoView({
-              behavior: reduceMotion ? "auto" : "smooth",
-              block: "start",
-            });
-          }
-        }
-
-        if (window.history?.pushState) {
-          window.history.pushState({}, "", targetHash || "#contacto");
-        } else {
-          window.location.hash = targetHash || "#contacto";
-        }
+        navigateFromIntentAction(card, event);
       });
     });
   };
 
-  const initMobileLeadIntentActions = () => {
-    const mobileActionButtons = [...document.querySelectorAll("[data-mobile-action]")];
-
-    mobileActionButtons.forEach((button) => {
-      button.addEventListener("click", (event) => {
-        const targetHash =
-          button.getAttribute("data-mobile-target") || button.getAttribute("href") || "#contacto";
-        const intent = button.dataset.intent || "default";
-        const isExternal = /^https?:\/\//i.test(targetHash);
-
-        if (!isExternal) {
-          event.preventDefault();
-        }
-
-        setActiveLeadIntent(intent, { silent: true });
-        syncWhatsAppDraft();
-
-        const shouldOpenContact = targetHash === "#contacto" || intent !== "classSample";
-
-        if (shouldOpenContact && targetHash !== "#horarios") {
-          const contactSection = document.querySelector("#contacto");
-          if (contactSection) {
-            contactSection.scrollIntoView({
-              behavior: reduceMotion ? "auto" : "smooth",
-              block: "start",
-            });
-            const nameInput = form?.querySelector('input[name="nombre"]');
-            if (nameInput) {
-              nameInput.focus({ preventScroll: true });
-            }
-          }
-        } else if (targetHash.startsWith("#") && targetHash !== "#contacto") {
-          const target = document.querySelector(targetHash);
-          if (target) {
-            target.scrollIntoView({
-              behavior: reduceMotion ? "auto" : "smooth",
-              block: "start",
-            });
-          }
-        }
-
-        if (window.history?.pushState && !isExternal) {
-          window.history.pushState({}, "", targetHash);
-        } else if (!isExternal) {
-          window.location.hash = targetHash || "#contacto";
-        }
-      });
+  const initIntentActionLinks = () => {
+    const intentActionLinks = [...document.querySelectorAll("[data-intent-action]")];
+    intentActionLinks.forEach((link) => {
+      link.addEventListener("click", (event) => navigateFromIntentAction(link, event));
     });
   };
 
   syncWhatsAppDraft();
-  initMobileLeadIntentActions();
+  initIntentActionLinks();
   initLeadIntentFromHero();
-  setActiveLeadIntent(
-    new URLSearchParams(window.location.search).get("intento") || "default",
-    { silent: true },
-  );
+  const initialLeadIntent = new URLSearchParams(window.location.search).get("intento") || "default";
+  setActiveLeadIntent(initialLeadIntent, { silent: true });
+  if (initialLeadIntent === "scheduleFlex") {
+    const activeScheduleButton =
+      scheduleFilterButtons.find((button) => button.dataset.scheduleFilter === "todos") ||
+      scheduleFilterButtons[0];
+    if (activeScheduleButton) {
+      applyScheduleFilter("todos", activeScheduleButton);
+    }
+  }
 
   form.addEventListener("input", syncWhatsAppDraft);
   form.addEventListener("change", syncWhatsAppDraft);
