@@ -26,6 +26,7 @@ const {
   testimonials,
   trustHighlights,
   paymentGuides,
+  contactPrep,
 } = window.AITUSA_DATA;
 
 const app = document.querySelector("#app");
@@ -1062,7 +1063,7 @@ app.innerHTML = `
       </div>
     </section>
 
-      <section id="contacto" class="section section--contact" aria-labelledby="contacto-title">
+    <section id="contacto" class="section section--contact" aria-labelledby="contacto-title">
       <div class="section-inner contact-grid">
         <div>
           <p class="section-kicker">Comienza ahora</p>
@@ -1071,6 +1072,18 @@ app.innerHTML = `
             Completa el formulario y enviamos tu ruta inicial por WhatsApp en minutos.
             Nuestro equipo confirmará cupo, calendario y documentos para empezar.
           </p>
+          <div class="contact-prep" aria-label="Qué conviene tener listo antes de enviar el formulario">
+            ${contactPrep
+              .map(
+                (item) => `
+                  <article>
+                    <strong>${item.title}</strong>
+                    <span>${item.text}</span>
+                  </article>
+                `,
+              )
+              .join("")}
+          </div>
           <div class="contact-steps" aria-label="Qué sucede al enviar el formulario">
             <article>
               <strong>1</strong>

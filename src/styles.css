@@ -2470,6 +2470,35 @@ select {
   max-width: 560px;
 }
 
+.contact-prep {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.contact-prep article {
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.contact-prep strong {
+  display: block;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+}
+
+.contact-prep span {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
 .contact-steps {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2801,6 +2830,10 @@ select {
     grid-template-columns: 1fr;
   }
 
+  .contact-prep {
+    grid-template-columns: 1fr;
+  }
+
   .faq-intro,
   .contact-steps {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2995,6 +3028,10 @@ select {
 
   .payment-guide {
     margin-bottom: 14px;
+  }
+
+  .contact-prep {
+    gap: 10px;
   }
 
   .testimonial-card--featured {

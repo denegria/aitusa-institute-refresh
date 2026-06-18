@@ -615,6 +615,21 @@ const paymentGuides = [
   },
 ];
 
+const contactPrep = [
+  {
+    title: "Tu nivel",
+    text: "Si no lo sabes, no pasa nada. Lo revisamos contigo en el primer contacto.",
+  },
+  {
+    title: "Tu horario",
+    text: "Nos ayuda a sugerirte un bloque realista de mañana, noche o fin de semana.",
+  },
+  {
+    title: "Tu meta",
+    text: "Trabajo, universidad, entrevista, niño/a o apoyo técnico: así afinamos la ruta.",
+  },
+];
+
 const downloads = [
   {
     title: "iPhone / iPad",
@@ -841,6 +856,7 @@ window.AITUSA_DATA = {
   testimonials,
   trustHighlights,
   paymentGuides,
+  contactPrep,
 };
 
 
