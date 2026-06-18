@@ -509,15 +509,16 @@ const heroMedia = () => {
   if (heroVideoSources.length) {
     const previewItems = heroGallery.slice(0, 3);
     return `
-        <div class="hero__media-frame hero__media-frame--hero-primary hero__media-frame--hero-carousel">
+      <div class="hero__media-frame hero__media-frame--hero-primary hero__media-frame--hero-carousel">
           <video
             data-hero-player
             class="hero__media-player"
+            autoplay
             controls
-          muted
-          playsinline
-          loop
-          preload="metadata"
+            muted
+            playsinline
+            loop
+            preload="auto"
           poster="${heroMediaPoster}"
           data-hero-poster="${heroMediaPoster}"
           aria-label="Video de clase de muestra de AiT USA Institute">
@@ -848,6 +849,9 @@ app.innerHTML = `
       <section id="inicio" class="hero" style="--hero-image: url('${site.heroVideoPoster || site.images.heroPoster || site.images.hero}')">
       ${heroVideoBackground()}
       <div class="hero__inner">
+        <div class="hero__media">
+          ${heroMedia()}
+        </div>
         <div class="hero__content">
           <p class="section-kicker">${site.tagline}</p>
           <h1>${site.heroHeadline || site.name}</h1>
@@ -888,9 +892,6 @@ app.innerHTML = `
               )
               .join("")}
           </div>
-        </div>
-        <div class="hero__media">
-          ${heroMedia()}
         </div>
       </div>
     </section>
