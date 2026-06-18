@@ -2403,7 +2403,16 @@ select {
   padding: 20px 22px;
 }
 
+.faq-list details[open] {
+  border-color: rgba(12, 60, 231, 0.16);
+  background: linear-gradient(180deg, rgba(12, 60, 231, 0.03), rgba(255, 255, 255, 1));
+}
+
 .faq-list summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
   cursor: pointer;
   color: var(--ink);
   font-weight: 850;
@@ -2412,6 +2421,18 @@ select {
 
 .faq-list summary::-webkit-details-marker {
   display: none;
+}
+
+.faq-list summary::after {
+  content: "+";
+  flex-shrink: 0;
+  color: var(--blue);
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.faq-list details[open] summary::after {
+  content: "–";
 }
 
 .faq-list p {

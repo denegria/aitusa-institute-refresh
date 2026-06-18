@@ -798,34 +798,39 @@ const storeProducts = [
 
 const faqs = [
   {
+    question: "¿Cómo sé qué nivel me toca?",
+    answer:
+      "Te orientamos con un diagnóstico inicial y una primera conversación para ubicarte en básico, intermedio o avanzado.",
+  },
+  {
     question: "¿Es difícil aprender inglés?",
     answer:
-      "Depende de la metodología. Aquí aprenderás con un enfoque práctico y repetición dirigida para que hables con confianza.",
+      "No cuando la metodología es práctica. Primero entiendes la estructura y luego la conviertes en conversación real con apoyo constante.",
   },
   {
-    question: "Asisto a clases pero no logro memorizar, ¿qué hago?",
+    question: "Voy a clases pero no logro hablar, ¿qué hago?",
     answer:
-      "No memorizar, practicar de forma repetida en contexto real. Cambiamos la ruta de memorización por acción comunicativa.",
+      "Necesitas más práctica oral, no más teoría. Corregimos en vivo para que pases de entender a responder con seguridad.",
   },
   {
-    question: "Voy a clases pero no puedo hablar, ¿por qué?",
+    question: "Entiendo la clase pero luego me olvido, ¿es normal?",
     answer:
-      "Por eso existe la práctica guiada: primero comprender la estructura, luego hablar con apoyo de patrones y corrección rápida.",
-  },
-  {
-    question: "Entiendo la clase pero luego me olvido.",
-    answer:
-      "El método visual convierte ideas en una secuencia mental reutilizable: cuanto más practicable, más fácil recordar.",
+      "Sí, y por eso usamos apoyo visual, repetición breve y rutina semanal para que el contenido se vuelva recordable y útil.",
   },
   {
     question: "No tengo tiempo para estudiar, pero quiero hablar inglés.",
     answer:
-      "Puedes usar micro-rutinas de 15 a 20 minutos diarios: audios, repeticiones y práctica oral guiada por niveles.",
+      "Puedes avanzar con micro-rutinas de 15 a 20 minutos diarios y horarios de mañana, noche o fin de semana.",
   },
   {
-    question: "Nunca fui buen estudiante, ¿es posible aprender?",
+    question: "Trabajo todo el día, ¿sí puedo estudiar?",
     answer:
-      "Sí. La constancia y la práctica dirigida funcionan mejor que el talento. Este enfoque está pensado para recuperar ritmo y confianza.",
+      "Sí. Tenemos formatos presencial, híbrido y online para que el estudio encaje con tu agenda, no al revés.",
+  },
+  {
+    question: "Nunca fui buen estudiante, ¿todavía puedo aprender?",
+    answer:
+      "Sí. La ruta está pensada para recuperar ritmo con apoyo real, metas pequeñas y seguimiento que te mantiene avanzando.",
   },
 ];
 
