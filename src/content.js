@@ -4,13 +4,13 @@ const assetHires = (name) => asset(`hires/${name}`);
 const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
-  tagline: "Habla inglés con confianza desde la primera clase, con práctica real y guía humana.",
+  tagline: "Mira la clase real, toma la mejor decisión y comienza con un plan claro.",
   description:
     "Clases presenciales, híbridas y online en Nueva Jersey con video real de aula, instructoras bilingües y seguimiento semanal para avanzar desde hoy.",
   heroHeadline:
-    "Empieza a hablar inglés con más seguridad desde la primera semana con video real, práctica guiada y resultados visibles.",
+    "Mira primero la clase real y entra al inglés con una ruta que sí avanza.",
   heroLead:
-    "Entrena con sesiones en vivo, retroalimentación inmediata y tareas orientadas a contexto para que avances con una ruta clara y sin perder tiempo en memorizar sin uso real.",
+    "Cada clase muestra conversación real: correcciones inmediatas, ejercicios prácticos y un plan para que avances desde hoy sin esperar meses para ver resultados.",
   heroQuote:
     "No se trata de memorizar más. Se trata de comunicarte con soltura en entrevistas, universidad, trabajo y vida cotidiana.",
   canonical: "https://www.aitusainstitute.com/",
@@ -82,9 +82,9 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Sesiones en vivo con docentes bilingües que corrigen en tiempo real para que ganes soltura desde tu primera práctica.",
-  "Método visual que convierte estructura y vocabulario en conversaciones reales para comunicarte con más claridad.",
-  "Tareas breves de práctica semanal para que avances aunque tu agenda esté llena.",
+  "Clase real desde el minuto 1: se ve la dinámica, la corrección y el tono de trabajo.",
+  "Manejo visual de conversación para que hables con claridad en entrevistas, escuela y vida diaria.",
+  "Plan semanal con seguimiento para avanzar incluso con agenda apretada.",
 ];
 
 const heroStartPath = [
@@ -405,9 +405,9 @@ const heroGallery = [
 ];
 
 const heroProof = [
-  { value: "20+", label: "años de experiencia bilingüe" },
-  { value: "1ª", label: "clase orientada a conversación real" },
-  { value: "3", label: "formatos para estudiar: presencial, híbrido y online" },
+  { value: "20+", label: "años enseñando desde aula real en New Jersey" },
+  { value: "1", label: "minuto de muestra para ver el método en acción" },
+  { value: "3", label: "rutas: presencial, híbrido y online" },
 ];
 
 const instructorClips = [

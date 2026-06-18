@@ -61,7 +61,7 @@ const heroVideoSources = (() => {
     .filter((value, index, list) => list.indexOf(value) === index);
 })();
 const contactMessage = encodeURIComponent(
-  "Hola AiT USA Institute, quiero ver la clase real y recibir información sobre clases, horarios y modalidad.",
+  "Hola AiT USA Institute, vi la clase real y quiero una ruta clara de inicio: clases, horarios y modalidad para mi caso.",
 );
 
 const leadIntentProfiles = {
