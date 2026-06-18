@@ -545,8 +545,8 @@ app.innerHTML = `
             <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Pedir orientación</a>
           </div>
           <p class="hero__microcopy">
-            Mira la clase real primero y luego te ayudamos a elegir nivel, sede y modalidad.
-            <a href="${site.whatsappHref}?text=${contactMessage}">Escribir por WhatsApp</a>
+            Mira la clase real primero; si luego quieres elegir nivel, sede o modalidad, escríbenos por WhatsApp.
+            <a href="${site.whatsappHref}?text=${contactMessage}">Pedir orientación</a>
           </p>
           <div class="hero__highlights" aria-label="Beneficios">
             <span>Respuesta en menos de 24h</span>
