@@ -808,7 +808,7 @@ app.innerHTML = `
         <div>
           <p class="section-kicker">Material y apoyo</p>
           <h3>Elige el libro correcto según tu nivel y la forma en que estudias.</h3>
-          <p>Si no sabes cuál corresponde a tu etapa, escríbenos y te orientamos en minutos con una recomendación clara.</p>
+          <p>Si no sabes cuál corresponde a tu etapa, escríbenos y te decimos cuál te conviene en minutos.</p>
         </div>
         <div class="books-cta__actions">
           <a class="button button--primary" href="${site.whatsappHref}?text=${bookInquiryMessage()}">Ver libros</a>
@@ -1052,7 +1052,7 @@ app.innerHTML = `
       <div class="section-inner books-cta">
         <div>
           <p class="section-kicker">¿Necesitas ayuda para configurarte?</p>
-          <h3>Si no estás seguro de qué equipo usar, te orientamos antes de tu primera clase.</h3>
+          <h3>Si no estás seguro de qué equipo usar, te dejamos listo antes de tu primera clase.</h3>
           <p>Escríbenos por WhatsApp o completa el formulario y te ayudamos a dejarlo listo antes de empezar.</p>
         </div>
         <div class="books-cta__actions">
