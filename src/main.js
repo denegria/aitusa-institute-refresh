@@ -84,9 +84,12 @@ const programInquiryMessage = (program) =>
     ].join("\n"),
   );
 
-const bookInquiryMessage = encodeURIComponent(
-  "Hola AiT USA Institute, quiero información sobre los libros y materiales académicos.",
-);
+const bookInquiryMessage = (bookTitle = "") =>
+  encodeURIComponent(
+    bookTitle
+      ? `Hola AiT USA Institute, quiero información sobre ${bookTitle}.`
+      : "Hola AiT USA Institute, quiero información sobre los libros y materiales académicos.",
+  );
 
 const productInquiryMessage = (product) =>
   encodeURIComponent(`Hola AiT USA Institute, quiero información sobre ${product.title}.`);
@@ -792,6 +795,9 @@ app.innerHTML = `
                   <span>${book.subtitle}</span>
                   <p class="book-card__best-for">${book.bestFor}</p>
                   <p>${book.text}</p>
+                  <div class="payment-card__footer">
+                    <a class="payment-card__cta" href="${site.whatsappHref}?text=${bookInquiryMessage(book.title)}">Pedir este libro</a>
+                  </div>
                 </div>
               </article>
             `,
@@ -805,7 +811,7 @@ app.innerHTML = `
           <p>Si no sabes cuál corresponde a tu etapa, escríbenos y te orientamos en minutos con una recomendación clara.</p>
         </div>
         <div class="books-cta__actions">
-          <a class="button button--primary" href="${site.whatsappHref}?text=${bookInquiryMessage}">Ver libros</a>
+          <a class="button button--primary" href="${site.whatsappHref}?text=${bookInquiryMessage()}">Ver libros</a>
           <a class="button button--ghost" href="#contacto">Hablar con el equipo</a>
         </div>
       </div>
