@@ -641,13 +641,18 @@ app.innerHTML = `
         <div>
           <p class="section-kicker">Por qué somos diferentes</p>
           <h2 id="diferente-title">Una ruta visual para entender rápido, hablar con precisión y ganar confianza.</h2>
-        </div>
           <p>
             El objetivo es práctico: comprender rápido, hablar con precisión y usar el inglés en
-            escenarios cotidianos y académicos sin fricción. Graphic Concept traduce estructura y vocabulario
-            en hábitos de comunicación para resultados visibles.
+            escenarios cotidianos y académicos sin fricción.
           </p>
         </div>
+        <div>
+          <p>
+            Nuestro método visual traduce estructura y vocabulario en hábitos de comunicación para
+            resultados visibles.
+          </p>
+        </div>
+      </div>
       <div class="section-inner reason-grid">
         ${differentiators
           .map(
