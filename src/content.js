@@ -9,23 +9,23 @@ const site = {
   description:
     "Mira una clase real de 1:08, valida tu ritmo y horario, y decide con claridad tu ruta de inicio en inglés.",
   heroHeadline:
-    "Mira la clase real ahora y define tu ruta de inglés en 60 segundos.",
+    "Mira una clase real de 1:08 y define tu ruta de inglés en menos de 60 segundos.",
   heroLead:
-    "Sin teoría pesada: observa corrección en vivo, ritmo auténtico y cómo adaptamos el formato a tu agenda y meta real.",
+    "Sin relleno: observa corrección en vivo, compara formato y confirma si el ritmo te calza antes de decidir.",
   heroQuote:
     "Aprende inglés con evidencia real: cada corrección que ves en la muestra es la misma intensidad de clase real en vivo.",
   heroMicrocopy:
     "Mira 1:08 de clase real, valida horario y formato, y recibe tu ruta inicial por WhatsApp en el mismo bloque.",
   heroQuickCapture: {
     title: "Tu ruta inicial en 60 segundos",
-    copy: "Déjanos nombre y WhatsApp y te mandamos opciones de modalidad, horario y siguiente paso al instante.",
+    copy: "Déjanos tu nombre y WhatsApp y te enviamos una ruta con horario y modalidad en el momento.",
     options: [
       "Quiero clase real",
       "Quiero revisar horarios",
       "Necesito opción para mi hijo/a",
       "Busco ruta para niños o adultos",
     ],
-    button: "Ver mi ruta por WhatsApp",
+    button: "Recibir ruta por WhatsApp",
     note: "Sin costo y sin compromiso. Solo enviamos un primer mensaje para orientarte mejor.",
   },
   heroHighlights: [
@@ -421,53 +421,53 @@ const heroGallery = [
   {
     label: "Clase en vivo",
     title: "Corrección instantánea y conversación guiada para hablar con más claridad desde el primer bloque.",
-    image: "./public/assets/wix/hires/hero-classroom.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
-    videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
+    image: assetHires("hero-classroom.jpg"),
+    video: site.images.heroVideo,
+    videoPoster: site.images.heroVideoPoster,
     imageAlt:
       "Docente femenina de AiT USA guiando una clase en vivo de conversación en inglés.",
   },
   {
     label: "Atención con presencia",
     title: "Docentes bilingües corrigen en vivo para que avances con menos incertidumbre.",
-    image: "./public/assets/wix/live/hero-female-zoom.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
-    videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
+    image: asset("live/hero-female-zoom.jpg"),
+    video: site.images.heroVideoPortrait,
+    videoPoster: site.images.heroVideoPoster,
     imageAlt:
       "Instructora de AiT USA corrigiendo y motivando a una estudiante durante conversación oral.",
   },
   {
     label: "Escucha y retroalimentación",
     title: "Interacción real por Zoom para entrenar comprensión y respuesta en tiempo real.",
-    image: "./public/assets/wix/live/hero-female-zoom.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
-    videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
+    image: asset("live/hero-female-zoom.jpg"),
+    video: site.images.heroVideo,
+    videoPoster: site.images.heroVideoPoster,
     imageAlt:
       "Instructora de AiT USA interactuando con estudiantes en una sesión online de inglés.",
   },
   {
     label: "Práctica en contexto",
     title: "Aprendizaje flexible para practicar inglés desde cualquier lugar.",
-    image: "./public/assets/wix/live/hero-female-classroom.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
-    videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
+    image: asset("live/hero-female-classroom.jpg"),
+    video: site.images.heroVideoPortrait,
+    videoPoster: site.images.heroVideoPoster,
     imageAlt: "Grupo en clase presencial practicando conversación y pronunciación en inglés.",
   },
   {
     label: "Seguimiento semanal",
     title: "Ruta semanal con acciones claras para convertir práctica en hábito.",
-    image: "./public/assets/wix/live/hero-female-teacher.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
-    videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
+    image: asset("live/hero-female-teacher.jpg"),
+    video: site.images.heroVideo,
+    videoPoster: site.images.heroVideoPoster,
     imageAlt:
       "Instructora de AiT USA trabajando con una estudiante para mejorar la fluidez y la seguridad.",
   },
   {
     label: "Resultados reales",
     title: "Seguimiento de progreso con evidencia de resultados en cada módulo.",
-    image: "./public/assets/wix/live/hero-female-zoom.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
-    videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
+    image: asset("live/hero-female-zoom.jpg"),
+    video: site.images.heroVideoPortrait,
+    videoPoster: site.images.heroVideoPoster,
     imageAlt: "Estudiantes de AiT USA aplicando lo aprendido en clase de inglés.",
   },
 ];

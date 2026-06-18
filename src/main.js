@@ -987,12 +987,12 @@ const heroMedia = () => {
           <div class="hero__media-tag">Video real · 1:08</div>
           ${heroVideoFacts()}
           <div class="hero__media-route">
-            <p class="hero__media-route__title">Tu ruta inicial en 60 segundos</p>
-            <p class="hero__media-route__copy">1) mira la clase real · 2) valida tu estilo · 3) recibe opción de horario.</p>
+            <p class="hero__media-route__title">Tu decisión en 60 segundos</p>
+            <p class="hero__media-route__copy">Mira la muestra real, valida ritmo y formato, y deja tu ruta inicial en marcha.</p>
           </div>
           <button class="hero__video-chip" type="button" data-hero-play-button aria-label="Reproducir video de clase real">
             <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
-            Ver video de muestra
+            <span class="hero__video-chip__label" data-hero-play-label>Ver clase real en HD</span>
           </button>
           <a class="hero__video-chip hero__video-chip--ghost" href="#experiencia" aria-label="Ir al bloque de experiencia y ver la clase real">
             <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
@@ -1213,14 +1213,47 @@ const initHeroFallbacks = () => {
 const initHeroPlayButton = () => {
   const heroVideo = document.querySelector("[data-hero-player]");
   const heroPlayButton = document.querySelector("[data-hero-play-button]");
+  const heroPlayButtonLabel = heroPlayButton?.querySelector("[data-hero-play-label]");
+  const heroPlayButtonIcon = heroPlayButton?.querySelector(".hero__video-chip-icon");
 
   if (!heroVideo || !heroPlayButton) return;
 
-  heroPlayButton.addEventListener("click", () => {
-    heroVideo.play().catch(() => {
+  const setPlayState = (isPlaying) => {
+    if (!heroPlayButtonLabel) return;
+    heroPlayButtonLabel.textContent = isPlaying ? "Pausar clase real" : "Ver clase real en HD";
+    if (heroPlayButtonIcon) heroPlayButtonIcon.textContent = isPlaying ? "⏸" : "▶";
+    heroPlayButton.setAttribute("aria-pressed", String(isPlaying));
+  };
+
+  const handlePlayFailure = () => {
+    if (!heroPlayButtonLabel) {
       heroPlayButton.textContent = "Toca aquí para reproducir";
-    });
+      return;
+    }
+
+    heroPlayButtonLabel.textContent = "Toca aquí para reproducir";
+    if (heroPlayButtonIcon) heroPlayButtonIcon.textContent = "▶";
+    heroPlayButton.setAttribute("aria-pressed", "false");
+  };
+
+  const syncPlayState = () => setPlayState(!heroVideo.paused);
+
+  heroVideo.addEventListener("play", syncPlayState);
+  heroVideo.addEventListener("pause", syncPlayState);
+  heroVideo.addEventListener("ended", () => setPlayState(false));
+  heroVideo.addEventListener("loadedmetadata", syncPlayState);
+
+  heroPlayButton.addEventListener("click", () => {
+    if (heroVideo.paused) {
+      heroVideo.play().catch(handlePlayFailure);
+      return;
+    }
+
+    heroVideo.pause();
+    syncPlayState();
   });
+
+  syncPlayState();
 };
 
 const initHeroQuickCapture = () => {
