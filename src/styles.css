@@ -1665,6 +1665,14 @@ select {
   color: var(--muted);
 }
 
+.program-card__fit {
+  margin: 0;
+  color: var(--blue);
+  font-size: 0.91rem;
+  font-weight: 800;
+  line-height: 1.48;
+}
+
 .program-card__details {
   padding-left: 18px;
   margin: 6px 0 0;

@@ -683,6 +683,7 @@ app.innerHTML = `
                 <div class="program-card__body">
                   <p class="program-card__eyebrow">${program.audience}</p>
                   <h3>${program.title}</h3>
+                  <p class="program-card__fit">${program.fit}</p>
                   <p class="program-card__summary">${program.summary}</p>
                   <ul class="program-card__details">${joinList(program.details)}</ul>
                   <div class="program-card__footer">

@@ -194,6 +194,7 @@ const programs = [
     category: "ingles",
     mode: "Presencial, híbrido y online",
     audience: "Personas dentro de Estados Unidos",
+    fit: "Ideal si quieres conversar con más seguridad en trabajo, escuela o trámites diarios.",
     image: site.images.adultEnglish,
     imageAlt: "Estudiante adulto practicando conversación en una clase de inglés ESL.",
     summary:
@@ -209,6 +210,7 @@ const programs = [
     category: "ingles",
     mode: "100% online",
     audience: "Personas fuera de Estados Unidos",
+    fit: "Ideal si estudias desde otro país y necesitas sesiones en vivo con guía clara.",
     image: site.images.onlineEnglish,
     imageAlt: "Instructora con audífonos guiando una clase de inglés online.",
     summary:
@@ -224,6 +226,7 @@ const programs = [
     category: "ninos",
     mode: "100% online",
     audience: "Niños de 8 a 13 años",
+    fit: "Ideal para familias que quieren práctica visual y acompañamiento constante.",
     image: site.images.kidsEnglish,
     imageAlt: "Madre acompañando a su hija durante una clase de inglés online.",
     summary:
@@ -239,6 +242,7 @@ const programs = [
     category: "idiomas",
     mode: "Online",
     audience: "Estudiantes que desean aprender español",
+    fit: "Ideal si quieres moverte con más seguridad en contextos de estudio y trabajo.",
     image: site.images.spanish,
     imageAlt: "Estudiantes conversando durante una clase de español para extranjeros.",
     summary:
@@ -254,6 +258,7 @@ const programs = [
     category: "academico",
     mode: "Presencial",
     audience: "Adultos que buscan equivalencia de High School",
+    fit: "Ideal si buscas avanzar hacia el diploma equivalente a High School con ruta guiada.",
     image: site.images.ged,
     imageAlt: "Material visual para preparación del examen GED.",
     summary:
@@ -269,6 +274,7 @@ const programs = [
     category: "academico",
     mode: "Presencial u online",
     audience: "Secundaria y universidad",
+    fit: "Ideal cuando necesitas recuperar ritmo y aclarar temas críticos sin perder tiempo.",
     image: site.images.math,
     imageAlt: "Estudiante recibiendo apoyo en una tutoría de matemáticas.",
     summary:
@@ -284,6 +290,7 @@ const programs = [
     category: "tecnologia",
     mode: "Curso práctico",
     audience: "Principiantes",
+    fit: "Ideal si quieres aprender desde cero a usar internet, archivos y herramientas básicas.",
     image: site.images.computing,
     imageAlt: "Persona usando una laptop durante un curso básico de computación.",
     summary:
@@ -299,6 +306,7 @@ const programs = [
     category: "tecnologia",
     mode: "Herramientas de oficina",
     audience: "Trabajo y administración",
+    fit: "Ideal si buscas mejorar productividad con Word, Excel y PowerPoint.",
     image: site.images.office,
     imageAlt: "Curso de herramientas de oficina como Word, Excel y PowerPoint.",
     summary:
@@ -314,6 +322,7 @@ const programs = [
     category: "tecnologia",
     mode: "Curso técnico",
     audience: "Laptop y desktop",
+    fit: "Ideal si te interesa soporte básico, diagnóstico y mantenimiento de equipos.",
     image: site.images.repair,
     imageAlt: "Componentes de computadora usados para un curso de reparación técnica.",
     summary:
