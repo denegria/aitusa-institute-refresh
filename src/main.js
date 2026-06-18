@@ -730,9 +730,9 @@ const heroSignalCards = () => {
 
 const heroVideoFacts = () => `
   <div class="hero__media-quickfacts" aria-label="Qué verás en este recorte de clase">
-    <span>Clase real de práctica</span>
+    <span>Clase real grabada</span>
     <span>Corrección en vivo</span>
-    <span>Sin costo de consulta</span>
+    <span>Sin costo de consulta inicial</span>
     <span>Formato híbrido y presencial</span>
   </div>
 `;

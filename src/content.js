@@ -5,33 +5,33 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Clase real, decisión clara y ruta personalizada en menos de 60 segundos en Nueva Jersey.",
+    "Clase real primero. Descubre si esta ruta te funciona en menos de 60 segundos.",
   description:
-    "Mira una clase real de 1:08, valida tu ritmo y horario, y decide con claridad tu ruta de inicio en inglés.",
+    "Mira una clase real de 1:08, compara formato y ritmo, y decide con claridad tu ruta de inicio.",
   heroHeadline:
-    "Mira una clase real de 1:08 y define tu ruta de inglés en menos de 60 segundos.",
+    "Mira una clase real de 1:08 y decide tu ruta de inglés con evidencia, no con promesas.",
   heroLead:
-    "Sin relleno: observa corrección en vivo, compara formato y confirma si el ritmo te calza antes de decidir.",
+    "Observa corrección en vivo y la dinámica de clase real para validar si el método y el ritmo te convienen.",
   heroQuote:
-    "Aprende inglés con evidencia real: cada corrección que ves en la muestra es la misma intensidad de clase real en vivo.",
+    "Aquí no hay simulación: cada corrección que ves es la dinámica real de una clase en vivo.",
   heroMicrocopy:
-    "Mira 1:08 de clase real, valida horario y formato, y recibe tu ruta inicial por WhatsApp en el mismo bloque.",
+    "Mira la muestra, valida tu horario y formato, y pasa a una ruta inicial con seguimiento en minutos.",
   heroQuickCapture: {
-    title: "Tu ruta inicial en 60 segundos",
-    copy: "Déjanos tu nombre y WhatsApp y te enviamos una ruta con horario y modalidad en el momento.",
+    title: "Tu ruta en 60 segundos",
+    copy: "Déjanos tu nombre y WhatsApp para recibir objetivo recomendado, horario ideal y siguiente paso.",
     options: [
       "Quiero clase real",
       "Quiero revisar horarios",
       "Necesito opción para mi hijo/a",
       "Busco ruta para niños o adultos",
     ],
-    button: "Recibir ruta por WhatsApp",
-    note: "Sin costo y sin compromiso. Solo enviamos un primer mensaje para orientarte mejor.",
+    button: "Recibir ruta inicial por WhatsApp",
+    note: "Sin costo. Sin compromiso. Solo un mensaje inicial de orientación y ruta clara.",
   },
   heroHighlights: [
-    "Mira clase real: sin simulaciones.",
-    "Compara presencial, híbrido y online.",
-    "Ruta inicial sin compromiso, enviada en un solo mensaje.",
+    "Observa clase real: sin simulaciones y con contexto real de aula.",
+    "Compara presencial, híbrido y online con criterio de ritmo y agenda.",
+    "Recibe una ruta inicial práctica para decidir en el mismo día.",
   ],
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
@@ -140,29 +140,29 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clase real de 1:08 para validar si el estilo y el ritmo te funcionan.",
-  "Método visual para entrenar conversaciones útiles: entrevista, trabajo y vida diaria.",
-  "Ruta semanal con seguimiento real para sostener continuidad con agenda apretada.",
+  "Clase real de 1:08 para validar si tu estilo y ritmo encajan desde el minuto uno.",
+  "Método visual para entrenar conversación útil: entrevistas, trabajo y vida diaria.",
+  "Ruta semanal con acompañamiento real para sostener continuidad con agenda realista.",
 ];
 
 const heroStartPath = [
-  "Mira un recorte real en 1:08 y confirma si el estilo te da claridad.",
-  "Define objetivo y formato en una sola consulta de arranque.",
-  "Compara horarios y elige una ruta realista para tu primera semana.",
+  "Mira el clip real en 1:08 y valida si el formato te da claridad.",
+  "Define objetivo, agenda y nivel de compromiso en una sola consulta inicial.",
+  "Compara opciones y elige una ruta realista para tu primera semana de práctica.",
 ];
 
 const heroSignal = [
   {
     value: "20+",
-    label: "años guiando estudiantes con progreso visible.",
+    label: "años de experiencia acompañando metas reales en inglés.",
   },
   {
     value: "1:08",
-    label: "de muestra para aprender con la misma dinámica de clase real.",
+    label: "de muestra para validar método, ritmo y formato antes de avanzar.",
   },
   {
-    value: "98%",
-    label: "de estudiantes que avanzan con acompañamiento semanal.",
+    value: "7 días",
+    label: "para recibir tu ruta inicial y próximos pasos definidos.",
   },
 ];
 
