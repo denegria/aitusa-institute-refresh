@@ -2655,6 +2655,10 @@ select {
   padding: 20px 22px;
 }
 
+.faq-item {
+  scroll-margin-top: 110px;
+}
+
 .faq-list details[open] {
   border-color: rgba(12, 60, 231, 0.16);
   background: linear-gradient(180deg, rgba(12, 60, 231, 0.03), rgba(255, 255, 255, 1));

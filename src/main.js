@@ -96,6 +96,57 @@ const productInquiryMessage = (product) =>
 
 const joinList = (items) => items.map((item) => `<li>${item}</li>`).join("");
 
+const initFaqAccordion = () => {
+  const faqItems = [...document.querySelectorAll(".faq-list .faq-item")];
+  if (!faqItems.length) return;
+
+  const setOnlyOneOpen = (activeIndex = 0) => {
+    faqItems.forEach((item, idx) => {
+      item.open = idx === activeIndex;
+    });
+  };
+
+  const openFromHash = () => {
+    const hash = window.location.hash?.replace("#", "") || "";
+    if (!hash.startsWith("pregunta-")) return;
+
+    const parsedIndex = Number.parseInt(hash.replace("pregunta-", ""), 10);
+    const nextIndex = Number.isNaN(parsedIndex) ? null : parsedIndex - 1;
+    const isValidIndex = nextIndex !== null && faqItems[nextIndex];
+
+    if (isValidIndex) {
+      setOnlyOneOpen(nextIndex);
+    }
+  };
+
+  const getActiveFaqIndex = () => faqItems.findIndex((item) => item.open);
+
+  faqItems.forEach((item) => {
+    item.addEventListener("toggle", () => {
+      const activeIndex = getActiveFaqIndex();
+
+      if (activeIndex === -1) {
+        setOnlyOneOpen(0);
+      } else {
+        setOnlyOneOpen(activeIndex);
+      }
+
+      const finalIndex = getActiveFaqIndex();
+      const hash = `#pregunta-${finalIndex + 1}`;
+      if (window.location.hash !== hash) {
+        if (window.history?.replaceState) {
+          window.history.replaceState({}, "", hash);
+        } else {
+          window.location.hash = hash;
+        }
+      }
+    });
+  });
+
+  window.addEventListener("hashchange", openFromHash);
+  openFromHash();
+};
+
 const heroSignalCards = () => {
   if (!heroSignal.length) return "";
 
@@ -1172,7 +1223,7 @@ app.innerHTML = `
         ${faqs
           .map(
             (faq, index) => `
-              <details ${index === 0 ? "open" : ""}>
+              <details id="pregunta-${index + 1}" class="faq-item" ${index === 0 ? "open" : ""}>
                 <summary>${faq.question}</summary>
                 <p>${faq.answer}</p>
                 <a class="faq-link" href="${
@@ -1187,7 +1238,7 @@ app.innerHTML = `
                           : "#contacto"
                 }">${faq.cta}</a>
               </details>
-            `,
+            `, 
           )
           .join("")}
       </div>
@@ -1358,6 +1409,7 @@ const initNavSpy = () => {
 };
 
 initNavSpy();
+initFaqAccordion();
 
 menuToggle.addEventListener("click", () => {
   const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
