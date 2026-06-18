@@ -920,7 +920,7 @@ app.innerHTML = `
 
     <section class="section section--blue" aria-labelledby="testimonios-title">
       <div class="section-inner section-heading section-heading--inverted">
-        <p class="section-kicker">Testimonios y profesores</p>
+        <p class="section-kicker">Prueba social y equipo</p>
         <h2 id="testimonios-title">Se nota en la clase, en la rutina y en la confianza con la que responden.</h2>
         <p>Escucha a quienes ya viven el método y conoce al equipo que acompaña cada avance con práctica guiada, seguimiento y corrección en tiempo real.</p>
       </div>
@@ -954,12 +954,12 @@ app.innerHTML = `
           </div>
           <div class="trust-copy">
             <p class="section-kicker">Nuestro equipo</p>
-            <h3>Personas reales detrás de la experiencia.</h3>
+            <h3>Personas reales detrás de la clase.</h3>
             <ul class="teacher-list teacher-list--chips">${joinList(teachers)}</ul>
           </div>
           <div class="trust-actions">
-            <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Hablar con un asesor</a>
-            <a class="button button--ghost" href="#contacto">Ir al formulario</a>
+            <a class="button button--primary" href="#experiencia">Ver clase real</a>
+            <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Hablar con un asesor</a>
           </div>
         </div>
         <div class="testimonial-grid">
