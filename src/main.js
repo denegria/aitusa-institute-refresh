@@ -722,7 +722,7 @@ app.innerHTML = `
                   <p class="program-card__summary">${program.summary}</p>
                   <ul class="program-card__details">${joinList(program.details)}</ul>
                   <div class="program-card__footer">
-                    <a class="program-card__cta" href="${site.whatsappHref}?text=${programInquiryMessage(program)}">Preguntar por este curso</a>
+                    <a class="program-card__cta" href="${site.whatsappHref}?text=${programInquiryMessage(program)}">Hablar de esta ruta</a>
                   </div>
                 </div>
               </article>
