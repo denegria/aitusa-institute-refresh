@@ -4,6 +4,7 @@ const {
   differentiators,
   downloads,
   faqs,
+  heroVideoHighlights,
   heroHighlights,
   heroQuickCapture: heroQuickCaptureData,
   learningOutcomes,
@@ -74,9 +75,11 @@ const initHeroQuickCaptureBridge = () => {
 
   const goalToInterest = {
     "Quiero comprobar método y estilo en clase real": "Inglés",
+    "Quiero validar método y estilo en clase real": "Inglés",
     "Quiero revisar opciones de horario": "Inglés",
     "Necesito ruta para mi hijo o hija": "Niños",
     "Quiero una ruta para niños o adultos": "Inglés",
+    "Quiero validar método y estilo con clase real": "Inglés",
     "Busco ruta para niños o adultos": "Inglés",
     "Quiero clase real primero": "Inglés",
     "Quiero clase real": "Inglés",
@@ -813,7 +816,7 @@ const syncSeoHead = () => {
   setMeta("meta[property='og:video:height']", { property: "og:video:height", content: "1080" });
   setMeta("meta[property='og:video:duration']", { property: "og:video:duration", content: seoVideoSeconds });
   setMeta("meta[property='og:site_name']", { property: "og:site_name", content: site.name });
-  setMeta("meta[property='og:locale']", { property: "og:locale", content: "en_US" });
+  setMeta("meta[property='og:locale']", { property: "og:locale", content: "es_US" });
   setMeta("meta[name='robots']", { name: "robots", content: "index, follow" });
   setMeta("meta[name='googlebot']", { name: "googlebot", content: "index, follow" });
 
@@ -893,10 +896,17 @@ const heroSignalCards = () => {
 
 const heroVideoFacts = () => `
   <div class="hero__media-quickfacts" aria-label="Qué verás en este recorte de clase">
-    <span>Clase real grabada</span>
-    <span>Corrección en vivo</span>
-    <span>Sin costo de consulta inicial</span>
-    <span>Formato híbrido y presencial</span>
+    ${(heroVideoHighlights?.length
+      ? heroVideoHighlights
+      : [
+          "Clase real grabada",
+          "Corrección en vivo",
+          "Sin costo de consulta inicial",
+          "Formato híbrido y presencial",
+        ]
+    )
+      .map((text) => `<span>${text}</span>`)
+      .join("")}
   </div>
 `;
 
@@ -2570,20 +2580,35 @@ const initNavSpy = () => {
 initNavSpy();
 initFaqAccordion();
 syncFaqSchema();
-syncCoreSchemas();
+  syncCoreSchemas();
 syncSeoHead();
 
 menuToggle.addEventListener("click", () => {
   const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
-  menuToggle.setAttribute("aria-expanded", String(!isOpen));
-  navEl.classList.toggle("is-open", !isOpen);
+  const nextState = !isOpen;
+  menuToggle.setAttribute("aria-expanded", String(nextState));
+  menuToggle.setAttribute("aria-label", nextState ? "Cerrar menú" : "Abrir menú");
+  navEl.classList.toggle("is-open", nextState);
+  document.body.classList.toggle("menu-open", nextState);
+});
+
+window.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape" || !navEl?.classList.contains("is-open")) {
+    return;
+  }
+  menuToggle.setAttribute("aria-expanded", "false");
+  menuToggle.setAttribute("aria-label", "Abrir menú");
+  navEl.classList.remove("is-open");
+  document.body.classList.remove("menu-open");
 });
 
 navEl.addEventListener("click", (event) => {
   if (event.target instanceof HTMLAnchorElement) {
     setActiveNav(event.target.dataset.navLink);
     menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.setAttribute("aria-label", "Abrir menú");
     navEl.classList.remove("is-open");
+    document.body.classList.remove("menu-open");
   }
 });
 

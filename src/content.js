@@ -146,6 +146,13 @@ const heroPoints = [
   "Ruta inicial con acompañamiento real para sostener continuidad sin que tu agenda sea la excusa.",
 ];
 
+const heroVideoHighlights = [
+  "Clase real grabada en alta calidad",
+  "Corrección en vivo con seguimiento real",
+  "Sin costos de consulta inicial",
+  "Presencial, híbrido y online en Nueva Jersey",
+];
+
 const heroStartPath = [
   "Mira el clip real y valida en segundos si el ritmo y el método te encajan.",
   "Define objetivo, horario y nivel de compromiso en una sola consulta inicial.",
@@ -1103,6 +1110,7 @@ const faqs = [
 
 window.AITUSA_DATA = {
   heroProof,
+  heroVideoHighlights,
   heroHighlights,
   heroQuickCapture,
   books,

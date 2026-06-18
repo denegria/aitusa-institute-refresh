@@ -4599,10 +4599,6 @@ select {
   border: 1px solid rgba(12, 60, 231, 0.16);
 }
 
-.lead-form .form-row {
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-}
-
 .contact-grid {
   align-items: stretch;
 }
