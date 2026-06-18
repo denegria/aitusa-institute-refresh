@@ -359,6 +359,7 @@ const heroVideoFacts = () => `
     <span>Clase real de práctica</span>
     <span>Corrección en vivo</span>
     <span>Sin costo de consulta</span>
+    <span>Formato híbrido y presencial</span>
   </div>
 `;
 
@@ -630,6 +631,10 @@ const heroMedia = () => {
         <div class="hero__media-overlay hero__media-overlay--hero">
           <div class="hero__media-tag">Video real · 1:08</div>
           ${heroVideoFacts()}
+          <div class="hero__media-route">
+            <p class="hero__media-route__title">Tu ruta inicial en 60 segundos</p>
+            <p class="hero__media-route__copy">1) mira la clase real · 2) valida tu estilo · 3) recibe opción de horario.</p>
+          </div>
           <button class="hero__video-chip" type="button" data-hero-play-button aria-label="Reproducir video de clase real">
             <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
             Ver video de muestra

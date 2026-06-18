@@ -548,11 +548,39 @@ select {
 .hero__media-overlay--hero {
   gap: 10px;
   padding: 4px;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .hero__media-overlay--hero .hero__video-chip {
   pointer-events: auto;
+}
+
+.hero__media-route {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(12, 22, 56, 0.43);
+  backdrop-filter: blur(9px);
+  max-width: 320px;
+}
+
+.hero__media-route__title {
+  margin: 0;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.hero__media-route__copy {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.77rem;
+  line-height: 1.35;
 }
 
 .hero__media-quickfacts {
