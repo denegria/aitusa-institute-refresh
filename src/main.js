@@ -511,8 +511,9 @@ app.innerHTML = `
           <p class="hero__lead">${site.heroLead || site.description}</p>
           <div class="hero__actions">
             <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Agenda tu clase de muestra</a>
-            <a class="button button--ghost" href="${site.forms.registration}" target="_blank" rel="noreferrer">Quiero inscribirme hoy</a>
+            <a class="button button--ghost" href="#horarios">Ver horarios</a>
           </div>
+          <p class="hero__microcopy">Te ayudamos a elegir nivel, sede y modalidad en el primer mensaje.</p>
           <div class="hero__highlights" aria-label="Beneficios">
             <span>Respuesta en menos de 24h</span>
             <span>Planes para familias y adultos</span>
