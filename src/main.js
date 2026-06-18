@@ -73,8 +73,6 @@ const courseInterestMap = {
   todos: "No estoy seguro",
 };
 
-const initialCourseInterest = courseInterestMap[initialCourseFilter] || "No estoy seguro";
-
 const programInquiryMessage = (program) =>
   encodeURIComponent(
     [
@@ -1308,6 +1306,8 @@ const initialCourseFilter = (() => {
   const param = new URL(window.location.href).searchParams.get("curso");
   return param && programFilters.has(param) ? param : "todos";
 })();
+
+const initialCourseInterest = courseInterestMap[initialCourseFilter] || courseInterestMap.todos;
 
 const applyProgramFilter = (filter, activeButton = null, { updateHistory = true, scrollToResults = false } = {}) => {
   const nextFilter = programFilters.has(filter) ? filter : "todos";
