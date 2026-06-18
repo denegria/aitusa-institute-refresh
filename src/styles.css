@@ -279,6 +279,7 @@ select {
     var(--hero-image);
   background-size: cover;
   background-position: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .hero::before {
@@ -340,6 +341,7 @@ select {
   gap: 16px;
   align-content: start;
   padding: 12px 0;
+  text-wrap: balance;
 }
 
 .hero__content::before {
@@ -357,6 +359,7 @@ select {
   pointer-events: none;
   border: 1px solid rgba(255, 255, 255, 0.17);
   backdrop-filter: blur(6px);
+  box-shadow: 0 20px 40px rgba(3, 9, 35, 0.3);
 }
 
 .hero__highlights {
@@ -867,16 +870,19 @@ select {
 .hero h1 {
   max-width: 760px;
   font-size: var(--text-xl);
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
   font-family: var(--font-display);
+  text-wrap: balance;
 }
 
 .hero__lead {
   max-width: 540px;
   margin: 24px 0 0;
   color: rgba(255, 255, 255, 0.9);
-  font-size: 1.15rem;
+  font-size: 1.18rem;
   line-height: 1.66;
+  letter-spacing: 0.002em;
+  font-weight: 550;
 }
 
 .hero__proof {
@@ -924,12 +930,14 @@ select {
   min-height: 54px;
   padding-top: 0.78rem;
   padding-bottom: 0.78rem;
+  text-wrap: balance;
 }
 
 .hero__actions .button--primary {
   flex: 1 1 260px;
   box-shadow: 0 16px 32px rgba(12, 60, 231, 0.24);
   font-size: 0.99rem;
+  letter-spacing: 0.01em;
 }
 
 .hero__actions .button--ghost {
@@ -1123,6 +1131,31 @@ select {
   justify-content: center;
   padding-top: 0.77rem;
   padding-bottom: 0.77rem;
+  font-weight: 850;
+  letter-spacing: 0.01em;
+}
+
+.hero__conversion-strip .button--primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__conversion-strip .button--primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.22),
+    rgba(255, 255, 255, 0)
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.hero__conversion-strip .button--primary:hover::after,
+.hero__conversion-strip .button--primary:focus-visible::after {
+  opacity: 1;
 }
 
 .hero__conversion-strip .button--ghost {
@@ -1141,6 +1174,16 @@ select {
   gap: 10px;
   width: min(100%, 620px);
   box-shadow: 0 14px 32px rgba(8, 12, 31, 0.32);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__quick-capture::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  content: "";
+  background: linear-gradient(90deg, var(--yellow), var(--red), #3a7bff);
 }
 
 .hero__quick-capture:hover {

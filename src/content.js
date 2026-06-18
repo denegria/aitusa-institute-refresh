@@ -5,33 +5,33 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Clase real primero: valida tu formato, agenda y meta en menos de 60 segundos.",
+    "Clase real primero: valida si el método encaja con tu objetivo, agenda y nivel en menos de 60 segundos.",
   description:
-    "Mira una clase real de 1:08, valida ritmo y formato, y decide con evidencia qué ruta de inglés te conviene.",
+    "Mira una clase real de 1:08, valida ritmo y formato con criterio, y decide con evidencia qué ruta de inglés te conviene.",
   heroHeadline:
     "Mira una clase real de 1:08 y elige tu ruta de inglés con evidencia, no con promesas.",
   heroLead:
-    "Observa corrección en vivo, dinámica real de aula y ritmo de clase para validar de inmediato si el método te encaja.",
+    "Observa una clase real en acción: corrección en vivo, conversación útil y el ritmo real del aula para decidir con claridad.",
   heroQuote:
-    "No hay simulación: cada corrección que ves pertenece a una clase real y útil desde el minuto uno.",
+    "No hay simulaciones: cada corrección y avance que ves pertenece a una clase real, pensada para que avances desde el primer minuto.",
   heroMicrocopy:
-    "Mira la muestra, valida tu horario y formato, y define tu ruta inicial con acompañamiento real en el día.",
+    "Reproduce el clip, valida la metodología y define tu ruta inicial con fecha real de inicio y acompañamiento desde hoy.",
   heroQuickCapture: {
-    title: "Tu ruta inicial en 60 segundos",
-    copy: "Déjanos tu nombre y WhatsApp y te respondemos con objetivo recomendado, horario ideal y siguiente paso.",
+    title: "Empieza tu ruta en 60 segundos",
+    copy: "Déjanos tu nombre y WhatsApp y te respondemos con objetivo sugerido, horario viable y siguiente paso.",
     options: [
-      "Quiero clase real primero",
-      "Quiero revisar horarios",
-      "Necesito opción para mi hijo/a",
-      "Quiero ruta para niños o adultos",
+      "Quiero comprobar método y estilo en clase real",
+      "Quiero revisar opciones de horario",
+      "Necesito ruta para mi hijo o hija",
+      "Quiero una ruta para niños o adultos",
     ],
-    button: "Ver mi ruta por WhatsApp",
-    note: "Sin costo y sin compromiso. Recibes orientación práctica y próxima acción clara.",
+    button: "Recibir ruta inicial por WhatsApp",
+    note: "Sin costo y sin compromiso. Respuesta rápida con una propuesta de ruta inicial.",
   },
   heroHighlights: [
-    "Observa clase real: sin simulaciones y con contexto real de aula.",
-    "Compara presencial, híbrido y online con criterio de ritmo y agenda.",
-    "Recibe una ruta inicial práctica para decidir en el mismo día.",
+    "Observa clase real en pocos segundos: sin simulaciones, con contexto auténtico de aula.",
+    "Compara presencial, híbrido y online desde el primer vistazo con datos de horario y ritmo.",
+    "Obtén una ruta inicial concreta para decidir hoy, no después de una semana.",
   ],
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
@@ -42,7 +42,7 @@ const site = {
   twitterHandle: "@AiTUSA_Institute",
   seoTitle: "AiT USA Institute | Clase real de inglés y ruta personalizada en Nueva Jersey",
   seoDescription:
-    "Mira una clase real en 1:08, valida tu estilo de aprendizaje y arranca con una ruta personalizada de inglés presencial, híbrido u online en Nueva Jersey.",
+    "Mira una clase real de inglés en 1:08, valida tu estilo y ritmo, y arranca con una ruta personalizada presencial, híbrida u online en Nueva Jersey.",
   seoKeywords:
     "AiT USA Institute, clases de inglés en Nueva Jersey, clase real de inglés en video, clases presenciales de inglés, clases híbridas de inglés, clases online de inglés",
   seoImage: assetHires("hero-female-teacher.jpg"),
@@ -91,12 +91,12 @@ const site = {
   },
   images: {
     logo: asset("006-solo-logo-4-x-4-clases1.png"),
-    hero: asset("live/hero-female-teacher.jpg"),
+    hero: asset("live/hero-female-classroom.jpg"),
     heroPoster: asset("live/hero-female-teacher.jpg"),
     heroVideo: asset("live/hero-female-speaking-1080p.mp4"),
     heroVideoPortrait: asset("live/hero-female-speaking-360p.mp4"),
     heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
-    heroVideoPoster: asset("live/hero-female-teacher.jpg"),
+    heroVideoPoster: asset("live/hero-female-classroom.jpg"),
     adultEnglish: assetHires("adult-english-speaking.jpg"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
@@ -140,15 +140,15 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clase real de 1:08 para validar si tu estilo y ritmo encajan desde el minuto uno.",
-  "Método visual para entrenar conversación útil: entrevistas, trabajo y vida diaria.",
-  "Ruta semanal con acompañamiento real para sostener continuidad con agenda realista.",
+  "Clase real de 1:08 para validar estilo, ritmo y encaje del método antes de inscribirte.",
+  "Método visual para entrenamiento práctico de conversación: entrevistas, trabajo y vida diaria.",
+  "Ruta inicial con acompañamiento real para sostener continuidad sin saltos de energía ni agenda."
 ];
 
 const heroStartPath = [
-  "Mira el clip real en 1:08 y valida si el formato te da claridad.",
-  "Define objetivo, agenda y nivel de compromiso en una sola consulta inicial.",
-  "Compara opciones y elige una ruta realista para tu primera semana de práctica.",
+  "Mira el clip real en 1:08 y valida en minutos si el formato te da claridad.",
+  "Define objetivo, horario y nivel de compromiso en una sola consulta inicial.",
+  "Compara opciones y elige una ruta realista para empezar desde esta semana.",
 ];
 
 const heroSignal = [
@@ -421,7 +421,7 @@ const heroGallery = [
   {
     label: "Clase en vivo",
     title: "Corrección instantánea y conversación guiada para hablar con más claridad desde el primer bloque.",
-    image: assetHires("hero-classroom.jpg"),
+    image: asset("live/hero-female-classroom.jpg"),
     video: site.images.heroVideo,
     videoPoster: site.images.heroVideoPoster,
     imageAlt:
