@@ -1636,6 +1636,15 @@ select {
   margin-top: 14px;
 }
 
+.book-card__level {
+  margin: 0 0 8px;
+  color: var(--red);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .book-card h3 {
   margin: 0;
   line-height: 1.08;

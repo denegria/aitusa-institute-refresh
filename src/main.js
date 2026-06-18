@@ -722,6 +722,7 @@ app.innerHTML = `
               <article class="book-card">
                 <img src="${book.image}" alt="${book.title}" loading="lazy" />
                 <div class="book-card__body">
+                  <p class="book-card__level">${book.level}</p>
                   <h3>${book.title}</h3>
                   <span>${book.subtitle}</span>
                   <p>${book.text}</p>
