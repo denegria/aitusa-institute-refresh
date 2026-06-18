@@ -33,8 +33,8 @@ const site = {
   },
   images: {
     logo: asset("006-solo-logo-4-x-4-clases1.png"),
-    hero: "./public/assets/wix/hires/hero-classroom.jpg",
-    heroPoster: "./public/assets/wix/hires/hero-classroom.jpg",
+    hero: "./public/assets/wix/live/hero-female-teacher.jpg",
+    heroPoster: "./public/assets/wix/live/hero-female-teacher.jpg",
     heroVideo: asset("live/hero-female-speaking-360p.mp4"),
     heroVideoPortrait: asset("live/hero-female-speaking-1080p.mp4"),
     heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
