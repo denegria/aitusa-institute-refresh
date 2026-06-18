@@ -303,6 +303,7 @@ const heroMedia = () => {
   }
 
   if (heroVideoSources.length) {
+    const previewItems = heroGallery.slice(0, 3);
     return `
       <div class="hero__media-frame hero__media-frame--hero-carousel">
         <video
@@ -335,6 +336,22 @@ const heroMedia = () => {
           </a>
         </div>
       </div>
+      <div class="hero__preview-rail" aria-label="Momentos reales de clase">
+        ${previewItems
+          .map(
+            (item, index) => `
+              <article class="hero__preview-card ${index === 0 ? "hero__preview-card--featured" : ""}">
+                <img src="${item.image}" alt="${item.imageAlt}" loading="${index === 0 ? "eager" : "lazy"}" />
+                <div class="hero__preview-copy">
+                  <span>${item.label}</span>
+                  <strong>${item.title}</strong>
+                </div>
+              </article>
+            `,
+          )
+          .join("")}
+      </div>
+      <p class="hero__media-note">Tres momentos reales de clase para que veas la experiencia antes de escribirnos.</p>
     `;
   }
 
@@ -573,10 +590,6 @@ app.innerHTML = `
         </div>
         <div class="hero__media">
           ${heroMedia()}
-          <p class="hero__quote">
-            “${site.heroQuote}”
-          </p>
-          <p class="hero__media-note">Video real de clases con instructoras bilingües, cargado desde los archivos locales del proyecto.</p>
         </div>
       </div>
     </section>
