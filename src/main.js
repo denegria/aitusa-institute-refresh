@@ -1070,8 +1070,7 @@ app.innerHTML = `
       </div>
       <div class="section-inner payment-note">
         <p>
-          Si no ves tu modalidad exacta, escríbenos por WhatsApp y te indicamos la opción correcta según
-          tu país, horario, nivel y tipo de acceso.
+          Si no ves tu modalidad exacta, escríbenos por WhatsApp y te diremos cuál encaja mejor según tu país, horario y nivel.
         </p>
       </div>
       <div class="section-inner payment-guide" aria-label="Ayuda para elegir producto">
