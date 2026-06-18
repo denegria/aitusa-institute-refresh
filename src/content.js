@@ -200,7 +200,9 @@ const programs = [
     category: "ingles",
     mode: "Presencial, híbrido y online",
     audience: "Adultos y jóvenes en EE. UU.",
+    bestFor: "Ideal si quieres hablar con más seguridad en trabajo, escuela o trámites.",
     fit: "Ideal si quieres conversar con más seguridad en trabajo, escuela o trámites diarios.",
+    cta: "Ver inglés",
     image: site.images.adultEnglish,
     imageAlt: "Estudiante adulto practicando conversación en una clase de inglés ESL.",
     summary:
@@ -216,7 +218,9 @@ const programs = [
     category: "ingles",
     mode: "100% online",
     audience: "Adultos y jóvenes fuera de EE. UU.",
+    bestFor: "Ideal si estudias desde otro país y necesitas clases en vivo.",
     fit: "Ideal si estudias desde otro país y necesitas sesiones en vivo con guía clara.",
+    cta: "Ver online",
     image: site.images.onlineEnglish,
     imageAlt: "Instructora con audífonos guiando una clase de inglés online.",
     summary:
@@ -232,7 +236,9 @@ const programs = [
     category: "ninos",
     mode: "100% online",
     audience: "Niños de 8 a 13 años",
+    bestFor: "Ideal para familias que quieren práctica visual y seguimiento constante.",
     fit: "Ideal para familias que quieren práctica visual y acompañamiento constante.",
+    cta: "Ver niños",
     image: site.images.kidsEnglish,
     imageAlt: "Madre acompañando a su hija durante una clase de inglés online.",
     summary:
@@ -248,7 +254,9 @@ const programs = [
     category: "idiomas",
     mode: "Online",
     audience: "Personas que quieren aprender español",
+    bestFor: "Ideal si quieres moverte con más seguridad en estudio y trabajo.",
     fit: "Ideal si quieres moverte con más seguridad en contextos de estudio y trabajo.",
+    cta: "Ver español",
     image: site.images.spanish,
     imageAlt: "Estudiantes conversando durante una clase de español para extranjeros.",
     summary:
@@ -264,7 +272,9 @@ const programs = [
     category: "academico",
     mode: "Presencial",
     audience: "Adultos que buscan el GED",
+    bestFor: "Ideal si buscas avanzar hacia el diploma equivalente a High School.",
     fit: "Ideal si buscas avanzar hacia el diploma equivalente a High School con ruta guiada.",
+    cta: "Ver GED",
     image: site.images.ged,
     imageAlt: "Material visual para preparación del examen GED.",
     summary:
@@ -280,7 +290,9 @@ const programs = [
     category: "academico",
     mode: "Presencial u online",
     audience: "Secundaria y universidad",
+    bestFor: "Ideal cuando necesitas recuperar ritmo y aclarar temas críticos.",
     fit: "Ideal cuando necesitas recuperar ritmo y aclarar temas críticos sin perder tiempo.",
+    cta: "Ver tutorías",
     image: site.images.math,
     imageAlt: "Estudiante recibiendo apoyo en una tutoría de matemáticas.",
     summary:
@@ -296,7 +308,9 @@ const programs = [
     category: "tecnologia",
     mode: "Curso práctico",
     audience: "Principiantes",
+    bestFor: "Ideal si quieres aprender desde cero a usar internet y archivos.",
     fit: "Ideal si quieres aprender desde cero a usar internet, archivos y herramientas básicas.",
+    cta: "Ver computación",
     image: site.images.computing,
     imageAlt: "Persona usando una laptop durante un curso básico de computación.",
     summary:
@@ -312,7 +326,9 @@ const programs = [
     category: "tecnologia",
     mode: "Herramientas de oficina",
     audience: "Trabajo y administración",
+    bestFor: "Ideal si buscas mejorar productividad con Word, Excel y PowerPoint.",
     fit: "Ideal si buscas mejorar productividad con Word, Excel y PowerPoint.",
+    cta: "Ver oficina",
     image: site.images.office,
     imageAlt: "Curso de herramientas de oficina como Word, Excel y PowerPoint.",
     summary:
@@ -328,7 +344,9 @@ const programs = [
     category: "tecnologia",
     mode: "Curso técnico",
     audience: "Soporte técnico y mantenimiento",
+    bestFor: "Ideal si te interesa soporte básico, diagnóstico y mantenimiento.",
     fit: "Ideal si te interesa soporte básico, diagnóstico y mantenimiento de equipos.",
+    cta: "Ver reparación",
     image: site.images.repair,
     imageAlt: "Componentes de computadora usados para un curso de reparación técnica.",
     summary:

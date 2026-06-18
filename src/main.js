@@ -734,11 +734,12 @@ app.innerHTML = `
                 <div class="program-card__body">
                   <p class="program-card__eyebrow">${program.audience}</p>
                   <h3>${program.title}</h3>
+                  <p class="program-card__best-for">${program.bestFor}</p>
                   <p class="program-card__fit">${program.fit}</p>
                   <p class="program-card__summary">${program.summary}</p>
                   <ul class="program-card__details">${joinList(program.details)}</ul>
                   <div class="program-card__footer">
-                    <a class="program-card__cta" href="${site.whatsappHref}?text=${programInquiryMessage(program)}">Hablar de esta ruta</a>
+                    <a class="program-card__cta" href="${site.whatsappHref}?text=${programInquiryMessage(program)}">${program.cta || "Hablar de esta ruta"}</a>
                   </div>
                 </div>
               </article>
