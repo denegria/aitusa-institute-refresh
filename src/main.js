@@ -860,8 +860,10 @@ app.innerHTML = `
           ${heroIntentCards()}
           ${heroCommitment()}
           <p class="hero__microcopy">
-            Escucha una clase real, decide formato y deja que el equipo te guíe a la mejor ruta para tu meta.
-            <a href="${site.whatsappHref}?text=${contactMessage}">Empezar ahora</a>
+            Mira una clase real, valida el ritmo y elige mejor formato con confianza.
+            Si te gusta, primero revisa horarios o pasa directo al WhatsApp.
+            <a href="#horarios">Ver horarios</a> ·
+            <a href="${site.whatsappHref}?text=${contactMessage}">Empezar con WhatsApp</a>
           </p>
           <div class="hero__highlights" aria-label="Beneficios">
             <span>Respuesta en menos de 24h</span>

@@ -5,13 +5,13 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Clase real en video, ruta personalizada y horarios reales para empezar a hablar inglés desde esta semana.",
+    "Mira clase real, escoge tu formato y comienza con una ruta práctica de inglés en Nueva Jersey.",
   description:
-    "Clases presenciales, híbridas y online en Nueva Jersey con clase real en video, instructoras bilingües y seguimiento semanal para que avances desde hoy.",
+    "Clases presenciales, híbridas y online en Nueva Jersey con clase real en video, instructoras bilingües y seguimiento semanal para tomar acción desde hoy.",
   heroHeadline:
-    "Mira una clase real en video y define tu ruta de inglés en minutos.",
+    "Mira una clase real en video y define tu ruta de inglés en menos de 2 minutos.",
   heroLead:
-    "Observa una clase real con corrección en vivo, decide formato (presencial, híbrido u online), y avanza con una ruta clara para hablar con más seguridad desde el primer bloque.",
+    "Observa una clase real con corrección en vivo, decide tu formato ideal (presencial, híbrido u online) y avanza con una ruta semanal de continuidad para hablar con más seguridad.",
   heroQuote:
     "No se trata de memorizar más. Se trata de comunicarte con soltura en entrevistas, universidad, trabajo y vida cotidiana desde el día 1.",
   canonical: "https://www.aitusainstitute.com/",
@@ -83,15 +83,15 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clase real desde el minuto 1: corrección, ritmo y estructura para pasar de entender a hablar.",
+  "Clase real desde 0:58 para ver corrección, ritmo y estructura antes de tomar decisión.",
   "Método visual para entrenar inglés práctico en entrevistas, trabajo y vida diaria.",
-  "Ruta semanal flexible para mantener continuidad aunque tu agenda sea limitada.",
+  "Ruta semanal flexible con acompañamiento real para mantener continuidad aunque tu agenda sea limitada.",
 ];
 
 const heroStartPath = [
-  "Mira una clase real de 1:08 y valida si el ritmo te sirve.",
-  "Recibe orientación inicial para elegir horario y modalidad según tu rutina.",
-  "Empieza en tu formato ideal: presencial, híbrido u online, con continuidad garantizada.",
+  "Mira 1:08 de clase real y valida en 10 segundos si te resulta útil.",
+  "Recibe orientación inicial para ajustar horario y modalidad sin costo.",
+  "Arranca en tu formato ideal (presencial, híbrido u online) con seguimiento real desde la primera semana.",
 ];
 
 const heroSignal = [
@@ -436,6 +436,8 @@ const instructorClips = [
     title: "Escucha y responde al instante",
     eyebrow: "Metodología visual",
     image: "./public/assets/wix/live/hero-female-zoom.jpg",
+    video: "./public/assets/wix/live/hero-female-speaking-360p.mp4",
+    videoPoster: "./public/assets/wix/live/hero-female-teacher.jpg",
     imageAlt: "Instructora y estudiante practicando inglés mediante Zoom con enfoque visual y conversación real.",
     caption:
       "Escucha guiada con pausas estratégicas para dominar respuestas rápidas y con significado, no solo pronunciación.",
