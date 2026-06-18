@@ -863,13 +863,12 @@ app.innerHTML = `
           ${heroIntentCards()}
           ${heroCommitment()}
           <p class="hero__microcopy">
-            Mira una clase real para validar ritmo, método y soporte.
-            Si te convence, revisa horarios o avanza directo por WhatsApp para reservar orientación inmediata.
-            <span class="hero__microcopy-actions">
-              <a class="button button--ghost" href="#horarios">Ver horarios</a>
-              <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Empezar con WhatsApp</a>
-            </span>
+            Empieza en 60 segundos: mira una clase real, valida ritmo y decide con menos incertidumbre.
           </p>
+          <div class="hero__conversion-strip">
+            <a class="button button--primary" href="#contacto">Quiero mi ruta personalizada</a>
+            <a class="button button--ghost" href="#horarios">Ver horarios disponibles</a>
+          </div>
           <div class="hero__highlights" aria-label="Beneficios">
             <span>Respuesta en menos de 24h</span>
             <span>Rutas para jóvenes, adultos y familias</span>

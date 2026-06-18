@@ -973,24 +973,24 @@ select {
   line-height: 1.5;
 }
 
-.hero__microcopy-actions {
-  margin-top: 10px;
-  display: flex;
-  flex-wrap: wrap;
+.hero__conversion-strip {
+  margin-top: 12px;
+  display: grid;
   gap: 10px;
   width: min(100%, 520px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.hero__microcopy-actions .button {
+.hero__conversion-strip .button {
   min-width: 180px;
+  min-height: 54px;
+  justify-content: center;
   padding-top: 0.77rem;
   padding-bottom: 0.77rem;
-  justify-content: center;
 }
 
-.hero__microcopy-actions .button--ghost {
-  min-width: 164px;
-  border-color: rgba(255, 255, 255, 0.42);
+.hero__conversion-strip .button--ghost {
+  border-color: rgba(255, 255, 255, 0.52);
   color: #fff;
 }
 
@@ -3762,6 +3762,11 @@ select {
 
   .hero__actions .button {
     width: min(100%, 360px);
+  }
+
+  .hero__conversion-strip {
+    grid-template-columns: 1fr;
+    width: 100%;
   }
 
   .hero__intent {
