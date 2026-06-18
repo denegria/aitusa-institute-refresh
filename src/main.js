@@ -2845,9 +2845,11 @@ if (form && status && whatsappDraft) {
   const navigateFromIntentAction = (trigger, event) => {
     if (!trigger) return;
     const rawTarget = trigger.getAttribute("data-mobile-target") || trigger.getAttribute("href") || "#contacto";
-    const targetHash = rawTarget.trim();
+    const targetHash = rawTarget.trim() || "#contacto";
     const intent = trigger.dataset.intent || "default";
     const isExternal = /^https?:\/\//i.test(targetHash);
+    const isHashTarget = targetHash.startsWith("#");
+    const targetSection = isHashTarget ? document.querySelector(targetHash) : null;
 
     if (!isExternal) {
       event?.preventDefault();
@@ -2868,22 +2870,13 @@ if (form && status && whatsappDraft) {
       if (scheduleSection) {
         scheduleSection.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
       }
-    } else if (
-      targetHash === "#contacto" ||
-      (targetHash.startsWith("#") && intent !== "classSample")
-    ) {
-      const contactSection = document.querySelector("#contacto");
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+    } else if (isHashTarget && targetSection) {
+      targetSection.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      if (targetHash === "#contacto") {
         const nameInput = form?.querySelector('input[name="nombre"]');
         if (nameInput) {
           nameInput.focus({ preventScroll: true });
         }
-      }
-    } else if (targetHash.startsWith("#")) {
-      const target = document.querySelector(targetHash);
-      if (target) {
-        target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
       }
     }
 

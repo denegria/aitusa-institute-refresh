@@ -5,34 +5,34 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Clase real, sin simulaciones: mira cómo aprendemos y decide hoy si esta ruta funciona para ti.",
+    "Clase real, sin simulación: mira cómo aprendemos y decide hoy si este método encaja con tu estilo.",
   description:
-    "Mira una clase real de 1:08, valida tu nivel y ritmo, y define tu siguiente paso con evidencia práctica y un plan inicial.",
+    "Mira una clase real de 1:08, valida tu nivel, ritmo y objetivos, y define tu siguiente paso con evidencia práctica.",
   heroHeadline:
     "Mira una clase real de 1:08 y decide hoy si este método es para ti.",
   heroLead:
-    "Observa una clase real en acción: corrección en vivo, conversación real y ritmo auténtico para saber si encaja con tu estilo de aprendizaje.",
+    "Observa una clase real en acción: corrección en vivo, conversación práctica y ritmo auténtico para validar si la experiencia te conviene.",
   heroQuote:
     "Sin simulaciones: cada corrección y avance que ves pertenece a una clase real de enseñanza activa.",
   heroMicrocopy:
-    "Reproduce el clip, valida si el ritmo encaja contigo y define tu ruta inicial con plan y horario de arranque.",
+    "Reproduce el clip, valida tu nivel y ritmo, y define una ruta inicial con plan y horario de arranque.",
   heroQuickCapture: {
     title: "Empieza tu ruta en 60 segundos",
     copy:
-      "Déjanos tu nombre y WhatsApp. Te respondemos con objetivo, horario viable y siguiente paso para empezar hoy.",
+      "Déjanos tu nombre y WhatsApp. Te respondemos en minutos con objetivo, horario viable y el primer paso para avanzar.",
     options: [
       "Quiero validar método y estilo con clase real",
-      "Quiero revisar opciones de horario",
+      "Quiero comparar horarios y formato",
       "Necesito ruta para mi hijo o hija",
-      "Quiero una ruta para niños o adultos",
+      "Quiero ruta para niños o adultos",
     ],
-    button: "Recibir ruta inicial por WhatsApp",
+    button: "Recibir ruta inicial por WhatsApp ahora",
     note: "Sin costo y sin compromiso. Te enviamos una recomendación inicial clara y accionable.",
   },
   heroHighlights: [
-    "Clase real sin simulaciones: método, ritmo y estilo visibles desde el primer minuto.",
-    "Compara presencial, híbrido y online en minutos para elegir formato realista.",
-    "Recibe una ruta inicial concreta para decidir hoy y comenzar con menos dudas.",
+    "Clase real, sin simulaciones: método, ritmo y estilo visibles desde el primer minuto.",
+    "Compara presencial, híbrido y online en minutos para elegir el formato que sí encaja.",
+    "Recibe una ruta inicial clara para decidir con más certeza desde hoy.",
   ],
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
@@ -148,8 +148,8 @@ const heroPoints = [
 
 const heroVideoHighlights = [
   "Clase real grabada en alta calidad",
-  "Corrección en vivo con seguimiento real",
-  "Sin costos de consulta inicial",
+  "Corrección en vivo + seguimiento semanal",
+  "Sin costo de consulta inicial",
   "Presencial, híbrido y online en Nueva Jersey",
 ];
 
@@ -178,8 +178,8 @@ const launchPath = [
   {
     title: "Semana 1: diagnóstico y objetivo",
     description:
-      "Te explicamos tu nivel actual en 10 minutos y proponemos un plan de 21 días adaptado a tu horario y meta inmediata.",
-    outcome: "Sales con una ruta personal y tareas concretas para arrancar.",
+      "En 10 minutos validamos nivel, meta y agenda para diseñar una ruta inicial realista y accionable.",
+    outcome: "Sales con una recomendación clara y tareas concretas para arrancar esta semana.",
   },
   {
     title: "Semana 2: práctica guiada",
@@ -852,15 +852,15 @@ const paymentGuides = [
 const contactPrep = [
   {
     title: "Nivel de entrada",
-    text: "Si no lo sabes, no pasa nada. Hacemos una orientación breve para ubicarte mejor.",
+    text: "Si no lo sabes, no pasa nada. Te orientamos rápido para ubicar tu punto real de arranque.",
   },
   {
     title: "Horario ideal",
-    text: "Así te sugerimos un bloque realista de mañana, noche o fin de semana.",
+    text: "Te sugerimos un bloque realista de mañana, noche o fin de semana para mantener continuidad.",
   },
   {
     title: "Meta principal",
-    text: "Trabajo, universidad, entrevista, niño/a o apoyo técnico: afinamos la ruta según eso.",
+    text: "Trabajo, universidad, entrevista, niño/a o apoyo técnico: afinamos la ruta a tu meta.",
   },
 ];
 
