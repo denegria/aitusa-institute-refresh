@@ -1608,9 +1608,9 @@ app.innerHTML = `
     </section>
   </main>
   
-  <div class="mobile-action-bar" aria-label="Acciones rápidas">
-    <a class="button button--ghost" href="${site.phoneHref}" aria-label="Llamar para pedir orientación">Llamar por teléfono</a>
-    <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Escribir por WhatsApp para ver la clase real y continuar con la orientación">Ver clase real y empezar</a>
+  <div class="mobile-action-bar" aria-label="Acciones rápidas" data-mobile-action-bar>
+    <a class="button button--ghost" href="#experiencia" aria-label="Ver clase real en el bloque de experiencia">Ver clase real</a>
+    <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}" aria-label="WhatsApp para empezar tu ruta de inglés hoy">Empieza por WhatsApp</a>
   </div>
 
   <footer class="site-footer">
@@ -1718,6 +1718,20 @@ const clearFiltersButton = document.querySelector("[data-clear-filters]");
 const courseInterestSelect = document.querySelector('select[name="interes"]');
 const programFilters = new Set(Object.values(categoryLabel));
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const mobileActionBar = document.querySelector("[data-mobile-action-bar]");
+
+const initMobileActionBar = () => {
+  if (!mobileActionBar) return;
+  const mobileMatcher = window.matchMedia("(max-width: 720px)");
+  const applyState = () => {
+    mobileActionBar.classList.toggle("is-visible", mobileMatcher.matches);
+  };
+
+  applyState();
+  mobileMatcher.addEventListener("change", applyState);
+};
+initMobileActionBar();
+
 const initialCourseFilter = (() => {
   const param = new URL(window.location.href).searchParams.get("curso");
   return param && programFilters.has(param) ? param : "todos";
