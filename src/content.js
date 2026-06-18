@@ -372,7 +372,9 @@ const heroGallery = [
   {
     label: "Atención con presencia",
     title: "Docentes bilingües corrigen en vivo para que avances con menos incertidumbre.",
-    image: assetHires("hero-classroom.jpg"),
+    image: "./public/assets/wix/live/hero-female-teacher.jpg",
+    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
+    videoPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
     imageAlt:
       "Instructora de AiT USA corrigiendo y motivando a una estudiante durante conversación oral.",
   },
@@ -380,6 +382,8 @@ const heroGallery = [
     label: "Escucha y retroalimentación",
     title: "Interacción real por Zoom para entrenar comprensión y respuesta en tiempo real.",
     image: "./public/assets/wix/live/hero-female-zoom.jpg",
+    video: "./public/assets/wix/live/hero-female-speaking-360p.mp4",
+    videoPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
     imageAlt:
       "Instructora de AiT USA interactuando con estudiantes en una sesión online de inglés.",
   },
@@ -392,21 +396,25 @@ const heroGallery = [
   {
     label: "Seguimiento semanal",
     title: "Ruta semanal con acciones claras para convertir práctica en hábito.",
-    image: "./public/assets/wix/hires/testimonial-marisol-1200.jpg",
+    image: "./public/assets/wix/live/hero-female-teacher.jpg",
+    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
+    videoPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
     imageAlt:
       "Instructora de AiT USA trabajando con una estudiante para mejorar la fluidez y la seguridad.",
   },
   {
     label: "Resultados reales",
     title: "Seguimiento de progreso con evidencia de resultados en cada módulo.",
-    image: "./public/assets/wix/hires/testimonial-antonina-1200.jpg",
+    image: "./public/assets/wix/live/hero-female-zoom.jpg",
+    video: "./public/assets/wix/live/hero-female-speaking-360p.mp4",
+    videoPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
     imageAlt: "Estudiantes de AiT USA aplicando lo aprendido en clase de inglés.",
   },
 ];
 
 const heroProof = [
   { value: "20+", label: "años enseñando inglés con clases reales en New Jersey" },
-  { value: "1", label: "minuto de muestra para ver el método en acción" },
+  { value: "1:08", label: "de clase real de muestra para ver el método en acción" },
   { value: "3", label: "rutas: presencial, híbrido y online" },
 ];
 
@@ -435,7 +443,9 @@ const instructorClips = [
   {
     title: "Conexión auténtica en clases online",
     eyebrow: "8 a 13 años",
-    image: "./public/assets/wix/hires/testimonial-antonina-1200.jpg",
+    image: "./public/assets/wix/live/hero-female-zoom.jpg",
+    video: "./public/assets/wix/live/hero-female-speaking-360p.mp4",
+    videoPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
     imageAlt:
       "Estudiante practicando inglés en una clase remota con acompañamiento de la instructora.",
     caption:
@@ -445,7 +455,9 @@ const instructorClips = [
   {
     title: "Respuesta guiada en clase",
     eyebrow: "Sesión de progreso",
-    image: "./public/assets/wix/hires/testimonial-marisol-1200.jpg",
+    image: "./public/assets/wix/live/hero-female-teacher.jpg",
+    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
+    videoPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
     imageAlt: "Instructora de AiT USA interactuando con estudiantes en una clase de inglés.",
     caption:
       "Estrategias y corrección puntual para pasar de comprender a comunicar ideas con mayor naturalidad.",
