@@ -70,24 +70,40 @@ const leadIntentProfiles = {
     interest: "No estoy seguro",
     forWhom: "Para mí",
     message: "quiero información general sobre sus programas y opciones.",
+    panelTitle: "Ruta sugerida: conversación inicial",
+    panelCopy:
+      "Te ayudamos a definir con claridad tu objetivo, tiempo disponible y formato ideal antes de avanzar.",
+    panelAction: "Recibir ruta inicial por WhatsApp",
   },
   classSample: {
     intent: "Clase real",
     interest: "Inglés",
     forWhom: "Para mí",
     message: "quiero ver la clase real y recibir una recomendación de inicio.",
+    panelTitle: "Ruta sugerida: primera mirada práctica",
+    panelCopy:
+      "Mira un fragmento real de clase y luego pasamos al formulario con la mejor opción para ti.",
+    panelAction: "Ver clase real y orientar mi ruta",
   },
   scheduleFlex: {
     intent: "Agenda flexible",
     interest: "Inglés",
     forWhom: "Para mí",
     message: "tengo agenda limitada; por eso quiero ver opciones de horarios flexibles.",
+    panelTitle: "Ruta sugerida: horario inteligente",
+    panelCopy:
+      "Tu caso ideal para comparar opciones de mañana, noche o fin de semana antes de registrarte.",
+    panelAction: "Revisar horarios + ruta de inicio",
   },
   familySupport: {
     intent: "Opciones familiares",
     interest: "Niños",
     forWhom: "Para mi hijo/a",
     message: "quiero ayuda para elegir opciones para mi familia o para alguien más.",
+    panelTitle: "Ruta sugerida: decisión familiar",
+    panelCopy:
+      "Compara opciones para familias con acompañamiento de seguimiento y te damos un plan sin complicarte el proceso.",
+    panelAction: "Recibir ruta familiar por WhatsApp",
   },
 };
 
@@ -1406,6 +1422,16 @@ app.innerHTML = `
               <span>Empiezas con el plan de arranque.</span>
             </article>
           </div>
+          <div class="contact-intent" data-contact-intent-panel>
+            <p class="contact-intent__title" data-contact-intent-title>Ruta sugerida: conversación inicial</p>
+            <p class="contact-intent__copy" data-contact-intent-copy>Te ayudamos a definir con claridad tu objetivo, tiempo disponible y formato ideal antes de avanzar.</p>
+            <a
+              class="button button--ghost"
+              href="${site.whatsappHref}?text=${contactMessage}"
+              data-contact-intent-action
+              aria-label="Continuar por WhatsApp: Ruta sugerida"
+            >Recibir ruta inicial por WhatsApp</a>
+          </div>
           <div class="direct-contact">
             <a href="${site.phoneHref}">${site.phone}</a>
             <a href="${site.whatsappHref}?text=${contactMessage}">${site.whatsapp}</a>
@@ -1665,6 +1691,9 @@ const whatsappDraft = document.querySelector("[data-form-whatsapp]");
 if (form && status && whatsappDraft) {
   const leadIntentCards = [...document.querySelectorAll("[data-intent-card]")];
   const leadPersonaSelect = form.querySelector('select[name="para"]');
+  const contactIntentTitle = form.querySelector("[data-contact-intent-title]");
+  const contactIntentCopy = form.querySelector("[data-contact-intent-copy]");
+  const contactIntentAction = form.querySelector("[data-contact-intent-action]");
   let activeLeadIntent = "default";
 
   const getLeadIntentProfile = (intent) => leadIntentProfiles[intent] || leadIntentProfiles.default;
@@ -1683,6 +1712,14 @@ if (form && status && whatsappDraft) {
     leadIntentCards.forEach((card) => {
       card.classList.toggle("is-active", card.dataset.intent === activeLeadIntent);
     });
+
+    if (contactIntentTitle && contactIntentCopy && contactIntentAction) {
+      contactIntentTitle.textContent = profile.panelTitle;
+      contactIntentCopy.textContent = profile.panelCopy;
+      contactIntentAction.textContent = profile.panelAction;
+      contactIntentAction.setAttribute("href", whatsappDraft.href);
+      contactIntentAction.setAttribute("aria-label", `Continuar por WhatsApp: ${profile.panelAction}`);
+    }
 
     if (!silent) {
       syncWhatsAppDraft();
@@ -1704,10 +1741,13 @@ if (form && status && whatsappDraft) {
     ].join("\n");
   };
 
-  const syncWhatsAppDraft = () => {
+const syncWhatsAppDraft = () => {
     const data = new FormData(form);
     const message = buildLeadMessage(data);
     whatsappDraft.href = `${site.whatsappHref}?text=${encodeURIComponent(message)}`;
+    if (contactIntentAction) {
+      contactIntentAction.href = whatsappDraft.href;
+    }
     return message;
   };
 
@@ -1721,7 +1761,22 @@ if (form && status && whatsappDraft) {
         setActiveLeadIntent(intent, { silent: true });
         syncWhatsAppDraft();
 
-        if (targetHash.startsWith("#")) {
+        const shouldOpenContact = targetHash === "#contacto" || intent !== "classSample";
+        if (shouldOpenContact) {
+          const contactSection = document.querySelector("#contacto");
+          if (contactSection) {
+            contactSection.scrollIntoView({
+              behavior: reduceMotion ? "auto" : "smooth",
+              block: "start",
+            });
+            const nameInput = form?.querySelector('input[name="nombre"]');
+            if (nameInput) {
+              nameInput.focus({ preventScroll: true });
+            }
+          }
+        }
+
+        if (!shouldOpenContact && targetHash.startsWith("#") && targetHash !== "#contacto") {
           const target = document.querySelector(targetHash);
           if (target) {
             target.scrollIntoView({
@@ -1729,11 +1784,12 @@ if (form && status && whatsappDraft) {
               block: "start",
             });
           }
-          if (window.history?.pushState) {
-            window.history.pushState({}, "", targetHash);
-          } else {
-            window.location.hash = targetHash;
-          }
+        }
+
+        if (window.history?.pushState) {
+          window.history.pushState({}, "", targetHash || "#contacto");
+        } else {
+          window.location.hash = targetHash || "#contacto";
         }
       });
     });
