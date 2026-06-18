@@ -812,7 +812,7 @@ app.innerHTML = `
         </div>
         <div class="books-cta__actions">
           <a class="button button--primary" href="${site.whatsappHref}?text=${bookInquiryMessage()}">Ver libros</a>
-          <a class="button button--ghost" href="#contacto">Hablar con el equipo</a>
+          <a class="button button--ghost" href="#contacto">Pedir ayuda</a>
         </div>
       </div>
     </section>
@@ -1057,7 +1057,7 @@ app.innerHTML = `
         </div>
         <div class="books-cta__actions">
           <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Pedir ayuda</a>
-          <a class="button button--ghost" href="#contacto">Ir al contacto</a>
+          <a class="button button--ghost" href="#contacto">Ver contacto</a>
         </div>
       </div>
     </section>
