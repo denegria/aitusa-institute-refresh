@@ -10,6 +10,7 @@
   --muted: #56607a;
   --line: #d8deea;
   --soft: #edf3ff;
+  --yellow: #f5d15b;
   --hero-radial: radial-gradient(circle at 12% 15%, rgba(255, 78, 106, 0.26), transparent 48%);
   --white: #ffffff;
   --surface: #f8faff;
@@ -648,6 +649,17 @@ select {
   font-size: 0.87rem;
   letter-spacing: 0.01em;
   border-width: 2px;
+}
+
+.hero__video-chip--ghost {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.56);
+  box-shadow: none;
+}
+
+.hero__video-chip--ghost:hover,
+.hero__video-chip--ghost:focus-visible {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .hero__media-overlay--gallery .hero__video-chip {

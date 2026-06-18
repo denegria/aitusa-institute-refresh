@@ -490,15 +490,15 @@ const heroMedia = () => {
     return `
       <div class="hero__media-frame hero__media-frame--hero-carousel" data-hero-frame>
         <div class="hero__media-stack" data-hero-stack>${slides}</div>
-        <div class="hero__media-overlay hero__media-overlay--gallery">
+      <div class="hero__media-overlay hero__media-overlay--gallery">
           <div class="hero__media-tag">Video real · 1:08</div>
           <div class="hero__media-meta">
             <p class="hero__media-kicker" data-hero-kicker>${heroGallery[0].label}</p>
             <p class="hero__media-title" data-hero-title>${heroGallery[0].title}</p>
           </div>
-          <a class="hero__video-chip" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Enviar mensaje para agendar una sesión de muestra">
+          <a class="hero__video-chip hero__video-chip--ghost" href="#experiencia" aria-label="Ir al bloque de experiencia y ver la clase real">
             <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
-            Ver sesión de muestra
+            Ver experiencia completa
           </a>
           <div class="hero__media-dots" data-hero-dots>${chips}</div>
         </div>
@@ -514,7 +514,6 @@ const heroMedia = () => {
             data-hero-player
             class="hero__media-player"
             controls
-            autoplay
           muted
           playsinline
           loop
@@ -539,9 +538,9 @@ const heroMedia = () => {
             <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
             Ver video de muestra
           </button>
-          <a class="hero__video-chip" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Enviar mensaje para agendar una sesión de muestra">
+          <a class="hero__video-chip hero__video-chip--ghost" href="#experiencia" aria-label="Ir al bloque de experiencia y ver la clase real">
             <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
-            Ver sesión de muestra
+            Ver experiencia completa
           </a>
         </div>
       </div>
@@ -860,8 +859,8 @@ app.innerHTML = `
           ${heroIntentCards()}
           ${heroCommitment()}
           <p class="hero__microcopy">
-            Mira una clase real, valida el ritmo y elige mejor formato con confianza.
-            Si te gusta, primero revisa horarios o pasa directo al WhatsApp.
+            Mira una clase real para validar ritmo, método y soporte.
+            Si te convence, revisa horarios o avanza directo por WhatsApp para reservar orientación inmediata.
             <span class="hero__microcopy-actions">
               <a class="button button--ghost" href="#horarios">Ver horarios</a>
               <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Empezar con WhatsApp</a>
