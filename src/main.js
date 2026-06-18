@@ -1287,7 +1287,7 @@ app.innerHTML = `
       <a href="#inicio">Inicio</a>
       <a href="#experiencia">Ver clase real</a>
       <a href="#cursos">Cursos</a>
-      <a href="#faq">FAQ</a>
+      <a href="#faq">Preguntas frecuentes</a>
       <a href="#contacto">Contacto</a>
     </div>
     <p>Experiencia web renovada para una comunicación más clara y efectiva. © ${site.founded} ${site.name}. Mira la clase real antes de escribirnos.</p>
