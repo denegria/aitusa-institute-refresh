@@ -517,7 +517,7 @@ app.innerHTML = `
           <p class="hero__microcopy">Te ayudamos a elegir nivel, sede y modalidad en el primer mensaje.</p>
           <div class="hero__highlights" aria-label="Beneficios">
             <span>Respuesta en menos de 24h</span>
-            <span>Planes para familias y adultos</span>
+            <span>Rutas para jóvenes, adultos y familias</span>
             <span>Clases en Nueva Jersey y online</span>
           </div>
           ${heroSignalCards()}
@@ -1103,8 +1103,9 @@ app.innerHTML = `
           <div class="direct-contact">
             <a href="${site.phoneHref}">${site.phone}</a>
             <a href="${site.whatsappHref}?text=${contactMessage}">${site.whatsapp}</a>
-            <a href="${site.forms.registration}" target="_blank" rel="noreferrer">Inscripción gratuita</a>
+            <a href="${site.forms.registration}" target="_blank" rel="noreferrer">Formulario de inscripción</a>
           </div>
+          <p>Primero validamos tu nivel y horario; después confirmamos la inscripción y el punto de arranque más adecuado.</p>
           <p>El botón de WhatsApp se actualiza con tus datos mientras completas el formulario para que enviar tu información sea más rápido.</p>
         </div>
         <form class="lead-form" data-lead-form>
