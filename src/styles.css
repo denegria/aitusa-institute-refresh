@@ -702,6 +702,19 @@ select {
   line-height: 1.5;
 }
 
+.hero__microcopy a {
+  display: inline-block;
+  margin-left: 10px;
+  color: #fff;
+  font-weight: 850;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.hero__microcopy a:hover {
+  opacity: 0.92;
+}
+
 .mobile-action-bar {
   position: fixed;
   left: 0;

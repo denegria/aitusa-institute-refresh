@@ -514,7 +514,10 @@ app.innerHTML = `
             <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Agenda tu clase de muestra</a>
             <a class="button button--ghost" href="#horarios">Ver horarios</a>
           </div>
-          <p class="hero__microcopy">Te ayudamos a elegir nivel, sede y modalidad en el primer mensaje.</p>
+          <p class="hero__microcopy">
+            Te ayudamos a elegir nivel, sede y modalidad en el primer mensaje.
+            <a href="#experiencia">Ver la clase real primero</a>
+          </p>
           <div class="hero__highlights" aria-label="Beneficios">
             <span>Respuesta en menos de 24h</span>
             <span>Rutas para jóvenes, adultos y familias</span>
