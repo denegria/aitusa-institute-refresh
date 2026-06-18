@@ -800,11 +800,11 @@ app.innerHTML = `
       <div class="section-inner books-cta">
         <div>
           <p class="section-kicker">Material y apoyo</p>
-          <h3>Te ayudamos a elegir el libro correcto según tu nivel y modalidad.</h3>
-          <p>Si no sabes cuál corresponde a tu etapa, escríbenos y te orientamos en minutos.</p>
+          <h3>Elige el libro correcto según tu nivel y la forma en que estudias.</h3>
+          <p>Si no sabes cuál corresponde a tu etapa, escríbenos y te orientamos en minutos con una recomendación clara.</p>
         </div>
         <div class="books-cta__actions">
-          <a class="button button--primary" href="${site.whatsappHref}?text=${bookInquiryMessage}">Consultar libros</a>
+          <a class="button button--primary" href="${site.whatsappHref}?text=${bookInquiryMessage}">Ver libros</a>
           <a class="button button--ghost" href="#contacto">Hablar con el equipo</a>
         </div>
       </div>
@@ -859,8 +859,8 @@ app.innerHTML = `
     <section id="sedes" class="section section--soft" aria-labelledby="sedes-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Contacto y sedes</p>
-          <h2 id="sedes-title">New Jersey, acceso remoto y atención por WhatsApp.</h2>
-        <p>Opciones presenciales y remotas para aprender con la flexibilidad que tu calendario necesita.</p>
+        <h2 id="sedes-title">Encuentra tu sede o estudia online sin dar vueltas.</h2>
+        <p>Opciones presenciales y remotas para aprender con la flexibilidad que tu calendario necesita, y ayuda directa para elegir la mejor.</p>
       </div>
       <div class="section-inner location-grid">
         ${locations
@@ -883,7 +883,7 @@ app.innerHTML = `
         <div>
           <p class="section-kicker">¿No sabes cuál sede te conviene?</p>
           <h3>Te ayudamos a comparar ubicación, horario y modalidad antes de elegir.</h3>
-          <p>Escríbenos y te orientamos con la opción más práctica según tu zona y tu rutina.</p>
+          <p>Escríbenos y te orientamos con la opción más práctica según tu zona, tu rutina y tu forma de estudiar.</p>
         </div>
         <div class="books-cta__actions">
           <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Pedir orientación</a>
