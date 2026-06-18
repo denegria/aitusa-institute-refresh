@@ -2929,6 +2929,33 @@ select {
   max-width: 560px;
 }
 
+.contact-trust {
+  display: grid;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.contact-trust article {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 8px;
+  align-items: start;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
+}
+
+.contact-trust strong {
+  font-size: 1.06rem;
+}
+
+.contact-trust span {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
 .contact-prep {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -3034,6 +3061,19 @@ select {
   color: var(--ink);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
   background: linear-gradient(180deg, #fff 0%, #f6f9ff 100%);
+}
+
+.form-required-note {
+  margin: 0;
+  color: var(--blue-dark);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.form-field-note {
+  margin: -6px 0 8px;
+  color: var(--muted);
+  font-size: 0.82rem;
 }
 
 .form-row {

@@ -71,6 +71,13 @@ const requiredLeadFields = [
   { name: "telefono" },
   { name: "ubicacion" },
 ];
+const requiredLeadFieldLabels = {
+  nombre: "Nombre",
+  apellido: "Apellido",
+  email: "Email",
+  telefono: "Teléfono",
+  ubicacion: "País y ciudad",
+};
 
 const leadIntentProfiles = {
   default: {
@@ -1452,6 +1459,20 @@ app.innerHTML = `
             Completa el formulario y en minutos te proponemos nivel, horario y formato ideal.
             Si quieres, primero ve la clase real y luego regresas para avanzar más rápido.
           </p>
+          <div class="contact-trust" aria-label="Compromisos de atención">
+            <article>
+              <strong>⚡</strong>
+              <span><strong>Respuesta rápida:</strong> normalmente en menos de 2 horas hábiles.</span>
+            </article>
+            <article>
+              <strong>🎯</strong>
+              <span><strong>Plan personalizado:</strong> no te mandamos un mensaje genérico.</span>
+            </article>
+            <article>
+              <strong>✅</strong>
+              <span><strong>Sin presión:</strong> solo pasos concretos para empezar.</span>
+            </article>
+          </div>
           <div class="contact-prep" aria-label="Qué conviene tener listo antes de enviar el formulario">
             ${contactPrep
               .map(
@@ -1497,11 +1518,12 @@ app.innerHTML = `
           <p>Mientras completas el formulario, el botón de WhatsApp se adapta con tus datos para que enviar la información sea más rápido y claro.</p>
         </div>
         <form class="lead-form" data-lead-form>
+          <p class="form-required-note">Campos obligatorios: nombre, apellido, email, teléfono y ciudad.</p>
           <div class="form-row">
-            <label>Nombre <input name="nombre" autocomplete="given-name" required /></label>
-            <label>Apellido <input name="apellido" autocomplete="family-name" required /></label>
+            <label>Nombre <input name="nombre" autocomplete="given-name" placeholder="Tu nombre" required /></label>
+            <label>Apellido <input name="apellido" autocomplete="family-name" placeholder="Tu apellido" required /></label>
           </div>
-          <label>Email <input name="email" type="email" autocomplete="email" required /></label>
+          <label>Email <input name="email" type="email" autocomplete="email" placeholder="tucorreo@ejemplo.com" required /></label>
           <div class="form-row">
             <label>Para quién es
               <select name="para">
@@ -1524,9 +1546,10 @@ app.innerHTML = `
           </label>
           <div class="form-row">
             <label>Código país (+1) <input name="codigo" placeholder="+1" /></label>
-            <label>Teléfono <input name="telefono" type="tel" autocomplete="tel" required /></label>
+            <label>Teléfono <input name="telefono" type="tel" autocomplete="tel" placeholder="+1 555 000 0000" required /></label>
           </div>
-          <label>País y ciudad <input name="ubicacion" required /></label>
+          <label>País y ciudad <input name="ubicacion" placeholder="Ej. Miami, FL" required /></label>
+          <p class="form-field-note">Revisaremos tu consulta y te responderemos con una ruta recomendada por WhatsApp.</p>
           <button class="button button--primary" type="submit">Quiero mi ruta inicial</button>
           <p class="form-progress" role="status" aria-live="polite" data-form-progress></p>
           <p class="form-status" role="status" data-form-status></p>
@@ -1752,6 +1775,12 @@ if (form && status && whatsappDraft) {
   const contactIntentCopy = form.querySelector("[data-contact-intent-copy]");
   const contactIntentAction = form.querySelector("[data-contact-intent-action]");
   const progressIndicator = form.querySelector("[data-form-progress]");
+  const getRequiredMissingFields = (data) =>
+    requiredLeadFields
+      .map((field) => field.name)
+      .filter((fieldName) => `${data.get(fieldName) || ""}`.trim().length === 0)
+      .map((fieldName) => requiredLeadFieldLabels[fieldName] || fieldName);
+
   let activeLeadIntent = "default";
 
   const getLeadIntentProfile = (intent) => leadIntentProfiles[intent] || leadIntentProfiles.default;
@@ -1815,13 +1844,14 @@ if (form && status && whatsappDraft) {
 
     const data = new FormData(form);
     const total = requiredLeadFields.length;
-    const done = requiredLeadFields.filter((field) => `${data.get(field.name) || ""}`.trim().length > 0).length;
+    const done = total - getRequiredMissingFields(data).length;
     const isComplete = done === total;
+    const missingFields = getRequiredMissingFields(data);
 
     progressIndicator.textContent =
       isComplete
-        ? "✅ Listo para enviar: todos los datos clave están completos."
-        : `🧩 Campos completados: ${done} de ${total}. Completa los requeridos para activar una recomendación precisa.`;
+        ? "✅ Todo listo. Cuando envíes, te compartimos tu ruta personalizada en el día."
+        : `⚙️ Campos completados: ${done} de ${total}. Te faltan: ${missingFields.join(", ")}.`;
 
     if (isComplete) {
       whatsappDraft.classList.remove("form-whatsapp--disabled");
@@ -1893,7 +1923,9 @@ if (form && status && whatsappDraft) {
     const isReady = updateLeadProgress();
     if (!isReady) {
       event.preventDefault();
-      status.textContent = "Completa los campos obligatorios antes de continuar por WhatsApp.";
+      const data = new FormData(form);
+      const missingFields = getRequiredMissingFields(data);
+      status.textContent = `Completa ${missingFields.length} campo(s) clave para enviar por WhatsApp: ${missingFields.join(", ")}.`;
     }
   });
 
@@ -1902,6 +1934,17 @@ if (form && status && whatsappDraft) {
 
     if (!form.checkValidity()) {
       status.textContent = "Completa los campos marcados como obligatorios para enviar una ruta precisa.";
+      const missingFields = getRequiredMissingFields(new FormData(form));
+      const firstMissing = missingFields[0];
+      if (firstMissing) {
+        const fieldName = Object.keys(requiredLeadFieldLabels).find(
+          (name) => requiredLeadFieldLabels[name] === firstMissing,
+        );
+        const missingInput = form.querySelector(`[name="${fieldName || firstMissing}"]`);
+        if (missingInput) {
+          missingInput.focus();
+        }
+      }
       form.reportValidity();
       return;
     }
