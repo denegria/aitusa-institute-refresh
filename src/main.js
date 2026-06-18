@@ -1053,7 +1053,7 @@ app.innerHTML = `
         <div>
           <p class="section-kicker">¿Necesitas ayuda para configurarte?</p>
           <h3>Si no estás seguro de qué equipo usar, te orientamos antes de tu primera clase.</h3>
-          <p>Puedes escribirnos por WhatsApp o pasar por el formulario para que el equipo te ayude a dejarlo listo.</p>
+          <p>Escríbenos por WhatsApp o completa el formulario y te ayudamos a dejarlo listo antes de empezar.</p>
         </div>
         <div class="books-cta__actions">
           <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Pedir ayuda</a>
