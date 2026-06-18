@@ -135,8 +135,8 @@ const launchPathSection = () => {
     <section id="ruta" class="section section--path section--white" aria-labelledby="ruta-title">
       <div class="section-inner section-heading section-heading--compact">
         <p class="section-kicker">Ruta de arranque</p>
-        <h2 id="ruta-title">Tu progreso real en tres semanas</h2>
-        <p>Combinamos diagnóstico real, práctica guiada y seguimiento para que avances sin esperar meses para ver resultados.</p>
+        <h2 id="ruta-title">Así empiezan tus primeras tres semanas.</h2>
+        <p>Combinamos diagnóstico, práctica guiada y seguimiento para que sepas qué pasa en cada paso desde el inicio.</p>
       </div>
       <div class="section-inner path-grid">
         ${launchPath
