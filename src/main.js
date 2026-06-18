@@ -73,13 +73,25 @@ const initHeroQuickCaptureBridge = () => {
   }
 
   const goalToInterest = {
+    "Quiero comprobar método y estilo en clase real": "Inglés",
+    "Quiero revisar opciones de horario": "Inglés",
+    "Necesito ruta para mi hijo o hija": "Niños",
+    "Quiero una ruta para niños o adultos": "Inglés",
+    "Busco ruta para niños o adultos": "Inglés",
     "Quiero clase real primero": "Inglés",
     "Quiero clase real": "Inglés",
     "Quiero revisar horarios": "Inglés",
     "Necesito opción para mi hijo/a": "Niños",
     "Quiero ruta para niños o adultos": "Inglés",
-    "Busco ruta para niños o adultos": "Inglés",
   };
+
+  const normalizeGoal = (value = "") =>
+    `${value || ""}`
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .replace(/\s+/g, " ")
+      .trim();
 
   const quickName = quickCaptureForm.querySelector("[data-hero-quick-name]");
   const quickPhone = quickCaptureForm.querySelector("[data-hero-quick-phone]");
@@ -139,8 +151,32 @@ const initHeroQuickCaptureBridge = () => {
       }
     }
 
-    if (leadInterest && goalToInterest[quickGoalValue]) {
-      leadInterest.value = goalToInterest[quickGoalValue];
+    if (leadInterest) {
+      const normalizedGoal = normalizeGoal(quickGoalValue);
+      const matchedGoal = goalToInterest[quickGoalValue] || (() => {
+        if (normalizedGoal.includes("hijo") || normalizedGoal.includes("hija")) {
+          return "Niños";
+        }
+        if (
+          normalizedGoal.includes("niños") ||
+          normalizedGoal.includes("nino") ||
+          normalizedGoal.includes("joven")
+        ) {
+          return "Niños";
+        }
+        if (
+          normalizedGoal.includes("ingles") ||
+          normalizedGoal.includes("clase real") ||
+          normalizedGoal.includes("horario")
+        ) {
+          return "Inglés";
+        }
+        return "";
+      })();
+
+      if (matchedGoal) {
+        leadInterest.value = matchedGoal;
+      }
     }
 
     if (leadPersona && !leadPersona.value) {
