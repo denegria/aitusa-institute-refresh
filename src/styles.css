@@ -2072,6 +2072,7 @@ select {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  min-height: 50px;
 }
 
 .schedule-chip-list span {
@@ -2081,6 +2082,10 @@ select {
   background: rgba(12, 60, 231, 0.08);
   font-size: 0.84rem;
   font-weight: 850;
+}
+
+.schedule-card__cta {
+  justify-self: start;
 }
 
 .location-grid {

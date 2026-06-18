@@ -456,21 +456,29 @@ const schedules = [
     label: "Mañanas",
     times: ["8:30 am a 9:30 am", "9:30 am a 10:30 am", "10:30 am a 11:30 am"],
     bestFor: "Ideal para quienes quieren empezar el día con una rutina fija.",
+    cta: "Ver mañanas",
+    whatsappHint: "Me conviene más el turno de mañana.",
   },
   {
     label: "Noches",
     times: ["6:20 pm a 7:30 pm", "7:30 pm a 8:40 pm", "8:40 pm a 9:50 pm"],
     bestFor: "Pensado para después del trabajo o de las clases escolares.",
+    cta: "Ver noches",
+    whatsappHint: "Me conviene más el turno de noche.",
   },
   {
     label: "Sábados",
     times: ["10:00 am a 1:00 pm", "3:00 pm a 5:30 pm"],
     bestFor: "Útil para quienes trabajan entre semana o tienen horarios variables.",
+    cta: "Ver sábados",
+    whatsappHint: "Me conviene más el turno de sábado.",
   },
   {
     label: "Domingos",
     times: ["10:00 am a 12:30 pm"],
     bestFor: "Buena opción para mantener continuidad sin afectar la semana laboral.",
+    cta: "Ver domingos",
+    whatsappHint: "Me conviene más el turno de domingo.",
   },
 ];
 

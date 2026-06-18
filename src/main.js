@@ -869,6 +869,12 @@ app.innerHTML = `
                   <div class="schedule-chip-list">${schedule.times
                     .map((time) => `<span>${time}</span>`)
                     .join("")}</div>
+                  <a
+                    class="schedule-card__cta button button--ghost"
+                    href="${site.whatsappHref}?text=${encodeURIComponent(`Hola AiT USA Institute, quiero más información sobre el horario de ${schedule.label.toLowerCase()}. ${schedule.whatsappHint}`)}"
+                  >
+                    ${schedule.cta || "Quiero este horario"}
+                  </a>
                 </article>
               `,
             )
