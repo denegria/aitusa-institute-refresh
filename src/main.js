@@ -157,7 +157,7 @@ const launchPathSection = () => {
       </div>
       <div class="section-inner path-cta">
         <a class="button button--primary" href="#experiencia">Ver la clase real</a>
-        <a class="button button--ghost" href="#cursos">Ver programas disponibles</a>
+        <a class="button button--ghost" href="#cursos">Explorar cursos</a>
       </div>
     </section>
   `;
@@ -542,7 +542,7 @@ app.innerHTML = `
           <p class="hero__lead">${site.heroLead || site.description}</p>
           <div class="hero__actions">
             <a class="button button--primary" href="#experiencia">Ver la clase real</a>
-            <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Agenda tu clase de muestra</a>
+            <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Pedir orientación</a>
           </div>
           <p class="hero__microcopy">
             Mira la clase real primero y luego te ayudamos a elegir nivel, sede y modalidad.
