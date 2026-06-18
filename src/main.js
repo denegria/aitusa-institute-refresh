@@ -64,6 +64,14 @@ const contactMessage = encodeURIComponent(
   "Hola AiT USA Institute, vi la clase real y quiero una ruta clara de inicio: clases, horarios y modalidad para mi caso.",
 );
 
+const requiredLeadFields = [
+  { name: "nombre", label: "Nombre" },
+  { name: "apellido", label: "Apellido" },
+  { name: "email", label: "Email" },
+  { name: "telefono", label: "Teléfono" },
+  { name: "ubicacion", label: "País y ciudad" },
+];
+
 const leadIntentProfiles = {
   default: {
     intent: "Información general",
@@ -1497,6 +1505,7 @@ app.innerHTML = `
           </div>
           <label>País y ciudad <input name="ubicacion" required /></label>
           <button class="button button--primary" type="submit">Solicitar orientación</button>
+          <p class="form-progress" role="status" aria-live="polite" data-form-progress></p>
           <p class="form-status" role="status" data-form-status></p>
           <a class="button button--ghost form-whatsapp" data-form-whatsapp href="${site.whatsappHref}?text=${contactMessage}">Continuar por WhatsApp</a>
         </form>
@@ -1719,6 +1728,7 @@ if (form && status && whatsappDraft) {
   const contactIntentTitle = form.querySelector("[data-contact-intent-title]");
   const contactIntentCopy = form.querySelector("[data-contact-intent-copy]");
   const contactIntentAction = form.querySelector("[data-contact-intent-action]");
+  const progressIndicator = form.querySelector("[data-form-progress]");
   let activeLeadIntent = "default";
 
   const getLeadIntentProfile = (intent) => leadIntentProfiles[intent] || leadIntentProfiles.default;
@@ -1766,14 +1776,28 @@ if (form && status && whatsappDraft) {
     ].join("\n");
   };
 
-const syncWhatsAppDraft = () => {
+  const syncWhatsAppDraft = () => {
     const data = new FormData(form);
     const message = buildLeadMessage(data);
     whatsappDraft.href = `${site.whatsappHref}?text=${encodeURIComponent(message)}`;
     if (contactIntentAction) {
       contactIntentAction.href = whatsappDraft.href;
     }
+    updateLeadProgress();
     return message;
+  };
+
+  const updateLeadProgress = () => {
+    if (!progressIndicator) return;
+
+    const data = new FormData(form);
+    const total = requiredLeadFields.length;
+    const done = requiredLeadFields.filter((field) => `${data.get(field.name) || ""}`.trim().length > 0).length;
+
+    progressIndicator.textContent =
+      done === total
+        ? "✅ Listo para enviar: todos los datos clave están completos."
+        : `🧩 Campos completados: ${done} de ${total}. Completa los requeridos para activar una recomendación precisa.`;
   };
 
   const initLeadIntentFromHero = () => {
@@ -1832,6 +1856,13 @@ const syncWhatsAppDraft = () => {
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
+
+    if (!form.checkValidity()) {
+      status.textContent = "Completa los campos marcados como obligatorios para enviar una ruta precisa.";
+      form.reportValidity();
+      return;
+    }
+
     const message = syncWhatsAppDraft();
     status.textContent = "Listo. Abre WhatsApp para enviar tu mensaje y recibir una recomendación más rápida.";
     whatsappDraft.focus();
