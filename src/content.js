@@ -7,15 +7,15 @@ const site = {
   tagline:
     "Clase real, decisión clara y ruta personalizada en menos de 60 segundos en Nueva Jersey.",
   description:
-    "Mira una clase real en vivo y descubre en minutos si AiT USA Institute encaja con tu ritmo, horario y objetivo: presencial, híbrido u online.",
+    "Mira una clase real de 1:08, valida tu ritmo y horario, y decide con claridad tu ruta de inicio en inglés.",
   heroHeadline:
-    "Mira una clase real en video y define tu ruta de inglés en 60 segundos.",
+    "Mira la clase real ahora y define tu ruta de inglés en 60 segundos.",
   heroLead:
-    "Sin teoría pesada: observa corrección en vivo, ritmo real de clase y cómo elige la modalidad perfecta según tu semana.",
+    "Sin teoría pesada: observa corrección en vivo, ritmo auténtico y cómo adaptamos el formato a tu agenda y meta real.",
   heroQuote:
     "Aprende inglés con evidencia real: cada corrección que ves en la muestra es la misma intensidad de clase real en vivo.",
   heroMicrocopy:
-    "Mira una clase real de 1:08, valida horario y formato, y decide con más confianza en menos de 2 minutos.",
+    "Mira 1:08 de clase real, valida horario y formato, y recibe tu ruta inicial por WhatsApp en el mismo bloque.",
   heroQuickCapture: {
     title: "Tu ruta inicial en 60 segundos",
     copy: "Déjanos nombre y WhatsApp y te mandamos opciones de modalidad, horario y siguiente paso al instante.",

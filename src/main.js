@@ -389,6 +389,12 @@ const syncCoreSchemas = () => {
     },
   };
 
+  const heroSchemaPoster =
+    (site.images && (site.images.hero || site.images.heroPoster || site.images.heroVideoPoster)) ||
+    heroGallery[0]?.videoPoster ||
+    heroGallery[0]?.image ||
+    "";
+
   const videoSchema = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
@@ -400,7 +406,7 @@ const syncCoreSchemas = () => {
     uploadDate: today,
     contentUrl: seoVideo,
     embedUrl: `${websiteUrl}#experiencia`,
-    thumbnailUrl: [seoImage, toAbsoluteSiteUrl("./public/assets/wix/live/hero-female-teacher.jpg")],
+    thumbnailUrl: [seoImage, toAbsoluteSiteUrl(heroSchemaPoster)].filter(Boolean),
     duration: site.seoVideoDuration || "PT1M8S",
     encodingFormat: "video/mp4",
     hasPart: [
