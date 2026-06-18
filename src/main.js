@@ -76,7 +76,15 @@ const courseInterestMap = {
 const initialCourseInterest = courseInterestMap[initialCourseFilter] || "No estoy seguro";
 
 const programInquiryMessage = (program) =>
-  encodeURIComponent(`Hola AiT USA Institute, quiero información sobre ${program.title}.`);
+  encodeURIComponent(
+    [
+      "Hola AiT USA Institute, quiero información sobre este programa.",
+      `Programa: ${program.title}`,
+      `Ideal para: ${program.audience}`,
+      `Modalidad: ${program.mode}`,
+      `Lo estoy viendo porque: ${program.fit}`,
+    ].join("\n"),
+  );
 
 const bookInquiryMessage = encodeURIComponent(
   "Hola AiT USA Institute, quiero información sobre los libros y materiales académicos.",
