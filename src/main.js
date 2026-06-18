@@ -1131,7 +1131,7 @@ app.innerHTML = `
             <label>Edad <input name="edad" inputmode="numeric" /></label>
           </div>
           <div class="form-row">
-            <label>Código país <input name="codigo" placeholder="+1" /></label>
+            <label>Código país (+1) <input name="codigo" placeholder="+1" /></label>
             <label>Teléfono <input name="telefono" type="tel" autocomplete="tel" required /></label>
           </div>
           <label>País y ciudad <input name="ubicacion" required /></label>

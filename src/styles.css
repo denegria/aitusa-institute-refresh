@@ -2474,7 +2474,7 @@ select {
 }
 
 .faq-list details[open] summary::after {
-  content: "–";
+  content: "-";
 }
 
 .faq-list p {
@@ -3184,3 +3184,4 @@ select {
     padding-inline: 16px;
   }
 }
+
