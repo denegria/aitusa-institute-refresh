@@ -671,6 +671,7 @@ app.innerHTML = `
           )
           .join("")}
       </div>
+      <p class="section-inner course-count" data-course-count aria-live="polite">Mostrando ${programs.length} programas.</p>
       <div class="section-inner program-grid" data-program-grid>
         ${programs
           .map(
@@ -1256,16 +1257,26 @@ navEl.addEventListener("click", (event) => {
 
 const filterButtons = [...document.querySelectorAll(".filter-button")];
 const programCards = [...document.querySelectorAll(".program-card")];
+const courseCount = document.querySelector("[data-course-count]");
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const filter = button.dataset.filter;
     filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
 
+    let visibleCount = 0;
     programCards.forEach((card) => {
       const matches = filter === "todos" || card.dataset.category === filter;
       card.hidden = !matches;
+      if (matches) visibleCount += 1;
     });
+
+    if (courseCount) {
+      courseCount.textContent =
+        filter === "todos"
+          ? `Mostrando ${visibleCount} programas.`
+          : `Mostrando ${visibleCount} programas para ${button.textContent?.toLowerCase() || "este filtro"}.`;
+    }
   });
 });
 
