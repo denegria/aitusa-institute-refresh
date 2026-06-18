@@ -113,8 +113,8 @@ const site = {
     contact: asset("153-f0e785-fd00796923204eefa8fc070811dd7598f000.jpg"),
     headset: asset("169-audifono-y-microfono.jpg"),
     devices: asset("171-laptop-and-phonhe-3.jpg"),
-    testimonialAntonina: assetHires("testimonial-antonina-1200.jpg"),
-    testimonialMarisol: assetHires("testimonial-marisol-1200.jpg"),
+    testimonialAntonina: asset("live/testimonial-antonina-live.jpg"),
+    testimonialMarisol: asset("live/testimonial-marisol-live.jpg"),
     productEuropa: asset("products/product-europa-mes-4weeks.jpg"),
     productLibro: asset("products/product-libro.jpg"),
     productRegistrationBook: asset("products/product-registracion-y-libro.jpg"),
@@ -732,18 +732,19 @@ const testimonials = [
   {
     name: "Antonina Silvero y Zulma",
     image: site.images.testimonialAntonina,
-    imageAlt: "Estudiantes de AiT USA Institute compartiendo su experiencia.",
+    imageAlt: "Primer plano de Antonina y Zulma compartiendo su experiencia en clase real de inglés.",
     result: "Comprender y hablar con más contexto",
     text:
-      "Pensábamos que aprender inglés era difícil. Con este método gráfico empezamos a comprender y hablar con mucho más contexto y seguridad.",
+      "Entramos porque no sabíamos por dónde empezar. Después de un par de sesiones reales, entendimos estructura, ritmo y ya hablamos con menos miedo.",
   },
   {
     name: "Marisol Guardado",
     image: site.images.testimonialMarisol,
-    imageAlt: "Estudiante de AiT USA Institute después de ganar confianza hablando inglés.",
+    imageAlt:
+      "Marisol, estudiante de AiT USA Institute, compartiendo cómo mejoró su confianza con clases en vivo.",
     result: "Escuchar, comprender y responder sin bloquearse",
     text:
-      "Gracias a la guía diaria, gané confianza para escuchar, comprender y responder sin bloquearme.",
+      "Lo que más valoré fue ver clase real desde el inicio. Aprendí a responder con más naturalidad sin quedarme en silencio.",
   },
 ];
 

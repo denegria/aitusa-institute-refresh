@@ -2000,7 +2000,7 @@ app.innerHTML = `
                   </div>
                   <div class="testimonial-card__body">
                     <p class="testimonial-card__eyebrow">${item.result}</p>
-                    <p>“${item.text}”</p>
+                    <p class="testimonial-card__quote">${item.text}</p>
                     <strong>${item.name}</strong>
                   </div>
                 </article>

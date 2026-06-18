@@ -3046,6 +3046,8 @@ select {
 
 .testimonial-grid {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
   gap: 16px;
 }
 
@@ -3057,17 +3059,30 @@ select {
   padding: 18px;
   border-color: rgba(255, 255, 255, 0.18);
   background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(4px);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border-left: 4px solid rgba(255, 78, 106, 0.4);
 }
 
 .testimonial-card--featured {
   grid-template-columns: 128px 1fr;
   padding: 22px;
   background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  border-left-width: 6px;
 }
 
 .testimonial-card__media {
   position: relative;
+}
+
+.testimonial-card__media::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  pointer-events: none;
 }
 
 .testimonial-card img {
@@ -3075,6 +3090,7 @@ select {
   height: 96px;
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .testimonial-card--featured img {
@@ -3086,6 +3102,22 @@ select {
   margin: 0 0 10px;
   color: rgba(255, 255, 255, 0.84);
   font-size: 1.03rem;
+}
+
+.testimonial-card__quote {
+  margin: 0;
+  position: relative;
+  padding-left: 12px;
+}
+
+.testimonial-card__quote::before {
+  content: "“";
+  color: #ffe4ea;
+  font-size: 2.1rem;
+  line-height: 0;
+  position: absolute;
+  left: -6px;
+  top: 6px;
 }
 
 .testimonial-card__body .testimonial-card__eyebrow {
@@ -3977,6 +4009,10 @@ select {
   .hero__points,
   .hero__signal,
   .hero__commitment {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonial-grid {
     grid-template-columns: 1fr;
   }
 
