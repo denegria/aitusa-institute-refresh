@@ -1111,8 +1111,8 @@ app.innerHTML = `
             <a href="${site.whatsappHref}?text=${contactMessage}">${site.whatsapp}</a>
             <a href="${site.forms.registration}" target="_blank" rel="noreferrer">Formulario de inscripción</a>
           </div>
-          <p>Primero validamos tu nivel y horario; después confirmamos la inscripción y el punto de arranque más adecuado.</p>
-          <p>El botón de WhatsApp se actualiza con tus datos mientras completas el formulario para que enviar tu información sea más rápido.</p>
+          <p>Primero validamos tu nivel y horario; después confirmamos tu inscripción y el punto de arranque más adecuado.</p>
+          <p>Mientras completas el formulario, el botón de WhatsApp se adapta con tus datos para que enviar la información sea más rápido.</p>
         </div>
         <form class="lead-form" data-lead-form>
           <div class="form-row">
