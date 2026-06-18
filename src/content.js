@@ -510,6 +510,7 @@ const books = [
     subtitle: "Libro introductorio de inglés",
     level: "Introductorio",
     image: asset("031-intro-book-portada.jpg"),
+    bestFor: "Ideal si estás dando tu primer paso y quieres entender la base del método.",
     text: "Aquí empieza la familiarización con el inglés y con la ruta académica del método.",
   },
   {
@@ -517,6 +518,7 @@ const books = [
     subtitle: "Libro del estudiante",
     level: "Básico",
     image: asset("035-step-plus-1-portada.jpg"),
+    bestFor: "Ideal para empezar a construir estructura y confianza desde cero.",
     text: "Introducción al método, la técnica y la estrategia.",
   },
   {
@@ -524,6 +526,7 @@ const books = [
     subtitle: "Libro del estudiante",
     level: "Básico",
     image: asset("037-step-plus-2-portada.jpg"),
+    bestFor: "Ideal si ya viste lo básico y quieres practicar patrones esenciales.",
     text: "Continuación de la base visual para practicar patrones esenciales.",
   },
   {
@@ -531,6 +534,7 @@ const books = [
     subtitle: "Libro del estudiante",
     level: "Intermedio",
     image: asset("039-step-plus-3-portada.jpg"),
+    bestFor: "Ideal si quieres pasar a presente, pasado y futuro con más control.",
     text: "Trabajo sobre tiempos presente, pasado y futuro.",
   },
   {
@@ -538,6 +542,7 @@ const books = [
     subtitle: "Libro del estudiante",
     level: "Intermedio",
     image: asset("041-step-plus-4-portada.jpg"),
+    bestFor: "Ideal para usar los tiempos con mayor seguridad en conversación real.",
     text: "Refuerzo para usar los tiempos con mayor seguridad.",
   },
   {
@@ -545,6 +550,7 @@ const books = [
     subtitle: "Libro del estudiante",
     level: "Avanzado",
     image: asset("043-step-plus-5-portada.jpg"),
+    bestFor: "Ideal si ya tienes base y quieres expresarte con más libertad.",
     text: "Preparación para expresarse con más libertad.",
   },
   {
@@ -552,6 +558,7 @@ const books = [
     subtitle: "Libro del estudiante",
     level: "Avanzado",
     image: asset("045-step-plus-6-portada.jpg"),
+    bestFor: "Ideal si estás listo para cerrar la ruta y avanzar a mayor fluidez.",
     text: "Cierre de ruta para estudiantes listos para avanzar.",
   },
 ];

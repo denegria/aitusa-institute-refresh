@@ -790,6 +790,7 @@ app.innerHTML = `
                   <p class="book-card__level">${book.level}</p>
                   <h3>${book.title}</h3>
                   <span>${book.subtitle}</span>
+                  <p class="book-card__best-for">${book.bestFor}</p>
                   <p>${book.text}</p>
                 </div>
               </article>
