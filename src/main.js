@@ -1487,7 +1487,7 @@ if (form && status && whatsappDraft) {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const message = syncWhatsAppDraft();
-    status.textContent = "Mensaje listo. Haz clic en WhatsApp para enviarlo al equipo y recibir respuesta inmediata.";
+    status.textContent = "Listo. Abre WhatsApp para enviar tu mensaje y recibir una recomendación más rápida.";
     whatsappDraft.focus();
     whatsappDraft.setAttribute("aria-label", `Enviar a WhatsApp: ${message.split("\n")[0]}`);
   });
