@@ -774,6 +774,11 @@ app.innerHTML = `
     <a class="header-cta" href="#experiencia" aria-label="Ver la clase real antes de escribir por WhatsApp">Ver clase real ahora</a>
   </header>
 
+  <div class="quick-cta" aria-label="Acciones rápidas de inicio">
+    <a class="button button--primary" href="#experiencia">Ver clase real en vivo</a>
+    <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Quiero hablar por WhatsApp</a>
+  </div>
+
   <main>
     <section id="inicio" class="hero" style="--hero-image: url('${site.images.hero}')">
       ${heroVideoBackground()}

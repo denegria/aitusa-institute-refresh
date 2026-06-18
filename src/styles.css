@@ -163,6 +163,33 @@ select {
   font-weight: 750;
 }
 
+.quick-cta {
+  position: fixed;
+  z-index: 18;
+  top: 108px;
+  right: clamp(12px, 2vw, 20px);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  background: rgba(8, 16, 44, 0.78);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 16px 30px rgba(5, 9, 29, 0.38);
+}
+
+.quick-cta .button {
+  min-height: 44px;
+  padding: 11px 14px;
+  font-size: 0.82rem;
+}
+
+.quick-cta .button--ghost {
+  border-color: rgba(255, 255, 255, 0.56);
+  background: rgba(255, 255, 255, 0.14);
+}
+
 .site-nav a {
   color: #2a3040;
   transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
@@ -3235,6 +3262,10 @@ select {
 
   .site-nav.is-open {
     display: flex;
+  }
+
+  .quick-cta {
+    display: none;
   }
 
   .site-nav a {
