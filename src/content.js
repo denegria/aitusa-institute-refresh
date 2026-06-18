@@ -4,13 +4,13 @@ const assetHires = (name) => asset(`hires/${name}`);
 const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
-  tagline: "Mira la clase real, toma la mejor decisión y comienza con un plan claro.",
+  tagline: "Mira la clase real en vivo, reduce la duda y empieza con una ruta de inglés que sí funciona.",
   description:
     "Clases presenciales, híbridas y online en Nueva Jersey con video real de aula, instructoras bilingües y seguimiento semanal para avanzar desde hoy.",
   heroHeadline:
-    "Mira primero la clase real y entra al inglés con una ruta que sí avanza.",
+    "Mira primero la clase real y empieza una ruta de inglés con resultados visibles.",
   heroLead:
-    "Cada clase muestra conversación real: correcciones inmediatas, ejercicios prácticos y un plan para que avances desde hoy sin esperar meses para ver resultados.",
+    "Aquí ves la dinámica de una clase real: correcciones inmediatas, ejercicios guiados y un plan práctico para avanzar desde hoy.",
   heroQuote:
     "No se trata de memorizar más. Se trata de comunicarte con soltura en entrevistas, universidad, trabajo y vida cotidiana.",
   canonical: "https://www.aitusainstitute.com/",
@@ -33,12 +33,12 @@ const site = {
   },
   images: {
     logo: asset("006-solo-logo-4-x-4-clases1.png"),
-    hero: assetHires("hero-classroom.jpg"),
-    heroPoster: assetHires("hero-classroom.jpg"),
-    heroVideo: asset("live/hero-female-speaking-360p.mp4"),
+    hero: asset("live/hero-female-classroom.jpg"),
+    heroPoster: asset("live/hero-female-classroom.jpg"),
+    heroVideo: asset("live/hero-female-speaking-1080p.mp4"),
     heroVideoPortrait: asset("live/hero-female-speaking-1080p.mp4"),
     heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
-    heroVideoPoster: assetHires("hero-classroom.jpg"),
+    heroVideoPoster: asset("live/hero-female-classroom.jpg"),
     adultEnglish: assetHires("adult-english-speaking.jpg"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
@@ -82,13 +82,13 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clase real desde el minuto 1: se ve la dinámica, la corrección y el tono de trabajo.",
-  "Manejo visual de conversación para que hables con claridad en entrevistas, escuela y vida diaria.",
+  "Clase real desde el minuto 1: ve la dinámica, la corrección y la energía de la clase en vivo.",
+  "Método visual para hablar con claridad en entrevistas, escuela y vida diaria.",
   "Plan semanal con seguimiento para avanzar incluso con agenda apretada.",
 ];
 
 const heroStartPath = [
-  "Agenda una clase de muestra por WhatsApp con el horario que prefieras.",
+  "Agenda una clase de muestra por WhatsApp con el horario que te quede mejor.",
   "Recibe un diagnóstico inicial y tu plan de arranque en minutos.",
   "Empieza en tu formato ideal, presencial, híbrido u online, sin perder ritmo.",
 ];
@@ -363,11 +363,11 @@ const heroGallery = [
   {
     label: "Clase en vivo",
     title: "Corrección instantánea y conversación guiada para hablar con más claridad desde el primer bloque.",
-    image: "./public/assets/wix/hires/hero-classroom.jpg",
+    image: "./public/assets/wix/live/hero-female-teacher.jpg",
     video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
-    videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
+    videoPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
     imageAlt:
-      "Docente de AiT USA y estudiantes practicando inglés en una clase en vivo con enfoque visual.",
+      "Docente femenina de AiT USA guiando una clase en vivo de conversación en inglés.",
   },
   {
     label: "Atención con presencia",
@@ -405,7 +405,7 @@ const heroGallery = [
 ];
 
 const heroProof = [
-  { value: "20+", label: "años enseñando desde aula real en New Jersey" },
+  { value: "20+", label: "años enseñando inglés con clases reales en New Jersey" },
   { value: "1", label: "minuto de muestra para ver el método en acción" },
   { value: "3", label: "rutas: presencial, híbrido y online" },
 ];
@@ -414,11 +414,11 @@ const instructorClips = [
   {
     title: "Clase de entrevista en vivo",
     eyebrow: "Muestra real",
-    image: "./public/assets/wix/hires/hero-classroom.jpg",
+    image: "./public/assets/wix/live/hero-female-teacher.jpg",
     video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
-    videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
+    videoPoster: "./public/assets/wix/live/hero-female-classroom.jpg",
     imageAlt:
-      "Instructora de AiT USA guiando práctica de entrevista en una clase con método visual.",
+      "Instructora de AiT USA guiando una práctica de entrevista en una clase con método visual.",
     caption:
       "Simulación de entrevista con corrección instantánea para responder con intención y naturalidad.",
     duration: "1:08",
