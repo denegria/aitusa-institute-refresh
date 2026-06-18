@@ -664,6 +664,7 @@ app.innerHTML = `
               <article>
                 <strong>${item.title}</strong>
                 <p>${item.text}</p>
+                <a class="course-guide__link" href="${item.href}">Ver cursos</a>
               </article>
             `,
           )

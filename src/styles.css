@@ -1260,6 +1260,33 @@ select {
   line-height: 1.55;
 }
 
+.course-guide__link {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 14px;
+  color: var(--blue);
+  font-size: 0.84rem;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.course-guide__link::after {
+  content: "→";
+  margin-left: 6px;
+  transition: transform 0.2s ease;
+}
+
+.course-guide__link:hover::after,
+.course-guide__link:focus-visible::after {
+  transform: translateX(2px);
+}
+
+.course-guide__link:focus-visible {
+  outline: 2px solid rgba(12, 60, 231, 0.35);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
 .section--path {
   background: linear-gradient(135deg, #f8f9ff 0%, #edf3ff 68%, #e6f0ff 100%);
 }
