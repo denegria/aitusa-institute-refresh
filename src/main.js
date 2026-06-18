@@ -675,7 +675,7 @@ app.innerHTML = `
           .map(
             (label, index) => `
               <button class="filter-button" type="button" data-filter="${categoryLabel[label]}" aria-pressed="${index === 0 ? "true" : "false"}">
-                <span class="filter-button__label">${label}</span>
+                <span class="filter-button__label" data-base-label="${label}">${label}</span>
                 <span class="filter-button__count">${programCounts[categoryLabel[label]]}</span>
               </button>
             `,
@@ -1293,6 +1293,23 @@ const applyProgramFilter = (filter, activeButton = null, { updateHistory = true 
         ? `Mostrando ${visibleCount} programas.`
         : `Mostrando ${visibleCount} programas para ${activeLabel.toLowerCase()}.`;
   }
+
+  filterButtons.forEach((button) => {
+    const label = button.querySelector(".filter-button__label");
+    const count = button.querySelector(".filter-button__count");
+    if (!label || !count) return;
+
+    const baseLabel = label.dataset.baseLabel || label.textContent || "";
+    label.dataset.baseLabel = baseLabel;
+
+    if (button === activeButton) {
+      label.textContent = `${baseLabel} · ${programCounts[button.dataset.filter || "todos"]}`;
+      count.hidden = true;
+    } else {
+      label.textContent = baseLabel;
+      count.hidden = false;
+    }
+  });
 
   if (updateHistory) {
     const url = new URL(window.location.href);
