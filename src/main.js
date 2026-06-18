@@ -223,7 +223,7 @@ const initHeroQuickCaptureBridge = () => {
   return true;
 };
 const contactMessage = encodeURIComponent(
-  "Hola AiT USA Institute, vi la clase real y quiero una ruta clara de inicio: clases, horarios y modalidad para mi caso.",
+  "Hola AiT USA Institute, vi su muestra de clase y quiero arrancar con una ruta inicial personalizada para decidir hoy: objetivo, nivel y horario.",
 );
 
 const heroQuickCaptureWidget = () => {
@@ -322,7 +322,6 @@ const heroInstructorStrip = () => {
 const requiredLeadFields = [
   { name: "nombre" },
   { name: "apellido" },
-  { name: "email" },
   { name: "telefono" },
   { name: "ubicacion" },
 ];
@@ -339,40 +338,44 @@ const leadIntentProfiles = {
     intent: "Información general",
     interest: "No estoy seguro",
     forWhom: "Para mí",
-    message: "quiero información general sobre sus programas y opciones.",
-    panelTitle: "Ruta sugerida: conversación inicial",
+    message:
+      "quiero una ruta inicial de inglés personalizada para decidir hoy con un criterio práctico y sin perder tiempo.",
+    panelTitle: "Ruta sugerida: decisión segura",
     panelCopy:
-      "Te ayudamos a definir con claridad tu objetivo, tiempo disponible y formato ideal antes de avanzar.",
-    panelAction: "Ver opciones y empezar ruta inicial",
+      "Definimos objetivo, tiempo y formato contigo para pasar de duda a una ruta concreta en menos de 5 minutos.",
+    panelAction: "Ver opciones y empezar mi ruta inicial",
   },
   classSample: {
     intent: "Clase real",
     interest: "Inglés",
     forWhom: "Para mí",
-    message: "quiero ver la clase real y recibir una recomendación de inicio.",
+    message:
+      "quiero ver una clase real y recibir una recomendación clara de inicio para mi caso.",
     panelTitle: "Ruta sugerida: primera mirada práctica",
     panelCopy:
-      "Mira un fragmento real de clase y luego pasamos al formulario con la mejor opción para ti.",
-    panelAction: "Ver clase real y definir mi ruta",
+      "Mira un fragmento real de clase y recibe la mejor ruta de inicio según tu nivel y metas actuales.",
+    panelAction: "Ver clase real y decidir mi siguiente paso",
   },
   scheduleFlex: {
     intent: "Agenda flexible",
     interest: "Inglés",
     forWhom: "Para mí",
-    message: "tengo agenda limitada; por eso quiero ver opciones de horarios flexibles.",
+    message:
+      "tengo agenda limitada y necesito opciones de horario con una ruta de arranque realista para esta semana.",
     panelTitle: "Ruta sugerida: horario inteligente",
     panelCopy:
-      "Tu caso ideal para comparar opciones de mañana, noche o fin de semana antes de registrarte.",
-    panelAction: "Revisar horarios y reservar ruta",
+      "Compara mañana, noche o fin de semana y elige un plan que respete tu rutina real sin fricción.",
+    panelAction: "Revisar horarios y reservar ruta inicial",
   },
   familySupport: {
     intent: "Opciones familiares",
     interest: "Niños",
     forWhom: "Para mi hijo/a",
-    message: "quiero ayuda para elegir opciones para mi familia o para alguien más.",
+    message:
+      "quiero ayuda para elegir opciones para mi familia o alguien a mi cargo con seguridad y continuidad.",
     panelTitle: "Ruta sugerida: decisión familiar",
     panelCopy:
-      "Compara opciones para familias con acompañamiento de seguimiento y te damos un plan sin complicarte el proceso.",
+      "Compara opciones para familias y recibe una ruta clara con continuidad para que toda la decisión sea más fácil.",
     panelAction: "Ver ruta familiar y reservar orientación",
   },
 };
@@ -2418,12 +2421,12 @@ app.innerHTML = `
           <p>Mientras completas el formulario, el botón de WhatsApp se adapta con tus datos para que enviar la información sea más rápido y claro.</p>
         </div>
         <form class="lead-form" data-lead-form>
-          <p class="form-required-note">Campos obligatorios: nombre, apellido, email, teléfono y ciudad.</p>
+          <p class="form-required-note">Campos obligatorios: nombre, apellido, teléfono y ciudad.</p>
           <div class="form-row">
             <label>Nombre <input name="nombre" autocomplete="given-name" placeholder="Tu nombre" required /></label>
             <label>Apellido <input name="apellido" autocomplete="family-name" placeholder="Tu apellido" required /></label>
           </div>
-          <label>Email <input name="email" type="email" autocomplete="email" placeholder="tucorreo@ejemplo.com" required /></label>
+          <label>Email (opcional) <input name="email" type="email" autocomplete="email" placeholder="tucorreo@ejemplo.com" /></label>
           <div class="form-row">
             <label>Para quién es
               <select name="para">
