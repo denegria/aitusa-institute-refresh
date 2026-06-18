@@ -597,6 +597,24 @@ const trustHighlights = [
   },
 ];
 
+const paymentGuides = [
+  {
+    title: "Quiero empezar a hablar inglés",
+    text: "Empieza con la mensualidad o la combinación registración + libro si quieres una ruta completa.",
+    cta: "Pedir orientación por WhatsApp",
+  },
+  {
+    title: "Solo necesito material de estudio",
+    text: "El libro individual funciona bien si ya estás en clase y quieres reforzar la ruta en casa.",
+    cta: "Consultar este material",
+  },
+  {
+    title: "Busco otra área académica o técnica",
+    text: "GED, computación básica y oficina tienen su propio camino según tu objetivo inmediato.",
+    cta: "Ver la opción correcta",
+  },
+];
+
 const downloads = [
   {
     title: "iPhone / iPad",
@@ -822,6 +840,7 @@ window.AITUSA_DATA = {
   teachers,
   testimonials,
   trustHighlights,
+  paymentGuides,
 };
 
 

@@ -25,6 +25,7 @@ const {
   teachers,
   testimonials,
   trustHighlights,
+  paymentGuides,
 } = window.AITUSA_DATA;
 
 const app = document.querySelector("#app");
@@ -984,6 +985,19 @@ app.innerHTML = `
           Si no ves tu modalidad exacta, escríbenos por WhatsApp y te indicamos la opción correcta según
           tu país, horario y tipo de acceso.
         </p>
+      </div>
+      <div class="section-inner payment-guide" aria-label="Ayuda para elegir producto">
+        ${paymentGuides
+          .map(
+            (item) => `
+              <article>
+                <strong>${item.title}</strong>
+                <p>${item.text}</p>
+                <span>${item.cta}</span>
+              </article>
+            `,
+          )
+          .join("")}
       </div>
       <div class="section-inner payment-grid">
         ${storeProducts
