@@ -1322,6 +1322,16 @@ const applyProgramFilter = (filter, activeButton = null, { updateHistory = true 
     courseInterestSelect.value = courseInterestMap[nextFilter] || courseInterestMap.todos;
   }
 
+  if (clearFiltersButton) {
+    if (nextFilter === "todos") {
+      clearFiltersButton.textContent = "Todos los cursos";
+      clearFiltersButton.disabled = true;
+    } else {
+      clearFiltersButton.textContent = "Ver todos";
+      clearFiltersButton.disabled = false;
+    }
+  }
+
   filterButtons.forEach((button) => {
     const label = button.querySelector(".filter-button__label");
     const count = button.querySelector(".filter-button__count");

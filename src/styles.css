@@ -1630,6 +1630,16 @@ select {
   outline-offset: 2px;
 }
 
+.filter-button--reset:disabled {
+  opacity: 0.58;
+  cursor: default;
+  transform: none;
+}
+
+.filter-button--reset:disabled:hover {
+  background: rgba(255, 78, 106, 0.08);
+}
+
 .filter-button__count {
   display: inline-grid;
   place-items: center;
