@@ -940,8 +940,8 @@ app.innerHTML = `
     <section class="section section--blue" aria-labelledby="testimonios-title">
       <div class="section-inner section-heading section-heading--inverted">
         <p class="section-kicker">Prueba social y equipo</p>
-        <h2 id="testimonios-title">Se nota en la clase, en la rutina y en la confianza con la que responden.</h2>
-        <p>Escucha a quienes ya viven el método y conoce al equipo que acompaña cada avance con práctica guiada, seguimiento y corrección en tiempo real.</p>
+        <h2 id="testimonios-title">Dos historias reales, una misma sensación: hablar con más seguridad.</h2>
+        <p>Escucha cómo cambió la experiencia de estudiantes que hoy entienden mejor, responden con menos bloqueo y se sienten acompañadas por un equipo que corrige en vivo.</p>
       </div>
       <div class="section-inner trust-strip" aria-label="Puntos clave del servicio">
         ${trustHighlights
@@ -990,6 +990,7 @@ app.innerHTML = `
                     <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
                   </div>
                   <div class="testimonial-card__body">
+                    <p class="testimonial-card__eyebrow">${item.result}</p>
                     <p>“${item.text}”</p>
                     <strong>${item.name}</strong>
                   </div>

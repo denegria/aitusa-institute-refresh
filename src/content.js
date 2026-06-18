@@ -611,6 +611,7 @@ const testimonials = [
     name: "Antonina Silvero y Zulma",
     image: site.images.testimonialAntonina,
     imageAlt: "Estudiantes de AiT USA Institute compartiendo su experiencia.",
+    result: "Comprender y hablar con más contexto",
     text:
       "Pensábamos que aprender inglés era difícil. Con este método gráfico empezamos a comprender y hablar con mucho más contexto y seguridad.",
   },
@@ -618,6 +619,7 @@ const testimonials = [
     name: "Marisol Guardado",
     image: site.images.testimonialMarisol,
     imageAlt: "Estudiante de AiT USA Institute después de ganar confianza hablando inglés.",
+    result: "Escuchar, comprender y responder sin bloquearse",
     text:
       "Gracias a la guía diaria, gané confianza para escuchar, comprender y responder sin bloquearme.",
   },
