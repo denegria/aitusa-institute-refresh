@@ -96,6 +96,17 @@ const productInquiryMessage = (product) =>
 
 const joinList = (items) => items.map((item) => `<li>${item}</li>`).join("");
 
+const faqShortcuts = () =>
+  `<div class="section-inner faq-shortcuts" aria-label="Atajo de preguntas frecuentes">
+    ${faqs
+      .map(
+        (faq, index) => `
+          <a class="faq-link-chip" href="#pregunta-${index + 1}">${faq.question}</a>
+        `,
+      )
+      .join("")}
+  </div>`;
+
 const initFaqAccordion = () => {
   const faqItems = [...document.querySelectorAll(".faq-list .faq-item")];
   if (!faqItems.length) return;
@@ -1219,6 +1230,7 @@ app.innerHTML = `
           <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Escribir por WhatsApp</a>
         </article>
       </div>
+      ${faqShortcuts()}
       <div class="section-inner faq-list">
         ${faqs
           .map(

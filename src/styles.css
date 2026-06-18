@@ -2651,6 +2651,34 @@ select {
   gap: 12px;
 }
 
+.faq-shortcuts {
+  width: min(var(--max), calc(100% - 36px));
+  margin: 0 auto 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 10px;
+}
+
+.faq-link-chip {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 14px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.93rem;
+  font-weight: 650;
+  background: linear-gradient(180deg, #ffffff, #f4f7ff);
+  line-height: 1.2;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-link-chip:hover,
+.faq-link-chip:focus-visible {
+  border-color: rgba(12, 60, 231, 0.35);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(12, 60, 231, 0.14);
+}
+
 .faq-list details {
   padding: 20px 22px;
 }
