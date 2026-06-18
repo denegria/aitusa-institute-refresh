@@ -869,6 +869,7 @@ app.innerHTML = `
               <article class="location-card">
                 <h3>${location.city}</h3>
                 <p>${location.address}</p>
+                <p class="location-card__best-for">${location.bestFor}</p>
                 <p class="location-card__highlight">${location.highlight}</p>
                 <span>${location.note}</span>
                 <div class="location-card__actions">
