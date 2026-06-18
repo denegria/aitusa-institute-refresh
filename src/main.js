@@ -466,9 +466,26 @@ const launchPathSection = () => {
 const spotlightSection = () => {
   const clip = instructorClips[0];
   const proofItems = [
-    { value: "1:08", label: "clase real con habla guiada" },
-    { value: "Live", label: "video local de alta calidad" },
-    { value: "100%", label: "enfoque humano y práctico" },
+    { value: "1:08", label: "muestra real de clase en vivo" },
+    { value: "100%", label: "corrección personalizada al instante" },
+    { value: "Local", label: "video alojado en el sitio, sin dependencias externas" },
+  ];
+  const steps = [
+    {
+      title: "Reproduce la clase",
+      description:
+        "Mira exactamente cómo suena y se siente aprender con una instructora guiándote en vivo.",
+    },
+    {
+      title: "Compara modalidad",
+      description:
+        "Escoge online o presencial y revisa qué opción se adapta mejor a tu agenda y objetivos.",
+    },
+    {
+      title: "Habla por WhatsApp",
+      description:
+        "Solicita una muestra más larga o pide que te ayude el asesor para arrancar esta semana.",
+    },
   ];
 
   return `
@@ -480,21 +497,33 @@ const spotlightSection = () => {
         </div>
         <div class="spotlight-copy">
           <p class="section-kicker">Experiencia real</p>
-          <h2 id="experiencia-title">Antes de inscribirte, mira cómo se siente practicar con una instructora que corrige en vivo.</h2>
+          <h2 id="experiencia-title">Antes de decidir, mira cómo se siente una clase real de principio a fin.</h2>
           <p>
-            La diferencia es tangible: se ve, se escucha y se entiende. Esta es la parte que más confianza
-            construye, porque el estudiante deja de imaginar el método y empieza a percibirlo.
+            Aquí puedes ver una clase local de alta calidad para que evalúes si el método, el ritmo y la forma de
+            corrección encajan contigo. En menos de un minuto tienes una idea real de la experiencia.
           </p>
           <ul class="spotlight-points">
             ${joinList([
-              "Video local de alta calidad para mostrar conversación real sin depender de embeds externos.",
-              "Correcciones inmediatas para que la pronunciación y la estructura se afinen mientras hablas.",
-              "Ritmo visual pensado para que los padres y estudiantes entiendan la propuesta en segundos.",
+              "Verás la dinámica de clase completa, no un clip promocional editado.",
+              "La profesora corrige pronunciación y estructura en tiempo real.",
+              "El enfoque visual facilita entender la metodología incluso en el primer vistazo.",
             ])}
           </ul>
           <blockquote class="spotlight-quote">
-            “Pensábamos que aprender inglés era difícil. Con este método gráfico empezamos a comprender y hablar con mucho más contexto y seguridad.”
+            “Con esta clase entendimos rápido el tipo de enseñanza. Se siente práctico, claro y fácil de seguir.”
           </blockquote>
+          <div class="spotlight-journey" aria-label="Ruta para empezar">
+            ${steps
+              .map(
+                (step) => `
+                  <article>
+                    <span class="spotlight-journey-step">${step.title}</span>
+                    <p>${step.description}</p>
+                  </article>
+                `,
+              )
+              .join("")}
+          </div>
           <div class="spotlight-proof" aria-label="Indicadores del video">
             ${proofItems
               .map(
@@ -508,8 +537,8 @@ const spotlightSection = () => {
               .join("")}
           </div>
           <div class="spotlight-actions">
-            <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Quiero una muestra</a>
-            <a class="button button--ghost" href="#cursos">Ver opciones de curso</a>
+            <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Quiero una muestra completa</a>
+            <a class="button button--ghost" href="#cursos">Ver modalidades y cursos</a>
           </div>
         </div>
       </div>

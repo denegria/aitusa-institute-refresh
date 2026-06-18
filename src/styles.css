@@ -1920,6 +1920,36 @@ select {
   gap: 12px;
 }
 
+.spotlight-journey {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.spotlight-journey article {
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #ffffffd9;
+  box-shadow: var(--shadow-soft);
+}
+
+.spotlight-journey-step {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: var(--red);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.spotlight-journey p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .spotlight-proof article {
   padding: 16px;
   border-radius: var(--radius);
@@ -3821,7 +3851,8 @@ select {
   .payment-grid,
   .utility-strip,
   .path-grid,
-  .spotlight-proof {
+  .spotlight-proof,
+  .spotlight-journey {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -4063,6 +4094,7 @@ select {
   .schedule-intro,
   .utility-strip,
   .path-grid,
+  .spotlight-journey,
   .spotlight-proof,
   .faq-intro,
   .contact-steps {
