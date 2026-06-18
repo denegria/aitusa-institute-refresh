@@ -1074,6 +1074,10 @@ select {
   box-shadow: 0 14px 32px rgba(8, 12, 31, 0.32);
 }
 
+.hero__quick-capture:hover {
+  border-color: rgba(255, 255, 255, 0.34);
+}
+
 .hero__quick-capture__title {
   margin: 0;
   color: #fff;
@@ -1116,6 +1120,13 @@ select {
   font: inherit;
 }
 
+.hero__quick-capture__field input:focus-visible,
+.hero__quick-capture__field select:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.45);
+  outline-offset: 2px;
+  border-color: rgba(255, 255, 255, 0.65);
+}
+
 .hero__quick-capture__field input::placeholder {
   color: rgba(255, 255, 255, 0.52);
 }
@@ -1125,6 +1136,14 @@ select {
   width: 100%;
   min-height: 50px;
   justify-content: center;
+}
+
+.hero__quick-capture .button:focus-visible,
+.hero__intent-card:focus-visible,
+.hero__conversion-strip .button:focus-visible,
+.hero__actions .button:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 26px rgba(20, 64, 230, 0.35);
 }
 
 .hero__quick-capture__status {

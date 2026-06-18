@@ -81,11 +81,31 @@ const heroQuickCaptureWidget = () => {
       <div class="hero__quick-capture__row">
         <label class="hero__quick-capture__field">
           Nombre
-          <input name="hero-quick-name" autocomplete="name" placeholder="Tu nombre" data-hero-quick-name required />
+          <input
+            type="text"
+            name="hero-quick-name"
+            autocomplete="name"
+            minlength="2"
+            maxlength="64"
+            placeholder="Tu nombre"
+            data-hero-quick-name
+            required
+            aria-describedby="hero-quick-capture-note"
+          />
         </label>
         <label class="hero__quick-capture__field">
           WhatsApp
-          <input name="hero-quick-phone" inputmode="tel" autocomplete="tel" placeholder="+1 555 000 0000" data-hero-quick-phone required />
+          <input
+            type="tel"
+            name="hero-quick-phone"
+            inputmode="tel"
+            autocomplete="tel"
+            placeholder="+1 555 000 0000"
+            data-hero-quick-phone
+            required
+            maxlength="20"
+            aria-describedby="hero-quick-capture-note"
+          />
         </label>
       </div>
       <label class="hero__quick-capture__field">
@@ -96,7 +116,7 @@ const heroQuickCaptureWidget = () => {
       </label>
       <button class="button button--primary" type="submit">${heroQuickCaptureData.button || "Recibir ruta por WhatsApp"}</button>
       <p class="hero__quick-capture__status" data-hero-quick-status aria-live="polite"></p>
-      <p class="hero__quick-capture__note">${heroQuickCaptureData.note || "Sin costo y sin compromiso."}</p>
+      <p id="hero-quick-capture-note" class="hero__quick-capture__note">${heroQuickCaptureData.note || "Sin costo y sin compromiso."}</p>
     </form>
   `;
 };
@@ -346,15 +366,15 @@ const heroIntentCards = () => `
   <div class="hero__intent" aria-label="¿Qué objetivo tienes hoy?">
     <a class="hero__intent-card" href="#experiencia" data-intent-card data-intent="classSample">
       <span class="hero__intent-card__label">Quiero ver la clase real</span>
-      <strong>Ver experiencia en vivo</strong>
+      <strong>Ver experiencia de 1:08</strong>
     </a>
     <a class="hero__intent-card" href="#horarios" data-intent-card data-intent="scheduleFlex">
       <span class="hero__intent-card__label">Tengo agenda limitada</span>
-      <strong>Ver horarios disponibles</strong>
+      <strong>Ver horarios y opciones</strong>
     </a>
     <a class="hero__intent-card" href="#contacto" data-intent-card data-intent="familySupport">
-      <span class="hero__intent-card__label">Soy mamá, padre o asesorando a otro</span>
-      <strong>Consultar opciones para familias</strong>
+      <span class="hero__intent-card__label">Busco opción para familia</span>
+      <strong>Consultar rutas para mi hijo/a</strong>
     </a>
   </div>
 `;

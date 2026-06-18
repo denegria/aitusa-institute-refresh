@@ -5,33 +5,33 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Clase real, decisión clara y ruta personalizada en 60 segundos.",
+    "Clase real, decisión clara y ruta personalizada en menos de 60 segundos.",
   description:
-    "Mira la clase real, compara opciones y arranca con una ruta en clase real para avanzar con continuidad desde hoy.",
+    "Mira una clase real, valida el ritmo de aprendizaje y llega a una ruta clara para arrancar con continuidad.",
   heroHeadline:
-    "Mira una clase real en video y define tu ruta de inglés en 90 segundos.",
+    "Mira una clase real en video y define tu ruta de inglés en 60 segundos.",
   heroLead:
-    "Sin teoría pesada: observa corrección en vivo, ritmo real de clase y la diferencia entre asistir, estudiar online o combinar modalidades.",
+    "Sin teoría pesada: observa corrección en vivo, ritmo real de clase y cómo elegimos modalidad según tu semana.",
   heroQuote:
     "Aprende inglés con evidencia real: cada corrección que ves en la muestra es la misma intensidad de clase real en vivo.",
   heroMicrocopy:
-    "Empieza en 60 segundos: mira una clase real, valida horario y formato, y decide con menos incertidumbre.",
+    "Mira una clase real de 1:08, valida horario y formato, y decide con más confianza.",
   heroQuickCapture: {
-    title: "Tu ruta inicial en 30 segundos",
-    copy: "Déjanos tu número y te enviamos por WhatsApp la mejor opción para empezar sin perder tiempo.",
+    title: "Tu ruta inicial en 60 segundos",
+    copy: "Déjanos nombre y WhatsApp y te mandamos opciones de modalidad, horario y siguiente paso al instante.",
     options: [
       "Quiero clase real",
       "Quiero revisar horarios",
       "Necesito opción para mi hijo/a",
       "Busco ruta para niños o adultos",
     ],
-    button: "Recibir ruta por WhatsApp",
-    note: "Sin costo y sin compromiso. Enviamos una ruta clara y un siguiente paso.",
+    button: "Ver mi ruta por WhatsApp",
+    note: "Sin costo y sin compromiso. Solo enviamos un primer mensaje para orientarte mejor.",
   },
   heroHighlights: [
-    "Respuesta en menos de 24 horas",
-    "Opciones para jóvenes, adultos y familias",
-    "Presencial, híbrido y online en Nueva Jersey",
+    "Mira clase real: sin simulaciones.",
+    "Compara presencial, híbrido y online.",
+    "Ruta inicial sin compromiso, enviada en un solo mensaje.",
   ],
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
@@ -102,15 +102,15 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clase real de 1:08 en video para ver corrección, ritmo y estructura en contexto real.",
-  "Método visual para entrenar conversaciones de entrevista, trabajo y vida diaria.",
-  "Ruta semanal con seguimiento real para sostener continuidad incluso con agenda apretada.",
+  "Clase real de 1:08 para validar si el estilo y el ritmo te funcionan.",
+  "Método visual para entrenar conversaciones útiles: entrevista, trabajo y vida diaria.",
+  "Ruta semanal con seguimiento real para sostener continuidad con agenda apretada.",
 ];
 
 const heroStartPath = [
-  "Mira un recorte real en 1:08 y valida si el estilo te sirve.",
-  "Elige objetivo y formato con orientación inicial sin costo.",
-  "Compara horario, modalidad y compromiso para arrancar con continuidad en tu primera semana.",
+  "Mira un recorte real en 1:08 y confirma si el estilo te da claridad.",
+  "Define objetivo y formato en una sola consulta de arranque.",
+  "Compara horarios y elige una ruta realista para tu primera semana.",
 ];
 
 const heroSignal = [
