@@ -6,11 +6,11 @@ const site = {
   legal: "Division of Arrieta Institute LLC",
   tagline: "Habla inglés con confianza desde la primera clase, con práctica real y guía humana.",
   description:
-    "Clases presenciales, híbridas y online en Nueva Jersey para hablar inglés con más seguridad: conversación guiada, método visual y seguimiento semanal para avanzar desde hoy.",
+    "Clases presenciales, híbridas y online en Nueva Jersey con video real de aula, instructoras bilingües y seguimiento semanal para avanzar desde hoy.",
   heroHeadline:
-    "Empieza a hablar inglés con más seguridad desde la primera semana con un método visual, guiado y pensado para resultados reales.",
+    "Empieza a hablar inglés con más seguridad desde la primera semana con video real, práctica guiada y resultados visibles.",
   heroLead:
-    "Entrena con sesiones en vivo, retroalimentación inmediata y tareas orientadas a contexto para que avances con una ruta clara, sin perder tiempo en memorizar sin contexto.",
+    "Entrena con sesiones en vivo, retroalimentación inmediata y tareas orientadas a contexto para que avances con una ruta clara y sin perder tiempo en memorizar sin uso real.",
   heroQuote:
     "No se trata de memorizar más. Se trata de comunicarte con soltura en entrevistas, universidad, trabajo y vida cotidiana.",
   canonical: "https://www.aitusainstitute.com/",

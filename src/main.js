@@ -735,11 +735,11 @@ app.innerHTML = `
     <section id="metodo" class="section section--white" aria-labelledby="metodo-title">
       <div class="section-inner split">
         <div>
-          <p class="section-kicker">Método Graphic Concept</p>
+          <p class="section-kicker">Cómo enseñamos</p>
           <h2 id="metodo-title">Comprender. Practicar. Hablar. Repetir.</h2>
           <p>
-            Graphic Concept organiza vocabulario, tiempos y estructura para acelerar la comprensión.
-            Cada bloque está diseñado para pasar de “lo teórico” a “lo útil” con más práctica y menos confusión.
+            Nuestro método visual organiza vocabulario, tiempos y estructura para acelerar la comprensión.
+            Cada bloque está diseñado para pasar de lo teórico a lo útil con más práctica y menos confusión.
           </p>
         </div>
         <div class="method-list">
@@ -889,8 +889,8 @@ app.innerHTML = `
     <section class="section section--white" aria-labelledby="about-title">
       <div class="section-inner about-grid">
         <div class="about-copy">
-          <p class="section-kicker">Nosotros</p>
-          <h2 id="about-title">Una institución de New Jersey enfocada en inglés práctico y resultados visibles.</h2>
+          <p class="section-kicker">Quiénes somos</p>
+          <h2 id="about-title">Una escuela de New Jersey enfocada en inglés práctico y resultados visibles.</h2>
           <p>
             Con más de 20 años de experiencia, ayudamos a estudiantes dentro y fuera de Estados Unidos
             a aprender inglés mediante una metodología visual, práctica y centrada en objetivos reales.
