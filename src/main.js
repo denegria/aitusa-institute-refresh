@@ -1268,28 +1268,48 @@ navEl.addEventListener("click", (event) => {
 const filterButtons = [...document.querySelectorAll(".filter-button")];
 const programCards = [...document.querySelectorAll(".program-card")];
 const courseCount = document.querySelector("[data-course-count]");
+const programFilters = new Set(Object.values(categoryLabel));
+const initialCourseFilter = (() => {
+  const param = new URL(window.location.href).searchParams.get("curso");
+  return param && programFilters.has(param) ? param : "todos";
+})();
+
+const applyProgramFilter = (filter, activeButton = null) => {
+  const nextFilter = programFilters.has(filter) ? filter : "todos";
+  filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === activeButton)));
+
+  let visibleCount = 0;
+  programCards.forEach((card) => {
+    const matches = nextFilter === "todos" || card.dataset.category === nextFilter;
+    card.hidden = !matches;
+    if (matches) visibleCount += 1;
+  });
+
+  if (courseCount) {
+    const activeLabel = activeButton?.querySelector(".filter-button__label")?.textContent || "este filtro";
+    courseCount.textContent =
+      nextFilter === "todos"
+        ? `Mostrando ${visibleCount} programas.`
+        : `Mostrando ${visibleCount} programas para ${activeLabel.toLowerCase()}.`;
+  }
+
+  const url = new URL(window.location.href);
+  if (nextFilter === "todos") {
+    url.searchParams.delete("curso");
+  } else {
+    url.searchParams.set("curso", nextFilter);
+  }
+  window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+};
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    const filter = button.dataset.filter;
-    filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
-
-    let visibleCount = 0;
-    programCards.forEach((card) => {
-      const matches = filter === "todos" || card.dataset.category === filter;
-      card.hidden = !matches;
-      if (matches) visibleCount += 1;
-    });
-
-    if (courseCount) {
-      const activeLabel = button.querySelector(".filter-button__label")?.textContent || "este filtro";
-      courseCount.textContent =
-        filter === "todos"
-          ? `Mostrando ${visibleCount} programas.`
-          : `Mostrando ${visibleCount} programas para ${activeLabel.toLowerCase()}.`;
-    }
+    applyProgramFilter(button.dataset.filter || "todos", button);
   });
 });
+
+const activeFilterButton = filterButtons.find((button) => button.dataset.filter === initialCourseFilter) || filterButtons[0];
+applyProgramFilter(initialCourseFilter, activeFilterButton);
 
 const form = document.querySelector("[data-lead-form]");
 const status = document.querySelector("[data-form-status]");
