@@ -434,18 +434,18 @@ const heroGallery = [
   {
     label: "Escucha y retroalimentación",
     title: "Interacción real por Zoom para entrenar comprensión y respuesta en tiempo real.",
-    image: asset("live/hero-female-teacher.jpg"),
+    image: assetHires("hero-female-teacher.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-teacher.jpg"),
+    videoPoster: assetHires("hero-female-teacher.jpg"),
     imageAlt:
       "Instructora de AiT USA interactuando con estudiantes en una sesión online de inglés.",
   },
   {
     label: "Clase en vivo",
     title: "Corrección instantánea y conversación guiada para hablar con más claridad desde el primer bloque.",
-    image: asset("live/hero-female-classroom.jpg"),
+    image: assetHires("hero-classroom.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-classroom.jpg"),
+    videoPoster: assetHires("hero-classroom.jpg"),
     imageAlt:
       "Docente femenina de AiT USA guiando una clase en vivo de conversación en inglés.",
   },
@@ -478,9 +478,9 @@ const heroGallery = [
   {
     label: "Resultados reales",
     title: "Seguimiento de progreso con evidencia de resultados en cada módulo.",
-    image: asset("live/hero-female-classroom.jpg"),
+    image: assetHires("hero-classroom.jpg"),
     video: site.images.heroVideoPortrait,
-    videoPoster: asset("live/hero-female-classroom.jpg"),
+    videoPoster: assetHires("hero-classroom.jpg"),
     imageAlt: "Estudiantes de AiT USA aplicando lo aprendido en clase de inglés.",
   },
 ];
@@ -513,9 +513,9 @@ const instructorClips = [
   {
     title: "Clase de entrevista en vivo",
     eyebrow: "Muestra real",
-    image: asset("live/hero-female-teacher.jpg"),
+    image: assetHires("hero-female-teacher.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-teacher.jpg"),
+    videoPoster: assetHires("hero-female-teacher.jpg"),
     imageAlt:
       "Instructora de AiT USA guiando una práctica de entrevista en clase con método visual en inglés.",
     caption:
@@ -536,9 +536,9 @@ const instructorClips = [
   {
     title: "Conexión auténtica en clases online",
     eyebrow: "8 a 13 años",
-    image: asset("live/hero-female-teacher.jpg"),
+    image: assetHires("hero-female-teacher.jpg"),
     video: site.images.heroVideoPortrait,
-    videoPoster: asset("live/hero-female-teacher.jpg"),
+    videoPoster: assetHires("hero-female-teacher.jpg"),
     imageAlt:
       "Estudiante practicando inglés en una clase remota con acompañamiento de la instructora.",
     caption:
@@ -548,9 +548,9 @@ const instructorClips = [
   {
     title: "Respuesta guiada en clase",
     eyebrow: "Sesión de progreso",
-    image: asset("live/hero-female-classroom.jpg"),
+    image: assetHires("hero-classroom.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-classroom.jpg"),
+    videoPoster: assetHires("hero-classroom.jpg"),
     imageAlt: "Instructora de AiT USA interactuando con estudiantes en una clase de inglés.",
     caption:
       "Estrategias y corrección puntual para pasar de comprender a comunicar ideas con mayor naturalidad.",
