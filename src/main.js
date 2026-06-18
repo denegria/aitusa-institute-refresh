@@ -1081,7 +1081,7 @@ app.innerHTML = `
               <article>
                 <strong>${item.title}</strong>
                 <p>${item.text}</p>
-                <a href="#contacto">${item.cta}</a>
+                <a href="${item.href}">${item.cta}</a>
               </article>
             `,
           )

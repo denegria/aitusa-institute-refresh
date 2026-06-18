@@ -649,16 +649,19 @@ const paymentGuides = [
     title: "Quiero empezar a hablar inglés",
     text: "Empieza con la mensualidad o la combinación registración + libro si quieres una ruta completa.",
     cta: "Ver ruta recomendada",
+    href: "#cursos",
   },
   {
     title: "Solo necesito material de estudio",
     text: "El libro individual funciona bien si ya estás en clase y quieres reforzar la ruta en casa.",
     cta: "Ver material",
+    href: "#libros",
   },
   {
     title: "Busco otra área académica o técnica",
     text: "GED, computación básica y oficina tienen su propio camino según tu objetivo inmediato.",
     cta: "Explorar opción",
+    href: "#cursos",
   },
 ];
 
