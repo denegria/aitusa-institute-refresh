@@ -1706,6 +1706,69 @@ select {
   margin-bottom: 18px;
 }
 
+.course-quick-paths {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.course-quick-path {
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--white);
+  padding: 14px;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.course-quick-path:hover {
+  transform: translateY(-2px);
+  border-color: rgba(12, 60, 231, 0.35);
+  box-shadow: 0 16px 36px rgba(12, 23, 58, 0.15);
+}
+
+.course-quick-path:focus-visible {
+  outline: 2px solid rgba(12, 60, 231, 0.35);
+  outline-offset: 2px;
+}
+
+.course-quick-path.is-active {
+  border-color: var(--blue);
+  background: rgba(12, 60, 231, 0.04);
+}
+
+.course-quick-path__title {
+  color: var(--blue);
+  font-family: var(--font-display);
+  font-size: 0.96rem;
+  line-height: 1.2;
+  font-weight: 850;
+}
+
+.course-quick-path__copy {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.course-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0 18px;
+}
+
+.course-shortcuts .button {
+  flex: 1;
+  justify-content: center;
+}
+
 .course-guide article {
   padding: 18px 20px;
   border-radius: var(--radius);
@@ -3846,6 +3909,7 @@ select {
   .reason-grid,
   .program-grid,
   .course-guide,
+  .course-quick-paths,
   .location-grid,
   .download-grid,
   .payment-grid,
@@ -4081,6 +4145,7 @@ select {
   .reason-grid,
   .program-grid,
   .course-guide,
+  .course-quick-paths,
   .book-grid,
   .location-grid,
   .download-grid,
@@ -4098,6 +4163,11 @@ select {
   .spotlight-proof,
   .faq-intro,
   .contact-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .course-shortcuts {
+    display: grid;
     grid-template-columns: 1fr;
   }
 

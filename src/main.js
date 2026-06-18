@@ -1177,8 +1177,26 @@ app.innerHTML = `
     <section id="cursos" class="section section--soft" aria-labelledby="cursos-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Cursos</p>
-        <h2 id="cursos-title">Elige la ruta que mejor encaja con tu meta de hoy.</h2>
-        <p>Inglés ESL, apoyo académico y tecnología en rutas claras para aprender, practicar y avanzar con disciplina. Si dudas, empieza por la primera tarjeta y te orientamos desde ahí.</p>
+        <h2 id="cursos-title">En 45 segundos tienes una ruta de curso clara.</h2>
+        <p>Elegimos entre inglés realista, apoyo académico y tecnología. Si quieres resultados rápidos, primero filtra por necesidad y luego compara horario + modalidad.</p>
+        <div class="course-quick-paths" aria-label="Ruta rápida según tu objetivo">
+          <button class="course-quick-path" type="button" data-course-filter-quick="todos">
+            <span class="course-quick-path__title">Comparar todo</span>
+            <span class="course-quick-path__copy">Revisa todas las opciones y encuentra tu mejor ajuste.</span>
+          </button>
+          <button class="course-quick-path" type="button" data-course-filter-quick="ingles">
+            <span class="course-quick-path__title">Hablar inglés rápido</span>
+            <span class="course-quick-path__copy">Prioriza práctica comunicativa para trabajo, escuela y vida diaria.</span>
+          </button>
+          <button class="course-quick-path" type="button" data-course-filter-quick="ninos">
+            <span class="course-quick-path__title">Soy padre o madre</span>
+            <span class="course-quick-path__copy">Empieza por rutas para 8-13 años con apoyo y seguimiento.</span>
+          </button>
+          <button class="course-quick-path" type="button" data-course-filter-quick="academico">
+            <span class="course-quick-path__title">Mejora resultados académicos</span>
+            <span class="course-quick-path__copy">Enfócate en examen GED, matemáticas y soporte escolar.</span>
+          </button>
+        </div>
         <div class="course-pill-row" aria-label="Enfoques principales">
           <span>ESL en vivo</span>
           <span>Apoyo académico</span>
@@ -1210,6 +1228,17 @@ app.innerHTML = `
           )
           .join("")}
         <button class="filter-button filter-button--reset" type="button" data-clear-filters>Limpiar filtros</button>
+      </div>
+      <div class="course-shortcuts">
+        <a class="course-shortcuts__primary button button--primary" href="#horarios">Ver horarios y modalidad</a>
+        <a
+          class="course-shortcuts__ghost button button--ghost"
+          href="${site.whatsappHref}?text=${encodeURIComponent(
+            "Hola AiT USA Institute, quiero una recomendación de curso según mi disponibilidad y objetivo."
+          )}"
+        >
+          Hablar con asesor
+        </a>
       </div>
       <p class="section-inner course-count" data-course-count aria-live="polite">Mostrando ${programs.length} programas.</p>
       <div class="section-inner program-grid" data-program-grid>
@@ -1952,6 +1981,7 @@ const programCards = [...document.querySelectorAll(".program-card")];
 const programGrid = document.querySelector("[data-program-grid]");
 const courseCount = document.querySelector("[data-course-count]");
 const clearFiltersButton = document.querySelector("[data-clear-filters]");
+const quickCourseFilters = [...document.querySelectorAll("[data-course-filter-quick]")];
 const courseInterestSelect = document.querySelector('select[name="interes"]');
 const programFilters = new Set(Object.values(categoryLabel));
 const scheduleFilterButtons = [...document.querySelectorAll("[data-schedule-filter]")];
@@ -1996,6 +2026,9 @@ const applyScheduleFilter = (filter = "todos", activeButton = null) => {
 const applyProgramFilter = (filter, activeButton = null, { updateHistory = true, scrollToResults = false } = {}) => {
   const nextFilter = programFilters.has(filter) ? filter : "todos";
   filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === activeButton)));
+  quickCourseFilters.forEach((button) =>
+    button.classList.toggle("is-active", button.dataset.courseFilterQuick === nextFilter),
+  );
 
   let visibleCount = 0;
   programCards.forEach((card) => {
@@ -2064,6 +2097,14 @@ const applyProgramFilter = (filter, activeButton = null, { updateHistory = true,
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     applyProgramFilter(button.dataset.filter || "todos", button, { scrollToResults: true });
+  });
+});
+
+quickCourseFilters.forEach((button) => {
+  button.addEventListener("click", () => {
+    const nextFilter = button.dataset.courseFilterQuick || "todos";
+    const matchButton = filterButtons.find((item) => item.dataset.filter === nextFilter) || filterButtons[0];
+    applyProgramFilter(nextFilter, matchButton, { scrollToResults: true });
   });
 });
 
