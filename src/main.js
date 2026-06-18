@@ -401,6 +401,10 @@ const heroMedia = () => {
         <div class="hero__media-overlay hero__media-overlay--hero">
           <div class="hero__media-tag">Video real · 1:08</div>
           ${heroVideoFacts()}
+          <button class="hero__video-chip" type="button" data-hero-play-button aria-label="Reproducir video de clase real">
+            <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
+            Ver video de muestra
+          </button>
           <a class="hero__video-chip" href="${site.whatsappHref}?text=${contactMessage}" aria-label="Enviar mensaje para agendar una sesión de muestra">
             <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
             Ver sesión de muestra
@@ -545,6 +549,19 @@ const initHeroFallbacks = () => {
   heroVideo.addEventListener("loadeddata", () => {
     heroVideo.classList.remove("is-hidden");
     heroFallbackImage.classList.add("is-hidden");
+  });
+};
+
+const initHeroPlayButton = () => {
+  const heroVideo = document.querySelector("[data-hero-player]");
+  const heroPlayButton = document.querySelector("[data-hero-play-button]");
+
+  if (!heroVideo || !heroPlayButton) return;
+
+  heroPlayButton.addEventListener("click", () => {
+    heroVideo.play().catch(() => {
+      heroPlayButton.textContent = "Toca aquí para reproducir";
+    });
   });
 };
 
@@ -1388,6 +1405,7 @@ app.innerHTML = `
 initHeroBackground();
 initHeroShowcase();
 initHeroFallbacks();
+initHeroPlayButton();
 
 const menuToggle = document.querySelector(".menu-toggle");
 const navEl = document.querySelector(".site-nav");
