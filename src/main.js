@@ -1290,16 +1290,18 @@ navEl.addEventListener("click", (event) => {
 
 const filterButtons = [...document.querySelectorAll(".filter-button[data-filter]")];
 const programCards = [...document.querySelectorAll(".program-card")];
+const programGrid = document.querySelector("[data-program-grid]");
 const courseCount = document.querySelector("[data-course-count]");
 const clearFiltersButton = document.querySelector("[data-clear-filters]");
 const courseInterestSelect = document.querySelector('select[name="interes"]');
 const programFilters = new Set(Object.values(categoryLabel));
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const initialCourseFilter = (() => {
   const param = new URL(window.location.href).searchParams.get("curso");
   return param && programFilters.has(param) ? param : "todos";
 })();
 
-const applyProgramFilter = (filter, activeButton = null, { updateHistory = true } = {}) => {
+const applyProgramFilter = (filter, activeButton = null, { updateHistory = true, scrollToResults = false } = {}) => {
   const nextFilter = programFilters.has(filter) ? filter : "todos";
   filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === activeButton)));
 
@@ -1358,17 +1360,24 @@ const applyProgramFilter = (filter, activeButton = null, { updateHistory = true 
     }
     window.history.pushState({}, "", `${url.pathname}${url.search}${url.hash}`);
   }
+
+  if (scrollToResults && programGrid) {
+    programGrid.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  }
 };
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    applyProgramFilter(button.dataset.filter || "todos", button);
+    applyProgramFilter(button.dataset.filter || "todos", button, { scrollToResults: true });
   });
 });
 
 clearFiltersButton?.addEventListener("click", () => {
   const allButton = filterButtons.find((button) => button.dataset.filter === "todos") || filterButtons[0];
-  applyProgramFilter("todos", allButton);
+  applyProgramFilter("todos", allButton, { scrollToResults: true });
 });
 
 const activeFilterButton = filterButtons.find((button) => button.dataset.filter === initialCourseFilter) || filterButtons[0];
