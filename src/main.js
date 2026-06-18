@@ -1350,12 +1350,12 @@ app.innerHTML = `
       </div>
     </section>
 
-        <section id="horarios" class="section section--white" aria-labelledby="horarios-title">
+    <section id="horarios" class="section section--white" aria-labelledby="horarios-title">
           <div class="section-inner split split--center">
             <div>
               <p class="section-kicker">Horarios y modalidad</p>
-              <h2 id="horarios-title">Elige el horario y la modalidad que mejor se adapta a tu semana.</h2>
-              <p class="section-kicker">Filtra por horario para decidir en 30 segundos.</p>
+              <h2 id="horarios-title">Selecciona tu horario ideal en 30 segundos.</h2>
+              <p class="section-kicker">Filtra por horario y combina modalidad con disponibilidad real.</p>
               <div class="schedule-intro">
                 <article>
                   <strong>Flexible</strong>
@@ -1388,6 +1388,7 @@ app.innerHTML = `
             <button class="schedule-filter-button" type="button" data-schedule-filter="noche" aria-pressed="false">Noche</button>
             <button class="schedule-filter-button" type="button" data-schedule-filter="fin-de-semana" aria-pressed="false">Fin de semana</button>
           </div>
+          <p class="schedule-count" data-schedule-count aria-live="polite">Mostrando ${schedules.length} opciones de horario.</p>
         </div>
         <div class="schedule-panel">
           ${schedules
@@ -1987,6 +1988,7 @@ const programFilters = new Set(Object.values(categoryLabel));
 const scheduleFilterButtons = [...document.querySelectorAll("[data-schedule-filter]")];
 const scheduleCards = [...document.querySelectorAll(".schedule-card[data-schedule-profile]")];
 const scheduleFilterValues = new Set(scheduleFilterButtons.map((button) => button.dataset.scheduleFilter).filter(Boolean));
+const scheduleCount = document.querySelector("[data-schedule-count]");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const mobileActionBar = document.querySelector("[data-mobile-action-bar]");
 
@@ -2011,6 +2013,7 @@ const initialCourseInterest = courseInterestMap[initialCourseFilter] || courseIn
 
 const applyScheduleFilter = (filter = "todos", activeButton = null) => {
   const nextFilter = scheduleFilterValues.has(filter) ? filter : "todos";
+  let visibleCount = 0;
 
   scheduleFilterButtons.forEach((item) => item.classList.toggle("is-active", item === activeButton));
   scheduleFilterButtons.forEach((item) =>
@@ -2020,7 +2023,13 @@ const applyScheduleFilter = (filter = "todos", activeButton = null) => {
   scheduleCards.forEach((card) => {
     const matches = nextFilter === "todos" || card.dataset.scheduleProfile === nextFilter;
     card.hidden = !matches;
+    if (matches) visibleCount += 1;
   });
+
+  if (scheduleCount) {
+    scheduleCount.textContent =
+      nextFilter === "todos" ? `Mostrando ${visibleCount} opciones de horario.` : `Mostrando ${visibleCount} opciones para ${nextFilter}.`;
+  }
 };
 
 const applyProgramFilter = (filter, activeButton = null, { updateHistory = true, scrollToResults = false } = {}) => {
