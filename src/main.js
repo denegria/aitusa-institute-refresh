@@ -1172,9 +1172,9 @@ app.innerHTML = `
           <div class="form-row">
             <label>Para quién es
               <select name="para">
-                <option>Mi</option>
-                <option>Hijo/a</option>
-                <option>Alguien</option>
+                <option>Para mí</option>
+                <option>Para mi hijo/a</option>
+                <option>Para otra persona</option>
               </select>
             </label>
             <label>Edad <input name="edad" inputmode="numeric" /></label>
@@ -1412,7 +1412,7 @@ if (form && status && whatsappDraft) {
     "Hola AiT USA Institute, quiero información.",
     `Nombre: ${data.get("nombre") || "No indicado"} ${data.get("apellido") || ""}`.trim(),
     `Email: ${data.get("email") || "No indicado"}`,
-    `Para: ${data.get("para") || "No indicado"}`,
+    `Es para: ${data.get("para") || "No indicado"}`,
     `Curso de interés: ${data.get("interes") || "No indicado"}`,
     `Edad: ${data.get("edad") || "No indicado"}`,
     `Teléfono: ${(data.get("codigo") || "").trim()} ${data.get("telefono") || "No indicado"}`.trim(),
