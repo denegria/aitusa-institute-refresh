@@ -580,6 +580,38 @@ const syncSeoHead = () => {
   const seoVideo = toAbsoluteSiteUrl(site.seoVideo || site.heroVideo || site.images?.heroVideo);
   const seoImageAlt = site.seoImageAlt || `${site.name} en clase real.`;
   const seoKeywords = site.seoKeywords || "";
+  const seoVideoDuration = site.seoVideoDuration || "PT1M8S";
+  const seoVideoSeconds = (() => {
+    const minutesMatch = seoVideoDuration.match(/PT(?:(\d+)M)?(?:(\d+)S)?/i);
+    if (!minutesMatch) return "68";
+
+    const minutes = Number(minutesMatch[1] || 0);
+    const seconds = Number(minutesMatch[2] || 0);
+    return String(minutes * 60 + seconds);
+  })();
+
+  const setMeta = (selector, attributes) => {
+    const existing = document.querySelector(selector);
+    const node = existing || document.createElement("meta");
+    if (!existing) document.head.appendChild(node);
+
+    Object.entries(attributes).forEach(([key, value]) => {
+      if (value) node.setAttribute(key, String(value));
+    });
+  };
+
+  const ensurePreload = (href, as, type) => {
+    if (!href) return;
+    const already = [...document.querySelectorAll('link[rel="preload"]')].some((link) => link.getAttribute("href") === href && link.getAttribute("as") === as);
+    if (already) return;
+
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = as;
+    link.href = href;
+    if (type) link.type = type;
+    document.head.appendChild(link);
+  };
 
   const titleNode = document.querySelector("title");
   if (titleNode && seoTitle) {
@@ -604,10 +636,26 @@ const syncSeoHead = () => {
   setContent("meta[name='twitter:image:alt']", seoImageAlt);
   setContent("meta[name='twitter:site']", site.twitterHandle || "@AiTUSA_Institute");
   setContent("meta[name='twitter:creator']", site.twitterHandle || "@AiTUSA_Institute");
+  setContent("meta[name='twitter:label1']", "Objetivo");
+  setContent("meta[name='twitter:data1']", "Rutas de inglés en Nueva Jersey");
+  setContent("meta[name='twitter:label2']", "Duración");
+  setContent("meta[name='twitter:data2']", "1:08");
 
   setHref("link[rel='canonical']", canonical);
   setHref("link[rel='alternate'][hreflang='es-US']", canonical);
   setHref("link[rel='alternate'][hreflang='x-default']", canonical);
+
+  setMeta("meta[property='og:video:type']", { property: "og:video:type", content: "video/mp4" });
+  setMeta("meta[property='og:video:width']", { property: "og:video:width", content: "1920" });
+  setMeta("meta[property='og:video:height']", { property: "og:video:height", content: "1080" });
+  setMeta("meta[property='og:video:duration']", { property: "og:video:duration", content: seoVideoSeconds });
+  setMeta("meta[property='og:site_name']", { property: "og:site_name", content: site.name });
+  setMeta("meta[property='og:locale']", { property: "og:locale", content: "en_US" });
+  setMeta("meta[name='robots']", { name: "robots", content: "index, follow" });
+  setMeta("meta[name='googlebot']", { name: "googlebot", content: "index, follow" });
+
+  ensurePreload(heroVideoSources[0], "video", "video/mp4");
+  ensurePreload(seoImage, "image");
 };
 
 const initFaqAccordion = () => {

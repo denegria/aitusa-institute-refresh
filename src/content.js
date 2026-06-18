@@ -113,8 +113,8 @@ const site = {
     contact: asset("153-f0e785-fd00796923204eefa8fc070811dd7598f000.jpg"),
     headset: asset("169-audifono-y-microfono.jpg"),
     devices: asset("171-laptop-and-phonhe-3.jpg"),
-    testimonialAntonina: "./public/assets/wix/hires/testimonial-antonina-1200.jpg",
-    testimonialMarisol: "./public/assets/wix/hires/testimonial-marisol-1200.jpg",
+    testimonialAntonina: assetHires("testimonial-antonina-1200.jpg"),
+    testimonialMarisol: assetHires("testimonial-marisol-1200.jpg"),
     productEuropa: asset("products/product-europa-mes-4weeks.jpg"),
     productLibro: asset("products/product-libro.jpg"),
     productRegistrationBook: asset("products/product-registracion-y-libro.jpg"),
@@ -482,9 +482,9 @@ const instructorClips = [
   {
     title: "Clase de entrevista en vivo",
     eyebrow: "Muestra real",
-    image: "./public/assets/wix/live/hero-female-teacher.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
-    videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
+    image: asset("live/hero-female-teacher.jpg"),
+    video: site.images.heroVideo,
+    videoPoster: site.images.heroVideoPoster,
     imageAlt:
       "Instructora de AiT USA guiando una práctica de entrevista en una clase con método visual.",
     caption:
@@ -494,9 +494,9 @@ const instructorClips = [
   {
     title: "Escucha y responde al instante",
     eyebrow: "Metodología visual",
-    image: "./public/assets/wix/live/hero-female-zoom.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
-    videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
+    image: asset("live/hero-female-zoom.jpg"),
+    video: site.images.heroVideo,
+    videoPoster: site.images.heroVideoPoster,
     imageAlt: "Instructora y estudiante practicando inglés mediante Zoom con enfoque visual y conversación real.",
     caption:
       "Escucha guiada con pausas estratégicas para dominar respuestas rápidas y con significado, no solo pronunciación.",
@@ -505,9 +505,9 @@ const instructorClips = [
   {
     title: "Conexión auténtica en clases online",
     eyebrow: "8 a 13 años",
-    image: "./public/assets/wix/live/hero-female-zoom.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
-    videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
+    image: asset("live/hero-female-zoom.jpg"),
+    video: site.images.heroVideoPortrait,
+    videoPoster: site.images.heroVideoPoster,
     imageAlt:
       "Estudiante practicando inglés en una clase remota con acompañamiento de la instructora.",
     caption:
@@ -517,9 +517,9 @@ const instructorClips = [
   {
     title: "Respuesta guiada en clase",
     eyebrow: "Sesión de progreso",
-    image: "./public/assets/wix/live/hero-female-teacher.jpg",
-    video: "./public/assets/wix/live/hero-female-speaking-1080p.mp4",
-    videoPoster: "./public/assets/wix/hires/hero-classroom.jpg",
+    image: asset("live/hero-female-teacher.jpg"),
+    video: site.images.heroVideo,
+    videoPoster: site.images.heroVideoPoster,
     imageAlt: "Instructora de AiT USA interactuando con estudiantes en una clase de inglés.",
     caption:
       "Estrategias y corrección puntual para pasar de comprender a comunicar ideas con mayor naturalidad.",
@@ -752,7 +752,7 @@ const teachers = [
     name: "Instructora de inglés conversacional",
     intent: "classSample",
     href: "#experiencia",
-    image: "./public/assets/wix/live/hero-female-teacher.jpg",
+    image: asset("live/hero-female-teacher.jpg"),
     imageAlt: "Instructora de AiT USA corrigiendo pronunciación durante una clase real de conversación.",
     role: "Corrección en vivo con seguimiento semanal.",
     description:
@@ -763,7 +763,7 @@ const teachers = [
     name: "Instructora de práctica online",
     intent: "classSample",
     href: "#experiencia",
-    image: "./public/assets/wix/live/hero-female-zoom.jpg",
+    image: asset("live/hero-female-zoom.jpg"),
     imageAlt: "Instructora de AiT USA guiando una clase de inglés por videollamada.",
     role: "Aprendizaje remoto con participación guiada.",
     description:
@@ -774,7 +774,7 @@ const teachers = [
     name: "Instructora de continuidad académica",
     intent: "default",
     href: "#contacto",
-    image: "./public/assets/wix/live/hero-female-classroom.jpg",
+    image: asset("live/hero-female-classroom.jpg"),
     imageAlt: "Instructora de AiT USA motivando a estudiantes en una clase práctica.",
     role: "Soporte constante y ruta personalizada.",
     description:

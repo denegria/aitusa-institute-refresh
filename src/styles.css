@@ -10,6 +10,8 @@
   --muted: #56607a;
   --line: #d8deea;
   --soft: #edf3ff;
+  --soft-deep: #edf4ff;
+  --bg-shine: radial-gradient(circle at 18% 8%, rgba(12, 60, 231, 0.09), transparent 52%);
   --yellow: #f5d15b;
   --hero-radial: radial-gradient(circle at 12% 15%, rgba(255, 78, 106, 0.26), transparent 48%);
   --white: #ffffff;
@@ -37,7 +39,10 @@ html {
 body {
   margin: 0;
   color: var(--ink);
-  background: var(--surface);
+  background:
+    var(--bg-shine),
+    radial-gradient(circle at 90% 0%, rgba(244, 249, 255, 0.85), transparent 45%),
+    var(--surface);
   font-family: var(--font-body);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
@@ -110,12 +115,13 @@ select {
   gap: 24px;
   min-height: 76px;
   padding: 12px clamp(18px, 4vw, 42px);
-  background: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.92));
   border-bottom: 1px solid var(--line);
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(24px);
   box-shadow:
     0 1px 0 rgba(11, 35, 83, 0.08),
     0 18px 32px rgba(12, 28, 64, 0.07);
+  background-blend-mode: screen;
 }
 
 .brand {
@@ -174,16 +180,20 @@ select {
   align-items: center;
   padding: 10px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.36);
-  background: rgba(8, 16, 44, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  background: linear-gradient(120deg, rgba(8, 16, 44, 0.9), rgba(12, 24, 61, 0.76));
   backdrop-filter: blur(16px);
   box-shadow: 0 16px 30px rgba(5, 9, 29, 0.38);
+  isolation: isolate;
+  overflow: hidden;
+}
 }
 
 .quick-cta .button {
   min-height: 44px;
   padding: 11px 14px;
   font-size: 0.82rem;
+  min-width: 165px;
 }
 
 .quick-cta .button--ghost {
@@ -1235,8 +1245,8 @@ select {
   width: min(var(--max), calc(100% - 24px));
   margin: 0 auto;
   padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
-  border-radius: 14px 14px 0 0;
-  background: rgba(8, 16, 44, 0.93);
+  border-radius: 20px 20px 0 0;
+  background: linear-gradient(180deg, rgba(11, 19, 52, 0.97), rgba(6, 11, 36, 0.98));
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-bottom: 0;
@@ -1270,12 +1280,14 @@ select {
   flex: 1;
   white-space: nowrap;
   font-size: 0.9rem;
+  border-radius: 14px;
 }
 
 .mobile-action-bar .button--ghost {
   border-color: rgba(255, 255, 255, 0.42);
   color: var(--white);
   background: transparent;
+  backdrop-filter: blur(6px);
 }
 
 .button {
@@ -1298,7 +1310,7 @@ select {
   background: var(--red);
   color: var(--white);
   box-shadow: 0 14px 28px rgba(255, 78, 106, 0.35);
-  text-transform: uppercase;
+  text-transform: none;
   letter-spacing: 0.01em;
 }
 
