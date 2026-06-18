@@ -1616,6 +1616,20 @@ select {
   transform: translateY(-1px);
 }
 
+.filter-button--reset {
+  color: var(--red);
+  background: rgba(255, 78, 106, 0.08);
+}
+
+.filter-button--reset:hover {
+  background: rgba(255, 78, 106, 0.12);
+}
+
+.filter-button--reset:focus-visible {
+  outline: 2px solid rgba(255, 78, 106, 0.28);
+  outline-offset: 2px;
+}
+
 .filter-button__count {
   display: inline-grid;
   place-items: center;

@@ -681,6 +681,7 @@ app.innerHTML = `
             `,
           )
           .join("")}
+        <button class="filter-button filter-button--reset" type="button" data-clear-filters>Limpiar filtros</button>
       </div>
       <p class="section-inner course-count" data-course-count aria-live="polite">Mostrando ${programs.length} programas.</p>
       <div class="section-inner program-grid" data-program-grid>
@@ -1266,9 +1267,10 @@ navEl.addEventListener("click", (event) => {
   }
 });
 
-const filterButtons = [...document.querySelectorAll(".filter-button")];
+const filterButtons = [...document.querySelectorAll(".filter-button[data-filter]")];
 const programCards = [...document.querySelectorAll(".program-card")];
 const courseCount = document.querySelector("[data-course-count]");
+const clearFiltersButton = document.querySelector("[data-clear-filters]");
 const programFilters = new Set(Object.values(categoryLabel));
 const initialCourseFilter = (() => {
   const param = new URL(window.location.href).searchParams.get("curso");
@@ -1326,6 +1328,11 @@ filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     applyProgramFilter(button.dataset.filter || "todos", button);
   });
+});
+
+clearFiltersButton?.addEventListener("click", () => {
+  const allButton = filterButtons.find((button) => button.dataset.filter === "todos") || filterButtons[0];
+  applyProgramFilter("todos", allButton);
 });
 
 const activeFilterButton = filterButtons.find((button) => button.dataset.filter === initialCourseFilter) || filterButtons[0];
