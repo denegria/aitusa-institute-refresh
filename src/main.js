@@ -671,8 +671,8 @@ app.innerHTML = `
     <section id="cursos" class="section section--soft" aria-labelledby="cursos-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Cursos</p>
-        <h2 id="cursos-title">Programas pensados para resultados medibles y metas reales</h2>
-        <p>Inglés ESL, apoyo académico y tecnología en rutas claras para aprender, practicar y avanzar con disciplina.</p>
+        <h2 id="cursos-title">Elige la ruta que mejor encaja con tu meta de hoy.</h2>
+        <p>Inglés ESL, apoyo académico y tecnología en rutas claras para aprender, practicar y avanzar con disciplina. Si dudas, empieza por la primera tarjeta y te orientamos desde ahí.</p>
         <div class="course-pill-row" aria-label="Enfoques principales">
           <span>ESL en vivo</span>
           <span>Apoyo académico</span>
@@ -686,7 +686,7 @@ app.innerHTML = `
               <article>
                 <strong>${item.title}</strong>
                 <p>${item.text}</p>
-                <a class="course-guide__link" href="${item.href}">Ver cursos</a>
+                <a class="course-guide__link" href="${item.href}">${item.cta}</a>
               </article>
             `,
           )

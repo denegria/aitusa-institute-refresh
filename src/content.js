@@ -178,16 +178,19 @@ const courseGuides = [
     title: "Quiero hablar inglés con más seguridad",
     text: "Empieza por Inglés para jóvenes y adultos u online si quieres una ruta clara para conversación real.",
     href: "?curso=ingles#cursos",
+    cta: "Ver inglés",
   },
   {
     title: "Busco una opción para mi hijo o hija",
     text: "Inglés para niños está pensado para 8 a 13 años con apoyo visual y seguimiento familiar.",
     href: "?curso=ninos#cursos",
+    cta: "Ver niños",
   },
   {
     title: "Necesito apoyo académico o técnico",
     text: "GED, matemáticas y tecnología tienen rutas específicas para que avances con un objetivo concreto.",
     href: "?curso=academico#cursos",
+    cta: "Ver apoyo académico",
   },
 ];
 
