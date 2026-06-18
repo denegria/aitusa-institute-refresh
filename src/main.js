@@ -1645,13 +1645,13 @@ app.innerHTML = `
               href="#experiencia"
               data-intent-action
               data-intent="classSample"
-            >Ver clase real ahora</a>
+            >Ver clase real y decidir</a>
             <a
               class="button button--ghost"
               href="${site.whatsappHref}?text=${contactMessage}"
               data-intent-action
               data-intent="default"
-            >Quiero hablar por WhatsApp</a>
+            >Quiero ruta personalizada por WhatsApp</a>
           </div>
           ${heroIntentCards()}
           ${heroCommitment()}
@@ -1660,7 +1660,7 @@ app.innerHTML = `
           </p>
           ${heroInstructorStrip()}
           <div class="hero__conversion-strip">
-            <a class="button button--primary" href="#contacto" data-intent-action data-intent="default">Quiero mi ruta personalizada</a>
+            <a class="button button--primary" href="#contacto" data-intent-action data-intent="default">Quiero mi ruta inicial personalizada</a>
             <a class="button button--ghost" href="#horarios" data-intent-action data-intent="scheduleFlex">Ver horarios disponibles</a>
           </div>
           ${heroQuickCaptureWidget()}

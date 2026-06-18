@@ -5,33 +5,33 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Clase real, sin simulación: mira cómo aprendemos y decide hoy si este método encaja con tu estilo.",
+    "Clase real en 1:08, sin simulación: decide hoy si este método encaja contigo.",
   description:
-    "Mira una clase real de 1:08, valida tu nivel, ritmo y objetivos, y define tu siguiente paso con evidencia práctica.",
+    "Mira una clase real en video, valida si el ritmo y el estilo te funcionan, y define tu siguiente paso con evidencia práctica.",
   heroHeadline:
-    "Mira una clase real de 1:08 y decide hoy si este método es para ti.",
+    "Mira una clase real en 1:08 y decide hoy si esta experiencia te conviene.",
   heroLead:
-    "Observa una clase real en acción: corrección en vivo, conversación práctica y ritmo auténtico para validar si la experiencia te conviene.",
+    "Observa una clase real en acción: corrección en vivo, conversación práctica y resultados visibles para validar con calma si esta es la ruta correcta para ti.",
   heroQuote:
-    "Sin simulaciones: cada corrección y avance que ves pertenece a una clase real de enseñanza activa.",
+    "Sin simulaciones: lo que escuchas y ves en el video es una clase real y activa de verdadera práctica conversacional.",
   heroMicrocopy:
-    "Reproduce el clip, valida tu nivel y ritmo, y define una ruta inicial con plan y horario de arranque.",
+    "Reproduce el clip, valida tu nivel, ritmo y encaje, y define una ruta inicial con horario concreto para empezar.",
   heroQuickCapture: {
-    title: "Empieza tu ruta en 60 segundos",
+    title: "Empieza tu ruta en menos de 60 segundos",
     copy:
-      "Déjanos tu nombre y WhatsApp. Te respondemos en minutos con objetivo, horario viable y el primer paso para avanzar.",
+      "Déjanos tu nombre y WhatsApp; te respondemos en minutos con una ruta inicial, objetivo y opciones de horario realistas.",
     options: [
       "Quiero validar método y estilo con clase real",
-      "Quiero comparar horarios y formato",
-      "Necesito ruta para mi hijo o hija",
-      "Quiero ruta para niños o adultos",
+      "Quiero comparar presencial, híbrido y online",
+      "Busco ruta para mi hijo/a",
+      "Quiero mejorar inglés para trabajo o entrevistas",
     ],
-    button: "Recibir ruta inicial por WhatsApp ahora",
-    note: "Sin costo y sin compromiso. Te enviamos una recomendación inicial clara y accionable.",
+    button: "Quiero ruta inicial por WhatsApp",
+    note: "Sin costo, sin compromiso y sin venta forzada: solo una recomendación inicial útil para decidir.",
   },
   heroHighlights: [
     "Clase real, sin simulaciones: método, ritmo y estilo visibles desde el primer minuto.",
-    "Compara presencial, híbrido y online en minutos para elegir el formato que sí encaja.",
+    "Compara presencial, híbrido y online para elegir el formato que sí encaja con tu agenda.",
     "Recibe una ruta inicial clara para decidir con más certeza desde hoy.",
   ],
   canonical: "https://www.aitusainstitute.com/",
@@ -41,11 +41,11 @@ const site = {
   whatsapp: "+1 732-379-0593",
   whatsappHref: "https://wa.me/17323790593",
   twitterHandle: "@AiTUSA_Institute",
-  seoTitle: "AiT USA Institute | Clase real de inglés y ruta personalizada en Nueva Jersey",
+  seoTitle: "AiT USA Institute | Clase real en video + ruta personalizada de inglés en Nueva Jersey",
   seoDescription:
-    "Mira una clase real de inglés en 1:08, valida tu estilo y ritmo, y arranca con una ruta personalizada presencial, híbrida u online en Nueva Jersey.",
+    "Mira una clase real de inglés de 1:08, valida tu estilo y ritmo, y arranca con una ruta personalizada presencial, híbrida u online en Nueva Jersey.",
   seoKeywords:
-    "AiT USA Institute, clases de inglés en Nueva Jersey, clase real de inglés en video, clases presenciales de inglés, clases híbridas de inglés, clases online de inglés",
+    "AiT USA Institute, clases de inglés en Nueva Jersey, clase real de inglés en video, clases presenciales de inglés, clases híbridas de inglés, clases online de inglés, método visual de inglés, ruta personalizada de aprendizaje",
   seoImage: assetHires("hero-female-teacher.jpg"),
   seoImageAlt: "Instructora de AiT USA Institute guiando una clase real de inglés.",
   seoVideo: asset("live/hero-female-speaking-1080p.mp4"),
@@ -93,11 +93,11 @@ const site = {
   images: {
     logo: asset("006-solo-logo-4-x-4-clases1.png"),
     hero: assetHires("hero-classroom.jpg"),
-    heroPoster: assetHires("hero-classroom.jpg"),
+    heroPoster: assetHires("hero-female-teacher.jpg"),
     heroVideo: asset("live/hero-female-speaking-1080p.mp4"),
     heroVideoPortrait: asset("live/hero-female-speaking-360p.mp4"),
     heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
-    heroVideoPoster: assetHires("hero-classroom.jpg"),
+    heroVideoPoster: assetHires("hero-female-teacher.jpg"),
     adultEnglish: assetHires("adult-english-speaking.jpg"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
@@ -149,7 +149,7 @@ const heroPoints = [
 const heroHighlights = site.heroHighlights || [];
 
 const heroVideoHighlights = [
-  "Clase real grabada en alta calidad",
+  "Clase real grabada en alta calidad (1080p)",
   "Corrección en vivo + seguimiento semanal",
   "Sin costo de consulta inicial",
   "Presencial, híbrido y online en Nueva Jersey",
@@ -164,15 +164,15 @@ const heroStartPath = [
 const heroSignal = [
   {
     value: "20+",
-    label: "años acompañando rutas reales de aprendizaje en inglés.",
+    label: "años guiando rutas reales de aprendizaje en inglés en Nueva Jersey.",
   },
   {
     value: "1:08",
-    label: "de muestra para validar método, ritmo y formato antes de decidir.",
+    label: "para validar método, ritmo y formato antes de decidir.",
   },
   {
     value: "7 días",
-    label: "para recibir tu ruta inicial y próximos pasos definidos.",
+    label: "para recibir una ruta inicial con plan y horario claros.",
   },
 ];
 
@@ -488,21 +488,21 @@ const heroGallery = [
 const heroProof = [
   {
     value: "20+",
-    label: "años enseñando inglés con clases reales en Nueva Jersey.",
+    label: "años ofreciendo clases reales en Nueva Jersey con enfoque práctico y medible.",
     href: "#about",
     cta: "Ver trayectoria",
     intent: "default",
   },
   {
     value: "1:08",
-    label: "para validar método, ritmo y encaje antes de decidir.",
+    label: "para validar método, ritmo y encaje antes de invertir tiempo y dinero.",
     href: "#experiencia",
     cta: "Ver clase real",
     intent: "classSample",
   },
   {
     value: "3",
-    label: "formatos: presencial, híbrido y online para estudiar en tu ritmo.",
+    label: "formatos para elegir tu estudio: presencial, híbrido y online.",
     href: "#horarios",
     cta: "Comparar horarios",
     intent: "scheduleFlex",
