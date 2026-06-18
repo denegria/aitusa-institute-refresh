@@ -1674,15 +1674,27 @@ app.innerHTML = `
           <ul class="hero__points">
             ${joinList(heroPoints)}
           </ul>
-          <div class="hero__proof" aria-label="Indicadores de confianza">
+        <div class="hero__proof" aria-label="Indicadores de confianza">
             ${heroProof
               .map(
                 (item) => `
-                  <article class="hero__proof-item">
-                    <strong>${item.value}</strong>
-                    <span>${item.label}</span>
-                  </article>
-                `,
+              <article class="hero__proof-item">
+                <strong>${item.value}</strong>
+                <span>${item.label}</span>
+                ${item.href
+                  ? `
+                <a
+                  class="hero__proof-item__cta"
+                  href="${item.href}"
+                  data-intent-action
+                  data-intent="${item.intent || "default"}"
+                >
+                  ${item.cta || "Ver"}
+                </a>
+              `
+                  : ""}
+              </article>
+            `,
               )
               .join("")}
           </div>
@@ -2065,7 +2077,7 @@ app.innerHTML = `
       </div>
     </section>
 
-    <section class="section section--white" aria-labelledby="about-title">
+    <section id="about" class="section section--white" aria-labelledby="about-title">
       <div class="section-inner about-grid">
         <div class="about-copy">
           <p class="section-kicker">Quiénes somos</p>
