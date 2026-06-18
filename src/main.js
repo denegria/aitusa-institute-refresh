@@ -64,17 +64,16 @@ const contactMessage = encodeURIComponent(
   "Hola AiT USA Institute, quiero información sobre clases de inglés.",
 );
 
-const initialCourseInterest = (() => {
-  const interestMap = {
-    ingles: "Inglés",
-    ninos: "Niños",
-    academico: "Académico",
-    tecnologia: "Tecnología",
-    idiomas: "Idiomas",
-  };
+const courseInterestMap = {
+  ingles: "Inglés",
+  ninos: "Niños",
+  academico: "Académico",
+  tecnologia: "Tecnología",
+  idiomas: "Idiomas",
+  todos: "No estoy seguro",
+};
 
-  return interestMap[initialCourseFilter] || "No estoy seguro";
-})();
+const initialCourseInterest = courseInterestMap[initialCourseFilter] || "No estoy seguro";
 
 const programInquiryMessage = (program) =>
   encodeURIComponent(`Hola AiT USA Institute, quiero información sobre ${program.title}.`);
@@ -1293,6 +1292,7 @@ const filterButtons = [...document.querySelectorAll(".filter-button[data-filter]
 const programCards = [...document.querySelectorAll(".program-card")];
 const courseCount = document.querySelector("[data-course-count]");
 const clearFiltersButton = document.querySelector("[data-clear-filters]");
+const courseInterestSelect = document.querySelector('select[name="interes"]');
 const programFilters = new Set(Object.values(categoryLabel));
 const initialCourseFilter = (() => {
   const param = new URL(window.location.href).searchParams.get("curso");
@@ -1316,6 +1316,10 @@ const applyProgramFilter = (filter, activeButton = null, { updateHistory = true 
       nextFilter === "todos"
         ? `Mostrando ${visibleCount} programas.`
         : `Mostrando ${visibleCount} programas para ${activeLabel.toLowerCase()}.`;
+  }
+
+  if (courseInterestSelect) {
+    courseInterestSelect.value = courseInterestMap[nextFilter] || courseInterestMap.todos;
   }
 
   filterButtons.forEach((button) => {
