@@ -54,6 +54,7 @@ const programCounts = initials.reduce((acc, label) => {
 }, {});
 
 const heroMediaPoster = site.heroVideoPoster || site.images.heroVideoPoster || site.images.heroPoster || site.images.hero;
+const heroBackgroundImage = site.images.hero || site.images.heroPoster || heroMediaPoster;
 const heroVideoSources = (() => {
   const isMobile = window.matchMedia("(max-width: 900px)").matches;
   const desktopFirst = site.heroVideo || site.heroVideoPortrait;
@@ -1642,7 +1643,7 @@ app.innerHTML = `
   </div>
 
     <main>
-      <section id="inicio" class="hero" style="--hero-image: url('${heroMediaPoster}')">
+      <section id="inicio" class="hero" style="--hero-image: url('${heroBackgroundImage}')">
       ${heroVideoBackground()}
       <div class="hero__inner">
         <div class="hero__content">

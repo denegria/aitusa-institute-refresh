@@ -11,7 +11,7 @@ const site = {
   heroHeadline:
     "¿Funciona para ti? Mira una clase real de 1:08 y decide hoy con criterio.",
   heroLead:
-    "Observa una clase real de inglés y valida en segundos si hay ritmo, claridad y acompañamiento antes de dar el siguiente paso.",
+    "Observa una clase real de inglés y valida en 60 segundos si hay ritmo, claridad y acompañamiento antes de dar el siguiente paso.",
   heroQuote:
     "Lo que ves en el video es una clase real: conversación auténtica, corrección inmediata y práctica que ocurre en vivo.",
   heroMicrocopy:
@@ -19,7 +19,7 @@ const site = {
   heroQuickCapture: {
     title: "Confirma en 60 segundos si esta ruta te encaja",
     copy:
-      "Déjanos tu nombre y WhatsApp y te respondemos en minutos con una ruta inicial clara: objetivo, horario y formato ideal para tu agenda.",
+      "Déjanos tu nombre y WhatsApp y te respondemos en minutos con una ruta inicial muy clara: objetivo, horario y formato ideal para tu agenda.",
     options: [
       "Quiero validar método y estilo con clase real (1:08)",
       "Quiero comparar presencial, híbrido y online con mi agenda",
@@ -93,7 +93,7 @@ const site = {
   },
   images: {
     logo: asset("006-solo-logo-4-x-4-clases1.png"),
-    hero: asset("live/hero-female-speaking-poster.jpg"),
+    hero: asset("live/hero-female-classroom.jpg"),
     heroPoster: asset("live/hero-female-speaking-poster.jpg"),
     heroVideo: asset("live/hero-female-speaking-1080p.mp4"),
     heroVideoPortrait: asset("live/hero-female-speaking-360p.mp4"),
