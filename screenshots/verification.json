@@ -1,5 +1,5 @@
 {
-  "appUrl": "http://127.0.0.1:52850/index.html",
+  "appUrl": "http://127.0.0.1:55714/index.html",
   "chrome": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
   "results": [
     {
@@ -9,9 +9,9 @@
       "screenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\desktop-home.png",
       "productScreenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\desktop-home-products.png",
       "screenshotError": null,
-      "location": "http://127.0.0.1:52850/index.html",
-      "title": "AiT USA Institute | Clase real de inglés y ruta personalizada en Nueva Jersey",
-      "h1": "¿Funciona para ti? Mira una clase real de 1:08 y decide hoy con criterio.",
+      "location": "http://127.0.0.1:55714/index.html",
+      "title": "AiT USA Institute | Clase real de inglés en 1:08 | Nueva Jersey",
+      "h1": "¿Te sirve esta ruta? Mira una clase real de 1:08 y decide con evidencia.",
       "programs": 9,
       "visiblePrograms": 9,
       "books": 7,
@@ -22,7 +22,7 @@
       "overflowing": [
         {
           "tag": "div",
-          "text": "CLASE REAL DE 1:08 PARA DECIDIR HOY: MÉTODO, RITMO Y ENCAJE CON EVIDENCIA.\n\n¿Funciona para",
+          "text": "MIRA UNA CLASE REAL EN 1:08 Y DECIDE CON EVIDENCIA SI ESTA RUTA ES PARA TI.\n\n¿Te sirve est",
           "scrollWidth": 510,
           "clientWidth": 492
         },
@@ -93,7 +93,7 @@
           "clientWidth": 1158
         }
       ],
-      "pageHeight": 29552,
+      "pageHeight": 29278,
       "interactions": {
         "technologyVisible": 3,
         "formStatus": "Listo. Abre WhatsApp para enviar tu mensaje y recibir una recomendación más rápida.",
@@ -107,9 +107,9 @@
       "screenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\tablet-home.png",
       "productScreenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\tablet-home-products.png",
       "screenshotError": null,
-      "location": "http://127.0.0.1:52850/index.html",
-      "title": "AiT USA Institute | Clase real de inglés y ruta personalizada en Nueva Jersey",
-      "h1": "¿Funciona para ti? Mira una clase real de 1:08 y decide hoy con criterio.",
+      "location": "http://127.0.0.1:55714/index.html",
+      "title": "AiT USA Institute | Clase real de inglés en 1:08 | Nueva Jersey",
+      "h1": "¿Te sirve esta ruta? Mira una clase real de 1:08 y decide con evidencia.",
       "programs": 9,
       "visiblePrograms": 9,
       "books": 7,
@@ -120,9 +120,15 @@
       "overflowing": [
         {
           "tag": "div",
-          "text": "CLASE REAL DE 1:08 PARA DECIDIR HOY: MÉTODO, RITMO Y ENCAJE CON EVIDENCIA.\n\n¿Funciona para",
-          "scrollWidth": 578,
-          "clientWidth": 560
+          "text": "MIRA UNA CLASE REAL EN 1:08 Y DECIDE CON EVIDENCIA SI ESTA RUTA ES PARA TI.\n\n¿Te sirve est",
+          "scrollWidth": 798,
+          "clientWidth": 784
+        },
+        {
+          "tag": "div",
+          "text": "MIRA UNA CLASE REAL EN 1:08 Y DECIDE CON EVIDENCIA SI ESTA RUTA ES PARA TI.\n\n¿Te sirve est",
+          "scrollWidth": 798,
+          "clientWidth": 780
         },
         {
           "tag": "div",
@@ -183,15 +189,9 @@
           "text": "CURSOS\n\nEn 45 segundos tienes una ruta de curso clara.\n\nElegimos entre inglés realista, ap",
           "scrollWidth": 786,
           "clientWidth": 778
-        },
-        {
-          "tag": "div",
-          "text": "Quiero hablar inglés con más seguridad\n\nEmpieza por Inglés para jóvenes y adultos u online",
-          "scrollWidth": 790,
-          "clientWidth": 782
         }
       ],
-      "pageHeight": 38586,
+      "pageHeight": 35628,
       "interactions": {
         "technologyVisible": 3,
         "formStatus": "Listo. Abre WhatsApp para enviar tu mensaje y recibir una recomendación más rápida.",
@@ -205,9 +205,9 @@
       "screenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\mobile-home.png",
       "productScreenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\mobile-home-products.png",
       "screenshotError": null,
-      "location": "http://127.0.0.1:52850/index.html",
-      "title": "AiT USA Institute | Clase real de inglés y ruta personalizada en Nueva Jersey",
-      "h1": "¿Funciona para ti? Mira una clase real de 1:08 y decide hoy con criterio.",
+      "location": "http://127.0.0.1:55714/index.html",
+      "title": "AiT USA Institute | Clase real de inglés en 1:08 | Nueva Jersey",
+      "h1": "¿Te sirve esta ruta? Mira una clase real de 1:08 y decide con evidencia.",
       "programs": 9,
       "visiblePrograms": 9,
       "books": 7,
@@ -218,13 +218,13 @@
       "overflowing": [
         {
           "tag": "div",
-          "text": "CLASE REAL DE 1:08 PARA DECIDIR HOY: MÉTODO, RITMO Y ENCAJE CON EVIDENCIA.\n\n¿Funciona para",
+          "text": "MIRA UNA CLASE REAL EN 1:08 Y DECIDE CON EVIDENCIA SI ESTA RUTA ES PARA TI.\n\n¿Te sirve est",
           "scrollWidth": 372,
           "clientWidth": 354
         },
         {
           "tag": "div",
-          "text": "CLASE REAL DE 1:08 PARA DECIDIR HOY: MÉTODO, RITMO Y ENCAJE CON EVIDENCIA.\n\n¿Funciona para",
+          "text": "MIRA UNA CLASE REAL EN 1:08 Y DECIDE CON EVIDENCIA SI ESTA RUTA ES PARA TI.\n\n¿Te sirve est",
           "scrollWidth": 372,
           "clientWidth": 354
         },
@@ -289,7 +289,7 @@
           "clientWidth": 352
         }
       ],
-      "pageHeight": 58564,
+      "pageHeight": 55901,
       "interactions": {
         "technologyVisible": 3,
         "formStatus": "Listo. Abre WhatsApp para enviar tu mensaje y recibir una recomendación más rápida.",

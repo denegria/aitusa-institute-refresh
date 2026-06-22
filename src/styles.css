@@ -621,6 +621,8 @@ select {
   color: rgba(255, 255, 255, 0.86);
   font-size: 0.77rem;
   line-height: 1.35;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .hero__media-quickfacts {
@@ -914,10 +916,12 @@ select {
 
 .hero h1 {
   max-width: 760px;
-  font-size: var(--text-xl);
+  font-size: clamp(2.2rem, 6.3vw, 3.9rem);
   letter-spacing: -0.01em;
   font-family: var(--font-display);
   text-wrap: balance;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .hero__lead {
@@ -978,6 +982,8 @@ select {
   color: rgba(255, 255, 255, 0.86);
   font-size: 0.84rem;
   line-height: 1.4;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .hero__proof-item__cta {
@@ -1852,6 +1858,13 @@ select {
 .section--blue p,
 .section--contact p {
   color: rgba(255, 255, 255, 0.78);
+}
+
+.section p,
+.section li,
+.section h3 {
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .section h2 {
@@ -4177,11 +4190,11 @@ select {
   }
 
   .hero h1 {
-    font-size: 3.8rem;
+    font-size: clamp(2.45rem, 7.4vw, 3.8rem);
   }
 
   .section h2 {
-    font-size: 3rem;
+    font-size: clamp(2.1rem, 4.8vw, 3.1rem);
   }
 
   .hero__proof,
@@ -4370,7 +4383,7 @@ select {
   }
 
   .hero h1 {
-    font-size: 2.9rem;
+    font-size: clamp(2rem, 8vw, 2.9rem);
   }
 
   .hero__media-frame--hero-primary,
@@ -4435,7 +4448,7 @@ select {
   }
 
   .section h2 {
-    font-size: 2.25rem;
+    font-size: clamp(1.9rem, 7.5vw, 2.5rem);
   }
 
   .instructor-reel {
@@ -4562,7 +4575,7 @@ select {
 
 @media (max-width: 420px) {
   .hero h1 {
-    font-size: 2.45rem;
+    font-size: clamp(2rem, 10vw, 2.5rem);
   }
 
   .hero__lead {
@@ -4570,7 +4583,7 @@ select {
   }
 
   .section h2 {
-    font-size: 2rem;
+    font-size: clamp(1.7rem, 8vw, 2.1rem);
   }
 
   .button {

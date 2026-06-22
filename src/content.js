@@ -5,21 +5,21 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "No adivines si funciona. Mira una clase real en 1:08 y decide con evidencia.",
+    "Mira una clase real en 1:08 y decide con evidencia si esta ruta es para ti.",
   description:
-    "Mira una clase real de inglés y decide en minutos si nuestro método, ritmo y seguimiento encajan con tus metas y tu agenda.",
+    "Mira una clase real de inglés y decide en minutos si nuestro método, ritmo y seguimiento encajan con tus metas, tu tiempo y tu objetivo.",
   heroHeadline:
     "¿Te sirve esta ruta? Mira una clase real de 1:08 y decide con evidencia.",
   heroLead:
-    "Conoce el aula real: corrección en vivo, metodología visual y seguimiento semanal para convertir tu comprensión en conversación útil esta semana.",
+    "Conoce el aula real: corrección en vivo, metodología visual y seguimiento semanal para convertir comprensión en conversación útil esta semana.",
   heroQuote:
     "Lo que ves es la clase real: conversación auténtica, feedback inmediato y práctica aplicada en vivo desde el primer minuto.",
   heroMicrocopy:
-    "Reprodúcela y decide si el ritmo, ambiente y estilo de clase te permiten avanzar con menos bloqueo.",
+    "Reprodúcela, mira el nivel de seguimiento y decide en 60 segundos si este formato te sirve hoy.",
   heroQuickCapture: {
     title: "Revisa tu ruta inicial en 60 segundos",
     copy:
-      "Déjanos tu nombre y WhatsApp y te enviamos una ruta inicial clara: objetivo, formato (presencial, híbrido u online) y horario para empezar ya.",
+      "Déjanos tu nombre y WhatsApp y te enviamos una ruta inicial clara en 60 segundos: objetivo, formato y horario para empezar.",
     options: [
       "Validar método y estilo con una clase real de 1:08",
       "Comparar presencial, híbrido y online con mi agenda",
@@ -28,12 +28,12 @@ const site = {
       "Empezar esta semana",
     ],
     button: "Recibir mi ruta inicial",
-    note: "Sin costo ni compromiso. En 15 minutos te compartimos una ruta inicial concreta.",
+    note: "Sin costo ni compromiso. En 15 minutos te compartimos una ruta inicial concreta y honesta.",
   },
   heroHighlights: [
     "Clase real desde el primer minuto para validar método, ritmo y estilo.",
-    "Compara presencial, híbrido y online según tu disponibilidad.",
-    "Recibe un plan de arranque y empieza con claridad esta semana.",
+    "Compara presencial, híbrido y online de forma realista y sin suposiciones.",
+    "Recibe un plan de arranque y empieza con más claridad esta semana.",
   ],
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
@@ -47,7 +47,7 @@ const site = {
   seoDescription:
     "Mira una clase real de inglés de 1:08 y decide con evidencia si esta ruta te conviene. Elige presencial, híbrido u online en Nueva Jersey y define tu mejor horario.",
   seoKeywords:
-    "AiT USA Institute, clases de inglés Nueva Jersey, clase real de inglés, clases presenciales de inglés, clases híbridas, clases online, clase demo, método visual, ruta personalizada, Bound Brook, Plainfield, Piscataway",
+    "AiT USA Institute, clases de inglés Nueva Jersey, clase real de inglés, clases presenciales de inglés, clases híbridas, clases online, clase demo, método visual, ruta personalizada, Bound Brook, Plainfield, Piscataway, entrevista de trabajo en inglés, inglés conversacional para adultos",
   seoImage: assetHires("hero-classroom.jpg"),
   seoImageAlt: "Instructora de AiT USA enseñando clase real de inglés en Nueva Jersey.",
   seoVideo: asset("live/hero-female-speaking-1080p.mp4"),
