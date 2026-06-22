@@ -472,9 +472,9 @@ const heroGallery = [
   {
     label: "Seguimiento semanal",
     title: "Ruta semanal con acciones claras para convertir práctica en hábito.",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: assetHires("hero-female-teacher.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-zoom.jpg"),
+    videoPoster: assetHires("hero-female-teacher.jpg"),
     imageAlt:
       "Instructora de AiT USA trabajando con una estudiante para mejorar la fluidez y la seguridad.",
   },
@@ -539,9 +539,9 @@ const instructorClips = [
   {
     title: "Conexión auténtica en clases online",
     eyebrow: "8 a 13 años",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: assetHires("hero-female-teacher.jpg"),
     video: site.images.heroVideoPortrait,
-    videoPoster: asset("live/hero-female-zoom.jpg"),
+    videoPoster: assetHires("hero-female-teacher.jpg"),
     imageAlt:
       "Estudiante practicando inglés en una clase remota con acompañamiento de la instructora.",
     caption:
@@ -798,7 +798,7 @@ const teachers = [
     name: "Instructora de práctica online",
     intent: "classSample",
     href: "#experiencia",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: assetHires("hero-female-teacher.jpg"),
     imageAlt: "Instructora de AiT USA guiando una clase de inglés por videollamada.",
     role: "Aprendizaje remoto con participación guiada.",
     description:
