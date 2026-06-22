@@ -1020,6 +1020,11 @@ select {
   color: rgba(241, 245, 255, 0.9);
 }
 
+.hero__content-secondary {
+  display: grid;
+  gap: 14px;
+}
+
 .hero__actions .button--ghost {
   flex: 1 1 220px;
 }
@@ -4167,6 +4172,10 @@ select {
   .hero__signal,
   .hero__commitment {
     grid-template-columns: 1fr;
+  }
+
+  .hero__content-secondary {
+    display: none;
   }
 
   .testimonial-grid {

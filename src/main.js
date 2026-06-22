@@ -1669,8 +1669,6 @@ app.innerHTML = `
           <p class="hero__microcopy">
             ${site.heroMicrocopy || "Empieza en 60 segundos: mira una clase real, valida ritmo y decide con menos incertidumbre."}
           </p>
-          ${heroCommitment()}
-          ${heroInstructorStrip()}
           <div class="hero__conversion-strip">
             <a class="button button--primary" href="#contacto" data-intent-action data-intent="default">Recibir ruta inicial por WhatsApp</a>
             <a class="button button--ghost" href="#horarios" data-intent-action data-intent="scheduleFlex">Ver horarios y elegir ruta</a>
@@ -1680,34 +1678,38 @@ app.innerHTML = `
               .map((copy) => `<span>${copy}</span>`)
               .join("")}
           </div>
-          ${heroSignalCards()}
-          ${heroPathList()}
-          <ul class="hero__points">
-            ${joinList(heroPoints)}
-          </ul>
-        <div class="hero__proof" aria-label="Indicadores de confianza">
-            ${heroProof
-              .map(
-                (item) => `
-              <article class="hero__proof-item">
-                <strong>${item.value}</strong>
-                <span>${item.label}</span>
-                ${item.href
-                  ? `
-                <a
-                  class="hero__proof-item__cta"
-                  href="${item.href}"
-                  data-intent-action
-                  data-intent="${item.intent || "default"}"
-                >
-                  ${item.cta || "Ver"}
-                </a>
-              `
-                  : ""}
-              </article>
-            `,
-              )
-              .join("")}
+          <div class="hero__content-secondary">
+            ${heroCommitment()}
+            ${heroInstructorStrip()}
+            ${heroSignalCards()}
+            ${heroPathList()}
+            <ul class="hero__points">
+              ${joinList(heroPoints)}
+            </ul>
+            <div class="hero__proof" aria-label="Indicadores de confianza">
+              ${heroProof
+                .map(
+                  (item) => `
+                <article class="hero__proof-item">
+                  <strong>${item.value}</strong>
+                  <span>${item.label}</span>
+                  ${item.href
+                    ? `
+                  <a
+                    class="hero__proof-item__cta"
+                    href="${item.href}"
+                    data-intent-action
+                    data-intent="${item.intent || "default"}"
+                  >
+                    ${item.cta || "Ver"}
+                  </a>
+                `
+                    : ""}
+                </article>
+              `,
+                )
+                .join("")}
+            </div>
           </div>
         </div>
         <div class="hero__media">
