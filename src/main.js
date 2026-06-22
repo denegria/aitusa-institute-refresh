@@ -54,7 +54,7 @@ const programCounts = initials.reduce((acc, label) => {
 }, {});
 
 const heroMediaPoster = site.heroVideoPoster || site.images.heroVideoPoster || site.images.heroPoster || site.images.hero;
-const heroBackgroundImage = site.images.hero || site.images.heroPoster || heroMediaPoster;
+const heroBackgroundImage = site.images.heroVideoPoster || site.images.heroPoster || site.images.hero || heroMediaPoster;
 const heroVideoSources = (() => {
   const isMobile = window.matchMedia("(max-width: 900px)").matches;
   const desktopFirst = site.heroVideo || site.heroVideoPortrait;

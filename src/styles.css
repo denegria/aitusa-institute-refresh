@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@500;600;700;800&display=swap");
+
 :root {
   --blue: #0c3ce7;
   --blue-dark: #080d22;
@@ -22,7 +24,7 @@
   --text-xl: clamp(2.55rem, 5.3vw, 4.95rem);
   --text-lg: clamp(1.7rem, 2.8vw, 3.2rem);
   --text-md: 1.1rem;
-  --font-display: "Inter", "Segoe UI Variable Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Manrope", "Inter", "Segoe UI Variable Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Inter", "Segoe UI Variable Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -2456,6 +2458,8 @@ select {
 
 .program-card {
   overflow: hidden;
+  border: 1px solid rgba(12, 60, 231, 0.08);
+  border-radius: var(--radius-lg);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   isolation: isolate;
   display: grid;
@@ -2479,7 +2483,7 @@ select {
 
 .program-card img {
   width: 100%;
-  aspect-ratio: 1.2;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
   background: #dfe5f0;
 }
@@ -2523,9 +2527,9 @@ select {
 }
 
 .program-card__body {
-  padding: 22px;
+  padding: 24px;
   display: grid;
-  gap: 12px;
+  gap: 11px;
 }
 
 .program-card__eyebrow {
