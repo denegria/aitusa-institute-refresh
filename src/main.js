@@ -1739,15 +1739,15 @@ app.innerHTML = `
       <div class="section-inner reel-grid">
         <div class="reel-copy">
           <p class="section-kicker">Clases con presencia humana</p>
-          <h2 id="reel-title">Voces reales, corrección visible y una energía de aula que sí se siente.</h2>
+          <h2 id="reel-title">Clase real, corrección visible y energía de clase que se siente en directo.</h2>
           <p>
-            Las instructoras hablan, corrigen y acompañan en video para que entiendas cómo se ve una sesión real
-            antes de inscribirte. Llegas con menos dudas y más confianza para empezar.
+            Mira cómo trabaja el aula en vivo: conversación real, corrección puntual y acompañamiento. Así validas si este
+            formato encaja con tu meta y tu ritmo antes de inscribirte.
           </p>
           <ul class="reel-copy__points" aria-label="Lo que muestran los clips">
-            <li>Video real de clase, sin simulaciones genéricas.</li>
-            <li>Corrección puntual y seguimiento que se ve en la práctica.</li>
-            <li>Momentos distintos de aula, Zoom y conversación guiada.</li>
+            <li>Video real de clase, sin simulaciones ni promesas vacías.</li>
+            <li>Corrección puntual y seguimiento aplicado desde el primer bloque.</li>
+            <li>Momentos de aula, Zoom y conversación guiada para comparar estilos con claridad.</li>
           </ul>
           <a class="button button--primary" href="#horarios">Ver horarios</a>
         </div>
@@ -1780,7 +1780,7 @@ app.innerHTML = `
       <div class="section-inner intro-grid">
         <div>
           <p class="section-kicker">Por qué somos diferentes</p>
-          <h2 id="diferente-title">Una ruta visual para entender rápido, hablar con precisión y ganar confianza.</h2>
+          <h2 id="diferente-title">Una ruta visual para entender rápido, hablar con precisión y avanzar con confianza.</h2>
           <p>
             El objetivo es práctico: comprender rápido, hablar con precisión y usar el inglés en
             escenarios cotidianos y académicos sin fricción.
@@ -1811,8 +1811,8 @@ app.innerHTML = `
     <section id="cursos" class="section section--soft" aria-labelledby="cursos-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Cursos</p>
-        <h2 id="cursos-title">En 45 segundos tienes una ruta de curso clara.</h2>
-        <p>Elegimos entre inglés realista, apoyo académico y tecnología. Si quieres resultados rápidos, primero filtra por necesidad y luego compara horario + modalidad.</p>
+        <h2 id="cursos-title">En menos de 45 segundos, identifica tu ruta de curso.</h2>
+        <p>Comparamos inglés para vida diaria y trabajo, apoyo académico y tecnología práctica para que halles la opción más funcional para tu rutina.</p>
         <div class="course-quick-paths" aria-label="Ruta rápida según tu objetivo">
           <button class="course-quick-path" type="button" data-course-filter-quick="todos">
             <span class="course-quick-path__title">Comparar todo</span>
@@ -2097,14 +2097,17 @@ app.innerHTML = `
       <div class="section-inner about-grid">
         <div class="about-copy">
           <p class="section-kicker">Quiénes somos</p>
-          <h2 id="about-title">Una escuela de New Jersey enfocada en inglés práctico y resultados visibles.</h2>
+          <h2 id="about-title">Una escuela de Nueva Jersey enfocada en inglés práctico y resultados visibles.</h2>
           <p>
-            Con más de 20 años de experiencia, ayudamos a estudiantes dentro y fuera de Estados Unidos
-            a aprender inglés mediante una metodología visual, práctica y centrada en objetivos reales.
+            Con más de 20 años de experiencia, acompañamos a estudiantes en Estados Unidos y en línea con una metodología
+            visual, práctica y orientada a conversación real para avanzar con confianza desde el inicio.
           </p>
           <div class="about-note">
-            <strong>Lo que cambia en tu primera etapa</strong>
-            <p>Dejas de estudiar en abstracciones y empiezas a reconocer patrones, responder con más naturalidad y mantener continuidad.</p>
+            <strong>Lo que cambia desde la primera semana</strong>
+            <p>
+              Dejamos la teoría suelta y pasamos a práctica guiada para que avances con menos incertidumbre, más continuidad
+              y criterio para decidir si esta modalidad es la correcta para ti.
+            </p>
           </div>
           <a class="button button--primary" href="#cursos">Explorar cursos</a>
         </div>
@@ -2128,10 +2131,10 @@ app.innerHTML = `
     <section class="section section--blue" aria-labelledby="testimonios-title">
       <div class="section-inner section-heading section-heading--inverted">
         <p class="section-kicker">Prueba social y equipo</p>
-        <h2 id="testimonios-title">Antes de inscribirte, ya puedes confirmar si este método te encaja.</h2>
+        <h2 id="testimonios-title">Antes de inscribirte, valida que este método realmente te encaje.</h2>
         <p>
-          Revisamos experiencia real, no promesas: clases visibles, corrección en vivo y una ruta concreta para avanzar con
-          continuidad desde la primera semana.
+          Revisamos experiencia real, no promesas. Aquí ves clases visibles, corrección en vivo y una ruta concreta para
+          decidir con evidencia y avanzar con más claridad.
         </p>
       </div>
       <div class="section-inner trust-strip" aria-label="Puntos clave del servicio">
@@ -2279,8 +2282,8 @@ app.innerHTML = `
     <section class="section section--soft" aria-labelledby="pagos-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Tu punto de entrada</p>
-        <h2 id="pagos-title">Elige la ruta que mejor encaja con tu meta y tu momento.</h2>
-        <p>Si ya sabes lo que buscas, ve directo al plan; si no, te dejamos una guía rápida para elegir sin perder tiempo.</p>
+        <h2 id="pagos-title">Invierte en la ruta que mueve tu meta sin distracciones.</h2>
+        <p>Si ya sabes lo que buscas, ve directo al plan; si estás comparando opciones, aquí te ayudamos a elegir sin ruido.</p>
       </div>
       <div class="section-inner payment-note">
         <p>
@@ -2340,8 +2343,8 @@ app.innerHTML = `
       <section id="faq" class="section section--white" aria-labelledby="faq-title">
         <div class="section-inner section-heading">
           <p class="section-kicker">Preguntas frecuentes</p>
-          <h2 id="faq-title">Resolvemos tus dudas antes de inscribirte.</h2>
-          <p>Antes de decidir, te mostramos las respuestas que más suelen definir si esta ruta encaja con tu rutina y tus metas.</p>
+          <h2 id="faq-title">Resolvemos tus dudas para que avances con velocidad.</h2>
+          <p>Antes de decidir, te mostramos las respuestas que más definen si esta ruta encaja con tu rutina y tus metas.</p>
         </div>
         <div class="section-inner faq-intro">
           <article class="faq-callout">
@@ -2392,10 +2395,10 @@ app.innerHTML = `
       <div class="section-inner contact-grid">
         <div>
           <p class="section-kicker">Comienza ahora</p>
-          <h2 id="contacto-title">Cuéntanos tu meta y armamos tu ruta en minutos.</h2>
+          <h2 id="contacto-title">Cuéntanos tu meta y armamos tu ruta inicial en minutos.</h2>
           <p>
-            Completa el formulario y en minutos te proponemos nivel, horario y formato ideal.
-            Si quieres, primero ve la clase real y luego regresas para avanzar más rápido.
+            Completa el formulario y en pocos minutos te proponemos nivel, horario y formato ideal para empezar sin fricción.
+            Si prefieres, primero mira la clase real y luego te ayudamos a avanzar con una decisión mucho más precisa.
           </p>
           <p class="contact-quick-intent__label">Elige tu prioridad y te preparamos el mensaje inicial exacto:</p>
           <div class="contact-quick-intent" role="group" aria-label="Prioridad para iniciar">
