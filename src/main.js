@@ -1222,8 +1222,8 @@ const heroMedia = () => {
           <div class="hero__media-tag">Video real · 1:08</div>
           ${heroVideoFacts()}
           <div class="hero__media-route">
-            <p class="hero__media-route__title">Tu decisión en 60 segundos</p>
-            <p class="hero__media-route__copy">Mira, valida y decide: ritmo, encaje y siguiente paso en menos de un minuto.</p>
+            <p class="hero__media-route__title">Decide con evidencia en 60 segundos</p>
+            <p class="hero__media-route__copy">Observa el ritmo, método y estilo de clase para elegir tu formato ideal con menos incertidumbre.</p>
           </div>
           <button class="hero__video-chip" type="button" data-hero-play-button aria-label="Reproducir video de clase real">
             <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
@@ -1656,13 +1656,13 @@ app.innerHTML = `
               href="#experiencia"
               data-intent-action
               data-intent="classSample"
-            >Ver clase real de 1:08 y decidir hoy</a>
+            >Ver clase real de 1:08</a>
             <a
               class="button button--ghost"
               href="${site.whatsappHref}?text=${contactMessage}"
               data-intent-action
               data-intent="default"
-            >Quiero ruta personalizada por WhatsApp</a>
+            >Hablar con un asesor</a>
           </div>
           ${heroQuickCaptureWidget()}
           ${heroIntentCards()}
@@ -1670,8 +1670,8 @@ app.innerHTML = `
             ${site.heroMicrocopy || "Empieza en 60 segundos: mira una clase real, valida ritmo y decide con menos incertidumbre."}
           </p>
           <div class="hero__conversion-strip">
-            <a class="button button--primary" href="#contacto" data-intent-action data-intent="default">Recibir ruta inicial por WhatsApp</a>
-            <a class="button button--ghost" href="#horarios" data-intent-action data-intent="scheduleFlex">Ver horarios y elegir ruta</a>
+            <a class="button button--primary" href="#contacto" data-intent-action data-intent="default">Recibir ruta inicial ahora</a>
+            <a class="button button--ghost" href="#horarios" data-intent-action data-intent="scheduleFlex">Ver horarios según mi agenda</a>
           </div>
           <div class="hero__highlights" aria-label="Beneficios">
             ${(site.heroHighlights || site.heroHighlight || [])

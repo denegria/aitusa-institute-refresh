@@ -5,21 +5,21 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Clase real de 1:08 para validar método, ritmo y encaje con criterio en tu semana.",
+    "Clase real de 1:08 para validar método, ritmo y encaje real con tu semana.",
   description:
-    "Mira una clase real de inglés y valida si el método, ritmo y acompañamiento encajan con tus metas y agenda.",
+    "Mira una clase real de inglés y decide en minutos si nuestro método, ritmo y seguimiento encajan con tus metas y tu agenda.",
   heroHeadline:
-    "¿Funciona para ti? Mira una clase real de 1:08 y decide si esta ruta de inglés te encaja.",
+    "¿Te sirve esta ruta? Mira una clase real de 1:08 y decide con evidencia.",
   heroLead:
-    "Conoce de primera mano cómo se entrena en la práctica: metodología visual, corrección inmediata y seguimiento semanal para avanzar desde la primera semana.",
+    "Conoce el aula real: corrección en vivo, metodología visual y seguimiento semanal para hablar con más claridad desde esta semana.",
   heroQuote:
-    "Lo que ves en el clip es la clase real: conversación auténtica, feedback instantáneo y práctica aplicada desde el primer minuto.",
+    "Lo que ves es la clase real: conversación auténtica, feedback inmediato y práctica aplicada en vivo desde el primer minuto.",
   heroMicrocopy:
-    "Reprodúcelo y descubre si tienes ritmo, claridad y ambiente de estudio para empezar esta semana con más confianza.",
+    "Reprodúcelo y decide si ritmo, ambiente y estilo de clase te permiten avanzar con mayor seguridad.",
   heroQuickCapture: {
     title: "Comprueba en 60 segundos si esta ruta te encaja",
     copy:
-      "Déjanos tu nombre y WhatsApp y en minutos te enviamos una ruta inicial práctica: objetivo, horario y formato más conveniente para ti.",
+      "Déjanos tu nombre y WhatsApp y te enviamos una ruta inicial clara: objetivo, formato (presencial, híbrido u online) y horario para empezar hoy.",
     options: [
       "Quiero validar método y estilo con clase real (1:08)",
       "Quiero comparar presencial, híbrido y online con mi agenda",
@@ -28,12 +28,12 @@ const site = {
       "Quiero empezar esta semana",
     ],
     button: "Recibir mi ruta inicial",
-    note: "Sin costo ni compromiso. Te respondemos rápido con una ruta clara para que decidas con evidencia.",
+    note: "Sin costo ni compromiso. En 15 minutos te compartimos una ruta inicial accionable.",
   },
   heroHighlights: [
-    "Clase real desde el primer minuto: ritmo, seguimiento y resultados visibles.",
+    "Clase real desde el primer minuto para validar método, ritmo y confianza.",
     "Compara presencial, híbrido y online según tu disponibilidad.",
-    "Recibe un plan de arranque claro para comenzar con más certeza.",
+    "Recibe un plan de arranque para empezar con más certeza esta semana.",
   ],
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
@@ -42,9 +42,10 @@ const site = {
   whatsapp: "+1 732-379-0593",
   whatsappHref: "https://wa.me/17323790593",
   twitterHandle: "@AiTUSA_Institute",
-  seoTitle: "AiT USA Institute | Clases de inglés con clase real en 1:08 | Nueva Jersey",
+  seoTitle:
+    "AiT USA Institute | Clases de inglés con clase real en 1:08 | Nueva Jersey",
   seoDescription:
-    "Mira una clase real de inglés en video de 1:08 y decide con evidencia. Ruta inicial personalizada para empezar presencial, híbrido u online en Nueva Jersey.",
+    "Mira una clase real de inglés en video de 1:08 y decide con evidencia si esta ruta funciona para ti. Rutas presenciales, híbridas y online en Nueva Jersey.",
   seoKeywords:
     "AiT USA Institute, clases de inglés Nueva Jersey, clase real de inglés, clases presenciales de inglés, clases híbridas, clases online, metodología visual, ruta personalizada, Bound Brook, Plainfield, Piscataway",
   seoImage: assetHires("hero-classroom.jpg"),
@@ -463,17 +464,17 @@ const heroGallery = [
   {
     label: "Clase con foco visual",
     title: "Material visual claro y práctica guiada para reforzar lo aprendido en vivo.",
-    image: asset("live/hero-female-classroom.jpg"),
+    image: assetHires("hero-classroom.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-classroom.jpg"),
+    videoPoster: assetHires("hero-classroom.jpg"),
     imageAlt: "Grupo en clase presencial practicando conversación y pronunciación en inglés.",
   },
   {
     label: "Seguimiento semanal",
     title: "Ruta semanal con acciones claras para convertir práctica en hábito.",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: assetHires("hero-female-teacher.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-zoom.jpg"),
+    videoPoster: assetHires("hero-female-teacher.jpg"),
     imageAlt:
       "Instructora de AiT USA trabajando con una estudiante para mejorar la fluidez y la seguridad.",
   },
@@ -515,9 +516,9 @@ const instructorClips = [
   {
     title: "Clase de entrevista en vivo",
     eyebrow: "Muestra real",
-    image: asset("live/hero-female-classroom.jpg"),
+    image: assetHires("hero-female-teacher.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-classroom.jpg"),
+    videoPoster: assetHires("hero-female-teacher.jpg"),
     imageAlt:
       "Instructora de AiT USA guiando una práctica de entrevista en clase con método visual en inglés.",
     caption:
@@ -538,9 +539,9 @@ const instructorClips = [
   {
     title: "Conexión auténtica en clases online",
     eyebrow: "8 a 13 años",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: assetHires("hero-female-teacher.jpg"),
     video: site.images.heroVideoPortrait,
-    videoPoster: asset("live/hero-female-zoom.jpg"),
+    videoPoster: assetHires("hero-female-teacher.jpg"),
     imageAlt:
       "Estudiante practicando inglés en una clase remota con acompañamiento de la instructora.",
     caption:
@@ -550,9 +551,9 @@ const instructorClips = [
   {
     title: "Respuesta guiada en clase",
     eyebrow: "Sesión de progreso",
-    image: asset("live/hero-female-classroom.jpg"),
+    image: assetHires("hero-classroom.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-classroom.jpg"),
+    videoPoster: assetHires("hero-classroom.jpg"),
     imageAlt: "Instructora de AiT USA interactuando con estudiantes en una clase de inglés.",
     caption:
       "Estrategias y corrección puntual para pasar de comprender a comunicar ideas con mayor naturalidad.",
@@ -786,7 +787,7 @@ const teachers = [
     name: "Instructora de inglés conversacional",
     intent: "classSample",
     href: "#experiencia",
-    image: asset("live/hero-female-classroom.jpg"),
+    image: assetHires("hero-female-teacher.jpg"),
     imageAlt: "Instructora de AiT USA corrigiendo pronunciación durante una clase real de conversación.",
     role: "Corrección en vivo con seguimiento semanal.",
     description:
@@ -797,7 +798,7 @@ const teachers = [
     name: "Instructora de práctica online",
     intent: "classSample",
     href: "#experiencia",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: assetHires("hero-female-teacher.jpg"),
     imageAlt: "Instructora de AiT USA guiando una clase de inglés por videollamada.",
     role: "Aprendizaje remoto con participación guiada.",
     description:
