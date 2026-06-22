@@ -5,21 +5,21 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Mira una clase real en 1:08 y decide con evidencia si esta ruta es para ti.",
+    "Mira una clase real en 1:08 y decide con evidencia si esta ruta te conviene hoy.",
   description:
     "Mira una clase real de inglés y decide en minutos si nuestro método, ritmo y seguimiento encajan con tus metas, tu tiempo y tu objetivo.",
   heroHeadline:
-    "¿Te sirve esta ruta? Mira una clase real de 1:08 y decide con evidencia.",
+    "¿Te sirve esta ruta? Mira una clase real de 1:08 y valida si esta es tu mejor opción.",
   heroLead:
-    "Conoce el aula real: corrección en vivo, metodología visual y seguimiento semanal para convertir comprensión en conversación útil esta semana.",
+    "Conoce una clase real sin filtros: corrección en vivo, método visual y seguimiento semanal para pasar de entender a hablar con más confianza.",
   heroQuote:
     "Lo que ves es la clase real: conversación auténtica, feedback inmediato y práctica aplicada en vivo desde el primer minuto.",
   heroMicrocopy:
-    "Reprodúcela, mira el nivel de seguimiento y decide en 60 segundos si este formato te sirve hoy.",
+    "Reprodúcela, compara modalidades y decide hoy si este formato te encamina a resultados claros.",
   heroQuickCapture: {
-    title: "Revisa tu ruta inicial en 60 segundos",
+    title: "Tu ruta inicial en 60 segundos",
     copy:
-      "Déjanos tu nombre y WhatsApp y te enviamos una ruta inicial clara en 60 segundos: objetivo, formato y horario para empezar.",
+      "Déjanos tu nombre y WhatsApp y te enviamos una ruta inicial en 60 segundos: objetivo, formato y horario.",
     options: [
       "Validar método y estilo con una clase real de 1:08",
       "Comparar presencial, híbrido y online con mi agenda",
@@ -28,12 +28,12 @@ const site = {
       "Empezar esta semana",
     ],
     button: "Recibir mi ruta inicial",
-    note: "Sin costo ni compromiso. En 15 minutos te compartimos una ruta inicial concreta y honesta.",
+    note: "Sin costo ni compromiso. En 10-15 minutos te compartimos una ruta inicial concreta y honesta.",
   },
   heroHighlights: [
     "Clase real desde el primer minuto para validar método, ritmo y estilo.",
     "Compara presencial, híbrido y online de forma realista y sin suposiciones.",
-    "Recibe un plan de arranque y empieza con más claridad esta semana.",
+    "Recibe un plan de arranque y empieza con más claridad hoy.",
   ],
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
@@ -117,8 +117,8 @@ const site = {
     contact: asset("153-f0e785-fd00796923204eefa8fc070811dd7598f000.jpg"),
     headset: asset("169-audifono-y-microfono.jpg"),
     devices: asset("171-laptop-and-phonhe-3.jpg"),
-    testimonialAntonina: assetHires("testimonial-antonina-1200.jpg"),
-    testimonialMarisol: assetHires("testimonial-marisol-1200.jpg"),
+    testimonialAntonina: asset("live/testimonial-antonina-live.jpg"),
+    testimonialMarisol: asset("live/testimonial-marisol-live.jpg"),
     productEuropa: asset("products/product-europa-mes-4weeks.jpg"),
     productLibro: asset("products/product-libro.jpg"),
     productRegistrationBook: asset("products/product-registracion-y-libro.jpg"),
@@ -145,15 +145,15 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clase real de 1:08 para validar método, ritmo y encaje antes de invertir tiempo.",
+  "Clase real de 1:08 para validar método, ritmo y encaje antes de invertir en una ruta.",
   "Ruta inicial visual para entrevistas, trabajo y vida diaria desde esta semana.",
-  "Acompañamiento práctico para avanzar incluso con agenda ocupada.",
+  "Seguimiento semanal para mantener práctica constante aunque tu agenda esté llena.",
 ];
 const heroHighlights = site.heroHighlights || [];
 
 const heroVideoHighlights = [
   "Clase real en 1:08 con corrección en vivo",
-  "Audio e imagen nítidos para evaluar la dinámica de clase",
+  "Audio e imagen nítidos para evaluar tu experiencia de clase",
   "Corrección instantánea + seguimiento semanal",
   "Sin costo de consulta inicial",
   "Presencial, híbrido y online en Nueva Jersey",
@@ -457,9 +457,9 @@ const heroGallery = [
   {
     label: "Seguimiento con presencia",
     title: "Docentes bilingües corrigen en vivo para que avances con menos incertidumbre.",
-    image: assetHires("hero-female-teacher.jpg"),
+    image: asset("live/hero-female-teacher.jpg"),
     video: site.images.heroVideo,
-    videoPoster: assetHires("hero-female-teacher.jpg"),
+    videoPoster: asset("live/hero-female-teacher.jpg"),
     imageAlt:
       "Instructora de AiT USA corrigiendo y motivando a una estudiante durante conversación oral.",
   },
