@@ -31,6 +31,8 @@ const types = {
   ".png": "image/png",
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
+  ".mp4": "video/mp4",
+  ".webm": "video/webm",
 };
 
 const appServer = createServer((request, response) => {
@@ -146,14 +148,14 @@ socket.addEventListener("message", (event) => {
   }
 });
 
-const send = (method, params = {}) =>
+const send = (method, params = {}, timeoutMs = 8000) =>
   new Promise((resolve, reject) => {
     const id = nextId;
     nextId += 1;
     const timer = setTimeout(() => {
       pending.delete(id);
       reject(new Error(`Timed out waiting for ${method}`));
-    }, 8000);
+    }, timeoutMs);
     pending.set(id, {
       resolve: (value) => {
         clearTimeout(timer);
@@ -196,6 +198,69 @@ const evaluate = async (expression) => {
   return result.result.value;
 };
 
+const waitForAppReady = async () => {
+  let lastState = null;
+  const deadline = Date.now() + 10000;
+
+  while (Date.now() < deadline) {
+    try {
+      lastState = await evaluate(`(() => {
+        const app = document.querySelector('#app');
+        return {
+          readyState: document.readyState,
+          appTextLength: app?.innerText?.length || 0,
+          h1: document.querySelector('h1')?.innerText || null,
+          programs: document.querySelectorAll('.program-card').length,
+          faqs: document.querySelectorAll('.faq-list details').length,
+        };
+      })()`);
+
+      if (lastState.h1 && lastState.programs > 0 && lastState.faqs > 0) {
+        return lastState;
+      }
+    } catch {
+      // Navigation can briefly make the runtime unavailable.
+    }
+
+    await sleep(250);
+  }
+
+  throw new Error(`App did not finish rendering: ${JSON.stringify(lastState)}`);
+};
+
+const stabilizeViewport = async () => {
+  await evaluate(`(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.querySelectorAll('video').forEach((video) => {
+      video.pause();
+      try {
+        video.currentTime = 0;
+      } catch {}
+    });
+  })()`);
+  await sleep(250);
+};
+
+const captureViewport = async (name) => {
+  const capture = (fromSurface) =>
+    send(
+      "Page.captureScreenshot",
+      {
+        format: "png",
+        captureBeyondViewport: false,
+        fromSurface,
+      },
+      20000,
+    );
+
+  try {
+    return await capture(true);
+  } catch (error) {
+    console.warn(`Retrying ${name} screenshot without fromSurface: ${error.message}`);
+    return capture(false);
+  }
+};
+
 const verifyViewport = async ({ name, width, height, mobile }) => {
   console.log(`Checking ${name}...`);
   await send("Emulation.setDeviceMetricsOverride", {
@@ -211,7 +276,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     throw new Error(`Navigation failed: ${nav.errorText}`);
   }
   await loaded;
-  await sleep(700);
+  await waitForAppReady();
+  await sleep(400);
 
   const summary = await evaluate(`(async () => {
     const images = [...document.images];
@@ -255,34 +321,25 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     };
   })()`);
 
-  const interactions = await evaluate(`(() => {
-    document.querySelector('[data-filter="tecnologia"]')?.click();
-    const technologyVisible = [...document.querySelectorAll('.program-card')].filter((card) => !card.hidden).length;
-    const form = document.querySelector('[data-lead-form]');
-    form?.querySelector('[name="nombre"]').setAttribute('value', 'Maria');
-    form?.querySelector('[name="apellido"]').setAttribute('value', 'Lopez');
-    form?.querySelector('[name="email"]').setAttribute('value', 'maria@example.com');
-    form?.querySelector('[name="telefono"]').setAttribute('value', '5551234');
-    form?.querySelector('[name="ubicacion"]').setAttribute('value', 'New Jersey');
-    form?.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-    return {
-      technologyVisible,
-      formStatus: document.querySelector('[data-form-status]')?.innerText || '',
-      menuButtonPresent: Boolean(document.querySelector('.menu-toggle')),
-    };
-  })()`);
-
   let target = null;
   let productTarget = null;
   let screenshotError = null;
   try {
-    const shot = await send("Page.captureScreenshot", {
-      format: "png",
-      captureBeyondViewport: false,
-      fromSurface: true,
-    });
+    await stabilizeViewport();
+    const shot = await captureViewport(`${name} home`);
     target = path.join(screenshotsDir, `${name}.png`);
     await writeFile(target, Buffer.from(shot.data, "base64"));
+
+    await evaluate(`(() => {
+      document.querySelector('[data-filter="tecnologia"]')?.click();
+      const form = document.querySelector('[data-lead-form]');
+      form?.querySelector('[name="nombre"]').setAttribute('value', 'Maria');
+      form?.querySelector('[name="apellido"]').setAttribute('value', 'Lopez');
+      form?.querySelector('[name="email"]').setAttribute('value', 'maria@example.com');
+      form?.querySelector('[name="telefono"]').setAttribute('value', '5551234');
+      form?.querySelector('[name="ubicacion"]').setAttribute('value', 'New Jersey');
+      form?.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    })()`);
 
     await evaluate(`(() => {
       const title = document.querySelector('#pagos-title');
@@ -291,16 +348,18 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       window.scrollTo({ top: y, behavior: 'instant' });
     })()`);
     await sleep(400);
-    const productShot = await send("Page.captureScreenshot", {
-      format: "png",
-      captureBeyondViewport: false,
-      fromSurface: true,
-    });
+    const productShot = await captureViewport(`${name} products`);
     productTarget = path.join(screenshotsDir, `${name}-products.png`);
     await writeFile(productTarget, Buffer.from(productShot.data, "base64"));
   } catch (error) {
     screenshotError = error.message;
   }
+
+  const interactions = await evaluate(`(() => ({
+    technologyVisible: [...document.querySelectorAll('.program-card')].filter((card) => !card.hidden).length,
+    formStatus: document.querySelector('[data-form-status]')?.innerText || '',
+    menuButtonPresent: Boolean(document.querySelector('.menu-toggle')),
+  }))()`);
 
   return { name, width, height, screenshot: target, productScreenshot: productTarget, screenshotError, ...summary, interactions };
 };

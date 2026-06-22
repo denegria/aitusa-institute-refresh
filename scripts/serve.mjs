@@ -21,6 +21,8 @@ const types = {
   ".webp": "image/webp",
   ".gif": "image/gif",
   ".svg": "image/svg+xml",
+  ".mp4": "video/mp4",
+  ".webm": "video/webm",
 };
 
 const server = createServer((request, response) => {

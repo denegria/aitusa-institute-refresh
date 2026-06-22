@@ -53,7 +53,7 @@ const programCounts = initials.reduce((acc, label) => {
   return acc;
 }, {});
 
-const heroMediaPoster = site.heroVideoPoster || site.images.heroPoster || site.images.hero;
+const heroMediaPoster = site.heroVideoPoster || site.images.heroVideoPoster || site.images.heroPoster || site.images.hero;
 const heroVideoSources = (() => {
   const isMobile = window.matchMedia("(max-width: 900px)").matches;
   const desktopFirst = site.heroVideo || site.heroVideoPortrait;
@@ -391,6 +391,13 @@ const courseInterestMap = {
   idiomas: "Idiomas",
   todos: "No estoy seguro",
 };
+
+const initialCourseFilter = (() => {
+  const param = new URL(window.location.href).searchParams.get("curso");
+  return param && Object.prototype.hasOwnProperty.call(courseInterestMap, param) ? param : "todos";
+})();
+
+const initialCourseInterest = courseInterestMap[initialCourseFilter] || courseInterestMap.todos;
 
 const programInquiryMessage = (program) =>
   encodeURIComponent(
@@ -827,6 +834,7 @@ const syncSeoHead = () => {
 const initFaqAccordion = () => {
   const faqItems = [...document.querySelectorAll(".faq-list .faq-item")];
   if (!faqItems.length) return;
+  let userOpenedFaq = false;
 
   const setOnlyOneOpen = (activeIndex = 0) => {
     faqItems.forEach((item, idx) => {
@@ -850,6 +858,10 @@ const initFaqAccordion = () => {
   const getActiveFaqIndex = () => faqItems.findIndex((item) => item.open);
 
   faqItems.forEach((item) => {
+    item.querySelector("summary")?.addEventListener("click", () => {
+      userOpenedFaq = true;
+    });
+
     item.addEventListener("toggle", () => {
       const activeIndex = getActiveFaqIndex();
 
@@ -861,7 +873,8 @@ const initFaqAccordion = () => {
 
       const finalIndex = getActiveFaqIndex();
       const hash = `#pregunta-${finalIndex + 1}`;
-      if (window.location.hash !== hash) {
+      const shouldSyncHash = userOpenedFaq || window.location.hash.startsWith("#pregunta-");
+      if (shouldSyncHash && window.location.hash !== hash) {
         if (window.history?.replaceState) {
           window.history.replaceState({}, "", hash);
         } else {
@@ -1629,7 +1642,7 @@ app.innerHTML = `
   </div>
 
     <main>
-      <section id="inicio" class="hero" style="--hero-image: url('${site.heroVideoPoster || site.images.heroPoster || site.images.hero}')">
+      <section id="inicio" class="hero" style="--hero-image: url('${heroMediaPoster}')">
       ${heroVideoBackground()}
       <div class="hero__inner">
         <div class="hero__content">
@@ -2650,13 +2663,6 @@ const mobileActionBar = document.querySelector("[data-mobile-action-bar]");
   mobileMatcher.addEventListener("change", applyState);
 };
 initMobileActionBar();
-
-const initialCourseFilter = (() => {
-  const param = new URL(window.location.href).searchParams.get("curso");
-  return param && programFilters.has(param) ? param : "todos";
-})();
-
-const initialCourseInterest = courseInterestMap[initialCourseFilter] || courseInterestMap.todos;
 
 const applyScheduleFilter = (filter = "todos", activeButton = null) => {
   const nextFilter = scheduleFilterValues.has(filter) ? filter : "todos";

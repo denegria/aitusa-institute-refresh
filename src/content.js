@@ -47,7 +47,7 @@ const site = {
     "Mira una clase real de inglés de 1:08, valida método y ritmo, y arranca con una ruta inicial presencial, híbrida u online en Nueva Jersey.",
   seoKeywords:
     "AiT USA Institute, clases de inglés en Nueva Jersey, clase real de inglés en video, clases presenciales de inglés, clases híbridas de inglés, clases online de inglés, método visual de inglés, ruta personalizada de aprendizaje, Bound Brook clases de inglés, Plainfield clases de inglés",
-  seoImage: asset("live/hero-female-classroom.jpg"),
+  seoImage: asset("live/hero-female-speaking-poster.jpg"),
   seoImageAlt: "Instructora de AiT USA Institute guiando una clase real de inglés.",
   seoVideo: asset("live/hero-female-speaking-1080p.mp4"),
   seoVideoDuration: "PT1M8S",
@@ -93,12 +93,12 @@ const site = {
   },
   images: {
     logo: asset("006-solo-logo-4-x-4-clases1.png"),
-    hero: asset("live/hero-female-classroom.jpg"),
-    heroPoster: asset("live/hero-female-zoom.jpg"),
+    hero: asset("live/hero-female-speaking-poster.jpg"),
+    heroPoster: asset("live/hero-female-speaking-poster.jpg"),
     heroVideo: asset("live/hero-female-speaking-1080p.mp4"),
     heroVideoPortrait: asset("live/hero-female-speaking-360p.mp4"),
     heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
-    heroVideoPoster: asset("live/hero-female-classroom.jpg"),
+    heroVideoPoster: asset("live/hero-female-speaking-poster.jpg"),
     adultEnglish: assetHires("adult-english-speaking.jpg"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
@@ -436,9 +436,9 @@ const heroGallery = [
   {
     label: "Escucha y retroalimentación",
     title: "Interacción real por Zoom para entrenar comprensión y respuesta en tiempo real.",
-    image: asset("live/hero-female-zoom.jpg"),
+    image: asset("live/hero-female-speaking-poster.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-zoom.jpg"),
+    videoPoster: asset("live/hero-female-speaking-poster.jpg"),
     imageAlt:
       "Instructora de AiT USA interactuando con estudiantes en una sesión online de inglés.",
   },

@@ -1,5 +1,5 @@
 {
-  "appUrl": "http://127.0.0.1:54319/index.html",
+  "appUrl": "http://127.0.0.1:52850/index.html",
   "chrome": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
   "results": [
     {
@@ -9,21 +9,94 @@
       "screenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\desktop-home.png",
       "productScreenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\desktop-home-products.png",
       "screenshotError": null,
-      "location": "http://127.0.0.1:54319/index.html",
-      "title": "AiT USA Institute | Inglés ESL Presencial, Híbrido y Online",
-      "h1": "AiT USA Institute",
+      "location": "http://127.0.0.1:52850/index.html",
+      "title": "AiT USA Institute | Clase real de inglés y ruta personalizada en Nueva Jersey",
+      "h1": "¿Funciona para ti? Mira una clase real de 1:08 y decide hoy con criterio.",
       "programs": 9,
       "visiblePrograms": 9,
       "books": 7,
       "products": 8,
       "variantLists": 5,
-      "faqs": 6,
+      "faqs": 10,
       "missingImages": [],
-      "overflowing": [],
-      "pageHeight": 14676,
+      "overflowing": [
+        {
+          "tag": "div",
+          "text": "CLASE REAL DE 1:08 PARA DECIDIR HOY: MÉTODO, RITMO Y ENCAJE CON EVIDENCIA.\n\n¿Funciona para",
+          "scrollWidth": 510,
+          "clientWidth": 492
+        },
+        {
+          "tag": "div",
+          "text": "",
+          "scrollWidth": 613,
+          "clientWidth": 610
+        },
+        {
+          "tag": "div",
+          "text": "+1000\nestudiantes guiados con experiencia práctica de clase real\n3\nformatos: presencial, h",
+          "scrollWidth": 1166,
+          "clientWidth": 1158
+        },
+        {
+          "tag": "div",
+          "text": "RUTA DE ARRANQUE\n\nTres pasos simples para decidir con criterio hoy.\n\nPrimero observas una ",
+          "scrollWidth": 786,
+          "clientWidth": 778
+        },
+        {
+          "tag": "div",
+          "text": "Semana 1\nSemana 1: diagnóstico y objetivo\n\nEn 10 minutos validamos nivel, objetivo y agend",
+          "scrollWidth": 1166,
+          "clientWidth": 1158
+        },
+        {
+          "tag": "div",
+          "text": "Ver la clase real\nExplorar cursos",
+          "scrollWidth": 1166,
+          "clientWidth": 1158
+        },
+        {
+          "tag": "div",
+          "text": "Mira la clase en acción\n\nEXPERIENCIA REAL\n\nMira la clase real primero y decide con criteri",
+          "scrollWidth": 1166,
+          "clientWidth": 1158
+        },
+        {
+          "tag": "div",
+          "text": "CLASES CON PRESENCIA HUMANA\n\nVoces reales, corrección visible y una energía de aula que sí",
+          "scrollWidth": 1166,
+          "clientWidth": 1158
+        },
+        {
+          "tag": "div",
+          "text": "POR QUÉ SOMOS DIFERENTES\n\nUna ruta visual para entender rápido, hablar con precisión y gan",
+          "scrollWidth": 1166,
+          "clientWidth": 1158
+        },
+        {
+          "tag": "div",
+          "text": "01\nComprender primero, hablar después\n\nConecta intención, contexto y vocabulario. Comprend",
+          "scrollWidth": 1166,
+          "clientWidth": 1158
+        },
+        {
+          "tag": "div",
+          "text": "CURSOS\n\nEn 45 segundos tienes una ruta de curso clara.\n\nElegimos entre inglés realista, ap",
+          "scrollWidth": 786,
+          "clientWidth": 778
+        },
+        {
+          "tag": "div",
+          "text": "Quiero hablar inglés con más seguridad\n\nEmpieza por Inglés para jóvenes y adultos u online",
+          "scrollWidth": 1166,
+          "clientWidth": 1158
+        }
+      ],
+      "pageHeight": 29552,
       "interactions": {
         "technologyVisible": 3,
-        "formStatus": "Mensaje listo. Usa el botón de WhatsApp para enviarlo al equipo.",
+        "formStatus": "Listo. Abre WhatsApp para enviar tu mensaje y recibir una recomendación más rápida.",
         "menuButtonPresent": true
       }
     },
@@ -34,21 +107,94 @@
       "screenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\tablet-home.png",
       "productScreenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\tablet-home-products.png",
       "screenshotError": null,
-      "location": "http://127.0.0.1:54319/index.html",
-      "title": "AiT USA Institute | Inglés ESL Presencial, Híbrido y Online",
-      "h1": "AiT USA Institute",
+      "location": "http://127.0.0.1:52850/index.html",
+      "title": "AiT USA Institute | Clase real de inglés y ruta personalizada en Nueva Jersey",
+      "h1": "¿Funciona para ti? Mira una clase real de 1:08 y decide hoy con criterio.",
       "programs": 9,
       "visiblePrograms": 9,
       "books": 7,
       "products": 8,
       "variantLists": 5,
-      "faqs": 6,
+      "faqs": 10,
       "missingImages": [],
-      "overflowing": [],
-      "pageHeight": 18830,
+      "overflowing": [
+        {
+          "tag": "div",
+          "text": "CLASE REAL DE 1:08 PARA DECIDIR HOY: MÉTODO, RITMO Y ENCAJE CON EVIDENCIA.\n\n¿Funciona para",
+          "scrollWidth": 578,
+          "clientWidth": 560
+        },
+        {
+          "tag": "div",
+          "text": "",
+          "scrollWidth": 681,
+          "clientWidth": 678
+        },
+        {
+          "tag": "div",
+          "text": "+1000\nestudiantes guiados con experiencia práctica de clase real\n3\nformatos: presencial, h",
+          "scrollWidth": 790,
+          "clientWidth": 782
+        },
+        {
+          "tag": "div",
+          "text": "RUTA DE ARRANQUE\n\nTres pasos simples para decidir con criterio hoy.\n\nPrimero observas una ",
+          "scrollWidth": 786,
+          "clientWidth": 778
+        },
+        {
+          "tag": "div",
+          "text": "Semana 1\nSemana 1: diagnóstico y objetivo\n\nEn 10 minutos validamos nivel, objetivo y agend",
+          "scrollWidth": 790,
+          "clientWidth": 782
+        },
+        {
+          "tag": "div",
+          "text": "Ver la clase real\nExplorar cursos",
+          "scrollWidth": 790,
+          "clientWidth": 782
+        },
+        {
+          "tag": "div",
+          "text": "Mira la clase en acción\n\nEXPERIENCIA REAL\n\nMira la clase real primero y decide con criteri",
+          "scrollWidth": 790,
+          "clientWidth": 782
+        },
+        {
+          "tag": "div",
+          "text": "CLASES CON PRESENCIA HUMANA\n\nVoces reales, corrección visible y una energía de aula que sí",
+          "scrollWidth": 790,
+          "clientWidth": 782
+        },
+        {
+          "tag": "div",
+          "text": "POR QUÉ SOMOS DIFERENTES\n\nUna ruta visual para entender rápido, hablar con precisión y gan",
+          "scrollWidth": 790,
+          "clientWidth": 782
+        },
+        {
+          "tag": "div",
+          "text": "01\nComprender primero, hablar después\n\nConecta intención, contexto y vocabulario. Comprend",
+          "scrollWidth": 790,
+          "clientWidth": 782
+        },
+        {
+          "tag": "div",
+          "text": "CURSOS\n\nEn 45 segundos tienes una ruta de curso clara.\n\nElegimos entre inglés realista, ap",
+          "scrollWidth": 786,
+          "clientWidth": 778
+        },
+        {
+          "tag": "div",
+          "text": "Quiero hablar inglés con más seguridad\n\nEmpieza por Inglés para jóvenes y adultos u online",
+          "scrollWidth": 790,
+          "clientWidth": 782
+        }
+      ],
+      "pageHeight": 38586,
       "interactions": {
         "technologyVisible": 3,
-        "formStatus": "Mensaje listo. Usa el botón de WhatsApp para enviarlo al equipo.",
+        "formStatus": "Listo. Abre WhatsApp para enviar tu mensaje y recibir una recomendación más rápida.",
         "menuButtonPresent": true
       }
     },
@@ -59,21 +205,94 @@
       "screenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\mobile-home.png",
       "productScreenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\mobile-home-products.png",
       "screenshotError": null,
-      "location": "http://127.0.0.1:54319/index.html",
-      "title": "AiT USA Institute | Inglés ESL Presencial, Híbrido y Online",
-      "h1": "AiT USA Institute",
+      "location": "http://127.0.0.1:52850/index.html",
+      "title": "AiT USA Institute | Clase real de inglés y ruta personalizada en Nueva Jersey",
+      "h1": "¿Funciona para ti? Mira una clase real de 1:08 y decide hoy con criterio.",
       "programs": 9,
       "visiblePrograms": 9,
       "books": 7,
       "products": 8,
       "variantLists": 5,
-      "faqs": 6,
+      "faqs": 10,
       "missingImages": [],
-      "overflowing": [],
-      "pageHeight": 31712,
+      "overflowing": [
+        {
+          "tag": "div",
+          "text": "CLASE REAL DE 1:08 PARA DECIDIR HOY: MÉTODO, RITMO Y ENCAJE CON EVIDENCIA.\n\n¿Funciona para",
+          "scrollWidth": 372,
+          "clientWidth": 354
+        },
+        {
+          "tag": "div",
+          "text": "CLASE REAL DE 1:08 PARA DECIDIR HOY: MÉTODO, RITMO Y ENCAJE CON EVIDENCIA.\n\n¿Funciona para",
+          "scrollWidth": 372,
+          "clientWidth": 354
+        },
+        {
+          "tag": "div",
+          "text": "+1000\nestudiantes guiados con experiencia práctica de clase real\n3\nformatos: presencial, h",
+          "scrollWidth": 360,
+          "clientWidth": 352
+        },
+        {
+          "tag": "div",
+          "text": "RUTA DE ARRANQUE\n\nTres pasos simples para decidir con criterio hoy.\n\nPrimero observas una ",
+          "scrollWidth": 360,
+          "clientWidth": 352
+        },
+        {
+          "tag": "div",
+          "text": "Semana 1\nSemana 1: diagnóstico y objetivo\n\nEn 10 minutos validamos nivel, objetivo y agend",
+          "scrollWidth": 360,
+          "clientWidth": 352
+        },
+        {
+          "tag": "div",
+          "text": "Ver la clase real\nExplorar cursos",
+          "scrollWidth": 360,
+          "clientWidth": 352
+        },
+        {
+          "tag": "div",
+          "text": "Mira la clase en acción\n\nEXPERIENCIA REAL\n\nMira la clase real primero y decide con criteri",
+          "scrollWidth": 360,
+          "clientWidth": 352
+        },
+        {
+          "tag": "div",
+          "text": "CLASES CON PRESENCIA HUMANA\n\nVoces reales, corrección visible y una energía de aula que sí",
+          "scrollWidth": 360,
+          "clientWidth": 352
+        },
+        {
+          "tag": "div",
+          "text": "POR QUÉ SOMOS DIFERENTES\n\nUna ruta visual para entender rápido, hablar con precisión y gan",
+          "scrollWidth": 360,
+          "clientWidth": 352
+        },
+        {
+          "tag": "div",
+          "text": "01\nComprender primero, hablar después\n\nConecta intención, contexto y vocabulario. Comprend",
+          "scrollWidth": 360,
+          "clientWidth": 352
+        },
+        {
+          "tag": "div",
+          "text": "CURSOS\n\nEn 45 segundos tienes una ruta de curso clara.\n\nElegimos entre inglés realista, ap",
+          "scrollWidth": 360,
+          "clientWidth": 352
+        },
+        {
+          "tag": "div",
+          "text": "Quiero hablar inglés con más seguridad\n\nEmpieza por Inglés para jóvenes y adultos u online",
+          "scrollWidth": 360,
+          "clientWidth": 352
+        }
+      ],
+      "pageHeight": 58564,
       "interactions": {
         "technologyVisible": 3,
-        "formStatus": "Mensaje listo. Usa el botón de WhatsApp para enviarlo al equipo.",
+        "formStatus": "Listo. Abre WhatsApp para enviar tu mensaje y recibir una recomendación más rápida.",
         "menuButtonPresent": true
       }
     }
