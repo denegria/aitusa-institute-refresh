@@ -1,5 +1,5 @@
 {
-  "appUrl": "http://127.0.0.1:55714/index.html",
+  "appUrl": "http://127.0.0.1:55898/index.html",
   "chrome": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
   "results": [
     {
@@ -9,7 +9,7 @@
       "screenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\desktop-home.png",
       "productScreenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\desktop-home-products.png",
       "screenshotError": null,
-      "location": "http://127.0.0.1:55714/index.html",
+      "location": "http://127.0.0.1:55898/index.html",
       "title": "AiT USA Institute | Clase real de inglés en 1:08 | Nueva Jersey",
       "h1": "¿Te sirve esta ruta? Mira una clase real de 1:08 y decide con evidencia.",
       "programs": 9,
@@ -93,7 +93,7 @@
           "clientWidth": 1158
         }
       ],
-      "pageHeight": 29278,
+      "pageHeight": 29596,
       "interactions": {
         "technologyVisible": 3,
         "formStatus": "Listo. Abre WhatsApp para enviar tu mensaje y recibir una recomendación más rápida.",
@@ -107,7 +107,7 @@
       "screenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\tablet-home.png",
       "productScreenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\tablet-home-products.png",
       "screenshotError": null,
-      "location": "http://127.0.0.1:55714/index.html",
+      "location": "http://127.0.0.1:55898/index.html",
       "title": "AiT USA Institute | Clase real de inglés en 1:08 | Nueva Jersey",
       "h1": "¿Te sirve esta ruta? Mira una clase real de 1:08 y decide con evidencia.",
       "programs": 9,
@@ -191,7 +191,7 @@
           "clientWidth": 778
         }
       ],
-      "pageHeight": 35628,
+      "pageHeight": 36036,
       "interactions": {
         "technologyVisible": 3,
         "formStatus": "Listo. Abre WhatsApp para enviar tu mensaje y recibir una recomendación más rápida.",
@@ -205,7 +205,7 @@
       "screenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\mobile-home.png",
       "productScreenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\mobile-home-products.png",
       "screenshotError": null,
-      "location": "http://127.0.0.1:55714/index.html",
+      "location": "http://127.0.0.1:55898/index.html",
       "title": "AiT USA Institute | Clase real de inglés en 1:08 | Nueva Jersey",
       "h1": "¿Te sirve esta ruta? Mira una clase real de 1:08 y decide con evidencia.",
       "programs": 9,
@@ -289,7 +289,7 @@
           "clientWidth": 352
         }
       ],
-      "pageHeight": 55901,
+      "pageHeight": 56049,
       "interactions": {
         "technologyVisible": 3,
         "formStatus": "Listo. Abre WhatsApp para enviar tu mensaje y recibir una recomendación más rápida.",

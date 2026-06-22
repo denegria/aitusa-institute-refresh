@@ -48,8 +48,9 @@ const site = {
     "Mira una clase real de inglés de 1:08 y decide con evidencia si esta ruta te conviene. Elige presencial, híbrido u online en Nueva Jersey y define tu mejor horario.",
   seoKeywords:
     "AiT USA Institute, clases de inglés Nueva Jersey, clase real de inglés, clases presenciales de inglés, clases híbridas, clases online, clase demo, método visual, ruta personalizada, Bound Brook, Plainfield, Piscataway, entrevista de trabajo en inglés, inglés conversacional para adultos",
-  seoImage: assetHires("hero-classroom.jpg"),
-  seoImageAlt: "Instructora de AiT USA enseñando clase real de inglés en Nueva Jersey.",
+  seoImage: asset("live/hero-female-speaking-poster.jpg"),
+  seoImageAlt:
+    "Instructora de AiT USA enseñando una clase real de inglés con cámara activa para corregir en vivo.",
   seoVideo: asset("live/hero-female-speaking-1080p.mp4"),
   seoVideoDuration: "PT1M8S",
   email: "info@aitusainstitute.com",
@@ -94,12 +95,12 @@ const site = {
   },
   images: {
     logo: asset("006-solo-logo-4-x-4-clases1.png"),
-    hero: assetHires("hero-classroom.jpg"),
-    heroPoster: assetHires("hero-classroom.jpg"),
+    hero: asset("live/hero-female-speaking-poster.jpg"),
+    heroPoster: asset("live/hero-female-speaking-poster.jpg"),
     heroVideo: asset("live/hero-female-speaking-1080p.mp4"),
     heroVideoPortrait: asset("live/hero-female-speaking-360p.mp4"),
     heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
-    heroVideoPoster: assetHires("hero-classroom.jpg"),
+    heroVideoPoster: asset("live/hero-female-speaking-poster.jpg"),
     adultEnglish: assetHires("adult-english-speaking.jpg"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
@@ -436,19 +437,20 @@ const programs = [
 const heroGallery = [
   {
     label: "Clase real en primer plano",
-    title: "Interacción auténtica por Zoom para entrenar comprensión y respuesta en tiempo real.",
-    image: assetHires("hero-female-teacher.jpg"),
+    title:
+      "Interacción auténtica por Zoom para entrenar comprensión y respuesta en tiempo real con una instructora real.",
+    image: asset("live/hero-female-zoom.jpg"),
     video: site.images.heroVideo,
-    videoPoster: assetHires("hero-female-teacher.jpg"),
+    videoPoster: asset("live/hero-female-zoom.jpg"),
     imageAlt:
       "Instructora de AiT USA interactuando con estudiantes en una sesión online de inglés.",
   },
   {
     label: "Clase en vivo",
     title: "Corrección instantánea y conversación guiada para hablar con más claridad desde el primer bloque.",
-    image: assetHires("hero-classroom.jpg"),
+    image: asset("live/hero-female-classroom.jpg"),
     video: site.images.heroVideo,
-    videoPoster: assetHires("hero-classroom.jpg"),
+    videoPoster: asset("live/hero-female-classroom.jpg"),
     imageAlt:
       "Docente femenina de AiT USA guiando una clase en vivo de conversación en inglés.",
   },
@@ -464,26 +466,26 @@ const heroGallery = [
   {
     label: "Clase con foco visual",
     title: "Material visual claro y práctica guiada para reforzar lo aprendido en vivo.",
-    image: assetHires("hero-classroom.jpg"),
+    image: asset("live/hero-female-speaking-poster.jpg"),
     video: site.images.heroVideo,
-    videoPoster: assetHires("hero-classroom.jpg"),
+    videoPoster: asset("live/hero-female-speaking-poster.jpg"),
     imageAlt: "Grupo en clase presencial practicando conversación y pronunciación en inglés.",
   },
   {
     label: "Seguimiento semanal",
     title: "Ruta semanal con acciones claras para convertir práctica en hábito.",
-    image: assetHires("hero-female-teacher.jpg"),
+    image: asset("live/hero-female-classroom.jpg"),
     video: site.images.heroVideo,
-    videoPoster: assetHires("hero-female-teacher.jpg"),
+    videoPoster: asset("live/hero-female-classroom.jpg"),
     imageAlt:
       "Instructora de AiT USA trabajando con una estudiante para mejorar la fluidez y la seguridad.",
   },
   {
     label: "Resultados reales",
     title: "Seguimiento de progreso con evidencia visual de resultados en cada módulo.",
-    image: assetHires("hero-classroom.jpg"),
+    image: asset("live/hero-female-speaking-poster.jpg"),
     video: site.images.heroVideo,
-    videoPoster: assetHires("hero-classroom.jpg"),
+    videoPoster: asset("live/hero-female-speaking-poster.jpg"),
     imageAlt: "Estudiantes de AiT USA aplicando lo aprendido en clase de inglés.",
   },
 ];
@@ -516,9 +518,9 @@ const instructorClips = [
   {
     title: "Clase de entrevista en vivo",
     eyebrow: "Muestra real",
-    image: assetHires("hero-female-teacher.jpg"),
+    image: asset("live/hero-female-zoom.jpg"),
     video: site.images.heroVideo,
-    videoPoster: assetHires("hero-female-teacher.jpg"),
+    videoPoster: asset("live/hero-female-zoom.jpg"),
     imageAlt:
       "Instructora de AiT USA guiando una práctica de entrevista en clase con método visual en inglés.",
     caption:
@@ -528,9 +530,9 @@ const instructorClips = [
   {
     title: "Escucha y responde al instante",
     eyebrow: "Metodología visual",
-    image: assetHires("hero-female-teacher.jpg"),
+    image: asset("live/hero-female-classroom.jpg"),
     video: site.images.heroVideo,
-    videoPoster: assetHires("hero-female-teacher.jpg"),
+    videoPoster: asset("live/hero-female-classroom.jpg"),
     imageAlt: "Instructora y estudiante practicando inglés mediante Zoom con enfoque visual y conversación real.",
     caption:
       "Escucha guiada con pausas estratégicas para dominar respuestas rápidas con significado, no solo pronunciación.",
@@ -539,9 +541,9 @@ const instructorClips = [
   {
     title: "Conexión auténtica en clases online",
     eyebrow: "8 a 13 años",
-    image: assetHires("hero-female-teacher.jpg"),
+    image: asset("live/hero-female-teacher.jpg"),
     video: site.images.heroVideoPortrait,
-    videoPoster: assetHires("hero-female-teacher.jpg"),
+    videoPoster: asset("live/hero-female-teacher.jpg"),
     imageAlt:
       "Estudiante practicando inglés en una clase remota con acompañamiento de la instructora.",
     caption:
@@ -551,9 +553,9 @@ const instructorClips = [
   {
     title: "Respuesta guiada en clase",
     eyebrow: "Sesión de progreso",
-    image: assetHires("hero-classroom.jpg"),
+    image: asset("live/hero-female-speaking-poster.jpg"),
     video: site.images.heroVideo,
-    videoPoster: assetHires("hero-classroom.jpg"),
+    videoPoster: asset("live/hero-female-speaking-poster.jpg"),
     imageAlt: "Instructora de AiT USA interactuando con estudiantes en una clase de inglés.",
     caption:
       "Estrategias y corrección puntual para pasar de comprender a comunicar ideas con mayor naturalidad.",
@@ -787,7 +789,7 @@ const teachers = [
     name: "Instructora de inglés conversacional",
     intent: "classSample",
     href: "#experiencia",
-    image: assetHires("hero-female-teacher.jpg"),
+    image: asset("live/hero-female-speaking-poster.jpg"),
     imageAlt: "Instructora de AiT USA corrigiendo pronunciación durante una clase real de conversación.",
     role: "Corrección en vivo con seguimiento semanal.",
     description:
@@ -798,7 +800,7 @@ const teachers = [
     name: "Instructora de práctica online",
     intent: "classSample",
     href: "#experiencia",
-    image: assetHires("hero-female-teacher.jpg"),
+    image: asset("live/hero-female-zoom.jpg"),
     imageAlt: "Instructora de AiT USA guiando una clase de inglés por videollamada.",
     role: "Aprendizaje remoto con participación guiada.",
     description:
@@ -809,7 +811,7 @@ const teachers = [
     name: "Instructora de continuidad académica",
     intent: "default",
     href: "#contacto",
-    image: assetHires("testimonial-marisol-1200.jpg"),
+    image: asset("live/hero-female-classroom.jpg"),
     imageAlt: "Instructora de AiT USA motivando a estudiantes en una clase práctica.",
     role: "Soporte constante y ruta personalizada.",
     description:

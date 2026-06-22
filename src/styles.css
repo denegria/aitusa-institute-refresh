@@ -659,6 +659,8 @@ select {
   letter-spacing: 0.12em;
   font-weight: 850;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .hero__media-title {
@@ -666,6 +668,8 @@ select {
   font-weight: 800;
   line-height: 1.2;
   letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .hero__media-dots {
