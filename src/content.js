@@ -100,7 +100,7 @@ const site = {
     heroVideo: asset("live/hero-female-speaking-1080p.mp4"),
     heroVideoPortrait: asset("live/hero-female-speaking-360p.mp4"),
     heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
-    heroVideoPoster: asset("live/hero-female-speaking-poster.jpg"),
+    heroVideoPoster: assetHires("hero-female-teacher.jpg"),
     adultEnglish: assetHires("adult-english-speaking.jpg"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
@@ -448,9 +448,9 @@ const heroGallery = [
   {
     label: "Clase en vivo",
     title: "Corrección instantánea y conversación guiada para hablar con más claridad desde el primer bloque.",
-    image: asset("live/hero-female-classroom.jpg"),
+    image: assetHires("hero-classroom.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-classroom.jpg"),
+    videoPoster: assetHires("hero-classroom.jpg"),
     imageAlt:
       "Docente femenina de AiT USA guiando una clase en vivo de conversación en inglés.",
   },
@@ -474,9 +474,9 @@ const heroGallery = [
   {
     label: "Ruta semanal clara",
     title: "Plan semanal con acciones concretas para convertir práctica en hábito.",
-    image: asset("live/hero-female-classroom.jpg"),
+    image: assetHires("hero-classroom.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-classroom.jpg"),
+    videoPoster: assetHires("hero-classroom.jpg"),
     imageAlt:
       "Instructora de AiT USA trabajando con una estudiante para mejorar la fluidez y la seguridad.",
   },
@@ -553,9 +553,9 @@ const instructorClips = [
   {
     title: "Respuesta guiada en clase",
     eyebrow: "Sesión de progreso",
-    image: asset("live/hero-female-classroom.jpg"),
+    image: assetHires("hero-classroom.jpg"),
     video: site.images.heroVideo,
-    videoPoster: asset("live/hero-female-classroom.jpg"),
+    videoPoster: assetHires("hero-classroom.jpg"),
     imageAlt: "Instructora de AiT USA interactuando con estudiantes en una clase de inglés.",
     caption:
       "Estrategias y corrección puntual para pasar de comprender a comunicar ideas con mayor naturalidad.",
