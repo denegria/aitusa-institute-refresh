@@ -122,7 +122,7 @@ const site = {
     contactAlt:
       "Instructora de AiT USA guiando una clase y conversando con estudiantes en un aula luminosa.",
     headset: asset("169-audifono-y-microfono.jpg"),
-    devices: asset("171-laptop-and-phonhe-3.jpg"),
+    devices: assetHires("devices-study.png"),
     testimonialAntonina: assetHires("testimonial-antonina-1200.jpg"),
     testimonialMarisol: assetHires("testimonial-marisol-1200.jpg"),
     productEuropa: asset("products/product-europa-mes-4weeks.jpg"),
@@ -901,7 +901,7 @@ const downloads = [
     text:
       "Accede desde el dispositivo que ya usas para ver tu clase, repasar y seguir tu ruta sin complicaciones.",
     image: site.images.devices,
-    imageAlt: "Laptop, teléfono y tableta listos para conectarse a clase online.",
+    imageAlt: "Estudiante con laptop, tablet y teléfono listos para una clase online y repaso en casa.",
   },
   {
     eyebrow: "En vivo",
