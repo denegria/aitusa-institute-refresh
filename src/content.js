@@ -953,7 +953,7 @@ const storeProducts = [
     status: "Disponible",
     sku: "",
     image: site.images.productEuropa,
-    imageAlt: "Plan Europa mensual para clases de inglés online.",
+    imageAlt: "Estudiante adulta tomando clase online desde casa con laptop y cuaderno.",
     bestFor: "Ideal para estudiantes en Europa que quieren estudiar 100% online.",
     cta: "Consultar Europa",
     note:
