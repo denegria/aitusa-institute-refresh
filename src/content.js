@@ -894,39 +894,46 @@ const footerFacts = [
 
 const downloads = [
   {
-    title: "iPhone y iPad",
-    text: "Acceso para Apple con seguimiento de clase y recursos listos para revisar desde el móvil o tablet.",
-    image: asset("155-apple-20logo-edited.jpg"),
-    imageAlt: "Logo de Apple para descarga en iPhone y iPad.",
+    eyebrow: "Equipo",
+    title: "Laptop, tablet o móvil",
+    text:
+      "Accede desde el dispositivo que ya usas para ver tu clase, repasar y seguir tu ruta sin complicaciones.",
+    image: site.images.devices,
+    imageAlt: "Laptop, teléfono y tableta listos para conectarse a clase online.",
   },
   {
-    title: "Mac",
-    text: "Acceso para Mac con materiales de estudio optimizados para laptop y trabajo diario.",
-    image: asset("155-apple-20logo-edited.jpg"),
-    imageAlt: "Logo de Apple para descarga en laptop Mac.",
+    eyebrow: "En vivo",
+    title: "Clase online en vivo",
+    text: "Escucha, participa y corrige con una instructora real que guía la sesión en tiempo real.",
+    image: site.images.onlineEnglish,
+    imageAlt: "Instructora con audífonos guiando una clase online en vivo.",
   },
   {
-    title: "Android",
-    text: "Acceso para Android con práctica y seguimiento desde cualquier lugar.",
-    image: asset("161-android-logo.png"),
-    imageAlt: "Logo de Android para descarga de aplicación.",
+    eyebrow: "Corrección",
+    title: "Zoom con instructora real",
+    text: "La clase se siente cercana y clara, aunque estés a distancia, porque ves la corrección mientras ocurre.",
+    image: site.images.heroFemaleZoom,
+    imageAlt: "Instructora guiando una clase de inglés por videollamada.",
   },
   {
-    title: "Windows",
-    text: "Acceso para Windows con seguimiento de clases y recursos listos para continuar.",
-    image: asset("163-window-logo.jpg"),
-    imageAlt: "Logo de Windows para descarga de aplicación.",
+    eyebrow: "Repaso",
+    title: "Repaso guiado en casa",
+    text: "Refuerza tu progreso con conversación real y material visual que sí te ayuda a recordar.",
+    image: site.images.adultEnglish,
+    imageAlt: "Estudiantes practicando conversación guiada y apoyo visual.",
   },
 ];
 
 const requirements = [
   {
+    eyebrow: "Recomendado",
     title: "Audífono y micrófono",
-    image: asset("165-persona-20con-20microfono-edited.jpg"),
-    imageAlt: "Audífonos con micrófono para clases online.",
+    image: site.images.onlineEnglish,
+    imageAlt: "Instructora usando audífonos con micrófono en una clase online.",
     text: "Recomendado para escuchar mejor, hablar con claridad y evitar interferencias.",
   },
   {
+    eyebrow: "Básico",
     title: "Dispositivo con internet",
     image: site.images.devices,
     imageAlt: "Laptop y teléfono para conectarse a clases online.",

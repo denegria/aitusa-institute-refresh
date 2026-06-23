@@ -2216,21 +2216,21 @@ app.innerHTML = `
     <section class="section section--white" aria-labelledby="downloads-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Acceso y preparación</p>
-        <h2 id="downloads-title">Ten listo tu dispositivo y tu material antes de la primera clase.</h2>
-        <p>Si estudias online o híbrido, aquí te dejamos lo mínimo para que tu clase funcione sin tropiezos.</p>
+        <h2 id="downloads-title">Llega con tu equipo, audio y material listos para la primera clase.</h2>
+        <p>Si estudias online o híbrido, te guiamos para entrar sin tropiezos y con una rutina que sí te deja avanzar.</p>
       </div>
       <div class="section-inner utility-strip">
         <article>
-          <strong>Compatible</strong>
-          <span>iPhone, iPad, Mac, Android y Windows para estudiar con flexibilidad.</span>
+          <strong>Tu pantalla, tu ritmo</strong>
+          <span>Laptop, tablet o móvil para entrar desde donde ya estudias.</span>
         </article>
         <article>
-          <strong>Listo para usar</strong>
-          <span>Te guiamos para que abras recursos y clases sin configuración complicada.</span>
+          <strong>Sin vueltas técnicas</strong>
+          <span>Te ayudamos a abrir la clase y el material sin configuración pesada.</span>
         </article>
         <article>
-          <strong>Seguimiento</strong>
-          <span>Material alineado con tu progreso semanal para que no estudies a ciegas.</span>
+          <strong>Seguimiento claro</strong>
+          <span>Cada recurso queda alineado con tu nivel y tu siguiente paso.</span>
         </article>
       </div>
       <div class="section-inner download-grid">
@@ -2239,8 +2239,11 @@ app.innerHTML = `
             (item) => `
               <article class="download-card">
                 <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
-                <h3>${item.title}</h3>
-                <p>${item.text}</p>
+                <div class="download-card__body">
+                  <p class="download-card__eyebrow">${item.eyebrow}</p>
+                  <h3>${item.title}</h3>
+                  <p>${item.text}</p>
+                </div>
               </article>
             `,
           )
@@ -2252,7 +2255,8 @@ app.innerHTML = `
             (item) => `
               <article class="requirement">
                 <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
-                <div>
+                <div class="requirement__body">
+                  <p class="requirement__eyebrow">${item.eyebrow}</p>
                   <h3>${item.title}</h3>
                   <p>${item.text}</p>
                 </div>
