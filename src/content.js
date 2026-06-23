@@ -5,17 +5,17 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Mira una clase real de 1:08 y decide con evidencia si este método encaja con tu ritmo y tu agenda.",
+    "Mira una clase real de 1:08 con una instructora real antes de decidir.",
   description:
-    "Conoce nuestra clase real en acción y valida método, ritmo y seguimiento con evidencia.",
+    "Ve una clase real de inglés en acción con corrección en vivo, video HD y una ruta inicial clara para comparar formatos.",
   heroHeadline:
-    "Mira una clase real de 1:08 y valida con evidencia si esta ruta encaja con tu meta hoy.",
+    "Mira la clase real de 1:08 y decide si te conviene.",
   heroLead:
-    "Evalúa ritmo, claridad y método desde el primer minuto. Si te gusta el entorno, te guiamos a la ruta correcta.",
+    "Ves una instructora real, corrección en vivo y práctica guiada para comparar presencial, híbrido y online sin adivinar.",
   heroQuote:
-    "Lo que ves es la clase real: conversación auténtica, feedback inmediato y práctica aplicada en vivo desde el primer minuto.",
+    "La clase real te muestra ritmo, corrección y presencia humana desde el primer minuto.",
   heroMicrocopy:
-    "Compara presencial, híbrido y online con evidencia real y decide hoy con menos incertidumbre.",
+    "Compara presencial, híbrido y online con evidencia real y una ruta inicial clara.",
   heroQuickCapture: {
     title: "Tu ruta inicial en menos de 60 segundos",
     copy:
@@ -45,12 +45,12 @@ const site = {
   seoTitle:
     "AiT USA Institute | Clase real de inglés en 1:08 | Nueva Jersey",
   seoDescription:
-    "Mira una clase real de inglés de 1:08 y decide con evidencia si esta ruta te conviene. Compara presencial, híbrido y online y recibe una ruta inicial clara para empezar.",
+    "Mira una clase real de inglés de 1:08 con una instructora real en Nueva Jersey. Compara presencial, híbrido y online y recibe una ruta inicial clara para empezar.",
   seoKeywords:
     "AiT USA Institute, clase real de inglés, clases de inglés Nueva Jersey, clases presenciales de inglés, clases híbridas, clases online, demo de clase de inglés, ruta personalizada de estudio, Bound Brook, Plainfield, Piscataway, entrevista de trabajo en inglés, clases para familias, inglés conversacional para adultos",
   seoImage: asset("live/hero-female-speaking-poster.jpg"),
   seoImageAlt:
-    "Instructora de AiT USA enseñando una clase real de inglés con cámara activa para corregir en vivo.",
+    "Instructora real de AiT USA guiando una clase de inglés con cámara activa y corrección en vivo.",
   seoVideo: asset("live/hero-female-speaking-1080p.mp4"),
   seoVideoDuration: "PT1M8S",
   email: "info@aitusainstitute.com",
@@ -156,11 +156,11 @@ const heroPoints = [
 const heroHighlights = site.heroHighlights || [];
 
 const heroVideoHighlights = [
-  "Clase real de 1:08 con corrección en vivo",
-  "Audio e imagen nítidos para evaluar la dinámica real",
-  "Corrección instantánea + seguimiento semanal",
-  "Sin costo ni compromiso en consulta inicial",
+  "Instructora real con cámara activa",
+  "Clase real de 1:08 en video HD",
+  "Corrección en vivo y audio claro",
   "Presencial, híbrido y online en Nueva Jersey",
+  "Sin costo ni compromiso",
 ];
 
 const heroStartPath = [
@@ -442,7 +442,7 @@ const heroGallery = [
   {
     label: "Clase real de apertura",
     title:
-      "Interacción auténtica por Zoom para entrenar comprensión y respuesta en tiempo real con una instructora real.",
+      "Instructora real guía conversación y corrección en Zoom desde el primer minuto.",
     image: site.images.heroFemaleTeacher,
     video: site.images.heroVideo,
     videoPoster: site.images.heroFemaleTeacher,
@@ -451,7 +451,7 @@ const heroGallery = [
   },
   {
     label: "Clase en vivo",
-    title: "Corrección instantánea y conversación guiada para hablar con más claridad desde el primer bloque.",
+    title: "Práctica oral con feedback inmediato para hablar con más claridad.",
     image: site.images.heroFemaleClassroom,
     video: site.images.heroVideo,
     videoPoster: site.images.heroFemaleClassroom,
@@ -460,7 +460,7 @@ const heroGallery = [
   },
   {
     label: "Seguimiento con presencia",
-    title: "Corrección en vivo y ajuste de ruta para sostener práctica constante.",
+    title: "Acompañamiento cercano para sostener avance semana a semana.",
     image: site.images.heroFemaleZoom,
     video: site.images.heroVideo,
     videoPoster: site.images.heroFemaleZoom,
@@ -468,8 +468,8 @@ const heroGallery = [
       "Instructora de AiT USA corrigiendo y motivando a una estudiante durante conversación oral.",
   },
   {
-    label: "Conexión con cámara activa",
-    title: "Material visual claro y práctica guiada para reforzar lo aprendido en vivo.",
+    label: "Cámara activa",
+    title: "Conversación guiada para fijar lo aprendido con menos bloqueo.",
     image: site.images.heroFemaleSpeakingPoster,
     video: site.images.heroVideo,
     videoPoster: site.images.heroVideoPoster,
@@ -503,7 +503,7 @@ const heroProof = [
 
 const instructorClips = [
   {
-    title: "Clase de entrevista en vivo",
+    title: "Clase de conversación real",
     eyebrow: "Muestra real",
     image: site.images.heroFemaleTeacher,
     video: site.images.heroVideo,
@@ -511,41 +511,41 @@ const instructorClips = [
     imageAlt:
       "Instructora de AiT USA guiando una práctica de entrevista en clase con método visual en inglés.",
     caption:
-      "Simulación de entrevista con corrección instantánea para responder con intención y naturalidad.",
+      "Una instructora real guía la respuesta con corrección instantánea y ritmo natural.",
     duration: "1:08",
   },
   {
-    title: "Escucha y responde al instante",
+    title: "Práctica guiada con Zoom",
     eyebrow: "Metodología visual",
     image: site.images.heroFemaleClassroom,
     video: site.images.heroVideo,
     videoPoster: site.images.heroFemaleClassroom,
     imageAlt: "Instructora y estudiante practicando inglés mediante Zoom con enfoque visual y conversación real.",
     caption:
-      "Escucha guiada con pausas estratégicas para responder con significado desde el primer bloqueo.",
+      "La dinámica online se ve clara, ordenada y fácil de seguir desde el primer bloque.",
     duration: "0:48",
   },
   {
-    title: "Conexión auténtica en clases online",
-    eyebrow: "8 a 13 años",
+    title: "Seguimiento que mantiene ritmo",
+    eyebrow: "Acompañamiento",
     image: site.images.heroFemaleZoom,
     video: site.images.heroVideoPortrait,
     videoPoster: site.images.heroFemaleZoom,
     imageAlt:
       "Estudiante practicando inglés en una clase remota con acompañamiento de la instructora.",
     caption:
-      "Conversación guiada para recuperar estructura, ganar espontaneidad y hablar con más seguridad.",
+      "Ideal para sostener práctica constante aunque tu agenda cambie.",
     duration: "0:38",
   },
   {
-    title: "Respuesta guiada en clase",
+    title: "Respuesta guiada con cámara activa",
     eyebrow: "Sesión de progreso",
     image: site.images.heroFemaleSpeakingPoster,
     video: site.images.heroVideo,
     videoPoster: site.images.heroFemaleSpeakingPoster,
     imageAlt: "Instructora de AiT USA interactuando con estudiantes en una clase de inglés.",
     caption:
-      "Estrategias y corrección puntual para pasar de comprender a comunicar ideas con mayor naturalidad.",
+      "Visual, conversación y ajuste de ruta en una sola experiencia.",
     duration: "0:50",
   },
 ];

@@ -58,10 +58,10 @@ const heroMediaPoster = site.heroVideoPoster || site.images.heroVideoPoster || s
 const heroBackgroundImage = site.images.heroVideoPoster || site.images.heroPoster || site.images.hero || heroMediaPoster;
 const heroVideoSources = (() => {
   const isMobile = window.matchMedia("(max-width: 900px)").matches;
-  const desktopFirst = site.heroVideo || site.heroVideoPortrait;
-  const mobileFirst = site.heroVideoPortrait || site.heroVideo;
+  const desktopFirst = site.images.heroVideo || site.images.heroVideoPortrait;
+  const mobileFirst = site.images.heroVideoPortrait || site.images.heroVideo;
 
-  return (isMobile ? [mobileFirst, desktopFirst, site.heroVideoFallback] : [desktopFirst, mobileFirst, site.heroVideoFallback])
+  return (isMobile ? [mobileFirst, desktopFirst, site.images.heroVideoFallback] : [desktopFirst, mobileFirst, site.images.heroVideoFallback])
     .filter(Boolean)
     .filter((value, index, list) => list.indexOf(value) === index);
 })();
@@ -1223,8 +1223,8 @@ const heroMedia = () => {
           <div class="hero__media-tag">Video real · 1:08</div>
           ${heroVideoFacts()}
           <div class="hero__media-route">
-            <p class="hero__media-route__title">Decide con evidencia en 60 segundos</p>
-            <p class="hero__media-route__copy">Observa el ritmo, método y estilo de clase para elegir tu formato ideal con menos incertidumbre.</p>
+            <p class="hero__media-route__title">Primero mira la clase real</p>
+            <p class="hero__media-route__copy">Después comparas ritmo, formato y encaje con menos incertidumbre.</p>
           </div>
           <button class="hero__video-chip" type="button" data-hero-play-button aria-label="Reproducir video de clase real">
             <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
