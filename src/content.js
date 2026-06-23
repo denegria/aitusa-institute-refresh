@@ -395,7 +395,7 @@ const programs = [
     fit: "Ideal si quieres aprender desde cero a usar internet, archivos y herramientas básicas.",
     cta: "Ver computación",
     image: site.images.computing,
-    imageAlt: "Mujer adulta usando laptop y tableta para practicar computación básica en un espacio moderno.",
+    imageAlt: "Instructora guiando a una estudiante en computación básica con laptop en un espacio moderno.",
     summary:
       "Curso práctico para dominar navegación, productividad y herramientas digitales esenciales.",
     details: [
@@ -1065,7 +1065,7 @@ const storeProducts = [
     status: "Disponible",
     sku: "364115376135191",
     image: site.images.productComputing,
-    imageAlt: "Mujer adulta practicando computación básica y oficina con laptop en un espacio moderno.",
+    imageAlt: "Instructora guiando a una estudiante en computación para oficina con laptop y gráficos en pantalla.",
     bestFor: "Ideal para principiantes que necesitan habilidades de computadora y oficina.",
     cta: "Ver computación",
     note:
