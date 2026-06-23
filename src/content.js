@@ -105,7 +105,7 @@ const site = {
     heroFemaleTeacher: assetHires("hero-female-teacher.jpg"),
     heroFemaleZoom: asset("live/hero-female-zoom.jpg"),
     heroFemaleSpeakingPoster: asset("live/hero-female-speaking-poster.jpg"),
-    adultEnglish: assetHires("adult-english-speaking.jpg"),
+    adultEnglish: assetHires("adult-speaking-class.png"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
     computing: asset("products/product-computacion.jpg"),
@@ -285,7 +285,7 @@ const programs = [
     fit: "Ideal si quieres conversar con más seguridad en trabajo, escuela o trámites diarios.",
     cta: "Ver inglés",
     image: site.images.adultEnglish,
-    imageAlt: "Estudiante adulto practicando conversación en una clase de inglés ESL.",
+    imageAlt: "Estudiante adulta practicando conversación en una clase de inglés con apoyo visual.",
     summary:
       "Un camino directo para hablar con confianza, entendiendo situaciones reales: trabajo, estudios, servicios y vida diaria.",
     details: [
@@ -922,7 +922,7 @@ const downloads = [
     title: "Repaso guiado en casa",
     text: "Refuerza tu progreso con conversación real y material visual que sí te ayuda a recordar.",
     image: site.images.adultEnglish,
-    imageAlt: "Estudiantes practicando conversación guiada y apoyo visual.",
+    imageAlt: "Estudiante adulta practicando conversación y tomando notas con apoyo visual.",
   },
 ];
 
