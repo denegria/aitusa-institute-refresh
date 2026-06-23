@@ -979,7 +979,7 @@ const storeProducts = [
     status: "Disponible",
     sku: "",
     image: site.images.productRegistrationBook,
-    imageAlt: "Paquete de registración y libro para clases de inglés.",
+    imageAlt: "Estudiante completando registración y revisando un libro de estudio con apoyo.",
     bestFor: "Recomendado para comenzar una ruta nueva con seguimiento completo.",
     cta: "Consultar paquete",
     note:
@@ -995,7 +995,7 @@ const storeProducts = [
     status: "Disponible",
     sku: "",
     image: site.images.productRegistration,
-    imageAlt: "Opciones de solo registración para clases de inglés.",
+    imageAlt: "Estudiante completando registración online en tablet con ayuda de una instructora.",
     bestFor: "Ideal si solo necesitas asegurar tu cupo en el nivel correcto.",
     cta: "Pedir registración",
     note:
