@@ -966,7 +966,7 @@ const storeProducts = [
     status: "Disponible",
     sku: "",
     image: site.images.productLibro,
-    imageAlt: "Libro físico de AiT USA Institute para estudiantes de inglés.",
+    imageAlt: "Estudiante estudiando con libro abierto, cuaderno y laptop.",
     bestFor: "Ideal si ya estás inscrito y solo necesitas el material de estudio.",
     cta: "Quiero este libro",
     note:
