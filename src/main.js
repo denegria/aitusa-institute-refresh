@@ -2465,6 +2465,14 @@ app.innerHTML = `
           <p>Mientras completas el formulario, el botón de WhatsApp se adapta con tus datos para que enviar la información sea más rápido y claro.</p>
         </div>
         <form class="lead-form" data-lead-form>
+          <div class="lead-form__media">
+            <img src="${site.images.contact}" alt="${site.images.contactAlt || site.seoImageAlt}" loading="lazy" />
+            <div class="lead-form__media-copy">
+              <p class="section-kicker">Tu guía en la ruta</p>
+              <h3>Una conversación real para empezar con más confianza.</h3>
+              <p>Mira quién te acompaña y cuéntanos tu meta. Te devolvemos una ruta clara, sin mensajes genéricos.</p>
+            </div>
+          </div>
           <p class="form-required-note">Campos obligatorios: nombre, apellido, teléfono y ciudad.</p>
           <div class="form-row">
             <label>Nombre <input name="nombre" autocomplete="given-name" placeholder="Tu nombre" required /></label>

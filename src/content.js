@@ -118,7 +118,9 @@ const site = {
     tutoring: assetHires("online-instructor-headset.jpg"),
     level: assetHires("hero-classroom.jpg"),
     scholarship: assetHires("testimonial-antonina-1200.jpg"),
-    contact: asset("153-f0e785-fd00796923204eefa8fc070811dd7598f000.jpg"),
+    contact: assetHires("contact-female-speaking.png"),
+    contactAlt:
+      "Instructora de AiT USA guiando una clase y conversando con estudiantes en un aula luminosa.",
     headset: asset("169-audifono-y-microfono.jpg"),
     devices: asset("171-laptop-and-phonhe-3.jpg"),
     testimonialAntonina: assetHires("testimonial-antonina-1200.jpg"),
