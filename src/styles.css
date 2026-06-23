@@ -347,7 +347,7 @@ select {
 
 .hero__content::before {
   position: absolute;
-  inset: -18px;
+  inset: 0;
   z-index: -1;
   content: "";
   border-radius: 18px;
@@ -361,6 +361,7 @@ select {
   border: 1px solid rgba(255, 255, 255, 0.17);
   backdrop-filter: blur(6px);
   box-shadow: 0 20px 40px rgba(3, 9, 35, 0.3);
+  transform: translate(-18px, -18px);
 }
 
 .hero__highlights {
@@ -504,6 +505,7 @@ select {
 
 .hero__media-stack {
   display: block;
+  overflow: hidden;
 }
 
 .hero__media-photo,
@@ -4404,6 +4406,7 @@ select {
 
   .hero__content::before {
     inset: 0;
+    transform: none;
   }
 
   .hero h1 {
