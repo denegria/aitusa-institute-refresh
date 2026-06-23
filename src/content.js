@@ -976,8 +976,8 @@ const storeProducts = [
     price: "$95.00",
     status: "Disponible",
     sku: "",
-    image: site.images.productRegistrationBook,
-    imageAlt: "Estudiante completando registración y revisando un libro de estudio con apoyo.",
+    image: site.images.routeLevels,
+    imageAlt: "Instructora guiando una ruta de niveles con apoyo visual y libro de estudio.",
     bestFor: "Recomendado para comenzar una ruta nueva con seguimiento completo.",
     cta: "Consultar paquete",
     note:
@@ -992,8 +992,8 @@ const storeProducts = [
     price: "$55.00",
     status: "Disponible",
     sku: "",
-    image: site.images.productRegistration,
-    imageAlt: "Estudiante completando registración online en tablet con ayuda de una instructora.",
+    image: site.images.contact,
+    imageAlt: "Instructora conversando con una estudiante durante una orientación de registración.",
     bestFor: "Ideal si solo necesitas asegurar tu cupo en el nivel correcto.",
     cta: "Pedir registración",
     note:
