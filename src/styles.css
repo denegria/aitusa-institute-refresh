@@ -4611,9 +4611,6 @@ select {
   .mobile-action-bar {
     display: flex;
     bottom: 0;
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
   }
 
   .mobile-action-bar .button {

@@ -1051,7 +1051,7 @@ const storeProducts = [
     status: "Disponible",
     sku: "364215375135191",
     image: site.images.productGed,
-    imageAlt: "Programa GED para preparación académica.",
+    imageAlt: "Tutora guiando preparación GED con estudiante y cuadernos.",
     bestFor: "Pensado para adultos que buscan completar equivalencia de High School.",
     cta: "Consultar GED",
     note:
