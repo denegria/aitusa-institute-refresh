@@ -103,15 +103,15 @@ const site = {
     heroVideoPoster: asset("live/hero-female-speaking-poster.jpg"),
     heroFemaleClassroom: assetHires("hero-classroom.jpg"),
     heroFemaleTeacher: assetHires("hero-female-teacher.jpg"),
-    heroFemaleZoom: asset("live/hero-female-zoom.jpg"),
+    heroFemaleZoom: assetHires("online-instructor-headset.jpg"),
     heroFemaleSpeakingPoster: asset("live/hero-female-speaking-poster.jpg"),
     adultEnglish: assetHires("adult-speaking-class.jpg"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
     computing: asset("products/product-computacion.jpg"),
-    office: asset("live/hero-female-zoom.jpg"),
-    repair: asset("live/hero-female-classroom.jpg"),
-    spanish: asset("live/hero-female-teacher.jpg"),
+    office: assetHires("devices-study.jpg"),
+    repair: assetHires("hero-classroom.jpg"),
+    spanish: assetHires("hero-female-teacher.jpg"),
     ged: assetHires("tutoring-session.jpeg"),
     math: assetHires("tutoring-session.jpeg"),
     method: assetHires("adult-english-speaking.jpg"),
@@ -341,7 +341,7 @@ const programs = [
     fit: "Ideal si quieres moverte con más seguridad en contextos de estudio y trabajo.",
     cta: "Ver español",
     image: site.images.spanish,
-    imageAlt: "Estudiantes conversando durante una clase de español para extranjeros.",
+    imageAlt: "Instructora de AiT USA guiando una clase de español conversacional.",
     summary:
       "Clases de español conversacional para moverse con más seguridad en estudio y trabajo.",
     details: [
@@ -413,7 +413,7 @@ const programs = [
     fit: "Ideal si buscas mejorar productividad con Word, Excel y PowerPoint.",
     cta: "Ver oficina",
     image: site.images.office,
-    imageAlt: "Curso de herramientas de oficina como Word, Excel y PowerPoint.",
+    imageAlt: "Mesa de estudio con laptop, tablet y cuadernos para aprender herramientas de oficina.",
     summary:
       "Entrenamiento en Word, Excel y PowerPoint para productividad en vida real.",
     details: [
@@ -431,7 +431,7 @@ const programs = [
     fit: "Ideal si te interesa soporte básico, diagnóstico y mantenimiento de equipos.",
     cta: "Ver reparación",
     image: site.images.repair,
-    imageAlt: "Componentes de computadora usados para un curso de reparación técnica.",
+    imageAlt: "Instructora guiando una clase práctica en un aula con laptop y pizarra.",
     summary:
       "Curso introductorio de diagnóstico, mantenimiento y soporte básico de equipos.",
     details: [
@@ -476,8 +476,7 @@ const heroGallery = [
     image: site.images.heroFemaleZoom,
     video: site.images.heroVideo,
     videoPoster: site.images.heroFemaleZoom,
-    imageAlt:
-      "Instructora de AiT USA corrigiendo y motivando a una estudiante durante conversación oral.",
+    imageAlt: "Instructora de AiT USA guiando una clase online con audífonos y micrófono.",
   },
 ];
 
@@ -547,8 +546,7 @@ const instructorClips = [
     image: site.images.heroFemaleZoom,
     video: site.images.heroVideoPortrait,
     videoPoster: site.images.heroFemaleZoom,
-    imageAlt:
-      "Estudiante practicando inglés en una clase remota con acompañamiento de la instructora.",
+    imageAlt: "Instructora de AiT USA guiando seguimiento online con audífonos y micrófono.",
     caption:
       "Ideal para sostener práctica constante aunque tu agenda cambie.",
     duration: "0:38",
@@ -793,7 +791,7 @@ const teachers = [
     intent: "classSample",
     href: "#experiencia",
     image: site.images.heroFemaleZoom,
-    imageAlt: "Instructora de AiT USA guiando una clase de inglés por videollamada.",
+    imageAlt: "Instructora de AiT USA guiando una clase online con audífonos y micrófono.",
     role: "Aprendizaje remoto con participación guiada.",
     description:
       "Guía la dinámica desde la distancia para que practiques confianza oral con apoyo y estructura.",
@@ -833,7 +831,7 @@ const trustFeature = [
     copy:
       "Mira una docente real guiando la práctica por Zoom mientras corrige pronunciación, ritmo y seguridad en el momento.",
     image: site.images.heroFemaleZoom,
-    imageAlt: "Instructora de AiT USA guiando una clase en vivo por videollamada.",
+    imageAlt: "Instructora de AiT USA guiando una clase online con audífonos y micrófono.",
     chips: ["Corrección inmediata", "Voz real", "Formato online"],
   },
   {
@@ -918,7 +916,7 @@ const downloads = [
     title: "Zoom con instructora real",
     text: "La clase se siente cercana y clara, aunque estés a distancia, porque ves la corrección mientras ocurre.",
     image: site.images.heroFemaleZoom,
-    imageAlt: "Instructora guiando una clase de inglés por videollamada.",
+    imageAlt: "Instructora guiando una clase online con audífonos y micrófono.",
   },
   {
     eyebrow: "Repaso",
