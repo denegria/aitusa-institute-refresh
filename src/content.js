@@ -769,7 +769,7 @@ const testimonials = [
     name: "Marisol Guardado",
     image: site.images.testimonialMarisol,
     imageAlt:
-      "Marisol, estudiante de AiT USA Institute, compartiendo cómo mejoró su confianza con clases en vivo.",
+      "Estudiante adulta practicando inglés con laptop y cuaderno en una clase en vivo.",
     result: "Escuchar, comprender y responder sin trabarse",
     text:
       "Ver clase real desde el primer momento me quitó la incertidumbre. Hoy entiendo mejor, respondo con mayor seguridad y sostengo la práctica con más constancia.",
