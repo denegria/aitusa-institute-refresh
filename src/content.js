@@ -43,11 +43,11 @@ const site = {
   whatsappHref: "https://wa.me/17323790593",
   twitterHandle: "@AiTUSA_Institute",
   seoTitle:
-    "AiT USA Institute | Clases reales en video | Nueva Jersey",
+    "AiT USA Institute | Inglés, GED y computación en Nueva Jersey",
   seoDescription:
-    "Mira una clase real de inglés en video, compara presencial, híbrido y online, y explora inglés, GED, programación y computación en Nueva Jersey o en línea.",
+    "Mira una clase real de 1:08 y explora programas de inglés, niños, GED, computación y español en Nueva Jersey. Compara presencial, híbrido y online y recibe una ruta inicial clara.",
   seoKeywords:
-    "AiT USA Institute, clase real de inglés, video real de clase, clases de inglés Nueva Jersey, clases presenciales de inglés, clases híbridas, clases online, demo de clase de inglés, GED, programación, computación, ruta personalizada de estudio, Bound Brook, Plainfield, Piscataway, entrevista de trabajo en inglés, clases para familias, inglés conversacional para adultos",
+    "AiT USA Institute, clases de inglés Nueva Jersey, GED, computación, español, clases para niños, clase real de inglés, clases presenciales, clases híbridas, clases online, entrevista de trabajo en inglés, ruta inicial personalizada, Bound Brook, Plainfield, Piscataway, inglés conversacional para adultos",
   seoImage: asset("live/hero-female-speaking-poster.jpg"),
   seoImageAlt:
     "Instructora real de AiT USA guiando una clase de inglés con cámara activa y corrección en vivo.",
