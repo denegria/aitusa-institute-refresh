@@ -114,10 +114,10 @@ const site = {
     spanish: asset("live/hero-female-teacher.jpg"),
     ged: assetHires("tutoring-session.jpeg"),
     math: assetHires("tutoring-session.jpeg"),
-    method: assetHires("graphic-concept-method.jpg"),
-    tutoring: assetHires("tutoring-session.jpeg"),
-    level: assetHires("english-levels.jpg"),
-    scholarship: assetHires("scholarships.jpg"),
+    method: assetHires("adult-english-speaking.jpg"),
+    tutoring: assetHires("online-instructor-headset.jpg"),
+    level: assetHires("hero-classroom.jpg"),
+    scholarship: assetHires("testimonial-antonina-1200.jpg"),
     contact: asset("153-f0e785-fd00796923204eefa8fc070811dd7598f000.jpg"),
     headset: asset("169-audifono-y-microfono.jpg"),
     devices: asset("171-laptop-and-phonhe-3.jpg"),
@@ -620,32 +620,32 @@ const modalities = [
 
 const methodBlocks = [
   {
-    title: "Metodología GC",
+    title: "Ves una clase real",
     image: site.images.method,
-    imageAlt: "Material del método Graphic Concept para aprender inglés de forma visual.",
+    imageAlt: "Estudiantes y una docente en una clase real de conversación.",
     text:
-      "Graphic Concept presenta el idioma con mapas visuales de tiempo verbal y funciones, para que hablar deje de ser memorizar.",
+      "Empiezas con un ejemplo real para entender la dinámica antes de invertir en la ruta completa.",
   },
   {
-    title: "Tutorías",
+    title: "Practicas con corrección",
     image: site.images.tutoring,
-    imageAlt: "Sesión de tutoría académica individual.",
+    imageAlt: "Estudiante recibiendo corrección y apoyo en una tutoría virtual.",
     text:
-      "Apoyo presencial y virtual para reforzar dudas, nivelación y práctica intensiva.",
+      "La docente corrige pronunciación y estructura mientras participas, no después.",
   },
   {
-    title: "Niveles",
+    title: "Pides apoyo flexible",
     image: site.images.level,
-    imageAlt: "Material de niveles básico, intermedio y avanzado de inglés.",
+    imageAlt: "Clase con acompañamiento visual y seguimiento de nivel.",
     text:
-      "Básico, intermedio y avanzado para una progresión clara desde comprensión a producción oral.",
+      "Si necesitas refuerzo, sumamos tutoría online o presencial para destrabar ese punto.",
   },
   {
-    title: "Becas",
+    title: "Avanzas por niveles",
     image: site.images.scholarship,
-    imageAlt: "Imagen promocional de becas para estudiantes destacados.",
+    imageAlt: "Estudiantes sosteniendo sus libros de estudio para mostrar progreso y continuidad.",
     text:
-      "Sistema de incentivos por asistencia, rendimiento y constancia para impulsar continuidad.",
+      "Básico, intermedio y avanzado avanzan con metas claras y continuidad semanal.",
   },
 ];
 

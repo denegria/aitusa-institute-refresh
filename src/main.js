@@ -1870,22 +1870,30 @@ app.innerHTML = `
     </section>
 
     <section id="metodo" class="section section--white" aria-labelledby="metodo-title">
-      <div class="section-inner split">
-        <div>
+      <div class="section-inner split method-shell">
+        <div class="method-copy">
           <p class="section-kicker">Cómo enseñamos</p>
           <h2 id="metodo-title">Comprender. Practicar. Hablar. Repetir.</h2>
           <p>
-            Nuestro método visual organiza vocabulario, tiempos y estructura para acelerar la comprensión.
-            Cada bloque está diseñado para pasar de lo teórico a lo útil con más práctica y menos confusión.
+            Te mostramos una clase real, corregimos en vivo y luego te damos una ruta concreta por nivel y horario para
+            avanzar con menos incertidumbre.
           </p>
+          <ul class="method-points" aria-label="Lo que verás en el método">
+            ${joinList([
+              "Clase real primero para validar el enfoque antes de inscribirte.",
+              "Corrección visible mientras hablas para no arrastrar errores.",
+              "Apoyo flexible y rutas por nivel para sostener tu progreso.",
+            ])}
+          </ul>
         </div>
         <div class="method-list">
           ${methodBlocks
             .map(
-              (block) => `
-                <article class="method-item">
+              (block, index) => `
+                <article class="method-item ${index === 0 ? "method-item--featured" : ""}">
                   <img src="${block.image}" alt="${block.imageAlt}" loading="lazy" />
                   <div>
+                    <span class="method-item__step">${String(index + 1).padStart(2, "0")}</span>
                     <h3>${block.title}</h3>
                     <p>${block.text}</p>
                   </div>
