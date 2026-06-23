@@ -645,8 +645,8 @@ const methodBlocks = [
   },
   {
     title: "Avanzas por niveles",
-    image: site.images.scholarship,
-    imageAlt: "Tutora y estudiante avanzando por niveles con libros, apuntes y laptop.",
+    image: site.images.routeLevels,
+    imageAlt: "Instructora guiando el avance por niveles con una escala de progreso colorida.",
     text:
       "Básico, intermedio y avanzado avanzan con metas claras y continuidad semanal.",
   },
