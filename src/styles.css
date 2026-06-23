@@ -3711,6 +3711,19 @@ select {
   transform: translateY(-1px);
 }
 
+@media (min-width: 960px) {
+  .payment-guide__card--with-media {
+    grid-column: span 2;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+
+  .payment-guide__card--with-media .payment-guide__image {
+    height: 100%;
+    aspect-ratio: auto;
+    min-height: 100%;
+  }
+}
+
 .payment-card {
   overflow: hidden;
   box-shadow: 0 12px 28px rgba(12, 28, 64, 0.08);
