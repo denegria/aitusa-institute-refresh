@@ -107,7 +107,7 @@ const site = {
     heroFemaleSpeakingPoster: asset("live/hero-female-speaking-poster.jpg"),
     adultEnglish: assetHires("adult-speaking-class.png"),
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
-    kidsEnglish: assetHires("kids-online-class.jpg"),
+    kidsEnglish: assetHires("kids-online-class.png"),
     computing: asset("products/product-computacion.jpg"),
     office: asset("live/hero-female-zoom.jpg"),
     repair: asset("live/hero-female-classroom.jpg"),
@@ -321,7 +321,7 @@ const programs = [
     fit: "Ideal para familias que quieren práctica visual y acompañamiento constante.",
     cta: "Ver niños",
     image: site.images.kidsEnglish,
-    imageAlt: "Madre acompañando a su hija durante una clase de inglés online.",
+    imageAlt: "Instructora guiando a una niña en una clase de inglés online con materiales visuales.",
     summary:
       "Aprendizaje divertido y práctico para que niños de 8 a 13 años comprendan y hablen en inglés.",
     details: [
