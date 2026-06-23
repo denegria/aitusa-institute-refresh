@@ -1884,7 +1884,7 @@ app.innerHTML = `
             (program, index) => `
               <article class="program-card ${index === 0 ? "program-card--featured" : ""}" data-category="${program.category}">
                 <div class="program-card__media">
-                  <img src="${program.image}" alt="${program.imageAlt}" loading="lazy" />
+                  <img src="${program.image}" alt="${program.imageAlt}" loading="eager" decoding="async" />
                   <span class="program-card__badge">${program.mode}</span>
                 </div>
                 <div class="program-card__body">
