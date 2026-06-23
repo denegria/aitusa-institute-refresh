@@ -977,8 +977,8 @@ const storeProducts = [
     price: "$95.00",
     status: "Disponible",
     sku: "",
-    image: site.images.routeLevels,
-    imageAlt: "Instructora guiando una ruta de niveles con apoyo visual y libro de estudio.",
+    image: site.images.productRegistrationBook,
+    imageAlt: "Instructora guiando registración + libro con workbook y laptop en la mesa.",
     bestFor: "Recomendado para comenzar una ruta nueva con seguimiento completo.",
     cta: "Consultar paquete",
     note:
