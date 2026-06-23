@@ -55,7 +55,9 @@ const programCounts = initials.reduce((acc, label) => {
 }, {});
 
 const heroMediaPoster = site.heroVideoPoster || site.images.heroVideoPoster || site.images.heroPoster || site.images.hero;
-const heroBackgroundImage = site.images.heroVideoPoster || site.images.heroPoster || site.images.hero || heroMediaPoster;
+const heroBackgroundImage = toRootRelativeAssetUrl(
+  site.images.heroVideoPoster || site.images.heroPoster || site.images.hero || heroMediaPoster,
+);
 const heroVideoSources = (() => {
   const isMobile = window.matchMedia("(max-width: 900px)").matches;
   const desktopFirst = site.images.heroVideo || site.images.heroVideoPortrait;
@@ -729,6 +731,13 @@ const toAbsoluteSiteUrl = (value) => {
   } catch {
     return value;
   }
+};
+
+const toRootRelativeAssetUrl = (value) => {
+  if (!value) return "";
+  if (/^(https?:|mailto:|tel:|data:)/i.test(value)) return value;
+  if (value.startsWith("/")) return value;
+  return `/${value.replace(/^\.?\//, "")}`;
 };
 
 const syncSeoHead = () => {
