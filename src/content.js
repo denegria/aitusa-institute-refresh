@@ -114,7 +114,7 @@ const site = {
     spanish: asset("082-persona-20con-20microfono-edited.jpg"),
     ged: asset("products/product-ged.jpg"),
     math: assetHires("tutoring-session.jpeg"),
-    method: assetHires("adult-english-speaking.jpg"),
+    method: assetHires("graphic-concept-method.jpg"),
     tutoring: assetHires("online-instructor-headset.jpg"),
     level: assetHires("adult-speaking-class.jpg"),
     routeLevels: assetHires("english-levels.jpg"),
@@ -626,7 +626,7 @@ const methodBlocks = [
   {
     title: "Ves una clase real",
     image: site.images.method,
-    imageAlt: "Estudiantes y una docente en una clase real de conversación.",
+    imageAlt: "Instructora explicando el método con un diagrama visual en el pizarrón.",
     text:
       "Empiezas con un ejemplo real para entender la dinámica antes de invertir en la ruta completa.",
   },
