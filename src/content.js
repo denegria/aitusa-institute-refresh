@@ -822,6 +822,25 @@ const trustHighlights = [
   },
 ];
 
+const trustFeature = [
+  {
+    title: "Clase real en vivo",
+    copy:
+      "Mira una docente real guiando la práctica por Zoom mientras corrige pronunciación, ritmo y seguridad en el momento.",
+    image: site.images.heroFemaleZoom,
+    imageAlt: "Instructora de AiT USA guiando una clase en vivo por videollamada.",
+    chips: ["Corrección inmediata", "Voz real", "Formato online"],
+  },
+  {
+    title: "Aprendizaje con presencia",
+    copy:
+      "La experiencia no se siente genérica: ves una profesora, una dinámica real y una conversación que avanza con claridad.",
+    image: site.images.heroFemaleTeacher,
+    imageAlt: "Instructora de AiT USA liderando una clase real con cámara activa.",
+    chips: ["Clase visible", "Seguimiento", "Confianza"],
+  },
+];
+
 const paymentGuides = [
   {
     title: "Quiero empezar a hablar inglés",
@@ -1149,6 +1168,7 @@ window.AITUSA_DATA = {
   teachers,
   testimonials,
   trustHighlights,
+  trustFeature,
   paymentGuides,
   contactPrep,
   footerFacts,

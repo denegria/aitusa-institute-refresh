@@ -29,6 +29,7 @@ const {
   teachers,
   testimonials,
   trustHighlights,
+  trustFeature,
   paymentGuides,
   contactPrep,
   footerFacts,
@@ -2126,6 +2127,25 @@ app.innerHTML = `
       </div>
       <div class="section-inner trust-grid">
         <div class="trust-panel">
+          <div class="trust-feature-grid" aria-label="Momentos reales de clase">
+            ${trustFeature
+              .map(
+                (feature, index) => `
+                  <article class="trust-feature-card ${index === 0 ? "trust-feature-card--featured" : ""}">
+                    <img src="${feature.image}" alt="${feature.imageAlt}" loading="lazy" />
+                    <div class="trust-feature-card__overlay">
+                      <p class="section-kicker">Lo que ves en clase</p>
+                      <h3>${feature.title}</h3>
+                      <p>${feature.copy}</p>
+                      <div class="trust-feature-card__chips" aria-label="Detalle de la experiencia">
+                        ${feature.chips.map((chip) => `<span>${chip}</span>`).join("")}
+                      </div>
+                    </div>
+                  </article>
+                `,
+              )
+              .join("")}
+          </div>
           <div class="trust-metrics" aria-label="Datos de confianza">
             <article>
               <strong>20+</strong>
