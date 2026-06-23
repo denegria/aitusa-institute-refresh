@@ -112,7 +112,7 @@ const site = {
     office: assetHires("devices-study.jpg"),
     repair: assetHires("hero-classroom.jpg"),
     spanish: assetHires("hero-female-teacher.jpg"),
-    ged: assetHires("tutoring-session.jpeg"),
+    ged: asset("products/product-ged.jpg"),
     math: assetHires("tutoring-session.jpeg"),
     method: assetHires("adult-english-speaking.jpg"),
     tutoring: assetHires("online-instructor-headset.jpg"),
@@ -359,7 +359,7 @@ const programs = [
     fit: "Ideal si buscas avanzar hacia el diploma equivalente a High School con ruta guiada.",
     cta: "Ver GED",
     image: site.images.ged,
-    imageAlt: "Tutora guiando a una estudiante en una sesión académica con laptop y cuadernos.",
+    imageAlt: "Tutora guiando preparación GED con workbook, lápices y calculadora.",
     summary:
       "Acompañamiento estructurado para avanzar hacia el diploma equivalente a High School.",
     details: [
@@ -1050,7 +1050,7 @@ const storeProducts = [
     status: "Disponible",
     sku: "364215375135191",
     image: site.images.productGed,
-    imageAlt: "Tutora guiando preparación GED con estudiante y cuadernos.",
+    imageAlt: "Tutora guiando preparación GED con workbook, lápices y calculadora.",
     bestFor: "Pensado para adultos que buscan completar equivalencia de High School.",
     cta: "Consultar GED",
     note:
