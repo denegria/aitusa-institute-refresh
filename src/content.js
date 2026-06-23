@@ -117,7 +117,7 @@ const site = {
     method: assetHires("adult-english-speaking.jpg"),
     tutoring: assetHires("online-instructor-headset.jpg"),
     level: assetHires("hero-classroom.jpg"),
-    scholarship: assetHires("testimonial-antonina-1200.jpg"),
+    scholarship: assetHires("scholarships.jpg"),
     contact: assetHires("contact-female-speaking.jpg"),
     contactAlt:
       "Instructora de AiT USA guiando una clase y conversando con estudiantes en un aula luminosa.",
@@ -645,7 +645,7 @@ const methodBlocks = [
   {
     title: "Avanzas por niveles",
     image: site.images.scholarship,
-    imageAlt: "Estudiantes sosteniendo sus libros de estudio para mostrar progreso y continuidad.",
+    imageAlt: "Tutora y estudiante avanzando por niveles con libros, apuntes y laptop.",
     text:
       "Básico, intermedio y avanzado avanzan con metas claras y continuidad semanal.",
   },
