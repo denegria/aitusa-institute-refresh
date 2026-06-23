@@ -4458,6 +4458,39 @@ select {
     aspect-ratio: 16 / 9.6;
   }
 
+  .hero__media-overlay--hero {
+    align-items: stretch;
+    padding: 8px;
+  }
+
+  .hero__media-overlay--hero .hero__media-quickfacts {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .hero__media-overlay--hero .hero__media-quickfacts span {
+    width: 100%;
+    white-space: normal;
+    line-height: 1.2;
+    justify-content: flex-start;
+  }
+
+  .hero__media-route {
+    width: 100%;
+    max-width: none;
+  }
+
+  .hero__video-chip {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero__video-chip__label {
+    white-space: normal;
+    text-align: center;
+  }
+
   .hero h1 {
     font-size: clamp(2.45rem, 7.4vw, 3.8rem);
   }
@@ -4652,6 +4685,10 @@ select {
     max-width: none;
     order: -1;
     width: 100%;
+  }
+
+  .hero__media-overlay--hero {
+    align-items: stretch;
   }
 
   .hero__content {
