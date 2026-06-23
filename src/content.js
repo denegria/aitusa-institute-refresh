@@ -5,21 +5,21 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Mira una clase real de 1:08 con una instructora real antes de decidir.",
+    "Mira una clase real en video antes de decidir.",
   description:
-    "Ve una clase real de inglés en acción con corrección en vivo, video HD y una ruta inicial clara para comparar formatos.",
+    "Mira una clase real de inglés en video, compara presencial, híbrido y online, y explora rutas de inglés, GED, programación y computación con claridad.",
   heroHeadline:
-    "Mira la clase real de 1:08 y decide si te conviene.",
+    "Mira la clase real en video y decide con claridad.",
   heroLead:
-    "Ves una instructora real, corrección en vivo y práctica guiada para comparar presencial, híbrido y online sin adivinar.",
+    "Ves una instructora real, corrección en vivo y práctica guiada para comparar presencial, híbrido y online con menos dudas.",
   heroQuote:
     "La clase real te muestra ritmo, corrección y presencia humana desde el primer minuto.",
   heroMicrocopy:
-    "Compara presencial, híbrido y online con evidencia real y una ruta inicial clara.",
+    "Empieza por el video real y luego elige la ruta que mejor encaje con tu horario.",
   heroQuickCapture: {
     title: "Tu ruta inicial en menos de 60 segundos",
     copy:
-      "Déjanos tu nombre y WhatsApp y te enviamos una ruta inicial de acción: objetivo, formato y horario recomendado.",
+      "Déjanos tu nombre y WhatsApp y te enviamos una ruta inicial de acción: objetivo, formato y horario recomendado para empezar con menos dudas.",
     options: [
       "Validar si la clase real en 1:08 encaja con mi estilo de aprendizaje",
       "Comparar presencial, híbrido y online con mi agenda",
@@ -43,11 +43,11 @@ const site = {
   whatsappHref: "https://wa.me/17323790593",
   twitterHandle: "@AiTUSA_Institute",
   seoTitle:
-    "AiT USA Institute | Clase real de inglés en 1:08 | Nueva Jersey",
+    "AiT USA Institute | Clases reales en video | Nueva Jersey",
   seoDescription:
-    "Mira una clase real de inglés de 1:08 con una instructora real en Nueva Jersey. Compara presencial, híbrido y online y recibe una ruta inicial clara para empezar.",
+    "Mira una clase real de inglés en video, compara presencial, híbrido y online, y explora inglés, GED, programación y computación en Nueva Jersey o en línea.",
   seoKeywords:
-    "AiT USA Institute, clase real de inglés, clases de inglés Nueva Jersey, clases presenciales de inglés, clases híbridas, clases online, demo de clase de inglés, ruta personalizada de estudio, Bound Brook, Plainfield, Piscataway, entrevista de trabajo en inglés, clases para familias, inglés conversacional para adultos",
+    "AiT USA Institute, clase real de inglés, video real de clase, clases de inglés Nueva Jersey, clases presenciales de inglés, clases híbridas, clases online, demo de clase de inglés, GED, programación, computación, ruta personalizada de estudio, Bound Brook, Plainfield, Piscataway, entrevista de trabajo en inglés, clases para familias, inglés conversacional para adultos",
   seoImage: asset("live/hero-female-speaking-poster.jpg"),
   seoImageAlt:
     "Instructora real de AiT USA guiando una clase de inglés con cámara activa y corrección en vivo.",
@@ -377,7 +377,7 @@ const programs = [
     fit: "Ideal cuando necesitas recuperar ritmo y aclarar temas críticos sin perder tiempo.",
     cta: "Ver tutorías",
     image: site.images.math,
-    imageAlt: "Tutora y estudiante revisando ejercicios con apoyo individual en una mesa de estudio.",
+    imageAlt: "Tutora guiando una clase de matemáticas con calculadora, cuaderno y ejercicios.",
     summary:
       "Refuerzos cortos y focalizados para recuperar ritmo en secuencia académica.",
     details: [
