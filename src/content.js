@@ -455,20 +455,20 @@ const heroGallery = [
     label: "Clase real de apertura",
     title:
       "Instructora real guía conversación y corrección en Zoom desde el primer minuto.",
-    image: site.images.heroFemaleTeacher,
+    image: site.images.contact,
     video: site.images.heroVideo,
-    videoPoster: site.images.heroFemaleTeacher,
+    videoPoster: site.images.contact,
     imageAlt:
-      "Instructora de AiT USA interactuando con estudiantes en una sesión online de inglés.",
+      "Instructora de AiT USA guiando una clase real con conversación y corrección visual.",
   },
   {
     label: "Clase en vivo",
     title: "Práctica oral con feedback inmediato para hablar con más claridad.",
-    image: site.images.heroFemaleClassroom,
+    image: site.images.routeLevels,
     video: site.images.heroVideo,
-    videoPoster: site.images.heroFemaleClassroom,
+    videoPoster: site.images.routeLevels,
     imageAlt:
-      "Docente femenina de AiT USA guiando una clase en vivo de conversación en inglés.",
+      "Docente femenina de AiT USA mostrando el avance por niveles durante una clase en vivo.",
   },
   {
     label: "Seguimiento con presencia",
@@ -520,11 +520,11 @@ const instructorClips = [
   {
     title: "Clase de conversación real",
     eyebrow: "Muestra real",
-    image: site.images.heroFemaleTeacher,
+    image: site.images.contact,
     video: site.images.heroVideo,
-    videoPoster: site.images.heroFemaleTeacher,
+    videoPoster: site.images.contact,
     imageAlt:
-      "Instructora de AiT USA guiando una práctica de entrevista en clase con método visual en inglés.",
+      "Instructora de AiT USA guiando una práctica de entrevista en clase con conversación real.",
     caption:
       "Una instructora real guía la respuesta con corrección instantánea y ritmo natural.",
     duration: "1:08",
@@ -532,10 +532,11 @@ const instructorClips = [
   {
     title: "Práctica guiada con Zoom",
     eyebrow: "Metodología visual",
-    image: site.images.heroFemaleClassroom,
+    image: site.images.routeLevels,
     video: site.images.heroVideo,
-    videoPoster: site.images.heroFemaleClassroom,
-    imageAlt: "Instructora y estudiante practicando inglés mediante Zoom con enfoque visual y conversación real.",
+    videoPoster: site.images.routeLevels,
+    imageAlt:
+      "Instructora mostrando el progreso por niveles mientras guía una clase visual.",
     caption:
       "La dinámica online se ve clara, ordenada y fácil de seguir desde el primer bloque.",
     duration: "0:48",
@@ -779,7 +780,7 @@ const teachers = [
     name: "Instructora de inglés conversacional",
     intent: "classSample",
     href: "#experiencia",
-    image: site.images.heroFemaleTeacher,
+    image: site.images.contact,
     imageAlt: "Instructora de AiT USA corrigiendo pronunciación durante una clase real de conversación.",
     role: "Corrección en vivo con seguimiento semanal.",
     description:
@@ -801,8 +802,8 @@ const teachers = [
     name: "Instructora de continuidad académica",
     intent: "default",
     href: "#contacto",
-    image: site.images.heroFemaleClassroom,
-    imageAlt: "Instructora de AiT USA motivando a estudiantes en una clase práctica.",
+    image: site.images.routeLevels,
+    imageAlt: "Instructora de AiT USA mostrando el avance por niveles y metas semanales.",
     role: "Soporte constante y ruta personalizada.",
     description:
       "Acompaña el seguimiento de metas semanales para que avances sin perder ritmo ni motivación.",
@@ -838,8 +839,8 @@ const trustFeature = [
     title: "Aprendizaje con presencia",
     copy:
       "La experiencia no se siente genérica: ves una profesora, una dinámica real y una conversación que avanza con claridad.",
-    image: site.images.heroFemaleTeacher,
-    imageAlt: "Instructora de AiT USA liderando una clase real con cámara activa.",
+    image: site.images.contact,
+    imageAlt: "Instructora de AiT USA liderando una clase real con conversación y apoyo visual.",
     chips: ["Clase visible", "Seguimiento", "Confianza"],
   },
 ];
