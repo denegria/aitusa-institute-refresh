@@ -1015,7 +1015,7 @@ const storeProducts = [
     status: "Disponible",
     sku: "",
     image: site.images.productProgramming,
-    imageAlt: "Paquete de cursos de programación, diseño y reparación de computadoras.",
+    imageAlt: "Instructora guiando curso de programación y diseño con código en pantalla.",
     bestFor: "Perfecto para estudiantes que buscan formación técnica con salida laboral.",
     cta: "Ver cursos técnicos",
     note:
