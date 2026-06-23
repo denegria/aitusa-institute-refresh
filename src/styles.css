@@ -4357,6 +4357,16 @@ select {
     pointer-events: auto;
   }
 
+  .mobile-action-bar .button {
+    min-width: 0;
+    min-height: 50px;
+    padding-inline: 10px;
+    white-space: normal;
+    line-height: 1.15;
+    font-size: 0.78rem;
+    text-align: center;
+  }
+
   .menu-toggle__label {
     position: absolute;
     width: 1px;
@@ -4390,6 +4400,10 @@ select {
 
   .hero__content {
     max-width: 100%;
+  }
+
+  .hero__content::before {
+    inset: 0;
   }
 
   .hero h1 {
@@ -4724,8 +4738,8 @@ select {
 }
 
 .section-inner::after {
-  right: -8px;
-  bottom: -10px;
+  right: 8px;
+  bottom: 10px;
   width: 140px;
   height: 120px;
   border-radius: 34% 66% 48% 52%;
