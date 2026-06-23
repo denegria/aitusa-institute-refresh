@@ -444,6 +444,14 @@ const programs = [
 
 const heroGallery = [
   {
+    label: "Cámara activa",
+    title: "La instructora corrige conversación real con cámara activa.",
+    image: site.images.heroFemaleSpeakingPoster,
+    video: site.images.heroVideo,
+    videoPoster: site.images.heroFemaleSpeakingPoster,
+    imageAlt: "Instructora de AiT USA guiando conversación en vivo con cámara activa.",
+  },
+  {
     label: "Clase real de apertura",
     title:
       "Instructora real guía conversación y corrección en Zoom desde el primer minuto.",
@@ -470,14 +478,6 @@ const heroGallery = [
     videoPoster: site.images.heroFemaleZoom,
     imageAlt:
       "Instructora de AiT USA corrigiendo y motivando a una estudiante durante conversación oral.",
-  },
-  {
-    label: "Cámara activa",
-    title: "Conversación guiada para fijar lo aprendido con menos bloqueo.",
-    image: site.images.heroFemaleSpeakingPoster,
-    video: site.images.heroVideo,
-    videoPoster: site.images.heroVideoPoster,
-    imageAlt: "Grupo en clase presencial practicando conversación y pronunciación en inglés.",
   },
 ];
 
@@ -506,6 +506,18 @@ const heroProof = [
 ];
 
 const instructorClips = [
+  {
+    title: "Cámara activa con conversación guiada",
+    eyebrow: "Muestra real",
+    image: site.images.heroFemaleSpeakingPoster,
+    video: site.images.heroVideo,
+    videoPoster: site.images.heroFemaleSpeakingPoster,
+    imageAlt:
+      "Instructora de AiT USA guiando conversación en vivo con cámara activa.",
+    caption:
+      "Una instructora real guía la respuesta con corrección instantánea y ritmo natural.",
+    duration: "1:08",
+  },
   {
     title: "Clase de conversación real",
     eyebrow: "Muestra real",
@@ -540,17 +552,6 @@ const instructorClips = [
     caption:
       "Ideal para sostener práctica constante aunque tu agenda cambie.",
     duration: "0:38",
-  },
-  {
-    title: "Respuesta guiada con cámara activa",
-    eyebrow: "Sesión de progreso",
-    image: site.images.heroFemaleSpeakingPoster,
-    video: site.images.heroVideo,
-    videoPoster: site.images.heroFemaleSpeakingPoster,
-    imageAlt: "Instructora de AiT USA interactuando con estudiantes en una clase de inglés.",
-    caption:
-      "Visual, conversación y ajuste de ruta en una sola experiencia.",
-    duration: "0:50",
   },
 ];
 
