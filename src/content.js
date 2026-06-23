@@ -993,8 +993,8 @@ const storeProducts = [
     price: "$55.00",
     status: "Disponible",
     sku: "",
-    image: site.images.contact,
-    imageAlt: "Instructora conversando con una estudiante durante una orientación de registración.",
+    image: site.images.productRegistration,
+    imageAlt: "Estudiante completando registración con apoyo de una instructora y tablet en la mesa.",
     bestFor: "Ideal si solo necesitas asegurar tu cupo en el nivel correcto.",
     cta: "Pedir registración",
     note:
