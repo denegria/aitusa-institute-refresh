@@ -997,6 +997,32 @@ const launchPathSection = () => {
         <h2 id="ruta-title">Tres pasos simples para decidir con criterio hoy.</h2>
         <p>Primero observas una clase real, luego validamos agenda y objetivo, y finalmente definimos una ruta que sí puedas ejecutar.</p>
       </div>
+      <div class="section-inner path-visual-grid" aria-label="Visuales de progreso y método">
+        <article class="path-visual-card">
+          <img
+            src="${site.images.routeLevels}"
+            alt="Tutora guiando el avance por niveles con una escala de progreso colorida."
+            loading="lazy"
+          />
+          <div class="path-visual-card__body">
+            <p class="section-kicker">Niveles claros</p>
+            <h3>Sabes dónde empiezas y qué sigue después.</h3>
+            <p>El progreso se ve por etapas concretas, no por suposiciones.</p>
+          </div>
+        </article>
+        <article class="path-visual-card">
+          <img
+            src="${site.images.routeConcept}"
+            alt="Instructora explicando el método con un diagrama visual en el pizarrón."
+            loading="lazy"
+          />
+          <div class="path-visual-card__body">
+            <p class="section-kicker">Método visual</p>
+            <h3>Entiendes la lógica antes de repetirla.</h3>
+            <p>La estructura visual hace más fácil recordar, practicar y hablar con seguridad.</p>
+          </div>
+        </article>
+      </div>
       <div class="section-inner path-grid">
         ${launchPath
           .map(

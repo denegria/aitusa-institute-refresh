@@ -117,6 +117,8 @@ const site = {
     method: assetHires("adult-english-speaking.jpg"),
     tutoring: assetHires("online-instructor-headset.jpg"),
     level: assetHires("hero-classroom.jpg"),
+    routeLevels: assetHires("english-levels.jpg"),
+    routeConcept: assetHires("graphic-concept-method.jpg"),
     scholarship: assetHires("scholarships.jpg"),
     contact: assetHires("contact-female-speaking.jpg"),
     contactAlt:

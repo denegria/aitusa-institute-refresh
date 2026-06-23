@@ -2053,6 +2053,50 @@ select {
   gap: 16px;
 }
 
+.path-visual-grid {
+  width: min(var(--max), calc(100% - 36px));
+  margin: 18px auto 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.path-visual-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: var(--shadow-soft);
+}
+
+.path-visual-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.path-visual-card__body {
+  display: grid;
+  gap: 8px;
+  padding: 18px 20px 20px;
+}
+
+.path-visual-card__body .section-kicker {
+  margin-bottom: 2px;
+}
+
+.path-visual-card__body h3 {
+  margin: 0;
+  font-size: 1.28rem;
+  line-height: 1.14;
+}
+
+.path-visual-card__body p {
+  margin: 0;
+  color: var(--muted);
+}
+
 .path-card {
   position: relative;
   display: grid;
@@ -4733,6 +4777,7 @@ select {
   .books-strip,
   .schedule-intro,
   .utility-strip,
+  .path-visual-grid,
   .path-grid,
   .spotlight-journey,
   .spotlight-proof,
