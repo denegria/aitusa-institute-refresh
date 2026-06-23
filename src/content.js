@@ -357,7 +357,7 @@ const programs = [
     fit: "Ideal si buscas avanzar hacia el diploma equivalente a High School con ruta guiada.",
     cta: "Ver GED",
     image: site.images.ged,
-    imageAlt: "Material visual para preparación del examen GED.",
+    imageAlt: "Tutora guiando a una estudiante en una sesión académica con laptop y cuadernos.",
     summary:
       "Acompañamiento estructurado para avanzar hacia el diploma equivalente a High School.",
     details: [
@@ -375,7 +375,7 @@ const programs = [
     fit: "Ideal cuando necesitas recuperar ritmo y aclarar temas críticos sin perder tiempo.",
     cta: "Ver tutorías",
     image: site.images.math,
-    imageAlt: "Estudiante recibiendo apoyo en una tutoría de matemáticas.",
+    imageAlt: "Tutora y estudiante revisando ejercicios con apoyo individual en una mesa de estudio.",
     summary:
       "Refuerzos cortos y focalizados para recuperar ritmo en secuencia académica.",
     details: [
