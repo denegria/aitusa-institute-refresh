@@ -109,7 +109,7 @@ const site = {
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
     computing: asset("products/product-computacion.jpg"),
-    office: assetHires("devices-study.jpg"),
+    office: asset("084-cursos-2520de-2520oficina-edited-edited.jpg"),
     repair: asset("088-reparacion-de-computadoras.jpg"),
     spanish: asset("082-persona-20con-20microfono-edited.jpg"),
     ged: asset("products/product-ged.jpg"),
@@ -124,7 +124,7 @@ const site = {
     contactAlt:
       "Instructora de AiT USA guiando una clase y conversando con estudiantes en un aula luminosa.",
     headset: asset("169-audifono-y-microfono.jpg"),
-    devices: assetHires("devices-study.jpg"),
+    devices: asset("170-laptop-and-phonhe-3.jpg"),
     testimonialAntonina: assetHires("testimonial-antonina-1200.jpg"),
     testimonialMarisol: assetHires("testimonial-marisol-1200.jpg"),
     productEuropa: asset("products/product-europa-mes-4weeks.jpg"),
@@ -413,7 +413,7 @@ const programs = [
     fit: "Ideal si buscas mejorar productividad con Word, Excel y PowerPoint.",
     cta: "Ver oficina",
     image: site.images.office,
-    imageAlt: "Mesa de estudio con laptop, tablet y cuadernos para aprender herramientas de oficina.",
+    imageAlt: "Herramientas de Microsoft Office y una persona trabajando en computadora.",
     summary:
       "Entrenamiento en Word, Excel y PowerPoint para productividad en vida real.",
     details: [
@@ -903,7 +903,7 @@ const downloads = [
     text:
       "Accede desde el dispositivo que ya usas para ver tu clase, repasar y seguir tu ruta sin complicaciones.",
     image: site.images.devices,
-    imageAlt: "Estudiante con laptop, tablet y teléfono listos para una clase online y repaso en casa.",
+    imageAlt: "Laptop, tablet y teléfono listos para una clase online y repaso en casa.",
   },
   {
     eyebrow: "En vivo",
@@ -940,7 +940,7 @@ const requirements = [
     eyebrow: "Básico",
     title: "Dispositivo con internet",
     image: site.images.devices,
-    imageAlt: "Laptop y teléfono para conectarse a clases online.",
+    imageAlt: "Laptop, tablet y teléfono para conectarse a clases online.",
     text: "Laptop, desktop, tableta o teléfono con conexión estable.",
   },
 ];

@@ -733,12 +733,12 @@ const toAbsoluteSiteUrl = (value) => {
   }
 };
 
-const toRootRelativeAssetUrl = (value) => {
+function toRootRelativeAssetUrl(value) {
   if (!value) return "";
   if (/^(https?:|mailto:|tel:|data:)/i.test(value)) return value;
   if (value.startsWith("/")) return value;
   return `/${value.replace(/^\.?\//, "")}`;
-};
+}
 
 const syncSeoHead = () => {
   const setContent = (selector, value) => {
