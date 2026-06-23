@@ -395,7 +395,7 @@ const programs = [
     fit: "Ideal si quieres aprender desde cero a usar internet, archivos y herramientas básicas.",
     cta: "Ver computación",
     image: site.images.computing,
-    imageAlt: "Instructora guiando a una estudiante en computación básica con laptop en un espacio moderno.",
+    imageAlt: "Instructora guiando una clase de computación básica con laptop, tablet y teléfono.",
     summary:
       "Curso práctico para dominar navegación, productividad y herramientas digitales esenciales.",
     details: [
