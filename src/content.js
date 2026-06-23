@@ -101,6 +101,7 @@ const site = {
     heroVideoPortrait: asset("live/hero-female-speaking-360p.mp4"),
     heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
     heroVideoPoster: asset("live/hero-female-speaking-poster.jpg"),
+    heroClassroom: assetHires("hero-classroom.jpg"),
     heroFemaleClassroom: assetHires("adult-speaking-class.jpg"),
     heroFemaleTeacher: assetHires("adult-speaking-class.jpg"),
     heroFemaleZoom: assetHires("online-instructor-headset.jpg"),
@@ -464,11 +465,10 @@ const heroGallery = [
   {
     label: "Clase en vivo",
     title: "Práctica oral con feedback inmediato para hablar con más claridad.",
-    image: site.images.routeLevels,
+    image: site.images.heroClassroom,
     video: site.images.heroVideo,
-    videoPoster: site.images.routeLevels,
-    imageAlt:
-      "Docente femenina de AiT USA mostrando el avance por niveles durante una clase en vivo.",
+    videoPoster: site.images.heroClassroom,
+    imageAlt: "Instructora de AiT USA explicando frente al pizarrón durante una clase en vivo.",
   },
   {
     label: "Seguimiento con presencia",
@@ -839,8 +839,8 @@ const trustFeature = [
     title: "Aprendizaje con presencia",
     copy:
       "La experiencia no se siente genérica: ves una profesora, una dinámica real y una conversación que avanza con claridad.",
-    image: site.images.adultEnglish,
-    imageAlt: "Instructora de AiT USA liderando una clase real con conversación y apoyo visual en el aula.",
+    image: site.images.heroClassroom,
+    imageAlt: "Instructora de AiT USA liderando una clase real frente al pizarrón con apoyo visual.",
     chips: ["Clase visible", "Seguimiento", "Confianza"],
   },
 ];
