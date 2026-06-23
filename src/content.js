@@ -116,7 +116,7 @@ const site = {
     math: assetHires("tutoring-session.jpeg"),
     method: assetHires("adult-english-speaking.jpg"),
     tutoring: assetHires("online-instructor-headset.jpg"),
-    level: assetHires("contact-female-speaking.jpg"),
+    level: assetHires("adult-speaking-class.jpg"),
     routeLevels: assetHires("english-levels.jpg"),
     routeConcept: assetHires("graphic-concept-method.jpg"),
     scholarship: assetHires("scholarships.jpg"),
@@ -640,7 +640,7 @@ const methodBlocks = [
   {
     title: "Pides apoyo flexible",
     image: site.images.level,
-    imageAlt: "Clase con acompañamiento visual y seguimiento de nivel.",
+    imageAlt: "Estudiante practicando con laptop y cuaderno mientras recibe apoyo flexible.",
     text:
       "Si necesitas refuerzo, sumamos tutoría online o presencial para destrabar ese punto.",
   },
