@@ -3639,17 +3639,32 @@ select {
 
 .payment-guide {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 12px;
   margin-bottom: 18px;
 }
 
 .payment-guide article {
-  padding: 18px 20px;
   border-radius: var(--radius);
   border: 1px solid rgba(13, 29, 65, 0.08);
   background: linear-gradient(180deg, #fff 0%, #fcfdff 100%);
   box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  display: grid;
+  gap: 0;
+}
+
+.payment-guide__image {
+  width: 100%;
+  aspect-ratio: 1.25;
+  object-fit: cover;
+  background: #dfe5f0;
+}
+
+.payment-guide__body {
+  padding: 18px 20px 20px;
+  display: grid;
+  gap: 12px;
 }
 
 .payment-guide strong {
@@ -3675,6 +3690,25 @@ select {
   background: rgba(255, 78, 106, 0.09);
   font-size: 0.79rem;
   font-weight: 850;
+}
+
+.payment-guide a {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  min-height: 42px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: var(--blue);
+  color: var(--white);
+  font-weight: 850;
+  text-decoration: none;
+  box-shadow: 0 10px 20px rgba(12, 60, 231, 0.22);
+}
+
+.payment-guide a:hover,
+.payment-guide a:focus-visible {
+  transform: translateY(-1px);
 }
 
 .payment-card {

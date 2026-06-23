@@ -859,6 +859,15 @@ const paymentGuides = [
     href: "#libros",
   },
   {
+    title: "Necesito ajustar mi presupuesto",
+    text: "Compararemos mensualidad, libro, registración y modalidad para encontrar la ruta que encaje contigo sin perder claridad.",
+    cta: "Hablar con asesor",
+    href: "#contacto",
+    image: site.images.scholarship,
+    imageAlt: "Dos estudiantes revisando opciones de estudio con laptop y cuaderno.",
+    tag: "Apoyo y presupuesto",
+  },
+  {
     title: "Busco otra área académica o técnica",
     text: "GED, computación básica y oficina tienen su propio camino según tu objetivo inmediato.",
     cta: "Explorar opción",

@@ -2328,10 +2328,14 @@ app.innerHTML = `
         ${paymentGuides
           .map(
             (item) => `
-              <article>
-                <strong>${item.title}</strong>
-                <p>${item.text}</p>
-                <a href="${item.href}">${item.cta}</a>
+              <article class="payment-guide__card${item.image ? " payment-guide__card--with-media" : ""}">
+                ${item.image ? `<img class="payment-guide__image" src="${item.image}" alt="${item.imageAlt || item.title}" loading="lazy" />` : ""}
+                <div class="payment-guide__body">
+                  <strong>${item.title}</strong>
+                  <p>${item.text}</p>
+                  ${item.tag ? `<span>${item.tag}</span>` : ""}
+                  <a href="${item.href}">${item.cta}</a>
+                </div>
               </article>
             `,
           )
