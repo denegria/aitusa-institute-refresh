@@ -2665,14 +2665,20 @@ const scheduleCount = document.querySelector("[data-schedule-count]");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const mobileActionBar = document.querySelector("[data-mobile-action-bar]");
 
-  const initMobileActionBar = () => {
-    if (!mobileActionBar) return;
-    const mobileMatcher = window.matchMedia("(max-width: 720px)");
-    const applyState = () => {
-      mobileActionBar.classList.toggle("is-visible", mobileMatcher.matches);
+const initMobileActionBar = () => {
+  if (!mobileActionBar) return;
+
+  const mobileMatcher = window.matchMedia("(max-width: 720px)");
+  const applyState = () => {
+    const shouldShow = mobileMatcher.matches && window.scrollY < 900;
+    mobileActionBar.classList.toggle("is-visible", shouldShow);
   };
 
   applyState();
+  window.addEventListener("load", applyState);
+  window.addEventListener("hashchange", applyState);
+  window.addEventListener("scroll", applyState, { passive: true });
+  window.addEventListener("resize", applyState);
   mobileMatcher.addEventListener("change", applyState);
 };
 initMobileActionBar();
