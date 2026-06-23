@@ -454,12 +454,12 @@ const heroGallery = [
   {
     label: "Clase real de apertura",
     title:
-      "Instructora real guía conversación y corrección en Zoom desde el primer minuto.",
-    image: site.images.contact,
+      "Instructora real guía conversación y corrección en el aula desde el primer minuto.",
+    image: site.images.adultEnglish,
     video: site.images.heroVideo,
-    videoPoster: site.images.contact,
+    videoPoster: site.images.adultEnglish,
     imageAlt:
-      "Instructora de AiT USA guiando una clase real con conversación y corrección visual.",
+      "Instructora de AiT USA guiando conversación y corrección en una clase real en el aula.",
   },
   {
     label: "Clase en vivo",
@@ -520,11 +520,11 @@ const instructorClips = [
   {
     title: "Clase de conversación real",
     eyebrow: "Muestra real",
-    image: site.images.contact,
+    image: site.images.adultEnglish,
     video: site.images.heroVideo,
-    videoPoster: site.images.contact,
+    videoPoster: site.images.adultEnglish,
     imageAlt:
-      "Instructora de AiT USA guiando una práctica de entrevista en clase con conversación real.",
+      "Instructora de AiT USA guiando una clase real con conversación y apoyo visual en el aula.",
     caption:
       "Una instructora real guía la respuesta con corrección instantánea y ritmo natural.",
     duration: "1:08",
@@ -839,8 +839,8 @@ const trustFeature = [
     title: "Aprendizaje con presencia",
     copy:
       "La experiencia no se siente genérica: ves una profesora, una dinámica real y una conversación que avanza con claridad.",
-    image: site.images.contact,
-    imageAlt: "Instructora de AiT USA liderando una clase real con conversación y apoyo visual.",
+    image: site.images.adultEnglish,
+    imageAlt: "Instructora de AiT USA liderando una clase real con conversación y apoyo visual en el aula.",
     chips: ["Clase visible", "Seguimiento", "Confianza"],
   },
 ];
