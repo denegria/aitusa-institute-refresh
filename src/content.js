@@ -109,6 +109,7 @@ const site = {
     introVideoPoster: assetVideoPoster("intro-video-great.jpg"),
     promoVideo: assetVideo("promo-video-great.mp4"),
     promoVideoPoster: assetVideoPoster("promo-video-great.jpg"),
+    // The provided first/second characteristic MP4s are black logo-only exports; keep them local until replacements are available.
     firstCharacteristicVideo: assetVideo("first-characteristic.mp4"),
     firstCharacteristicVideoPoster: assetVideoPoster("first-characteristic.jpg"),
     secondCharacteristicVideo: assetVideo("second-characteristic.mp4"),
@@ -764,14 +765,6 @@ const heroGallery = [
     videoPoster: site.images.differenceVideoPoster,
     imageAlt: "Frame del video sobre lo que diferencia a AiT USA.",
   },
-  {
-    label: "Característica clave",
-    title: "Un primer vistazo a cómo se ordena la ruta de estudio.",
-    image: site.images.firstCharacteristicVideoPoster,
-    video: site.images.firstCharacteristicVideo,
-    videoPoster: site.images.firstCharacteristicVideoPoster,
-    imageAlt: "Frame del primer video de características del método.",
-  },
 ];
 
 const heroProof = [
@@ -783,8 +776,8 @@ const heroProof = [
     intent: "default",
   },
   {
-    value: "10",
-    label: "videos reales para validar método, ritmo y encaje antes de tomar tu siguiente paso.",
+    value: "8",
+    label: "videos reales activos para validar método, ritmo y encaje antes de tomar tu siguiente paso.",
     href: "#experiencia",
     cta: "Ver videos",
     intent: "classSample",
@@ -821,30 +814,6 @@ const instructorClips = [
     caption:
       "El tercer clip resume la continuidad: objetivo, práctica y seguimiento para avanzar sin perder ritmo.",
     duration: "0:17",
-  },
-  {
-    title: "Primera característica del método",
-    eyebrow: "Característica 1",
-    image: site.images.firstCharacteristicVideoPoster,
-    video: site.images.firstCharacteristicVideo,
-    videoPoster: site.images.firstCharacteristicVideoPoster,
-    imageAlt:
-      "Frame del primer video de características del método.",
-    caption:
-      "El primer clip explica cómo el método organiza el aprendizaje para que el estudiante vea la ruta.",
-    duration: "0:33",
-  },
-  {
-    title: "Segunda característica del método",
-    eyebrow: "Característica 2",
-    image: site.images.secondCharacteristicVideoPoster,
-    video: site.images.secondCharacteristicVideo,
-    videoPoster: site.images.secondCharacteristicVideoPoster,
-    imageAlt:
-      "Frame del segundo video de características del método.",
-    caption:
-      "Un segundo clip muestra cómo la práctica se vuelve concreta, repetible y fácil de seguir.",
-    duration: "0:26",
   },
 ];
 

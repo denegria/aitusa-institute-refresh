@@ -1296,12 +1296,13 @@ const clipMedia = (clip) => {
         class="clip-card__media-player"
         src="${clip.video}"
         poster="${clip.videoPoster || clip.image}"
-        preload="none"
+        preload="metadata"
         muted
         playsinline
         controls
         aria-label="${clip.title}"
       ></video>
+      <span class="clip-card__ready">Video real</span>
     `;
   }
 
@@ -1858,14 +1859,14 @@ app.innerHTML = `
       <div class="section-inner reel-grid">
         <div class="reel-copy">
           <p class="section-kicker">Método en video</p>
-          <h2 id="reel-title">Las características del método explicadas con clips reales.</h2>
+          <h2 id="reel-title">El método explicado con clips reales activos.</h2>
           <p>
-            Los videos explican por qué el método se siente diferente: una ruta visual, práctica guiada y acompañamiento
-            para avanzar con menos incertidumbre.
+            Estos videos muestran por qué la experiencia se siente diferente: una ruta visual, práctica guiada y
+            acompañamiento para avanzar con menos incertidumbre.
           </p>
           <ul class="reel-copy__points" aria-label="Lo que muestran los clips">
-            <li>Tres clips cortos explican las características principales del método.</li>
-            <li>El video “What makes us different” resume la propuesta de valor.</li>
+            <li>La sección prioriza clips que muestran contenido visual claro y útil.</li>
+            <li>El video “What makes us different” resume la propuesta de valor sin repetir el hero.</li>
             <li>Los usuarios pueden reproducir cada clip manualmente sin ruido visual arriba del hero.</li>
           </ul>
           <a class="button button--primary" href="#horarios">Ver horarios</a>
@@ -2415,8 +2416,13 @@ app.innerHTML = `
 
   <footer class="site-footer">
     <div class="site-footer__brand">
-      <strong>${site.name}</strong>
-      <span>${site.legal}</span>
+      <a class="site-footer__logo" href="#inicio" aria-label="${site.name}">
+        <img src="${site.images.logo}" alt="" />
+        <span>
+          <strong>${site.name}</strong>
+          <small>${site.legal}</small>
+        </span>
+      </a>
       <p>Una experiencia web más clara, humana y enfocada en mostrar videos reales antes de dar el siguiente paso.</p>
     </div>
     <div class="site-footer__facts" aria-label="Resumen rápido">
@@ -2431,19 +2437,27 @@ app.innerHTML = `
         )
         .join("")}
     </div>
-    <div class="site-footer__contact" aria-label="Contactos directos">
-      <a href="${site.phoneHref}">${site.phone}</a>
-      <a href="${site.whatsappHref}?text=${contactMessage}">${site.whatsapp}</a>
-      <a href="${site.emailHref}">info@aitusainstitute.com</a>
+    <div class="site-footer__directory">
+      <div class="site-footer__contact" aria-label="Contactos directos">
+        <span>Contacto directo</span>
+        <a href="${site.phoneHref}">${site.phone}</a>
+        <a href="${site.whatsappHref}?text=${contactMessage}">WhatsApp ${site.whatsapp}</a>
+        <a href="${site.emailHref}">info@aitusainstitute.com</a>
+      </div>
+      <nav class="site-footer__links" aria-label="Enlaces de pie de página">
+        <span>Explorar</span>
+        <a href="#inicio">Inicio</a>
+        <a href="#experiencia">Videos</a>
+        <a href="#cursos">Cursos</a>
+        <a href="#horarios">Horarios</a>
+        <a href="#faq">Preguntas frecuentes</a>
+      </nav>
     </div>
-    <div class="site-footer__links" aria-label="Enlaces de pie de página">
-      <a href="#inicio">Inicio</a>
-      <a href="#experiencia">Ver videos</a>
-      <a href="#cursos">Cursos</a>
-      <a href="#faq">Preguntas frecuentes</a>
-      <a href="#contacto">Contacto</a>
+    <div class="site-footer__actions">
+      <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Hablar por WhatsApp</a>
+      <a class="button button--ghost" href="#experiencia">Ver videos reales</a>
     </div>
-    <p>Experiencia web renovada para mostrar videos reales y una ruta más clara antes de escribirnos. © ${site.founded} ${site.name}.</p>
+    <p class="site-footer__fineprint">© ${site.founded} ${site.name}. Experiencia web renovada para mostrar videos reales, sedes, horarios y una ruta más clara antes de escribirnos.</p>
   </footer>
 `;
 initHeroBackground();
@@ -2569,10 +2583,15 @@ const initMobileActionBar = () => {
   const mobileMatcher = window.matchMedia("(max-width: 720px)");
   const applyState = () => {
     const hero = document.querySelector("#inicio");
+    const footer = document.querySelector(".site-footer");
     const heroThreshold = hero
       ? hero.offsetTop + hero.offsetHeight - window.innerHeight * 0.35
       : 900;
-    const shouldShow = mobileMatcher.matches && window.scrollY > heroThreshold;
+    const footerTop = footer
+      ? footer.getBoundingClientRect().top + window.scrollY
+      : Number.POSITIVE_INFINITY;
+    const beforeFooter = window.scrollY + window.innerHeight * 0.82 < footerTop;
+    const shouldShow = mobileMatcher.matches && window.scrollY > heroThreshold && beforeFooter;
     mobileActionBar.classList.toggle("is-visible", shouldShow);
   };
 

@@ -1,4 +1,4 @@
-import { mkdir, readdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { existsSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import path from "node:path";
@@ -43,11 +43,12 @@ const appServer = createServer(async (request, response) => {
     return;
   }
 
+  const body = await readFile(target);
   response.writeHead(200, {
     "content-type": types[path.extname(target).toLowerCase()] || "application/octet-stream",
+    "content-length": body.length,
   });
-  const { createReadStream } = await import("node:fs");
-  createReadStream(target).pipe(response);
+  response.end(body);
 });
 
 await new Promise((resolve) => appServer.listen(0, "127.0.0.1", resolve));
@@ -175,7 +176,7 @@ try {
         document.body.appendChild(video);
 
         await new Promise((resolve, reject) => {
-          const timer = setTimeout(() => reject(new Error('metadata timeout')), 12000);
+          const timer = setTimeout(() => reject(new Error('metadata timeout')), 25000);
           video.addEventListener('loadedmetadata', () => {
             clearTimeout(timer);
             resolve();
@@ -191,7 +192,7 @@ try {
         canvas.height = Math.max(1, Math.round(video.videoHeight * scale));
         const context = canvas.getContext('2d');
         const seek = (time) => new Promise((resolve, reject) => {
-          const timer = setTimeout(() => reject(new Error('seek timeout')), 12000);
+          const timer = setTimeout(() => reject(new Error('seek timeout')), 15000);
           video.addEventListener('seeked', () => {
             clearTimeout(timer);
             resolve();
@@ -228,15 +229,19 @@ try {
           const dataUrl = canvas.toDataURL('image/jpeg', 0.84);
           if (!best || score > best.score) best = { score, dataUrl };
         }
+        video.pause();
+        video.removeAttribute('src');
+        video.load();
         video.remove();
         return best.dataUrl;
       })()`,
-      40000,
+      70000,
     );
 
     const base64 = dataUrl.split(",")[1] || "";
     await writeFile(posterPath, Buffer.from(base64, "base64"));
     console.log(`created ${path.relative(root, posterPath)}`);
+    await sleep(300);
   }
 } finally {
   socket.close();

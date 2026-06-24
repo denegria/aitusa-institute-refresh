@@ -369,6 +369,73 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     const missingImages = images
       .filter((img) => !img.complete || img.naturalWidth === 0)
       .map((img) => img.currentSrc || img.src);
+    const methodVideos = [...document.querySelectorAll('.clip-card__media-player')];
+    await Promise.all(methodVideos.map((video) => new Promise((resolve) => {
+      if (video.readyState >= 1 || video.error) {
+        resolve();
+        return;
+      }
+      const done = () => resolve();
+      video.preload = 'metadata';
+      video.addEventListener('loadedmetadata', done, { once: true });
+      video.addEventListener('error', done, { once: true });
+      video.load();
+      setTimeout(done, 3500);
+    })));
+    const videoMetadataIssues = methodVideos
+      .filter((video) => video.readyState < 1 || video.error)
+      .map((video) => ({
+        src: video.currentSrc || video.getAttribute('src'),
+        readyState: video.readyState,
+        networkState: video.networkState,
+        error: video.error ? { code: video.error.code, message: video.error.message } : null,
+      }));
+    const inspectVideoFrame = async (video) => {
+      if (video.readyState < 1 || video.error) return null;
+      const canvas = document.createElement('canvas');
+      const scale = video.videoWidth > 360 ? 360 / video.videoWidth : 1;
+      canvas.width = Math.max(1, Math.round(video.videoWidth * scale));
+      canvas.height = Math.max(1, Math.round(video.videoHeight * scale));
+      const context = canvas.getContext('2d', { willReadFrequently: true });
+      const duration = Number.isFinite(video.duration) && video.duration > 0 ? video.duration : 4;
+      const sampleTime = Math.min(Math.max(0.7, duration * 0.35), Math.max(0.7, duration - 0.3));
+      await new Promise((resolve) => {
+        const done = () => resolve();
+        const timer = setTimeout(done, 3500);
+        video.addEventListener('seeked', () => {
+          clearTimeout(timer);
+          done();
+        }, { once: true });
+        video.currentTime = sampleTime;
+      });
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const { data, width, height } = context.getImageData(0, 0, canvas.width, canvas.height);
+      let luminance = 0;
+      let nonDark = 0;
+      let count = 0;
+      const step = Math.max(4, Math.floor((width * height) / 6000)) * 4;
+      for (let i = 0; i < data.length; i += step) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        const luma = (0.2126 * r) + (0.7152 * g) + (0.0722 * b);
+        luminance += luma;
+        if (luma > 30) nonDark += 1;
+        count += 1;
+      }
+      const averageLuminance = count ? luminance / count : 0;
+      const nonDarkRatio = count ? nonDark / count : 0;
+      if (averageLuminance < 8 && nonDarkRatio < 0.04) {
+        return {
+          src: video.currentSrc || video.getAttribute('src'),
+          sampleTime,
+          averageLuminance,
+          nonDarkRatio,
+        };
+      }
+      return null;
+    };
+    const videoVisualIssues = (await Promise.all(methodVideos.map(inspectVideoFrame))).filter(Boolean);
     const overflowing = [...document.querySelectorAll('body *')]
       .filter((el) => el.scrollWidth > el.clientWidth + 2 && getComputedStyle(el).overflowX === 'visible')
       .slice(0, 12)
@@ -393,6 +460,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       variantLists: document.querySelectorAll('.variant-list').length,
       faqs: document.querySelectorAll('.faq-list details').length,
       missingImages,
+      videoMetadataIssues,
+      videoVisualIssues,
       overflowing,
       pageHeight: document.documentElement.scrollHeight,
     };
@@ -424,6 +493,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
 
     await captureSection("#experiencia", "videos");
     await captureSection("#cursos", "courses");
+    await captureSection("footer.site-footer", "footer");
 
     await evaluate(`(() => {
       document.querySelector('[data-filter="tecnologia"]')?.click();
@@ -547,3 +617,14 @@ await writeFile(
 );
 
 console.log(JSON.stringify({ results, exceptions, consoleMessageCount: consoleMessages.length }, null, 2));
+
+const blockingResults = results.filter((result) =>
+  (result.missingImages && result.missingImages.length) ||
+  (result.overflowing && result.overflowing.length) ||
+  (result.videoMetadataIssues && result.videoMetadataIssues.length) ||
+  (result.videoVisualIssues && result.videoVisualIssues.length)
+);
+
+if (exceptions.length || consoleMessages.length || blockingResults.length) {
+  process.exitCode = 1;
+}
