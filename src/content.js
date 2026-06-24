@@ -1,27 +1,28 @@
 ﻿const asset = (name) => `./public/assets/wix/${name}`;
 const assetHires = (name) => asset(`hires/${name}`);
+const assetVideo = (name) => asset(`videos/${name}`);
 
 const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Mira una clase real en video antes de decidir.",
+    "Clases reales, ruta clara y apoyo humano.",
   description:
-    "Mira una clase real de inglés en video, compara presencial, híbrido y online, y explora rutas de inglés, GED, programación y computación con claridad.",
+    "Explora clases de inglés, GED, computación y español con videos reales, horarios claros y orientación directa para elegir tu mejor ruta.",
   heroHeadline:
-    "Mira la clase real en video y decide con claridad.",
+    "Inglés, GED y computación con una ruta clara desde el primer día.",
   heroLead:
-    "Ves una instructora real, corrección en vivo y práctica guiada para comparar presencial, híbrido y online con menos dudas.",
+    "Conoce cómo enseñamos, revisa programas reales y recibe una recomendación sencilla para empezar presencial, híbrido u online.",
   heroQuote:
-    "La clase real te muestra ritmo, corrección y presencia humana desde el primer minuto.",
+    "Los videos reales te muestran ritmo, corrección y presencia humana desde el primer minuto.",
   heroMicrocopy:
     "Empieza por el video real y luego elige la ruta que mejor encaje con tu horario.",
   heroQuickCapture: {
     title: "Tu ruta inicial en menos de 60 segundos",
     copy:
-      "Déjanos tu nombre y WhatsApp y te enviamos una ruta inicial de acción: objetivo, formato y horario recomendado para empezar con menos dudas.",
+      "Déjanos tu nombre y WhatsApp y te enviamos objetivo, formato y horario recomendado para empezar con menos dudas.",
     options: [
-      "Validar si la clase real en 1:08 encaja con mi estilo de aprendizaje",
+      "Validar si los videos reales encajan con mi estilo de aprendizaje",
       "Comparar presencial, híbrido y online con mi agenda",
       "Encontrar la mejor opción para mi hijo/hija (8-13)",
       "Mejorar inglés para entrevista, trabajo o universidad",
@@ -31,7 +32,7 @@ const site = {
     note: "Sin costo ni compromiso. En 10-15 minutos te compartimos ruta, nivel sugerido y próximos pasos.",
   },
   heroHighlights: [
-    "Clase real desde el primer minuto para validar método, ritmo y estilo.",
+    "Videos reales para validar método, ritmo y estilo antes de decidir.",
     "Compara presencial, híbrido y online con evidencia, no con suposiciones.",
     "Recibe un plan de arranque y empieza con más claridad hoy.",
   ],
@@ -45,14 +46,14 @@ const site = {
   seoTitle:
     "AiT USA Institute | Inglés, GED y computación en Nueva Jersey",
   seoDescription:
-    "Mira una clase real de 1:08 y explora programas de inglés, niños, GED, computación y español en Nueva Jersey. Compara presencial, híbrido y online y recibe una ruta inicial clara.",
+    "Mira videos reales de AiT USA y explora programas de inglés, niños, GED, computación y español en Nueva Jersey. Compara presencial, híbrido y online y recibe una ruta inicial clara.",
   seoKeywords:
-    "AiT USA Institute, clases de inglés Nueva Jersey, GED, computación, español, clases para niños, clase real de inglés, clases presenciales, clases híbridas, clases online, entrevista de trabajo en inglés, ruta inicial personalizada, Bound Brook, Plainfield, Piscataway, inglés conversacional para adultos",
-  seoImage: asset("live/hero-female-speaking-poster.jpg"),
+    "AiT USA Institute, clases de inglés Nueva Jersey, GED, computación, español, clases para niños, videos reales de inglés, clases presenciales, clases híbridas, clases online, entrevista de trabajo en inglés, ruta inicial personalizada, Bound Brook, Plainfield, Piscataway, inglés conversacional para adultos",
+  seoImage: assetHires("hero-classroom.jpg"),
   seoImageAlt:
-    "Instructora real de AiT USA guiando una clase de inglés con cámara activa y corrección en vivo.",
-  seoVideo: asset("live/hero-female-speaking-1080p.mp4"),
-  seoVideoDuration: "PT1M8S",
+    "Estudiantes e instructores de AiT USA en una experiencia de aprendizaje guiada.",
+  seoVideo: assetVideo("promo-video-great.mp4"),
+  seoVideoDuration: "PT1M46S",
   email: "info@aitusainstitute.com",
   emailHref:
     "mailto:info@aitusainstitute.com?subject=Informaci%C3%B3n%20sobre%20clases%20AiT%20USA%20Institute",
@@ -95,12 +96,22 @@ const site = {
   },
   images: {
     logo: asset("076-solo-logo-4-x-4-clases1.png"),
-    hero: asset("live/hero-female-speaking-poster.jpg"),
-    heroPoster: asset("live/hero-female-speaking-poster.jpg"),
-    heroVideo: asset("live/hero-female-speaking-1080p.mp4"),
-    heroVideoPortrait: asset("live/hero-female-speaking-360p.mp4"),
-    heroVideoFallback: asset("live/hero-female-speaking-360p.mp4"),
-    heroVideoPoster: asset("live/hero-female-speaking-poster.jpg"),
+    hero: assetHires("hero-classroom.jpg"),
+    heroPoster: assetHires("hero-classroom.jpg"),
+    heroVideo: assetVideo("promo-video-great.mp4"),
+    heroVideoPortrait: assetVideo("intro-video-great.mp4"),
+    heroVideoFallback: assetVideo("promo-video-great.mp4"),
+    heroVideoPoster: assetHires("hero-classroom.jpg"),
+    introVideo: assetVideo("intro-video-great.mp4"),
+    promoVideo: assetVideo("promo-video-great.mp4"),
+    firstCharacteristicVideo: assetVideo("first-characteristic.mp4"),
+    secondCharacteristicVideo: assetVideo("second-characteristic.mp4"),
+    thirdCharacteristicVideo: assetVideo("third-characteristic.mp4"),
+    differenceVideo: assetVideo("what-makes-us-different.mp4"),
+    internationalStudentVideo: assetVideo("international-student-testimonial.mp4"),
+    ericInterviewVideo: assetVideo("student-interview-eric-great.mp4"),
+    jessicaInterviewVideo: assetVideo("student-interview-jessica-great.mp4"),
+    leilaTestimonialVideo: assetVideo("student-testimonial-leila-needs-reduced-volume.mp4"),
     heroClassroom: assetHires("hero-classroom.jpg"),
     heroFemaleClassroom: assetHires("contact-female-speaking.jpg"),
     heroFemaleTeacher: assetHires("contact-female-speaking.jpg"),
@@ -154,22 +165,20 @@ const nav = [
 ];
 
 const heroPoints = [
-  "Clase real de 1:08 para validar método, ritmo y encaje antes de invertir en una ruta.",
+  "Videos reales para validar método, ritmo y encaje antes de invertir en una ruta.",
   "Ruta inicial visual para entrevistas, trabajo y vida diaria desde esta semana.",
   "Seguimiento semanal para mantener práctica constante aunque tu agenda esté llena.",
 ];
 const heroHighlights = site.heroHighlights || [];
 
 const heroVideoHighlights = [
-  "Instructora real con cámara activa",
-  "Clase real de 1:08 en video HD",
-  "Corrección en vivo y audio claro",
-  "Presencial, híbrido y online en Nueva Jersey",
-  "Sin costo ni compromiso",
+  "Conoce el método antes de escribir",
+  "Programas presenciales, híbridos y online",
+  "Orientación por WhatsApp para elegir ruta",
 ];
 
 const heroStartPath = [
-  "Mira una clase real de 1:08 y valida ritmo, método y encaje.",
+  "Mira videos reales y valida ritmo, método y encaje.",
   "Define objetivo, horario y nivel de compromiso en minutos.",
   "Compara opciones y deja lista una ruta realista para comenzar esta semana.",
 ];
@@ -180,8 +189,8 @@ const heroSignal = [
     label: "años acompañando rutas reales con método visual y práctica activa.",
   },
   {
-    value: "1:08",
-    label: "para validar método, ritmo y formato antes de decidir con claridad.",
+    value: "10",
+    label: "videos locales organizados por introducción, método y testimonios.",
   },
   {
     value: "7 días",
@@ -211,7 +220,7 @@ const launchPath = [
 ];
 
 const stats = [
-  { value: "+1000", label: "estudiantes guiados con experiencia práctica de clase real" },
+  { value: "+1000", label: "estudiantes guiados con experiencia práctica y videos reales" },
   { value: "3", label: "formatos: presencial, híbrido y online" },
   { value: "GC", label: "Método Graphic Concept: visual, práctico y directo" },
   { value: "20+", label: "años de método aplicado a resultados en Nueva Jersey" },
@@ -720,38 +729,38 @@ const programs = [
 
 const heroGallery = [
   {
-    label: "Cámara activa",
-    title: "La instructora corrige conversación real con cámara activa.",
-    image: site.images.heroFemaleSpeakingPoster,
-    video: site.images.heroVideo,
-    videoPoster: site.images.heroFemaleSpeakingPoster,
-    imageAlt: "Instructora de AiT USA guiando conversación en vivo con cámara activa.",
-  },
-  {
-    label: "Clase real de apertura",
+    label: "Promoción general",
     title:
-      "Instructora real guía conversación y corrección en el aula desde el primer minuto.",
+      "Una vista rápida de la experiencia, programas y acompañamiento.",
     image: site.images.adultEnglish,
-    video: site.images.heroVideo,
+    video: site.images.promoVideo,
     videoPoster: site.images.adultEnglish,
     imageAlt:
-      "Instructora de AiT USA guiando conversación y corrección en una clase real en el aula.",
+      "Estudiante revisando material de clase con laptop y cuaderno.",
   },
   {
-    label: "Clase en vivo",
-    title: "Práctica oral con feedback inmediato para hablar con más claridad.",
-    image: site.images.heroClassroom,
-    video: site.images.heroVideo,
-    videoPoster: site.images.heroClassroom,
-    imageAlt: "Instructora de AiT USA explicando frente al pizarrón durante una clase en vivo.",
+    label: "Video de introducción",
+    title: "Conoce el punto de partida antes de elegir programa.",
+    image: site.images.hero,
+    video: site.images.introVideo,
+    videoPoster: site.images.hero,
+    imageAlt: "Estudiantes de AiT USA revisando opciones de aprendizaje antes de empezar.",
   },
   {
-    label: "Seguimiento con presencia",
-    title: "Acompañamiento cercano para sostener avance semana a semana.",
-    image: site.images.heroFemaleZoom,
-    video: site.images.heroVideo,
-    videoPoster: site.images.heroFemaleZoom,
-    imageAlt: "Instructora de AiT USA guiando una clase online con audífonos y micrófono.",
+    label: "Lo que nos diferencia",
+    title: "Método visual, práctica guiada y seguimiento cercano.",
+    image: site.images.method,
+    video: site.images.differenceVideo,
+    videoPoster: site.images.method,
+    imageAlt: "Método visual de AiT USA aplicado a una ruta de aprendizaje clara.",
+  },
+  {
+    label: "Característica clave",
+    title: "Un primer vistazo a cómo se ordena la ruta de estudio.",
+    image: site.images.routeLevels,
+    video: site.images.firstCharacteristicVideo,
+    videoPoster: site.images.routeLevels,
+    imageAlt: "Ruta visual de niveles y objetivos de aprendizaje.",
   },
 ];
 
@@ -764,10 +773,10 @@ const heroProof = [
     intent: "default",
   },
   {
-    value: "1:08",
-    label: "para validar método, ritmo y encaje antes de tomar tu siguiente paso.",
+    value: "10",
+    label: "videos reales para validar método, ritmo y encaje antes de tomar tu siguiente paso.",
     href: "#experiencia",
-    cta: "Ver clase real",
+    cta: "Ver videos",
     intent: "classSample",
   },
   {
@@ -781,50 +790,50 @@ const heroProof = [
 
 const instructorClips = [
   {
-    title: "Cámara activa con conversación guiada",
-    eyebrow: "Muestra real",
-    image: site.images.heroFemaleSpeakingPoster,
-    video: site.images.heroVideo,
-    videoPoster: site.images.heroFemaleSpeakingPoster,
+    title: "Primera característica del método",
+    eyebrow: "Característica 1",
+    image: site.images.routeConcept,
+    video: site.images.firstCharacteristicVideo,
+    videoPoster: site.images.routeConcept,
     imageAlt:
-      "Instructora de AiT USA guiando conversación en vivo con cámara activa.",
+      "Ruta visual del método Graphic Concept aplicada a una clase.",
     caption:
-      "Una instructora real guía la respuesta con corrección instantánea y ritmo natural.",
-    duration: "1:08",
+      "El primer clip explica cómo el método organiza el aprendizaje para que el estudiante vea la ruta.",
+    duration: "0:33",
   },
   {
-    title: "Clase de conversación real",
-    eyebrow: "Muestra real",
+    title: "Segunda característica del método",
+    eyebrow: "Característica 2",
     image: site.images.adultEnglish,
-    video: site.images.heroVideo,
+    video: site.images.secondCharacteristicVideo,
     videoPoster: site.images.adultEnglish,
     imageAlt:
-      "Instructora de AiT USA guiando una clase real con conversación y apoyo visual en el aula.",
+      "Estudiante adulta practicando con recursos digitales y cuaderno.",
     caption:
-      "Una instructora real guía la respuesta con corrección instantánea y ritmo natural.",
-    duration: "1:08",
+      "Un segundo clip muestra cómo la práctica se vuelve concreta, repetible y fácil de seguir.",
+    duration: "0:26",
   },
   {
-    title: "Práctica guiada con Zoom",
-    eyebrow: "Metodología visual",
+    title: "Tercera característica del método",
+    eyebrow: "Característica 3",
     image: site.images.routeLevels,
-    video: site.images.heroVideo,
+    video: site.images.thirdCharacteristicVideo,
     videoPoster: site.images.routeLevels,
     imageAlt:
       "Instructora mostrando el progreso por niveles mientras guía una clase visual.",
     caption:
-      "La dinámica online se ve clara, ordenada y fácil de seguir desde el primer bloque.",
-    duration: "0:48",
+      "El tercer clip resume la continuidad: objetivo, práctica y seguimiento para avanzar sin perder ritmo.",
+    duration: "0:17",
   },
   {
-    title: "Seguimiento que mantiene ritmo",
-    eyebrow: "Acompañamiento",
+    title: "Qué hace diferente a AiT USA",
+    eyebrow: "Diferenciador",
     image: site.images.heroFemaleZoom,
-    video: site.images.heroVideoPortrait,
+    video: site.images.differenceVideo,
     videoPoster: site.images.heroFemaleZoom,
     imageAlt: "Instructora de AiT USA guiando seguimiento online con audífonos y micrófono.",
     caption:
-      "Ideal para sostener práctica constante aunque tu agenda cambie.",
+      "Una explicación breve de lo que hace distinta la experiencia frente a una clase genérica.",
     duration: "0:38",
   },
 ];
@@ -899,7 +908,7 @@ const modalities = [
 
 const methodBlocks = [
   {
-    title: "Ves una clase real",
+    title: "Ves videos reales",
     image: site.images.method,
     imageAlt: "Instructora explicando el método con un diagrama visual en el pizarrón.",
     text:
@@ -1032,21 +1041,51 @@ const locations = [
 
 const testimonials = [
   {
-    name: "Antonina Silvero y Zulma",
+    name: "Estudiante internacional",
     image: site.images.testimonialAntonina,
+    video: site.images.internationalStudentVideo,
+    videoPoster: site.images.testimonialAntonina,
+    duration: "0:46",
     imageAlt: "Antonina y Zulma compartiendo su experiencia real en una clase de inglés de AiT USA.",
-    result: "Comprender y hablar con más contexto",
+    result: "Testimonio internacional",
     text:
-      "Entramos sin saber por dónde empezar. Tras ver una clase real, entendimos estructura, ritmo y empezamos a hablar con menos bloqueo desde la primera semana.",
+      "Una perspectiva de estudiante que ayuda a entender cómo se vive la experiencia cuando necesitas una ruta clara desde otro contexto.",
   },
   {
-    name: "Marisol Guardado",
-    image: site.images.testimonialMarisol,
+    name: "Eric",
+    image: site.images.heroClassroom,
+    video: site.images.ericInterviewVideo,
+    videoPoster: site.images.heroClassroom,
+    duration: "0:42",
     imageAlt:
-      "Estudiante adulta practicando inglés con laptop y cuaderno en una clase en vivo.",
-    result: "Escuchar, comprender y responder sin trabarse",
+      "Estudiante compartiendo su entrevista sobre la experiencia de aprendizaje en AiT USA.",
+    result: "Entrevista de estudiante",
     text:
-      "Ver clase real desde el primer momento me quitó la incertidumbre. Hoy entiendo mejor, respondo con mayor seguridad y sostengo la práctica con más constancia.",
+      "Una entrevista breve para escuchar de primera mano qué cambia cuando el método y el acompañamiento son constantes.",
+  },
+  {
+    name: "Jessica",
+    image: site.images.testimonialMarisol,
+    video: site.images.jessicaInterviewVideo,
+    videoPoster: site.images.testimonialMarisol,
+    duration: "2:52",
+    imageAlt:
+      "Estudiante adulta compartiendo su experiencia de aprendizaje en AiT USA.",
+    result: "Entrevista completa",
+    text:
+      "La versión completa permite escuchar más contexto, ritmo y detalles de la experiencia real.",
+  },
+  {
+    name: "Leila",
+    image: site.images.adultEnglish,
+    video: site.images.leilaTestimonialVideo,
+    videoPoster: site.images.adultEnglish,
+    duration: "1:06",
+    imageAlt:
+      "Estudiante compartiendo testimonio en video sobre su avance y experiencia.",
+    result: "Testimonio en video",
+    text:
+      "Este testimonio se mantiene como reproducción manual para que el usuario controle el audio desde el inicio.",
   },
 ];
 
@@ -1367,14 +1406,14 @@ const faqs = [
     answer:
       "Hacemos un diagnóstico inicial de 10 minutos para ubicar tu nivel (básico, intermedio o avanzado) y definir un plan de avance que sí encaje con tu semana.",
     outcome: "Sin perder tiempo, saldrás con claridad de por dónde arrancas.",
-    cta: "Ver clase real",
+    cta: "Ver videos reales",
   },
   {
-    question: "¿Puedo ver una clase real antes de inscribirme?",
+    question: "¿Puedo ver videos reales antes de inscribirme?",
     answer:
       "Sí. Ve el video de experiencia para observar el ritmo de clase, la corrección en vivo y cómo se maneja la práctica oral con tus mismas dudas iniciales.",
     outcome: "Si el formato te funciona, ya sabes qué esperar antes de escribir.",
-    cta: "Ver clase real",
+    cta: "Ver videos reales",
   },
   {
     question: "¿Es difícil aprender inglés si nunca fui bueno en idiomas?",

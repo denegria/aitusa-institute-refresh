@@ -230,7 +230,7 @@ const initHeroQuickCaptureBridge = () => {
   return true;
 };
 const contactMessage = encodeURIComponent(
-  "Hola AiT USA Institute, vi su clase real y quiero una ruta inicial para decidir hoy con claridad: objetivo, nivel y horario.",
+  "Hola AiT USA Institute, vi sus videos reales y quiero una ruta inicial para decidir hoy con claridad: objetivo, nivel y horario.",
 );
 
 const heroQuickCaptureWidget = () => {
@@ -238,7 +238,7 @@ const heroQuickCaptureWidget = () => {
 
   const options = Array.isArray(heroQuickCaptureData.options)
     ? heroQuickCaptureData.options
-    : ["Ver clase real y decidir", "Revisar opciones con mi agenda", "Necesito ruta familiar"];
+    : ["Ver videos reales y decidir", "Revisar opciones con mi agenda", "Necesito ruta familiar"];
   const optionsMarkup = options.map((option) => `<option>${option}</option>`).join("");
 
   return `
@@ -357,11 +357,11 @@ const leadIntentProfiles = {
     interest: "Inglés",
     forWhom: "Para mí",
     message:
-      "quiero ver una clase real y recibir una recomendación clara de inicio para mi caso.",
+      "quiero ver videos reales y recibir una recomendación clara de inicio para mi caso.",
     panelTitle: "Ruta sugerida: primera mirada práctica",
     panelCopy:
-      "Mira un fragmento real y valida método, ritmo y encaje antes de avanzar.",
-    panelAction: "Ver clase real y decidir mi siguiente paso",
+      "Mira videos reales y valida método, ritmo y encaje antes de avanzar.",
+    panelAction: "Ver videos reales y decidir mi siguiente paso",
   },
   scheduleFlex: {
     intent: "Agenda flexible",
@@ -979,7 +979,7 @@ const syncSeoHead = () => {
   setContent("meta[name='twitter:label1']", "Objetivo");
   setContent("meta[name='twitter:data1']", "Rutas de inglés en Nueva Jersey");
   setContent("meta[name='twitter:label2']", "Duración");
-  setContent("meta[name='twitter:data2']", "1:08");
+  setContent("meta[name='twitter:data2']", site.seoVideoDuration || "PT1M45S");
 
   setHref("link[rel='canonical']", canonical);
   setHref("link[rel='alternate'][hreflang='es-US']", canonical);
@@ -1092,7 +1092,7 @@ const heroVideoFacts = () => `
 const heroIntentCards = () => `
   <div class="hero__intent" aria-label="¿Qué objetivo tienes hoy?">
     <a class="hero__intent-card" href="#experiencia" data-intent-card data-intent="classSample">
-      <span class="hero__intent-card__label">Clase real en 1:08</span>
+      <span class="hero__intent-card__label">Videos reales de AiT USA</span>
       <strong>Validar método y ritmo en vivo</strong>
     </a>
     <a class="hero__intent-card" href="#horarios" data-intent-card data-intent="scheduleFlex">
@@ -1109,8 +1109,8 @@ const heroIntentCards = () => `
 const heroCommitment = () => `
   <div class="hero__commitment" aria-label="Compromiso de calidad del hero">
     <article>
-      <strong>Clases reales primero</strong>
-      <span>Ves una clase real para validar si el método funciona para ti sin adivinar.</span>
+      <strong>Videos reales primero</strong>
+      <span>Ves videos reales para validar si el método funciona para ti sin adivinar.</span>
     </article>
     <article>
       <strong>Decisión en 60 segundos</strong>
@@ -1144,7 +1144,7 @@ const launchPathSection = () => {
 
   const pathIntents = ["classSample", "scheduleFlex", "familySupport"];
   const pathIntentsLabel = {
-    classSample: "Ver clase real",
+    classSample: "Ver videos reales",
     scheduleFlex: "Ver horarios",
     familySupport: "Recibir ruta familiar",
   };
@@ -1159,7 +1159,7 @@ const launchPathSection = () => {
       <div class="section-inner section-heading section-heading--compact">
         <p class="section-kicker">Ruta de arranque</p>
         <h2 id="ruta-title">Tres pasos simples para decidir con criterio hoy.</h2>
-        <p>Primero observas una clase real, luego validamos agenda y objetivo, y finalmente definimos una ruta que sí puedas ejecutar.</p>
+        <p>Primero observas videos reales, luego validamos agenda y objetivo, y finalmente definimos una ruta que sí puedas ejecutar.</p>
       </div>
       <div class="section-inner path-visual-grid" aria-label="Visuales de progreso y método">
         <article class="path-visual-card">
@@ -1208,7 +1208,7 @@ const launchPathSection = () => {
           .join("")}
       </div>
       <div class="section-inner path-cta">
-        <a class="button button--primary" href="#experiencia">Ver la clase real</a>
+        <a class="button button--primary" href="#experiencia">Ver videos reales</a>
         <a class="button button--ghost" href="#cursos">Explorar cursos</a>
       </div>
     </section>
@@ -1216,17 +1216,17 @@ const launchPathSection = () => {
 };
 
 const spotlightSection = () => {
-  const clip = instructorClips[0];
+  const clip = heroGallery[0] || instructorClips[0];
   const proofItems = [
-    { value: "1:08", label: "clase real para validar método y ritmo" },
-    { value: "100%", label: "corrección personalizada en vivo, no scripts" },
+    { value: "1:46", label: "video promocional para entender la experiencia" },
+    { value: "100%", label: "videos locales enviados para este refresh" },
     { value: "Video local", label: "calidad HD sin redirecciones ni enlaces rotos" },
   ];
   const steps = [
     {
       title: "Verifica el estilo de clase",
       description:
-        "Observa inicio, dinámica y cierre en un solo clip para confirmar si el ritmo de trabajo te resulta natural.",
+        "Observa la experiencia general en un solo clip para confirmar si el ritmo de trabajo te resulta natural.",
     },
     {
       title: "Compara formato y agenda",
@@ -1249,20 +1249,20 @@ const spotlightSection = () => {
         </div>
         <div class="spotlight-copy">
           <p class="section-kicker">Experiencia real</p>
-          <h2 id="experiencia-title">Mira la clase real primero y decide con criterio en menos de un minuto.</h2>
+          <h2 id="experiencia-title">Mira los videos reales primero y decide con criterio.</h2>
           <p>
-            Te mostramos una clase real de alta calidad para que veas rápidamente si el método, el ritmo y el enfoque de
-            corrección realmente encajan contigo antes de avanzar.
+            Usamos los videos actuales de AiT USA para que veas la propuesta, el método y la forma de acompañar antes
+            de avanzar hacia horarios, cursos o inscripción.
           </p>
           <ul class="spotlight-points">
             ${joinList([
-              "La clase se muestra completa y contextual, no un fragmento aislado.",
-              "La instructora corrige pronunciación y estructura en vivo para que avances sin adivinar.",
+              "La experiencia se muestra con clips reales y mejor organizados por intención.",
+              "Los videos explicativos acompañan cada sección en vez de repetir el mismo clip.",
               "La metodología visual te deja una decisión clara sin esperar semanas para validar.",
             ])}
           </ul>
           <blockquote class="spotlight-quote">
-            “Con esta clase vimos el estilo real: ritmo práctico, corrección puntual y una dinámica clara para empezar sin miedo.”
+            “Primero mira cómo se presenta la experiencia; después elegimos curso, horario y formato con menos vueltas.”
           </blockquote>
           <div class="spotlight-journey" aria-label="Ruta para empezar">
             ${steps
@@ -1368,7 +1368,7 @@ const heroMedia = () => {
       <div class="hero__media-frame hero__media-frame--hero-carousel" data-hero-frame>
         <div class="hero__media-stack" data-hero-stack>${slides}</div>
       <div class="hero__media-overlay hero__media-overlay--gallery">
-          <div class="hero__media-tag">Video real · 1:08</div>
+          <div class="hero__media-tag">Video real</div>
           <div class="hero__media-meta">
             <p class="hero__media-kicker" data-hero-kicker>${heroGallery[0].label}</p>
             <p class="hero__media-title" data-hero-title>${heroGallery[0].title}</p>
@@ -1384,49 +1384,44 @@ const heroMedia = () => {
   }
 
   if (heroVideoSources.length) {
-    const previewItems = heroGallery.slice(0, 3);
+    const primary = heroGallery[0] || {
+      label: "Video introductorio",
+      title: "Conoce la experiencia antes de escribirnos.",
+      image: heroMediaPoster,
+      video: heroVideoSources[0],
+      videoPoster: heroMediaPoster,
+      imageAlt: site.heroQuote,
+    };
+    const previewItems = heroGallery.slice(1, 4);
     return `
-      <div class="hero__media-frame hero__media-frame--hero-primary hero__media-frame--hero-carousel">
+      <div class="hero__media-frame hero__media-frame--hero-primary hero__media-frame--clean">
           <video
             data-hero-player
             class="hero__media-player"
-            autoplay
             controls
             muted
             playsinline
-            loop
             preload="metadata"
-          poster="${heroMediaPoster}"
-          data-hero-poster="${heroMediaPoster}"
-          aria-label="Video de clase de muestra de AiT USA Institute">
-          <source data-hero-source src="${heroVideoSources[0]}" type="video/mp4" />
+          poster="${primary.videoPoster || primary.image || heroMediaPoster}"
+          data-hero-poster="${primary.videoPoster || primary.image || heroMediaPoster}"
+          aria-label="${primary.title}">
+          <source data-hero-source src="${primary.video || heroVideoSources[0]}" type="video/mp4" />
           Tu navegador no soporta video HTML5.
         </video>
         <img
           data-hero-fallback
           class="hero__media-fallback is-hidden"
           loading="eager"
-          src="${heroMediaPoster}"
+          src="${primary.videoPoster || primary.image || heroMediaPoster}"
           alt="${site.heroQuote}"
         />
-        <div class="hero__media-overlay hero__media-overlay--hero">
-          <div class="hero__media-tag">Video real · 1:08</div>
-          ${heroVideoFacts()}
-          <div class="hero__media-route">
-            <p class="hero__media-route__title">Primero mira la clase real</p>
-            <p class="hero__media-route__copy">Después comparas ritmo, formato y encaje con menos incertidumbre.</p>
-          </div>
-          <button class="hero__video-chip" type="button" data-hero-play-button aria-label="Reproducir video de clase real">
-            <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
-            <span class="hero__video-chip__label" data-hero-play-label>Ver clase real en HD</span>
-          </button>
-          <a class="hero__video-chip hero__video-chip--ghost" href="#experiencia" aria-label="Ir al bloque de experiencia y ver la clase real">
-            <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
-            Ver experiencia completa
-          </a>
+        <div class="hero__media-caption">
+          <span data-hero-kicker>${primary.label}</span>
+          <strong data-hero-title>${primary.title}</strong>
+          <p>Usa los videos reales para comparar el método, la energía de clase y el tipo de apoyo antes de escribirnos.</p>
         </div>
       </div>
-        <div class="hero__preview-rail" aria-label="Momentos reales de clase">
+        <div class="hero__preview-rail hero__preview-rail--compact" aria-label="Más videos de AiT USA">
       ${previewItems
         .map(
           (item, index) => `
@@ -1434,6 +1429,7 @@ const heroMedia = () => {
                 class="hero__preview-card ${index === 0 ? "hero__preview-card--featured" : ""}"
                 type="button"
                 data-hero-preview="${index}"
+                data-hero-preview-gallery-index="${index + 1}"
                 data-hero-preview-source="${item.video || ""}"
                 data-hero-preview-poster="${item.videoPoster || item.image}"
                 aria-label="${item.label}: ${item.title}"
@@ -1449,7 +1445,7 @@ const heroMedia = () => {
           )
           .join("")}
       </div>
-      <p class="hero__media-note">Tres momentos reales de clase para que veas la experiencia antes de escribirnos.</p>
+      <p class="hero__media-note">Videos seleccionados desde los archivos actuales de AiT USA.</p>
     `;
   }
 
@@ -1558,7 +1554,8 @@ const initHeroPreviewCards = () => {
 
   const setHeroContext = (nextIndex) => {
     const card = previewCards[nextIndex];
-    const item = heroGallery[nextIndex];
+    const itemIndex = Number(card?.dataset.heroPreviewGalleryIndex ?? nextIndex);
+    const item = heroGallery[itemIndex];
     if (!card || !item) return;
 
     const nextSource = card.dataset.heroPreviewSource || "";
@@ -1593,8 +1590,7 @@ const initHeroPreviewCards = () => {
     });
   });
 
-  setHeroContext(0);
-  setPreviewFocus(0);
+  setPreviewFocus(-1);
 };
 
 const initHeroFallbacks = () => {
@@ -1646,7 +1642,7 @@ const initHeroPlayButton = () => {
 
   const setPlayState = (isPlaying) => {
     if (!heroPlayButtonLabel) return;
-    heroPlayButtonLabel.textContent = isPlaying ? "Pausar clase real" : "Ver clase real en HD";
+    heroPlayButtonLabel.textContent = isPlaying ? "Pausar video" : "Ver video en HD";
     if (heroPlayButtonIcon) heroPlayButtonIcon.textContent = isPlaying ? "⏸" : "▶";
     heroPlayButton.setAttribute("aria-pressed", String(isPlaying));
   };
@@ -1814,28 +1810,12 @@ app.innerHTML = `
       href="#experiencia"
       data-intent-action
       data-intent="classSample"
-      aria-label="Ver la clase real antes de escribir por WhatsApp"
-    >Ver clase real en 1:08</a>
+      aria-label="Ver videos reales antes de escribir por WhatsApp"
+    >Ver videos reales</a>
   </header>
-
-  <div class="quick-cta" aria-label="Acciones rápidas de inicio">
-    <a
-      class="button button--primary"
-      href="#experiencia"
-      data-intent-action
-      data-intent="classSample"
-    >Ver clase real y comparar</a>
-    <a
-      class="button button--ghost"
-      href="${site.whatsappHref}?text=${contactMessage}"
-      data-intent-action
-      data-intent="default"
-    >Quiero ruta inicial por WhatsApp</a>
-  </div>
 
     <main>
       <section id="inicio" class="hero" style="--hero-image: url('${heroBackgroundImage}')">
-      ${heroVideoBackground()}
       <div class="hero__inner">
         <div class="hero__content">
           <p class="section-kicker">${site.tagline}</p>
@@ -1847,22 +1827,13 @@ app.innerHTML = `
               href="#experiencia"
               data-intent-action
               data-intent="classSample"
-            >Ver clase real de 1:08</a>
+            >Ver videos reales</a>
             <a
               class="button button--ghost"
               href="${site.whatsappHref}?text=${contactMessage}"
               data-intent-action
               data-intent="default"
             >Hablar con un asesor</a>
-          </div>
-          ${heroQuickCaptureWidget()}
-          ${heroIntentCards()}
-          <p class="hero__microcopy">
-            ${site.heroMicrocopy || "Empieza en 60 segundos: mira una clase real, valida ritmo y decide con menos incertidumbre."}
-          </p>
-          <div class="hero__conversion-strip">
-            <a class="button button--primary" href="#contacto" data-intent-action data-intent="default">Recibir ruta inicial ahora</a>
-            <a class="button button--ghost" href="#horarios" data-intent-action data-intent="scheduleFlex">Ver horarios según mi agenda</a>
           </div>
           <div class="hero__highlights" aria-label="Beneficios">
             ${(site.heroHighlights || site.heroHighlight || [])
@@ -1896,20 +1867,20 @@ app.innerHTML = `
     <section class="section section--reel" aria-labelledby="reel-title">
       <div class="section-inner reel-grid">
         <div class="reel-copy">
-          <p class="section-kicker">Clases con presencia humana</p>
-          <h2 id="reel-title">Clase real, corrección visible y energía de clase que se siente en directo.</h2>
+          <p class="section-kicker">Método en video</p>
+          <h2 id="reel-title">Las características del método explicadas con clips reales.</h2>
           <p>
-            Mira cómo trabaja el aula en vivo: conversación real, corrección puntual y acompañamiento. Así validas si este
-            formato encaja con tu meta y tu ritmo antes de inscribirte.
+            Los videos explican por qué el método se siente diferente: una ruta visual, práctica guiada y acompañamiento
+            para avanzar con menos incertidumbre.
           </p>
           <ul class="reel-copy__points" aria-label="Lo que muestran los clips">
-            <li>Video real de clase, sin simulaciones ni promesas vacías.</li>
-            <li>Corrección puntual y seguimiento aplicado desde el primer bloque.</li>
-            <li>Momentos de aula, Zoom y conversación guiada para comparar estilos con claridad.</li>
+            <li>Tres clips cortos explican las características principales del método.</li>
+            <li>El video “What makes us different” resume la propuesta de valor.</li>
+            <li>Los usuarios pueden reproducir cada clip manualmente sin ruido visual arriba del hero.</li>
           </ul>
           <a class="button button--primary" href="#horarios">Ver horarios</a>
         </div>
-        <div class="instructor-reel" aria-label="Momentos de clases e instructoras">
+        <div class="instructor-reel" aria-label="Videos sobre el método y características de AiT USA">
           ${instructorClips
         .map(
             (clip, index) => `
@@ -2390,7 +2361,7 @@ app.innerHTML = `
             </div>
           </div>
           <div class="trust-actions">
-            <a class="button button--primary" href="#experiencia">Ver clase real</a>
+            <a class="button button--primary" href="#experiencia">Ver videos reales</a>
             <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Hablar con un asesor</a>
           </div>
         </div>
@@ -2400,7 +2371,19 @@ app.innerHTML = `
               (item, index) => `
                 <article class="testimonial-card ${index === 0 ? "testimonial-card--featured" : ""}">
                   <div class="testimonial-card__media">
-                    <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
+                    ${
+                      item.video
+                        ? `<video
+                            src="${item.video}"
+                            poster="${item.videoPoster || item.image}"
+                            preload="none"
+                            controls
+                            playsinline
+                            aria-label="${item.result}: ${item.name}"
+                          ></video>`
+                        : `<img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />`
+                    }
+                    ${item.duration ? `<span class="testimonial-card__duration">${item.duration}</span>` : ""}
                   </div>
                   <div class="testimonial-card__body">
                     <p class="testimonial-card__eyebrow">${item.result}</p>
@@ -2565,7 +2548,7 @@ app.innerHTML = `
           <p class="section-kicker">Respuesta rápida</p>
           <h3>Si quieres ver la clase primero</h3>
           <p>Empieza por el video real de la experiencia y luego escríbenos por WhatsApp o llama para validar disponibilidad, horarios y el mejor punto de inicio.</p>
-            <a class="button button--ghost" href="#experiencia">Ver clase real</a>
+            <a class="button button--ghost" href="#experiencia">Ver videos reales</a>
             <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Escribir por WhatsApp</a>
           </article>
         </div>
@@ -2579,7 +2562,7 @@ app.innerHTML = `
                 <p>${faq.answer}</p>
                 ${faq.outcome ? `<p class="faq-item__outcome"><strong>Resultado:</strong> ${faq.outcome}</p>` : ""}
                 <a class="faq-link" href="${
-                  faq.cta === "Ver clase real"
+                  faq.cta === "Ver videos reales" || faq.cta === "Ver clase real"
                     ? "#experiencia"
                     : faq.cta === "Ver horarios"
                       ? "#horarios"
@@ -2603,11 +2586,11 @@ app.innerHTML = `
           <h2 id="contacto-title">Cuéntanos tu meta y armamos tu ruta inicial en minutos.</h2>
           <p>
             Completa el formulario y en pocos minutos te proponemos nivel, horario y formato ideal para empezar sin fricción.
-            Si prefieres, primero mira la clase real y luego te ayudamos a avanzar con una decisión mucho más precisa.
+            Si prefieres, primero mira los videos reales y luego te ayudamos a avanzar con una decisión mucho más precisa.
           </p>
           <p class="contact-quick-intent__label">Elige tu prioridad y te preparamos el mensaje inicial exacto:</p>
           <div class="contact-quick-intent" role="group" aria-label="Prioridad para iniciar">
-            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="classSample">Clase real primero</button>
+            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="classSample">Videos reales primero</button>
             <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="scheduleFlex">Horario para empezar</button>
             <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="familySupport">Ruta familiar</button>
             <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="default">Aún no decido</button>
@@ -2727,8 +2710,8 @@ app.innerHTML = `
       data-intent-action
       data-intent="classSample"
       data-mobile-action
-      aria-label="Ver clase real en el bloque de experiencia"
-    >Ver clase real</a>
+      aria-label="Ver videos reales en el bloque de experiencia"
+    >Ver videos</a>
     <a
       class="button button--primary"
       href="#contacto"
@@ -2744,7 +2727,7 @@ app.innerHTML = `
     <div class="site-footer__brand">
       <strong>${site.name}</strong>
       <span>${site.legal}</span>
-      <p>Una experiencia web más clara, humana y enfocada en mostrar la clase real antes de dar el siguiente paso.</p>
+      <p>Una experiencia web más clara, humana y enfocada en mostrar videos reales antes de dar el siguiente paso.</p>
     </div>
     <div class="site-footer__facts" aria-label="Resumen rápido">
       ${footerFacts
@@ -2765,12 +2748,12 @@ app.innerHTML = `
     </div>
     <div class="site-footer__links" aria-label="Enlaces de pie de página">
       <a href="#inicio">Inicio</a>
-      <a href="#experiencia">Ver clase real</a>
+      <a href="#experiencia">Ver videos</a>
       <a href="#cursos">Cursos</a>
       <a href="#faq">Preguntas frecuentes</a>
       <a href="#contacto">Contacto</a>
     </div>
-    <p>Experiencia web renovada para mostrar video real de clase y una ruta más clara antes de escribirnos. © ${site.founded} ${site.name}.</p>
+    <p>Experiencia web renovada para mostrar videos reales y una ruta más clara antes de escribirnos. © ${site.founded} ${site.name}.</p>
   </footer>
 `;
 initHeroBackground();
