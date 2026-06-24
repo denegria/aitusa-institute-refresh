@@ -1,14 +1,10 @@
 ﻿(function () {
 const {
-  books,
-  differentiators,
-  downloads,
   faqs,
   heroVideoHighlights,
   heroHighlights,
   heroQuickCapture: heroQuickCaptureData,
   learningOutcomes,
-  courseGuides,
   heroGallery,
   heroPoints,
   launchPath,
@@ -17,20 +13,16 @@ const {
   instructorClips,
   heroProof,
   locations,
-  methodBlocks,
   modalities,
   nav,
   programs,
-  requirements,
   schedules,
   site,
   stats,
-  storeProducts,
   teachers,
   testimonials,
   trustHighlights,
   trustFeature,
-  paymentGuides,
   contactPrep,
   footerFacts,
 } = window.AITUSA_DATA;
@@ -56,7 +48,7 @@ const programCounts = initials.reduce((acc, label) => {
 
 const heroMediaPoster = site.heroVideoPoster || site.images.heroVideoPoster || site.images.heroPoster || site.images.hero;
 const heroBackgroundImage = toRootRelativeAssetUrl(
-  site.images.heroVideoPoster || site.images.heroPoster || site.images.hero || heroMediaPoster,
+  site.images.heroPoster || site.images.hero || site.images.heroVideoPoster || heroMediaPoster,
 );
 const heroVideoSources = (() => {
   const isMobile = window.matchMedia("(max-width: 900px)").matches;
@@ -683,7 +675,7 @@ const syncCoreSchemas = () => {
   }
 
   const heroSchemaPoster =
-    (site.images && (site.images.hero || site.images.heroPoster || site.images.heroVideoPoster)) ||
+    (site.images && (site.images.heroVideoPoster || site.images.heroPoster || site.images.hero)) ||
     heroGallery[0]?.videoPoster ||
     heroGallery[0]?.image ||
     "";
@@ -691,9 +683,9 @@ const syncCoreSchemas = () => {
   const videoSchema = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
-    "@id": `${websiteUrl}#clase-real-video`,
-    name: "Clase real en vivo de AiT USA Institute",
-    description: site.heroLead || site.heroMicrocopy || "Clase real en vivo de inglés con corrección inmediata.",
+    "@id": `${websiteUrl}#videos-reales`,
+    name: "Video introductorio de AiT USA Institute",
+    description: "Video introductorio con la experiencia, método y opciones de AiT USA Institute para decidir con claridad.",
     inLanguage: "en-US",
     isFamilyFriendly: true,
     uploadDate: today,
@@ -705,7 +697,7 @@ const syncCoreSchemas = () => {
     hasPart: [
       {
         "@type": "Clip",
-        name: "Clase real de entrevista y conversación guiada",
+        name: "Video introductorio de AiT USA Institute",
         startOffset: "PT0S",
         endOffset: site.seoVideoDuration || "PT1M8S",
       },
@@ -986,8 +978,8 @@ const syncSeoHead = () => {
   setHref("link[rel='alternate'][hreflang='x-default']", canonical);
 
   setMeta("meta[property='og:video:type']", { property: "og:video:type", content: "video/mp4" });
-  setMeta("meta[property='og:video:width']", { property: "og:video:width", content: "1920" });
-  setMeta("meta[property='og:video:height']", { property: "og:video:height", content: "1080" });
+  setMeta("meta[property='og:video:width']", { property: "og:video:width", content: site.seoVideoWidth || "464" });
+  setMeta("meta[property='og:video:height']", { property: "og:video:height", content: site.seoVideoHeight || "832" });
   setMeta("meta[property='og:video:duration']", { property: "og:video:duration", content: seoVideoSeconds });
   setMeta("meta[property='og:site_name']", { property: "og:site_name", content: site.name });
   setMeta("meta[property='og:locale']", { property: "og:locale", content: "es_US" });
@@ -1415,11 +1407,11 @@ const heroMedia = () => {
           src="${primary.videoPoster || primary.image || heroMediaPoster}"
           alt="${site.heroQuote}"
         />
-        <div class="hero__media-caption">
-          <span data-hero-kicker>${primary.label}</span>
-          <strong data-hero-title>${primary.title}</strong>
-          <p>Usa los videos reales para comparar el método, la energía de clase y el tipo de apoyo antes de escribirnos.</p>
-        </div>
+      </div>
+      <div class="hero__media-caption">
+        <span data-hero-kicker>${primary.label}</span>
+        <strong data-hero-title>${primary.title}</strong>
+        <p>Usa los videos reales para comparar el método, la energía de clase y el tipo de apoyo antes de escribirnos.</p>
       </div>
         <div class="hero__preview-rail hero__preview-rail--compact" aria-label="Más videos de AiT USA">
       ${previewItems
@@ -1861,10 +1853,8 @@ app.innerHTML = `
           .join("")}
       </div>
     </section>
-    ${launchPathSection()}
-    ${spotlightSection()}
 
-    <section class="section section--reel" aria-labelledby="reel-title">
+    <section id="experiencia" class="section section--reel" aria-labelledby="reel-title">
       <div class="section-inner reel-grid">
         <div class="reel-copy">
           <p class="section-kicker">Método en video</p>
@@ -1905,79 +1895,11 @@ app.innerHTML = `
       </div>
     </section>
 
-    <section class="section section--white" aria-labelledby="diferente-title">
-      <div class="section-inner intro-grid">
-        <div>
-          <p class="section-kicker">Por qué somos diferentes</p>
-          <h2 id="diferente-title">Una ruta visual para entender rápido, hablar con precisión y avanzar con confianza.</h2>
-          <p>
-            El objetivo es práctico: comprender rápido, hablar con precisión y usar el inglés en
-            escenarios cotidianos y académicos sin fricción.
-          </p>
-        </div>
-        <div>
-          <p>
-            Nuestro método visual traduce estructura y vocabulario en hábitos de comunicación para
-            resultados visibles.
-          </p>
-        </div>
-      </div>
-      <div class="section-inner reason-grid">
-        ${differentiators
-          .map(
-            (item, index) => `
-              <article class="reason-card">
-                <span>${String(index + 1).padStart(2, "0")}</span>
-                <h3>${item.title}</h3>
-                <p>${item.text}</p>
-              </article>
-            `,
-          )
-          .join("")}
-      </div>
-    </section>
-
     <section id="cursos" class="section section--soft" aria-labelledby="cursos-title">
       <div class="section-inner section-heading">
         <p class="section-kicker">Cursos</p>
-        <h2 id="cursos-title">En menos de 45 segundos, identifica tu ruta de curso.</h2>
-        <p>Comparamos inglés para vida diaria y trabajo, apoyo académico y tecnología práctica para que halles la opción más funcional para tu rutina.</p>
-        <div class="course-quick-paths" aria-label="Ruta rápida según tu objetivo">
-          <button class="course-quick-path" type="button" data-course-filter-quick="todos">
-            <span class="course-quick-path__title">Comparar todo</span>
-            <span class="course-quick-path__copy">Revisa todas las opciones y encuentra tu mejor ajuste.</span>
-          </button>
-          <button class="course-quick-path" type="button" data-course-filter-quick="ingles">
-            <span class="course-quick-path__title">Hablar inglés rápido</span>
-            <span class="course-quick-path__copy">Prioriza práctica comunicativa para trabajo, escuela y vida diaria.</span>
-          </button>
-          <button class="course-quick-path" type="button" data-course-filter-quick="ninos">
-            <span class="course-quick-path__title">Soy padre o madre</span>
-            <span class="course-quick-path__copy">Empieza por rutas para 8-13 años con apoyo y seguimiento.</span>
-          </button>
-          <button class="course-quick-path" type="button" data-course-filter-quick="academico">
-            <span class="course-quick-path__title">Mejora resultados académicos</span>
-            <span class="course-quick-path__copy">Enfócate en examen GED, matemáticas y soporte escolar.</span>
-          </button>
-        </div>
-        <div class="course-pill-row" aria-label="Enfoques principales">
-          <span>ESL en vivo</span>
-          <span>Apoyo académico</span>
-          <span>Tecnología práctica</span>
-        </div>
-      </div>
-      <div class="section-inner course-guide" aria-label="Ayuda para elegir el curso correcto">
-        ${courseGuides
-          .map(
-            (item) => `
-              <article>
-                <strong>${item.title}</strong>
-                <p>${item.text}</p>
-                <a class="course-guide__link" href="${item.href}">${item.cta}</a>
-              </article>
-            `,
-          )
-          .join("")}
+        <h2 id="cursos-title">Elige una ruta sin leer una página interminable.</h2>
+        <p>Filtra por objetivo, revisa el encaje rápido y abre el detalle completo solo del curso que te interesa.</p>
       </div>
       <div class="section-inner filter-bar" role="group" aria-label="Filtrar cursos">
         ${initials
@@ -1991,17 +1913,6 @@ app.innerHTML = `
           )
           .join("")}
         <button class="filter-button filter-button--reset" type="button" data-clear-filters>Limpiar filtros</button>
-      </div>
-      <div class="course-shortcuts">
-        <a class="course-shortcuts__primary button button--primary" href="#horarios">Ver horarios y modalidad</a>
-        <a
-          class="course-shortcuts__ghost button button--ghost"
-          href="${site.whatsappHref}?text=${encodeURIComponent(
-            "Hola AiT USA Institute, quiero una recomendación de curso según mi disponibilidad y objetivo."
-          )}"
-        >
-          Hablar con asesor
-        </a>
       </div>
       <p class="section-inner course-count" data-course-count aria-live="polite">Mostrando ${programs.length} programas.</p>
       <div class="section-inner program-grid" data-program-grid>
@@ -2018,8 +1929,6 @@ app.innerHTML = `
                   <h3>${program.title}</h3>
                   <p class="program-card__best-for">${program.bestFor}</p>
                   <p class="program-card__fit">${program.fit}</p>
-                  <p class="program-card__summary">${program.summary}</p>
-                  <ul class="program-card__details">${joinList(program.details)}</ul>
                   <div class="program-card__footer">
                     <a class="program-card__cta" href="${coursePath(program)}" data-course-detail-link="${program.slug}">Ver detalles</a>
                     <a class="program-card__cta program-card__cta--secondary" href="${site.whatsappHref}?text=${programInquiryMessage(program)}">${program.cta || "Hablar de esta ruta"}</a>
@@ -2030,107 +1939,18 @@ app.innerHTML = `
           )
           .join("")}
       </div>
-      <div class="section-inner course-detail-stack" aria-label="Detalles completos de cursos">
-        <div class="course-detail-stack__intro">
-          <span>Detalles recuperados</span>
-          <h3>Ahora cada curso tiene una vista amplia antes de contactar.</h3>
-          <p>
-            Consolidamos la información útil del sitio original y de los productos capturados:
-            metodología, niveles, horarios, tutorías, duración y próximos pasos.
-          </p>
-        </div>
-        ${programs.map(courseDetailMarkup).join("")}
-      </div>
-    </section>
-
-    <section id="metodo" class="section section--white" aria-labelledby="metodo-title">
-      <div class="section-inner split method-shell">
-        <div class="method-copy">
-          <p class="section-kicker">Cómo enseñamos</p>
-          <h2 id="metodo-title">Comprender. Practicar. Hablar. Repetir.</h2>
-          <p>
-            Te mostramos una clase real, corregimos en vivo y luego te damos una ruta concreta por nivel y horario para
-            avanzar con menos incertidumbre.
-          </p>
-          <ul class="method-points" aria-label="Lo que verás en el método">
-            ${joinList([
-              "Clase real primero para validar el enfoque antes de inscribirte.",
-              "Corrección visible mientras hablas para no arrastrar errores.",
-              "Apoyo flexible y rutas por nivel para sostener tu progreso.",
-            ])}
-          </ul>
-        </div>
-        <div class="method-list">
-          ${methodBlocks
-            .map(
-              (block, index) => `
-                <article class="method-item ${index === 0 ? "method-item--featured" : ""}">
-                  <img src="${block.image}" alt="${block.imageAlt}" loading="lazy" />
-                  <div>
-                    <span class="method-item__step">${String(index + 1).padStart(2, "0")}</span>
-                    <h3>${block.title}</h3>
-                    <p>${block.text}</p>
-                  </div>
-                </article>
-              `,
-            )
-            .join("")}
-        </div>
-      </div>
-    </section>
-
-    <section id="libros" class="section section--blue" aria-labelledby="libros-title">
-      <div class="section-inner section-heading section-heading--inverted">
-        <p class="section-kicker">Nuestros libros</p>
-        <h2 id="libros-title">Material académico propio para reforzar tu progreso.</h2>
-        <p>Material desarrollado para practicar más allá del aula y construir hábitos diarios reales.</p>
-      </div>
-      <div class="section-inner books-strip">
-        <article>
-          <strong>Secuencia clara</strong>
-          <span>De la introducción al avance progresivo por niveles.</span>
-        </article>
-        <article>
-          <strong>Práctica diaria</strong>
-          <span>Diseñado para repasar sin depender solo de la clase.</span>
-        </article>
-        <article>
-          <strong>Ritmo realista</strong>
-          <span>Material pensado para sostener continuidad y confianza.</span>
-        </article>
-      </div>
-      <div class="section-inner book-grid">
-        ${books
-          .map(
-            (book) => `
-              <article class="book-card">
-                <img src="${book.image}" alt="${book.title}" loading="lazy" />
-                <div class="book-card__body">
-                  <p class="book-card__level">${book.level}</p>
-                  <h3>${book.title}</h3>
-                  <span>${book.subtitle}</span>
-                  <p class="book-card__best-for">${book.bestFor}</p>
-                  <p>${book.text}</p>
-                  <div class="payment-card__footer">
-                    <a class="payment-card__cta" href="${site.whatsappHref}?text=${bookInquiryMessage(book.title)}">Pedir este libro</a>
-                  </div>
-                </div>
-              </article>
-            `,
-          )
-          .join("")}
-      </div>
-      <div class="section-inner books-cta">
-        <div>
-          <p class="section-kicker">Material y apoyo</p>
-          <h3>Elige el libro correcto según tu nivel y la forma en que estudias.</h3>
-          <p>Si no sabes cuál corresponde a tu etapa, escríbenos y te decimos cuál te conviene en minutos.</p>
-        </div>
-        <div class="books-cta__actions">
-          <a class="button button--primary" href="${site.whatsappHref}?text=${bookInquiryMessage()}">Ver libros</a>
-          <a class="button button--ghost" href="#contacto">Pedir ayuda</a>
-        </div>
-      </div>
+      ${
+        getCurrentCourse()
+          ? `<div class="section-inner course-detail-stack" aria-label="Detalles completos de cursos">
+              <div class="course-detail-stack__intro">
+                <span>Detalle del curso</span>
+                <h3>Información completa antes de contactar.</h3>
+                <p>Metodología, niveles, horarios, duración y próximos pasos del curso seleccionado.</p>
+              </div>
+              ${programs.map(courseDetailMarkup).join("")}
+            </div>`
+          : ""
+      }
     </section>
 
     <section id="horarios" class="section section--white" aria-labelledby="horarios-title">
@@ -2398,136 +2218,6 @@ app.innerHTML = `
       </div>
     </section>
 
-    <section class="section section--white" aria-labelledby="downloads-title">
-      <div class="section-inner section-heading">
-        <p class="section-kicker">Acceso y preparación</p>
-        <h2 id="downloads-title">Llega con tu equipo, audio y material listos para la primera clase.</h2>
-        <p>Si estudias online o híbrido, te guiamos para entrar sin tropiezos y con una rutina que sí te deja avanzar.</p>
-      </div>
-      <div class="section-inner utility-strip">
-        <article>
-          <strong>Tu pantalla, tu ritmo</strong>
-          <span>Laptop, tablet o móvil para entrar desde donde ya estudias.</span>
-        </article>
-        <article>
-          <strong>Sin vueltas técnicas</strong>
-          <span>Te ayudamos a abrir la clase y el material sin configuración pesada.</span>
-        </article>
-        <article>
-          <strong>Seguimiento claro</strong>
-          <span>Cada recurso queda alineado con tu nivel y tu siguiente paso.</span>
-        </article>
-      </div>
-      <div class="section-inner download-grid">
-        ${downloads
-          .map(
-            (item) => `
-              <article class="download-card">
-                <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
-                <div class="download-card__body">
-                  <p class="download-card__eyebrow">${item.eyebrow}</p>
-                  <h3>${item.title}</h3>
-                  <p>${item.text}</p>
-                </div>
-              </article>
-            `,
-          )
-          .join("")}
-      </div>
-      <div class="section-inner requirement-grid">
-        ${requirements
-          .map(
-            (item) => `
-              <article class="requirement">
-                <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
-                <div class="requirement__body">
-                  <p class="requirement__eyebrow">${item.eyebrow}</p>
-                  <h3>${item.title}</h3>
-                  <p>${item.text}</p>
-                </div>
-              </article>
-            `,
-          )
-          .join("")}
-      </div>
-      <div class="section-inner books-cta">
-        <div>
-          <p class="section-kicker">¿Necesitas ayuda para configurarte?</p>
-          <h3>Si no estás seguro de qué equipo usar, te dejamos listo antes de tu primera clase.</h3>
-          <p>Escríbenos por WhatsApp o completa el formulario y te ayudamos a dejarlo listo antes de empezar.</p>
-        </div>
-        <div class="books-cta__actions">
-          <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Pedir ayuda</a>
-          <a class="button button--ghost" href="#contacto">Ver contacto</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section--soft" aria-labelledby="pagos-title">
-      <div class="section-inner section-heading">
-        <p class="section-kicker">Tu punto de entrada</p>
-        <h2 id="pagos-title">Invierte en la ruta que mueve tu meta sin distracciones.</h2>
-        <p>Si ya sabes lo que buscas, ve directo al plan; si estás comparando opciones, aquí te ayudamos a elegir sin ruido.</p>
-      </div>
-      <div class="section-inner payment-note">
-        <p>
-          Si no ves tu modalidad exacta, escríbenos por WhatsApp y te diremos cuál encaja mejor según tu país, horario y nivel.
-        </p>
-      </div>
-      <div class="section-inner payment-guide" aria-label="Ayuda para elegir producto">
-        ${paymentGuides
-          .map(
-            (item) => `
-              <article class="payment-guide__card${item.image ? " payment-guide__card--with-media" : ""}">
-                ${item.image ? `<img class="payment-guide__image" src="${item.image}" alt="${item.imageAlt || item.title}" loading="lazy" />` : ""}
-                <div class="payment-guide__body">
-                  <strong>${item.title}</strong>
-                  <p>${item.text}</p>
-                  ${item.tag ? `<span>${item.tag}</span>` : ""}
-                  <a href="${item.href}">${item.cta}</a>
-                </div>
-              </article>
-            `,
-          )
-          .join("")}
-      </div>
-      <div class="section-inner payment-grid">
-        ${storeProducts
-          .map(
-            (item) => `
-              <article class="payment-card">
-                <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
-                <div class="payment-card__body">
-                  <h3>${item.title}</h3>
-                  <p class="payment-card__best-for">${item.bestFor}</p>
-                  <div class="payment-card__meta">
-                    <strong class="payment-card__price">${item.price}</strong>
-                    <span>${item.status}${item.sku ? ` · SKU ${item.sku}` : ""}</span>
-                  </div>
-                  <p>${item.note}</p>
-                  ${renderVariants(item.variants)}
-                  <div class="payment-card__footer">
-                    <a class="payment-card__cta" href="${site.whatsappHref}?text=${productInquiryMessage(item)}">${item.cta || "Elegir este plan"}</a>
-                  </div>
-                </div>
-              </article>
-            `,
-          )
-          .join("")}
-      </div>
-      <div class="section-inner books-cta">
-        <div>
-          <p class="section-kicker">¿Aún comparas opciones?</p>
-          <h3>Te ayudamos a decidir entre mensualidad, libro, registración o una ruta técnica.</h3>
-          <p>Escríbenos y te decimos cuál conviene según tu meta, tu ritmo y tu presupuesto.</p>
-        </div>
-        <div class="books-cta__actions">
-          <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Pedir recomendación</a>
-          <a class="button button--ghost" href="#faq">Ver dudas frecuentes</a>
-        </div>
-      </div>
-    </section>
-
       <section id="faq" class="section section--white" aria-labelledby="faq-title">
         <div class="section-inner section-heading">
           <p class="section-kicker">Preguntas frecuentes</p>
@@ -2567,7 +2257,7 @@ app.innerHTML = `
                     : faq.cta === "Ver horarios"
                       ? "#horarios"
                       : faq.cta === "Ver libro"
-                        ? "#libros"
+                        ? "#contacto"
                         : faq.cta === "Pedir orientación"
                           ? `${site.whatsappHref}?text=${contactMessage}`
                           : "#contacto"
@@ -2878,7 +2568,11 @@ const initMobileActionBar = () => {
 
   const mobileMatcher = window.matchMedia("(max-width: 720px)");
   const applyState = () => {
-    const shouldShow = mobileMatcher.matches && window.scrollY < 900;
+    const hero = document.querySelector("#inicio");
+    const heroThreshold = hero
+      ? hero.offsetTop + hero.offsetHeight - window.innerHeight * 0.35
+      : 900;
+    const shouldShow = mobileMatcher.matches && window.scrollY > heroThreshold;
     mobileActionBar.classList.toggle("is-visible", shouldShow);
   };
 

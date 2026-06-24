@@ -9,6 +9,7 @@
     "capture": "node ./scripts/capture-wix.mjs",
     "inventory": "node ./scripts/extract-image-inventory.mjs",
     "links": "node ./scripts/extract-links.mjs",
+    "posters": "node ./scripts/extract-video-posters.mjs",
     "check:assets": "node ./scripts/check-assets.mjs",
     "verify:browser": "node ./scripts/verify-browser.mjs"
   }

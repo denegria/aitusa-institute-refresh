@@ -1,6 +1,7 @@
 ﻿const asset = (name) => `./public/assets/wix/${name}`;
 const assetHires = (name) => asset(`hires/${name}`);
 const assetVideo = (name) => asset(`videos/${name}`);
+const assetVideoPoster = (name) => asset(`videos/posters/${name}`);
 
 const site = {
   name: "AiT USA Institute",
@@ -49,11 +50,13 @@ const site = {
     "Mira videos reales de AiT USA y explora programas de inglés, niños, GED, computación y español en Nueva Jersey. Compara presencial, híbrido y online y recibe una ruta inicial clara.",
   seoKeywords:
     "AiT USA Institute, clases de inglés Nueva Jersey, GED, computación, español, clases para niños, videos reales de inglés, clases presenciales, clases híbridas, clases online, entrevista de trabajo en inglés, ruta inicial personalizada, Bound Brook, Plainfield, Piscataway, inglés conversacional para adultos",
-  seoImage: assetHires("hero-classroom.jpg"),
+  seoImage: assetVideoPoster("intro-video-great.jpg"),
   seoImageAlt:
-    "Estudiantes e instructores de AiT USA en una experiencia de aprendizaje guiada.",
-  seoVideo: assetVideo("promo-video-great.mp4"),
-  seoVideoDuration: "PT1M46S",
+    "Frame real del video introductorio de AiT USA Institute.",
+  seoVideo: assetVideo("intro-video-great.mp4"),
+  seoVideoDuration: "PT1M45S",
+  seoVideoWidth: 464,
+  seoVideoHeight: 832,
   email: "info@aitusainstitute.com",
   emailHref:
     "mailto:info@aitusainstitute.com?subject=Informaci%C3%B3n%20sobre%20clases%20AiT%20USA%20Institute",
@@ -96,22 +99,32 @@ const site = {
   },
   images: {
     logo: asset("076-solo-logo-4-x-4-clases1.png"),
-    hero: assetHires("hero-classroom.jpg"),
-    heroPoster: assetHires("hero-classroom.jpg"),
-    heroVideo: assetVideo("promo-video-great.mp4"),
+    hero: assetHires("graphic-concept-method.jpg"),
+    heroPoster: assetHires("graphic-concept-method.jpg"),
+    heroVideo: assetVideo("intro-video-great.mp4"),
     heroVideoPortrait: assetVideo("intro-video-great.mp4"),
     heroVideoFallback: assetVideo("promo-video-great.mp4"),
-    heroVideoPoster: assetHires("hero-classroom.jpg"),
+    heroVideoPoster: assetVideoPoster("intro-video-great.jpg"),
     introVideo: assetVideo("intro-video-great.mp4"),
+    introVideoPoster: assetVideoPoster("intro-video-great.jpg"),
     promoVideo: assetVideo("promo-video-great.mp4"),
+    promoVideoPoster: assetVideoPoster("promo-video-great.jpg"),
     firstCharacteristicVideo: assetVideo("first-characteristic.mp4"),
+    firstCharacteristicVideoPoster: assetVideoPoster("first-characteristic.jpg"),
     secondCharacteristicVideo: assetVideo("second-characteristic.mp4"),
+    secondCharacteristicVideoPoster: assetVideoPoster("second-characteristic.jpg"),
     thirdCharacteristicVideo: assetVideo("third-characteristic.mp4"),
+    thirdCharacteristicVideoPoster: assetVideoPoster("third-characteristic.jpg"),
     differenceVideo: assetVideo("what-makes-us-different.mp4"),
+    differenceVideoPoster: assetVideoPoster("what-makes-us-different.jpg"),
     internationalStudentVideo: assetVideo("international-student-testimonial.mp4"),
+    internationalStudentVideoPoster: assetVideoPoster("international-student-testimonial.jpg"),
     ericInterviewVideo: assetVideo("student-interview-eric-great.mp4"),
+    ericInterviewVideoPoster: assetVideoPoster("student-interview-eric-great.jpg"),
     jessicaInterviewVideo: assetVideo("student-interview-jessica-great.mp4"),
+    jessicaInterviewVideoPoster: assetVideoPoster("student-interview-jessica-great.jpg"),
     leilaTestimonialVideo: assetVideo("student-testimonial-leila-needs-reduced-volume.mp4"),
+    leilaTestimonialVideoPoster: assetVideoPoster("student-testimonial-leila-needs-reduced-volume.jpg"),
     heroClassroom: assetHires("hero-classroom.jpg"),
     heroFemaleClassroom: assetHires("contact-female-speaking.jpg"),
     heroFemaleTeacher: assetHires("contact-female-speaking.jpg"),
@@ -153,11 +166,8 @@ const heroQuickCapture = site.heroQuickCapture;
 
 const nav = [
   ["Inicio", "inicio"],
-  ["Ruta", "ruta"],
-  ["Experiencia", "experiencia"],
+  ["Videos", "experiencia"],
   ["Cursos", "cursos"],
-  ["Método", "metodo"],
-  ["Libros", "libros"],
   ["Horarios", "horarios"],
   ["Sedes", "sedes"],
   ["Preguntas frecuentes", "faq"],
@@ -729,38 +739,38 @@ const programs = [
 
 const heroGallery = [
   {
+    label: "Video de introducción",
+    title: "Conoce el punto de partida antes de elegir programa.",
+    image: site.images.introVideoPoster,
+    video: site.images.introVideo,
+    videoPoster: site.images.introVideoPoster,
+    imageAlt: "Frame del video introductorio de AiT USA Institute.",
+  },
+  {
     label: "Promoción general",
     title:
       "Una vista rápida de la experiencia, programas y acompañamiento.",
-    image: site.images.adultEnglish,
+    image: site.images.promoVideoPoster,
     video: site.images.promoVideo,
-    videoPoster: site.images.adultEnglish,
+    videoPoster: site.images.promoVideoPoster,
     imageAlt:
-      "Estudiante revisando material de clase con laptop y cuaderno.",
-  },
-  {
-    label: "Video de introducción",
-    title: "Conoce el punto de partida antes de elegir programa.",
-    image: site.images.hero,
-    video: site.images.introVideo,
-    videoPoster: site.images.hero,
-    imageAlt: "Estudiantes de AiT USA revisando opciones de aprendizaje antes de empezar.",
+      "Frame del video promocional de AiT USA Institute.",
   },
   {
     label: "Lo que nos diferencia",
     title: "Método visual, práctica guiada y seguimiento cercano.",
-    image: site.images.method,
+    image: site.images.differenceVideoPoster,
     video: site.images.differenceVideo,
-    videoPoster: site.images.method,
-    imageAlt: "Método visual de AiT USA aplicado a una ruta de aprendizaje clara.",
+    videoPoster: site.images.differenceVideoPoster,
+    imageAlt: "Frame del video sobre lo que diferencia a AiT USA.",
   },
   {
     label: "Característica clave",
     title: "Un primer vistazo a cómo se ordena la ruta de estudio.",
-    image: site.images.routeLevels,
+    image: site.images.firstCharacteristicVideoPoster,
     video: site.images.firstCharacteristicVideo,
-    videoPoster: site.images.routeLevels,
-    imageAlt: "Ruta visual de niveles y objetivos de aprendizaje.",
+    videoPoster: site.images.firstCharacteristicVideoPoster,
+    imageAlt: "Frame del primer video de características del método.",
   },
 ];
 
@@ -790,35 +800,22 @@ const heroProof = [
 
 const instructorClips = [
   {
-    title: "Primera característica del método",
-    eyebrow: "Característica 1",
-    image: site.images.routeConcept,
-    video: site.images.firstCharacteristicVideo,
-    videoPoster: site.images.routeConcept,
-    imageAlt:
-      "Ruta visual del método Graphic Concept aplicada a una clase.",
+    title: "Qué hace diferente a AiT USA",
+    eyebrow: "Diferenciador",
+    image: site.images.differenceVideoPoster,
+    video: site.images.differenceVideo,
+    videoPoster: site.images.differenceVideoPoster,
+    imageAlt: "Frame del video sobre lo que diferencia a AiT USA.",
     caption:
-      "El primer clip explica cómo el método organiza el aprendizaje para que el estudiante vea la ruta.",
-    duration: "0:33",
-  },
-  {
-    title: "Segunda característica del método",
-    eyebrow: "Característica 2",
-    image: site.images.adultEnglish,
-    video: site.images.secondCharacteristicVideo,
-    videoPoster: site.images.adultEnglish,
-    imageAlt:
-      "Estudiante adulta practicando con recursos digitales y cuaderno.",
-    caption:
-      "Un segundo clip muestra cómo la práctica se vuelve concreta, repetible y fácil de seguir.",
-    duration: "0:26",
+      "Una explicación breve de lo que hace distinta la experiencia frente a una clase genérica.",
+    duration: "0:38",
   },
   {
     title: "Tercera característica del método",
     eyebrow: "Característica 3",
-    image: site.images.routeLevels,
+    image: site.images.thirdCharacteristicVideoPoster,
     video: site.images.thirdCharacteristicVideo,
-    videoPoster: site.images.routeLevels,
+    videoPoster: site.images.thirdCharacteristicVideoPoster,
     imageAlt:
       "Instructora mostrando el progreso por niveles mientras guía una clase visual.",
     caption:
@@ -826,15 +823,28 @@ const instructorClips = [
     duration: "0:17",
   },
   {
-    title: "Qué hace diferente a AiT USA",
-    eyebrow: "Diferenciador",
-    image: site.images.heroFemaleZoom,
-    video: site.images.differenceVideo,
-    videoPoster: site.images.heroFemaleZoom,
-    imageAlt: "Instructora de AiT USA guiando seguimiento online con audífonos y micrófono.",
+    title: "Primera característica del método",
+    eyebrow: "Característica 1",
+    image: site.images.firstCharacteristicVideoPoster,
+    video: site.images.firstCharacteristicVideo,
+    videoPoster: site.images.firstCharacteristicVideoPoster,
+    imageAlt:
+      "Frame del primer video de características del método.",
     caption:
-      "Una explicación breve de lo que hace distinta la experiencia frente a una clase genérica.",
-    duration: "0:38",
+      "El primer clip explica cómo el método organiza el aprendizaje para que el estudiante vea la ruta.",
+    duration: "0:33",
+  },
+  {
+    title: "Segunda característica del método",
+    eyebrow: "Característica 2",
+    image: site.images.secondCharacteristicVideoPoster,
+    video: site.images.secondCharacteristicVideo,
+    videoPoster: site.images.secondCharacteristicVideoPoster,
+    imageAlt:
+      "Frame del segundo video de características del método.",
+    caption:
+      "Un segundo clip muestra cómo la práctica se vuelve concreta, repetible y fácil de seguir.",
+    duration: "0:26",
   },
 ];
 
@@ -1042,9 +1052,9 @@ const locations = [
 const testimonials = [
   {
     name: "Estudiante internacional",
-    image: site.images.testimonialAntonina,
+    image: site.images.internationalStudentVideoPoster,
     video: site.images.internationalStudentVideo,
-    videoPoster: site.images.testimonialAntonina,
+    videoPoster: site.images.internationalStudentVideoPoster,
     duration: "0:46",
     imageAlt: "Antonina y Zulma compartiendo su experiencia real en una clase de inglés de AiT USA.",
     result: "Testimonio internacional",
@@ -1053,9 +1063,9 @@ const testimonials = [
   },
   {
     name: "Eric",
-    image: site.images.heroClassroom,
+    image: site.images.ericInterviewVideoPoster,
     video: site.images.ericInterviewVideo,
-    videoPoster: site.images.heroClassroom,
+    videoPoster: site.images.ericInterviewVideoPoster,
     duration: "0:42",
     imageAlt:
       "Estudiante compartiendo su entrevista sobre la experiencia de aprendizaje en AiT USA.",
@@ -1065,9 +1075,9 @@ const testimonials = [
   },
   {
     name: "Jessica",
-    image: site.images.testimonialMarisol,
+    image: site.images.jessicaInterviewVideoPoster,
     video: site.images.jessicaInterviewVideo,
-    videoPoster: site.images.testimonialMarisol,
+    videoPoster: site.images.jessicaInterviewVideoPoster,
     duration: "2:52",
     imageAlt:
       "Estudiante adulta compartiendo su experiencia de aprendizaje en AiT USA.",
@@ -1077,9 +1087,9 @@ const testimonials = [
   },
   {
     name: "Leila",
-    image: site.images.adultEnglish,
+    image: site.images.leilaTestimonialVideoPoster,
     video: site.images.leilaTestimonialVideo,
-    videoPoster: site.images.adultEnglish,
+    videoPoster: site.images.leilaTestimonialVideoPoster,
     duration: "1:06",
     imageAlt:
       "Estudiante compartiendo testimonio en video sobre su avance y experiencia.",

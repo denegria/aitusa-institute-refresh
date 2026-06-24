@@ -388,8 +388,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       visiblePrograms: [...document.querySelectorAll('.program-card')].filter((card) => !card.hidden).length,
       courseDetails: document.querySelectorAll('[data-course-detail]').length,
       courseDetailLinks: document.querySelectorAll('[data-course-detail-link]').length,
-      books: document.querySelectorAll('.book-card').length,
-      products: document.querySelectorAll('.payment-card').length,
+      videoCards: document.querySelectorAll('.clip-card, .testimonial-card video, [data-hero-player]').length,
+      locations: document.querySelectorAll('.location-card').length,
       variantLists: document.querySelectorAll('.variant-list').length,
       faqs: document.querySelectorAll('.faq-list details').length,
       missingImages,
@@ -399,13 +399,31 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
   })()`);
 
   let target = null;
-  let productTarget = null;
+  let secondaryTarget = null;
+  const sectionScreenshots = {};
   let screenshotError = null;
   try {
     await stabilizeViewport();
     const shot = await captureViewport(`${name} home`);
     target = path.join(screenshotsDir, `${name}.png`);
     await writeFile(target, Buffer.from(shot.data, "base64"));
+
+    const captureSection = async (selector, label) => {
+      await evaluate(`(() => {
+        const target = document.querySelector(${JSON.stringify(selector)});
+        if (!target) return;
+        const y = target.getBoundingClientRect().top + window.scrollY - 96;
+        window.scrollTo({ top: y, behavior: 'instant' });
+      })()`);
+      await sleep(400);
+      const sectionShot = await captureViewport(`${name} ${label}`);
+      const sectionTarget = path.join(screenshotsDir, `${name}-${label}.png`);
+      await writeFile(sectionTarget, Buffer.from(sectionShot.data, "base64"));
+      sectionScreenshots[label] = sectionTarget;
+    };
+
+    await captureSection("#experiencia", "videos");
+    await captureSection("#cursos", "courses");
 
     await evaluate(`(() => {
       document.querySelector('[data-filter="tecnologia"]')?.click();
@@ -420,15 +438,15 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     })()`);
 
     await evaluate(`(() => {
-      const title = document.querySelector('#pagos-title');
+      const title = document.querySelector('#sedes-title');
       if (!title) return;
       const y = title.getBoundingClientRect().top + window.scrollY - 96;
       window.scrollTo({ top: y, behavior: 'instant' });
     })()`);
     await sleep(400);
-    const productShot = await captureViewport(`${name} products`);
-    productTarget = path.join(screenshotsDir, `${name}-products.png`);
-    await writeFile(productTarget, Buffer.from(productShot.data, "base64"));
+    const secondaryShot = await captureViewport(`${name} secondary`);
+    secondaryTarget = path.join(screenshotsDir, `${name}-secondary.png`);
+    await writeFile(secondaryTarget, Buffer.from(secondaryShot.data, "base64"));
   } catch (error) {
     screenshotError = error.message;
   }
@@ -443,7 +461,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     menuButtonPresent: Boolean(document.querySelector('.menu-toggle')),
   }))()`);
 
-  return { name, width, height, screenshot: target, productScreenshot: productTarget, screenshotError, ...summary, interactions };
+  return { name, width, height, screenshot: target, secondaryScreenshot: secondaryTarget, sectionScreenshots, screenshotError, ...summary, interactions };
 };
 
 const verifyCourseRoute = async () => {
