@@ -28,7 +28,9 @@ const types = {
 const server = createServer((request, response) => {
   const url = new URL(request.url, `http://localhost:${port}`);
   const requested = decodeURIComponent(url.pathname === "/" ? "/index.html" : url.pathname);
-  const target = path.resolve(root, `.${requested}`);
+  const routeFallback =
+    /^\/cursos\/[^/]+\/?$/.test(requested) || /^\/cursos\/[^/]+\/index\.html$/.test(requested);
+  const target = path.resolve(root, routeFallback ? "./index.html" : `.${requested}`);
 
   if (!target.startsWith(root) || !existsSync(target) || !statSync(target).isFile()) {
     response.writeHead(404, { "content-type": "text/plain; charset=utf-8" });

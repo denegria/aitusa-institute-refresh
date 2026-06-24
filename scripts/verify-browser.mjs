@@ -1,5 +1,5 @@
-import { mkdir, writeFile, rm } from "node:fs/promises";
-import { createReadStream, existsSync, statSync } from "node:fs";
+import { mkdir, readFile, writeFile, rm } from "node:fs/promises";
+import { existsSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import path from "node:path";
 import { spawn } from "node:child_process";
@@ -35,10 +35,12 @@ const types = {
   ".webm": "video/webm",
 };
 
-const appServer = createServer((request, response) => {
+const appServer = createServer(async (request, response) => {
   const url = new URL(request.url, "http://127.0.0.1");
   const requested = decodeURIComponent(url.pathname === "/" ? "/index.html" : url.pathname);
-  const target = path.resolve(root, `.${requested}`);
+  const routeFallback =
+    /^\/cursos\/[^/]+\/?$/.test(requested) || /^\/cursos\/[^/]+\/index\.html$/.test(requested);
+  const target = path.resolve(root, routeFallback ? "./index.html" : `.${requested}`);
 
   if (!target.startsWith(root) || !existsSync(target) || !statSync(target).isFile()) {
     response.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
@@ -46,16 +48,27 @@ const appServer = createServer((request, response) => {
     return;
   }
 
+  const body = await readFile(target);
   response.writeHead(200, {
     "content-type": types[path.extname(target).toLowerCase()] || "application/octet-stream",
+    "content-length": body.length,
   });
-  createReadStream(target).pipe(response);
+  response.end(body);
 });
 
 await new Promise((resolve) => appServer.listen(0, "127.0.0.1", resolve));
 const appPort = appServer.address().port;
 const appUrl = `http://127.0.0.1:${appPort}/index.html`;
-const port = 9223;
+
+const getOpenPort = async () => {
+  const probe = createServer();
+  await new Promise((resolve) => probe.listen(0, "127.0.0.1", resolve));
+  const freePort = probe.address().port;
+  await new Promise((resolve) => probe.close(resolve));
+  return freePort;
+};
+
+const port = await getOpenPort();
 const browser = spawn(
   chrome,
   [
@@ -121,6 +134,7 @@ let nextId = 1;
 const pending = new Map();
 const consoleMessages = [];
 const exceptions = [];
+const networkEvents = [];
 
 socket.addEventListener("message", (event) => {
   const message = JSON.parse(event.data);
@@ -144,6 +158,47 @@ socket.addEventListener("message", (event) => {
       url: details?.url || null,
       lineNumber: details?.lineNumber,
       columnNumber: details?.columnNumber,
+    });
+  }
+
+  if (message.method === "Network.requestWillBeSent") {
+    const url = message.params?.request?.url || "";
+    if (url.includes("/src/") || url.endsWith("/index.html")) {
+      networkEvents.push({
+        type: "request",
+        id: message.params.requestId,
+        url,
+      });
+    }
+  }
+
+  if (message.method === "Network.responseReceived") {
+    const url = message.params?.response?.url || "";
+    if (url.includes("/src/") || url.endsWith("/index.html")) {
+      networkEvents.push({
+        type: "response",
+        id: message.params.requestId,
+        url,
+        status: message.params.response.status,
+        mimeType: message.params.response.mimeType,
+      });
+    }
+  }
+
+  if (message.method === "Network.loadingFinished") {
+    networkEvents.push({
+      type: "finished",
+      id: message.params.requestId,
+      encodedDataLength: message.params.encodedDataLength,
+    });
+  }
+
+  if (message.method === "Network.loadingFailed") {
+    networkEvents.push({
+      type: "failed",
+      id: message.params.requestId,
+      errorText: message.params.errorText,
+      canceled: message.params.canceled,
     });
   }
 });
@@ -188,6 +243,7 @@ const waitForLoad = () =>
 
 await send("Page.enable");
 await send("Runtime.enable");
+await send("Network.enable");
 
 const evaluate = async (expression) => {
   const result = await send("Runtime.evaluate", {
@@ -208,6 +264,13 @@ const waitForAppReady = async () => {
         const app = document.querySelector('#app');
         return {
           readyState: document.readyState,
+          location: location.href,
+          title: document.title,
+          bodyLength: document.body?.innerHTML?.length || 0,
+          scripts: [...document.scripts].map((script) => script.src || script.type || "inline").slice(-4),
+          aitData: Boolean(window.AITUSA_DATA),
+          aitProgramCount: window.AITUSA_DATA?.programs?.length || 0,
+          appChildren: app?.children?.length || 0,
           appTextLength: app?.innerText?.length || 0,
           h1: document.querySelector('h1')?.innerText || null,
           programs: document.querySelectorAll('.program-card').length,
@@ -225,7 +288,17 @@ const waitForAppReady = async () => {
     await sleep(250);
   }
 
-  throw new Error(`App did not finish rendering: ${JSON.stringify(lastState)}`);
+  throw new Error(
+    `App did not finish rendering: ${JSON.stringify({
+      lastState,
+      exceptions,
+      consoleMessages: consoleMessages.map((item) => ({
+        type: item.type,
+        text: item.args?.map((arg) => arg.value || arg.description).join(" "),
+      })),
+      networkEvents: networkEvents.slice(-20),
+    })}`,
+  );
 };
 
 const stabilizeViewport = async () => {
@@ -301,6 +374,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       .slice(0, 12)
       .map((el) => ({
         tag: el.tagName.toLowerCase(),
+        id: el.id || null,
+        className: typeof el.className === 'string' ? el.className : null,
         text: (el.innerText || el.alt || '').trim().slice(0, 90),
         scrollWidth: el.scrollWidth,
         clientWidth: el.clientWidth,
@@ -311,6 +386,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       h1: document.querySelector('h1')?.innerText || null,
       programs: document.querySelectorAll('.program-card').length,
       visiblePrograms: [...document.querySelectorAll('.program-card')].filter((card) => !card.hidden).length,
+      courseDetails: document.querySelectorAll('[data-course-detail]').length,
+      courseDetailLinks: document.querySelectorAll('[data-course-detail-link]').length,
       books: document.querySelectorAll('.book-card').length,
       products: document.querySelectorAll('.payment-card').length,
       variantLists: document.querySelectorAll('.variant-list').length,
@@ -339,6 +416,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       form?.querySelector('[name="telefono"]').setAttribute('value', '5551234');
       form?.querySelector('[name="ubicacion"]').setAttribute('value', 'New Jersey');
       form?.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      document.querySelector('[data-course-detail-link="computacion-oficina"]')?.click();
     })()`);
 
     await evaluate(`(() => {
@@ -357,6 +435,10 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
 
   const interactions = await evaluate(`(() => ({
     technologyVisible: [...document.querySelectorAll('.program-card')].filter((card) => !card.hidden).length,
+    courseDetails: document.querySelectorAll('[data-course-detail]').length,
+    courseRoutePath: location.pathname,
+    openCourseDetail: document.querySelector('[data-course-detail][open]')?.dataset.courseDetail || '',
+    officeDetailHasExcel: document.querySelector('[data-course-detail="computacion-oficina"]')?.innerText.includes('Excel') || false,
     formStatus: document.querySelector('[data-form-status]')?.innerText || '',
     menuButtonPresent: Boolean(document.querySelector('.menu-toggle')),
   }))()`);
@@ -364,11 +446,64 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
   return { name, width, height, screenshot: target, productScreenshot: productTarget, screenshotError, ...summary, interactions };
 };
 
+const verifyCourseRoute = async () => {
+  console.log("Checking course-route...");
+  await send("Emulation.setDeviceMetricsOverride", {
+    width: 1280,
+    height: 1000,
+    deviceScaleFactor: 1,
+    mobile: false,
+  });
+
+  const loaded = waitForLoad();
+  const courseUrl = new URL("/cursos/computacion-oficina/", appUrl).toString();
+  const nav = await send("Page.navigate", { url: courseUrl });
+  if (nav.errorText && nav.errorText !== "net::ERR_ABORTED") {
+    throw new Error(`Course route navigation failed: ${nav.errorText}`);
+  }
+  await loaded;
+  await waitForAppReady();
+  await sleep(400);
+
+  return evaluate(`(async () => {
+    const images = [...document.images];
+    await Promise.all(images.map((img) => new Promise((resolve) => {
+      img.loading = 'eager';
+      if (img.complete && img.naturalWidth > 0) {
+        resolve();
+        return;
+      }
+      const done = () => resolve();
+      img.addEventListener('load', done, { once: true });
+      img.addEventListener('error', done, { once: true });
+      img.src = img.currentSrc || img.src;
+      setTimeout(done, 2500);
+    })));
+    const courseSchema = document.querySelector('script[data-schema="course"]')?.textContent || '{}';
+    let parsedCourse = {};
+    try {
+      parsedCourse = JSON.parse(courseSchema);
+    } catch {}
+
+    return {
+      name: 'course-route-computacion-oficina',
+      location: location.href,
+      title: document.title,
+      canonical: document.querySelector('link[rel="canonical"]')?.href || '',
+      openCourseDetail: document.querySelector('[data-course-detail][open]')?.dataset.courseDetail || '',
+      officeDetailHasExcel: document.querySelector('[data-course-detail="computacion-oficina"]')?.innerText.includes('Excel') || false,
+      courseSchemaName: parsedCourse.name || '',
+      missingImages: images.filter((img) => !img.complete || img.naturalWidth === 0).map((img) => img.currentSrc || img.src),
+    };
+  })()`);
+};
+
 const results = [];
 try {
   results.push(await verifyViewport({ name: "desktop-home", width: 1440, height: 1400, mobile: false }));
   results.push(await verifyViewport({ name: "tablet-home", width: 820, height: 1180, mobile: true }));
   results.push(await verifyViewport({ name: "mobile-home", width: 390, height: 1200, mobile: true }));
+  results.push(await verifyCourseRoute());
 } finally {
   socket.close();
   browser.kill();

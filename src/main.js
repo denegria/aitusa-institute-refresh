@@ -396,7 +396,49 @@ const courseInterestMap = {
   todos: "No estoy seguro",
 };
 
+const homeCanonical = `${(site.canonical || `${window.location.origin}/`).replace(/\/+$/, "")}/`;
+const siteBaseUrl = homeCanonical.replace(/\/$/, "");
+const coursePath = (program) => `/cursos/${program.slug}/`;
+const courseCanonical = (program) => `${siteBaseUrl}${coursePath(program)}`;
+const getCourseSlugFromPath = () => {
+  const pathMatch = decodeURIComponent(window.location.pathname || "").match(/\/cursos\/([^/]+)\/?$/);
+  return pathMatch?.[1] || "";
+};
+const getCurrentCourse = () => {
+  const slug = getCourseSlugFromPath();
+  return slug ? programs.find((program) => program.slug === slug) || null : null;
+};
+const getCurrentPageMeta = () => {
+  const course = getCurrentCourse();
+  if (!course) {
+    return {
+      course: null,
+      canonical: homeCanonical,
+      title: `${site.seoTitle || `${site.name} | ${site.heroHeadline}`}`.trim(),
+      description: site.seoDescription || site.description || "",
+      image: site.seoImage || site.images?.heroPoster || site.images?.hero,
+      imageAlt: site.seoImageAlt || `${site.name} en clase real.`,
+      keywords: site.seoKeywords || "",
+    };
+  }
+
+  return {
+    course,
+    canonical: courseCanonical(course),
+    title: `${course.title} | ${site.name}`,
+    description: course.courseDetail?.lead || course.summary || course.fit || site.seoDescription || site.description || "",
+    image: course.image || site.seoImage || site.images?.heroPoster || site.images?.hero,
+    imageAlt: course.imageAlt || `${course.title} en ${site.name}.`,
+    keywords: [site.seoKeywords, course.title, course.category, course.mode].filter(Boolean).join(", "),
+  };
+};
+
 const initialCourseFilter = (() => {
+  const routeCourse = getCurrentCourse();
+  if (routeCourse?.category && Object.prototype.hasOwnProperty.call(courseInterestMap, routeCourse.category)) {
+    return routeCourse.category;
+  }
+
   const param = new URL(window.location.href).searchParams.get("curso");
   return param && Object.prototype.hasOwnProperty.call(courseInterestMap, param) ? param : "todos";
 })();
@@ -425,6 +467,60 @@ const productInquiryMessage = (product) =>
   encodeURIComponent(`Hola AiT USA Institute, quiero información sobre ${product.title}.`);
 
 const joinList = (items) => items.map((item) => `<li>${item}</li>`).join("");
+
+const courseDetailSectionMarkup = (section) => `
+  <article class="course-detail__section">
+    <h4>${section.title}</h4>
+    <ul>${joinList(section.items || [])}</ul>
+  </article>
+`;
+
+const courseDetailMarkup = (program, index) => {
+  const detail = program.courseDetail || {};
+  const sections = Array.isArray(detail.sections) ? detail.sections : [];
+  const schedule = Array.isArray(detail.schedule) ? detail.schedule : [];
+
+  return `
+    <details
+      id="detalle-${program.slug}"
+      class="course-detail"
+      data-course-detail="${program.slug}"
+      ${index === 0 ? "open" : ""}
+    >
+      <summary>
+        <span class="course-detail__summary-media">
+          <img src="${program.image}" alt="${program.imageAlt}" loading="lazy" decoding="async" />
+        </span>
+        <span class="course-detail__summary-copy">
+          <span class="course-detail__eyebrow">${program.audience}</span>
+          <strong>${program.title}</strong>
+          <span>${program.mode}</span>
+        </span>
+        <span class="course-detail__summary-action">Ver detalle</span>
+      </summary>
+      <div class="course-detail__body">
+        <div class="course-detail__lead">
+          <p>${detail.lead || program.summary}</p>
+          <a class="button button--primary" href="${site.whatsappHref}?text=${programInquiryMessage(program)}">
+            Consultar este curso
+          </a>
+        </div>
+        <div class="course-detail__sections">
+          ${sections.map(courseDetailSectionMarkup).join("")}
+        </div>
+        ${
+          schedule.length
+            ? `<div class="course-detail__schedule">
+                <h4>Horarios y formato</h4>
+                <ul>${joinList(schedule)}</ul>
+              </div>`
+            : ""
+        }
+        ${detail.note ? `<p class="course-detail__note">${detail.note}</p>` : ""}
+      </div>
+    </details>
+  `;
+};
 
 const faqShortcuts = () =>
   `<div class="section-inner faq-shortcuts" aria-label="Atajo de preguntas frecuentes">
@@ -467,15 +563,29 @@ const syncCoreSchemas = () => {
   const schemaTarget = (name) =>
     document.querySelector(`script[type="application/ld+json"][data-schema="${name}"]`);
   const setSchema = (name, payload) => {
-    const script = schemaTarget(name);
-    if (!script) return;
+    const existing = schemaTarget(name);
+    if (!payload) {
+      existing?.remove();
+      return;
+    }
+
+    const script = existing || document.createElement("script");
+    if (!existing) {
+      script.type = "application/ld+json";
+      script.dataset.schema = name;
+      document.head.appendChild(script);
+    }
+
     script.textContent = JSON.stringify(payload, null, 2);
   };
 
-  const canonical = site.canonical || `${window.location.origin}/`;
-  const websiteUrl = toAbsoluteSiteUrl(canonical);
+  const pageMeta = getCurrentPageMeta();
+  const course = pageMeta.course;
+  const canonical = pageMeta.canonical;
+  const websiteUrl = toAbsoluteSiteUrl(homeCanonical);
+  const pageUrl = toAbsoluteSiteUrl(canonical);
   const today = new Date().toISOString().split("T")[0];
-  const seoImage = toAbsoluteSiteUrl(site.seoImage || site.images?.heroPoster || site.images?.hero);
+  const seoImage = toAbsoluteSiteUrl(pageMeta.image || site.seoImage || site.images?.heroPoster || site.images?.hero);
   const seoVideo = toAbsoluteSiteUrl(site.seoVideo || site.heroVideo || site.images?.heroVideo);
   const schemaCourses = (programs || []).slice(0, 4).map((program, index) => ({
     "@type": "ListItem",
@@ -542,10 +652,10 @@ const syncCoreSchemas = () => {
   const webpageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "@id": `${websiteUrl}#webpage`,
-    url: websiteUrl,
-    name: site.seoTitle || site.heroHeadline,
-    description: site.seoDescription || site.description,
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: pageMeta.title,
+    description: pageMeta.description,
     speakable: {
       "@type": "SpeakableSpecification",
       cssSelector: ["#inicio h1", "#inicio .hero__lead", "#contacto-title"],
@@ -562,9 +672,15 @@ const syncCoreSchemas = () => {
     },
     inLanguage: "es-US",
     breadcrumb: {
-      "@id": `${websiteUrl}#breadcrumb`,
+      "@id": `${pageUrl}#breadcrumb`,
     },
   };
+
+  if (course) {
+    webpageSchema.mainEntity = {
+      "@id": `${pageUrl}#course`,
+    };
+  }
 
   const heroSchemaPoster =
     (site.images && (site.images.hero || site.images.heroPoster || site.images.heroVideoPoster)) ||
@@ -658,17 +774,55 @@ const syncCoreSchemas = () => {
     itemListElement: schemaCourses,
   };
 
+  const breadcrumbItems = [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: websiteUrl },
+    { "@type": "ListItem", position: 2, name: "Cursos", item: `${websiteUrl}#cursos` },
+  ];
+
+  if (course) {
+    breadcrumbItems.push({ "@type": "ListItem", position: 3, name: course.title, item: pageUrl });
+  } else {
+    breadcrumbItems.push(
+      { "@type": "ListItem", position: 3, name: "Horario", item: `${websiteUrl}#horarios` },
+      { "@type": "ListItem", position: 4, name: "Contacto", item: `${websiteUrl}#contacto` },
+    );
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "@id": `${websiteUrl}#breadcrumb`,
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Inicio", item: websiteUrl },
-      { "@type": "ListItem", position: 2, name: "Cursos", item: `${websiteUrl}#cursos` },
-      { "@type": "ListItem", position: 3, name: "Horario", item: `${websiteUrl}#horarios` },
-      { "@type": "ListItem", position: 4, name: "Contacto", item: `${websiteUrl}#contacto` },
-    ],
+    "@id": `${pageUrl}#breadcrumb`,
+    itemListElement: breadcrumbItems,
   };
+
+  const courseSchema = course
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "@id": `${pageUrl}#course`,
+        name: course.title,
+        description: pageMeta.description,
+        url: pageUrl,
+        image: toAbsoluteSiteUrl(course.image || pageMeta.image),
+        provider: {
+          "@type": "EducationalOrganization",
+          name: site.name,
+          "@id": `${websiteUrl}#organization`,
+        },
+        courseMode: `${course.mode || "Presencial, Híbrido, Online"}`
+          .split(",")
+          .map((item) => item.trim())
+          .filter(Boolean),
+        inLanguage: course.category === "idiomas" ? "es" : "en",
+        offers: {
+          "@type": "Offer",
+          url: pageUrl,
+          priceCurrency: "USD",
+          availability: "https://schema.org/InStock",
+          name: course.title,
+        },
+      }
+    : null;
 
   const firstLocation = (site.locations || [])[0];
   const localBusinessSchema = {
@@ -720,6 +874,7 @@ const syncCoreSchemas = () => {
   setSchema("itemlist", itemListSchema);
   setSchema("breadcrumb", breadcrumbSchema);
   setSchema("localbusiness", localBusinessSchema);
+  setSchema("course", courseSchema);
 };
 
 const toAbsoluteSiteUrl = (value) => {
@@ -757,13 +912,14 @@ const syncSeoHead = () => {
     }
   };
 
-  const canonical = site.canonical || `${window.location.origin}/`;
-  const seoTitle = `${site.seoTitle || `${site.name} | ${site.heroHeadline}`}`.trim();
-  const seoDescription = site.seoDescription || site.description || "";
-  const seoImage = toAbsoluteSiteUrl(site.seoImage || site.images?.heroPoster || site.images?.hero);
+  const pageMeta = getCurrentPageMeta();
+  const canonical = pageMeta.canonical;
+  const seoTitle = pageMeta.title;
+  const seoDescription = pageMeta.description;
+  const seoImage = toAbsoluteSiteUrl(pageMeta.image || site.seoImage || site.images?.heroPoster || site.images?.hero);
   const seoVideo = toAbsoluteSiteUrl(site.seoVideo || site.heroVideo || site.images?.heroVideo);
-  const seoImageAlt = site.seoImageAlt || `${site.name} en clase real.`;
-  const seoKeywords = site.seoKeywords || "";
+  const seoImageAlt = pageMeta.imageAlt;
+  const seoKeywords = pageMeta.keywords;
   const seoVideoDuration = site.seoVideoDuration || "PT1M8S";
   const seoVideoSeconds = (() => {
     const minutesMatch = seoVideoDuration.match(/PT(?:(\d+)M)?(?:(\d+)S)?/i);
@@ -838,7 +994,6 @@ const syncSeoHead = () => {
   setMeta("meta[name='robots']", { name: "robots", content: "index, follow" });
   setMeta("meta[name='googlebot']", { name: "googlebot", content: "index, follow" });
 
-  ensurePreload(heroVideoSources[0], "video", "video/mp4");
   ensurePreload(seoImage, "image");
 };
 
@@ -1240,7 +1395,7 @@ const heroMedia = () => {
             muted
             playsinline
             loop
-            preload="auto"
+            preload="metadata"
           poster="${heroMediaPoster}"
           data-hero-poster="${heroMediaPoster}"
           aria-label="Video de clase de muestra de AiT USA Institute">
@@ -1895,13 +2050,25 @@ app.innerHTML = `
                   <p class="program-card__summary">${program.summary}</p>
                   <ul class="program-card__details">${joinList(program.details)}</ul>
                   <div class="program-card__footer">
-                    <a class="program-card__cta" href="${site.whatsappHref}?text=${programInquiryMessage(program)}">${program.cta || "Hablar de esta ruta"}</a>
+                    <a class="program-card__cta" href="${coursePath(program)}" data-course-detail-link="${program.slug}">Ver detalles</a>
+                    <a class="program-card__cta program-card__cta--secondary" href="${site.whatsappHref}?text=${programInquiryMessage(program)}">${program.cta || "Hablar de esta ruta"}</a>
                   </div>
                 </div>
               </article>
             `,
           )
           .join("")}
+      </div>
+      <div class="section-inner course-detail-stack" aria-label="Detalles completos de cursos">
+        <div class="course-detail-stack__intro">
+          <span>Detalles recuperados</span>
+          <h3>Ahora cada curso tiene una vista amplia antes de contactar.</h3>
+          <p>
+            Consolidamos la información útil del sitio original y de los productos capturados:
+            metodología, niveles, horarios, tutorías, duración y próximos pasos.
+          </p>
+        </div>
+        ${programs.map(courseDetailMarkup).join("")}
       </div>
     </section>
 
@@ -2689,12 +2856,31 @@ navEl.addEventListener("click", (event) => {
   }
 });
 
+document.addEventListener("click", (event) => {
+  if (!(event.target instanceof Element)) return;
+  const link = event.target.closest('a[href^="#"]');
+  if (!link || link.matches("[data-intent-action], [data-course-detail-link]")) return;
+
+  const targetHash = link.getAttribute("href") || "";
+  const target = targetHash.length > 1 ? document.querySelector(targetHash) : null;
+  if (!target) return;
+
+  event.preventDefault();
+  target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  if (window.history?.pushState && window.location.hash !== targetHash) {
+    window.history.pushState({}, "", `${window.location.pathname}${window.location.search}${targetHash}`);
+  } else {
+    window.location.hash = targetHash;
+  }
+});
+
 const filterButtons = [...document.querySelectorAll(".filter-button[data-filter]")];
 const programCards = [...document.querySelectorAll(".program-card")];
 const programGrid = document.querySelector("[data-program-grid]");
 const courseCount = document.querySelector("[data-course-count]");
 const clearFiltersButton = document.querySelector("[data-clear-filters]");
 const quickCourseFilters = [...document.querySelectorAll("[data-course-filter-quick]")];
+const courseDetailPanels = [...document.querySelectorAll("[data-course-detail]")];
 const courseInterestSelect = document.querySelector('select[name="interes"]');
 const programFilters = new Set(Object.values(categoryLabel));
 const scheduleFilterButtons = [...document.querySelectorAll("[data-schedule-filter]")];
@@ -2721,6 +2907,62 @@ const initMobileActionBar = () => {
   mobileMatcher.addEventListener("change", applyState);
 };
 initMobileActionBar();
+
+const openCourseDetail = (slug, { scroll = true } = {}) => {
+  if (!slug) return;
+  const target = courseDetailPanels.find((panel) => panel.dataset.courseDetail === slug);
+  if (!target) return;
+
+  courseDetailPanels.forEach((panel) => {
+    if (panel !== target) {
+      panel.open = false;
+    }
+  });
+
+  target.open = true;
+
+  if (scroll) {
+    target.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  }
+};
+
+document.addEventListener("click", (event) => {
+  if (!(event.target instanceof Element)) return;
+  const trigger = event.target.closest("[data-course-detail-link]");
+  if (!trigger) return;
+
+  const slug = trigger.dataset.courseDetailLink;
+  if (!slug) return;
+  event.preventDefault();
+
+  const routeCourse = programs.find((program) => program.slug === slug);
+  if (routeCourse && window.history?.pushState) {
+    window.history.pushState({ course: slug }, "", coursePath(routeCourse));
+    syncCoreSchemas();
+    syncSeoHead();
+  }
+
+  openCourseDetail(slug);
+});
+
+const syncCourseDetailFromLocation = ({ scroll = false } = {}) => {
+  const hash = decodeURIComponent(window.location.hash || "");
+  if (hash.startsWith("#detalle-")) {
+    openCourseDetail(hash.replace("#detalle-", ""), { scroll });
+    return;
+  }
+
+  const routeCourse = getCurrentCourse();
+  if (routeCourse) {
+    openCourseDetail(routeCourse.slug, { scroll });
+  }
+};
+
+syncCourseDetailFromLocation();
+window.addEventListener("hashchange", () => syncCourseDetailFromLocation());
 
 const applyScheduleFilter = (filter = "todos", activeButton = null) => {
   const nextFilter = scheduleFilterValues.has(filter) ? filter : "todos";
@@ -2846,9 +3088,13 @@ applyScheduleFilter("todos", activeScheduleButton);
 
 window.addEventListener("popstate", () => {
   const param = new URL(window.location.href).searchParams.get("curso");
-  const nextFilter = param && programFilters.has(param) ? param : "todos";
+  const routeCourse = getCurrentCourse();
+  const nextFilter = routeCourse?.category || (param && programFilters.has(param) ? param : "todos");
   const nextButton = filterButtons.find((button) => button.dataset.filter === nextFilter) || filterButtons[0];
   applyProgramFilter(nextFilter, nextButton, { updateHistory: false });
+  syncCourseDetailFromLocation();
+  syncCoreSchemas();
+  syncSeoHead();
 });
 
 const form = document.querySelector("[data-lead-form]");

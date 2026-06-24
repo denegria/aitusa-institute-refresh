@@ -280,6 +280,7 @@ const courseGuides = [
 
 const programs = [
   {
+    slug: "ingles-jovenes-adultos",
     title: "Inglés para jóvenes y adultos",
     category: "ingles",
     mode: "Presencial, híbrido y online",
@@ -296,8 +297,45 @@ const programs = [
       "Modalidad presencial o online para adaptarse a tu agenda.",
       "Talleres y tutorías con seguimiento de progreso semanal.",
     ],
+    courseDetail: {
+      lead:
+        "Programa principal para adultos y jóvenes dentro de Estados Unidos que quieren hablar y comprender inglés sin depender de traducción constante.",
+      sections: [
+        {
+          title: "Lo que trabaja el programa",
+          items: [
+            "Hablar y comprender inglés en presente, pasado y futuro con una meta de nivel intermedio a mediano plazo.",
+            "Pensar en inglés usando el método Graphic Concept en vez de memorizar listas extensas.",
+            "Practicar conversación para trabajo, escuela, trámites y vida diaria.",
+          ],
+        },
+        {
+          title: "Experiencia de clase",
+          items: [
+            "Talleres y workshops con aulas vivas dentro y fuera del instituto.",
+            "Tutorías para aclarar dudas, actualizarse, nivelarse y mejorar habilidades.",
+            "Docentes bilingües y norteamericanos entrenados en la metodología de AiT USA.",
+          ],
+        },
+        {
+          title: "Niveles",
+          items: [
+            "Básico: palabras y expresiones frecuentes, presente y base de no traducción.",
+            "Intermedio: pasado y futuro con refuerzo visual del método.",
+            "Avanzado: conversación con profesores americanos, escritura, lectura y comprensión.",
+          ],
+        },
+      ],
+      schedule: [
+        "Mañanas: 8:30 am, 9:30 am y 10:30 am.",
+        "Noches: 6:20 pm, 7:30 pm y 8:40 pm.",
+        "Sábados y domingos disponibles según bloque.",
+      ],
+      note: "El sitio original comunica presencial, híbrido y online; conviene confirmar sede y horario antes de inscribirse.",
+    },
   },
   {
+    slug: "ingles-online-adultos",
     title: "Inglés online para jóvenes y adultos",
     category: "ingles",
     mode: "100% online",
@@ -314,8 +352,44 @@ const programs = [
       "Práctica guiada para hablar con menos miedo y más fluidez.",
       "Acompañamiento por WhatsApp para dudas de horarios y tareas.",
     ],
+    courseDetail: {
+      lead:
+        "Ruta 100% online para estudiantes fuera de Estados Unidos que necesitan clases en vivo, guía visual y acompañamiento remoto.",
+      sections: [
+        {
+          title: "Metodología online",
+          items: [
+            "Graphic Concept ayuda a visualizar la armonía de tiempos y palabras sin textos engorrosos.",
+            "El objetivo es comprender inglés americano y responder sin traducir palabra por palabra.",
+            "El proceso se apoya en sesiones en vivo, material visual y seguimiento por WhatsApp.",
+          ],
+        },
+        {
+          title: "Soporte académico",
+          items: [
+            "Tutoría virtual gratuita para dudas de gramática, vocabulario y otras necesidades académicas.",
+            "Docentes seleccionados y entrenados en metodologías aplicadas por más de 17 años.",
+            "Talleres y workshops para llevar la práctica a escenarios reales.",
+          ],
+        },
+        {
+          title: "Ruta por niveles",
+          items: [
+            "Básico, intermedio y avanzado.",
+            "Meta comunicada por el sitio original: comprender presente, pasado y futuro en aproximadamente 10 meses con persistencia.",
+            "Becas para alumnos destacados al concluir niveles básico e intermedio.",
+          ],
+        },
+      ],
+      schedule: [
+        "Formato online desde cualquier país.",
+        "Requiere equipo con internet, audífono y micrófono para participar con claridad.",
+      ],
+      note: "La página original prioriza metodología, tutorías, niveles, workshops y becas.",
+    },
   },
   {
+    slug: "ingles-ninos",
     title: "Inglés para niños",
     category: "ninos",
     mode: "100% online",
@@ -332,8 +406,37 @@ const programs = [
       "Informes mensuales para padres con mejoras concretas.",
       "Inscripción guiada para definir nivel y horario ideal.",
     ],
+    courseDetail: {
+      lead:
+        "Clases online para niños de 8 a 13 años con enfoque práctico, divertido y seguimiento para padres o tutores.",
+      sections: [
+        {
+          title: "Objetivo para niños",
+          items: [
+            "Hablar inglés en presente, pasado y futuro a mediano plazo con una meta de nivel intermedio.",
+            "Aprender a pensar en inglés y evitar traducir cada frase.",
+            "Usar Graphic Concept para entender visualmente tiempos y palabras.",
+          ],
+        },
+        {
+          title: "Acompañamiento familiar",
+          items: [
+            "Docentes bilingües ayudan en la transición hacia docentes americanos.",
+            "Padres o tutores reciben informes de avance.",
+            "La inscripción inicial ayuda a ubicar nivel y horario sin exigir pago inmediato.",
+          ],
+        },
+      ],
+      schedule: [
+        "Lunes a jueves por la mañana: 9:30 am a 10:30 am y 10:30 am a 11:30 am.",
+        "Lunes a jueves por la tarde/noche: 6:30 pm, 7:30 pm y 8:30 pm.",
+        "Sábados: 10:00 am a 1:00 pm y 2:00 pm a 5:00 pm.",
+      ],
+      note: "El contenido original repite algunos bloques; aquí quedó consolidado para lectura clara.",
+    },
   },
   {
+    slug: "espanol-extranjeros",
     title: "Español para extranjeros",
     category: "idiomas",
     mode: "Online",
@@ -350,8 +453,33 @@ const programs = [
       "Profesores de Colombia y Perú con seguimiento práctico.",
       "Horarios flexibles y acompañamiento por WhatsApp.",
     ],
+    courseDetail: {
+      lead:
+        "Curso online para estudiantes que quieren vivir la experiencia de aprender español con profesores desde Latinoamérica.",
+      sections: [
+        {
+          title: "Enfoque",
+          items: [
+            "Conversación útil para estudio, trabajo y vida diaria.",
+            "Contacto con expresiones coloquiales de Colombia y Perú.",
+            "Acompañamiento remoto para resolver dudas y elegir horario.",
+          ],
+        },
+        {
+          title: "Lo que falta por enriquecer",
+          items: [
+            "La página pública de detalle aparece casi vacía en la captura actual.",
+            "El resumen visible del curso viene principalmente del listado público de cursos.",
+            "Podemos ampliar esta página cuando recuperemos material interno de Wix o nuevo copy del equipo.",
+          ],
+        },
+      ],
+      schedule: ["Horario online a confirmar por WhatsApp según país y disponibilidad."],
+      note: "Buen candidato para reforzar con copy adicional antes de publicar.",
+    },
   },
   {
+    slug: "ged",
     title: "GED",
     category: "academico",
     mode: "Presencial",
@@ -368,8 +496,37 @@ const programs = [
       "Orientación inicial por WhatsApp para elegir formato y ruta.",
       "Modalidad presencial u online según disponibilidad.",
     ],
+    courseDetail: {
+      lead:
+        "Preparación para adultos que buscan obtener el diploma equivalente a High School con una ruta guiada.",
+      sections: [
+        {
+          title: "Estructura recuperada",
+          items: [
+            "Tiempo estimado: 6 meses.",
+            "Dos clases por semana, una hora por clase.",
+            "Orientación inicial para explicar proceso, nivel y punto de arranque.",
+          ],
+        },
+        {
+          title: "Ideal para",
+          items: [
+            "Adultos que necesitan avanzar hacia equivalencia de High School.",
+            "Estudiantes que requieren estructura semanal y seguimiento.",
+            "Personas que prefieren confirmar proceso y horarios antes de pagar.",
+          ],
+        },
+      ],
+      schedule: [
+        "Sábados: 9:00 am a 11:00 am.",
+        "Sábados: 11:00 am a 1:00 pm.",
+        "Sábados: 2:00 pm a 4:00 pm o 4:00 pm a 6:00 pm.",
+      ],
+      note: "La página pública de detalle es escasa; los horarios vienen del producto GED capturado desde Wix.",
+    },
   },
   {
+    slug: "tutorias-matematicas",
     title: "Tutorías en matemáticas",
     category: "academico",
     mode: "Presencial u online",
@@ -386,8 +543,33 @@ const programs = [
       "Nivelación progresiva desde la práctica guiada.",
       "Horario coordinado según disponibilidad.",
     ],
+    courseDetail: {
+      lead:
+        "Tutorías para estudiantes de secundaria o universidad que necesitan recuperar ritmo y aclarar temas críticos.",
+      sections: [
+        {
+          title: "Cuándo conviene",
+          items: [
+            "Cuando hay dificultades con cursos de escuela secundaria o universidad.",
+            "Cuando el estudiante necesita nivelación y explicación guiada.",
+            "Cuando hace falta un refuerzo corto antes de exámenes o entregas importantes.",
+          ],
+        },
+        {
+          title: "Cómo se coordina",
+          items: [
+            "Diagnóstico rápido del tema que está bloqueando el avance.",
+            "Horario coordinado según disponibilidad del estudiante.",
+            "Seguimiento por WhatsApp para acordar próximos pasos.",
+          ],
+        },
+      ],
+      schedule: ["Horario presencial u online a confirmar según materia, nivel y disponibilidad."],
+      note: "La página pública de detalle aparece casi vacía; el resumen visible viene del listado de cursos.",
+    },
   },
   {
+    slug: "computacion-basica",
     title: "Computación básica",
     category: "tecnologia",
     mode: "Curso práctico",
@@ -404,8 +586,37 @@ const programs = [
       "Habilidades funcionales para estudiar y trabajar.",
       "Acompañamiento para estudiantes principiantes y adultos.",
     ],
+    courseDetail: {
+      lead:
+        "Curso práctico para principiantes que quieren usar computadora e internet con más independencia.",
+      sections: [
+        {
+          title: "Cursos básicos",
+          items: [
+            "Internet: ver, hablar y escribir con familia y amigos, buscar trabajo, direcciones, inmigración, música, correos, fotos, pagos y más.",
+            "Mac o Windows: administrar, proteger, limpiar virus, manejar claves, instalar y desinstalar programas.",
+            "Mantenimiento preventivo y habilidades de uso diario.",
+          ],
+        },
+        {
+          title: "Ideal para",
+          items: [
+            "Personas que empiezan desde cero.",
+            "Adultos que quieren independencia digital para trámites, pagos y comunicación.",
+            "Estudiantes que necesitan base antes de pasar a herramientas de oficina.",
+          ],
+        },
+      ],
+      schedule: [
+        "Cursos básicos: lunes y miércoles 10:00 am a 11:00 am.",
+        "Sábados: 2:00 pm a 4:00 pm.",
+        "Noches: lunes y miércoles 6:00 pm a 7:00 pm.",
+      ],
+      note: "Preguntar por otros horarios disponibles.",
+    },
   },
   {
+    slug: "computacion-oficina",
     title: "Computación para oficina",
     category: "tecnologia",
     mode: "Herramientas de oficina",
@@ -422,8 +633,45 @@ const programs = [
       "Proyectos de práctica con documentos y presentaciones.",
       "Ruta desde nivel inicial hasta dominio funcional intermedio.",
     ],
+    courseDetail: {
+      lead:
+        "Entrenamiento para usar Word, Excel y PowerPoint en tareas reales de oficina, estudio y administración.",
+      sections: [
+        {
+          title: "Microsoft Word",
+          items: [
+            "Procesador de textos para cartas, estimados, facturas, recibos, memos e informes.",
+            "Preparación de resúmenes, flyers, avisos y documentos prácticos.",
+            "Duración capturada: 4 semanas.",
+          ],
+        },
+        {
+          title: "Microsoft Excel",
+          items: [
+            "Formatos, bases de datos, gráficos estadísticos y operadores matemáticos.",
+            "Aplicación en casos reales de oficina.",
+            "Duración capturada: 8 semanas.",
+          ],
+        },
+        {
+          title: "Microsoft PowerPoint",
+          items: [
+            "Diapositivas con imágenes, texto, efectos y animación.",
+            "Presentaciones para vender, capacitar o presentar proyectos.",
+            "Duración capturada: 4 semanas.",
+          ],
+        },
+      ],
+      schedule: [
+        "Cursos de oficina: martes y jueves 10:00 am a 11:00 am.",
+        "Sábados: 4:00 pm a 6:00 pm.",
+        "Noches: martes y jueves 6:00 pm a 7:00 pm.",
+      ],
+      note: "Preguntar por otros horarios disponibles.",
+    },
   },
   {
+    slug: "reparacion-computadoras",
     title: "Reparación de computadoras",
     category: "tecnologia",
     mode: "Curso técnico",
@@ -440,6 +688,33 @@ const programs = [
       "Mantenimiento básico para laptop y desktop.",
       "Acompañamiento para dudas rápidas y continuidad de curso.",
     ],
+    courseDetail: {
+      lead:
+        "Curso técnico introductorio para aprender diagnóstico, mantenimiento y reparación básica de laptops y desktops.",
+      sections: [
+        {
+          title: "Lo que comunica el sitio original",
+          items: [
+            "Aprender a reparar cualquier marca y modelo de computadora, laptop o desktop.",
+            "Base de diagnóstico y mantenimiento para problemas frecuentes.",
+            "Orientación por WhatsApp para confirmar nivel y ruta técnica.",
+          ],
+        },
+        {
+          title: "Ruta técnica relacionada",
+          items: [
+            "El producto Wix también menciona Computer Repair & Networking como curso online de 3 meses.",
+            "Ese producto aparece junto a Diseño Gráfico y Web Design.",
+            "Precio de referencia capturado para Computer Repair & Networking: $2,400.",
+          ],
+        },
+      ],
+      schedule: [
+        "Ruta técnica online: viernes 10:00 am a 12:30 pm, sábado 10:00 am a 12:30 pm o viernes 6:00 pm a 8:30 pm.",
+        "Preguntar por otros horarios disponibles.",
+      ],
+      note: "La página pública de reparación está escasa; esta versión combina el listado público con datos del producto técnico capturado.",
+    },
   },
 ];
 

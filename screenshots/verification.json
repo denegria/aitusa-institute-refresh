@@ -1,5 +1,5 @@
 {
-  "appUrl": "http://127.0.0.1:56157/index.html",
+  "appUrl": "http://127.0.0.1:53849/index.html",
   "chrome": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
   "results": [
     {
@@ -9,93 +9,26 @@
       "screenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\desktop-home.png",
       "productScreenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\desktop-home-products.png",
       "screenshotError": null,
-      "location": "http://127.0.0.1:56157/index.html",
-      "title": "AiT USA Institute | Clase real de inglés en 1:08 | Nueva Jersey",
-      "h1": "¿Te sirve esta ruta? Mira una clase real de 1:08 y valida si esta es tu mejor opción.",
+      "location": "http://127.0.0.1:53849/index.html",
+      "title": "AiT USA Institute | Inglés, GED y computación en Nueva Jersey",
+      "h1": "Mira la clase real en video y decide con claridad.",
       "programs": 9,
       "visiblePrograms": 9,
+      "courseDetails": 9,
+      "courseDetailLinks": 9,
       "books": 7,
       "products": 8,
       "variantLists": 5,
       "faqs": 10,
       "missingImages": [],
-      "overflowing": [
-        {
-          "tag": "div",
-          "text": "MIRA UNA CLASE REAL EN 1:08 Y DECIDE CON EVIDENCIA SI ESTA RUTA TE CONVIENE HOY.\n\n¿Te sirv",
-          "scrollWidth": 510,
-          "clientWidth": 492
-        },
-        {
-          "tag": "div",
-          "text": "",
-          "scrollWidth": 613,
-          "clientWidth": 610
-        },
-        {
-          "tag": "div",
-          "text": "+1000\nestudiantes guiados con experiencia práctica de clase real\n3\nformatos: presencial, h",
-          "scrollWidth": 1166,
-          "clientWidth": 1158
-        },
-        {
-          "tag": "div",
-          "text": "RUTA DE ARRANQUE\n\nTres pasos simples para decidir con criterio hoy.\n\nPrimero observas una ",
-          "scrollWidth": 786,
-          "clientWidth": 778
-        },
-        {
-          "tag": "div",
-          "text": "Semana 1\nSemana 1: diagnóstico y objetivo\n\nEn 10 minutos validamos nivel, objetivo y agend",
-          "scrollWidth": 1166,
-          "clientWidth": 1158
-        },
-        {
-          "tag": "div",
-          "text": "Ver la clase real\nExplorar cursos",
-          "scrollWidth": 1166,
-          "clientWidth": 1158
-        },
-        {
-          "tag": "div",
-          "text": "Mira la clase en acción\n\nEXPERIENCIA REAL\n\nMira la clase real primero y decide con criteri",
-          "scrollWidth": 1166,
-          "clientWidth": 1158
-        },
-        {
-          "tag": "div",
-          "text": "CLASES CON PRESENCIA HUMANA\n\nVoces reales, corrección visible y una energía de aula que sí",
-          "scrollWidth": 1166,
-          "clientWidth": 1158
-        },
-        {
-          "tag": "div",
-          "text": "POR QUÉ SOMOS DIFERENTES\n\nUna ruta visual para entender rápido, hablar con precisión y gan",
-          "scrollWidth": 1166,
-          "clientWidth": 1158
-        },
-        {
-          "tag": "div",
-          "text": "01\nComprender primero, hablar después\n\nConecta intención, contexto y vocabulario. Comprend",
-          "scrollWidth": 1166,
-          "clientWidth": 1158
-        },
-        {
-          "tag": "div",
-          "text": "CURSOS\n\nEn 45 segundos tienes una ruta de curso clara.\n\nElegimos entre inglés realista, ap",
-          "scrollWidth": 786,
-          "clientWidth": 778
-        },
-        {
-          "tag": "div",
-          "text": "Quiero hablar inglés con más seguridad\n\nEmpieza por Inglés para jóvenes y adultos u online",
-          "scrollWidth": 1166,
-          "clientWidth": 1158
-        }
-      ],
-      "pageHeight": 29710,
+      "overflowing": [],
+      "pageHeight": 32439,
       "interactions": {
         "technologyVisible": 3,
+        "courseDetails": 9,
+        "courseRoutePath": "/cursos/computacion-oficina/",
+        "openCourseDetail": "computacion-oficina",
+        "officeDetailHasExcel": true,
         "formStatus": "Listo. Abre WhatsApp para enviar tu mensaje y recibir una recomendación más rápida.",
         "menuButtonPresent": true
       }
@@ -107,93 +40,26 @@
       "screenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\tablet-home.png",
       "productScreenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\tablet-home-products.png",
       "screenshotError": null,
-      "location": "http://127.0.0.1:56157/index.html",
-      "title": "AiT USA Institute | Clase real de inglés en 1:08 | Nueva Jersey",
-      "h1": "¿Te sirve esta ruta? Mira una clase real de 1:08 y valida si esta es tu mejor opción.",
+      "location": "http://127.0.0.1:53849/index.html",
+      "title": "AiT USA Institute | Inglés, GED y computación en Nueva Jersey",
+      "h1": "Mira la clase real en video y decide con claridad.",
       "programs": 9,
       "visiblePrograms": 9,
+      "courseDetails": 9,
+      "courseDetailLinks": 9,
       "books": 7,
       "products": 8,
       "variantLists": 5,
       "faqs": 10,
       "missingImages": [],
-      "overflowing": [
-        {
-          "tag": "div",
-          "text": "MIRA UNA CLASE REAL EN 1:08 Y DECIDE CON EVIDENCIA SI ESTA RUTA TE CONVIENE HOY.\n\n¿Te sirv",
-          "scrollWidth": 798,
-          "clientWidth": 784
-        },
-        {
-          "tag": "div",
-          "text": "MIRA UNA CLASE REAL EN 1:08 Y DECIDE CON EVIDENCIA SI ESTA RUTA TE CONVIENE HOY.\n\n¿Te sirv",
-          "scrollWidth": 798,
-          "clientWidth": 780
-        },
-        {
-          "tag": "div",
-          "text": "",
-          "scrollWidth": 681,
-          "clientWidth": 678
-        },
-        {
-          "tag": "div",
-          "text": "+1000\nestudiantes guiados con experiencia práctica de clase real\n3\nformatos: presencial, h",
-          "scrollWidth": 790,
-          "clientWidth": 782
-        },
-        {
-          "tag": "div",
-          "text": "RUTA DE ARRANQUE\n\nTres pasos simples para decidir con criterio hoy.\n\nPrimero observas una ",
-          "scrollWidth": 786,
-          "clientWidth": 778
-        },
-        {
-          "tag": "div",
-          "text": "Semana 1\nSemana 1: diagnóstico y objetivo\n\nEn 10 minutos validamos nivel, objetivo y agend",
-          "scrollWidth": 790,
-          "clientWidth": 782
-        },
-        {
-          "tag": "div",
-          "text": "Ver la clase real\nExplorar cursos",
-          "scrollWidth": 790,
-          "clientWidth": 782
-        },
-        {
-          "tag": "div",
-          "text": "Mira la clase en acción\n\nEXPERIENCIA REAL\n\nMira la clase real primero y decide con criteri",
-          "scrollWidth": 790,
-          "clientWidth": 782
-        },
-        {
-          "tag": "div",
-          "text": "CLASES CON PRESENCIA HUMANA\n\nVoces reales, corrección visible y una energía de aula que sí",
-          "scrollWidth": 790,
-          "clientWidth": 782
-        },
-        {
-          "tag": "div",
-          "text": "POR QUÉ SOMOS DIFERENTES\n\nUna ruta visual para entender rápido, hablar con precisión y gan",
-          "scrollWidth": 790,
-          "clientWidth": 782
-        },
-        {
-          "tag": "div",
-          "text": "01\nComprender primero, hablar después\n\nConecta intención, contexto y vocabulario. Comprend",
-          "scrollWidth": 790,
-          "clientWidth": 782
-        },
-        {
-          "tag": "div",
-          "text": "CURSOS\n\nEn 45 segundos tienes una ruta de curso clara.\n\nElegimos entre inglés realista, ap",
-          "scrollWidth": 786,
-          "clientWidth": 778
-        }
-      ],
-      "pageHeight": 36098,
+      "overflowing": [],
+      "pageHeight": 42045,
       "interactions": {
         "technologyVisible": 3,
+        "courseDetails": 9,
+        "courseRoutePath": "/cursos/computacion-oficina/",
+        "openCourseDetail": "computacion-oficina",
+        "officeDetailHasExcel": true,
         "formStatus": "Listo. Abre WhatsApp para enviar tu mensaje y recibir una recomendación más rápida.",
         "menuButtonPresent": true
       }
@@ -205,96 +71,39 @@
       "screenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\mobile-home.png",
       "productScreenshot": "C:\\Users\\Alvaro\\Documents\\Coding Projects\\aitusa-institute-refresh\\screenshots\\mobile-home-products.png",
       "screenshotError": null,
-      "location": "http://127.0.0.1:56157/index.html",
-      "title": "AiT USA Institute | Clase real de inglés en 1:08 | Nueva Jersey",
-      "h1": "¿Te sirve esta ruta? Mira una clase real de 1:08 y valida si esta es tu mejor opción.",
+      "location": "http://127.0.0.1:53849/index.html",
+      "title": "AiT USA Institute | Inglés, GED y computación en Nueva Jersey",
+      "h1": "Mira la clase real en video y decide con claridad.",
       "programs": 9,
       "visiblePrograms": 9,
+      "courseDetails": 9,
+      "courseDetailLinks": 9,
       "books": 7,
       "products": 8,
       "variantLists": 5,
       "faqs": 10,
       "missingImages": [],
-      "overflowing": [
-        {
-          "tag": "div",
-          "text": "MIRA UNA CLASE REAL EN 1:08 Y DECIDE CON EVIDENCIA SI ESTA RUTA TE CONVIENE HOY.\n\n¿Te sirv",
-          "scrollWidth": 372,
-          "clientWidth": 354
-        },
-        {
-          "tag": "div",
-          "text": "MIRA UNA CLASE REAL EN 1:08 Y DECIDE CON EVIDENCIA SI ESTA RUTA TE CONVIENE HOY.\n\n¿Te sirv",
-          "scrollWidth": 372,
-          "clientWidth": 354
-        },
-        {
-          "tag": "div",
-          "text": "+1000\nestudiantes guiados con experiencia práctica de clase real\n3\nformatos: presencial, h",
-          "scrollWidth": 360,
-          "clientWidth": 352
-        },
-        {
-          "tag": "div",
-          "text": "RUTA DE ARRANQUE\n\nTres pasos simples para decidir con criterio hoy.\n\nPrimero observas una ",
-          "scrollWidth": 360,
-          "clientWidth": 352
-        },
-        {
-          "tag": "div",
-          "text": "Semana 1\nSemana 1: diagnóstico y objetivo\n\nEn 10 minutos validamos nivel, objetivo y agend",
-          "scrollWidth": 360,
-          "clientWidth": 352
-        },
-        {
-          "tag": "div",
-          "text": "Ver la clase real\nExplorar cursos",
-          "scrollWidth": 360,
-          "clientWidth": 352
-        },
-        {
-          "tag": "div",
-          "text": "Mira la clase en acción\n\nEXPERIENCIA REAL\n\nMira la clase real primero y decide con criteri",
-          "scrollWidth": 360,
-          "clientWidth": 352
-        },
-        {
-          "tag": "div",
-          "text": "CLASES CON PRESENCIA HUMANA\n\nVoces reales, corrección visible y una energía de aula que sí",
-          "scrollWidth": 360,
-          "clientWidth": 352
-        },
-        {
-          "tag": "div",
-          "text": "POR QUÉ SOMOS DIFERENTES\n\nUna ruta visual para entender rápido, hablar con precisión y gan",
-          "scrollWidth": 360,
-          "clientWidth": 352
-        },
-        {
-          "tag": "div",
-          "text": "01\nComprender primero, hablar después\n\nConecta intención, contexto y vocabulario. Comprend",
-          "scrollWidth": 360,
-          "clientWidth": 352
-        },
-        {
-          "tag": "div",
-          "text": "CURSOS\n\nEn 45 segundos tienes una ruta de curso clara.\n\nElegimos entre inglés realista, ap",
-          "scrollWidth": 360,
-          "clientWidth": 352
-        },
-        {
-          "tag": "div",
-          "text": "Quiero hablar inglés con más seguridad\n\nEmpieza por Inglés para jóvenes y adultos u online",
-          "scrollWidth": 360,
-          "clientWidth": 352
-        }
-      ],
-      "pageHeight": 56028,
+      "overflowing": [],
+      "pageHeight": 63649,
       "interactions": {
         "technologyVisible": 3,
+        "courseDetails": 9,
+        "courseRoutePath": "/cursos/computacion-oficina/",
+        "openCourseDetail": "computacion-oficina",
+        "officeDetailHasExcel": true,
         "formStatus": "Listo. Abre WhatsApp para enviar tu mensaje y recibir una recomendación más rápida.",
         "menuButtonPresent": true
       }
+    },
+    {
+      "name": "course-route-computacion-oficina",
+      "location": "http://127.0.0.1:53849/cursos/computacion-oficina/",
+      "title": "Computación para oficina | AiT USA Institute",
+      "canonical": "https://www.aitusainstitute.com/cursos/computacion-oficina/",
+      "openCourseDetail": "computacion-oficina",
+      "officeDetailHasExcel": true,
+      "courseSchemaName": "Computación para oficina",
+      "missingImages": []
     }
   ],
   "consoleMessages": [],
