@@ -11,6 +11,7 @@ const {
   heroSignal,
   heroStartPath,
   instructorClips,
+  methodCharacteristics,
   heroProof,
   locations,
   modalities,
@@ -1856,22 +1857,45 @@ app.innerHTML = `
     </section>
 
     <section id="experiencia" class="section section--reel" aria-labelledby="reel-title">
-      <div class="section-inner reel-grid">
+      <div class="section-inner reel-header">
         <div class="reel-copy">
-          <p class="section-kicker">Método en video</p>
-          <h2 id="reel-title">El método explicado con clips reales activos.</h2>
+          <p class="section-kicker">Método Graphic Concept</p>
+          <h2 id="reel-title">Tres características que hacen distinta la experiencia.</h2>
           <p>
-            Estos videos muestran por qué la experiencia se siente diferente: una ruta visual, práctica guiada y
-            acompañamiento para avanzar con menos incertidumbre.
+            El valor de AiT USA no está solo en ofrecer clases; está en cómo ordena el aprendizaje para que el
+            estudiante entienda qué practicar, cómo corregirse y cómo sostener el avance.
           </p>
-          <ul class="reel-copy__points" aria-label="Lo que muestran los clips">
-            <li>La sección prioriza clips que muestran contenido visual claro y útil.</li>
-            <li>El video “What makes us different” resume la propuesta de valor sin repetir el hero.</li>
-            <li>Los usuarios pueden reproducir cada clip manualmente sin ruido visual arriba del hero.</li>
-          </ul>
           <a class="button button--primary" href="#horarios">Ver horarios</a>
         </div>
-        <div class="instructor-reel" aria-label="Videos sobre el método y características de AiT USA">
+        <div class="reel-summary" aria-label="Resumen del método">
+          <strong>GC</strong>
+          <span>Ruta visual, práctica corregida y seguimiento para avanzar con menos dudas.</span>
+        </div>
+      </div>
+      <div class="section-inner method-characteristics" aria-label="Tres características del método">
+        ${methodCharacteristics
+          .map(
+            (item) => `
+              <article class="method-characteristic" data-watermark="${item.number}">
+                <span class="method-characteristic__number">${item.number}</span>
+                <p class="method-characteristic__eyebrow">${item.eyebrow}</p>
+                <h3>${item.title}</h3>
+                <p>${item.description}</p>
+                <strong>${item.proof}</strong>
+              </article>
+            `,
+          )
+          .join("")}
+      </div>
+      <div class="section-inner active-video-proof">
+        <div class="active-video-proof__copy">
+          <p class="section-kicker">Videos activos</p>
+          <h3>Los clips visibles respaldan la propuesta con ejemplos reales.</h3>
+          <p>
+            Mira el diferenciador y la continuidad del método en clips breves antes de elegir curso, formato u horario.
+          </p>
+        </div>
+        <div class="instructor-reel" aria-label="Videos activos sobre el método y características de AiT USA">
           ${instructorClips
         .map(
             (clip, index) => `
@@ -2583,6 +2607,7 @@ const initMobileActionBar = () => {
   const mobileMatcher = window.matchMedia("(max-width: 720px)");
   const applyState = () => {
     const hero = document.querySelector("#inicio");
+    const experience = document.querySelector("#experiencia");
     const footer = document.querySelector(".site-footer");
     const heroThreshold = hero
       ? hero.offsetTop + hero.offsetHeight - window.innerHeight * 0.35
@@ -2590,8 +2615,17 @@ const initMobileActionBar = () => {
     const footerTop = footer
       ? footer.getBoundingClientRect().top + window.scrollY
       : Number.POSITIVE_INFINITY;
+    const experienceTop = experience
+      ? experience.getBoundingClientRect().top + window.scrollY
+      : Number.POSITIVE_INFINITY;
+    const experienceBottom = experience
+      ? experienceTop + experience.offsetHeight
+      : Number.NEGATIVE_INFINITY;
     const beforeFooter = window.scrollY + window.innerHeight * 0.82 < footerTop;
-    const shouldShow = mobileMatcher.matches && window.scrollY > heroThreshold && beforeFooter;
+    const outsideExperience =
+      window.scrollY + window.innerHeight * 0.72 < experienceTop ||
+      window.scrollY + window.innerHeight * 0.18 > experienceBottom;
+    const shouldShow = mobileMatcher.matches && window.scrollY > heroThreshold && beforeFooter && outsideExperience;
     mobileActionBar.classList.toggle("is-visible", shouldShow);
   };
 

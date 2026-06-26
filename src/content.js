@@ -817,6 +817,33 @@ const instructorClips = [
   },
 ];
 
+const methodCharacteristics = [
+  {
+    number: "01",
+    title: "Ruta visual antes de memorizar",
+    eyebrow: "Graphic Concept",
+    description:
+      "El estudiante ve el mapa de la clase, el objetivo de la semana y la relación entre vocabulario, conversación y práctica.",
+    proof: "Menos confusión, más dirección desde la primera sesión.",
+  },
+  {
+    number: "02",
+    title: "Práctica guiada con corrección",
+    eyebrow: "Corrección activa",
+    description:
+      "La clase no se queda en teoría: hay conversación, repetición útil y ajustes en vivo para que cada intento sea más claro.",
+    proof: "El estudiante entiende qué corregir y cómo repetirlo mejor.",
+  },
+  {
+    number: "03",
+    title: "Continuidad hasta ganar confianza",
+    eyebrow: "Seguimiento real",
+    description:
+      "Cada bloque conecta con el siguiente para mantener ritmo, medir avance y adaptar presencial, híbrido u online a la agenda real.",
+    proof: "La ruta no depende de motivación suelta; depende de estructura.",
+  },
+];
+
 const schedules = [
   {
     label: "Mañanas",
@@ -1465,6 +1492,7 @@ window.AITUSA_DATA = {
   heroGallery,
   instructorClips,
   locations,
+  methodCharacteristics,
   methodBlocks,
   modalities,
   nav,
