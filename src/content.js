@@ -7,17 +7,17 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Clases reales, ruta clara y apoyo humano.",
+    "Una escuela de ingles diferente desde 2004.",
   description:
     "Explora clases de inglés, GED, computación y español con videos reales, horarios claros y orientación directa para elegir tu mejor ruta.",
   heroHeadline:
-    "Inglés, GED y computación con una ruta clara desde el primer día.",
+    "Aprende ingles sin traducir ni memorizar miles de palabras.",
   heroLead:
-    "Conoce cómo enseñamos, revisa programas reales y recibe una recomendación sencilla para empezar presencial, híbrido u online.",
+    "Recuperamos la promesa original de AiT USA y la ordenamos mejor: metodo Graphic Concept, practica guiada, videos reales y una ruta inicial para saber por donde empezar.",
   heroQuote:
-    "Los videos reales te muestran ritmo, corrección y presencia humana desde el primer minuto.",
+    "Primero entiende el metodo. Luego elige curso, horario y formato con menos dudas.",
   heroMicrocopy:
-    "Empieza por el video real y luego elige la ruta que mejor encaje con tu horario.",
+    "Mira el video real y despues pide una ruta inicial por WhatsApp.",
   heroQuickCapture: {
     title: "Tu ruta inicial en menos de 60 segundos",
     copy:
@@ -33,9 +33,9 @@ const site = {
     note: "Sin costo ni compromiso. En 10-15 minutos te compartimos ruta, nivel sugerido y próximos pasos.",
   },
   heroHighlights: [
-    "Videos reales para validar método, ritmo y estilo antes de decidir.",
-    "Compara presencial, híbrido y online con evidencia, no con suposiciones.",
-    "Recibe un plan de arranque y empieza con más claridad hoy.",
+    "Tecnicas de comprension para dejar de traducir palabra por palabra.",
+    "Practica para hablar sin memorizar miles de palabras sueltas.",
+    "Ruta presencial, hibrida u online segun tu horario real.",
   ],
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
@@ -1515,4 +1515,3 @@ window.AITUSA_DATA = {
   footerFacts,
   courseGuides,
 };
-
