@@ -29,7 +29,14 @@ const server = createServer((request, response) => {
   const url = new URL(request.url, `http://localhost:${port}`);
   const requested = decodeURIComponent(url.pathname === "/" ? "/index.html" : url.pathname);
   const routeFallback =
-    /^\/cursos\/[^/]+\/?$/.test(requested) || /^\/cursos\/[^/]+\/index\.html$/.test(requested);
+    requested === "/courses/" ||
+    requested === "/courses" ||
+    requested === "/placement-test/" ||
+    requested === "/placement-test" ||
+    /^\/cursos\/[^/]+\/?$/.test(requested) ||
+    /^\/cursos\/[^/]+\/index\.html$/.test(requested) ||
+    /^\/courses\/[^/]+\/?$/.test(requested) ||
+    /^\/courses\/[^/]+\/index\.html$/.test(requested);
   const target = path.resolve(root, routeFallback ? "./index.html" : `.${requested}`);
 
   if (!target.startsWith(root) || !existsSync(target) || !statSync(target).isFile()) {

@@ -8,6 +8,10 @@ const root = process.cwd();
 const screenshotsDir = path.join(root, "screenshots");
 const profileDir = path.join(root, ".chrome-profile");
 const chromeCandidates = [
+  "/usr/bin/google-chrome-stable",
+  "/usr/bin/google-chrome",
+  "/usr/bin/chromium",
+  "/usr/bin/chromium-browser",
   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
   "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
 ];
@@ -344,7 +348,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
   });
 
   const loaded = waitForLoad();
-  const nav = await send("Page.navigate", { url: appUrl });
+  const nav = await send("Page.navigate", { url: appUrl }, 30000);
   if (nav.errorText && nav.errorText !== "net::ERR_ABORTED") {
     throw new Error(`Navigation failed: ${nav.errorText}`);
   }
@@ -545,7 +549,7 @@ const verifyCourseRoute = async () => {
 
   const loaded = waitForLoad();
   const courseUrl = new URL("/cursos/computacion-oficina/", appUrl).toString();
-  const nav = await send("Page.navigate", { url: courseUrl });
+  const nav = await send("Page.navigate", { url: courseUrl }, 30000);
   if (nav.errorText && nav.errorText !== "net::ERR_ABORTED") {
     throw new Error(`Course route navigation failed: ${nav.errorText}`);
   }

@@ -1,3065 +1,1158 @@
-﻿(function () {
-const {
-  faqs,
-  heroVideoHighlights,
-  heroHighlights,
-  heroQuickCapture: heroQuickCaptureData,
-  learningOutcomes,
-  heroGallery,
-  heroPoints,
-  launchPath,
-  heroSignal,
-  heroStartPath,
-  instructorClips,
-  methodCharacteristics,
-  heroProof,
-  locations,
-  modalities,
-  nav,
-  programs,
-  schedules,
-  site,
-  stats,
-  teachers,
-  testimonials,
-  trustHighlights,
-  trustFeature,
-  contactPrep,
-  footerFacts,
-} = window.AITUSA_DATA;
+/* global window, document */
+(function () {
+  const data = window.AITUSA_DATA || {};
+  const app = document.querySelector("#app");
 
-const app = document.querySelector("#app");
-const initials = ["Todos", "Inglés", "Niños", "Académico", "Tecnología", "Idiomas"];
+  if (!app) return;
 
-const categoryLabel = {
-  Todos: "todos",
-  Inglés: "ingles",
-  Niños: "ninos",
-  Académico: "academico",
-  Tecnología: "tecnologia",
-  Idiomas: "idiomas",
-};
+  const {
+    courseCatalog = [],
+    conversionCtas = {},
+    faqs = [],
+    locations = [],
+    painHero = {},
+    placementTest = {},
+    productOfferings = [],
+    programs = [],
+    site = {},
+    solutionCharacteristics = [],
+    testimonials = [],
+  } = data;
 
-const programCounts = initials.reduce((acc, label) => {
-  const filter = categoryLabel[label];
-  acc[filter] =
-    filter === "todos" ? programs.length : programs.filter((program) => program.category === filter).length;
-  return acc;
-}, {});
+  const filters = [
+    { label: "Todos", key: "todos" },
+    { label: "Ingles", key: "ingles" },
+    { label: "Ninos", key: "ninos" },
+    { label: "Academico", key: "academico" },
+    { label: "Tecnologia", key: "tecnologia" },
+    { label: "Idiomas", key: "idiomas" },
+  ];
 
-const heroMediaPoster = site.heroVideoPoster || site.images.heroVideoPoster || site.images.heroPoster || site.images.hero;
-const heroBackgroundImage = toRootRelativeAssetUrl(
-  site.images.heroPoster || site.images.hero || site.images.heroVideoPoster || heroMediaPoster,
-);
-const heroVideoSources = (() => {
-  const isMobile = window.matchMedia("(max-width: 900px)").matches;
-  const desktopFirst = site.images.heroVideo || site.images.heroVideoPortrait;
-  const mobileFirst = site.images.heroVideoPortrait || site.images.heroVideo;
+  const route = getRoute();
+  const selectedProgram =
+    route.slug ? programs.find((program) => program.slug === route.slug) || null : null;
 
-  return (isMobile ? [mobileFirst, desktopFirst, site.images.heroVideoFallback] : [desktopFirst, mobileFirst, site.images.heroVideoFallback])
-    .filter(Boolean)
-    .filter((value, index, list) => list.indexOf(value) === index);
-})();
+  renderPage();
+  bindGlobalInteractions();
+  updateSeo();
 
-const initHeroQuickCaptureBridge = () => {
-  const quickCaptureForm = document.querySelector("[data-hero-quick-capture]");
-  const leadForm = document.querySelector("[data-lead-form]");
-  const leadStatus = document.querySelector("[data-form-status]");
-
-  if (!quickCaptureForm || !leadForm) {
-    return false;
-  }
-
-  const goalToInterest = {
-    "Quiero comprobar método y estilo en clase real": "Inglés",
-    "Quiero validar método y estilo en clase real": "Inglés",
-    "Quiero revisar opciones de horario": "Inglés",
-    "Necesito ruta para mi hijo o hija": "Niños",
-    "Quiero una ruta para niños o adultos": "Inglés",
-    "Quiero validar método y estilo con clase real": "Inglés",
-    "Busco ruta para niños o adultos": "Inglés",
-    "Quiero clase real primero": "Inglés",
-    "Quiero clase real": "Inglés",
-    "Quiero revisar horarios": "Inglés",
-    "Necesito opción para mi hijo/a": "Niños",
-    "Quiero ruta para niños o adultos": "Inglés",
-  };
-
-  const normalizeGoal = (value = "") =>
-    `${value || ""}`
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/\p{Diacritic}/gu, "")
-      .replace(/\s+/g, " ")
-      .trim();
-
-  const quickName = quickCaptureForm.querySelector("[data-hero-quick-name]");
-  const quickPhone = quickCaptureForm.querySelector("[data-hero-quick-phone]");
-  const quickGoal = quickCaptureForm.querySelector("[data-hero-quick-goal]");
-  const quickStatus = quickCaptureForm.querySelector("[data-hero-quick-status]");
-
-  const leadName = leadForm.querySelector('input[name="nombre"]');
-  const leadLastName = leadForm.querySelector('input[name="apellido"]');
-  const leadCode = leadForm.querySelector('input[name="codigo"]');
-  const leadPhone = leadForm.querySelector('input[name="telefono"]');
-  const leadInterest = leadForm.querySelector('select[name="interes"]');
-  const leadPersona = leadForm.querySelector('select[name="para"]');
-  const leadLocation = leadForm.querySelector('input[name="ubicacion"]');
-
-  if (!leadName || !leadPhone || !quickName || !quickPhone) {
-    return false;
-  }
-
-  const toDigits = (value) => `${value || ""}`.replace(/\D/g, "");
-
-  const buildName = (value) => {
-    const clean = `${value || ""}`.trim();
-    return clean.length ? clean : "";
-  };
-
-  const syncQuickCaptureToForm = () => {
-    const quickNameValue = buildName(quickName.value);
-    const quickPhoneValue = toDigits(quickPhone.value);
-    const quickGoalValue = quickGoal?.value || "";
-
-    if (quickNameValue) {
-      leadName.value = quickNameValue;
-      if (leadLastName) {
-        const names = quickNameValue.split(" ").filter(Boolean);
-        if (names.length > 1) {
-          const first = names.shift();
-          leadName.value = first || "";
-          leadLastName.value = names.length ? names.join(" ") : leadLastName.value;
-        }
-      }
-    }
-
-    if (quickPhoneValue) {
-      if (quickPhoneValue.length > 10) {
-        const normalized = quickPhoneValue.startsWith("1")
-          ? quickPhoneValue.slice(1)
-          : quickPhoneValue;
-        if (leadCode) {
-          leadCode.value = "+1";
-        }
-        leadPhone.value = normalized.slice(-10);
-      } else {
-        leadPhone.value = quickPhoneValue;
-        if (leadCode && !leadCode.value.trim()) {
-          leadCode.value = "+1";
-        }
-      }
-    }
-
-    if (leadInterest) {
-      const normalizedGoal = normalizeGoal(quickGoalValue);
-      const matchedGoal = goalToInterest[quickGoalValue] || (() => {
-        if (normalizedGoal.includes("hijo") || normalizedGoal.includes("hija")) {
-          return "Niños";
-        }
-        if (
-          normalizedGoal.includes("niños") ||
-          normalizedGoal.includes("nino") ||
-          normalizedGoal.includes("joven")
-        ) {
-          return "Niños";
-        }
-        if (
-          normalizedGoal.includes("ingles") ||
-          normalizedGoal.includes("clase real") ||
-          normalizedGoal.includes("horario")
-        ) {
-          return "Inglés";
-        }
-        return "";
-      })();
-
-      if (matchedGoal) {
-        leadInterest.value = matchedGoal;
-      }
-    }
-
-    if (leadPersona && !leadPersona.value) {
-      leadPersona.value = "Para mí";
-    }
-
-    if (leadLocation && !leadLocation.value.trim()) {
-      leadLocation.value = "Nueva Jersey / Estados Unidos";
-    }
-
-    leadForm.dispatchEvent(new Event("input", { bubbles: true }));
-    if (quickStatus) {
-      quickStatus.textContent =
-        "Información copiada al formulario. En 1 paso te conectas con tu ruta inicial.";
-    }
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    syncQuickCaptureToForm();
-
-    if (leadStatus) {
-      leadStatus.textContent =
-        "Te dejé tu información en el formulario. Completa 2 campos para abrir WhatsApp.";
-    }
-
-    const contactSection = document.querySelector("#contacto");
-    if (contactSection) {
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      contactSection.scrollIntoView({
-        behavior: reduceMotion ? "auto" : "smooth",
-        block: "start",
-      });
-      const nameInput = leadForm.querySelector('input[name="nombre"]');
-      if (nameInput) {
-        nameInput.focus({ preventScroll: true });
-      }
-    }
-  };
-
-  quickCaptureForm.addEventListener("input", syncQuickCaptureToForm);
-  quickCaptureForm.addEventListener("change", syncQuickCaptureToForm);
-  quickCaptureForm.addEventListener("submit", handleSubmit);
-  return true;
-};
-const contactMessage = encodeURIComponent(
-  "Hola AiT USA Institute, vi sus videos reales y quiero una ruta inicial para decidir hoy con claridad: objetivo, nivel y horario.",
-);
-
-const heroQuickCaptureWidget = () => {
-  if (!heroQuickCaptureData) return "";
-
-  const options = Array.isArray(heroQuickCaptureData.options)
-    ? heroQuickCaptureData.options
-    : ["Ver videos reales y decidir", "Revisar opciones con mi agenda", "Necesito ruta familiar"];
-  const optionsMarkup = options.map((option) => `<option>${option}</option>`).join("");
-
-  return `
-    <form class="hero__quick-capture" data-hero-quick-capture action="#" method="post">
-      <p class="hero__quick-capture__title">${heroQuickCaptureData.title || "Tu ruta inicial en 30 segundos"}</p>
-      <p class="hero__quick-capture__copy">${heroQuickCaptureData.copy || "Déjanos tu contacto y te escribimos por WhatsApp con una ruta inicial."}</p>
-      <div class="hero__quick-capture__row">
-        <label class="hero__quick-capture__field">
-          Nombre
-          <input
-            type="text"
-            name="hero-quick-name"
-            autocomplete="name"
-            minlength="2"
-            maxlength="64"
-            placeholder="Tu nombre"
-            data-hero-quick-name
-            required
-            aria-describedby="hero-quick-capture-note"
-          />
-        </label>
-        <label class="hero__quick-capture__field">
-          WhatsApp
-          <input
-            type="tel"
-            name="hero-quick-phone"
-            inputmode="tel"
-            autocomplete="tel"
-            placeholder="+1 555 000 0000"
-            data-hero-quick-phone
-            required
-            maxlength="20"
-            aria-describedby="hero-quick-capture-note"
-          />
-        </label>
-      </div>
-      <label class="hero__quick-capture__field">
-        Objetivo principal
-        <select data-hero-quick-goal aria-label="Objetivo principal">
-          ${optionsMarkup}
-        </select>
-      </label>
-      <button class="button button--primary" type="submit">${heroQuickCaptureData.button || "Recibir ruta por WhatsApp"}</button>
-      <p class="hero__quick-capture__status" data-hero-quick-status aria-live="polite"></p>
-      <p id="hero-quick-capture-note" class="hero__quick-capture__note">${heroQuickCaptureData.note || "Sin costo y sin compromiso."}</p>
-    </form>
-  `;
-};
-
-const heroInstructorStrip = () => {
-  if (!teachers.length) return "";
-
-  const featuredTeachers = teachers.slice(0, 3).map((teacher) => {
-    const href = teacher.href || "#contacto";
-    const intent = teacher.intent || "default";
-    const name = teacher.name || "Instructora de AiT USA";
-    const role = teacher.role || teacher.description || "Acompañamiento real para avanzar con continuidad.";
-    const image = teacher.image || site.images.hero;
-    const alt = teacher.imageAlt || `${name} de AiT USA Institute.`;
-
-    return `
-      <a
-        class="hero__teacher-strip__item"
-        href="${href}"
-        data-intent-action
-        data-intent="${intent}"
-        aria-label="${name}: ${role}"
-      >
-        <img src="${image}" alt="${alt}" loading="lazy" decoding="async" />
-        <div class="hero__teacher-strip__content">
-          <strong>${name}</strong>
-          <span>${role}</span>
-        </div>
-      </a>
-    `;
-  });
-
-  return `
-    <section class="hero__teacher-strip" aria-label="Instructoras de clase real">
-      <p class="hero__teacher-strip__title">Conoce quién te guiará</p>
-      <div class="hero__teacher-strip__grid" data-hero-teacher-strip>
-        ${featuredTeachers.join("")}
-      </div>
-    </section>
-  `;
-};
-
-const requiredLeadFields = [
-  { name: "nombre" },
-  { name: "apellido" },
-  { name: "telefono" },
-  { name: "ubicacion" },
-];
-const requiredLeadFieldLabels = {
-  nombre: "Nombre",
-  apellido: "Apellido",
-  email: "Email",
-  telefono: "Teléfono",
-  ubicacion: "País y ciudad",
-};
-
-const leadIntentProfiles = {
-  default: {
-    intent: "Información general",
-    interest: "No estoy seguro",
-    forWhom: "Para mí",
-    message:
-      "quiero una ruta inicial de inglés y decidir hoy con criterio práctico sin perder tiempo.",
-    panelTitle: "Ruta sugerida: decisión con criterio",
-    panelCopy:
-      "Te dejamos un plan claro de objetivo, horario y formato para pasar de duda a acción en menos de 5 minutos.",
-    panelAction: "Ver opciones y confirmar mi ruta inicial",
-  },
-  classSample: {
-    intent: "Clase real",
-    interest: "Inglés",
-    forWhom: "Para mí",
-    message:
-      "quiero ver videos reales y recibir una recomendación clara de inicio para mi caso.",
-    panelTitle: "Ruta sugerida: primera mirada práctica",
-    panelCopy:
-      "Mira videos reales y valida método, ritmo y encaje antes de avanzar.",
-    panelAction: "Ver videos reales y decidir mi siguiente paso",
-  },
-  scheduleFlex: {
-    intent: "Agenda flexible",
-    interest: "Inglés",
-    forWhom: "Para mí",
-    message:
-      "tengo agenda limitada y necesito horario con ruta realista para empezar sin fricción.",
-    panelTitle: "Ruta sugerida: horario inteligente",
-    panelCopy:
-      "Compara mañana, noche o fin de semana y elige una ruta que se ajuste a tu rutina real.",
-    panelAction: "Revisar horarios y reservar mi ruta inicial",
-  },
-  familySupport: {
-    intent: "Opciones familiares",
-    interest: "Niños",
-    forWhom: "Para mi hijo/a",
-    message:
-      "quiero una ruta para mi hijo/a con seguimiento y continuidad real desde el inicio.",
-    panelTitle: "Ruta sugerida: decisión familiar",
-    panelCopy:
-      "Compara opciones para familias y dejamos una ruta clara con continuidad desde el primer paso.",
-    panelAction: "Ver ruta familiar y reservar orientación",
-  },
-};
-
-const courseInterestMap = {
-  ingles: "Inglés",
-  ninos: "Niños",
-  academico: "Académico",
-  tecnologia: "Tecnología",
-  idiomas: "Idiomas",
-  todos: "No estoy seguro",
-};
-
-const homeCanonical = `${(site.canonical || `${window.location.origin}/`).replace(/\/+$/, "")}/`;
-const siteBaseUrl = homeCanonical.replace(/\/$/, "");
-const coursePath = (program) => `/cursos/${program.slug}/`;
-const courseCanonical = (program) => `${siteBaseUrl}${coursePath(program)}`;
-const getCourseSlugFromPath = () => {
-  const pathMatch = decodeURIComponent(window.location.pathname || "").match(/\/cursos\/([^/]+)\/?$/);
-  return pathMatch?.[1] || "";
-};
-const getCurrentCourse = () => {
-  const slug = getCourseSlugFromPath();
-  return slug ? programs.find((program) => program.slug === slug) || null : null;
-};
-const getCurrentPageMeta = () => {
-  const course = getCurrentCourse();
-  if (!course) {
-    return {
-      course: null,
-      canonical: homeCanonical,
-      title: `${site.seoTitle || `${site.name} | ${site.heroHeadline}`}`.trim(),
-      description: site.seoDescription || site.description || "",
-      image: site.seoImage || site.images?.heroPoster || site.images?.hero,
-      imageAlt: site.seoImageAlt || `${site.name} en clase real.`,
-      keywords: site.seoKeywords || "",
-    };
-  }
-
-  return {
-    course,
-    canonical: courseCanonical(course),
-    title: `${course.title} | ${site.name}`,
-    description: course.courseDetail?.lead || course.summary || course.fit || site.seoDescription || site.description || "",
-    image: course.image || site.seoImage || site.images?.heroPoster || site.images?.hero,
-    imageAlt: course.imageAlt || `${course.title} en ${site.name}.`,
-    keywords: [site.seoKeywords, course.title, course.category, course.mode].filter(Boolean).join(", "),
-  };
-};
-
-const initialCourseFilter = (() => {
-  const routeCourse = getCurrentCourse();
-  if (routeCourse?.category && Object.prototype.hasOwnProperty.call(courseInterestMap, routeCourse.category)) {
-    return routeCourse.category;
-  }
-
-  const param = new URL(window.location.href).searchParams.get("curso");
-  return param && Object.prototype.hasOwnProperty.call(courseInterestMap, param) ? param : "todos";
-})();
-
-const initialCourseInterest = courseInterestMap[initialCourseFilter] || courseInterestMap.todos;
-
-const programInquiryMessage = (program) =>
-  encodeURIComponent(
-    [
-      "Hola AiT USA Institute, quiero información sobre este programa.",
-      `Programa: ${program.title}`,
-      `Ideal para: ${program.audience}`,
-      `Modalidad: ${program.mode}`,
-      `Lo estoy viendo porque: ${program.fit}`,
-    ].join("\n"),
-  );
-
-const bookInquiryMessage = (bookTitle = "") =>
-  encodeURIComponent(
-    bookTitle
-      ? `Hola AiT USA Institute, quiero información sobre ${bookTitle}.`
-      : "Hola AiT USA Institute, quiero información sobre los libros y materiales académicos.",
-  );
-
-const productInquiryMessage = (product) =>
-  encodeURIComponent(`Hola AiT USA Institute, quiero información sobre ${product.title}.`);
-
-const joinList = (items) => items.map((item) => `<li>${item}</li>`).join("");
-
-const courseDetailSectionMarkup = (section) => `
-  <article class="course-detail__section">
-    <h4>${section.title}</h4>
-    <ul>${joinList(section.items || [])}</ul>
-  </article>
-`;
-
-const courseDetailMarkup = (program, index) => {
-  const detail = program.courseDetail || {};
-  const sections = Array.isArray(detail.sections) ? detail.sections : [];
-  const schedule = Array.isArray(detail.schedule) ? detail.schedule : [];
-
-  return `
-    <details
-      id="detalle-${program.slug}"
-      class="course-detail"
-      data-course-detail="${program.slug}"
-      ${index === 0 ? "open" : ""}
-    >
-      <summary>
-        <span class="course-detail__summary-media">
-          <img src="${program.image}" alt="${program.imageAlt}" loading="lazy" decoding="async" />
-        </span>
-        <span class="course-detail__summary-copy">
-          <span class="course-detail__eyebrow">${program.audience}</span>
-          <strong>${program.title}</strong>
-          <span>${program.mode}</span>
-        </span>
-        <span class="course-detail__summary-action">Ver detalle</span>
-      </summary>
-      <div class="course-detail__body">
-        <div class="course-detail__lead">
-          <p>${detail.lead || program.summary}</p>
-          <a class="button button--primary" href="${site.whatsappHref}?text=${programInquiryMessage(program)}">
-            Consultar este curso
-          </a>
-        </div>
-        <div class="course-detail__sections">
-          ${sections.map(courseDetailSectionMarkup).join("")}
-        </div>
-        ${
-          schedule.length
-            ? `<div class="course-detail__schedule">
-                <h4>Horarios y formato</h4>
-                <ul>${joinList(schedule)}</ul>
-              </div>`
-            : ""
-        }
-        ${detail.note ? `<p class="course-detail__note">${detail.note}</p>` : ""}
-      </div>
-    </details>
-  `;
-};
-
-const faqShortcuts = () =>
-  `<div class="section-inner faq-shortcuts" aria-label="Atajo de preguntas frecuentes">
-    ${faqs
-      .map(
-        (faq, index) => `
-          <a
-            class="faq-link-chip"
-            href="#pregunta-${index + 1}"
-            aria-label="Ir a la pregunta: ${faq.question}"
-          >${faq.question}</a>
-        `,
-      )
-      .join("")}
-  </div>`;
-
-const syncFaqSchema = () => {
-  const script = document.querySelector('script[type="application/ld+json"][data-schema="faq"]');
-  if (!script) return;
-
-  const payload = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    name: "Preguntas frecuentes de AiT USA Institute",
-    inLanguage: "es",
-    "mainEntity": faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
-  };
-
-  script.textContent = JSON.stringify(payload, null, 2);
-};
-
-const syncCoreSchemas = () => {
-  const schemaTarget = (name) =>
-    document.querySelector(`script[type="application/ld+json"][data-schema="${name}"]`);
-  const setSchema = (name, payload) => {
-    const existing = schemaTarget(name);
-    if (!payload) {
-      existing?.remove();
+  function renderPage() {
+    if (route.page === "placement") {
+      app.innerHTML = renderPlacementPage();
+      initPlacementTest();
       return;
     }
 
-    const script = existing || document.createElement("script");
-    if (!existing) {
-      script.type = "application/ld+json";
-      script.dataset.schema = name;
-      document.head.appendChild(script);
+    if (route.page === "courses") {
+      app.innerHTML = renderCoursesPage();
+      initCatalogInteractions(document);
+      initLeadForm(document);
+      initFaqs(document);
+      initCourseRouteState();
+      return;
     }
 
-    script.textContent = JSON.stringify(payload, null, 2);
-  };
+    app.innerHTML = renderHomePage();
+    initCatalogInteractions(document);
+    initLeadForm(document);
+    initFaqs(document);
+  }
 
-  const pageMeta = getCurrentPageMeta();
-  const course = pageMeta.course;
-  const canonical = pageMeta.canonical;
-  const websiteUrl = toAbsoluteSiteUrl(homeCanonical);
-  const pageUrl = toAbsoluteSiteUrl(canonical);
-  const today = new Date().toISOString().split("T")[0];
-  const seoImage = toAbsoluteSiteUrl(pageMeta.image || site.seoImage || site.images?.heroPoster || site.images?.hero);
-  const seoVideo = toAbsoluteSiteUrl(site.seoVideo || site.heroVideo || site.images?.heroVideo);
-  const schemaCourses = (programs || []).slice(0, 4).map((program, index) => ({
-    "@type": "ListItem",
-    position: index + 1,
-    item: {
-      "@type": "Course",
-      name: program.title,
-      description: program.fit || program.description || "",
-      provider: {
-        "@type": "EducationalOrganization",
-        name: site.name,
-        "@id": `${websiteUrl}#organization`,
-      },
-      courseMode: `${program.mode || "Presencial, Híbrido, Online"}`
-        .split(",")
-        .map((item) => item.trim())
-        .filter(Boolean),
-      inLanguage: "en",
-      offers: {
-        "@type": "Offer",
-        priceCurrency: "USD",
-        availability: "https://schema.org/InStock",
-        name: program.title,
-      },
-    },
-  }));
+  function getRoute() {
+    const path = decodeURIComponent(window.location.pathname || "/")
+      .replace(/index\.html$/, "")
+      .replace(/\/+$/, "") || "/";
 
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "EducationalOrganization",
-    name: site.name,
-    alternateName: site.legal,
-    url: websiteUrl,
-    "@id": `${websiteUrl}#organization`,
-    logo: toAbsoluteSiteUrl(site.images.logo),
-    image: seoImage,
-    description: site.seoDescription || site.description || site.tagline,
-    telephone: site.phone,
-    email: site.email,
-    foundingDate: site.founded,
-    sameAs: [site.facebookHref].filter(Boolean),
-    address: (site.locations || []).map((location) => ({
-      "@type": "PostalAddress",
-      streetAddress: location.streetAddress,
-      addressLocality: location.addressLocality,
-      addressRegion: location.addressRegion,
-      postalCode: location.postalCode,
-      addressCountry: location.addressCountry || "US",
-    })),
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      name: "Cursos de AiT USA Institute",
-      itemListElement: (programs || []).slice(0, 6).map((program) => ({
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Course",
-          name: program.title,
-          description: program.description || program.fit || "",
-        },
-      })),
-    },
-  };
+    if (path === "/placement-test") {
+      return { page: "placement", slug: null };
+    }
 
-  const webpageSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": `${pageUrl}#webpage`,
-    url: pageUrl,
-    name: pageMeta.title,
-    description: pageMeta.description,
-    speakable: {
-      "@type": "SpeakableSpecification",
-      cssSelector: ["#inicio h1", "#inicio .hero__lead", "#contacto-title"],
-    },
-    isPartOf: {
-      "@id": `${websiteUrl}#website`,
-    },
-    about: {
-      "@id": `${websiteUrl}#organization`,
-    },
-    primaryImageOfPage: {
-      "@type": "ImageObject",
-      url: seoImage,
-    },
-    inLanguage: "es-US",
-    breadcrumb: {
-      "@id": `${pageUrl}#breadcrumb`,
-    },
-  };
+    const courseMatch = path.match(/^\/(?:courses|cursos)\/([^/]+)$/);
+    if (courseMatch) {
+      return { page: "courses", slug: courseMatch[1] };
+    }
 
-  if (course) {
-    webpageSchema.mainEntity = {
-      "@id": `${pageUrl}#course`,
+    if (path === "/courses") {
+      return { page: "courses", slug: null };
+    }
+
+    return { page: "home", slug: null };
+  }
+
+  function updateSeo() {
+    const titleMap = {
+      home: "AiT USA Institute | Ingles en New Jersey con ruta clara para empezar",
+      courses: selectedProgram
+        ? `${selectedProgram.title} | Cursos AiT USA Institute`
+        : "Cursos AiT USA Institute | Catalogo detallado",
+      placement: "Examen de ubicacion | AiT USA Institute",
     };
+
+    const descriptionMap = {
+      home:
+        "AIT USA ordena tu siguiente paso: examen de ubicacion, ingles presencial como oferta principal, programas de apoyo y testimonios reales.",
+      courses: selectedProgram
+        ? `${selectedProgram.title}. ${selectedProgram.summary}`
+        : "Explora el catalogo detallado de ingles, GED, computacion y programas de apoyo de AiT USA Institute.",
+      placement:
+        "Completa una evaluacion inicial de ingles y recibe una recomendacion orientativa antes de confirmar tu nivel con un asesor.",
+    };
+
+    const canonicalMap = {
+      home: "/",
+      courses: selectedProgram ? `/courses/${selectedProgram.slug}/` : "/courses/",
+      placement: "/placement-test/",
+    };
+
+    document.title = titleMap[route.page] || site.seoTitle || site.name || "AiT USA Institute";
+    setMeta("meta[name='description']", descriptionMap[route.page]);
+    setMeta("meta[property='og:title']", document.title);
+    setMeta("meta[property='og:description']", descriptionMap[route.page]);
+    setMeta("meta[name='twitter:title']", document.title);
+    setMeta("meta[name='twitter:description']", descriptionMap[route.page]);
+    setCanonical(canonicalMap[route.page] || "/");
+    setCourseSchema();
   }
 
-  const heroSchemaPoster =
-    (site.images && (site.images.heroVideoPoster || site.images.heroPoster || site.images.hero)) ||
-    heroGallery[0]?.videoPoster ||
-    heroGallery[0]?.image ||
-    "";
+  function setMeta(selector, content) {
+    const node = document.querySelector(selector);
+    if (node && content) {
+      node.setAttribute("content", content);
+    }
+  }
 
-  const videoSchema = {
-    "@context": "https://schema.org",
-    "@type": "VideoObject",
-    "@id": `${websiteUrl}#videos-reales`,
-    name: "Video introductorio de AiT USA Institute",
-    description: "Video introductorio con la experiencia, método y opciones de AiT USA Institute para decidir con claridad.",
-    inLanguage: "en-US",
-    isFamilyFriendly: true,
-    uploadDate: today,
-    contentUrl: seoVideo,
-    embedUrl: `${websiteUrl}#experiencia`,
-    thumbnailUrl: [seoImage, toAbsoluteSiteUrl(heroSchemaPoster)].filter(Boolean),
-    duration: site.seoVideoDuration || "PT1M8S",
-    encodingFormat: "video/mp4",
-    hasPart: [
+  function setCanonical(path) {
+    const canonical = document.querySelector("link[rel='canonical']");
+    if (canonical) {
+      canonical.setAttribute("href", absoluteUrl(path));
+    }
+  }
+
+  function setCourseSchema() {
+    let schemaNode = document.querySelector("script[data-schema='course']");
+    if (!schemaNode) {
+      schemaNode = document.createElement("script");
+      schemaNode.type = "application/ld+json";
+      schemaNode.dataset.schema = "course";
+      document.head.appendChild(schemaNode);
+    }
+
+    if (!selectedProgram) {
+      schemaNode.textContent = "{}";
+      return;
+    }
+
+    schemaNode.textContent = JSON.stringify(
       {
-        "@type": "Clip",
-        name: "Video introductorio de AiT USA Institute",
-        startOffset: "PT0S",
-        endOffset: site.seoVideoDuration || "PT1M8S",
-      },
-    ],
-    mainEntityOfPage: {
-      "@id": `${websiteUrl}#webpage`,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: site.name,
-      logo: {
-        "@type": "ImageObject",
-        url: toAbsoluteSiteUrl(site.images.logo),
-      },
-    },
-  };
-
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: site.name,
-    url: websiteUrl,
-    "@id": `${websiteUrl}#website`,
-    inLanguage: "es",
-  };
-
-  const serviceSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: "Clases de inglés con clase real y ruta personalizada",
-    description: site.seoDescription || site.description,
-    provider: {
-      "@id": `${websiteUrl}#organization`,
-    },
-    serviceType: "English language training",
-    areaServed: {
-      "@type": "AdministrativeArea",
-      name: "New Jersey, United States",
-    },
-    availableChannel: {
-      "@type": "ServiceChannel",
-      serviceUrl: `${websiteUrl}#contacto`,
-      serviceSmsNumber: "+1-732-379-0593",
-    },
-    audience: {
-      "@type": "PeopleAudience",
-      audienceType: ["Jóvenes", "Adultos", "Familias"],
-    },
-    offers: {
-      "@type": "Offer",
-      url: websiteUrl,
-      availability: "https://schema.org/InStock",
-      priceCurrency: "USD",
-      areaServed: "New Jersey",
-      itemOffered: {
-        "@type": "Service",
-        name: "Clase inicial de diagnóstico y recomendación",
-      },
-    },
-  };
-
-  const itemListSchema = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: "Cursos destacados AiT USA Institute",
-    itemListElement: schemaCourses,
-  };
-
-  const breadcrumbItems = [
-    { "@type": "ListItem", position: 1, name: "Inicio", item: websiteUrl },
-    { "@type": "ListItem", position: 2, name: "Cursos", item: `${websiteUrl}#cursos` },
-  ];
-
-  if (course) {
-    breadcrumbItems.push({ "@type": "ListItem", position: 3, name: course.title, item: pageUrl });
-  } else {
-    breadcrumbItems.push(
-      { "@type": "ListItem", position: 3, name: "Horario", item: `${websiteUrl}#horarios` },
-      { "@type": "ListItem", position: 4, name: "Contacto", item: `${websiteUrl}#contacto` },
-    );
-  }
-
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "@id": `${pageUrl}#breadcrumb`,
-    itemListElement: breadcrumbItems,
-  };
-
-  const courseSchema = course
-    ? {
         "@context": "https://schema.org",
         "@type": "Course",
-        "@id": `${pageUrl}#course`,
-        name: course.title,
-        description: pageMeta.description,
-        url: pageUrl,
-        image: toAbsoluteSiteUrl(course.image || pageMeta.image),
+        name: selectedProgram.title,
+        description: selectedProgram.summary,
         provider: {
           "@type": "EducationalOrganization",
           name: site.name,
-          "@id": `${websiteUrl}#organization`,
+          url: absoluteUrl("/"),
         },
-        courseMode: `${course.mode || "Presencial, Híbrido, Online"}`
-          .split(",")
-          .map((item) => item.trim())
-          .filter(Boolean),
-        inLanguage: course.category === "idiomas" ? "es" : "en",
-        offers: {
-          "@type": "Offer",
-          url: pageUrl,
-          priceCurrency: "USD",
-          availability: "https://schema.org/InStock",
-          name: course.title,
-        },
-      }
-    : null;
-
-  const firstLocation = (site.locations || [])[0];
-  const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: site.name,
-    foundingDate: site.founded,
-    image: seoImage,
-    "@id": `${websiteUrl}`,
-    url: websiteUrl,
-    telephone: site.phone,
-    email: site.email,
-    priceRange: "$",
-    address: firstLocation
-      ? {
-          "@type": "PostalAddress",
-          streetAddress: firstLocation.streetAddress,
-          addressLocality: firstLocation.addressLocality,
-          addressRegion: firstLocation.addressRegion,
-          postalCode: firstLocation.postalCode,
-          addressCountry: firstLocation.addressCountry || "US",
-        }
-      : undefined,
-    geo: firstLocation?.geo
-      ? {
-          "@type": "GeoCoordinates",
-          latitude: firstLocation.geo.latitude,
-          longitude: firstLocation.geo.longitude,
-        }
-      : undefined,
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        opens: "08:20",
-        closes: "22:00",
+        courseMode: selectedProgram.mode,
+        educationalCredentialAwarded: "Recomendacion academica inicial",
+        url: absoluteUrl(`/courses/${selectedProgram.slug}/`),
       },
-    ],
-    sameAs: [site.facebookHref].filter(Boolean),
-    paymentAccepted: ["Cash", "Credit Card"],
-    areaServed: "New Jersey",
-  };
-
-  setSchema("organization", organizationSchema);
-  setSchema("webpage", webpageSchema);
-  setSchema("video", videoSchema);
-  setSchema("website", websiteSchema);
-  setSchema("service", serviceSchema);
-  setSchema("itemlist", itemListSchema);
-  setSchema("breadcrumb", breadcrumbSchema);
-  setSchema("localbusiness", localBusinessSchema);
-  setSchema("course", courseSchema);
-};
-
-const toAbsoluteSiteUrl = (value) => {
-  if (!value) return "";
-  if (/^(https?:|mailto:|tel:)/i.test(value)) return value;
-
-  try {
-    return new URL(value, site.canonical || window.location.href).toString();
-  } catch {
-    return value;
-  }
-};
-
-function toRootRelativeAssetUrl(value) {
-  if (!value) return "";
-  if (/^(https?:|mailto:|tel:|data:)/i.test(value)) return value;
-  if (value.startsWith("/")) return value;
-  return `/${value.replace(/^\.?\//, "")}`;
-}
-
-const syncSeoHead = () => {
-  const setContent = (selector, value) => {
-    if (!value) return;
-    const node = document.querySelector(selector);
-    if (node) {
-      node.setAttribute("content", value);
-    }
-  };
-
-  const setHref = (selector, value) => {
-    if (!value) return;
-    const node = document.querySelector(selector);
-    if (node) {
-      node.setAttribute("href", value);
-    }
-  };
-
-  const pageMeta = getCurrentPageMeta();
-  const canonical = pageMeta.canonical;
-  const seoTitle = pageMeta.title;
-  const seoDescription = pageMeta.description;
-  const seoImage = toAbsoluteSiteUrl(pageMeta.image || site.seoImage || site.images?.heroPoster || site.images?.hero);
-  const seoVideo = toAbsoluteSiteUrl(site.seoVideo || site.heroVideo || site.images?.heroVideo);
-  const seoImageAlt = pageMeta.imageAlt;
-  const seoKeywords = pageMeta.keywords;
-  const seoVideoDuration = site.seoVideoDuration || "PT1M8S";
-  const seoVideoSeconds = (() => {
-    const minutesMatch = seoVideoDuration.match(/PT(?:(\d+)M)?(?:(\d+)S)?/i);
-    if (!minutesMatch) return "68";
-
-    const minutes = Number(minutesMatch[1] || 0);
-    const seconds = Number(minutesMatch[2] || 0);
-    return String(minutes * 60 + seconds);
-  })();
-
-  const setMeta = (selector, attributes) => {
-    const existing = document.querySelector(selector);
-    const node = existing || document.createElement("meta");
-    if (!existing) document.head.appendChild(node);
-
-    Object.entries(attributes).forEach(([key, value]) => {
-      if (value) node.setAttribute(key, String(value));
-    });
-  };
-
-  const ensurePreload = (href, as, type) => {
-    if (!href) return;
-    const already = [...document.querySelectorAll('link[rel="preload"]')].some((link) => link.getAttribute("href") === href && link.getAttribute("as") === as);
-    if (already) return;
-
-    const link = document.createElement("link");
-    link.rel = "preload";
-    link.as = as;
-    link.href = href;
-    if (type) link.type = type;
-    document.head.appendChild(link);
-  };
-
-  const titleNode = document.querySelector("title");
-  if (titleNode && seoTitle) {
-    titleNode.textContent = seoTitle;
+      null,
+      2,
+    );
   }
 
-  setContent('meta[name="description"]', seoDescription);
-  setContent('meta[name="keywords"]', seoKeywords);
-  setContent('meta[property="og:title"]', seoTitle);
-  setContent('meta[property="og:description"]', seoDescription);
-  setContent('meta[property="og:url"]', canonical);
-  setContent('meta[property="og:image"]', seoImage);
-  setContent('meta[property="og:image:secure_url"]', seoImage);
-  setContent('meta[property="og:image:alt"]', seoImageAlt);
-  setContent("meta[property='og:video']", seoVideo);
-  setContent("meta[property='og:video:secure_url']", seoVideo);
-  setContent("meta[property='og:video:duration']", site.seoVideoDuration || "PT1M8S");
-  setContent("meta[name='twitter:card']", "summary_large_image");
-  setContent("meta[name='twitter:title']", seoTitle);
-  setContent("meta[name='twitter:description']", seoDescription);
-  setContent("meta[name='twitter:image']", seoImage);
-  setContent("meta[name='twitter:image:alt']", seoImageAlt);
-  setContent("meta[name='twitter:site']", site.twitterHandle || "@AiTUSA_Institute");
-  setContent("meta[name='twitter:creator']", site.twitterHandle || "@AiTUSA_Institute");
-  setContent("meta[name='twitter:label1']", "Objetivo");
-  setContent("meta[name='twitter:data1']", "Rutas de inglés en Nueva Jersey");
-  setContent("meta[name='twitter:label2']", "Duración");
-  setContent("meta[name='twitter:data2']", site.seoVideoDuration || "PT1M45S");
+  function renderHomePage() {
+    return `
+      ${renderHeader("home")}
+      <main id="main-content">
+        ${renderHero()}
+        ${renderSolutionSection()}
+        ${renderOfferingsSection(true)}
+        ${renderLocationsSection()}
+        ${renderProofSection()}
+        ${renderFinalCtaSection()}
+        ${renderFaqSection()}
+      </main>
+      ${renderFooter()}
+    `;
+  }
 
-  setHref("link[rel='canonical']", canonical);
-  setHref("link[rel='alternate'][hreflang='es-US']", canonical);
-  setHref("link[rel='alternate'][hreflang='x-default']", canonical);
-
-  setMeta("meta[property='og:video:type']", { property: "og:video:type", content: "video/mp4" });
-  setMeta("meta[property='og:video:width']", { property: "og:video:width", content: site.seoVideoWidth || "464" });
-  setMeta("meta[property='og:video:height']", { property: "og:video:height", content: site.seoVideoHeight || "832" });
-  setMeta("meta[property='og:video:duration']", { property: "og:video:duration", content: seoVideoSeconds });
-  setMeta("meta[property='og:site_name']", { property: "og:site_name", content: site.name });
-  setMeta("meta[property='og:locale']", { property: "og:locale", content: "es_US" });
-  setMeta("meta[name='robots']", { name: "robots", content: "index, follow" });
-  setMeta("meta[name='googlebot']", { name: "googlebot", content: "index, follow" });
-
-  ensurePreload(seoImage, "image");
-};
-
-const initFaqAccordion = () => {
-  const faqItems = [...document.querySelectorAll(".faq-list .faq-item")];
-  if (!faqItems.length) return;
-  let userOpenedFaq = false;
-
-  const setOnlyOneOpen = (activeIndex = 0) => {
-    faqItems.forEach((item, idx) => {
-      item.open = idx === activeIndex;
-    });
-  };
-
-  const openFromHash = () => {
-    const hash = window.location.hash?.replace("#", "") || "";
-    if (!hash.startsWith("pregunta-")) return;
-
-    const parsedIndex = Number.parseInt(hash.replace("pregunta-", ""), 10);
-    const nextIndex = Number.isNaN(parsedIndex) ? null : parsedIndex - 1;
-    const isValidIndex = nextIndex !== null && faqItems[nextIndex];
-
-    if (isValidIndex) {
-      setOnlyOneOpen(nextIndex);
-    }
-  };
-
-  const getActiveFaqIndex = () => faqItems.findIndex((item) => item.open);
-
-  faqItems.forEach((item) => {
-    item.querySelector("summary")?.addEventListener("click", () => {
-      userOpenedFaq = true;
-    });
-
-    item.addEventListener("toggle", () => {
-      const activeIndex = getActiveFaqIndex();
-
-      if (activeIndex === -1) {
-        setOnlyOneOpen(0);
-      } else {
-        setOnlyOneOpen(activeIndex);
-      }
-
-      const finalIndex = getActiveFaqIndex();
-      const hash = `#pregunta-${finalIndex + 1}`;
-      const shouldSyncHash = userOpenedFaq || window.location.hash.startsWith("#pregunta-");
-      if (shouldSyncHash && window.location.hash !== hash) {
-        if (window.history?.replaceState) {
-          window.history.replaceState({}, "", hash);
-        } else {
-          window.location.hash = hash;
-        }
-      }
-    });
-  });
-
-  window.addEventListener("hashchange", openFromHash);
-  openFromHash();
-};
-
-const heroSignalCards = () => {
-  if (!heroSignal.length) return "";
-
-  return `
-    <div class="hero__signal" aria-label="Promesas de resultado">
-      ${heroSignal
-        .map(
-          (signal) => `
-            <article class="hero__signal-item">
-              <strong>${signal.value}</strong>
-              <span>${signal.label}</span>
-            </article>
-          `,
-        )
-        .join("")}
-    </div>
-  `;
-};
-
-const heroVideoFacts = () => `
-  <div class="hero__media-quickfacts" aria-label="Qué verás en este recorte de clase">
-    ${(heroVideoHighlights?.length
-      ? heroVideoHighlights
-      : [
-          "Clase real grabada",
-          "Corrección en vivo",
-          "Sin costo de consulta inicial",
-          "Formato híbrido y presencial",
-        ]
-    )
-      .map((text) => `<span>${text}</span>`)
-      .join("")}
-  </div>
-`;
-
-const heroIntentCards = () => `
-  <div class="hero__intent" aria-label="¿Qué objetivo tienes hoy?">
-    <a class="hero__intent-card" href="#experiencia" data-intent-card data-intent="classSample">
-      <span class="hero__intent-card__label">Videos reales de AiT USA</span>
-      <strong>Validar método y ritmo en vivo</strong>
-    </a>
-    <a class="hero__intent-card" href="#horarios" data-intent-card data-intent="scheduleFlex">
-      <span class="hero__intent-card__label">Necesito empezar esta semana</span>
-      <strong>Comparar opciones con mi agenda real</strong>
-    </a>
-    <a class="hero__intent-card" href="#contacto" data-intent-card data-intent="familySupport">
-      <span class="hero__intent-card__label">Ruta familiar para mi hijo o hija</span>
-      <strong>Decidir con menos incertidumbre desde hoy</strong>
-    </a>
-  </div>
-`;
-
-const heroCommitment = () => `
-  <div class="hero__commitment" aria-label="Compromiso de calidad del hero">
-    <article>
-      <strong>Videos reales primero</strong>
-      <span>Ves videos reales para validar si el método funciona para ti sin adivinar.</span>
-    </article>
-    <article>
-      <strong>Decisión en 60 segundos</strong>
-      <span>En 1–2 pasos: reproduce el clip, valida horario y recibe una sugerencia inicial.</span>
-    </article>
-    <article>
-      <strong>Rutas listas para arrancar</strong>
-      <span>Objetivo, horario y formato preparados para que comiences con criterio.</span>
-    </article>
-  </div>
-`;
-
-const heroPathList = () => {
-  if (!heroStartPath.length) return "";
-
-  return `
-    <ol class="hero__path" aria-label="Pasos para empezar">
-      ${heroStartPath
-        .map(
-          (item, index) => `
-            <li><span>${index + 1}</span><p>${item}</p></li>
-          `,
-        )
-        .join("")}
-    </ol>
-  `;
-};
-
-const launchPathSection = () => {
-  if (!launchPath.length) return "";
-
-  const pathIntents = ["classSample", "scheduleFlex", "familySupport"];
-  const pathIntentsLabel = {
-    classSample: "Ver videos reales",
-    scheduleFlex: "Ver horarios",
-    familySupport: "Recibir ruta familiar",
-  };
-  const pathSecondaryLabel = {
-    classSample: "sin vueltas",
-    scheduleFlex: "con agenda real",
-    familySupport: "para tu familia",
-  };
-
-  return `
-    <section id="ruta" class="section section--path section--white" aria-labelledby="ruta-title">
-      <div class="section-inner section-heading section-heading--compact">
-        <p class="section-kicker">Ruta de arranque</p>
-        <h2 id="ruta-title">Tres pasos simples para decidir con criterio hoy.</h2>
-        <p>Primero observas videos reales, luego validamos agenda y objetivo, y finalmente definimos una ruta que sí puedas ejecutar.</p>
-      </div>
-      <div class="section-inner path-visual-grid" aria-label="Visuales de progreso y método">
-        <article class="path-visual-card">
-          <img
-            src="${site.images.routeLevels}"
-            alt="Tutora guiando el avance por niveles con una escala de progreso colorida."
-            loading="lazy"
-          />
-          <div class="path-visual-card__body">
-            <p class="section-kicker">Niveles claros</p>
-            <h3>Sabes dónde empiezas y qué sigue después.</h3>
-            <p>El progreso se ve por etapas concretas, no por suposiciones.</p>
+  function renderCoursesPage() {
+    return `
+      ${renderHeader("courses")}
+      <main id="main-content">
+        <section class="page-hero section" id="inicio">
+          <div class="section-inner page-hero__grid">
+            <div class="page-hero__copy">
+              <p class="section-kicker">Catalogo detallado</p>
+              <h1>Explora cursos, formatos y proximos pasos con mas detalle.</h1>
+              <p>
+                Esta pagina concentra el detalle que no conviene cargar en la portada: modalidades,
+                objetivos, horarios y orientacion para ingles, GED, computacion y programas de apoyo.
+              </p>
+              <div class="button-row">
+                <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">Hacer examen de ubicacion</a>
+                <a class="button button--ghost" href="${conversionCtas.advisor?.href || site.whatsappHref}" target="_blank" rel="noreferrer">Hablar con un asesor</a>
+              </div>
+            </div>
+            <div class="page-hero__media card">
+              <img src="${asset(site.images.routeLevels)}" alt="${escapeHtml(site.images.contactAlt || "Ruta por niveles de AiT USA.")}" />
+              <p class="eyebrow-chip">Ruta guiada</p>
+              <h2>Ingles presencial sigue siendo la oferta principal.</h2>
+              <p>Tambien puedes comparar opciones hibridas, online y programas de apoyo antes de hablar con el equipo.</p>
+            </div>
           </div>
-        </article>
-        <article class="path-visual-card">
-          <img
-            src="${site.images.routeConcept}"
-            alt="Instructora explicando el método con un diagrama visual en el pizarrón."
-            loading="lazy"
-          />
-          <div class="path-visual-card__body">
-            <p class="section-kicker">Método visual</p>
-            <h3>Entiendes la lógica antes de repetirla.</h3>
-            <p>La estructura visual hace más fácil recordar, practicar y hablar con seguridad.</p>
+        </section>
+        ${renderOfferingsSection(false)}
+        ${renderCourseCatalogSection()}
+        ${renderFinalCtaSection()}
+        ${renderFaqSection()}
+      </main>
+      ${renderFooter()}
+    `;
+  }
+
+  function renderPlacementPage() {
+    return `
+      ${renderHeader("placement")}
+      <main id="main-content">
+        <section class="page-hero section" id="inicio">
+          <div class="section-inner placement-hero">
+            <div class="page-hero__copy">
+              <p class="section-kicker">${escapeHtml(placementTest.eyebrow || "Evaluacion inicial")}</p>
+              <h1>${escapeHtml(placementTest.title || "Examen de ubicacion")}</h1>
+              <p>${escapeHtml(placementTest.intro || "")}</p>
+              <div class="notice-box">
+                <strong>Importante:</strong>
+                <span>${escapeHtml(placementTest.privacyNote || "")}</span>
+              </div>
+            </div>
           </div>
-        </article>
-      </div>
-      <div class="section-inner path-grid">
-        ${launchPath
-          .map(
-            (item, index) => `
-              <article class="path-card">
-                <span class="path-card__step">Semana ${index + 1}</span>
-                <h3>${item.title}</h3>
-                <p>${item.description}</p>
-                <p class="path-card__outcome">${item.outcome}</p>
-                <a
-                  class="button button--ghost path-card__cta"
-                  href="#contacto"
-                  data-intent-card
-                  data-intent="${pathIntents[index] || "default"}"
-                >${pathIntentsLabel[pathIntents[index]] || "Definir mi ruta"} · ${pathSecondaryLabel[pathIntents[index]] || "ruta inicial"}</a>
-              </article>
-            `,
-          )
-          .join("")}
-      </div>
-      <div class="section-inner path-cta">
-        <a class="button button--primary" href="#experiencia">Ver videos reales</a>
-        <a class="button button--ghost" href="#cursos">Explorar cursos</a>
-      </div>
-    </section>
-  `;
-};
+        </section>
 
-const spotlightSection = () => {
-  const clip = heroGallery[0] || instructorClips[0];
-  const proofItems = [
-    { value: "1:46", label: "video promocional para entender la experiencia" },
-    { value: "100%", label: "videos locales enviados para este refresh" },
-    { value: "Video local", label: "calidad HD sin redirecciones ni enlaces rotos" },
-  ];
-  const steps = [
-    {
-      title: "Verifica el estilo de clase",
-      description:
-        "Observa la experiencia general en un solo clip para confirmar si el ritmo de trabajo te resulta natural.",
-    },
-    {
-      title: "Compara formato y agenda",
-      description:
-        "Decide entre presencial, híbrido y online con base en tu tiempo real, no en una promesa genérica.",
-    },
-    {
-      title: "Pide tu ruta inicial",
-      description:
-        "Solicita ruta inicial personalizada para empezar esta semana si el método te encaja de verdad.",
-    },
-  ];
+        <section class="section section--white" id="placement-test">
+          <div class="section-inner placement-layout">
+            <aside class="placement-sidebar card">
+              <p class="section-kicker">Pasos</p>
+              <ol class="placement-steps" data-placement-steps>
+                <li data-step-indicator="0" class="is-active">${escapeHtml(placementTest.steps?.student || "Tus datos")}</li>
+                <li data-step-indicator="1">${escapeHtml(placementTest.steps?.selfAssessment || "Como te sientes hoy")}</li>
+                <li data-step-indicator="2">${escapeHtml(placementTest.steps?.quiz || "Preguntas rapidas")}</li>
+                <li data-step-indicator="3">${escapeHtml(placementTest.steps?.goals || "Tu objetivo")}</li>
+                <li data-step-indicator="4">${escapeHtml(placementTest.steps?.result || "Recomendacion inicial")}</li>
+              </ol>
+              <p class="sidebar-note">${escapeHtml(placementTest.crmNote || "")}</p>
+            </aside>
 
-  return `
-    <section id="experiencia" class="section section--spotlight" aria-labelledby="experiencia-title">
-      <div class="section-inner spotlight-grid">
-        <div class="spotlight-media">
-          ${clipMedia(clip)}
-          <div class="spotlight-media__badge">Mira la clase en acción</div>
+            <form class="placement-form card" data-placement-form novalidate>
+              <section class="placement-panel is-active" data-placement-panel="0">
+                <h2>Tus datos</h2>
+                <div class="form-grid">
+                  ${renderPlacementStudentFields()}
+                </div>
+              </section>
+
+              <section class="placement-panel" data-placement-panel="1" hidden>
+                <h2>Como te sientes hoy</h2>
+                <div class="assessment-grid">
+                  ${renderSelfAssessmentFields()}
+                </div>
+              </section>
+
+              <section class="placement-panel" data-placement-panel="2" hidden>
+                <h2>Preguntas rapidas</h2>
+                <div class="quiz-stack">
+                  ${renderPlacementQuestions()}
+                </div>
+              </section>
+
+              <section class="placement-panel" data-placement-panel="3" hidden>
+                <h2>Tu objetivo principal</h2>
+                <fieldset class="goal-options">
+                  <legend>Selecciona el motivo principal por el que quieres estudiar ahora.</legend>
+                  ${renderGoalOptions()}
+                </fieldset>
+              </section>
+
+              <section class="placement-panel placement-panel--result" data-placement-panel="4" hidden>
+                <h2>Tu recomendacion inicial</h2>
+                <div class="result-card" data-placement-result>
+                  <p>Completa los pasos anteriores para ver tu recomendacion.</p>
+                </div>
+                <div class="result-actions" data-placement-actions hidden>
+                  <a class="button button--primary" data-placement-whatsapp target="_blank" rel="noreferrer">Enviar resultado por WhatsApp</a>
+                  <a class="button button--ghost" href="/courses/">Ver cursos detallados</a>
+                </div>
+                <p class="placement-footnote">
+                  Esta recomendacion es orientativa y debe ser confirmada por un asesor antes de tu inscripcion final.
+                </p>
+              </section>
+
+              <div class="placement-nav">
+                <button class="button button--ghost" type="button" data-placement-back hidden>Atras</button>
+                <button class="button button--primary" type="button" data-placement-next>Siguiente</button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </main>
+      ${renderFooter()}
+    `;
+  }
+
+  function renderHeader(activePage) {
+    return `
+      <a class="skip-link" href="#main-content">Saltar al contenido</a>
+      <header class="site-header">
+        <a class="brand" href="/">
+          <img src="${asset(site.images.logo)}" alt="Logo de AiT USA Institute" />
+          <span>
+            <strong>${escapeHtml(site.name || "AiT USA Institute")}</strong>
+            <small>Ingles practico desde 2004</small>
+          </span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span class="menu-toggle__icon" aria-hidden="true"></span>
+          Menu
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Navegacion principal">
+          <a href="/" ${activePage === "home" ? 'aria-current="page"' : ""}>Inicio</a>
+          <a href="/courses/" ${activePage === "courses" ? 'aria-current="page"' : ""}>Cursos</a>
+          <a href="/placement-test/" ${activePage === "placement" ? 'aria-current="page"' : ""}>Examen</a>
+          <a href="${homeLink("#sedes")}">Sedes</a>
+          <a href="${homeLink("#contacto")}">Contacto</a>
+        </nav>
+        <a class="header-cta" href="${conversionCtas.registration?.href || site.whatsappHref}" target="_blank" rel="noreferrer">
+          Inscripcion + libro ${escapeHtml(conversionCtas.registration?.price || "$95")}
+        </a>
+      </header>
+    `;
+  }
+
+  function renderHero() {
+    return `
+      <section class="hero section" id="inicio">
+        <div class="section-inner hero__grid">
+          <div class="hero__copy">
+            <p class="section-kicker">${escapeHtml(painHero.eyebrow || "")}</p>
+            <h1>${escapeHtml(painHero.headline || "")}</h1>
+            <p class="hero__lead">${escapeHtml(painHero.subheadline || "")}</p>
+            <p class="hero__trust">${escapeHtml(painHero.trust || "")}</p>
+            <div class="button-row">
+              <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">${escapeHtml(painHero.ctas?.primary || "Hacer examen de ubicacion")}</a>
+              <a class="button button--ghost" href="${conversionCtas.advisor?.href || site.whatsappHref}" target="_blank" rel="noreferrer">${escapeHtml(painHero.ctas?.secondary || "Hablar con un asesor")}</a>
+            </div>
+            <a class="inline-link" href="${conversionCtas.courses?.href || "/courses/"}">${escapeHtml(painHero.ctas?.tertiary || "Ver cursos detallados")}</a>
+            <ul class="hero-bullets">
+              <li>Presencial como oferta principal para practicar de cerca.</li>
+              <li>Rutas hibridas y online para quien necesita flexibilidad real.</li>
+              <li>Examen de ubicacion y orientacion antes de definir el siguiente paso.</li>
+            </ul>
+          </div>
+          <div class="hero__media card">
+            <video
+              class="hero__video clip-card__media-player"
+              data-hero-player
+              controls
+              playsinline
+              preload="metadata"
+              poster="${asset(site.images.introVideoPoster)}"
+            >
+              <source src="${asset(site.images.introVideo)}" type="video/mp4" />
+            </video>
+            <div class="hero__media-copy">
+              <p class="eyebrow-chip">Video real de AIT USA</p>
+              <h2>Comprueba el ritmo de clase antes de decidir.</h2>
+              <p>Usamos media real del instituto para que veas metodo, energia de clase y acompanamiento antes de escribir.</p>
+            </div>
+          </div>
         </div>
-        <div class="spotlight-copy">
-          <p class="section-kicker">Experiencia real</p>
-          <h2 id="experiencia-title">Mira los videos reales primero y decide con criterio.</h2>
-          <p>
-            Usamos los videos actuales de AiT USA para que veas la propuesta, el método y la forma de acompañar antes
-            de avanzar hacia horarios, cursos o inscripción.
-          </p>
-          <ul class="spotlight-points">
-            ${joinList([
-              "La experiencia se muestra con clips reales y mejor organizados por intención.",
-              "Los videos explicativos acompañan cada sección en vez de repetir el mismo clip.",
-              "La metodología visual te deja una decisión clara sin esperar semanas para validar.",
-            ])}
-          </ul>
-          <blockquote class="spotlight-quote">
-            “Primero mira cómo se presenta la experiencia; después elegimos curso, horario y formato con menos vueltas.”
-          </blockquote>
-          <div class="spotlight-journey" aria-label="Ruta para empezar">
-            ${steps
-              .map(
-                (step) => `
-                  <article>
-                    <span class="spotlight-journey-step">${step.title}</span>
-                    <p>${step.description}</p>
-                  </article>
-                `,
-              )
-              .join("")}
+      </section>
+    `;
+  }
+
+  function renderSolutionSection() {
+    return `
+      <section class="section section--white" id="metodo">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="section-kicker">La solucion</p>
+            <h2>No necesitas mas informacion suelta. Necesitas una forma clara de entender, practicar y continuar.</h2>
           </div>
-          <div class="spotlight-proof" aria-label="Indicadores del video">
-            ${proofItems
+          <div class="solution-grid">
+            ${solutionCharacteristics
               .map(
                 (item) => `
-                  <article>
-                    <strong>${item.value}</strong>
-                    <span>${item.label}</span>
-                  </article>
-                `,
-              )
-              .join("")}
-          </div>
-          <div class="spotlight-actions">
-            <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Quiero mi ruta inicial hoy</a>
-            <a class="button button--ghost" href="#cursos">Ver modalidades y precios</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  `;
-};
-const clipMedia = (clip) => {
-  if (clip.video) {
-    return `
-      <video
-        class="clip-card__media-player"
-        src="${clip.video}"
-        poster="${clip.videoPoster || clip.image}"
-        preload="metadata"
-        muted
-        playsinline
-        controls
-        aria-label="${clip.title}"
-      ></video>
-      <span class="clip-card__ready">Video real</span>
-    `;
-  }
-
-  return `<img src="${clip.image}" alt="${clip.imageAlt}" loading="${clip.mediaPriority === "hero" ? "eager" : "lazy"}" />`;
-};
-const playIcon = `
-  <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
-    <path d="M8 5.5v13l10.5-6.5L8 5.5Z" />
-  </svg>
-`;
-const heroVideoBackground = () => {
-  if (!heroVideoSources.length) return "";
-
-  return `
-    <div class="hero__video-bg-wrap" data-hero-bg-wrap>
-      <video
-        class="hero__video-bg"
-        data-hero-bg-player
-        autoplay
-        muted
-        playsinline
-        loop
-        preload="metadata"
-        poster="${heroMediaPoster}"
-        aria-hidden="true"
-      >
-        ${heroVideoSources.map((source) => `<source src="${source}" type="video/mp4" />`).join("")}
-        Tu navegador no soporta video HTML5.
-      </video>
-    </div>
-  `;
-};
-const heroMedia = () => {
-  if (heroGallery.length && !heroVideoSources.length) {
-    const chips = heroGallery
-      .map(
-        (slide, index) =>
-          `<button class="hero__media-dot ${index === 0 ? "is-active" : ""}" data-hero-dot="${index}" type="button" aria-label="Ver clip ${index + 1}: ${slide.label}"></button>`,
-      )
-      .join("");
-
-    const slides = heroGallery
-      .map(
-        (slide, index) =>
-          `<img
-              src="${slide.image}"
-              alt="${slide.imageAlt}"
-              loading="${index === 0 ? "eager" : "lazy"}"
-              data-hero-slide="${index}"
-              class="${index === 0 ? "hero__media-photo is-active" : "hero__media-photo"}"
-            />`,
-      )
-      .join("");
-
-    return `
-      <div class="hero__media-frame hero__media-frame--hero-carousel" data-hero-frame>
-        <div class="hero__media-stack" data-hero-stack>${slides}</div>
-      <div class="hero__media-overlay hero__media-overlay--gallery">
-          <div class="hero__media-tag">Video real</div>
-          <div class="hero__media-meta">
-            <p class="hero__media-kicker" data-hero-kicker>${heroGallery[0].label}</p>
-            <p class="hero__media-title" data-hero-title>${heroGallery[0].title}</p>
-          </div>
-          <a class="hero__video-chip hero__video-chip--ghost" href="#experiencia" aria-label="Ir al bloque de experiencia y ver la clase real">
-            <span class="hero__video-chip-icon" aria-hidden="true">▶</span>
-            Ver experiencia completa
-          </a>
-          <div class="hero__media-dots" data-hero-dots>${chips}</div>
-        </div>
-      </div>
-    `;
-  }
-
-  if (heroVideoSources.length) {
-    const primary = heroGallery[0] || {
-      label: "Video introductorio",
-      title: "Conoce la experiencia antes de escribirnos.",
-      image: heroMediaPoster,
-      video: heroVideoSources[0],
-      videoPoster: heroMediaPoster,
-      imageAlt: site.heroQuote,
-    };
-    const previewItems = heroGallery.slice(1, 4);
-    return `
-      <div class="hero__media-frame hero__media-frame--hero-primary hero__media-frame--clean">
-          <video
-            data-hero-player
-            class="hero__media-player"
-            controls
-            muted
-            playsinline
-            preload="metadata"
-          poster="${primary.videoPoster || primary.image || heroMediaPoster}"
-          data-hero-poster="${primary.videoPoster || primary.image || heroMediaPoster}"
-          aria-label="${primary.title}">
-          <source data-hero-source src="${primary.video || heroVideoSources[0]}" type="video/mp4" />
-          Tu navegador no soporta video HTML5.
-        </video>
-        <img
-          data-hero-fallback
-          class="hero__media-fallback is-hidden"
-          loading="eager"
-          src="${primary.videoPoster || primary.image || heroMediaPoster}"
-          alt="${site.heroQuote}"
-        />
-      </div>
-      <div class="hero__media-caption">
-        <span data-hero-kicker>${primary.label}</span>
-        <strong data-hero-title>${primary.title}</strong>
-        <p>Usa los videos reales para comparar el método, la energía de clase y el tipo de apoyo antes de escribirnos.</p>
-      </div>
-        <div class="hero__preview-rail hero__preview-rail--compact" aria-label="Más videos de AiT USA">
-      ${previewItems
-        .map(
-          (item, index) => `
-              <button
-                class="hero__preview-card ${index === 0 ? "hero__preview-card--featured" : ""}"
-                type="button"
-                data-hero-preview="${index}"
-                data-hero-preview-gallery-index="${index + 1}"
-                data-hero-preview-source="${item.video || ""}"
-                data-hero-preview-poster="${item.videoPoster || item.image}"
-                aria-label="${item.label}: ${item.title}"
-              >
-                ${item.video ? '<span class="hero__preview-card__video-badge">VIDEO REAL</span>' : ""}
-                <img src="${item.image}" alt="${item.imageAlt}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async" />
-                <div class="hero__preview-copy">
-                  <span>${item.label}</span>
-                  <strong>${item.title}</strong>
-                </div>
-              </button>
-            `,
-          )
-          .join("")}
-      </div>
-      <p class="hero__media-note">Videos seleccionados desde los archivos actuales de AiT USA.</p>
-    `;
-  }
-
-  return `<img src="${site.images.hero}" alt="${site.heroQuote}" loading="eager" />`;
-};
-
-const initHeroShowcase = () => {
-  if (heroVideoSources.length || heroGallery.length < 2) return;
-
-  const stack = document.querySelector("[data-hero-stack]");
-  const dots = [...document.querySelectorAll("[data-hero-dot]")];
-  const kicker = document.querySelector("[data-hero-kicker]");
-  const title = document.querySelector("[data-hero-title]");
-  if (!stack || !dots.length || !kicker || !title) return;
-
-  const slides = [...stack.querySelectorAll("[data-hero-slide]")];
-  if (!slides.length) return;
-
-  let active = 0;
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  const setHeroSlide = (nextIndex) => {
-    if (nextIndex === active) return;
-
-    const previous = slides[active];
-    const next = slides[nextIndex];
-    const nextDot = dots[nextIndex];
-    const prevDot = dots[active];
-
-    previous.classList.remove("is-active");
-    prevDot.classList.remove("is-active");
-    next.classList.add("is-active");
-    nextDot.classList.add("is-active");
-    kicker.textContent = heroGallery[nextIndex].label;
-    title.textContent = heroGallery[nextIndex].title;
-    active = nextIndex;
-  };
-
-  let interval;
-
-  const startShowcase = () => {
-    if (interval || reduceMotion) return;
-
-    interval = setInterval(() => {
-      const nextIndex = (active + 1) % heroGallery.length;
-      setHeroSlide(nextIndex);
-    }, 4200);
-  };
-
-  const stopShowcase = () => {
-    clearInterval(interval);
-    interval = null;
-  };
-
-  if (reduceMotion) {
-    return;
-  }
-
-  startShowcase();
-
-  const frame = document.querySelector("[data-hero-frame]");
-  if (frame) {
-    frame.addEventListener("mouseenter", stopShowcase);
-    frame.addEventListener("mouseleave", startShowcase);
-    frame.addEventListener("focusin", stopShowcase);
-    frame.addEventListener("focusout", startShowcase);
-  }
-
-  frame?.addEventListener("keydown", (event) => {
-    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-    const direction = event.key === "ArrowRight" ? 1 : -1;
-    const nextIndex = (active + direction + heroGallery.length) % heroGallery.length;
-    stopShowcase();
-    setHeroSlide(nextIndex);
-    startShowcase();
-  });
-
-  dots.forEach((dot) => {
-    dot.addEventListener("click", () => {
-      stopShowcase();
-      setHeroSlide(Number(dot.dataset.heroDot));
-      startShowcase();
-    });
-  });
-};
-
-const initHeroPreviewCards = () => {
-  if (!heroVideoSources.length) return;
-
-  const previewCards = [...document.querySelectorAll("[data-hero-preview]")];
-  const kicker = document.querySelector("[data-hero-kicker]");
-  const title = document.querySelector("[data-hero-title]");
-  const poster = document.querySelector("[data-hero-poster]");
-  const heroVideo = document.querySelector("[data-hero-player]");
-  const heroSource = heroVideo.querySelector("[data-hero-source]");
-  const heroFallbackImage = document.querySelector("[data-hero-fallback]");
-
-  if (!previewCards.length || !kicker || !title || !poster || !heroSource || !heroFallbackImage) return;
-
-  const setPreviewFocus = (nextIndex) => {
-    previewCards.forEach((card, cardIndex) => {
-      card.classList.toggle("hero__preview-card--featured", cardIndex === nextIndex);
-      card.setAttribute("aria-pressed", String(cardIndex === nextIndex));
-    });
-  };
-
-  const setHeroContext = (nextIndex) => {
-    const card = previewCards[nextIndex];
-    const itemIndex = Number(card?.dataset.heroPreviewGalleryIndex ?? nextIndex);
-    const item = heroGallery[itemIndex];
-    if (!card || !item) return;
-
-    const nextSource = card.dataset.heroPreviewSource || "";
-    const nextPoster = card.dataset.heroPreviewPoster || item.image;
-
-    poster.src = nextPoster || item.image || poster.src;
-    poster.alt = item.imageAlt || poster.alt;
-    kicker.textContent = item.label;
-    title.textContent = item.title;
-
-    if (nextSource) {
-      heroSource.src = nextSource;
-      heroVideo.load();
-      heroVideo.play().catch(() => {});
-      heroVideo.classList.remove("is-hidden");
-      heroFallbackImage.classList.add("is-hidden");
-    } else {
-      heroVideo.pause();
-      heroSource.src = heroVideoSources[0];
-      heroVideo.load();
-      heroVideo.classList.remove("is-hidden");
-      heroFallbackImage.classList.add("is-hidden");
-    }
-  };
-
-  previewCards.forEach((card) => {
-    const nextIndex = Number(card.dataset.heroPreview || 0);
-
-    card.addEventListener("click", () => {
-      setHeroContext(nextIndex);
-      setPreviewFocus(nextIndex);
-    });
-  });
-
-  setPreviewFocus(-1);
-};
-
-const initHeroFallbacks = () => {
-  const heroVideo = document.querySelector("[data-hero-player]");
-  if (!heroVideo) return;
-
-  const heroSource = heroVideo.querySelector("[data-hero-source]");
-  const heroFallbackImage = document.querySelector("[data-hero-fallback]");
-
-  if (!heroSource || !heroFallbackImage) return;
-
-  let attempt = 0;
-  const setNextSource = () => {
-    if (attempt + 1 >= heroVideoSources.length) return false;
-
-    attempt += 1;
-    heroSource.src = heroVideoSources[attempt];
-    heroVideo.load();
-    return true;
-  };
-
-  const revealFallbackImage = () => {
-    heroVideo.classList.add("is-hidden");
-    heroFallbackImage.classList.remove("is-hidden");
-  };
-
-  const onVideoError = () => {
-    if (!setNextSource()) {
-      revealFallbackImage();
-      heroVideo.removeEventListener("error", onVideoError);
-    }
-  };
-
-  heroVideo.addEventListener("error", onVideoError);
-
-  heroVideo.addEventListener("loadeddata", () => {
-    heroVideo.classList.remove("is-hidden");
-    heroFallbackImage.classList.add("is-hidden");
-  });
-};
-
-const initHeroPlayButton = () => {
-  const heroVideo = document.querySelector("[data-hero-player]");
-  const heroPlayButton = document.querySelector("[data-hero-play-button]");
-  const heroPlayButtonLabel = heroPlayButton?.querySelector("[data-hero-play-label]");
-  const heroPlayButtonIcon = heroPlayButton?.querySelector(".hero__video-chip-icon");
-
-  if (!heroVideo || !heroPlayButton) return;
-
-  const setPlayState = (isPlaying) => {
-    if (!heroPlayButtonLabel) return;
-    heroPlayButtonLabel.textContent = isPlaying ? "Pausar video" : "Ver video en HD";
-    if (heroPlayButtonIcon) heroPlayButtonIcon.textContent = isPlaying ? "⏸" : "▶";
-    heroPlayButton.setAttribute("aria-pressed", String(isPlaying));
-  };
-
-  const handlePlayFailure = () => {
-    if (!heroPlayButtonLabel) {
-      heroPlayButton.textContent = "Toca aquí para reproducir";
-      return;
-    }
-
-    heroPlayButtonLabel.textContent = "Toca aquí para reproducir";
-    if (heroPlayButtonIcon) heroPlayButtonIcon.textContent = "▶";
-    heroPlayButton.setAttribute("aria-pressed", "false");
-  };
-
-  const syncPlayState = () => setPlayState(!heroVideo.paused);
-
-  heroVideo.addEventListener("play", syncPlayState);
-  heroVideo.addEventListener("pause", syncPlayState);
-  heroVideo.addEventListener("ended", () => setPlayState(false));
-  heroVideo.addEventListener("loadedmetadata", syncPlayState);
-
-  heroPlayButton.addEventListener("click", () => {
-    if (heroVideo.paused) {
-      heroVideo.play().catch(handlePlayFailure);
-      return;
-    }
-
-    heroVideo.pause();
-    syncPlayState();
-  });
-
-  syncPlayState();
-};
-
-const initHeroQuickCapture = () => {
-  const form = document.querySelector("[data-hero-quick-capture]");
-  if (!form) return;
-
-  const quickName = form.querySelector("[data-hero-quick-name]");
-  const quickPhone = form.querySelector("[data-hero-quick-phone]");
-  const quickGoal = form.querySelector("[data-hero-quick-goal]");
-  const quickStatus = form.querySelector("[data-hero-quick-status]");
-  if (!quickName || !quickPhone || !quickGoal || !quickStatus) return;
-
-  const getCleanPhone = (value) => String(value || "").replace(/\D/g, "");
-  const isValidPhone = (value) => {
-    const digits = getCleanPhone(value);
-    return digits.length >= 10 && digits.length <= 15;
-  };
-  const toWaPhone = (value) => {
-    const digits = getCleanPhone(value);
-    if (!digits) return "";
-    if (digits.length === 10) return `+1${digits}`;
-    if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
-    return `+${digits}`;
-  };
-  const setQuickStatus = (message, isError = false) => {
-    quickStatus.textContent = message;
-    quickStatus.classList.toggle("is-error", Boolean(isError));
-    if (!message) quickStatus.classList.remove("is-error");
-  };
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const name = String(quickName.value || "un interesado").trim();
-    const phone = String(quickPhone.value || "").trim();
-    const goal = String(quickGoal.value || "ruta inicial").trim();
-
-    if (name.length < 2) {
-      setQuickStatus("Escribe tu nombre para personalizar el mensaje.", true);
-      quickName.focus();
-      return;
-    }
-
-    if (!isValidPhone(phone)) {
-      setQuickStatus("Tu número debe tener al menos 10 dígitos. Ejemplo: +1 555 000 0000.", true);
-      quickPhone.focus();
-      return;
-    }
-
-    const normalizedPhone = toWaPhone(phone);
-    const message = encodeURIComponent(
-      `Hola AiT USA Institute, soy ${name} y quiero una ruta inicial para ${goal}. Mi número de contacto es ${normalizedPhone || "el que me registran"}.`
-      + " Quiero clases, horarios y modalidad para empezar.",
-    );
-
-    setQuickStatus("Abriendo WhatsApp con tu mensaje listo para enviar…");
-    window.location.href = `${site.whatsappHref}?text=${message}`;
-  });
-};
-
-const initHeroBackground = () => {
-  const heroVideoBg = document.querySelector("[data-hero-bg-player]");
-  if (!heroVideoBg) return;
-
-  const heroVideoBgWrap = document.querySelector("[data-hero-bg-wrap]");
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (reduceMotion) {
-    heroVideoBgWrap?.classList.add("is-hidden");
-    return;
-  }
-
-  const heroVideoBgSource = heroVideoBg.querySelector("source");
-  if (!heroVideoBgSource) return;
-
-  let attempt = 0;
-  const setNextSource = () => {
-    if (attempt + 1 >= heroVideoSources.length) {
-      heroVideoBgWrap?.classList.add("is-hidden");
-      return false;
-    }
-
-    attempt += 1;
-    heroVideoBgSource.src = heroVideoSources[attempt];
-    heroVideoBg.load();
-    return true;
-  };
-
-  const onBgError = () => {
-    if (!setNextSource()) {
-      heroVideoBg.removeEventListener("error", onBgError);
-    }
-  };
-
-  heroVideoBg.addEventListener("error", onBgError);
-};
-
-const renderVariants = (variants = []) => {
-  if (!variants.length) return "";
-  const preview = variants.slice(0, 3);
-  const remaining = variants.length - preview.length;
-
-  return `<ul class="variant-list">${preview
-    .map((variant) => `<li><span>${variant.name}</span><strong>${variant.price}</strong></li>`)
-    .join("")}${remaining ? `<li><span>+ ${remaining} variantes más</span><strong>Ver opciones</strong></li>` : ""}</ul>`;
-};
-
-app.innerHTML = `
-  <a class="skip-link" href="#inicio">Saltar al contenido principal</a>
-  <header class="site-header" data-header>
-    <a class="brand" href="#inicio" aria-label="${site.name}">
-      <img src="${site.images.logo}" alt="" />
-      <span>
-        <strong>AiT USA</strong>
-        <small>Institute</small>
-      </span>
-    </a>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú">
-      <span class="menu-toggle__icon" aria-hidden="true"></span>
-      <span class="menu-toggle__label">Menú</span>
-    </button>
-      <nav id="site-nav" class="site-nav" aria-label="Principal">
-      ${nav
-        .map(
-          ([label, id], index) =>
-            `<a href="#${id}" data-nav-link="${id}" ${index === 0 ? 'aria-current="page"' : ""}>${label}</a>`,
-        )
-        .join("")}
-      </nav>
-    <a
-      class="header-cta"
-      href="#experiencia"
-      data-intent-action
-      data-intent="classSample"
-      aria-label="Ver videos reales antes de escribir por WhatsApp"
-    >Ver videos reales</a>
-  </header>
-
-    <main>
-      <section id="inicio" class="hero" style="--hero-image: url('${heroBackgroundImage}')">
-      <div class="hero__inner">
-        <div class="hero__content">
-          <p class="section-kicker">${site.tagline}</p>
-          <h1>${site.heroHeadline || site.name}</h1>
-          <p class="hero__lead">${site.heroLead || site.description}</p>
-          <div class="hero__actions">
-            <a
-              class="button button--primary"
-              href="#experiencia"
-              data-intent-action
-              data-intent="classSample"
-            >Ver videos reales</a>
-            <a
-              class="button button--ghost"
-              href="${site.whatsappHref}?text=${contactMessage}"
-              data-intent-action
-              data-intent="default"
-            >Hablar con un asesor</a>
-          </div>
-          <div class="hero__highlights" aria-label="Beneficios">
-            ${(site.heroHighlights || site.heroHighlight || [])
-              .map((copy) => `<span>${copy}</span>`)
-              .join("")}
-          </div>
-        </div>
-        <div class="hero__media">
-          ${heroMedia()}
-        </div>
-      </div>
-    </section>
-
-    <section class="stats-band" aria-label="Datos principales">
-      <div class="section-inner stats-grid">
-        ${stats
-          .map(
-            (stat) => `
-              <div>
-                <strong>${stat.value}</strong>
-                <span>${stat.label}</span>
-              </div>
-            `,
-          )
-          .join("")}
-      </div>
-    </section>
-
-    <section id="experiencia" class="section section--reel" aria-labelledby="reel-title">
-      <div class="section-inner reel-header">
-        <div class="reel-copy">
-          <p class="section-kicker">Método Graphic Concept</p>
-          <h2 id="reel-title">Tres características que hacen distinta la experiencia.</h2>
-          <p>
-            El valor de AiT USA no está solo en ofrecer clases; está en cómo ordena el aprendizaje para que el
-            estudiante entienda qué practicar, cómo corregirse y cómo sostener el avance.
-          </p>
-          <a class="button button--primary" href="#horarios">Ver horarios</a>
-        </div>
-        <div class="reel-summary" aria-label="Resumen del método">
-          <strong>GC</strong>
-          <span>Ruta visual, práctica corregida y seguimiento para avanzar con menos dudas.</span>
-        </div>
-      </div>
-      <div class="section-inner method-characteristics" aria-label="Tres características del método">
-        ${methodCharacteristics
-          .map(
-            (item) => `
-              <article class="method-characteristic" data-watermark="${item.number}">
-                <span class="method-characteristic__number">${item.number}</span>
-                <p class="method-characteristic__eyebrow">${item.eyebrow}</p>
-                <h3>${item.title}</h3>
-                <p>${item.description}</p>
-                <strong>${item.proof}</strong>
-              </article>
-            `,
-          )
-          .join("")}
-      </div>
-      <div class="section-inner active-video-proof">
-        <div class="active-video-proof__copy">
-          <p class="section-kicker">Videos activos</p>
-          <h3>Los clips visibles respaldan la propuesta con ejemplos reales.</h3>
-          <p>
-            Mira el diferenciador y la continuidad del método en clips breves antes de elegir curso, formato u horario.
-          </p>
-        </div>
-        <div class="instructor-reel" aria-label="Videos activos sobre el método y características de AiT USA">
-          ${instructorClips
-        .map(
-            (clip, index) => `
-                <article class="clip-card clip-card--${index + 1}">
-                  <div class="clip-card__media">
-                    ${clipMedia(clip)}
-                    ${clip.video ? "" : `<span class="clip-card__play" aria-hidden="true">${playIcon}</span>`}
-                    <span class="clip-card__duration">${clip.duration}</span>
-                    <span class="clip-card__scan" aria-hidden="true"></span>
-                  </div>
-                  <div class="clip-card__body">
-                    <span>${clip.eyebrow}</span>
-                    <h3>${clip.title}</h3>
-                    <p>${clip.caption}</p>
-                    <div class="clip-card__progress" aria-hidden="true"><i></i></div>
-                  </div>
-                </article>
-              `,
-            )
-            .join("")}
-        </div>
-      </div>
-    </section>
-
-    <section id="cursos" class="section section--soft" aria-labelledby="cursos-title">
-      <div class="section-inner section-heading">
-        <p class="section-kicker">Cursos</p>
-        <h2 id="cursos-title">Elige una ruta sin leer una página interminable.</h2>
-        <p>Filtra por objetivo, revisa el encaje rápido y abre el detalle completo solo del curso que te interesa.</p>
-      </div>
-      <div class="section-inner filter-bar" role="group" aria-label="Filtrar cursos">
-        ${initials
-          .map(
-            (label, index) => `
-              <button class="filter-button" type="button" data-filter="${categoryLabel[label]}" aria-pressed="${index === 0 ? "true" : "false"}">
-                <span class="filter-button__label" data-base-label="${label}">${label}</span>
-                <span class="filter-button__count">${programCounts[categoryLabel[label]]}</span>
-              </button>
-            `,
-          )
-          .join("")}
-        <button class="filter-button filter-button--reset" type="button" data-clear-filters>Limpiar filtros</button>
-      </div>
-      <p class="section-inner course-count" data-course-count aria-live="polite">Mostrando ${programs.length} programas.</p>
-      <div class="section-inner program-grid" data-program-grid>
-        ${programs
-          .map(
-            (program, index) => `
-              <article class="program-card ${index === 0 ? "program-card--featured" : ""}" data-category="${program.category}">
-                <div class="program-card__media">
-                  <img src="${program.image}" alt="${program.imageAlt}" loading="eager" decoding="async" />
-                  <span class="program-card__badge">${program.mode}</span>
-                </div>
-                <div class="program-card__body">
-                  <p class="program-card__eyebrow">${program.audience}</p>
-                  <h3>${program.title}</h3>
-                  <p class="program-card__best-for">${program.bestFor}</p>
-                  <p class="program-card__fit">${program.fit}</p>
-                  <div class="program-card__footer">
-                    <a class="program-card__cta" href="${coursePath(program)}" data-course-detail-link="${program.slug}">Ver detalles</a>
-                    <a class="program-card__cta program-card__cta--secondary" href="${site.whatsappHref}?text=${programInquiryMessage(program)}">${program.cta || "Hablar de esta ruta"}</a>
-                  </div>
-                </div>
-              </article>
-            `,
-          )
-          .join("")}
-      </div>
-      ${
-        getCurrentCourse()
-          ? `<div class="section-inner course-detail-stack" aria-label="Detalles completos de cursos">
-              <div class="course-detail-stack__intro">
-                <span>Detalle del curso</span>
-                <h3>Información completa antes de contactar.</h3>
-                <p>Metodología, niveles, horarios, duración y próximos pasos del curso seleccionado.</p>
-              </div>
-              ${programs.map(courseDetailMarkup).join("")}
-            </div>`
-          : ""
-      }
-    </section>
-
-    <section id="horarios" class="section section--white" aria-labelledby="horarios-title">
-          <div class="section-inner split split--center">
-            <div>
-              <p class="section-kicker">Horarios y modalidad</p>
-              <h2 id="horarios-title">Selecciona tu horario ideal en 30 segundos.</h2>
-              <p class="section-kicker">Filtra por horario y combina modalidad con disponibilidad real.</p>
-              <div class="schedule-intro">
-                <article>
-                  <strong>Flexible</strong>
-                  <span>Turnos de mañana, noche, sábado y domingo.</span>
-                </article>
-                <article>
-                  <strong>Guiado</strong>
-                  <span>Te ayudamos a escoger el horario con mejor continuidad.</span>
-                </article>
-                <article>
-                  <strong>Ritmo</strong>
-                  <span>Todas las clases son de 60 o 90 minutos según el horario.</span>
-                </article>
-              </div>
-              <div class="modality-grid">
-                ${modalities
-              .map(
-                (mode) => `
-                  <article>
-                    <h3>${mode.title}</h3>
-                    <p>${mode.text}</p>
-                  </article>
-                `,
-              )
-              .join("")}
-          </div>
-          <div class="schedule-filter-bar" data-schedule-filter-bar aria-label="Filtrar horarios por momento del día">
-            <button class="schedule-filter-button is-active" type="button" data-schedule-filter="todos" aria-pressed="true">Todos</button>
-            <button class="schedule-filter-button" type="button" data-schedule-filter="mañana" aria-pressed="false">Mañana</button>
-            <button class="schedule-filter-button" type="button" data-schedule-filter="noche" aria-pressed="false">Noche</button>
-            <button class="schedule-filter-button" type="button" data-schedule-filter="fin-de-semana" aria-pressed="false">Fin de semana</button>
-          </div>
-          <p class="schedule-count" data-schedule-count aria-live="polite">Mostrando ${schedules.length} opciones de horario.</p>
-        </div>
-        <div class="schedule-panel">
-          ${schedules
-            .map(
-              (schedule) => `
-                <article class="schedule-card" data-schedule-profile="${schedule.timeProfile}">
-                  ${schedule.badge ? `<p class="schedule-card__badge">${schedule.badge}</p>` : ""}
-                  <h3>${schedule.label}</h3>
-                  <p>${schedule.bestFor}</p>
-                  <p class="schedule-card__meta">${schedule.duration} · ${schedule.availability}</p>
-                  <div class="schedule-chip-list">${schedule.times
-                    .map((time) => `<span>${time}</span>`)
-                    .join("")}</div>
-                  ${schedule.commitment ? `<p class="schedule-card__commitment">${schedule.commitment}</p>` : ""}
-                  <a
-                    class="schedule-card__cta button button--ghost"
-                    href="${site.whatsappHref}?text=${encodeURIComponent(`Hola AiT USA Institute, quiero más información sobre el horario de ${schedule.label.toLowerCase()}. ${schedule.whatsappHint}`)}"
-                  >
-                    ${schedule.cta || "Quiero este horario"}
-                  </a>
-                </article>
-              `,
-            )
-            .join("")}
-        </div>
-      </div>
-    </section>
-
-    <section id="sedes" class="section section--soft" aria-labelledby="sedes-title">
-      <div class="section-inner section-heading">
-        <p class="section-kicker">Contacto y sedes</p>
-        <h2 id="sedes-title">Encuentra tu sede o estudia online sin dar vueltas.</h2>
-        <p>Opciones presenciales y remotas para aprender con la flexibilidad que tu calendario necesita, y ayuda directa para elegir la mejor.</p>
-      </div>
-      <div class="section-inner location-grid">
-        ${locations
-          .map(
-            (location) => `
-              <article class="location-card">
-                <h3>${location.city}</h3>
-                <p>${location.address}</p>
-                <p class="location-card__best-for">${location.bestFor}</p>
-                <p class="location-card__highlight">${location.highlight}</p>
-                <span>${location.note}</span>
-                <div class="location-card__actions">
-                  <a href="${site.whatsappHref}?text=${encodeURIComponent(`Hola AiT USA Institute, quiero información sobre ${location.city}.`)}">${location.cta}</a>
-                </div>
-              </article>
-            `,
-          )
-          .join("")}
-      </div>
-      <div class="section-inner books-cta">
-        <div>
-          <p class="section-kicker">¿No sabes cuál sede te conviene?</p>
-          <h3>Te ayudamos a comparar ubicación, horario y modalidad antes de elegir.</h3>
-          <p>Escríbenos y te orientamos con la opción más práctica según tu zona, tu rutina y tu forma de estudiar.</p>
-        </div>
-        <div class="books-cta__actions">
-          <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Pedir orientación</a>
-          <a class="button button--ghost" href="#horarios">Ver horarios</a>
-        </div>
-      </div>
-      <div class="section-inner contact-strip">
-        <a href="${site.phoneHref}">${site.phone}</a>
-        <a href="${site.whatsappHref}?text=${contactMessage}">WhatsApp ${site.whatsapp}</a>
-        <a href="${site.facebookHref}" target="_blank" rel="noreferrer">Facebook</a>
-      </div>
-    </section>
-
-    <section id="about" class="section section--white" aria-labelledby="about-title">
-      <div class="section-inner about-grid">
-        <div class="about-copy">
-          <p class="section-kicker">Quiénes somos</p>
-          <h2 id="about-title">Una escuela de Nueva Jersey enfocada en inglés práctico y resultados visibles.</h2>
-          <p>
-            Con más de 20 años de experiencia, acompañamos a estudiantes en Estados Unidos y en línea con una metodología
-            visual, práctica y orientada a conversación real para avanzar con confianza desde el inicio.
-          </p>
-          <div class="about-note">
-            <strong>Lo que cambia desde la primera semana</strong>
-            <p>
-              Dejamos la teoría suelta y pasamos a práctica guiada para que avances con menos incertidumbre, más continuidad
-              y criterio para decidir si esta modalidad es la correcta para ti.
-            </p>
-          </div>
-          <a class="button button--primary" href="#cursos">Explorar cursos</a>
-        </div>
-        <div class="outcome-grid" aria-label="Resultados que ofrece el método">
-          ${learningOutcomes
-            .map(
-              (item, index) => `
-                <article class="outcome-card outcome-card--${index + 1}">
-                  <span>${String(index + 1).padStart(2, "0")}</span>
-                  <h3>${item.title}</h3>
-                  <p>${item.text}</p>
-                </article>
-              `,
-            )
-            .join("")}
-        </div>
-        <p class="reel-note">El primer clip muestra la clase más completa; los demás acercan diferentes ritmos de acompañamiento y conversación.</p>
-      </div>
-    </section>
-
-    <section class="section section--blue" aria-labelledby="testimonios-title">
-      <div class="section-inner section-heading section-heading--inverted">
-        <p class="section-kicker">Prueba social y equipo</p>
-        <h2 id="testimonios-title">Antes de inscribirte, valida que este método realmente te encaje.</h2>
-        <p>
-          Revisamos experiencia real, no promesas. Aquí ves clases visibles, corrección en vivo y una ruta concreta para
-          decidir con evidencia y avanzar con más claridad.
-        </p>
-      </div>
-      <div class="section-inner trust-strip" aria-label="Puntos clave del servicio">
-        ${trustHighlights
-          .map(
-            (item) => `
-              <article>
-                <strong>${item.title}</strong>
-                <span>${item.text}</span>
-              </article>
-            `,
-          )
-          .join("")}
-      </div>
-      <div class="section-inner trust-grid">
-        <div class="trust-panel">
-          <div class="trust-feature-grid" aria-label="Momentos reales de clase">
-            ${trustFeature
-              .map(
-                (feature, index) => `
-                  <article class="trust-feature-card ${index === 0 ? "trust-feature-card--featured" : ""}">
-                    <img src="${feature.image}" alt="${feature.imageAlt}" loading="lazy" />
-                    <div class="trust-feature-card__overlay">
-                      <p class="section-kicker">Lo que ves en clase</p>
-                      <h3>${feature.title}</h3>
-                      <p>${feature.copy}</p>
-                      <div class="trust-feature-card__chips" aria-label="Detalle de la experiencia">
-                        ${feature.chips.map((chip) => `<span>${chip}</span>`).join("")}
-                      </div>
+                  <article class="solution-card card">
+                    <div class="solution-card__media">
+                      <video class="clip-card__media-player" controls playsinline preload="metadata" poster="${asset(item.videoPoster)}">
+                        <source src="${asset(item.video)}" type="video/mp4" />
+                      </video>
+                    </div>
+                    <div class="solution-card__copy">
+                      <p class="eyebrow-chip">${escapeHtml(item.label)}</p>
+                      <h3>${escapeHtml(item.title)}</h3>
+                      <p>${escapeHtml(item.body)}</p>
+                      <p class="proof-line">${escapeHtml(item.proof)}</p>
                     </div>
                   </article>
                 `,
               )
               .join("")}
           </div>
-          <div class="trust-metrics" aria-label="Datos de confianza">
-            <article>
-              <strong>20+</strong>
-              <span>años enseñando en New Jersey</span>
-            </article>
-            <article>
-              <strong>1:1</strong>
-              <span>seguimiento y orientación por WhatsApp</span>
-            </article>
-            <article>
-              <strong>3</strong>
-              <span>formatos para aprender con flexibilidad</span>
-            </article>
+        </div>
+      </section>
+    `;
+  }
+
+  function renderOfferingsSection(includeCatalogPreview) {
+    return `
+      <section class="section section--soft" id="cursos">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="section-kicker">Oferta principal</p>
+            <h2>Empieza por ingles presencial y luego compara el formato que mejor encaja contigo.</h2>
+            <p>La portada resume las rutas. El detalle completo esta en la pagina de cursos y en cada ficha desplegable.</p>
           </div>
-          <div class="trust-copy">
-            <p class="section-kicker">Nuestro equipo</p>
-            <h3>Personas reales detrás de la clase.</h3>
-            <div class="teacher-grid" aria-label="Instructoras de AiT USA">
-              ${teachers
-                .map(
-                  (teacher) => `
-                    <a
-                      class="teacher-card"
-                      href="${teacher.href || "#contacto"}"
-                      data-intent-card
-                      data-intent="${teacher.intent || "default"}"
-                      aria-label="${teacher.name}"
-                    >
-                      <img src="${teacher.image}" alt="${teacher.imageAlt}" loading="lazy" />
-                      <div class="teacher-card__body">
-                        <span class="teacher-card__badge">${teacher.badge}</span>
-                        <p class="teacher-card__name">${teacher.name}</p>
-                        <p class="teacher-card__role">${teacher.role}</p>
-                        <p class="teacher-card__description">${teacher.description}</p>
-                      </div>
-                    </a>
-                  `,
-                )
-                .join("")}
-            </div>
+          <div class="offering-grid">
+            ${productOfferings.map(renderOfferingCard).join("")}
           </div>
-          <div class="trust-actions">
-            <a class="button button--primary" href="#experiencia">Ver videos reales</a>
-            <a class="button button--ghost" href="${site.whatsappHref}?text=${contactMessage}">Hablar con un asesor</a>
+          <div class="catalog-links">
+            <a class="button button--primary" href="/courses/">Ver cursos detallados</a>
+            <a class="button button--ghost" href="/placement-test/">Hacer examen de ubicacion</a>
           </div>
         </div>
-        <div class="testimonial-grid">
-          ${testimonials
+        ${includeCatalogPreview ? renderCatalogPreview() : ""}
+      </section>
+    `;
+  }
+
+  function renderCatalogPreview() {
+    return `
+      <div class="section-inner catalog-preview">
+        <div class="section-heading compact">
+          <p class="section-kicker">Vista rapida del catalogo</p>
+          <h2>Explora por objetivo antes de entrar al detalle.</h2>
+        </div>
+        ${renderFilterBar()}
+        <p class="course-count" data-course-count>Mostrando ${programs.length} programas.</p>
+        <div class="program-grid">
+          ${programs.map((program) => renderProgramCard(program, false)).join("")}
+        </div>
+        <div class="course-detail-stack">
+          ${programs.map((program) => renderCourseDetail(program, selectedProgram?.slug === program.slug)).join("")}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderLocationsSection() {
+    return `
+      <section class="section section--white" id="sedes">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="section-kicker">Sedes y alcance</p>
+            <h2 id="sedes-title">Estudia en Nueva Jersey o avanza desde donde estes con opcion online.</h2>
+            <p>North Plainfield aparece solo como referencia pendiente hasta confirmar direccion y operacion final.</p>
+          </div>
+          <div class="location-grid">
+            ${locations.map(renderLocationCard).join("")}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  function renderProofSection() {
+    const featured = testimonials[0];
+    const rest = testimonials.slice(1);
+
+    return `
+      <section class="section section--blue" id="experiencia">
+        <div class="section-inner">
+          <div class="section-heading section-heading--inverted">
+            <p class="section-kicker">Prueba real</p>
+            <h2>Antes de decidir, mira como hablan los estudiantes de su experiencia.</h2>
+            <p>Clases reales. Estudiantes reales. Ruta real para empezar.</p>
+          </div>
+          ${featured ? `
+            <article class="proof-feature card card--dark">
+              <div class="proof-feature__media">
+                <video class="testimonial-card__video" controls playsinline preload="metadata" poster="${asset(featured.videoPoster || featured.image)}">
+                  <source src="${asset(featured.video)}" type="video/mp4" />
+                </video>
+              </div>
+              <div class="proof-feature__copy">
+                <p class="eyebrow-chip">Testimonio destacado</p>
+                <h3>${escapeHtml(featured.name)}</h3>
+                <p>${escapeHtml(featured.text)}</p>
+                <p class="proof-line">${escapeHtml(featured.result)} · ${escapeHtml(featured.duration || "")}</p>
+              </div>
+            </article>
+          ` : ""}
+          <div class="testimonial-grid">
+            ${rest.map(renderTestimonialCard).join("")}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  function renderFinalCtaSection() {
+    return `
+      <section class="section section--white" id="contacto">
+        <div class="section-inner final-cta-layout">
+          <div class="final-cta-copy">
+            <div class="section-heading">
+              <p class="section-kicker">Siguiente paso</p>
+              <h2 id="contacto-title">No tienes que decidir todo hoy. Solo elige tu siguiente paso y te orientamos desde ahi.</h2>
+              <p>La oferta de inscripcion + libro por $95 es una invitacion a contactar al equipo. No procesa pagos en linea en esta version.</p>
+            </div>
+            <div class="cta-stack">
+              ${renderCtaBox("Empieza con inscripcion + libro por $95", conversionCtas.registration?.description, conversionCtas.registration?.href, conversionCtas.registration?.label, true)}
+              ${renderCtaBox("Haz tu examen de ubicacion", conversionCtas.placement?.description, conversionCtas.placement?.href, conversionCtas.placement?.label)}
+              ${renderCtaBox("Revisa cursos con mas detalle", conversionCtas.courses?.description, conversionCtas.courses?.href, conversionCtas.courses?.label)}
+            </div>
+          </div>
+
+          <div class="contact-card card">
+            <h3>Prefieres hablar con alguien primero?</h3>
+            <p>Completa este formulario breve y preparamos un mensaje de WhatsApp con tu interes principal.</p>
+            <form class="lead-form" data-lead-form>
+              <div class="form-grid">
+                <label>
+                  Nombre
+                  <input name="nombre" type="text" required />
+                </label>
+                <label>
+                  Apellido
+                  <input name="apellido" type="text" required />
+                </label>
+                <label>
+                  Email
+                  <input name="email" type="email" required />
+                </label>
+                <label>
+                  Telefono
+                  <input name="telefono" type="tel" required />
+                </label>
+                <label>
+                  Interes
+                  <select name="interes">
+                    <option value="Ingles">Ingles</option>
+                    <option value="Ninos">Ninos</option>
+                    <option value="GED">GED</option>
+                    <option value="Computacion">Computacion</option>
+                    <option value="Otro">Otro</option>
+                  </select>
+                </label>
+                <label>
+                  Para
+                  <select name="para">
+                    <option value="Para mi">Para mi</option>
+                    <option value="Para mi hijo o hija">Para mi hijo o hija</option>
+                    <option value="Para otra persona">Para otra persona</option>
+                  </select>
+                </label>
+                <label class="form-grid__full">
+                  Ubicacion
+                  <input name="ubicacion" type="text" placeholder="Ciudad / Estado o pais" />
+                </label>
+              </div>
+              <button class="button button--primary" type="submit">Hablar con un asesor</button>
+              <p class="form-status" data-form-status aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  function renderCourseCatalogSection() {
+    return `
+      <section class="section section--soft" id="catalogo-detallado">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="section-kicker">Catalogo completo</p>
+            <h2>Compara formato, audiencia, horarios y metas antes de escribir.</h2>
+            <p>La portada te orienta; aqui ves el detalle por programa y las fichas completas que puedes compartir o revisar con un asesor.</p>
+          </div>
+          ${renderFilterBar()}
+          <p class="course-count" data-course-count>Mostrando ${programs.length} programas.</p>
+          ${courseCatalog
             .map(
-              (item, index) => `
-                <article class="testimonial-card ${index === 0 ? "testimonial-card--featured" : ""}">
-                  <div class="testimonial-card__media">
-                    ${
-                      item.video
-                        ? `<video
-                            src="${item.video}"
-                            poster="${item.videoPoster || item.image}"
-                            preload="none"
-                            controls
-                            playsinline
-                            aria-label="${item.result}: ${item.name}"
-                          ></video>`
-                        : `<img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />`
-                    }
-                    ${item.duration ? `<span class="testimonial-card__duration">${item.duration}</span>` : ""}
+              (group) => `
+                <section class="catalog-group" id="${escapeHtml(group.anchor)}">
+                  <div class="catalog-group__heading">
+                    <h3>${escapeHtml(group.title)}</h3>
+                    <p>${escapeHtml(group.description)}</p>
                   </div>
-                  <div class="testimonial-card__body">
-                    <p class="testimonial-card__eyebrow">${item.result}</p>
-                    <p class="testimonial-card__quote">${item.text}</p>
-                    <strong>${item.name}</strong>
+                  <div class="program-grid">
+                    ${group.programs
+                      .map((slug) => programs.find((program) => program.slug === slug))
+                      .filter(Boolean)
+                      .map((program) => renderProgramCard(program, true))
+                      .join("")}
                   </div>
-                </article>
+                </section>
               `,
             )
             .join("")}
-        </div>
-      </div>
-    </section>
-
-      <section id="faq" class="section section--white" aria-labelledby="faq-title">
-        <div class="section-inner section-heading">
-          <p class="section-kicker">Preguntas frecuentes</p>
-          <h2 id="faq-title">Resolvemos tus dudas para que avances con velocidad.</h2>
-          <p>Antes de decidir, te mostramos las respuestas que más definen si esta ruta encaja con tu rutina y tus metas.</p>
-        </div>
-        <div class="section-inner faq-intro">
-          <article class="faq-callout">
-            <p class="section-kicker">Antes de empezar</p>
-            <h3>Qué pasa después de enviar el formulario</h3>
-            <ol>
-            <li>Te contactamos por WhatsApp y confirmamos tu objetivo.</li>
-            <li>Revisamos nivel, horario y modalidad recomendada.</li>
-            <li>Te compartimos la ruta inicial para comenzar sin demora.</li>
-          </ol>
-        </article>
-        <article class="faq-callout faq-callout--accent">
-          <p class="section-kicker">Respuesta rápida</p>
-          <h3>Si quieres ver la clase primero</h3>
-          <p>Empieza por el video real de la experiencia y luego escríbenos por WhatsApp o llama para validar disponibilidad, horarios y el mejor punto de inicio.</p>
-            <a class="button button--ghost" href="#experiencia">Ver videos reales</a>
-            <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Escribir por WhatsApp</a>
-          </article>
-        </div>
-        ${faqShortcuts()}
-        <div class="section-inner faq-list">
-        ${faqs
-          .map(
-            (faq, index) => `
-            <details id="pregunta-${index + 1}" class="faq-item" ${index === 0 ? "open" : ""}>
-                <summary>${faq.question}</summary>
-                <p>${faq.answer}</p>
-                ${faq.outcome ? `<p class="faq-item__outcome"><strong>Resultado:</strong> ${faq.outcome}</p>` : ""}
-                <a class="faq-link" href="${
-                  faq.cta === "Ver videos reales" || faq.cta === "Ver clase real"
-                    ? "#experiencia"
-                    : faq.cta === "Ver horarios"
-                      ? "#horarios"
-                      : faq.cta === "Ver libro"
-                        ? "#contacto"
-                        : faq.cta === "Pedir orientación"
-                          ? `${site.whatsappHref}?text=${contactMessage}`
-                          : "#contacto"
-                }">${faq.cta}</a>
-              </details>
-            `, 
-          )
-          .join("")}
-      </div>
-    </section>
-
-    <section id="contacto" class="section section--contact" aria-labelledby="contacto-title">
-      <div class="section-inner contact-grid">
-        <div>
-          <p class="section-kicker">Comienza ahora</p>
-          <h2 id="contacto-title">Cuéntanos tu meta y armamos tu ruta inicial en minutos.</h2>
-          <p>
-            Completa el formulario y en pocos minutos te proponemos nivel, horario y formato ideal para empezar sin fricción.
-            Si prefieres, primero mira los videos reales y luego te ayudamos a avanzar con una decisión mucho más precisa.
-          </p>
-          <p class="contact-quick-intent__label">Elige tu prioridad y te preparamos el mensaje inicial exacto:</p>
-          <div class="contact-quick-intent" role="group" aria-label="Prioridad para iniciar">
-            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="classSample">Videos reales primero</button>
-            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="scheduleFlex">Horario para empezar</button>
-            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="familySupport">Ruta familiar</button>
-            <button class="contact-quick-intent__chip" type="button" data-contact-intent-quick="default">Aún no decido</button>
+          <div class="course-detail-stack">
+            ${programs.map((program) => renderCourseDetail(program, selectedProgram?.slug === program.slug)).join("")}
           </div>
-          <div class="contact-trust" aria-label="Compromisos de atención">
-            <article>
-              <strong>⚡</strong>
-              <span><strong>Respuesta rápida:</strong> normalmente en menos de 2 horas hábiles.</span>
-            </article>
-            <article>
-              <strong>🎯</strong>
-              <span><strong>Plan personalizado:</strong> no te mandamos un mensaje genérico.</span>
-            </article>
-            <article>
-              <strong>✅</strong>
-              <span><strong>Sin presión:</strong> solo pasos concretos para empezar.</span>
-            </article>
+        </div>
+      </section>
+    `;
+  }
+
+  function renderFaqSection() {
+    return `
+      <section class="section section--white">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="section-kicker">Preguntas frecuentes</p>
+            <h2>Resuelve dudas antes de hablar con el equipo.</h2>
           </div>
-          <div class="contact-prep" aria-label="Qué conviene tener listo antes de enviar el formulario">
-            ${contactPrep
+          <div class="faq-list">
+            ${faqs
               .map(
-                (item) => `
-                  <article>
-                    <strong>${item.title}</strong>
-                    <span>${item.text}</span>
-                  </article>
+                (faq) => `
+                  <details>
+                    <summary>${escapeHtml(faq.question)}</summary>
+                    <p>${escapeHtml(faq.answer)}</p>
+                    <p class="proof-line">${escapeHtml(faq.outcome || "")}</p>
+                  </details>
                 `,
               )
               .join("")}
           </div>
-          <div class="contact-steps" aria-label="Qué sucede al enviar el formulario">
-            <article>
-              <strong>1</strong>
-              <span>Te respondemos con una ruta clara.</span>
-            </article>
-            <article>
-              <strong>2</strong>
-              <span>Ajustamos horario, nivel y modalidad.</span>
-            </article>
-            <article>
-              <strong>3</strong>
-              <span>Empiezas con el plan de arranque.</span>
-            </article>
-          </div>
-          <div class="contact-intent" data-contact-intent-panel>
-            <p class="contact-intent__title" data-contact-intent-title>Ruta sugerida: conversación inicial</p>
-            <p class="contact-intent__copy" data-contact-intent-copy>Te ayudamos a definir con claridad tu objetivo, tiempo disponible y formato ideal antes de avanzar.</p>
-            <a
-              class="button button--ghost"
-              href="${site.whatsappHref}?text=${contactMessage}"
-              data-contact-intent-action
-              aria-label="Continuar por WhatsApp: Ruta sugerida"
-            >Ver opciones y empezar ruta inicial</a>
-          </div>
-          <div class="direct-contact">
-            <a href="${site.phoneHref}">${site.phone}</a>
-            <a href="${site.whatsappHref}?text=${contactMessage}">${site.whatsapp}</a>
-            <a href="${site.forms.registration}" target="_blank" rel="noreferrer">Ver formulario oficial</a>
-          </div>
-          <p>Primero validamos tu nivel, horario y modalidad; después confirmamos tu punto de arranque más adecuado.</p>
-          <p>Mientras completas el formulario, el botón de WhatsApp se adapta con tus datos para que enviar la información sea más rápido y claro.</p>
         </div>
-        <form class="lead-form" data-lead-form>
-          <div class="lead-form__media">
-            <img src="${site.images.contact}" alt="${site.images.contactAlt || site.seoImageAlt}" loading="lazy" />
-            <div class="lead-form__media-copy">
-              <p class="section-kicker">Tu guía en la ruta</p>
-              <h3>Una conversación real para empezar con más confianza.</h3>
-              <p>Mira quién te acompaña y cuéntanos tu meta. Te devolvemos una ruta clara, sin mensajes genéricos.</p>
-            </div>
+      </section>
+    `;
+  }
+
+  function renderFooter() {
+    return `
+      <footer class="site-footer">
+        <div class="section-inner site-footer__grid">
+          <div>
+            <a class="site-footer__logo" href="/">
+              <img src="${asset(site.images.logo)}" alt="Logo de AiT USA Institute" />
+              <span>
+                <strong>${escapeHtml(site.name || "AiT USA Institute")}</strong>
+                <small>${escapeHtml(site.legal || "")}</small>
+              </span>
+            </a>
+            <p>Ingles presencial, hibrido y online con metodo visual, practica guiada y orientacion para elegir tu siguiente paso.</p>
           </div>
-          <p class="form-required-note">Campos obligatorios: nombre, apellido, teléfono y ciudad.</p>
-          <div class="form-row">
-            <label>Nombre <input name="nombre" autocomplete="given-name" placeholder="Tu nombre" required /></label>
-            <label>Apellido <input name="apellido" autocomplete="family-name" placeholder="Tu apellido" required /></label>
+          <div>
+            <h3>Rutas</h3>
+            <a href="/courses/">Cursos detallados</a>
+            <a href="/placement-test/">Examen de ubicacion</a>
+            <a href="${conversionCtas.registration?.href || site.whatsappHref}" target="_blank" rel="noreferrer">Inscripcion + libro $95</a>
           </div>
-          <label>Email (opcional) <input name="email" type="email" autocomplete="email" placeholder="tucorreo@ejemplo.com" /></label>
-          <div class="form-row">
-            <label>Para quién es
-              <select name="para">
-                <option>Para mí</option>
-                <option>Para mi hijo/a</option>
-                <option>Para otra persona</option>
+          <div>
+            <h3>Contacto</h3>
+            <a href="${site.phoneHref}">${escapeHtml(site.phone)}</a>
+            <a href="${site.whatsappHref}" target="_blank" rel="noreferrer">${escapeHtml(site.whatsapp)}</a>
+            <a href="${site.emailHref}">${escapeHtml(site.email)}</a>
+          </div>
+        </div>
+      </footer>
+    `;
+  }
+
+  function renderOfferingCard(item) {
+    return `
+      <article class="offering-card card offering-card--${escapeHtml(item.emphasis || "secondary")}">
+        <img src="${asset(item.image)}" alt="${escapeHtml(item.imageAlt)}" />
+        <div class="offering-card__body">
+          <p class="eyebrow-chip">${escapeHtml(item.badge || "")}</p>
+          <h3>${escapeHtml(item.title)}</h3>
+          <p>${escapeHtml(item.summary)}</p>
+          <ul>
+            ${item.details.map((detail) => `<li>${escapeHtml(detail)}</li>`).join("")}
+          </ul>
+          <a class="button ${item.emphasis === "primary" ? "button--primary" : "button--ghost"}" href="${item.href}">${escapeHtml(item.cta)}</a>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderProgramCard(program, directRouteLink) {
+    const href = directRouteLink ? `/courses/${program.slug}/` : `#detalle-${program.slug}`;
+    const buttonLabel = directRouteLink ? "Abrir ficha completa" : "Ver resumen rapido";
+
+    return `
+      <article class="program-card" data-category="${escapeHtml(program.category)}">
+        <img src="${asset(program.image)}" alt="${escapeHtml(program.imageAlt)}" />
+        <div class="program-card__body">
+          <p class="eyebrow-chip">${escapeHtml(program.mode)}</p>
+          <h3>${escapeHtml(program.title)}</h3>
+          <p>${escapeHtml(program.summary)}</p>
+          <dl class="program-meta">
+            <div><dt>Ideal para</dt><dd>${escapeHtml(program.bestFor)}</dd></div>
+            <div><dt>Audiencia</dt><dd>${escapeHtml(program.audience)}</dd></div>
+          </dl>
+          <div class="button-row">
+            <a class="button button--primary" href="${href}" data-course-detail-link="${escapeHtml(program.slug)}">${buttonLabel}</a>
+            <a class="button button--ghost" href="/placement-test/">Ver mi nivel</a>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderCourseDetail(program, isOpen) {
+    const sections = program.courseDetail?.sections || [];
+    const schedule = program.courseDetail?.schedule || [];
+    return `
+      <details class="course-detail" id="detalle-${program.slug}" data-course-detail="${escapeHtml(program.slug)}" ${isOpen ? "open" : ""}>
+        <summary>
+          <span>${escapeHtml(program.title)}</span>
+          <span>${escapeHtml(program.mode)}</span>
+        </summary>
+        <div class="course-detail__content">
+          <p>${escapeHtml(program.courseDetail?.lead || program.summary)}</p>
+          <div class="course-detail__grid">
+            ${sections
+              .map(
+                (section) => `
+                  <section>
+                    <h4>${escapeHtml(section.title)}</h4>
+                    <ul>
+                      ${section.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+                    </ul>
+                  </section>
+                `,
+              )
+              .join("")}
+            <section>
+              <h4>Horarios y formato</h4>
+              <ul>
+                ${schedule.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+              </ul>
+            </section>
+          </div>
+          <p class="course-note">${escapeHtml(program.courseDetail?.note || "")}</p>
+          <div class="button-row">
+            <a class="button button--primary" href="/placement-test/">Hacer examen de ubicacion</a>
+            <a class="button button--ghost" href="${site.whatsappHref}" target="_blank" rel="noreferrer">Confirmar con un asesor</a>
+          </div>
+        </div>
+      </details>
+    `;
+  }
+
+  function renderLocationCard(location) {
+    const statusLabel = {
+      active: "Activa",
+      limited: "Confirmar disponibilidad",
+      online: "Online",
+      pending: "Pendiente / no activa",
+    };
+
+    return `
+      <article class="location-card card location-card--${escapeHtml(location.status || "active")}">
+        <p class="eyebrow-chip">${escapeHtml(statusLabel[location.status] || "Sede")}</p>
+        <h3>${escapeHtml(location.city)}</h3>
+        <p class="location-address">${escapeHtml(location.address)}</p>
+        <p>${escapeHtml(location.note)}</p>
+        <p class="proof-line">${escapeHtml(location.highlight)}</p>
+      </article>
+    `;
+  }
+
+  function renderTestimonialCard(item) {
+    return `
+      <article class="testimonial-card card">
+        <video controls playsinline preload="metadata" poster="${asset(item.videoPoster || item.image)}">
+          <source src="${asset(item.video)}" type="video/mp4" />
+        </video>
+        <div class="testimonial-card__body">
+          <h3>${escapeHtml(item.name)}</h3>
+          <p>${escapeHtml(item.text)}</p>
+          <p class="proof-line">${escapeHtml(item.result)} · ${escapeHtml(item.duration || "")}</p>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderCtaBox(title, body, href, label, external) {
+    return `
+      <article class="cta-box card">
+        <h3>${escapeHtml(title || "")}</h3>
+        <p>${escapeHtml(body || "")}</p>
+        <a class="button button--primary" href="${href || "#"}" ${external ? 'target="_blank" rel="noreferrer"' : ""}>${escapeHtml(label || "Continuar")}</a>
+      </article>
+    `;
+  }
+
+  function renderFilterBar() {
+    return `
+      <div class="filter-bar" role="group" aria-label="Filtrar cursos">
+        ${filters
+          .map(
+            (filter, index) => `
+              <button
+                class="filter-chip${index === 0 ? " is-active" : ""}"
+                type="button"
+                data-filter="${escapeHtml(filter.key)}"
+                aria-pressed="${index === 0 ? "true" : "false"}"
+              >
+                ${escapeHtml(filter.label)}
+              </button>
+            `,
+          )
+          .join("")}
+      </div>
+    `;
+  }
+
+  function renderPlacementStudentFields() {
+    return (placementTest.studentFields || [])
+      .map((field) => {
+        if (field.type === "select") {
+          return `
+            <label>
+              ${escapeHtml(field.label)}
+              <select name="${escapeHtml(field.name)}" ${field.required ? "required" : ""}>
+                <option value="">Selecciona una opcion</option>
+                ${field.options.map((option) => `<option value="${escapeHtml(option)}">${escapeHtml(option)}</option>`).join("")}
               </select>
             </label>
-            <label>Edad <input name="edad" inputmode="numeric" /></label>
-          </div>
-          <label>Curso de interés
-            <select name="interes">
-              <option ${initialCourseInterest === "No estoy seguro" ? "selected" : ""}>No estoy seguro</option>
-              <option ${initialCourseInterest === "Inglés" ? "selected" : ""}>Inglés</option>
-              <option ${initialCourseInterest === "Niños" ? "selected" : ""}>Niños</option>
-              <option ${initialCourseInterest === "Académico" ? "selected" : ""}>Académico</option>
-              <option ${initialCourseInterest === "Tecnología" ? "selected" : ""}>Tecnología</option>
-              <option ${initialCourseInterest === "Idiomas" ? "selected" : ""}>Idiomas</option>
-            </select>
+          `;
+        }
+
+        return `
+          <label>
+            ${escapeHtml(field.label)}
+            <input name="${escapeHtml(field.name)}" type="${escapeHtml(field.type)}" ${field.required ? "required" : ""} />
           </label>
-          <div class="form-row">
-            <label>Código país (+1) <input name="codigo" placeholder="+1" /></label>
-            <label>Teléfono <input name="telefono" type="tel" autocomplete="tel" placeholder="+1 555 000 0000" required /></label>
-          </div>
-          <label>País y ciudad <input name="ubicacion" placeholder="Ej. Miami, FL" required /></label>
-          <p class="form-field-note">Revisaremos tu consulta y te responderemos con una ruta recomendada por WhatsApp.</p>
-          <button class="button button--primary" type="submit">Quiero mi ruta inicial</button>
-          <p class="form-progress" role="status" aria-live="polite" data-form-progress></p>
-          <p class="form-status" role="status" data-form-status></p>
-          <a class="button button--ghost form-whatsapp" data-form-whatsapp href="${site.whatsappHref}?text=${contactMessage}">Continuar por WhatsApp</a>
-        </form>
-      </div>
-    </section>
-  </main>
-  
-  <div class="mobile-action-bar" aria-label="Acciones rápidas" data-mobile-action-bar>
-    <a
-      class="button button--ghost"
-      href="#experiencia"
-      data-intent-action
-      data-intent="classSample"
-      data-mobile-action
-      aria-label="Ver videos reales en el bloque de experiencia"
-    >Ver videos</a>
-    <a
-      class="button button--primary"
-      href="#contacto"
-      data-intent-action
-      data-intent="default"
-      data-mobile-action
-      data-mobile-target="#contacto"
-      aria-label="WhatsApp para empezar tu ruta de inglés hoy"
-    >Quiero mi ruta por WhatsApp</a>
-  </div>
-
-  <footer class="site-footer">
-    <div class="site-footer__brand">
-      <a class="site-footer__logo" href="#inicio" aria-label="${site.name}">
-        <img src="${site.images.logo}" alt="" />
-        <span>
-          <strong>${site.name}</strong>
-          <small>${site.legal}</small>
-        </span>
-      </a>
-      <p>Una experiencia web más clara, humana y enfocada en mostrar videos reales antes de dar el siguiente paso.</p>
-    </div>
-    <div class="site-footer__facts" aria-label="Resumen rápido">
-      ${footerFacts
-        .map(
-          (item) => `
-            <article>
-              <strong>${item.title}</strong>
-              <span>${item.text}</span>
-            </article>
-          `,
-        )
-        .join("")}
-    </div>
-    <div class="site-footer__directory">
-      <div class="site-footer__contact" aria-label="Contactos directos">
-        <span>Contacto directo</span>
-        <a href="${site.phoneHref}">${site.phone}</a>
-        <a href="${site.whatsappHref}?text=${contactMessage}">WhatsApp ${site.whatsapp}</a>
-        <a href="${site.emailHref}">info@aitusainstitute.com</a>
-      </div>
-      <nav class="site-footer__links" aria-label="Enlaces de pie de página">
-        <span>Explorar</span>
-        <a href="#inicio">Inicio</a>
-        <a href="#experiencia">Videos</a>
-        <a href="#cursos">Cursos</a>
-        <a href="#horarios">Horarios</a>
-        <a href="#faq">Preguntas frecuentes</a>
-      </nav>
-    </div>
-    <div class="site-footer__actions">
-      <a class="button button--primary" href="${site.whatsappHref}?text=${contactMessage}">Hablar por WhatsApp</a>
-      <a class="button button--ghost" href="#experiencia">Ver videos reales</a>
-    </div>
-    <p class="site-footer__fineprint">© ${site.founded} ${site.name}. Experiencia web renovada para mostrar videos reales, sedes, horarios y una ruta más clara antes de escribirnos.</p>
-  </footer>
-`;
-initHeroBackground();
-initHeroShowcase();
-initHeroPreviewCards();
-initHeroFallbacks();
-initHeroPlayButton();
-initHeroQuickCapture();
-initHeroQuickCaptureBridge();
-
-const menuToggle = document.querySelector(".menu-toggle");
-const navEl = document.querySelector(".site-nav");
-const navLinks = [...document.querySelectorAll("[data-nav-link]")];
-
-const setActiveNav = (id) => {
-  navLinks.forEach((link) => {
-    const isActive = link.dataset.navLink === id;
-    link.classList.toggle("is-active", isActive);
-    if (isActive) {
-      link.setAttribute("aria-current", "page");
-    } else {
-      link.removeAttribute("aria-current");
-    }
-  });
-};
-
-const initNavSpy = () => {
-  const sectionAnchors = navLinks
-    .map((link) => document.getElementById(link.dataset.navLink))
-    .filter(Boolean);
-
-  if (!sectionAnchors.length) return;
-  setActiveNav("inicio");
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const active = [...entries]
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!active?.target?.id) return;
-      setActiveNav(active.target.id);
-    },
-    { rootMargin: "-30% 0px -55% 0px", threshold: [0.2, 0.4, 0.6, 0.8] },
-  );
-
-  sectionAnchors.forEach((section) => {
-    observer.observe(section);
-  });
-};
-
-initNavSpy();
-initFaqAccordion();
-syncFaqSchema();
-  syncCoreSchemas();
-syncSeoHead();
-
-menuToggle.addEventListener("click", () => {
-  const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
-  const nextState = !isOpen;
-  menuToggle.setAttribute("aria-expanded", String(nextState));
-  menuToggle.setAttribute("aria-label", nextState ? "Cerrar menú" : "Abrir menú");
-  navEl.classList.toggle("is-open", nextState);
-  document.body.classList.toggle("menu-open", nextState);
-});
-
-window.addEventListener("keydown", (event) => {
-  if (event.key !== "Escape" || !navEl?.classList.contains("is-open")) {
-    return;
-  }
-  menuToggle.setAttribute("aria-expanded", "false");
-  menuToggle.setAttribute("aria-label", "Abrir menú");
-  navEl.classList.remove("is-open");
-  document.body.classList.remove("menu-open");
-});
-
-navEl.addEventListener("click", (event) => {
-  if (event.target instanceof HTMLAnchorElement) {
-    setActiveNav(event.target.dataset.navLink);
-    menuToggle.setAttribute("aria-expanded", "false");
-    menuToggle.setAttribute("aria-label", "Abrir menú");
-    navEl.classList.remove("is-open");
-    document.body.classList.remove("menu-open");
-  }
-});
-
-document.addEventListener("click", (event) => {
-  if (!(event.target instanceof Element)) return;
-  const link = event.target.closest('a[href^="#"]');
-  if (!link || link.matches("[data-intent-action], [data-course-detail-link]")) return;
-
-  const targetHash = link.getAttribute("href") || "";
-  const target = targetHash.length > 1 ? document.querySelector(targetHash) : null;
-  if (!target) return;
-
-  event.preventDefault();
-  target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
-  if (window.history?.pushState && window.location.hash !== targetHash) {
-    window.history.pushState({}, "", `${window.location.pathname}${window.location.search}${targetHash}`);
-  } else {
-    window.location.hash = targetHash;
-  }
-});
-
-const filterButtons = [...document.querySelectorAll(".filter-button[data-filter]")];
-const programCards = [...document.querySelectorAll(".program-card")];
-const programGrid = document.querySelector("[data-program-grid]");
-const courseCount = document.querySelector("[data-course-count]");
-const clearFiltersButton = document.querySelector("[data-clear-filters]");
-const quickCourseFilters = [...document.querySelectorAll("[data-course-filter-quick]")];
-const courseDetailPanels = [...document.querySelectorAll("[data-course-detail]")];
-const courseInterestSelect = document.querySelector('select[name="interes"]');
-const programFilters = new Set(Object.values(categoryLabel));
-const scheduleFilterButtons = [...document.querySelectorAll("[data-schedule-filter]")];
-const scheduleCards = [...document.querySelectorAll(".schedule-card[data-schedule-profile]")];
-const scheduleFilterValues = new Set(scheduleFilterButtons.map((button) => button.dataset.scheduleFilter).filter(Boolean));
-const scheduleCount = document.querySelector("[data-schedule-count]");
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const mobileActionBar = document.querySelector("[data-mobile-action-bar]");
-
-const initMobileActionBar = () => {
-  if (!mobileActionBar) return;
-
-  const mobileMatcher = window.matchMedia("(max-width: 720px)");
-  const applyState = () => {
-    const hero = document.querySelector("#inicio");
-    const experience = document.querySelector("#experiencia");
-    const footer = document.querySelector(".site-footer");
-    const heroThreshold = hero
-      ? hero.offsetTop + hero.offsetHeight - window.innerHeight * 0.35
-      : 900;
-    const footerTop = footer
-      ? footer.getBoundingClientRect().top + window.scrollY
-      : Number.POSITIVE_INFINITY;
-    const experienceTop = experience
-      ? experience.getBoundingClientRect().top + window.scrollY
-      : Number.POSITIVE_INFINITY;
-    const experienceBottom = experience
-      ? experienceTop + experience.offsetHeight
-      : Number.NEGATIVE_INFINITY;
-    const beforeFooter = window.scrollY + window.innerHeight * 0.82 < footerTop;
-    const outsideExperience =
-      window.scrollY + window.innerHeight * 0.72 < experienceTop ||
-      window.scrollY + window.innerHeight * 0.18 > experienceBottom;
-    const shouldShow = mobileMatcher.matches && window.scrollY > heroThreshold && beforeFooter && outsideExperience;
-    mobileActionBar.classList.toggle("is-visible", shouldShow);
-  };
-
-  applyState();
-  window.addEventListener("load", applyState);
-  window.addEventListener("hashchange", applyState);
-  window.addEventListener("scroll", applyState, { passive: true });
-  window.addEventListener("resize", applyState);
-  mobileMatcher.addEventListener("change", applyState);
-};
-initMobileActionBar();
-
-const openCourseDetail = (slug, { scroll = true } = {}) => {
-  if (!slug) return;
-  const target = courseDetailPanels.find((panel) => panel.dataset.courseDetail === slug);
-  if (!target) return;
-
-  courseDetailPanels.forEach((panel) => {
-    if (panel !== target) {
-      panel.open = false;
-    }
-  });
-
-  target.open = true;
-
-  if (scroll) {
-    target.scrollIntoView({
-      behavior: reduceMotion ? "auto" : "smooth",
-      block: "start",
-    });
-  }
-};
-
-document.addEventListener("click", (event) => {
-  if (!(event.target instanceof Element)) return;
-  const trigger = event.target.closest("[data-course-detail-link]");
-  if (!trigger) return;
-
-  const slug = trigger.dataset.courseDetailLink;
-  if (!slug) return;
-  event.preventDefault();
-
-  const routeCourse = programs.find((program) => program.slug === slug);
-  if (routeCourse && window.history?.pushState) {
-    window.history.pushState({ course: slug }, "", coursePath(routeCourse));
-    syncCoreSchemas();
-    syncSeoHead();
+        `;
+      })
+      .join("");
   }
 
-  openCourseDetail(slug);
-});
-
-const syncCourseDetailFromLocation = ({ scroll = false } = {}) => {
-  const hash = decodeURIComponent(window.location.hash || "");
-  if (hash.startsWith("#detalle-")) {
-    openCourseDetail(hash.replace("#detalle-", ""), { scroll });
-    return;
+  function renderSelfAssessmentFields() {
+    return (placementTest.selfAssessments || [])
+      .map(
+        (group) => `
+          <fieldset class="assessment-card">
+            <legend>${escapeHtml(group.label)}</legend>
+            ${group.options
+              .map(
+                (option, index) => `
+                  <label>
+                    <input type="radio" name="${escapeHtml(group.key)}" value="${index}" ${index === 0 ? "required" : ""} />
+                    <span>${escapeHtml(option)}</span>
+                  </label>
+                `,
+              )
+              .join("")}
+          </fieldset>
+        `,
+      )
+      .join("");
   }
 
-  const routeCourse = getCurrentCourse();
-  if (routeCourse) {
-    openCourseDetail(routeCourse.slug, { scroll });
-  }
-};
-
-syncCourseDetailFromLocation();
-window.addEventListener("hashchange", () => syncCourseDetailFromLocation());
-
-const applyScheduleFilter = (filter = "todos", activeButton = null) => {
-  const nextFilter = scheduleFilterValues.has(filter) ? filter : "todos";
-  let visibleCount = 0;
-
-  scheduleFilterButtons.forEach((item) => item.classList.toggle("is-active", item === activeButton));
-  scheduleFilterButtons.forEach((item) =>
-    item.setAttribute("aria-pressed", String(item === activeButton)),
-  );
-
-  scheduleCards.forEach((card) => {
-    const matches = nextFilter === "todos" || card.dataset.scheduleProfile === nextFilter;
-    card.hidden = !matches;
-    if (matches) visibleCount += 1;
-  });
-
-  if (scheduleCount) {
-    scheduleCount.textContent =
-      nextFilter === "todos" ? `Mostrando ${visibleCount} opciones de horario.` : `Mostrando ${visibleCount} opciones para ${nextFilter}.`;
-  }
-};
-
-const applyProgramFilter = (filter, activeButton = null, { updateHistory = true, scrollToResults = false } = {}) => {
-  const nextFilter = programFilters.has(filter) ? filter : "todos";
-  filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === activeButton)));
-  quickCourseFilters.forEach((button) =>
-    button.classList.toggle("is-active", button.dataset.courseFilterQuick === nextFilter),
-  );
-
-  let visibleCount = 0;
-  programCards.forEach((card) => {
-    const matches = nextFilter === "todos" || card.dataset.category === nextFilter;
-    card.hidden = !matches;
-    if (matches) visibleCount += 1;
-  });
-
-  if (courseCount) {
-    const activeLabel = activeButton?.querySelector(".filter-button__label")?.textContent || "este filtro";
-    courseCount.textContent =
-      nextFilter === "todos"
-        ? `Mostrando ${visibleCount} programas.`
-        : `Mostrando ${visibleCount} programas para ${activeLabel.toLowerCase()}.`;
+  function renderPlacementQuestions() {
+    return (placementTest.questions || [])
+      .map(
+        (question, qIndex) => `
+          <fieldset class="quiz-card">
+            <legend>${escapeHtml(question.prompt)}</legend>
+            ${question.options
+              .map(
+                (option, index) => `
+                  <label>
+                    <input type="radio" name="question-${qIndex}" value="${option.score}" ${index === 0 ? "required" : ""} />
+                    <span>${escapeHtml(option.label)}</span>
+                  </label>
+                `,
+              )
+              .join("")}
+          </fieldset>
+        `,
+      )
+      .join("");
   }
 
-  if (courseInterestSelect) {
-    courseInterestSelect.value = courseInterestMap[nextFilter] || courseInterestMap.todos;
+  function renderGoalOptions() {
+    return (placementTest.goals || [])
+      .map(
+        (goal, index) => `
+          <label class="goal-option">
+            <input type="radio" name="goal" value="${escapeHtml(goal)}" ${index === 0 ? "required" : ""} />
+            <span>${escapeHtml(goal)}</span>
+          </label>
+        `,
+      )
+      .join("");
   }
 
-  if (clearFiltersButton) {
-    if (nextFilter === "todos") {
-      clearFiltersButton.textContent = "Todos los cursos";
-      clearFiltersButton.disabled = true;
-    } else {
-      clearFiltersButton.textContent = "Ver todos";
-      clearFiltersButton.disabled = false;
-    }
-  }
+  function bindGlobalInteractions() {
+    const menuButton = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".site-nav");
 
-  filterButtons.forEach((button) => {
-    const label = button.querySelector(".filter-button__label");
-    const count = button.querySelector(".filter-button__count");
-    if (!label || !count) return;
-
-    const baseLabel = label.dataset.baseLabel || label.textContent || "";
-    label.dataset.baseLabel = baseLabel;
-
-    if (button === activeButton) {
-      label.textContent = `${baseLabel} · ${programCounts[button.dataset.filter || "todos"]}`;
-      count.hidden = true;
-    } else {
-      label.textContent = baseLabel;
-      count.hidden = false;
-    }
-  });
-
-  if (updateHistory) {
-    const url = new URL(window.location.href);
-    if (nextFilter === "todos") {
-      url.searchParams.delete("curso");
-    } else {
-      url.searchParams.set("curso", nextFilter);
-    }
-    window.history.pushState({}, "", `${url.pathname}${url.search}${url.hash}`);
-  }
-
-  if (scrollToResults && programGrid) {
-    programGrid.scrollIntoView({
-      behavior: reduceMotion ? "auto" : "smooth",
-      block: "start",
-    });
-  }
-};
-
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    applyProgramFilter(button.dataset.filter || "todos", button, { scrollToResults: true });
-  });
-});
-
-quickCourseFilters.forEach((button) => {
-  button.addEventListener("click", () => {
-    const nextFilter = button.dataset.courseFilterQuick || "todos";
-    const matchButton = filterButtons.find((item) => item.dataset.filter === nextFilter) || filterButtons[0];
-    applyProgramFilter(nextFilter, matchButton, { scrollToResults: true });
-  });
-});
-
-scheduleFilterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    applyScheduleFilter(button.dataset.scheduleFilter || "todos", button);
-  });
-});
-
-clearFiltersButton?.addEventListener("click", () => {
-  const allButton = filterButtons.find((button) => button.dataset.filter === "todos") || filterButtons[0];
-  applyProgramFilter("todos", allButton, { scrollToResults: true });
-});
-
-const activeFilterButton = filterButtons.find((button) => button.dataset.filter === initialCourseFilter) || filterButtons[0];
-applyProgramFilter(initialCourseFilter, activeFilterButton, { updateHistory: false });
-const activeScheduleButton = scheduleFilterButtons.find((button) => button.dataset.scheduleFilter === "todos") || scheduleFilterButtons[0];
-applyScheduleFilter("todos", activeScheduleButton);
-
-window.addEventListener("popstate", () => {
-  const param = new URL(window.location.href).searchParams.get("curso");
-  const routeCourse = getCurrentCourse();
-  const nextFilter = routeCourse?.category || (param && programFilters.has(param) ? param : "todos");
-  const nextButton = filterButtons.find((button) => button.dataset.filter === nextFilter) || filterButtons[0];
-  applyProgramFilter(nextFilter, nextButton, { updateHistory: false });
-  syncCourseDetailFromLocation();
-  syncCoreSchemas();
-  syncSeoHead();
-});
-
-const form = document.querySelector("[data-lead-form]");
-const status = document.querySelector("[data-form-status]");
-const whatsappDraft = document.querySelector("[data-form-whatsapp]");
-
-if (form && status && whatsappDraft) {
-  const leadIntentCards = [...document.querySelectorAll("[data-intent-card]")];
-  const contactQuickIntentButtons = [...document.querySelectorAll("[data-contact-intent-quick]")];
-  const leadPersonaSelect = form.querySelector('select[name="para"]');
-  const contactIntentTitle = form.querySelector("[data-contact-intent-title]");
-  const contactIntentCopy = form.querySelector("[data-contact-intent-copy]");
-  const contactIntentAction = form.querySelector("[data-contact-intent-action]");
-  const progressIndicator = form.querySelector("[data-form-progress]");
-  const getRequiredMissingFields = (data) =>
-    requiredLeadFields
-      .map((field) => field.name)
-      .filter((fieldName) => `${data.get(fieldName) || ""}`.trim().length === 0)
-      .map((fieldName) => requiredLeadFieldLabels[fieldName] || fieldName);
-
-  let activeLeadIntent = "default";
-
-  const getLeadIntentProfile = (intent) => leadIntentProfiles[intent] || leadIntentProfiles.default;
-  const setActiveLeadIntent = (intent = "default", { silent = false } = {}) => {
-    const profile = getLeadIntentProfile(intent);
-    activeLeadIntent = intent;
-
-    if (courseInterestSelect) {
-      courseInterestSelect.value = profile.interest;
-    }
-
-    if (leadPersonaSelect && profile.forWhom) {
-      leadPersonaSelect.value = profile.forWhom;
-    }
-
-    leadIntentCards.forEach((card) => {
-      card.classList.toggle("is-active", card.dataset.intent === activeLeadIntent);
-    });
-    contactQuickIntentButtons.forEach((button) => {
-      const isActive = button.dataset.contactIntentQuick === activeLeadIntent;
-      button.classList.toggle("is-active", isActive);
-      button.setAttribute("aria-pressed", String(isActive));
-    });
-
-    if (contactIntentTitle && contactIntentCopy && contactIntentAction) {
-      contactIntentTitle.textContent = profile.panelTitle;
-      contactIntentCopy.textContent = profile.panelCopy;
-      contactIntentAction.textContent = profile.panelAction;
-      contactIntentAction.setAttribute("href", whatsappDraft.href);
-      contactIntentAction.setAttribute("aria-label", `Continuar por WhatsApp: ${profile.panelAction}`);
-    }
-
-    if (!silent) {
-      syncWhatsAppDraft();
-    }
-  };
-
-  const navigateFromIntentAction = (trigger, event) => {
-    if (!trigger) return;
-    const rawTarget = trigger.getAttribute("data-mobile-target") || trigger.getAttribute("href") || "#contacto";
-    const targetHash = rawTarget.trim() || "#contacto";
-    const intent = trigger.dataset.intent || "default";
-    const isExternal = /^https?:\/\//i.test(targetHash);
-    const isHashTarget = targetHash.startsWith("#");
-    const targetSection = isHashTarget ? document.querySelector(targetHash) : null;
-
-    if (!isExternal) {
-      event?.preventDefault();
-    }
-
-    setActiveLeadIntent(intent, { silent: true });
-    syncWhatsAppDraft();
-
-    if (targetHash === "#horarios") {
-      const scheduleSection = document.querySelector("#horarios");
-      const activeScheduleButton =
-        scheduleFilterButtons.find((button) => button.dataset.scheduleFilter === "todos") || scheduleFilterButtons[0];
-
-      if (activeScheduleButton) {
-        applyScheduleFilter("todos", activeScheduleButton);
-      }
-
-      if (scheduleSection) {
-        scheduleSection.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
-      }
-    } else if (isHashTarget && targetSection) {
-      targetSection.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
-      if (targetHash === "#contacto") {
-        const nameInput = form?.querySelector('input[name="nombre"]');
-        if (nameInput) {
-          nameInput.focus({ preventScroll: true });
-        }
-      }
-    }
-
-    if (!isExternal && window.history?.pushState) {
-      window.history.pushState({}, "", targetHash);
-    } else if (!isExternal) {
-      window.location.hash = targetHash || "#contacto";
-    }
-  };
-
-  const buildLeadMessage = (data) => {
-    const profile = getLeadIntentProfile(activeLeadIntent);
-    return [
-      `Hola AiT USA Institute, ${profile.message}`,
-      `Objetivo: ${profile.intent}`,
-      `Nombre: ${data.get("nombre") || "No indicado"} ${data.get("apellido") || ""}`.trim(),
-      `Email: ${data.get("email") || "No indicado"}`,
-      `Es para: ${data.get("para") || "No indicado"}`,
-      `Curso de interés: ${data.get("interes") || "No indicado"}`,
-      `Edad: ${data.get("edad") || "No indicado"}`,
-      `Teléfono: ${(data.get("codigo") || "").trim()} ${data.get("telefono") || "No indicado"}`.trim(),
-      `Ubicación: ${data.get("ubicacion") || "No indicada"}`,
-    ].join("\n");
-  };
-
-  const syncWhatsAppDraft = () => {
-    const data = new FormData(form);
-    const message = buildLeadMessage(data);
-    whatsappDraft.href = `${site.whatsappHref}?text=${encodeURIComponent(message)}`;
-    if (contactIntentAction) {
-      contactIntentAction.href = whatsappDraft.href;
-    }
-    updateLeadProgress();
-    return message;
-  };
-
-  const updateLeadProgress = () => {
-    if (!progressIndicator) return;
-
-    const data = new FormData(form);
-    const total = requiredLeadFields.length;
-    const done = total - getRequiredMissingFields(data).length;
-    const isComplete = done === total;
-    const missingFields = getRequiredMissingFields(data);
-
-    progressIndicator.textContent =
-      isComplete
-        ? "✅ Todo listo. Cuando envíes, te compartimos tu ruta personalizada en el día."
-        : `⚙️ Campos completados: ${done} de ${total}. Te faltan: ${missingFields.join(", ")}.`;
-
-    if (isComplete) {
-      whatsappDraft.classList.remove("form-whatsapp--disabled");
-      whatsappDraft.setAttribute("aria-disabled", "false");
-      whatsappDraft.removeAttribute("tabindex");
-    } else {
-      whatsappDraft.classList.add("form-whatsapp--disabled");
-      whatsappDraft.setAttribute("aria-disabled", "true");
-      whatsappDraft.setAttribute("tabindex", "-1");
-    }
-
-    return isComplete;
-  };
-
-  const initLeadIntentFromHero = () => {
-    leadIntentCards.forEach((card) => {
-      card.addEventListener("click", (event) => {
-        navigateFromIntentAction(card, event);
+    if (menuButton && nav) {
+      menuButton.addEventListener("click", () => {
+        const open = nav.classList.toggle("is-open");
+        menuButton.setAttribute("aria-expanded", String(open));
       });
-    });
-  };
+    }
+  }
 
-  const initContactQuickIntents = () => {
-    contactQuickIntentButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        setActiveLeadIntent(button.dataset.contactIntentQuick || "default");
-        const nameInput = form?.querySelector('input[name="nombre"]');
-        if (nameInput) {
-          nameInput.focus({ preventScroll: true });
+  function initCatalogInteractions(scope) {
+    const filterButtons = [...scope.querySelectorAll("[data-filter]")];
+    const cards = [...scope.querySelectorAll(".program-card")];
+    const count = scope.querySelector("[data-course-count]");
+    const detailLinks = [...scope.querySelectorAll("[data-course-detail-link]")];
+    const details = [...scope.querySelectorAll("[data-course-detail]")];
+
+    const applyFilter = (value) => {
+      let visible = 0;
+      cards.forEach((card) => {
+        const match = value === "todos" || card.dataset.category === value;
+        card.hidden = !match;
+        if (match) visible += 1;
+      });
+      if (count) {
+        count.textContent = `Mostrando ${visible} programas.`;
+      }
+      filterButtons.forEach((button) => {
+        const active = button.dataset.filter === value;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
+    };
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => applyFilter(button.dataset.filter || "todos"));
+    });
+
+    detailLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const slug = link.dataset.courseDetailLink;
+        const detail = scope.querySelector(`[data-course-detail="${slug}"]`);
+        if (!detail) return;
+
+        event.preventDefault();
+        details.forEach((item) => {
+          item.open = item === detail;
+        });
+        detail.open = true;
+        detail.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        if (route.page === "courses" && window.history?.pushState) {
+          window.history.pushState({ course: slug }, "", `/courses/${slug}/`);
+          updateSeo();
         }
       });
     });
-  };
 
-  const initIntentActionLinks = () => {
-    const intentActionLinks = [...document.querySelectorAll("[data-intent-action]")];
-    intentActionLinks.forEach((link) => {
-      link.addEventListener("click", (event) => navigateFromIntentAction(link, event));
-    });
-  };
-
-  syncWhatsAppDraft();
-  initIntentActionLinks();
-  initLeadIntentFromHero();
-  initContactQuickIntents();
-  const initialLeadIntent = new URLSearchParams(window.location.search).get("intento") || "default";
-  setActiveLeadIntent(initialLeadIntent, { silent: true });
-  if (initialLeadIntent === "scheduleFlex") {
-    const activeScheduleButton =
-      scheduleFilterButtons.find((button) => button.dataset.scheduleFilter === "todos") ||
-      scheduleFilterButtons[0];
-    if (activeScheduleButton) {
-      applyScheduleFilter("todos", activeScheduleButton);
+    const urlFilter = new URLSearchParams(window.location.search).get("curso");
+    if (urlFilter && filters.some((item) => item.key === urlFilter)) {
+      applyFilter(urlFilter);
+    } else {
+      applyFilter(selectedProgram?.category || "todos");
     }
   }
 
-  form.addEventListener("input", syncWhatsAppDraft);
-  form.addEventListener("change", syncWhatsAppDraft);
-  whatsappDraft.addEventListener("click", (event) => {
-    const isReady = updateLeadProgress();
-    if (!isReady) {
+  function initCourseRouteState() {
+    if (!selectedProgram) return;
+
+    const detail = document.querySelector(`[data-course-detail="${selectedProgram.slug}"]`);
+    if (!detail) return;
+
+    detail.open = true;
+    setTimeout(() => {
+      detail.scrollIntoView({ behavior: "auto", block: "start" });
+    }, 50);
+  }
+
+  function initLeadForm(scope) {
+    const form = scope.querySelector("[data-lead-form]");
+    const status = scope.querySelector("[data-form-status]");
+
+    if (!form || !status) return;
+
+    form.addEventListener("submit", (event) => {
       event.preventDefault();
-      const data = new FormData(form);
-      const missingFields = getRequiredMissingFields(data);
-      status.textContent = `Completa ${missingFields.length} campo(s) clave para enviar por WhatsApp: ${missingFields.join(", ")}.`;
-    }
-  });
+      const formData = new FormData(form);
+      const name = `${formData.get("nombre") || ""} ${formData.get("apellido") || ""}`.trim();
+      const interest = formData.get("interes") || "Ingles";
+      const audience = formData.get("para") || "Para mi";
+      const location = formData.get("ubicacion") || "Sin ubicacion indicada";
+      const phone = formData.get("telefono") || "";
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
+      const message = [
+        "Hola AIT USA, quiero ayuda para elegir mi siguiente paso.",
+        `Nombre: ${name || "Sin nombre"}`,
+        `Interes: ${interest}`,
+        `Para: ${audience}`,
+        `Ubicacion: ${location}`,
+        `Telefono: ${phone}`,
+      ].join("\n");
 
-    if (!form.checkValidity()) {
-      status.textContent = "Completa los campos marcados como obligatorios para enviar una ruta precisa.";
-      const missingFields = getRequiredMissingFields(new FormData(form));
-      const firstMissing = missingFields[0];
-      if (firstMissing) {
-        const fieldName = Object.keys(requiredLeadFieldLabels).find(
-          (name) => requiredLeadFieldLabels[name] === firstMissing,
-        );
-        const missingInput = form.querySelector(`[name="${fieldName || firstMissing}"]`);
-        if (missingInput) {
-          missingInput.focus();
+      status.textContent = "Abriendo WhatsApp con tu informacion para que un asesor te responda.";
+      window.open(`${site.whatsappHref}?text=${encodeURIComponent(message)}`, "_blank", "noopener");
+    });
+  }
+
+  function initFaqs(scope) {
+    scope.querySelectorAll(".faq-list details").forEach((detail) => {
+      detail.addEventListener("toggle", () => {
+        if (!detail.open) return;
+        scope.querySelectorAll(".faq-list details").forEach((other) => {
+          if (other !== detail) other.open = false;
+        });
+      });
+    });
+  }
+
+  function initPlacementTest() {
+    const form = document.querySelector("[data-placement-form]");
+    if (!form) return;
+
+    const panels = [...form.querySelectorAll("[data-placement-panel]")];
+    const indicators = [...document.querySelectorAll("[data-step-indicator]")];
+    const nextButton = form.querySelector("[data-placement-next]");
+    const backButton = form.querySelector("[data-placement-back]");
+    const resultBox = form.querySelector("[data-placement-result]");
+    const resultActions = form.querySelector("[data-placement-actions]");
+    const whatsappLink = form.querySelector("[data-placement-whatsapp]");
+    let step = 0;
+
+    const showStep = (nextStep) => {
+      step = nextStep;
+      panels.forEach((panel, index) => {
+        const active = index === step;
+        panel.hidden = !active;
+        panel.classList.toggle("is-active", active);
+      });
+      indicators.forEach((indicator, index) => {
+        indicator.classList.toggle("is-active", index === step);
+      });
+      backButton.hidden = step === 0;
+      nextButton.textContent = step === panels.length - 2 ? "Ver recomendacion" : step === panels.length - 1 ? "Reiniciar" : "Siguiente";
+    };
+
+    const validateCurrentStep = () => {
+      const activePanel = panels[step];
+      const fields = [...activePanel.querySelectorAll("input, select")];
+      for (const field of fields) {
+        if (!field.checkValidity()) {
+          field.reportValidity();
+          return false;
         }
       }
-      form.reportValidity();
-      return;
-    }
+      return true;
+    };
 
-    const message = syncWhatsAppDraft();
-    status.textContent = "Listo. Abre WhatsApp para enviar tu mensaje y recibir una recomendación más rápida.";
-    whatsappDraft.focus();
-    whatsappDraft.setAttribute("aria-label", `Enviar a WhatsApp: ${message.split("\n")[0]}`);
-  });
-}
+    const buildResult = () => {
+      const formData = new FormData(form);
+      const quizScore = (placementTest.questions || []).reduce((total, _, index) => {
+        return total + Number(formData.get(`question-${index}`) || 0);
+      }, 0);
+      const selfAssessmentScore = (placementTest.selfAssessments || []).reduce((total, group) => {
+        return total + Number(formData.get(group.key) || 0);
+      }, 0);
+      const totalScore = quizScore + Math.round(selfAssessmentScore / Math.max(1, (placementTest.selfAssessments || []).length));
+      const recommendation = (placementTest.recommendations || []).find((item) => totalScore >= item.min && totalScore <= item.max)
+        || (placementTest.recommendations || [])[0];
+      const goal = formData.get("goal") || "Sin objetivo indicado";
+      const name = formData.get("name") || "Estudiante";
+      const city = formData.get("city") || "Sin ciudad";
 
+      resultBox.innerHTML = `
+        <p class="eyebrow-chip">Recomendacion orientativa</p>
+        <h3>${escapeHtml(recommendation.level)}</h3>
+        <p>${escapeHtml(recommendation.recommendation)}</p>
+        <p><strong>Formato sugerido:</strong> ${escapeHtml(recommendation.bestFit)}</p>
+        <p><strong>Objetivo principal:</strong> ${escapeHtml(goal)}</p>
+        <p><strong>Importante:</strong> esta recomendacion necesita confirmacion de un asesor antes de cerrar inscripcion u horario.</p>
+      `;
+
+      const message = [
+        "Hola AIT USA, ya complete el examen de ubicacion.",
+        `Nombre: ${name}`,
+        `Ciudad/Pais: ${city}`,
+        `Objetivo: ${goal}`,
+        `Resultado sugerido: ${recommendation.level}`,
+        `Detalle: ${recommendation.recommendation}`,
+        "Quiero confirmar esta recomendacion con un asesor.",
+      ].join("\n");
+
+      if (whatsappLink) {
+        whatsappLink.href = `${site.whatsappHref}?text=${encodeURIComponent(message)}`;
+      }
+
+      resultActions.hidden = false;
+
+      // TODO: connect to AIT CRM once the endpoint contract and required fields are approved.
+      window.dispatchEvent(
+        new CustomEvent("aitusa:placement-ready", {
+          detail: {
+            totalScore,
+            goal,
+            recommendation,
+            submittedAt: new Date().toISOString(),
+          },
+        }),
+      );
+    };
+
+    nextButton?.addEventListener("click", () => {
+      if (step === panels.length - 1) {
+        form.reset();
+        resultActions.hidden = true;
+        resultBox.innerHTML = "<p>Completa los pasos anteriores para ver tu recomendacion.</p>";
+        showStep(0);
+        return;
+      }
+
+      if (!validateCurrentStep()) return;
+
+      if (step === panels.length - 2) {
+        buildResult();
+        showStep(step + 1);
+        return;
+      }
+
+      showStep(step + 1);
+    });
+
+    backButton?.addEventListener("click", () => {
+      if (step > 0) showStep(step - 1);
+    });
+
+    showStep(0);
+  }
+
+  function homeLink(hash) {
+    return route.page === "home" ? hash : `/${hash}`;
+  }
+
+  function absoluteUrl(path) {
+    return new URL(path, site.canonical || window.location.origin).toString();
+  }
+
+  function asset(value) {
+    if (!value) return "";
+    if (value.startsWith("http")) return value;
+    if (value.startsWith("./")) return value.slice(1);
+    return value;
+  }
+
+  function escapeHtml(value) {
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
 })();
-

@@ -1007,6 +1007,7 @@ const locations = [
     city: "Bound Brook, New Jersey",
     address: "213 E. Main St., Bound Brook, NJ 08805",
     note: "Oficina central / sede principal",
+    status: "active",
     bestFor: "Ideal si quieres una sede central con coordinación administrativa directa.",
     highlight: "Recepción principal y coordinación administrativa.",
     cta: "Escribir sobre Bound Brook",
@@ -1015,6 +1016,7 @@ const locations = [
     city: "Plainfield, New Jersey",
     address: "108 Watchung Ave., Plainfield, NJ 07060",
     note: "Sede presencial",
+    status: "active",
     bestFor: "Ideal si vives o trabajas en el centro de Nueva Jersey.",
     highlight: "Acceso fácil para estudiantes del área central de Nueva Jersey.",
     cta: "Escribir sobre Plainfield",
@@ -1023,6 +1025,7 @@ const locations = [
     city: "Piscataway, New Jersey",
     address: "451 S. Washington Ave., Piscataway, NJ 08854",
     note: "Sede presencial",
+    status: "active",
     bestFor: "Ideal si buscas una sede amplia y práctica para asistir con comodidad.",
     highlight: "Buena opción para quienes buscan una sede amplia y práctica.",
     cta: "Escribir sobre Piscataway",
@@ -1031,6 +1034,7 @@ const locations = [
     city: "Flemington, New Jersey",
     address: "Flemington, NJ, USA",
     note: "Confirmar detalles de sede",
+    status: "limited",
     bestFor: "Ideal si quieres confirmar disponibilidad antes de desplazarte.",
     highlight: "Disponible según disponibilidad y coordinación previa.",
     cta: "Confirmar Flemington",
@@ -1039,9 +1043,19 @@ const locations = [
     city: "New York / Online",
     address: "Atención online",
     note: "Atención para clases en línea",
+    status: "online",
     bestFor: "Ideal si prefieres estudiar a distancia sin viajar a Nueva Jersey.",
     highlight: "Conexión remota para estudiantes fuera de Nueva Jersey.",
     cta: "Consultar online",
+  },
+  {
+    city: "North Plainfield, New Jersey",
+    address: "Dirección pendiente de confirmación",
+    note: "Sede en revisión. No activa para inscripción pública todavía.",
+    status: "pending",
+    bestFor: "Mención informativa únicamente hasta confirmar dirección y operación final.",
+    highlight: "Pendiente de validación interna antes de publicarse como sede normal.",
+    cta: "Pedir actualización de North Plainfield",
   },
 ];
 
@@ -1479,7 +1493,348 @@ const faqs = [
   },
 ];
 
+const painHero = {
+  eyebrow: "Ingles para la vida real",
+  headline:
+    "Entiendes un poco, pero cuando te toca hablar, te quedas traduciendo todo.",
+  subheadline:
+    "AIT USA te ayuda a practicar ingles con estructura, apoyo visual y correccion en vivo para que dejes de memorizar por memorizar y empieces a usarlo en trabajo, estudio y vida diaria.",
+  trust:
+    "Presencial, hibrido y online. Clases reales, testimonios reales y guia para elegir tu siguiente paso.",
+  ctas: {
+    primary: "Hacer examen de ubicacion",
+    secondary: "Hablar con un asesor",
+    tertiary: "Ver cursos detallados",
+  },
+};
+
+const solutionCharacteristics = [
+  {
+    key: "graphic-concept",
+    label: "Metodo visual",
+    title: "Aprende a entender sin traducir palabra por palabra",
+    body:
+      "El metodo Graphic Concept organiza el ingles de forma visual para que comprendas mejor lo que escuchas y lo que quieres decir, sin depender de listas interminables de memoria.",
+    proof:
+      "Metodo Graphic Concept y materiales de estudio propios como parte de la ruta academica.",
+    video: site.images.differenceVideo,
+    videoPoster: site.images.differenceVideoPoster,
+    image: site.images.method,
+    imageAlt: "Instructora mostrando el metodo Graphic Concept en clase real.",
+  },
+  {
+    key: "guided-practice",
+    label: "Practica guiada",
+    title: "Habla con correccion en vivo, no solo con teoria",
+    body:
+      "Aqui la practica importa. Trabajas con docentes que corrigen, repiten y guian la conversacion para ayudarte a responder con mas seguridad en situaciones reales.",
+    proof:
+      "Clases, talleres, tutorias y videos reales de estudiantes y experiencia de clase.",
+    video: site.images.introVideo,
+    videoPoster: site.images.introVideoPoster,
+    image: site.images.heroClassroom,
+    imageAlt: "Clase real de ingles con correccion en vivo.",
+  },
+  {
+    key: "continuity",
+    label: "Continuidad",
+    title: "Sigue una ruta que se adapta a tu nivel, horario y objetivo",
+    body:
+      "AIT USA te orienta para ubicar tu nivel, elegir formato y mantener continuidad con seguimiento, libro y proximos pasos claros.",
+    proof:
+      "Ruta por niveles, apoyo academico y futuras herramientas de estudio con IA solo como apoyo complementario proximamente.",
+    video: site.images.thirdCharacteristicVideo,
+    videoPoster: site.images.thirdCharacteristicVideoPoster,
+    image: site.images.routeLevels,
+    imageAlt: "Ruta por niveles y continuidad academica en AiT USA.",
+  },
+];
+
+const productOfferings = [
+  {
+    key: "in-person-english",
+    title: "Ingles presencial",
+    badge: "Programa destacado",
+    emphasis: "primary",
+    audience: "Adultos y jovenes que quieren practicar mas de cerca",
+    summary:
+      "La opcion principal para quienes quieren practicar mas de cerca, recibir correccion directa y sostener una rutina real de aprendizaje.",
+    details: [
+      "Correccion en vivo y practica constante.",
+      "Sedes activas en Nueva Jersey mas apoyo para elegir horario.",
+      "Ideal para trabajo, entrevistas, escuela y vida diaria.",
+    ],
+    image: site.images.adultEnglish,
+    imageAlt: "Clase presencial de ingles para adultos en AiT USA.",
+    href: "/courses/#ingles-presencial",
+    cta: "Ver ingles presencial",
+    relatedPrograms: ["ingles-jovenes-adultos"],
+  },
+  {
+    key: "hybrid-english",
+    title: "Ingles hibrido",
+    badge: "Flexibilidad con seguimiento",
+    emphasis: "secondary",
+    audience: "Quienes necesitan flexibilidad sin perder estructura",
+    summary:
+      "Combina la guia de AIT USA con una ruta mas adaptable a tu agenda. Buena opcion si buscas continuidad sin depender de un solo formato.",
+    details: [
+      "Alterna entre apoyo presencial y acompanamiento remoto.",
+      "Mantiene seguimiento con un horario realista.",
+      "Pensado para estudiantes con semanas variables.",
+    ],
+    image: site.images.heroFemaleZoom,
+    imageAlt: "Instructora guiando una clase de ingles en formato hibrido.",
+    href: "/courses/#ingles-hibrido",
+    cta: "Ver opcion hibrida",
+    relatedPrograms: ["ingles-jovenes-adultos", "ingles-online-adultos"],
+  },
+  {
+    key: "online-english",
+    title: "Ingles online",
+    badge: "Ruta a distancia",
+    emphasis: "secondary",
+    audience: "Estudiantes en otros lugares o con agenda remota",
+    summary:
+      "Clases online con guia visual, practica en vivo y acompanamiento para avanzar desde casa o desde otro pais.",
+    details: [
+      "Ideal para estudiantes fuera de Nueva Jersey.",
+      "WhatsApp y orientacion para elegir nivel y horario.",
+      "La IA solo se menciona como apoyo de estudio proximamente.",
+    ],
+    image: site.images.onlineEnglish,
+    imageAlt: "Clase de ingles online con apoyo visual.",
+    href: "/courses/#ingles-online",
+    cta: "Ver ingles online",
+    relatedPrograms: ["ingles-online-adultos"],
+  },
+  {
+    key: "support-programs",
+    title: "Programas de apoyo",
+    badge: "Mas rutas academicas",
+    emphasis: "secondary",
+    audience: "Familias y estudiantes con metas especificas",
+    summary:
+      "Explora ingles para ninos, GED, computacion, espanol para extranjeros y cursos tecnicos sin cargar toda la explicacion en la portada.",
+    details: [
+      "Ingles para ninos de 8 a 13 anos.",
+      "GED y tutorias para metas academicas concretas.",
+      "Computacion, oficina, reparacion y espanol para extranjeros.",
+    ],
+    image: site.images.computing,
+    imageAlt: "Programas de apoyo academico y tecnico de AiT USA.",
+    href: "/courses/#programas-de-apoyo",
+    cta: "Explorar programas de apoyo",
+    relatedPrograms: [
+      "ingles-ninos",
+      "ged",
+      "computacion-basica",
+      "computacion-oficina",
+      "reparacion-computadoras",
+      "espanol-extranjeros",
+      "tutorias-matematicas",
+    ],
+  },
+];
+
+const courseCatalog = [
+  {
+    key: "english-paths",
+    title: "Rutas principales de ingles",
+    description:
+      "Empieza por la ruta que mejor encaja con tu formato ideal. Ingles presencial aparece primero porque es la oferta principal.",
+    anchor: "rutas-principales-de-ingles",
+    programs: ["ingles-jovenes-adultos", "ingles-online-adultos", "ingles-ninos"],
+  },
+  {
+    key: "academic-support",
+    title: "Apoyo academico y metas concretas",
+    description:
+      "Programas para GED, tutorias y apoyo escolar cuando necesitas una meta puntual ademas del ingles.",
+    anchor: "apoyo-academico",
+    programs: ["ged", "tutorias-matematicas"],
+  },
+  {
+    key: "digital-technical",
+    title: "Computacion y cursos tecnicos",
+    description:
+      "Formacion digital practica para estudiar, trabajar o explorar una ruta tecnica complementaria.",
+    anchor: "computacion-y-cursos-tecnicos",
+    programs: ["computacion-basica", "computacion-oficina", "reparacion-computadoras"],
+  },
+  {
+    key: "additional-languages",
+    title: "Otros idiomas y apoyo adicional",
+    description:
+      "Opciones complementarias para estudiantes que tambien necesitan espanol para extranjeros o rutas futuras.",
+    anchor: "otros-idiomas-y-apoyo-adicional",
+    programs: ["espanol-extranjeros"],
+  },
+];
+
+const conversionCtas = {
+  placement: {
+    label: "Hacer examen de ubicacion",
+    href: "/placement-test/",
+    description:
+      "Empieza por una recomendacion inicial de nivel y luego confirma con un asesor.",
+  },
+  advisor: {
+    label: "Hablar con un asesor",
+    href: site.whatsappHref,
+    description:
+      "Escribe por WhatsApp para elegir programa, modalidad y siguiente paso.",
+  },
+  courses: {
+    label: "Ver cursos detallados",
+    href: "/courses/",
+    description:
+      "Compara ingles presencial, hibrido, online y programas de apoyo.",
+  },
+  registration: {
+    label: "Quiero empezar con inscripcion + libro",
+    href: `${site.whatsappHref}?text=${encodeURIComponent("Hola AIT USA, quiero informacion para empezar con inscripcion + libro por $95 y confirmar mi siguiente paso.")}`,
+    description:
+      "CTA de contacto solamente. No procesa pagos en linea ni promete cobro onsite.",
+    price: "$95",
+  },
+};
+
+const placementTest = {
+  eyebrow: "Evaluacion inicial",
+  title: "Descubre tu punto de partida en ingles",
+  intro:
+    "Completa esta evaluacion breve para recibir una recomendacion inicial de nivel y modalidad. Un asesor debe confirmarla antes de tu inscripcion final.",
+  privacyNote:
+    "No guardamos datos sensibles en esta version estatica. Tu informacion solo se usa para preparar el mensaje de WhatsApp que decides enviar.",
+  crmNote:
+    "Al final podras preparar un mensaje de WhatsApp con tu recomendacion para que un asesor confirme nivel, horario y siguiente paso.",
+  steps: {
+    student: "Tus datos",
+    selfAssessment: "Como te sientes hoy",
+    quiz: "Preguntas rapidas",
+    goals: "Tu objetivo",
+    result: "Recomendacion inicial",
+  },
+  studentFields: [
+    { name: "name", label: "Nombre completo", type: "text", required: true },
+    { name: "phone", label: "WhatsApp o telefono", type: "tel", required: true },
+    { name: "email", label: "Email", type: "email", required: true },
+    { name: "city", label: "Ciudad / Pais", type: "text", required: true },
+    {
+      name: "ageGroup",
+      label: "Grupo de edad",
+      type: "select",
+      required: true,
+      options: ["Adulto", "Joven", "Nino / Adolescente"],
+    },
+  ],
+  selfAssessments: [
+    {
+      key: "speaking",
+      label: "Al hablar",
+      options: ["Me bloqueo casi siempre", "Puedo decir frases cortas", "Puedo sostener una conversacion simple", "Puedo explicarme con relativa confianza"],
+    },
+    {
+      key: "listening",
+      label: "Al escuchar",
+      options: ["Entiendo muy poco", "Entiendo ideas basicas", "Entiendo conversaciones simples", "Entiendo gran parte con apoyo"],
+    },
+    {
+      key: "reading",
+      label: "Al leer",
+      options: ["Se me dificulta mucho", "Puedo leer palabras y frases", "Puedo leer textos simples", "Puedo leer materiales cotidianos con poca ayuda"],
+    },
+    {
+      key: "writing",
+      label: "Al escribir",
+      options: ["Solo palabras sueltas", "Frases muy cortas", "Mensajes y respuestas simples", "Textos cotidianos con cierta seguridad"],
+    },
+  ],
+  questions: [
+    {
+      prompt: "Cuando alguien te saluda en ingles, tu normalmente...",
+      options: [
+        { label: "No se que responder", score: 0 },
+        { label: "Respondo con frases muy cortas", score: 1 },
+        { label: "Puedo mantener un intercambio simple", score: 2 },
+        { label: "Respondo con bastante comodidad", score: 3 },
+      ],
+    },
+    {
+      prompt: "Si necesitas pedir informacion en trabajo o escuela...",
+      options: [
+        { label: "Prefiero evitarlo", score: 0 },
+        { label: "Uso palabras sueltas o traductor", score: 1 },
+        { label: "Puedo preguntar cosas basicas", score: 2 },
+        { label: "Puedo explicar mi necesidad con detalle simple", score: 3 },
+      ],
+    },
+    {
+      prompt: "Cuando escuchas instrucciones sencillas en ingles...",
+      options: [
+        { label: "Casi no entiendo", score: 0 },
+        { label: "Entiendo algunas palabras", score: 1 },
+        { label: "Entiendo la idea general", score: 2 },
+        { label: "Las sigo con bastante seguridad", score: 3 },
+      ],
+    },
+    {
+      prompt: "Cuando escribes un mensaje corto en ingles...",
+      options: [
+        { label: "No puedo hacerlo solo", score: 0 },
+        { label: "Puedo escribir algo muy basico", score: 1 },
+        { label: "Puedo escribir mensajes simples", score: 2 },
+        { label: "Puedo escribir con relativa claridad", score: 3 },
+      ],
+    },
+  ],
+  goals: [
+    "Trabajo y entrevistas",
+    "Escuela o universidad",
+    "Vida diaria",
+    "Ayuda para mi hijo o hija",
+    "Viajes",
+    "GED o apoyo academico",
+  ],
+  recommendations: [
+    {
+      key: "starter",
+      min: 0,
+      max: 6,
+      level: "Inicio / Basico",
+      recommendation:
+        "Te conviene empezar con una ruta basica enfocada en comprension, frases utiles y practica guiada.",
+      bestFit: "Ingles presencial o hibrido para construir confianza desde cero.",
+    },
+    {
+      key: "developing",
+      min: 7,
+      max: 11,
+      level: "Basico alto / Intermedio inicial",
+      recommendation:
+        "Ya tienes base para trabajar conversacion simple, correccion en vivo y continuidad semanal.",
+      bestFit: "Ingles presencial, hibrido u online segun tu agenda y ubicacion.",
+    },
+    {
+      key: "advancing",
+      min: 12,
+      max: 16,
+      level: "Intermedio / Intermedio alto",
+      recommendation:
+        "Puedes entrar a un grupo con mas practica oral y objetivos especificos de trabajo, escuela o continuidad academica.",
+      bestFit: "Ruta conversacional, online o presencial, segun disponibilidad y meta principal.",
+    },
+  ],
+};
+
 window.AITUSA_DATA = {
+  painHero,
+  solutionCharacteristics,
+  productOfferings,
+  courseCatalog,
+  conversionCtas,
+  placementTest,
   heroProof,
   heroVideoHighlights,
   heroHighlights,
