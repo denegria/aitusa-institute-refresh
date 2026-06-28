@@ -1,5 +1,5 @@
 {
-  "appUrl": "http://127.0.0.1:34041/index.html",
+  "appUrl": "http://127.0.0.1:44867/index.html",
   "chrome": "/usr/bin/google-chrome-stable",
   "results": [
     {
@@ -14,7 +14,7 @@
         "footer": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/desktop-home-footer.png"
       },
       "screenshotError": null,
-      "location": "http://127.0.0.1:34041/index.html",
+      "location": "http://127.0.0.1:44867/index.html",
       "title": "AiT USA Institute | Ingles en New Jersey con ruta clara para empezar",
       "h1": "Entiendes un poco, pero cuando te toca hablar, te quedas traduciendo todo.",
       "programs": 9,
@@ -52,7 +52,7 @@
         "footer": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/tablet-home-footer.png"
       },
       "screenshotError": null,
-      "location": "http://127.0.0.1:34041/index.html",
+      "location": "http://127.0.0.1:44867/index.html",
       "title": "AiT USA Institute | Ingles en New Jersey con ruta clara para empezar",
       "h1": "Entiendes un poco, pero cuando te toca hablar, te quedas traduciendo todo.",
       "programs": 9,
@@ -90,7 +90,7 @@
         "footer": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/mobile-home-footer.png"
       },
       "screenshotError": null,
-      "location": "http://127.0.0.1:34041/index.html",
+      "location": "http://127.0.0.1:44867/index.html",
       "title": "AiT USA Institute | Ingles en New Jersey con ruta clara para empezar",
       "h1": "Entiendes un poco, pero cuando te toca hablar, te quedas traduciendo todo.",
       "programs": 9,
@@ -118,7 +118,7 @@
     },
     {
       "name": "course-route-computacion-oficina",
-      "location": "http://127.0.0.1:34041/cursos/computacion-oficina/",
+      "location": "http://127.0.0.1:44867/cursos/computacion-oficina/",
       "title": "Computación para oficina | Cursos AiT USA Institute",
       "canonical": "https://www.aitusainstitute.com/courses/computacion-oficina/",
       "openCourseDetail": "computacion-oficina",
