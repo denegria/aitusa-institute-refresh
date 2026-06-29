@@ -21,10 +21,10 @@
 
   const filters = [
     { label: "Todos", key: "todos" },
-    { label: "Ingles", key: "ingles" },
-    { label: "Ninos", key: "ninos" },
-    { label: "Academico", key: "academico" },
-    { label: "Tecnologia", key: "tecnologia" },
+    { label: "Inglés", key: "ingles" },
+    { label: "Niños", key: "ninos" },
+    { label: "Académico", key: "academico" },
+    { label: "Tecnología", key: "tecnologia" },
     { label: "Idiomas", key: "idiomas" },
   ];
 
@@ -82,21 +82,21 @@
 
   function updateSeo() {
     const titleMap = {
-      home: "AiT USA Institute | Ingles en New Jersey con ruta clara para empezar",
+      home: "AiT USA Institute | Inglés en New Jersey con ruta clara para empezar",
       courses: selectedProgram
         ? `${selectedProgram.title} | Cursos AiT USA Institute`
-        : "Cursos AiT USA Institute | Catalogo detallado",
-      placement: "Examen de ubicacion | AiT USA Institute",
+        : "Cursos AiT USA Institute | Catálogo detallado",
+      placement: "Examen de ubicación | AiT USA Institute",
     };
 
     const descriptionMap = {
       home:
-        "AIT USA ordena tu siguiente paso: examen de ubicacion, ingles presencial como oferta principal, programas de apoyo y testimonios reales.",
+        "AIT USA ordena tu siguiente paso: examen de ubicación, inglés presencial como oferta principal, programas de apoyo y testimonios reales.",
       courses: selectedProgram
         ? `${selectedProgram.title}. ${selectedProgram.summary}`
-        : "Explora el catalogo detallado de ingles, GED, computacion y programas de apoyo de AiT USA Institute.",
+        : "Explora el catálogo detallado de inglés, GED, computación y programas de apoyo de AiT USA Institute.",
       placement:
-        "Completa una evaluacion inicial de ingles y recibe una recomendacion orientativa antes de confirmar tu nivel con un asesor.",
+        "Completa una evaluación inicial de inglés y recibe una recomendación orientativa antes de confirmar tu nivel con un asesor.",
     };
 
     const canonicalMap = {
@@ -155,7 +155,7 @@
           url: absoluteUrl("/"),
         },
         courseMode: selectedProgram.mode,
-        educationalCredentialAwarded: "Recomendacion academica inicial",
+        educationalCredentialAwarded: "Recomendación académica inicial",
         url: absoluteUrl(`/courses/${selectedProgram.slug}/`),
       },
       null,
@@ -187,22 +187,22 @@
         <section class="page-hero section" id="inicio">
           <div class="section-inner page-hero__grid">
             <div class="page-hero__copy">
-              <p class="section-kicker">Catalogo detallado</p>
-              <h1>Explora cursos, formatos y proximos pasos con mas detalle.</h1>
+              <p class="section-kicker">Catálogo detallado</p>
+              <h1>Explora cursos, formatos y próximos pasos con más detalle.</h1>
               <p>
-                Esta pagina concentra el detalle que no conviene cargar en la portada: modalidades,
-                objetivos, horarios y orientacion para ingles, GED, computacion y programas de apoyo.
+                Esta página concentra el detalle que no conviene cargar en la portada: modalidades,
+                objetivos, horarios y orientación para inglés, GED, computación y programas de apoyo.
               </p>
               <div class="button-row">
-                <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">Hacer examen de ubicacion</a>
+                <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">Hacer examen de ubicación</a>
                 <a class="button button--ghost" href="${conversionCtas.advisor?.href || site.whatsappHref}" target="_blank" rel="noreferrer">Hablar con un asesor</a>
               </div>
             </div>
             <div class="page-hero__media card">
               <img src="${asset(site.images.routeLevels)}" alt="${escapeHtml(site.images.contactAlt || "Ruta por niveles de AiT USA.")}" />
               <p class="eyebrow-chip">Ruta guiada</p>
-              <h2>Ingles presencial sigue siendo la oferta principal.</h2>
-              <p>Tambien puedes comparar opciones hibridas, online y programas de apoyo antes de hablar con el equipo.</p>
+              <h2>Inglés presencial sigue siendo la oferta principal.</h2>
+              <p>También puedes comparar opciones híbridas, online y programas de apoyo antes de hablar con el equipo.</p>
             </div>
           </div>
         </section>
@@ -223,7 +223,7 @@
           <div class="section-inner placement-hero">
             <div class="page-hero__copy">
               <p class="section-kicker">${escapeHtml(placementTest.eyebrow || "Evaluacion inicial")}</p>
-              <h1>${escapeHtml(placementTest.title || "Examen de ubicacion")}</h1>
+              <h1>${escapeHtml(placementTest.title || "Examen de ubicación")}</h1>
               <p>${escapeHtml(placementTest.intro || "")}</p>
               <div class="notice-box">
                 <strong>Importante:</strong>
@@ -278,16 +278,16 @@
               </section>
 
               <section class="placement-panel placement-panel--result" data-placement-panel="4" hidden>
-                <h2>Tu recomendacion inicial</h2>
+                <h2>Tu recomendación inicial</h2>
                 <div class="result-card" data-placement-result>
-                  <p>Completa los pasos anteriores para ver tu recomendacion.</p>
+                  <p>Completa los pasos anteriores para ver tu recomendación.</p>
                 </div>
                 <div class="result-actions" data-placement-actions hidden>
                   <a class="button button--primary" data-placement-whatsapp target="_blank" rel="noreferrer">Enviar resultado por WhatsApp</a>
                   <a class="button button--ghost" href="/courses/">Ver cursos detallados</a>
                 </div>
                 <p class="placement-footnote">
-                  Esta recomendacion es orientativa y debe ser confirmada por un asesor antes de tu inscripcion final.
+                  Esta recomendación es orientativa y debe ser confirmada por un asesor antes de tu inscripción final.
                 </p>
               </section>
 
@@ -311,23 +311,23 @@
           <img src="${asset(site.images.logo)}" alt="Logo de AiT USA Institute" />
           <span>
             <strong>${escapeHtml(site.name || "AiT USA Institute")}</strong>
-            <small>Ingles practico desde 2004</small>
+            <small>Inglés práctico desde 2004</small>
           </span>
         </a>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
           <span class="menu-toggle__icon" aria-hidden="true"></span>
           Menu
         </button>
-        <nav class="site-nav" id="site-nav" aria-label="Navegacion principal">
+        <nav class="site-nav" id="site-nav" aria-label="Navegación principal">
           <a href="/" ${activePage === "home" ? 'aria-current="page"' : ""}>Inicio</a>
-          <a href="${homeLink("#metodo")}">Metodo</a>
-          <a href="${homeLink("#cursos")}">Oferta</a>
+          <a href="${homeLink("#metodo")}">Método</a>
+          <a href="${homeLink("#cursos")}">Cursos</a>
           <a href="${homeLink("#experiencia")}">Resultados</a>
           <a href="${homeLink("#sedes")}">Sedes</a>
           <a href="${homeLink("#contacto")}">Contacto</a>
         </nav>
         <a class="header-cta" href="${site.phoneHref}">
-          Llama ahora
+          Llámanos
         </a>
       </header>
     `;
@@ -350,13 +350,13 @@
             </div>
             <p class="hero__trust">${escapeHtml(painHero.trust || "")}</p>
             <div class="button-row">
-              <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">${escapeHtml(painHero.ctas?.primary || "Hacer examen de ubicacion")}</a>
-              <a class="button button--ghost" href="${site.phoneHref}">${escapeHtml(painHero.ctas?.secondary || "Llama ahora")}</a>
+              <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">${escapeHtml(painHero.ctas?.primary || "Ver mi nivel")}</a>
+              <a class="button button--ghost" href="${site.whatsappHref}" target="_blank" rel="noreferrer">${escapeHtml(painHero.ctas?.secondary || "Hablar con un asesor")}</a>
             </div>
             <ul class="hero-bullets">
               <li>Presencial como oferta principal para practicar de cerca.</li>
-              <li>Rutas hibridas y online para quien necesita flexibilidad real.</li>
-              <li>Orientacion clara antes de definir horario, nivel y siguiente paso.</li>
+              <li>Opciones híbridas y online si necesitas flexibilidad real.</li>
+              <li>Orientación clara antes de definir horario, nivel y siguiente paso.</li>
             </ul>
           </div>
           <div class="hero__media">
@@ -364,9 +364,9 @@
             <div class="hero__route-panel">
               <p class="eyebrow-chip">Ruta clara</p>
               <ol>
-                <li><strong>Ubica tu nivel</strong><span>10 minutos para saber por donde empezar.</span></li>
-                <li><strong>Elige formato</strong><span>Presencial, hibrido u online segun tu semana.</span></li>
-                <li><strong>Empieza con guia</strong><span>Correccion en vivo y seguimiento constante.</span></li>
+                <li><strong>Ubica tu nivel</strong><span>10 minutos para saber por dónde empezar.</span></li>
+                <li><strong>Elige formato</strong><span>Presencial, híbrido u online según tu semana.</span></li>
+                <li><strong>Empieza con guía</strong><span>Corrección en vivo y seguimiento constante.</span></li>
               </ol>
             </div>
           </div>
@@ -380,8 +380,8 @@
       <section class="section section--white" id="metodo">
         <div class="section-inner">
           <div class="section-heading">
-            <p class="section-kicker">Metodo probado</p>
-            <h2>Una estrategia de aprendizaje con 25 años de historia comprobada.</h2>
+            <p class="section-kicker">Método probado</p>
+            <h2>Más de 20 años ayudando a estudiantes a entender y hablar inglés con más seguridad.</h2>
           </div>
           <div class="solution-carousel" data-solution-carousel>
             ${solutionCharacteristics
@@ -427,8 +427,9 @@
       <section class="section section--soft" id="cursos">
         <div class="section-inner offer-path">
           <div class="section-heading section-heading--framed">
-            <p class="section-kicker">Rutas para empezar</p>
-            <h2>Elige el formato que encaja con tu vida. El detalle del curso vive en la pagina de detalle.</h2>
+            <p class="section-kicker">Por dónde empezar</p>
+            <h2>Elige la modalidad que mejor encaja contigo.</h2>
+            <p>Compara el formato aquí y revisa cursos, horarios y requisitos en la página de cursos.</p>
           </div>
           <div class="offer-map" aria-label="Opciones principales de estudio">
             ${productOfferings
@@ -446,6 +447,9 @@
               )
               .join("")}
           </div>
+          <div class="offer-path__actions">
+            <a class="button button--ghost" href="/courses/">Ver cursos detallados</a>
+          </div>
         </div>
       </section>
     `;
@@ -456,16 +460,16 @@
       <section class="section section--soft" id="cursos">
         <div class="section-inner">
           <div class="section-heading">
-            <p class="section-kicker">Rutas para empezar</p>
-            <h2>Empieza por ingles presencial y luego compara el formato que mejor encaja contigo.</h2>
-            <p>La portada resume las rutas. El detalle completo esta en la pagina de cursos y en cada ficha desplegable.</p>
+            <p class="section-kicker">Por dónde empezar</p>
+            <h2>Empieza por inglés presencial y luego compara el formato que mejor encaja contigo.</h2>
+            <p>Compara cursos, horarios y requisitos con más calma en esta página.</p>
           </div>
           <div class="offering-grid">
             ${productOfferings.map(renderOfferingCard).join("")}
           </div>
           <div class="catalog-links">
             <a class="button button--primary" href="/courses/">Ver cursos detallados</a>
-            <a class="button button--ghost" href="/placement-test/">Hacer examen de ubicacion</a>
+            <a class="button button--ghost" href="/placement-test/">Hacer examen de ubicación</a>
           </div>
         </div>
         ${includeCatalogPreview ? renderCatalogPreview() : ""}
@@ -477,7 +481,7 @@
     return `
       <div class="section-inner catalog-preview">
         <div class="section-heading compact">
-          <p class="section-kicker">Vista rapida del catalogo</p>
+          <p class="section-kicker">Vista rápida del catálogo</p>
           <h2>Explora por objetivo antes de entrar al detalle.</h2>
         </div>
         ${renderFilterBar()}
@@ -497,21 +501,22 @@
       <section class="section section--white" id="sedes">
         <div class="section-inner">
           <div class="section-heading">
-            <p class="section-kicker">Sedes y alcance</p>
-            <h2 id="sedes-title">Estudia en Nueva Jersey o avanza desde donde estes con opcion online.</h2>
-            <p>North Plainfield aparece solo como referencia pendiente hasta confirmar direccion y operacion final.</p>
+            <p class="section-kicker">Sedes activas</p>
+            <h2 id="sedes-title">Estudia en Nueva Jersey o avanza desde donde estés con opción online.</h2>
+            <p>Estas son las opciones activas o disponibles con confirmación previa.</p>
           </div>
           <div class="location-grid">
-            ${locations.map(renderLocationCard).join("")}
+            ${locations.filter((location) => location.status !== "pending").map(renderLocationCard).join("")}
           </div>
+          ${renderPendingLocationNote()}
         </div>
       </section>
     `;
   }
 
   function renderProofSection() {
-    const featured = testimonials[0];
-    const rest = testimonials.slice(1);
+    const featured = testimonials.find((item) => item.name === "Eric") || testimonials[0];
+    const rest = testimonials.filter((item) => item !== featured).slice(0, 2);
 
     return `
       <section class="section section--blue" id="experiencia">
@@ -519,7 +524,7 @@
           <div class="section-heading section-heading--inverted">
             <p class="section-kicker">Prueba real</p>
             <h2>No tienes que creernos. Mira los resultados por ti mismo.</h2>
-            <p>Clases reales, estudiantes reales y una experiencia que se puede escuchar antes de escribir.</p>
+            <p>Mira clases y testimonios reales antes de tomar tu siguiente paso.</p>
           </div>
           ${featured ? `
             <article class="proof-feature card card--dark">
@@ -551,19 +556,20 @@
           <div class="final-cta-copy">
             <div class="section-heading">
               <p class="section-kicker">Siguiente paso</p>
-              <h2 id="contacto-title">Elige una puerta de entrada. El equipo te ayuda a ordenar lo demás.</h2>
-              <p>La inscripción + libro por $95 se maneja como contacto con el equipo. Esta versión no procesa pagos en línea.</p>
+              <h2 id="contacto-title">Empieza con una recomendación clara y después confirma tu inscripción.</h2>
+              <p>Primero ubicamos tu nivel o resolvemos tus dudas. La inscripción + libro por $95 se confirma con el equipo cuando estés listo.</p>
             </div>
             <div class="next-step-list">
-              ${renderCtaBox("Llama ahora", "Resuelve dudas de horario, sede y formato con una persona.", site.phoneHref, "Llamar", false, "01")}
-              ${renderCtaBox("Haz el examen de ubicacion", conversionCtas.placement?.description, conversionCtas.placement?.href, conversionCtas.placement?.label, false, "02")}
-              ${renderCtaBox("Inscripcion + libro $95", conversionCtas.registration?.description, conversionCtas.registration?.href, conversionCtas.registration?.label, true, "03")}
+              ${renderCtaBox("Haz el examen de ubicación", "Recibe una recomendación inicial antes de elegir horario, nivel o modalidad.", conversionCtas.placement?.href, "Ver mi nivel", false, "01", "primary")}
+              ${renderCtaBox("Habla por WhatsApp", "Te ayudamos a elegir programa, horario y modalidad sin adivinar.", conversionCtas.advisor?.href || site.whatsappHref, "Hablar con un asesor", true, "02", "secondary")}
+              ${renderCtaBox("Llámanos", "Resuelve dudas rápidas de sede, horario o formato con una persona.", site.phoneHref, "Llamar", false, "03", "secondary")}
+              ${renderCtaBox("Inscripción + libro $95", "Cuando estés listo, te guiamos para confirmar el proceso de inscripción.", conversionCtas.registration?.href, "Confirmar proceso", true, "04", "subtle")}
             </div>
           </div>
 
           <div class="contact-card card">
-            <h3>Prefieres hablar con alguien primero?</h3>
-            <p>Completa este formulario breve y preparamos un mensaje de WhatsApp con tu interes principal.</p>
+            <h3>¿Prefieres hablar con alguien primero?</h3>
+            <p>Completa este formulario breve y preparamos un mensaje de WhatsApp con tu interés principal.</p>
             <form class="lead-form" data-lead-form>
               <div class="form-grid">
                 <label>
@@ -576,19 +582,19 @@
                 </label>
                 <label>
                   Email
-                  <input name="email" type="email" required />
+                  <input name="email" type="email" />
                 </label>
                 <label>
-                  Telefono
+                  Teléfono
                   <input name="telefono" type="tel" required />
                 </label>
                 <label>
-                  Interes
+                  Interés
                   <select name="interes">
-                    <option value="Ingles">Ingles</option>
-                    <option value="Ninos">Ninos</option>
+                    <option value="Inglés">Inglés</option>
+                    <option value="Niños">Niños</option>
                     <option value="GED">GED</option>
-                    <option value="Computacion">Computacion</option>
+                    <option value="Computación">Computación</option>
                     <option value="Otro">Otro</option>
                   </select>
                 </label>
@@ -601,8 +607,8 @@
                   </select>
                 </label>
                 <label class="form-grid__full">
-                  Ubicacion
-                  <input name="ubicacion" type="text" placeholder="Ciudad / Estado o pais" />
+                  Ubicación
+                  <input name="ubicacion" type="text" placeholder="Ciudad / Estado o país" />
                 </label>
               </div>
               <button class="button button--primary" type="submit">Hablar con un asesor</button>
@@ -619,10 +625,10 @@
       <section class="course-teaser" aria-labelledby="catalogo-mini-title">
         <div class="section-inner course-teaser__inner">
           <div>
-            <p class="section-kicker">Catalogo completo</p>
+            <p class="section-kicker">Catálogo completo</p>
             <h2 id="catalogo-mini-title">¿Quieres comparar todos los programas?</h2>
           </div>
-          <p>El detalle de inglés, niños, GED, computación y español vive en una página separada para no cargar la portada.</p>
+          <p>Revisa cursos, horarios y requisitos en una página separada para comparar con más calma.</p>
           <a class="button button--ghost" href="/courses/">Ver cursos detallados</a>
         </div>
       </section>
@@ -634,9 +640,9 @@
       <section class="section section--soft" id="catalogo-detallado">
         <div class="section-inner">
           <div class="section-heading">
-            <p class="section-kicker">Catalogo completo</p>
+            <p class="section-kicker">Catálogo completo</p>
             <h2>Compara formato, audiencia, horarios y metas antes de escribir.</h2>
-            <p>La portada te orienta; aqui ves el detalle por programa y las fichas completas que puedes compartir o revisar con un asesor.</p>
+            <p>La portada te orienta; aquí ves el detalle por programa y las fichas completas que puedes compartir o revisar con un asesor.</p>
           </div>
           ${renderFilterBar()}
           <p class="course-count" data-course-count>Mostrando ${programs.length} programas.</p>
@@ -677,10 +683,11 @@
           </div>
           <div class="faq-list">
             ${faqs
+              .slice(0, 6)
               .map(
                 (faq) => `
                   <details>
-                    <summary>${escapeHtml(faq.question)}</summary>
+                    <summary><span>${escapeHtml(faq.question)}</span></summary>
                     <p>${escapeHtml(faq.answer)}</p>
                     <p class="proof-line">${escapeHtml(faq.outcome || "")}</p>
                   </details>
@@ -705,13 +712,13 @@
                 <small>${escapeHtml(site.legal || "")}</small>
               </span>
             </a>
-            <p>Ingles presencial, hibrido y online con metodo visual, practica guiada y orientacion para elegir tu siguiente paso.</p>
+            <p>Inglés presencial, híbrido y online con método visual, práctica guiada y orientación para elegir tu siguiente paso.</p>
           </div>
           <div>
             <h3>Rutas</h3>
             <a href="/courses/">Cursos detallados</a>
-            <a href="/placement-test/">Examen de ubicacion</a>
-            <a href="${conversionCtas.registration?.href || site.whatsappHref}" target="_blank" rel="noreferrer">Inscripcion + libro $95</a>
+            <a href="/placement-test/">Examen de ubicación</a>
+            <a href="${conversionCtas.registration?.href || site.whatsappHref}" target="_blank" rel="noreferrer">Inscripción + libro $95</a>
           </div>
           <div>
             <h3>Contacto</h3>
@@ -743,7 +750,7 @@
 
   function renderProgramCard(program, directRouteLink) {
     const href = directRouteLink ? `/courses/${program.slug}/` : `#detalle-${program.slug}`;
-    const buttonLabel = directRouteLink ? "Abrir ficha completa" : "Ver resumen rapido";
+    const buttonLabel = directRouteLink ? "Abrir ficha completa" : "Ver resumen rápido";
 
     return `
       <article class="program-card" data-category="${escapeHtml(program.category)}">
@@ -798,7 +805,7 @@
           </div>
           <p class="course-note">${escapeHtml(program.courseDetail?.note || "")}</p>
           <div class="button-row">
-            <a class="button button--primary" href="/placement-test/">Hacer examen de ubicacion</a>
+            <a class="button button--primary" href="/placement-test/">Hacer examen de ubicación</a>
             <a class="button button--ghost" href="${site.whatsappHref}" target="_blank" rel="noreferrer">Confirmar con un asesor</a>
           </div>
         </div>
@@ -825,6 +832,19 @@
     `;
   }
 
+  function renderPendingLocationNote() {
+    const pending = locations.find((location) => location.status === "pending");
+    if (!pending) return "";
+
+    return `
+      <aside class="pending-location-note">
+        <p class="section-kicker">Sede en revisión</p>
+        <h3>${escapeHtml(pending.city)}</h3>
+        <p>Esta ubicación requiere confirmación previa de disponibilidad antes de presentarla como sede activa.</p>
+      </aside>
+    `;
+  }
+
   function renderTestimonialCard(item) {
     return `
       <article class="testimonial-card card">
@@ -840,9 +860,9 @@
     `;
   }
 
-  function renderCtaBox(title, body, href, label, external, number) {
+  function renderCtaBox(title, body, href, label, external, number, tone = "secondary") {
     return `
-      <article class="cta-box card">
+      <article class="cta-box cta-box--${escapeHtml(tone)} card">
         ${number ? `<span class="cta-box__number">${escapeHtml(number)}</span>` : ""}
         <div>
           <h3>${escapeHtml(title || "")}</h3>
@@ -882,7 +902,7 @@
             <label>
               ${escapeHtml(field.label)}
               <select name="${escapeHtml(field.name)}" ${field.required ? "required" : ""}>
-                <option value="">Selecciona una opcion</option>
+              <option value="">Selecciona una opción</option>
                 ${field.options.map((option) => `<option value="${escapeHtml(option)}">${escapeHtml(option)}</option>`).join("")}
               </select>
             </label>
@@ -964,6 +984,13 @@
       menuButton.addEventListener("click", () => {
         const open = nav.classList.toggle("is-open");
         menuButton.setAttribute("aria-expanded", String(open));
+      });
+
+      nav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          nav.classList.remove("is-open");
+          menuButton.setAttribute("aria-expanded", "false");
+        });
       });
     }
   }
@@ -1077,22 +1104,34 @@
       event.preventDefault();
       const formData = new FormData(form);
       const name = `${formData.get("nombre") || ""} ${formData.get("apellido") || ""}`.trim();
-      const interest = formData.get("interes") || "Ingles";
+      const interest = formData.get("interes") || "Inglés";
       const audience = formData.get("para") || "Para mi";
-      const location = formData.get("ubicacion") || "Sin ubicacion indicada";
+      const location = formData.get("ubicacion") || "Sin ubicación indicada";
       const phone = formData.get("telefono") || "";
+      const email = formData.get("email") || "";
 
       const message = [
         "Hola AIT USA, quiero ayuda para elegir mi siguiente paso.",
         `Nombre: ${name || "Sin nombre"}`,
-        `Interes: ${interest}`,
+        `Interés: ${interest}`,
         `Para: ${audience}`,
-        `Ubicacion: ${location}`,
-        `Telefono: ${phone}`,
-      ].join("\n");
+        `Ubicación: ${location}`,
+        `Teléfono: ${phone}`,
+        email ? `Email: ${email}` : "",
+      ].filter(Boolean).join("\n");
 
-      status.textContent = "Abriendo WhatsApp con tu informacion para que un asesor te responda.";
-      window.open(`${site.whatsappHref}?text=${encodeURIComponent(message)}`, "_blank", "noopener");
+      const whatsappUrl = `${site.whatsappHref}?text=${encodeURIComponent(message)}`;
+      const popup = window.open(whatsappUrl, "_blank", "noopener");
+
+      if (popup) {
+        status.textContent = "Abriendo WhatsApp con tu información para que un asesor te responda.";
+        return;
+      }
+
+      status.innerHTML = [
+        "No se abrió WhatsApp automáticamente. ",
+        `<a href="${whatsappUrl}" target="_blank" rel="noreferrer">Abrir conversación manualmente</a>.`,
+      ].join("\n");
     });
   }
 
@@ -1131,7 +1170,7 @@
         indicator.classList.toggle("is-active", index === step);
       });
       backButton.hidden = step === 0;
-      nextButton.textContent = step === panels.length - 2 ? "Ver recomendacion" : step === panels.length - 1 ? "Reiniciar" : "Siguiente";
+      nextButton.textContent = step === panels.length - 2 ? "Ver recomendación" : step === panels.length - 1 ? "Reiniciar" : "Siguiente";
     };
 
     const validateCurrentStep = () => {
@@ -1167,17 +1206,17 @@
         <p>${escapeHtml(recommendation.recommendation)}</p>
         <p><strong>Formato sugerido:</strong> ${escapeHtml(recommendation.bestFit)}</p>
         <p><strong>Objetivo principal:</strong> ${escapeHtml(goal)}</p>
-        <p><strong>Importante:</strong> esta recomendacion necesita confirmacion de un asesor antes de cerrar inscripcion u horario.</p>
+        <p><strong>Importante:</strong> esta recomendación necesita confirmación de un asesor antes de cerrar inscripción u horario.</p>
       `;
 
       const message = [
-        "Hola AIT USA, ya complete el examen de ubicacion.",
+        "Hola AIT USA, ya completé el examen de ubicación.",
         `Nombre: ${name}`,
         `Ciudad/Pais: ${city}`,
         `Objetivo: ${goal}`,
         `Resultado sugerido: ${recommendation.level}`,
         `Detalle: ${recommendation.recommendation}`,
-        "Quiero confirmar esta recomendacion con un asesor.",
+        "Quiero confirmar esta recomendación con un asesor.",
       ].join("\n");
 
       if (whatsappLink) {
@@ -1203,7 +1242,7 @@
       if (step === panels.length - 1) {
         form.reset();
         resultActions.hidden = true;
-        resultBox.innerHTML = "<p>Completa los pasos anteriores para ver tu recomendacion.</p>";
+        resultBox.innerHTML = "<p>Completa los pasos anteriores para ver tu recomendación.</p>";
         showStep(0);
         return;
       }

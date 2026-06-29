@@ -7,17 +7,17 @@ const site = {
   name: "AiT USA Institute",
   legal: "Division of Arrieta Institute LLC",
   tagline:
-    "Una escuela de ingles diferente desde 2004.",
+    "Una escuela de inglés diferente desde 2004.",
   description:
     "Explora clases de inglés, GED, computación y español con videos reales, horarios claros y orientación directa para elegir tu mejor ruta.",
   heroHeadline:
     "Aprende inglés sin traducir ni memorizar miles de palabras.",
   heroLead:
-    "Recuperamos la promesa original de AiT USA y la ordenamos mejor: metodo Graphic Concept, practica guiada, videos reales y una ruta inicial para saber por donde empezar.",
+    "Recuperamos la promesa original de AiT USA y la ordenamos mejor: método Graphic Concept, práctica guiada, videos reales y una ruta inicial para saber por dónde empezar.",
   heroQuote:
-    "Primero entiende el metodo. Luego elige curso, horario y formato con menos dudas.",
+    "Primero entiende el método. Luego elige curso, horario y formato con menos dudas.",
   heroMicrocopy:
-    "Mira el video real y despues pide una ruta inicial por WhatsApp.",
+    "Mira el video real y después pide una ruta inicial por WhatsApp.",
   heroQuickCapture: {
     title: "Tu ruta inicial en menos de 60 segundos",
     copy:
@@ -35,7 +35,7 @@ const site = {
   heroHighlights: [
     "Tecnicas de comprension para dejar de traducir palabra por palabra.",
     "Practica para hablar sin memorizar miles de palabras sueltas.",
-    "Ruta presencial, hibrida u online segun tu horario real.",
+    "Ruta presencial, híbrida u online según tu horario real.",
   ],
   canonical: "https://www.aitusainstitute.com/",
   founded: "2004",
@@ -148,7 +148,7 @@ const site = {
     scholarship: assetHires("scholarships.jpg"),
     contact: assetHires("contact-female-speaking.jpg"),
     contactAlt:
-      "Instructora de AiT USA explicando frente al pizarrón durante una clase real.",
+      "Salón de AiT USA preparado para una clase de inglés con estudiantes.",
     headset: assetHires("online-instructor-headset.jpg"),
     devices: assetHires("devices-study.jpg"),
     testimonialAntonina: assetHires("testimonial-antonina-1200.jpg"),
@@ -1061,7 +1061,7 @@ const locations = [
 
 const testimonials = [
   {
-    name: "Estudiante internacional",
+    name: "Testimonio internacional",
     image: site.images.internationalStudentVideoPoster,
     video: site.images.internationalStudentVideo,
     videoPoster: site.images.internationalStudentVideoPoster,
@@ -1069,7 +1069,7 @@ const testimonials = [
     imageAlt: "Antonina y Zulma compartiendo su experiencia real en una clase de inglés de AiT USA.",
     result: "Testimonio internacional",
     text:
-      "Una perspectiva de estudiante que ayuda a entender cómo se vive la experiencia cuando necesitas una ruta clara desde otro contexto.",
+      "Escucha cómo vivió el proceso y qué le ayudó a avanzar con más claridad.",
   },
   {
     name: "Eric",
@@ -1081,7 +1081,7 @@ const testimonials = [
       "Estudiante compartiendo su entrevista sobre la experiencia de aprendizaje en AiT USA.",
     result: "Entrevista de estudiante",
     text:
-      "Una entrevista breve para escuchar de primera mano qué cambia cuando el método y el acompañamiento son constantes.",
+      "Una entrevista breve para escuchar qué cambia cuando el método y el acompañamiento se sienten constantes.",
   },
   {
     name: "Jessica",
@@ -1093,7 +1093,7 @@ const testimonials = [
       "Estudiante adulta compartiendo su experiencia de aprendizaje en AiT USA.",
     result: "Entrevista completa",
     text:
-      "La versión completa permite escuchar más contexto, ritmo y detalles de la experiencia real.",
+      "Escucha más contexto sobre su experiencia, el ritmo de clase y los detalles que le ayudaron a avanzar.",
   },
   {
     name: "Leila",
@@ -1105,7 +1105,7 @@ const testimonials = [
       "Estudiante compartiendo testimonio en video sobre su avance y experiencia.",
     result: "Testimonio en video",
     text:
-      "Este testimonio se mantiene como reproducción manual para que el usuario controle el audio desde el inicio.",
+      "Escucha cómo vivió su proceso y qué le ayudó a seguir avanzando.",
   },
 ];
 
@@ -1422,10 +1422,10 @@ const storeProducts = [
 
 const faqs = [
   {
-    question: "¿Cómo sé qué nivel me toca en inglés?",
+    question: "¿Cómo sé cuál es mi nivel de inglés?",
     answer:
-      "Hacemos un diagnóstico inicial de 10 minutos para ubicar tu nivel (básico, intermedio o avanzado) y definir un plan de avance que sí encaje con tu semana.",
-    outcome: "Sin perder tiempo, saldrás con claridad de por dónde arrancas.",
+      "Hacemos una evaluación breve para ubicar tu nivel y recomendarte por dónde empezar.",
+    outcome: "Sales con una recomendación clara, sin adivinar.",
     cta: "Ver videos reales",
   },
   {
@@ -1445,8 +1445,8 @@ const faqs = [
   {
     question: "Voy a clases pero no logro hablar, ¿qué hago?",
     answer:
-      "Necesitas más práctica oral de baja presión. Aquí corregimos en vivo y te damos micro-objetivos para que, en pocos días, hables con más naturalidad.",
-    outcome: "La corrección llega al instante y te evita practicar con errores repetidos.",
+      "Necesitas más práctica oral con corrección en vivo. Aquí trabajas con micro-objetivos para hablar con más soltura sin sentir tanta presión.",
+    outcome: "La práctica deja de quedarse en teoría y empieza a sentirse útil.",
     cta: "Pedir orientación",
   },
   {
@@ -1464,7 +1464,7 @@ const faqs = [
     cta: "Ver horarios",
   },
   {
-    question: "Trabajo todo el día, ¿sí puedo estudiar?",
+    question: "Trabajo todo el día, ¿aun así puedo estudiar?",
     answer:
       "Sí. Tenemos opciones presenciales, híbridas y online para estudiar sin romper tu rutina laboral, con continuidad semanal realista.",
     outcome: "Puedes mantener continuidad aunque tu semana cambie.",
@@ -1494,7 +1494,7 @@ const faqs = [
 ];
 
 const painHero = {
-  eyebrow: "Ingles para la vida real",
+  eyebrow: "Inglés para la vida real",
   headline:
     "Aprende inglés sin traducirlo todo.",
   headlineLines: ["Aprende inglés", "sin traducirlo todo."],
@@ -1508,8 +1508,8 @@ const painHero = {
   trust:
     "Presencial, híbrido y online. Una ruta clara antes de elegir horario, nivel y formato.",
   ctas: {
-    primary: "Hacer examen de ubicacion",
-    secondary: "Llama ahora",
+    primary: "Ver mi nivel",
+    secondary: "Hablar con un asesor",
     tertiary: "Ver cursos detallados",
   },
 };
@@ -1517,25 +1517,25 @@ const painHero = {
 const solutionCharacteristics = [
   {
     key: "graphic-concept",
-    label: "Metodo visual",
+    label: "Método visual",
     title: "Aprende a entender sin traducir palabra por palabra",
     body:
-      "El metodo Graphic Concept organiza el ingles de forma visual para que comprendas mejor lo que escuchas y lo que quieres decir, sin depender de listas interminables de memoria.",
+      "El método Graphic Concept organiza el inglés de forma visual para que comprendas mejor lo que escuchas y lo que quieres decir, sin depender de listas interminables de memoria.",
     proof:
-      "Metodo Graphic Concept y materiales de estudio propios como parte de la ruta academica.",
+      "Ruta por niveles, seguimiento y materiales propios para sostener el avance.",
     video: site.images.differenceVideo,
     videoPoster: site.images.differenceVideoPoster,
     image: site.images.method,
-    imageAlt: "Instructora mostrando el metodo Graphic Concept en clase real.",
+    imageAlt: "Instructora mostrando el método Graphic Concept en clase real.",
   },
   {
     key: "guided-practice",
-    label: "Practica guiada",
-    title: "Habla con correccion en vivo, no solo con teoria",
+    label: "Práctica guiada",
+    title: "Habla con corrección en vivo, no solo con teoría",
     body:
-      "Aqui la practica importa. Trabajas con docentes que corrigen, repiten y guian la conversacion para ayudarte a responder con mas seguridad en situaciones reales.",
+      "Aquí la práctica importa. Trabajas con docentes que corrigen, repiten y guían la conversación para ayudarte a responder con más seguridad en situaciones reales.",
     proof:
-      "Clases, talleres, tutorias y videos reales de estudiantes y experiencia de clase.",
+      "Acompañamiento claro para estudiar dentro y fuera de clase.",
     video: site.images.introVideo,
     videoPoster: site.images.introVideoPoster,
     image: site.images.heroClassroom,
@@ -1546,73 +1546,73 @@ const solutionCharacteristics = [
     label: "Continuidad",
     title: "Sigue una ruta que se adapta a tu nivel, horario y objetivo",
     body:
-      "AIT USA te orienta para ubicar tu nivel, elegir formato y mantener continuidad con seguimiento, libro y proximos pasos claros.",
+      "AIT USA te orienta para ubicar tu nivel, elegir formato y mantener continuidad con seguimiento, libro y próximos pasos claros.",
     proof:
-      "Ruta por niveles, apoyo academico y futuras herramientas de estudio con IA solo como apoyo complementario proximamente.",
+      "Explora inglés para niños, GED, computación, español y otras rutas para metas específicas.",
     video: site.images.thirdCharacteristicVideo,
     videoPoster: site.images.thirdCharacteristicVideoPoster,
     image: site.images.routeLevels,
-    imageAlt: "Ruta por niveles y continuidad academica en AiT USA.",
+    imageAlt: "Ruta por niveles y continuidad académica en AiT USA.",
   },
 ];
 
 const productOfferings = [
   {
     key: "in-person-english",
-    title: "Ingles presencial",
+    title: "Inglés presencial",
     badge: "Programa destacado",
     marker: "Aula",
     emphasis: "primary",
-    audience: "Adultos y jovenes que quieren practicar mas de cerca",
+    audience: "Adultos y jóvenes que quieren practicar más de cerca",
     summary:
-      "La opcion principal para quienes quieren practicar mas de cerca, recibir correccion directa y sostener una rutina real de aprendizaje.",
+      "La opción principal para quienes quieren practicar más de cerca, recibir corrección directa y sostener una rutina real de aprendizaje.",
     details: [
-      "Correccion en vivo y practica constante.",
-      "Sedes activas en Nueva Jersey mas apoyo para elegir horario.",
+      "Corrección en vivo y práctica constante.",
+      "Sedes activas en Nueva Jersey más apoyo para elegir horario.",
       "Ideal para trabajo, entrevistas, escuela y vida diaria.",
     ],
     image: site.images.adultEnglish,
-    imageAlt: "Clase presencial de ingles para adultos en AiT USA.",
+    imageAlt: "Clase presencial de inglés para adultos en AiT USA.",
     href: "/courses/#ingles-presencial",
     cta: "Ver ingles presencial",
     relatedPrograms: ["ingles-jovenes-adultos"],
   },
   {
     key: "hybrid-english",
-    title: "Ingles hibrido",
+    title: "Inglés híbrido",
     badge: "Flexibilidad con seguimiento",
     marker: "Mixto",
     emphasis: "secondary",
     audience: "Quienes necesitan flexibilidad sin perder estructura",
     summary:
-      "Combina la guia de AIT USA con una ruta mas adaptable a tu agenda. Buena opcion si buscas continuidad sin depender de un solo formato.",
+      "Combina la guía de AIT USA con una ruta más adaptable a tu agenda. Buena opción si buscas continuidad sin depender de un solo formato.",
     details: [
-      "Alterna entre apoyo presencial y acompanamiento remoto.",
+      "Alterna entre apoyo presencial y acompañamiento remoto.",
       "Mantiene seguimiento con un horario realista.",
       "Pensado para estudiantes con semanas variables.",
     ],
     image: site.images.heroFemaleZoom,
-    imageAlt: "Instructora guiando una clase de ingles en formato hibrido.",
+    imageAlt: "Instructora guiando una clase de inglés en formato híbrido.",
     href: "/courses/#ingles-hibrido",
-    cta: "Ver opcion hibrida",
+    cta: "Ver opción híbrida",
     relatedPrograms: ["ingles-jovenes-adultos", "ingles-online-adultos"],
   },
   {
     key: "online-english",
-    title: "Ingles online",
+    title: "Inglés online",
     badge: "Ruta a distancia",
     marker: "Online",
     emphasis: "secondary",
     audience: "Estudiantes en otros lugares o con agenda remota",
     summary:
-      "Clases online con guia visual, practica en vivo y acompanamiento para avanzar desde casa o desde otro pais.",
+      "Clases online con guía visual, práctica en vivo y acompañamiento para avanzar desde casa o desde otro país.",
     details: [
       "Ideal para estudiantes fuera de Nueva Jersey.",
-      "WhatsApp y orientacion para elegir nivel y horario.",
-      "La IA solo se menciona como apoyo de estudio proximamente.",
+      "WhatsApp y orientación para elegir nivel y horario.",
+      "Acompañamiento claro para estudiar dentro y fuera de clase.",
     ],
     image: site.images.onlineEnglish,
-    imageAlt: "Clase de ingles online con apoyo visual.",
+    imageAlt: "Clase de inglés online con apoyo visual.",
     href: "/courses/#ingles-online",
     cta: "Ver ingles online",
     relatedPrograms: ["ingles-online-adultos"],
@@ -1620,19 +1620,19 @@ const productOfferings = [
   {
     key: "support-programs",
     title: "Programas de apoyo",
-    badge: "Mas rutas academicas",
+    badge: "Más rutas académicas",
     marker: "Apoyo",
     emphasis: "secondary",
-    audience: "Familias y estudiantes con metas especificas",
+    audience: "Familias y estudiantes con metas específicas",
     summary:
-      "Explora ingles para ninos, GED, computacion, espanol para extranjeros y cursos tecnicos sin cargar toda la explicacion en la portada.",
+      "Explora inglés para niños, GED, computación, español para extranjeros y cursos técnicos sin cargar toda la explicación en la portada.",
     details: [
-      "Ingles para ninos de 8 a 13 anos.",
-      "GED y tutorias para metas academicas concretas.",
-      "Computacion, oficina, reparacion y espanol para extranjeros.",
+      "Inglés para niños de 8 a 13 años.",
+      "GED y tutorías para metas académicas concretas.",
+      "Computación, oficina, reparación y español para extranjeros.",
     ],
     image: site.images.computing,
-    imageAlt: "Programas de apoyo academico y tecnico de AiT USA.",
+    imageAlt: "Programas de apoyo académico y técnico de AiT USA.",
     href: "/courses/#programas-de-apoyo",
     cta: "Explorar programas de apoyo",
     relatedPrograms: [
@@ -1650,25 +1650,25 @@ const productOfferings = [
 const courseCatalog = [
   {
     key: "english-paths",
-    title: "Rutas principales de ingles",
+    title: "Rutas principales de inglés",
     description:
-      "Empieza por la ruta que mejor encaja con tu formato ideal. Ingles presencial aparece primero porque es la oferta principal.",
+      "Empieza por la ruta que mejor encaja con tu formato ideal. Inglés presencial aparece primero porque es la oferta principal.",
     anchor: "rutas-principales-de-ingles",
     programs: ["ingles-jovenes-adultos", "ingles-online-adultos", "ingles-ninos"],
   },
   {
     key: "academic-support",
-    title: "Apoyo academico y metas concretas",
+    title: "Apoyo académico y metas concretas",
     description:
-      "Programas para GED, tutorias y apoyo escolar cuando necesitas una meta puntual ademas del ingles.",
+      "Programas para GED, tutorías y apoyo escolar cuando necesitas una meta puntual además del inglés.",
     anchor: "apoyo-academico",
     programs: ["ged", "tutorias-matematicas"],
   },
   {
     key: "digital-technical",
-    title: "Computacion y cursos tecnicos",
+    title: "Computación y cursos técnicos",
     description:
-      "Formacion digital practica para estudiar, trabajar o explorar una ruta tecnica complementaria.",
+      "Formación digital práctica para estudiar, trabajar o explorar una ruta técnica complementaria.",
     anchor: "computacion-y-cursos-tecnicos",
     programs: ["computacion-basica", "computacion-oficina", "reparacion-computadoras"],
   },
@@ -1676,7 +1676,7 @@ const courseCatalog = [
     key: "additional-languages",
     title: "Otros idiomas y apoyo adicional",
     description:
-      "Opciones complementarias para estudiantes que tambien necesitan espanol para extranjeros o rutas futuras.",
+      "Opciones complementarias para estudiantes que también necesitan español para extranjeros o rutas futuras.",
     anchor: "otros-idiomas-y-apoyo-adicional",
     programs: ["espanol-extranjeros"],
   },
@@ -1684,10 +1684,10 @@ const courseCatalog = [
 
 const conversionCtas = {
   placement: {
-    label: "Hacer examen de ubicacion",
+    label: "Ver mi nivel",
     href: "/placement-test/",
     description:
-      "Empieza por una recomendacion inicial de nivel y luego confirma con un asesor.",
+      "Empieza por una recomendación inicial de nivel y luego confirma con un asesor.",
   },
   advisor: {
     label: "Hablar con un asesor",
@@ -1699,44 +1699,44 @@ const conversionCtas = {
     label: "Ver cursos detallados",
     href: "/courses/",
     description:
-      "Compara ingles presencial, hibrido, online y programas de apoyo.",
+      "Compara inglés presencial, híbrido, online y programas de apoyo.",
   },
   registration: {
-    label: "Escribir por WhatsApp",
-    href: `${site.whatsappHref}?text=${encodeURIComponent("Hola AIT USA, quiero informacion para empezar con inscripcion + libro por $95 y confirmar mi siguiente paso.")}`,
+    label: "Confirmar proceso",
+    href: `${site.whatsappHref}?text=${encodeURIComponent("Hola AIT USA, quiero información para empezar con inscripción + libro por $95 y confirmar mi siguiente paso.")}`,
     description:
-      "CTA de contacto solamente. No procesa pagos en linea ni promete cobro onsite.",
+      "Si te interesa inscripción + libro por $95, te guiamos por WhatsApp para confirmar el proceso.",
     price: "$95",
   },
 };
 
 const placementTest = {
-  eyebrow: "Evaluacion inicial",
-  title: "Descubre tu punto de partida en ingles",
+  eyebrow: "Evaluación inicial",
+  title: "Descubre tu punto de partida en inglés",
   intro:
-    "Completa esta evaluacion breve para recibir una recomendacion inicial de nivel y modalidad. Un asesor debe confirmarla antes de tu inscripcion final.",
+    "Completa esta evaluación breve para recibir una recomendación inicial de nivel y modalidad. Un asesor debe confirmarla antes de tu inscripción final.",
   privacyNote:
-    "No guardamos datos sensibles en esta version estatica. Tu informacion solo se usa para preparar el mensaje de WhatsApp que decides enviar.",
+    "No guardamos datos sensibles en esta versión estática. Tu información solo se usa para preparar el mensaje de WhatsApp que decides enviar.",
   crmNote:
-    "Al final podras preparar un mensaje de WhatsApp con tu recomendacion para que un asesor confirme nivel, horario y siguiente paso.",
+    "Al final podrás preparar un mensaje de WhatsApp con tu recomendación para que un asesor confirme nivel, horario y siguiente paso.",
   steps: {
     student: "Tus datos",
-    selfAssessment: "Como te sientes hoy",
-    quiz: "Preguntas rapidas",
+    selfAssessment: "Cómo te sientes hoy",
+    quiz: "Preguntas rápidas",
     goals: "Tu objetivo",
-    result: "Recomendacion inicial",
+    result: "Recomendación inicial",
   },
   studentFields: [
     { name: "name", label: "Nombre completo", type: "text", required: true },
-    { name: "phone", label: "WhatsApp o telefono", type: "tel", required: true },
+    { name: "phone", label: "WhatsApp o teléfono", type: "tel", required: true },
     { name: "email", label: "Email", type: "email", required: true },
-    { name: "city", label: "Ciudad / Pais", type: "text", required: true },
+    { name: "city", label: "Ciudad / País", type: "text", required: true },
     {
       name: "ageGroup",
       label: "Grupo de edad",
       type: "select",
       required: true,
-      options: ["Adulto", "Joven", "Nino / Adolescente"],
+      options: ["Adulto", "Joven", "Niño / Adolescente"],
     },
   ],
   selfAssessments: [
@@ -1763,25 +1763,25 @@ const placementTest = {
   ],
   questions: [
     {
-      prompt: "Cuando alguien te saluda en ingles, tu normalmente...",
+      prompt: "Cuando alguien te saluda en inglés, tú normalmente...",
       options: [
-        { label: "No se que responder", score: 0 },
+        { label: "No sé qué responder", score: 0 },
         { label: "Respondo con frases muy cortas", score: 1 },
         { label: "Puedo mantener un intercambio simple", score: 2 },
         { label: "Respondo con bastante comodidad", score: 3 },
       ],
     },
     {
-      prompt: "Si necesitas pedir informacion en trabajo o escuela...",
+      prompt: "Si necesitas pedir información en trabajo o escuela...",
       options: [
         { label: "Prefiero evitarlo", score: 0 },
         { label: "Uso palabras sueltas o traductor", score: 1 },
-        { label: "Puedo preguntar cosas basicas", score: 2 },
+        { label: "Puedo preguntar cosas básicas", score: 2 },
         { label: "Puedo explicar mi necesidad con detalle simple", score: 3 },
       ],
     },
     {
-      prompt: "Cuando escuchas instrucciones sencillas en ingles...",
+      prompt: "Cuando escuchas instrucciones sencillas en inglés...",
       options: [
         { label: "Casi no entiendo", score: 0 },
         { label: "Entiendo algunas palabras", score: 1 },
@@ -1790,10 +1790,10 @@ const placementTest = {
       ],
     },
     {
-      prompt: "Cuando escribes un mensaje corto en ingles...",
+      prompt: "Cuando escribes un mensaje corto en inglés...",
       options: [
         { label: "No puedo hacerlo solo", score: 0 },
-        { label: "Puedo escribir algo muy basico", score: 1 },
+        { label: "Puedo escribir algo muy básico", score: 1 },
         { label: "Puedo escribir mensajes simples", score: 2 },
         { label: "Puedo escribir con relativa claridad", score: 3 },
       ],
@@ -1805,26 +1805,26 @@ const placementTest = {
     "Vida diaria",
     "Ayuda para mi hijo o hija",
     "Viajes",
-    "GED o apoyo academico",
+    "GED o apoyo académico",
   ],
   recommendations: [
     {
       key: "starter",
       min: 0,
       max: 6,
-      level: "Inicio / Basico",
+      level: "Inicio / Básico",
       recommendation:
-        "Te conviene empezar con una ruta basica enfocada en comprension, frases utiles y practica guiada.",
-      bestFit: "Ingles presencial o hibrido para construir confianza desde cero.",
+        "Te conviene empezar con una ruta básica enfocada en comprensión, frases útiles y práctica guiada.",
+      bestFit: "Inglés presencial o híbrido para construir confianza desde cero.",
     },
     {
       key: "developing",
       min: 7,
       max: 11,
-      level: "Basico alto / Intermedio inicial",
+      level: "Básico alto / Intermedio inicial",
       recommendation:
-        "Ya tienes base para trabajar conversacion simple, correccion en vivo y continuidad semanal.",
-      bestFit: "Ingles presencial, hibrido u online segun tu agenda y ubicacion.",
+        "Ya tienes base para trabajar conversación simple, corrección en vivo y continuidad semanal.",
+      bestFit: "Inglés presencial, híbrido u online según tu agenda y ubicación.",
     },
     {
       key: "advancing",
@@ -1832,8 +1832,8 @@ const placementTest = {
       max: 16,
       level: "Intermedio / Intermedio alto",
       recommendation:
-        "Puedes entrar a un grupo con mas practica oral y objetivos especificos de trabajo, escuela o continuidad academica.",
-      bestFit: "Ruta conversacional, online o presencial, segun disponibilidad y meta principal.",
+        "Puedes entrar a un grupo con más práctica oral y objetivos específicos de trabajo, escuela o continuidad académica.",
+      bestFit: "Ruta conversacional, online o presencial, según disponibilidad y meta principal.",
     },
   ],
 };
