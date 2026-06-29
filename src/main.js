@@ -388,8 +388,8 @@
               .map(
                 (item, index) => `
                   <article class="solution-slide${index === 0 ? " is-active" : ""}" data-solution-slide ${index === 0 ? "" : "hidden"}>
-                    <div class="solution-card__media">
-                      <video class="clip-card__media-player" controls playsinline preload="metadata" poster="${asset(item.videoPoster)}">
+                    <div class="solution-card__media solution-card__media--${item.videoAspect === "portrait" ? "portrait" : "landscape"}">
+                      <video class="clip-card__media-player" controls playsinline preload="metadata" width="${item.videoWidth || 16}" height="${item.videoHeight || 9}" poster="${asset(item.videoPoster)}">
                         <source src="${asset(item.video)}" type="video/mp4" />
                       </video>
                     </div>

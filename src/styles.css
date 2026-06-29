@@ -527,10 +527,10 @@ button {
 
 .solution-slide {
   display: grid;
-  grid-template-columns: minmax(430px, 0.8fr) minmax(420px, 1fr);
-  gap: 16px;
-  align-items: stretch;
-  min-height: 500px;
+  grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.9fr);
+  gap: clamp(18px, 3vw, 34px);
+  align-items: center;
+  min-height: clamp(410px, 58vh, 520px);
   padding: 18px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -543,19 +543,33 @@ button {
 }
 
 .solution-card__media {
-  display: grid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  min-height: 100%;
+  width: 100%;
+  min-height: 0;
+  padding: clamp(8px, 1.2vw, 14px);
   border-radius: calc(var(--radius) - 4px);
-  background: #000;
+  background: linear-gradient(145deg, #06165f 0%, #020815 100%);
+}
+
+.solution-card__media--landscape {
+  aspect-ratio: 848 / 480;
+}
+
+.solution-card__media--portrait {
+  justify-self: end;
+  width: min(100%, 320px);
+  aspect-ratio: 9 / 16;
 }
 
 .solution-card__media video {
   width: 100%;
   height: 100%;
-  min-height: 510px;
-  max-height: 510px;
-  object-fit: cover;
+  min-height: 0;
+  max-height: none;
+  object-fit: contain;
 }
 
 .solution-card__copy {
@@ -1452,9 +1466,13 @@ select {
     padding: 12px;
   }
 
-  .solution-card__media video {
-    min-height: 230px;
-    max-height: 260px;
+  .solution-card__media {
+    padding: 8px;
+  }
+
+  .solution-card__media--portrait {
+    justify-self: center;
+    width: min(100%, 250px);
   }
 
   .solution-card__copy {
