@@ -380,8 +380,8 @@
       <section class="section section--white" id="metodo">
         <div class="section-inner">
           <div class="section-heading">
-            <p class="section-kicker">La solucion</p>
-            <h2>Entender, practicar y continuar sin sentir que empiezas de cero cada semana.</h2>
+            <p class="section-kicker">Metodo probado</p>
+            <h2>Una estrategia de aprendizaje con 25 años de historia comprobada.</h2>
           </div>
           <div class="solution-carousel" data-solution-carousel>
             ${solutionCharacteristics
@@ -427,15 +427,15 @@
       <section class="section section--soft" id="cursos">
         <div class="section-inner offer-path">
           <div class="section-heading section-heading--framed">
-            <p class="section-kicker">Oferta principal</p>
-            <h2>Primero elige cómo quieres aprender inglés. El curso exacto vive en la pagina de detalle.</h2>
+            <p class="section-kicker">Rutas para empezar</p>
+            <h2>Elige el formato que encaja con tu vida. El detalle del curso vive en la pagina de detalle.</h2>
           </div>
           <div class="offer-map" aria-label="Opciones principales de estudio">
             ${productOfferings
               .map(
                 (item, index) => `
                   <article class="offer-node offer-node--${escapeHtml(item.emphasis || "secondary")}">
-                    <span class="offer-node__number">0${index + 1}</span>
+                    <span class="offer-node__marker" aria-hidden="true">${escapeHtml(item.marker || item.shortLabel || "")}</span>
                     <div>
                       <p class="eyebrow-chip">${escapeHtml(item.badge || "")}</p>
                       <h3>${escapeHtml(item.title)}</h3>
@@ -456,7 +456,7 @@
       <section class="section section--soft" id="cursos">
         <div class="section-inner">
           <div class="section-heading">
-            <p class="section-kicker">Oferta principal</p>
+            <p class="section-kicker">Rutas para empezar</p>
             <h2>Empieza por ingles presencial y luego compara el formato que mejor encaja contigo.</h2>
             <p>La portada resume las rutas. El detalle completo esta en la pagina de cursos y en cada ficha desplegable.</p>
           </div>

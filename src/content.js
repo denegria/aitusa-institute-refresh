@@ -1561,6 +1561,7 @@ const productOfferings = [
     key: "in-person-english",
     title: "Ingles presencial",
     badge: "Programa destacado",
+    marker: "Aula",
     emphasis: "primary",
     audience: "Adultos y jovenes que quieren practicar mas de cerca",
     summary:
@@ -1580,6 +1581,7 @@ const productOfferings = [
     key: "hybrid-english",
     title: "Ingles hibrido",
     badge: "Flexibilidad con seguimiento",
+    marker: "Mixto",
     emphasis: "secondary",
     audience: "Quienes necesitan flexibilidad sin perder estructura",
     summary:
@@ -1599,6 +1601,7 @@ const productOfferings = [
     key: "online-english",
     title: "Ingles online",
     badge: "Ruta a distancia",
+    marker: "Online",
     emphasis: "secondary",
     audience: "Estudiantes en otros lugares o con agenda remota",
     summary:
@@ -1618,6 +1621,7 @@ const productOfferings = [
     key: "support-programs",
     title: "Programas de apoyo",
     badge: "Mas rutas academicas",
+    marker: "Apoyo",
     emphasis: "secondary",
     audience: "Familias y estudiantes con metas especificas",
     summary:

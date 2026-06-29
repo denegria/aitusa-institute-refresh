@@ -336,10 +336,10 @@ button {
 }
 
 .hero {
-  min-height: min(820px, calc(100svh - 74px));
+  min-height: min(1020px, calc(100svh - 74px));
   display: flex;
   align-items: center;
-  padding: 54px 0;
+  padding: 72px 0;
   background: linear-gradient(115deg, rgba(7, 24, 53, 0.96), rgba(0, 51, 255, 0.84));
   color: var(--white);
 }
@@ -442,12 +442,12 @@ button {
 
 .hero__media {
   position: relative;
-  min-height: 500px;
+  min-height: 610px;
 }
 
 .hero__media img {
   width: 100%;
-  height: 500px;
+  height: 610px;
   object-fit: cover;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--radius);
@@ -527,10 +527,10 @@ button {
 
 .solution-slide {
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
-  gap: 24px;
+  grid-template-columns: minmax(430px, 0.8fr) minmax(420px, 1fr);
+  gap: 16px;
   align-items: stretch;
-  min-height: 430px;
+  min-height: 500px;
   padding: 18px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -543,12 +543,18 @@ button {
 }
 
 .solution-card__media {
+  display: grid;
+  overflow: hidden;
   min-height: 100%;
+  border-radius: calc(var(--radius) - 4px);
+  background: #000;
 }
 
 .solution-card__media video {
+  width: 100%;
   height: 100%;
-  max-height: 440px;
+  min-height: 510px;
+  max-height: 510px;
   object-fit: cover;
 }
 
@@ -556,7 +562,8 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 16px clamp(4px, 2vw, 22px);
+  max-width: 560px;
+  padding: 20px clamp(12px, 2vw, 28px);
 }
 
 .solution-card__copy h3 {
@@ -674,16 +681,28 @@ button {
   color: rgba(255, 255, 255, 0.76);
 }
 
-.offer-node__number {
+.offer-node__marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+  min-width: 82px;
+  min-height: 42px;
+  padding: 8px 13px;
+  border: 1px solid rgba(0, 51, 255, 0.18);
+  border-radius: 999px;
+  background: var(--blue-soft);
+  color: var(--blue);
   font-family: var(--font-display);
-  font-size: 3rem;
+  font-size: 0.95rem;
   font-weight: 900;
-  line-height: 0.9;
-  color: rgba(0, 51, 255, 0.25);
+  line-height: 1;
 }
 
-.offer-node--primary .offer-node__number {
-  color: rgba(255, 255, 255, 0.28);
+.offer-node--primary .offer-node__marker {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--white);
 }
 
 .offer-node h3 {
