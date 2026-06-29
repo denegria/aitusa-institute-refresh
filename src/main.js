@@ -53,6 +53,7 @@
     }
 
     app.innerHTML = renderHomePage();
+    initSolutionCarousel(document);
     initCatalogInteractions(document);
     initLeadForm(document);
     initFaqs(document);
@@ -168,10 +169,11 @@
       <main id="main-content">
         ${renderHero()}
         ${renderSolutionSection()}
-        ${renderOfferingsSection(true)}
+        ${renderOfferingPathSection()}
         ${renderLocationsSection()}
         ${renderProofSection()}
         ${renderFinalCtaSection()}
+        ${renderCourseTeaserSection()}
         ${renderFaqSection()}
       </main>
       ${renderFooter()}
@@ -318,13 +320,14 @@
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Navegacion principal">
           <a href="/" ${activePage === "home" ? 'aria-current="page"' : ""}>Inicio</a>
-          <a href="/courses/" ${activePage === "courses" ? 'aria-current="page"' : ""}>Cursos</a>
-          <a href="/placement-test/" ${activePage === "placement" ? 'aria-current="page"' : ""}>Examen</a>
+          <a href="${homeLink("#metodo")}">Metodo</a>
+          <a href="${homeLink("#cursos")}">Oferta</a>
+          <a href="${homeLink("#experiencia")}">Resultados</a>
           <a href="${homeLink("#sedes")}">Sedes</a>
           <a href="${homeLink("#contacto")}">Contacto</a>
         </nav>
-        <a class="header-cta" href="${conversionCtas.registration?.href || site.whatsappHref}" target="_blank" rel="noreferrer">
-          Inscripcion + libro ${escapeHtml(conversionCtas.registration?.price || "$95")}
+        <a class="header-cta" href="${site.phoneHref}">
+          Llama ahora
         </a>
       </header>
     `;
@@ -336,35 +339,35 @@
         <div class="section-inner hero__grid">
           <div class="hero__copy">
             <p class="section-kicker">${escapeHtml(painHero.eyebrow || "")}</p>
-            <h1>${escapeHtml(painHero.headline || "")}</h1>
-            <p class="hero__lead">${escapeHtml(painHero.subheadline || "")}</p>
+            <h1>
+              <span>${escapeHtml(painHero.headlineLines?.[0] || painHero.headline || "")}</span>
+              <span>${escapeHtml(painHero.headlineLines?.[1] || "")}</span>
+            </h1>
+            <div class="hero__lead-stack">
+              ${(painHero.leadLines || [painHero.subheadline || ""])
+                .map((line) => `<p>${escapeHtml(line)}</p>`)
+                .join("")}
+            </div>
             <p class="hero__trust">${escapeHtml(painHero.trust || "")}</p>
             <div class="button-row">
               <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">${escapeHtml(painHero.ctas?.primary || "Hacer examen de ubicacion")}</a>
-              <a class="button button--ghost" href="${conversionCtas.advisor?.href || site.whatsappHref}" target="_blank" rel="noreferrer">${escapeHtml(painHero.ctas?.secondary || "Hablar con un asesor")}</a>
+              <a class="button button--ghost" href="${site.phoneHref}">${escapeHtml(painHero.ctas?.secondary || "Llama ahora")}</a>
             </div>
-            <a class="inline-link" href="${conversionCtas.courses?.href || "/courses/"}">${escapeHtml(painHero.ctas?.tertiary || "Ver cursos detallados")}</a>
             <ul class="hero-bullets">
               <li>Presencial como oferta principal para practicar de cerca.</li>
               <li>Rutas hibridas y online para quien necesita flexibilidad real.</li>
-              <li>Examen de ubicacion y orientacion antes de definir el siguiente paso.</li>
+              <li>Orientacion clara antes de definir horario, nivel y siguiente paso.</li>
             </ul>
           </div>
-          <div class="hero__media card">
-            <video
-              class="hero__video clip-card__media-player"
-              data-hero-player
-              controls
-              playsinline
-              preload="metadata"
-              poster="${asset(site.images.introVideoPoster)}"
-            >
-              <source src="${asset(site.images.introVideo)}" type="video/mp4" />
-            </video>
-            <div class="hero__media-copy">
-              <p class="eyebrow-chip">Video real de AIT USA</p>
-              <h2>Comprueba el ritmo de clase antes de decidir.</h2>
-              <p>Usamos media real del instituto para que veas metodo, energia de clase y acompanamiento antes de escribir.</p>
+          <div class="hero__media">
+            <img src="${asset(site.images.heroClassroom)}" alt="${escapeHtml(site.images.contactAlt || "Clase real de AiT USA.")}" />
+            <div class="hero__route-panel">
+              <p class="eyebrow-chip">Ruta clara</p>
+              <ol>
+                <li><strong>Ubica tu nivel</strong><span>10 minutos para saber por donde empezar.</span></li>
+                <li><strong>Elige formato</strong><span>Presencial, hibrido u online segun tu semana.</span></li>
+                <li><strong>Empieza con guia</strong><span>Correccion en vivo y seguimiento constante.</span></li>
+              </ol>
             </div>
           </div>
         </div>
@@ -378,13 +381,13 @@
         <div class="section-inner">
           <div class="section-heading">
             <p class="section-kicker">La solucion</p>
-            <h2>No necesitas mas informacion suelta. Necesitas una forma clara de entender, practicar y continuar.</h2>
+            <h2>Entender, practicar y continuar sin sentir que empiezas de cero cada semana.</h2>
           </div>
-          <div class="solution-grid">
+          <div class="solution-carousel" data-solution-carousel>
             ${solutionCharacteristics
               .map(
-                (item) => `
-                  <article class="solution-card card">
+                (item, index) => `
+                  <article class="solution-slide${index === 0 ? " is-active" : ""}" data-solution-slide ${index === 0 ? "" : "hidden"}>
                     <div class="solution-card__media">
                       <video class="clip-card__media-player" controls playsinline preload="metadata" poster="${asset(item.videoPoster)}">
                         <source src="${asset(item.video)}" type="video/mp4" />
@@ -395,6 +398,48 @@
                       <h3>${escapeHtml(item.title)}</h3>
                       <p>${escapeHtml(item.body)}</p>
                       <p class="proof-line">${escapeHtml(item.proof)}</p>
+                    </div>
+                  </article>
+                `,
+              )
+              .join("")}
+            <div class="carousel-controls" aria-label="Cambiar caracteristica">
+              <button class="icon-button" type="button" data-solution-prev aria-label="Anterior">←</button>
+              <div class="carousel-dots">
+                ${solutionCharacteristics
+                  .map(
+                    (_, index) => `
+                      <button class="carousel-dot${index === 0 ? " is-active" : ""}" type="button" data-solution-dot="${index}" aria-label="Ver caracteristica ${index + 1}"></button>
+                    `,
+                  )
+                  .join("")}
+              </div>
+              <button class="icon-button" type="button" data-solution-next aria-label="Siguiente">→</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  function renderOfferingPathSection() {
+    return `
+      <section class="section section--soft" id="cursos">
+        <div class="section-inner offer-path">
+          <div class="section-heading section-heading--framed">
+            <p class="section-kicker">Oferta principal</p>
+            <h2>Primero elige cómo quieres aprender inglés. El curso exacto vive en la pagina de detalle.</h2>
+          </div>
+          <div class="offer-map" aria-label="Opciones principales de estudio">
+            ${productOfferings
+              .map(
+                (item, index) => `
+                  <article class="offer-node offer-node--${escapeHtml(item.emphasis || "secondary")}">
+                    <span class="offer-node__number">0${index + 1}</span>
+                    <div>
+                      <p class="eyebrow-chip">${escapeHtml(item.badge || "")}</p>
+                      <h3>${escapeHtml(item.title)}</h3>
+                      <p>${escapeHtml(item.summary)}</p>
                     </div>
                   </article>
                 `,
@@ -473,8 +518,8 @@
         <div class="section-inner">
           <div class="section-heading section-heading--inverted">
             <p class="section-kicker">Prueba real</p>
-            <h2>Antes de decidir, mira como hablan los estudiantes de su experiencia.</h2>
-            <p>Clases reales. Estudiantes reales. Ruta real para empezar.</p>
+            <h2>No tienes que creernos. Mira los resultados por ti mismo.</h2>
+            <p>Clases reales, estudiantes reales y una experiencia que se puede escuchar antes de escribir.</p>
           </div>
           ${featured ? `
             <article class="proof-feature card card--dark">
@@ -506,13 +551,13 @@
           <div class="final-cta-copy">
             <div class="section-heading">
               <p class="section-kicker">Siguiente paso</p>
-              <h2 id="contacto-title">No tienes que decidir todo hoy. Solo elige tu siguiente paso y te orientamos desde ahi.</h2>
-              <p>La oferta de inscripcion + libro por $95 es una invitacion a contactar al equipo. No procesa pagos en linea en esta version.</p>
+              <h2 id="contacto-title">Elige una puerta de entrada. El equipo te ayuda a ordenar lo demás.</h2>
+              <p>La inscripción + libro por $95 se maneja como contacto con el equipo. Esta versión no procesa pagos en línea.</p>
             </div>
-            <div class="cta-stack">
-              ${renderCtaBox("Empieza con inscripcion + libro por $95", conversionCtas.registration?.description, conversionCtas.registration?.href, conversionCtas.registration?.label, true)}
-              ${renderCtaBox("Haz tu examen de ubicacion", conversionCtas.placement?.description, conversionCtas.placement?.href, conversionCtas.placement?.label)}
-              ${renderCtaBox("Revisa cursos con mas detalle", conversionCtas.courses?.description, conversionCtas.courses?.href, conversionCtas.courses?.label)}
+            <div class="next-step-list">
+              ${renderCtaBox("Llama ahora", "Resuelve dudas de horario, sede y formato con una persona.", site.phoneHref, "Llamar", false, "01")}
+              ${renderCtaBox("Haz el examen de ubicacion", conversionCtas.placement?.description, conversionCtas.placement?.href, conversionCtas.placement?.label, false, "02")}
+              ${renderCtaBox("Inscripcion + libro $95", conversionCtas.registration?.description, conversionCtas.registration?.href, conversionCtas.registration?.label, true, "03")}
             </div>
           </div>
 
@@ -564,6 +609,21 @@
               <p class="form-status" data-form-status aria-live="polite"></p>
             </form>
           </div>
+        </div>
+      </section>
+    `;
+  }
+
+  function renderCourseTeaserSection() {
+    return `
+      <section class="course-teaser" aria-labelledby="catalogo-mini-title">
+        <div class="section-inner course-teaser__inner">
+          <div>
+            <p class="section-kicker">Catalogo completo</p>
+            <h2 id="catalogo-mini-title">¿Quieres comparar todos los programas?</h2>
+          </div>
+          <p>El detalle de inglés, niños, GED, computación y español vive en una página separada para no cargar la portada.</p>
+          <a class="button button--ghost" href="/courses/">Ver cursos detallados</a>
         </div>
       </section>
     `;
@@ -780,11 +840,14 @@
     `;
   }
 
-  function renderCtaBox(title, body, href, label, external) {
+  function renderCtaBox(title, body, href, label, external, number) {
     return `
       <article class="cta-box card">
-        <h3>${escapeHtml(title || "")}</h3>
-        <p>${escapeHtml(body || "")}</p>
+        ${number ? `<span class="cta-box__number">${escapeHtml(number)}</span>` : ""}
+        <div>
+          <h3>${escapeHtml(title || "")}</h3>
+          <p>${escapeHtml(body || "")}</p>
+        </div>
         <a class="button button--primary" href="${href || "#"}" ${external ? 'target="_blank" rel="noreferrer"' : ""}>${escapeHtml(label || "Continuar")}</a>
       </article>
     `;
@@ -959,6 +1022,37 @@
     } else {
       applyFilter(selectedProgram?.category || "todos");
     }
+  }
+
+  function initSolutionCarousel(scope) {
+    const carousel = scope.querySelector("[data-solution-carousel]");
+    if (!carousel) return;
+
+    const slides = [...carousel.querySelectorAll("[data-solution-slide]")];
+    const dots = [...carousel.querySelectorAll("[data-solution-dot]")];
+    const prev = carousel.querySelector("[data-solution-prev]");
+    const next = carousel.querySelector("[data-solution-next]");
+    let activeIndex = 0;
+
+    const showSlide = (index) => {
+      activeIndex = (index + slides.length) % slides.length;
+      slides.forEach((slide, slideIndex) => {
+        const active = slideIndex === activeIndex;
+        slide.hidden = !active;
+        slide.classList.toggle("is-active", active);
+      });
+      dots.forEach((dot, dotIndex) => {
+        const active = dotIndex === activeIndex;
+        dot.classList.toggle("is-active", active);
+        dot.setAttribute("aria-current", active ? "true" : "false");
+      });
+    };
+
+    prev?.addEventListener("click", () => showSlide(activeIndex - 1));
+    next?.addEventListener("click", () => showSlide(activeIndex + 1));
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => showSlide(index));
+    });
   }
 
   function initCourseRouteState() {

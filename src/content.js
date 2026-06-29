@@ -11,7 +11,7 @@ const site = {
   description:
     "Explora clases de inglés, GED, computación y español con videos reales, horarios claros y orientación directa para elegir tu mejor ruta.",
   heroHeadline:
-    "Aprende ingles sin traducir ni memorizar miles de palabras.",
+    "Aprende inglés sin traducir ni memorizar miles de palabras.",
   heroLead:
     "Recuperamos la promesa original de AiT USA y la ordenamos mejor: metodo Graphic Concept, practica guiada, videos reales y una ruta inicial para saber por donde empezar.",
   heroQuote:
@@ -1496,14 +1496,20 @@ const faqs = [
 const painHero = {
   eyebrow: "Ingles para la vida real",
   headline:
-    "Entiendes un poco, pero cuando te toca hablar, te quedas traduciendo todo.",
+    "Aprende inglés sin traducirlo todo.",
+  headlineLines: ["Aprende inglés", "sin traducirlo todo."],
+  leadLines: [
+    "Método visual.",
+    "Práctica guiada.",
+    "Corrección en vivo.",
+  ],
   subheadline:
-    "AIT USA te ayuda a practicar ingles con estructura, apoyo visual y correccion en vivo para que dejes de memorizar por memorizar y empieces a usarlo en trabajo, estudio y vida diaria.",
+    "AIT USA te ayuda a practicar inglés con estructura, apoyo visual y corrección en vivo.",
   trust:
-    "Presencial, hibrido y online. Clases reales, testimonios reales y guia para elegir tu siguiente paso.",
+    "Presencial, híbrido y online. Una ruta clara antes de elegir horario, nivel y formato.",
   ctas: {
     primary: "Hacer examen de ubicacion",
-    secondary: "Hablar con un asesor",
+    secondary: "Llama ahora",
     tertiary: "Ver cursos detallados",
   },
 };
@@ -1692,7 +1698,7 @@ const conversionCtas = {
       "Compara ingles presencial, hibrido, online y programas de apoyo.",
   },
   registration: {
-    label: "Quiero empezar con inscripcion + libro",
+    label: "Escribir por WhatsApp",
     href: `${site.whatsappHref}?text=${encodeURIComponent("Hola AIT USA, quiero informacion para empezar con inscripcion + libro por $95 y confirmar mi siguiente paso.")}`,
     description:
       "CTA de contacto solamente. No procesa pagos en linea ni promete cobro onsite.",

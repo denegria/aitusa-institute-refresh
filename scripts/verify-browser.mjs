@@ -278,11 +278,12 @@ const waitForAppReady = async () => {
           appTextLength: app?.innerText?.length || 0,
           h1: document.querySelector('h1')?.innerText || null,
           programs: document.querySelectorAll('.program-card').length,
+          offerNodes: document.querySelectorAll('.offer-node').length,
           faqs: document.querySelectorAll('.faq-list details').length,
         };
       })()`);
 
-      if (lastState.h1 && lastState.programs > 0 && lastState.faqs > 0) {
+      if (lastState.h1 && (lastState.programs > 0 || lastState.offerNodes > 0) && lastState.faqs > 0) {
         return lastState;
       }
     } catch {
