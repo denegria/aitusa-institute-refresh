@@ -1494,19 +1494,19 @@ const faqs = [
 ];
 
 const painHero = {
-  eyebrow: "Inglés para la vida real",
+  eyebrow: "Inglés práctico en New Jersey desde 2004",
   headline:
-    "Aprende inglés sin traducirlo todo.",
-  headlineLines: ["Aprende inglés", "sin traducirlo todo."],
+    "Clases de inglés para hablar con más seguridad.",
+  headlineLines: ["Clases de inglés", "para hablar con más seguridad."],
   leadLines: [
-    "Método visual.",
-    "Práctica guiada.",
-    "Corrección en vivo.",
+    "Bound Brook",
+    "Plainfield",
+    "Online",
   ],
   subheadline:
     "AIT USA te ayuda a practicar inglés con estructura, apoyo visual y corrección en vivo.",
   trust:
-    "Presencial, híbrido y online. Una ruta clara antes de elegir horario, nivel y formato.",
+    "Mira el método, confirma tu nivel y habla con un asesor antes de elegir horario.",
   ctas: {
     primary: "Ver mi nivel",
     secondary: "Hablar con un asesor",
