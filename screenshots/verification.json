@@ -1,5 +1,5 @@
 {
-  "appUrl": "http://127.0.0.1:40525/index.html",
+  "appUrl": "http://127.0.0.1:40277/index.html",
   "chrome": "/usr/bin/google-chrome-stable",
   "results": [
     {
@@ -14,14 +14,14 @@
         "footer": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/desktop-home-footer.png"
       },
       "screenshotError": null,
-      "location": "http://127.0.0.1:40525/index.html",
+      "location": "http://127.0.0.1:40277/index.html",
       "title": "AiT USA Institute | Inglés en New Jersey con ruta clara para empezar",
       "h1": "Aprende inglés\nsin traducirlo todo.",
       "programs": 0,
       "visiblePrograms": 0,
       "courseDetails": 0,
       "courseDetailLinks": 0,
-      "videoCards": 2,
+      "videoCards": 3,
       "locations": 5,
       "variantLists": 0,
       "faqs": 6,
@@ -29,7 +29,7 @@
       "videoMetadataIssues": [],
       "videoVisualIssues": [],
       "overflowing": [],
-      "pageHeight": 8142,
+      "pageHeight": 7490,
       "interactions": {
         "technologyVisible": 0,
         "courseDetails": 0,
@@ -52,14 +52,14 @@
         "footer": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/tablet-home-footer.png"
       },
       "screenshotError": null,
-      "location": "http://127.0.0.1:40525/index.html",
+      "location": "http://127.0.0.1:40277/index.html",
       "title": "AiT USA Institute | Inglés en New Jersey con ruta clara para empezar",
       "h1": "Aprende inglés\nsin traducirlo todo.",
       "programs": 0,
       "visiblePrograms": 0,
       "courseDetails": 0,
       "courseDetailLinks": 0,
-      "videoCards": 2,
+      "videoCards": 3,
       "locations": 5,
       "variantLists": 0,
       "faqs": 6,
@@ -67,7 +67,7 @@
       "videoMetadataIssues": [],
       "videoVisualIssues": [],
       "overflowing": [],
-      "pageHeight": 10736,
+      "pageHeight": 11876,
       "interactions": {
         "technologyVisible": 0,
         "courseDetails": 0,
@@ -90,14 +90,14 @@
         "footer": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/mobile-home-footer.png"
       },
       "screenshotError": null,
-      "location": "http://127.0.0.1:40525/index.html",
+      "location": "http://127.0.0.1:40277/index.html",
       "title": "AiT USA Institute | Inglés en New Jersey con ruta clara para empezar",
       "h1": "Aprende inglés\nsin traducirlo todo.",
       "programs": 0,
       "visiblePrograms": 0,
       "courseDetails": 0,
       "courseDetailLinks": 0,
-      "videoCards": 2,
+      "videoCards": 3,
       "locations": 5,
       "variantLists": 0,
       "faqs": 6,
@@ -105,7 +105,7 @@
       "videoMetadataIssues": [],
       "videoVisualIssues": [],
       "overflowing": [],
-      "pageHeight": 12321,
+      "pageHeight": 14537,
       "interactions": {
         "technologyVisible": 0,
         "courseDetails": 0,
@@ -118,7 +118,7 @@
     },
     {
       "name": "course-route-computacion-oficina",
-      "location": "http://127.0.0.1:40525/cursos/computacion-oficina/",
+      "location": "http://127.0.0.1:40277/cursos/computacion-oficina/",
       "title": "Computación para oficina | Cursos AiT USA Institute",
       "canonical": "https://www.aitusainstitute.com/courses/computacion-oficina/",
       "openCourseDetail": "computacion-oficina",

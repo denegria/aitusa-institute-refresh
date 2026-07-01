@@ -1065,6 +1065,8 @@ const testimonials = [
     image: site.images.internationalStudentVideoPoster,
     video: site.images.internationalStudentVideo,
     videoPoster: site.images.internationalStudentVideoPoster,
+    videoWidth: 1080,
+    videoHeight: 1080,
     duration: "0:46",
     imageAlt: "Antonina y Zulma compartiendo su experiencia real en una clase de inglés de AiT USA.",
     result: "Testimonio internacional",
@@ -1076,6 +1078,8 @@ const testimonials = [
     image: site.images.ericInterviewVideoPoster,
     video: site.images.ericInterviewVideo,
     videoPoster: site.images.ericInterviewVideoPoster,
+    videoWidth: 480,
+    videoHeight: 640,
     duration: "0:42",
     imageAlt:
       "Estudiante compartiendo su entrevista sobre la experiencia de aprendizaje en AiT USA.",
@@ -1085,21 +1089,26 @@ const testimonials = [
   },
   {
     name: "Jessica",
+    headline: "Jessica entrevista a un estudiante",
     image: site.images.jessicaInterviewVideoPoster,
     video: site.images.jessicaInterviewVideo,
     videoPoster: site.images.jessicaInterviewVideoPoster,
+    videoWidth: 480,
+    videoHeight: 848,
     duration: "2:52",
     imageAlt:
-      "Estudiante adulta compartiendo su experiencia de aprendizaje en AiT USA.",
+      "Jessica entrevistando a un estudiante sobre su experiencia de aprendizaje en AiT USA.",
     result: "Entrevista completa",
     text:
-      "Escucha más contexto sobre su experiencia, el ritmo de clase y los detalles que le ayudaron a avanzar.",
+      "Jessica empezó como estudiante de AiT y hoy es una de las docentes referentes del método. Escucha más contexto sobre su experiencia, el ritmo de clase y los detalles que ayudan a avanzar.",
   },
   {
     name: "Leila",
     image: site.images.leilaTestimonialVideoPoster,
     video: site.images.leilaTestimonialVideo,
     videoPoster: site.images.leilaTestimonialVideoPoster,
+    videoWidth: 848,
+    videoHeight: 480,
     duration: "1:06",
     imageAlt:
       "Estudiante compartiendo testimonio en video sobre su avance y experiencia.",
@@ -1494,7 +1503,7 @@ const faqs = [
 ];
 
 const painHero = {
-  eyebrow: "Inglés para la vida real",
+  eyebrow: "Inglés presencial · híbrido · online",
   headline:
     "Aprende inglés sin traducirlo todo.",
   headlineLines: ["Aprende inglés", "sin traducirlo todo."],
@@ -1504,9 +1513,9 @@ const painHero = {
     "Corrección en vivo.",
   ],
   subheadline:
-    "AIT USA te ayuda a practicar inglés con estructura, apoyo visual y corrección en vivo.",
+    "AIT USA te ayuda a practicar inglés con estructura, apoyo visual y corrección en vivo antes de escoger horario, nivel y formato.",
   trust:
-    "Presencial, híbrido y online. Una ruta clara antes de elegir horario, nivel y formato.",
+    "El foco es inglés. GED, computación y otros programas viven en el catálogo detallado para no distraer tu primer paso.",
   ctas: {
     primary: "Ver mi nivel",
     secondary: "Hablar con un asesor",
@@ -1525,9 +1534,9 @@ const solutionCharacteristics = [
       "Ruta por niveles, seguimiento y materiales propios para sostener el avance.",
     video: site.images.differenceVideo,
     videoPoster: site.images.differenceVideoPoster,
-    videoAspect: "landscape",
-    videoWidth: 848,
-    videoHeight: 480,
+    videoAspect: "portrait",
+    videoWidth: 480,
+    videoHeight: 848,
     image: site.images.method,
     imageAlt: "Instructora mostrando el método Graphic Concept en clase real.",
   },

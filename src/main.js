@@ -334,15 +334,24 @@
   }
 
   function renderHero() {
+    const activeLocations = [
+      ...locations.filter((location) => location.status === "active").slice(0, 3),
+      ...locations.filter((location) => location.status === "online").slice(0, 1),
+    ];
+
     return `
       <section class="hero section" id="inicio">
         <div class="section-inner hero__grid">
           <div class="hero__copy">
-            <p class="section-kicker">${escapeHtml(painHero.eyebrow || "")}</p>
+            <p class="section-kicker hero__kicker">
+              <span aria-hidden="true"></span>
+              ${escapeHtml(painHero.eyebrow || "")}
+            </p>
             <h1>
               <span>${escapeHtml(painHero.headlineLines?.[0] || painHero.headline || "")}</span>
               <span>${escapeHtml(painHero.headlineLines?.[1] || "")}</span>
             </h1>
+            <p class="hero__summary">${escapeHtml(painHero.subheadline || "")}</p>
             <div class="hero__lead-stack">
               ${(painHero.leadLines || [painHero.subheadline || ""])
                 .map((line) => `<p>${escapeHtml(line)}</p>`)
@@ -353,21 +362,29 @@
               <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">${escapeHtml(painHero.ctas?.primary || "Ver mi nivel")}</a>
               <a class="button button--ghost" href="${site.whatsappHref}" target="_blank" rel="noreferrer">${escapeHtml(painHero.ctas?.secondary || "Hablar con un asesor")}</a>
             </div>
-            <ul class="hero-bullets">
-              <li>Presencial como oferta principal para practicar de cerca.</li>
-              <li>Opciones híbridas y online si necesitas flexibilidad real.</li>
-              <li>Orientación clara antes de definir horario, nivel y siguiente paso.</li>
-            </ul>
+            <div class="hero__locations" aria-label="Sedes y formatos">
+              <strong>New Jersey</strong>
+              ${activeLocations
+                .map((location) => `<a href="#sedes">${escapeHtml(location.status === "online" ? "Online" : location.city.replace(", New Jersey", ""))}</a>`)
+                .join("")}
+            </div>
           </div>
-          <div class="hero__media">
-            <img src="${asset(site.images.heroClassroom)}" alt="${escapeHtml(site.images.contactAlt || "Clase real de AiT USA.")}" />
-            <div class="hero__route-panel">
-              <p class="eyebrow-chip">Ruta clara</p>
-              <ol>
-                <li><strong>Ubica tu nivel</strong><span>10 minutos para saber por dónde empezar.</span></li>
-                <li><strong>Elige formato</strong><span>Presencial, híbrido u online según tu semana.</span></li>
-                <li><strong>Empieza con guía</strong><span>Corrección en vivo y seguimiento constante.</span></li>
-              </ol>
+          <div class="hero__proof">
+            <a class="hero-video-card" href="#experiencia" aria-label="Ver videos reales de AiT USA">
+              <img src="${asset(site.images.introVideoPoster)}" alt="Video real de introducción a AiT USA Institute." />
+              <span class="hero-video-card__play" aria-hidden="true"></span>
+              <span class="hero-video-card__caption">Video real · Método AiT USA</span>
+            </a>
+            <div class="format-badges" aria-label="Formatos de clase">
+              <span>Presencial</span>
+              <span>Híbrido</span>
+              <span>Online</span>
+            </div>
+            <div class="hero__signal-bar" aria-label="Señales de confianza">
+              <div><strong>20+</strong><span>años</span></div>
+              <div><strong>GC</strong><span>Graphic Concept</span></div>
+              <div><strong>3</strong><span>formatos</span></div>
+              <div><strong>NJ</strong><span>sedes locales</span></div>
             </div>
           </div>
         </div>
@@ -378,10 +395,25 @@
   function renderSolutionSection() {
     return `
       <section class="section section--white" id="metodo">
-        <div class="section-inner">
-          <div class="section-heading">
+        <div class="section-inner solution-intro">
+          <div class="section-heading section-heading--framed">
             <p class="section-kicker">Método probado</p>
-            <h2>Más de 20 años ayudando a estudiantes a entender y hablar inglés con más seguridad.</h2>
+            <h2>Primero entiende cómo funciona la clase. Después eliges horario, nivel y formato.</h2>
+            <p>La portada no necesita vender todos los cursos. Necesita mostrar que AiT USA enseña inglés con método, práctica y seguimiento real.</p>
+          </div>
+          <div class="method-proof-grid" aria-label="Qué hace diferente al método AiT USA">
+            <article>
+              <strong>Comprensión visual</strong>
+              <span>Dejas de depender de traducción palabra por palabra.</span>
+            </article>
+            <article>
+              <strong>Práctica guiada</strong>
+              <span>Hablas con corrección en vivo y ejemplos reales.</span>
+            </article>
+            <article>
+              <strong>Ruta semanal</strong>
+              <span>Sabes qué practicar, cuándo avanzar y qué ajustar.</span>
+            </article>
           </div>
           <div class="solution-carousel" data-solution-carousel>
             ${solutionCharacteristics
@@ -389,9 +421,11 @@
                 (item, index) => `
                   <article class="solution-slide${index === 0 ? " is-active" : ""}" data-solution-slide ${index === 0 ? "" : "hidden"}>
                     <div class="solution-card__media solution-card__media--${item.videoAspect === "portrait" ? "portrait" : "landscape"}">
+                      <div class="media-frame" style="--media-aspect: ${Number(item.videoWidth) || 16} / ${Number(item.videoHeight) || 9}">
                       <video class="clip-card__media-player" controls playsinline preload="metadata" width="${item.videoWidth || 16}" height="${item.videoHeight || 9}" poster="${asset(item.videoPoster)}">
                         <source src="${asset(item.video)}" type="video/mp4" />
                       </video>
+                      </div>
                     </div>
                     <div class="solution-card__copy">
                       <p class="eyebrow-chip">${escapeHtml(item.label)}</p>
@@ -515,33 +549,44 @@
   }
 
   function renderProofSection() {
-    const featured = testimonials.find((item) => item.name === "Eric") || testimonials[0];
-    const rest = testimonials.filter((item) => item !== featured).slice(0, 2);
+    const featured = testimonials.find((item) => item.name === "Jessica") || testimonials[0];
+    const rest = testimonials.filter((item) => item !== featured).slice(0, 3);
 
     return `
       <section class="section section--blue" id="experiencia">
-        <div class="section-inner">
+        <div class="section-inner proof-section">
           <div class="section-heading section-heading--inverted">
             <p class="section-kicker">Prueba real</p>
             <h2>No tienes que creernos. Mira los resultados por ti mismo.</h2>
             <p>Mira clases y testimonios reales antes de tomar tu siguiente paso.</p>
           </div>
           ${featured ? `
-            <article class="proof-feature card card--dark">
+            <article class="proof-feature">
               <div class="proof-feature__media">
-                <video class="testimonial-card__video" controls playsinline preload="metadata" poster="${asset(featured.videoPoster || featured.image)}">
-                  <source src="${asset(featured.video)}" type="video/mp4" />
-                </video>
+                <div class="media-frame media-frame--${(featured.videoHeight || 9) > (featured.videoWidth || 16) ? "portrait" : "landscape"}" style="--media-aspect: ${Number(featured.videoWidth) || 16} / ${Number(featured.videoHeight) || 9}">
+                  <video class="testimonial-card__video" controls playsinline preload="metadata" width="${featured.videoWidth || 16}" height="${featured.videoHeight || 9}" poster="${asset(featured.videoPoster || featured.image)}">
+                    <source src="${asset(featured.video)}" type="video/mp4" />
+                  </video>
+                </div>
               </div>
               <div class="proof-feature__copy">
                 <p class="eyebrow-chip">Testimonio destacado</p>
-                <h3>${escapeHtml(featured.name)}</h3>
+                <h3>${escapeHtml(featured.headline || featured.name)}</h3>
                 <p>${escapeHtml(featured.text)}</p>
                 <p class="proof-line">${escapeHtml(featured.result)} · ${escapeHtml(featured.duration || "")}</p>
+                <div class="proof-feature__signals" aria-label="Señales de prueba">
+                  <span>Entrevista real</span>
+                  <span>Clase y proceso</span>
+                  <span>Antes de inscribirte</span>
+                </div>
               </div>
             </article>
           ` : ""}
-          <div class="testimonial-grid">
+          <div class="proof-support-heading">
+            <h3>Más voces para validar el ritmo y el acompañamiento.</h3>
+            <p>Videos cortos, sin inventar frases ni esconder la experiencia real detrás de bloques de texto.</p>
+          </div>
+          <div class="testimonial-grid testimonial-grid--compact">
             ${rest.map(renderTestimonialCard).join("")}
           </div>
         </div>
@@ -551,13 +596,13 @@
 
   function renderFinalCtaSection() {
     return `
-      <section class="section section--white" id="contacto">
+      <section class="section final-cta-section" id="contacto">
         <div class="section-inner final-cta-layout">
           <div class="final-cta-copy">
-            <div class="section-heading">
+            <div class="section-heading section-heading--framed">
               <p class="section-kicker">Siguiente paso</p>
-              <h2 id="contacto-title">Empieza con una recomendación clara y después confirma tu inscripción.</h2>
-              <p>Primero ubicamos tu nivel o resolvemos tus dudas. La inscripción + libro por $95 se confirma con el equipo cuando estés listo.</p>
+              <h2 id="contacto-title">Empieza con una guía clara.</h2>
+              <p>Te ayudamos a elegir nivel, horario y modalidad antes de confirmar la inscripción + libro por $95.</p>
             </div>
             <div class="next-step-list">
               ${renderCtaBox("Haz el examen de ubicación", "Recibe una recomendación inicial antes de elegir horario, nivel o modalidad.", conversionCtas.placement?.href, "Ver mi nivel", false, "01", "primary")}
@@ -568,6 +613,7 @@
           </div>
 
           <div class="contact-card card">
+            <p class="section-kicker">Respuesta humana</p>
             <h3>¿Prefieres hablar con alguien primero?</h3>
             <p>Completa este formulario breve y preparamos un mensaje de WhatsApp con tu interés principal.</p>
             <form class="lead-form" data-lead-form>
@@ -614,6 +660,10 @@
               <button class="button button--primary" type="submit">Hablar con un asesor</button>
               <p class="form-status" data-form-status aria-live="polite"></p>
             </form>
+            <div class="contact-card__footnote">
+              <strong>También puedes escribir directo.</strong>
+              <a href="${site.whatsappHref}" target="_blank" rel="noreferrer">${escapeHtml(site.whatsapp)}</a>
+            </div>
           </div>
         </div>
       </section>
@@ -626,10 +676,12 @@
         <div class="section-inner course-teaser__inner">
           <div>
             <p class="section-kicker">Catálogo completo</p>
-            <h2 id="catalogo-mini-title">¿Quieres comparar todos los programas?</h2>
+            <h2 id="catalogo-mini-title">Ver todos los cursos.</h2>
           </div>
-          <p>Revisa cursos, horarios y requisitos en una página separada para comparar con más calma.</p>
-          <a class="button button--ghost" href="/courses/">Ver cursos detallados</a>
+          <div class="course-teaser__copy">
+            <p>El detalle completo vive en una página aparte para mantener esta portada enfocada en el primer paso.</p>
+          </div>
+          <a class="button button--ghost" href="/courses/">Ver cursos</a>
         </div>
       </section>
     `;
@@ -675,11 +727,12 @@
 
   function renderFaqSection() {
     return `
-      <section class="section section--white">
-        <div class="section-inner">
-          <div class="section-heading">
+      <section class="section faq-section">
+        <div class="section-inner faq-layout">
+          <div class="section-heading section-heading--framed">
             <p class="section-kicker">Preguntas frecuentes</p>
             <h2>Resuelve dudas antes de hablar con el equipo.</h2>
+            <p>Preguntas cortas para quitar fricción antes del primer contacto. La conversación real sigue por WhatsApp o llamada.</p>
           </div>
           <div class="faq-list">
             ${faqs
@@ -848,9 +901,11 @@
   function renderTestimonialCard(item) {
     return `
       <article class="testimonial-card card">
-        <video controls playsinline preload="metadata" poster="${asset(item.videoPoster || item.image)}">
-          <source src="${asset(item.video)}" type="video/mp4" />
-        </video>
+        <div class="media-frame media-frame--${(item.videoHeight || 9) > (item.videoWidth || 16) ? "portrait" : "landscape"}" style="--media-aspect: ${Number(item.videoWidth) || 16} / ${Number(item.videoHeight) || 9}">
+          <video controls playsinline preload="metadata" width="${item.videoWidth || 16}" height="${item.videoHeight || 9}" poster="${asset(item.videoPoster || item.image)}">
+            <source src="${asset(item.video)}" type="video/mp4" />
+          </video>
+        </div>
         <div class="testimonial-card__body">
           <h3>${escapeHtml(item.name)}</h3>
           <p>${escapeHtml(item.text)}</p>
