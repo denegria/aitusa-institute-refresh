@@ -343,34 +343,31 @@
               <span>${escapeHtml(painHero.headlineLines?.[0] || painHero.headline || "")}</span>
               <span>${escapeHtml(painHero.headlineLines?.[1] || "")}</span>
             </h1>
-            <p class="hero__statement">${escapeHtml(painHero.trust || "")}</p>
             <div class="hero__lead-stack">
               ${(painHero.leadLines || [painHero.subheadline || ""])
                 .map((line) => `<p>${escapeHtml(line)}</p>`)
                 .join("")}
             </div>
+            <p class="hero__trust">${escapeHtml(painHero.trust || "")}</p>
             <div class="button-row">
               <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">${escapeHtml(painHero.ctas?.primary || "Ver mi nivel")}</a>
               <a class="button button--ghost" href="${site.whatsappHref}" target="_blank" rel="noreferrer">${escapeHtml(painHero.ctas?.secondary || "Hablar con un asesor")}</a>
             </div>
-            <div class="hero__credibility" aria-label="Credenciales principales">
-              <p><strong>20+ años</strong><span>enseñando inglés práctico en New Jersey.</span></p>
-              <p><strong>3 formatos</strong><span>presencial, híbrido y online.</span></p>
-              <p><strong>Ruta clara</strong><span>nivel, horario y siguiente paso.</span></p>
-            </div>
+            <ul class="hero-bullets">
+              <li>Presencial como oferta principal para practicar de cerca.</li>
+              <li>Opciones híbridas y online si necesitas flexibilidad real.</li>
+              <li>Orientación clara antes de definir horario, nivel y siguiente paso.</li>
+            </ul>
           </div>
-          <div class="hero__story" aria-label="Evidencia visual de AiT USA">
-            <figure class="hero__portrait">
-              <img src="${asset(site.images.heroFemaleSpeakingPoster)}" alt="${escapeHtml("Estudiante de AiT USA con material de inglés en un salón real.")}" />
-              <figcaption>Material real, asesoria directa y ruta por nivel.</figcaption>
-            </figure>
-            <div class="hero__proof-card hero__proof-card--years">
-              <strong>Desde 2004</strong>
-              <span>una escuela local, no una página genérica.</span>
-            </div>
-            <div class="hero__proof-card hero__proof-card--locations">
-              <strong>Bound Brook / Plainfield</strong>
-              <span>clases presenciales con opción online.</span>
+          <div class="hero__media">
+            <img src="${asset(site.images.heroClassroom)}" alt="${escapeHtml(site.images.contactAlt || "Clase real de AiT USA.")}" />
+            <div class="hero__route-panel">
+              <p class="eyebrow-chip">Ruta clara</p>
+              <ol>
+                <li><strong>Ubica tu nivel</strong><span>10 minutos para saber por dónde empezar.</span></li>
+                <li><strong>Elige formato</strong><span>Presencial, híbrido u online según tu semana.</span></li>
+                <li><strong>Empieza con guía</strong><span>Corrección en vivo y seguimiento constante.</span></li>
+              </ol>
             </div>
           </div>
         </div>
@@ -380,20 +377,11 @@
 
   function renderSolutionSection() {
     return `
-      <section class="section method-proof" id="metodo">
-        <div class="section-inner method-proof__grid">
-          <div class="method-proof__intro">
+      <section class="section section--white" id="metodo">
+        <div class="section-inner">
+          <div class="section-heading">
             <p class="section-kicker">Método probado</p>
-            <h2>No tienes que creernos. Mira cómo enseñamos.</h2>
-            <p>
-              El primer contacto debe sentirse real: método visible, clases explicadas,
-              testimonios y una ruta simple antes de pagar o registrarte.
-            </p>
-            <ul class="method-proof__list">
-              <li><strong>Comprensión visual:</strong> entiendes patrones antes de memorizar palabras sueltas.</li>
-              <li><strong>Práctica guiada:</strong> corrección en vivo para hablar con menos bloqueo.</li>
-              <li><strong>Seguimiento:</strong> nivel, horario y formato con acompañamiento.</li>
-            </ul>
+            <h2>Más de 20 años ayudando a estudiantes a entender y hablar inglés con más seguridad.</h2>
           </div>
           <div class="solution-carousel" data-solution-carousel>
             ${solutionCharacteristics
