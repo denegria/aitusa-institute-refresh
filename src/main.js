@@ -40,6 +40,7 @@
     if (route.page === "placement") {
       app.innerHTML = renderPlacementPage();
       initPlacementTest();
+      scrollToCurrentHash();
       return;
     }
 
@@ -49,6 +50,7 @@
       initLeadForm(document);
       initFaqs(document);
       initCourseRouteState();
+      scrollToCurrentHash();
       return;
     }
 
@@ -57,6 +59,7 @@
     initCatalogInteractions(document);
     initLeadForm(document);
     initFaqs(document);
+    scrollToCurrentHash();
   }
 
   function getRoute() {
@@ -361,6 +364,7 @@
             <div class="button-row">
               <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">${escapeHtml(painHero.ctas?.primary || "Ver mi nivel")}</a>
               <a class="button button--ghost" href="${site.whatsappHref}" target="_blank" rel="noreferrer">${escapeHtml(painHero.ctas?.secondary || "Hablar con un asesor")}</a>
+              <a class="hero__course-link" href="/courses/">${escapeHtml(painHero.ctas?.tertiary || "Ver cursos detallados")}</a>
             </div>
             <div class="hero__locations" aria-label="Sedes y formatos">
               <strong>New Jersey</strong>
@@ -379,6 +383,21 @@
               <span>Presencial</span>
               <span>Híbrido</span>
               <span>Online</span>
+            </div>
+            <div class="hero__route-panel">
+              <p class="eyebrow-chip">Tu primer paso</p>
+              <ol>
+                ${(painHero.routeSteps || [])
+                  .map(
+                    (step) => `
+                      <li>
+                        <strong>${escapeHtml(step.number)}. ${escapeHtml(step.title)}</strong>
+                        <span>${escapeHtml(step.body)}</span>
+                      </li>
+                    `,
+                  )
+                  .join("")}
+              </ol>
             </div>
             <div class="hero__signal-bar" aria-label="Señales de confianza">
               <div><strong>20+</strong><span>años</span></div>
@@ -785,8 +804,10 @@
   }
 
   function renderOfferingCard(item) {
+    const anchor = getHashAnchor(item.href) || item.key || "";
+
     return `
-      <article class="offering-card card offering-card--${escapeHtml(item.emphasis || "secondary")}">
+      <article class="offering-card card offering-card--${escapeHtml(item.emphasis || "secondary")}"${anchor ? ` id="${escapeHtml(anchor)}"` : ""}>
         <img src="${asset(item.image)}" alt="${escapeHtml(item.imageAlt)}" />
         <div class="offering-card__body">
           <p class="eyebrow-chip">${escapeHtml(item.badge || "")}</p>
@@ -1322,6 +1343,20 @@
 
   function homeLink(hash) {
     return route.page === "home" ? hash : `/${hash}`;
+  }
+
+  function getHashAnchor(href) {
+    const hashIndex = String(href || "").indexOf("#");
+    return hashIndex >= 0 ? String(href).slice(hashIndex + 1) : "";
+  }
+
+  function scrollToCurrentHash() {
+    const anchor = getHashAnchor(window.location.hash);
+    if (!anchor) return;
+
+    window.setTimeout(() => {
+      document.getElementById(anchor)?.scrollIntoView({ block: "start" });
+    }, 0);
   }
 
   function absoluteUrl(path) {

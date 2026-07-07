@@ -1505,22 +1505,43 @@ const faqs = [
 const painHero = {
   eyebrow: "Inglés presencial · híbrido · online",
   headline:
-    "Aprende inglés sin traducirlo todo.",
-  headlineLines: ["Aprende inglés", "sin traducirlo todo."],
+    "Encuentra tu ruta de inglés sin adivinar.",
+  headlineLines: ["Encuentra tu ruta", "sin adivinar."],
   leadLines: [
-    "Método visual.",
-    "Práctica guiada.",
-    "Corrección en vivo.",
+    "Si probaste clases, apps o videos y todavía te bloqueas al hablar, empieza por ubicar tu nivel.",
+    "AIT USA te ayuda a elegir formato, horario y siguiente paso con una ruta clara.",
   ],
   subheadline:
-    "AIT USA te ayuda a practicar inglés con estructura, apoyo visual y corrección en vivo antes de escoger horario, nivel y formato.",
+    "Primero vemos dónde estás. Después eliges entre presencial, híbrido u online con apoyo humano y el método Graphic Concept.",
   trust:
-    "El foco es inglés. GED, computación y otros programas viven en el catálogo detallado para no distraer tu primer paso.",
+    "El foco inicial es inglés. GED, computación y otros programas siguen disponibles en el catálogo detallado.",
   ctas: {
     primary: "Ver mi nivel",
     secondary: "Hablar con un asesor",
     tertiary: "Ver cursos detallados",
   },
+  routeSteps: [
+    {
+      number: "1",
+      title: "Ver mi nivel",
+      body: "Haz una evaluación breve para orientar tu punto de partida.",
+    },
+    {
+      number: "2",
+      title: "Elegir formato",
+      body: "Compara presencial, híbrido u online según tu horario real.",
+    },
+    {
+      number: "3",
+      title: "Confirmar inscripción + libro",
+      body: "El paquete de inicio está publicado como registración + libro por $95.",
+    },
+    {
+      number: "4",
+      title: "Empezar clase",
+      body: "Un asesor confirma nivel, sede, horario y próximos pasos.",
+    },
+  ],
 };
 
 const solutionCharacteristics = [
