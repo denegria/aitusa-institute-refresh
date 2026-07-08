@@ -11,6 +11,7 @@
     "links": "node ./scripts/extract-links.mjs",
     "posters": "node ./scripts/extract-video-posters.mjs",
     "check:assets": "node ./scripts/check-assets.mjs",
+    "test:portal-auth": "node --test tests/portal-auth.test.mjs",
     "verify:browser": "node ./scripts/verify-browser.mjs"
   }
 }
