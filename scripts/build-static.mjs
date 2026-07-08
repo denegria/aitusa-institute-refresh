@@ -12,6 +12,9 @@ await mkdir(dist, { recursive: true });
 await cp(path.join(root, "index.html"), path.join(dist, "index.html"));
 await cp(path.join(root, "src"), path.join(dist, "src"), { recursive: true });
 await cp(path.join(root, "public"), path.join(dist, "public"), { recursive: true });
+if (existsSync(path.join(root, "portal"))) {
+  await cp(path.join(root, "portal"), path.join(dist, "portal"), { recursive: true });
+}
 
 const contentSource = await readFile(path.join(root, "src", "content.js"), "utf8");
 const context = { window: {} };
