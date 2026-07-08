@@ -60,6 +60,15 @@ against the same requirements:
 - Data export/deletion support for MIS-279 privacy requirements.
 - Clean server-side integration with AIT CRM API contracts.
 
+Director update, 2026-07-08: WorkOS AuthKit is the recommended future provider
+candidate for the real portal auth path, subject to runtime and setup approval.
+Do not configure a live WorkOS project, add secrets, install provider SDKs, or
+wire production auth in the next implementation slice. WorkOS should be
+evaluated first because it keeps identity/session ownership outside AIT CRM,
+supports hosted auth and user management patterns, and has documented Next.js
+and SvelteKit paths. Clerk, Auth0, Supabase Auth, and framework-native auth stay
+as fallbacks or comparison points. Final provider setup remains approval-gated.
+
 ## Source Of Truth
 
 - Auth provider: credentials, login sessions, verified email/phone factors, and
