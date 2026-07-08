@@ -172,4 +172,3 @@ Acceptance:
   wide-open chat surface.
 - Treat CRM event logging as a shared platform dependency. If it is designed well,
   the public site, portal, payments, and attendance all become easier.
-
