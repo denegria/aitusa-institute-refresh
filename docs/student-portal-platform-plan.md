@@ -14,8 +14,11 @@ as an AIT USA digital platform:
   payments, events, follow-up, and reporting.
 
 Do not force these features into the current static site without a stack/auth/data
-decision. The current static repo can own planning, public pages, prototypes, and
-contracts, but authenticated portal work needs a real app/runtime path.
+decision. Director update, 2026-07-08: the preferred app-grade direction is an
+integrated React/Next migration for the public refresh plus portal. The current
+static repo can still own planning, public pages, and fixture-backed prototypes,
+but authenticated portal work should move toward that integrated runtime rather
+than a separate long-term portal site.
 
 ## Core Platform Principles
 
