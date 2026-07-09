@@ -46,10 +46,21 @@ describe("MIS-267 content hygiene", () => {
 
   it("captures the legacy placement exam source for the on-site handoff", async () => {
     const { placementTest } = await loadSiteData();
+    const questionCount = placementTest.questions.reduce(
+      (total, level) => total + level.items.length,
+      0,
+    );
 
     assert.match(placementTest.legacySource.title, /PLACEMENT EXAM/);
     assert.equal(placementTest.legacySource.formId, "1B_rhVh4lmOIySRtOTOs1rrjas7vns9zRzamncquwcQg");
+    assert.equal(placementTest.legacySource.legacyLevels, 6);
+    assert.equal(placementTest.legacySource.questionCount, 62);
+    assert.equal(placementTest.legacySource.gradingMode, "automatic_provisional");
+    assert.equal(placementTest.legacySource.answerKeyStatus, "pending_academic_review");
     assert.equal(placementTest.legacySource.capturedFields.includes("Free Writing"), true);
+    assert.equal(placementTest.questions.length, 6);
+    assert.equal(questionCount, 62);
+    assert.equal(Boolean(placementTest.writingPrompt), true);
     assert.equal(JSON.stringify(placementTest).includes("docs.google.com"), false);
     assert.equal(JSON.stringify(placementTest).includes("Google Form"), false);
   });

@@ -1,20 +1,20 @@
 {
-  "appUrl": "http://127.0.0.1:40277/index.html",
+  "appUrl": "http://127.0.0.1:32973/index.html",
   "chrome": "/usr/bin/google-chrome-stable",
   "results": [
     {
       "name": "desktop-home",
       "width": 1440,
       "height": 1400,
-      "screenshot": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/desktop-home.png",
-      "secondaryScreenshot": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/desktop-home-secondary.png",
+      "screenshot": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/desktop-home.png",
+      "secondaryScreenshot": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/desktop-home-secondary.png",
       "sectionScreenshots": {
-        "videos": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/desktop-home-videos.png",
-        "courses": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/desktop-home-courses.png",
-        "footer": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/desktop-home-footer.png"
+        "videos": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/desktop-home-videos.png",
+        "courses": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/desktop-home-courses.png",
+        "footer": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/desktop-home-footer.png"
       },
       "screenshotError": null,
-      "location": "http://127.0.0.1:40277/index.html",
+      "location": "http://127.0.0.1:32973/index.html",
       "title": "AiT USA Institute | Inglés en New Jersey con ruta clara para empezar",
       "h1": "Aprende inglés\nsin traducirlo todo.",
       "programs": 0,
@@ -29,7 +29,7 @@
       "videoMetadataIssues": [],
       "videoVisualIssues": [],
       "overflowing": [],
-      "pageHeight": 7490,
+      "pageHeight": 7981,
       "interactions": {
         "technologyVisible": 0,
         "courseDetails": 0,
@@ -44,15 +44,15 @@
       "name": "tablet-home",
       "width": 820,
       "height": 1180,
-      "screenshot": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/tablet-home.png",
-      "secondaryScreenshot": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/tablet-home-secondary.png",
+      "screenshot": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/tablet-home.png",
+      "secondaryScreenshot": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/tablet-home-secondary.png",
       "sectionScreenshots": {
-        "videos": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/tablet-home-videos.png",
-        "courses": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/tablet-home-courses.png",
-        "footer": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/tablet-home-footer.png"
+        "videos": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/tablet-home-videos.png",
+        "courses": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/tablet-home-courses.png",
+        "footer": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/tablet-home-footer.png"
       },
       "screenshotError": null,
-      "location": "http://127.0.0.1:40277/index.html",
+      "location": "http://127.0.0.1:32973/index.html",
       "title": "AiT USA Institute | Inglés en New Jersey con ruta clara para empezar",
       "h1": "Aprende inglés\nsin traducirlo todo.",
       "programs": 0,
@@ -67,7 +67,7 @@
       "videoMetadataIssues": [],
       "videoVisualIssues": [],
       "overflowing": [],
-      "pageHeight": 11876,
+      "pageHeight": 12613,
       "interactions": {
         "technologyVisible": 0,
         "courseDetails": 0,
@@ -82,15 +82,15 @@
       "name": "mobile-home",
       "width": 390,
       "height": 1200,
-      "screenshot": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/mobile-home.png",
-      "secondaryScreenshot": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/mobile-home-secondary.png",
+      "screenshot": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/mobile-home.png",
+      "secondaryScreenshot": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/mobile-home-secondary.png",
       "sectionScreenshots": {
-        "videos": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/mobile-home-videos.png",
-        "courses": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/mobile-home-courses.png",
-        "footer": "/root/.openclaw/giuseppe-workspace/aitusa-institute-refresh/screenshots/mobile-home-footer.png"
+        "videos": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/mobile-home-videos.png",
+        "courses": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/mobile-home-courses.png",
+        "footer": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/mobile-home-footer.png"
       },
       "screenshotError": null,
-      "location": "http://127.0.0.1:40277/index.html",
+      "location": "http://127.0.0.1:32973/index.html",
       "title": "AiT USA Institute | Inglés en New Jersey con ruta clara para empezar",
       "h1": "Aprende inglés\nsin traducirlo todo.",
       "programs": 0,
@@ -105,7 +105,7 @@
       "videoMetadataIssues": [],
       "videoVisualIssues": [],
       "overflowing": [],
-      "pageHeight": 14537,
+      "pageHeight": 15997,
       "interactions": {
         "technologyVisible": 0,
         "courseDetails": 0,
@@ -118,13 +118,29 @@
     },
     {
       "name": "course-route-computacion-oficina",
-      "location": "http://127.0.0.1:40277/cursos/computacion-oficina/",
+      "location": "http://127.0.0.1:32973/cursos/computacion-oficina/",
       "title": "Computación para oficina | Cursos AiT USA Institute",
       "canonical": "https://www.aitusainstitute.com/courses/computacion-oficina/",
       "openCourseDetail": "computacion-oficina",
       "officeDetailHasExcel": true,
       "courseSchemaName": "Computación para oficina",
       "missingImages": []
+    },
+    {
+      "name": "placement-route-mobile",
+      "location": "http://127.0.0.1:32973/placement-test/",
+      "title": "Examen de ubicación | AiT USA Institute",
+      "h1": "Descubre tu punto de partida en inglés",
+      "levelGroups": 6,
+      "quizCards": 62,
+      "hasWritingPrompt": true,
+      "externalGoogleRefs": false,
+      "screenshot": "/root/.openclaw/giuseppe-workspace/.worktrees/aitusa-mis299-placement-questionnaire/screenshots/placement-route-mobile.png",
+      "resultHeading": "Book 3 alto / Avanzado orientativo",
+      "resultText": "RECOMENDACION ORIENTATIVA\n\nBook 3 alto / Avanzado orientativo\n\nTu resultado sugiere una ruta avanzada o de objetivos específicos, sujeta a entrevista o revisión de escritura.\n\nPuntaje: 64 de 65 puntos.\n\nPreguntas: 62 de 62 respuestas correctas.\n\nFormato sugerido: Ruta conversacional, online o presencial, según disponibilidad y meta principal.\n\nObjetivo principal: Trabajo y entrevistas\n\nRevisión: la llave de respuestas está marcada como pendiente de revisión académica. El asesor confirma el nivel final.\n\nImportante: esta recomendación necesita confirmación de un asesor antes de cerrar inscripción u horario.",
+      "whatsappHref": "https://wa.me/17323790593?text=Hola%20AIT%20USA%2C%20ya%20complet%C3%A9%20el%20examen%20de%20ubicaci%C3%B3n.%0ANombre%3A%20Maria%20Lopez%0ACiudad%2FPais%3A%20Bound%20Brook%0AWhatsApp%2Ftelefono%3A%20%2B17325550123%0AEmail%3A%20maria%40example.com%0AGrupo%20de%20edad%3A%20Adulto%0AObjetivo%3A%20Trabajo%20y%20entrevistas%0AResultado%20sugerido%3A%20Book%203%20alto%20%2F%20Avanzado%20orientativo%0APuntaje%20orientativo%3A%2064%0ADetalle%3A%20Tu%20resultado%20sugiere%20una%20ruta%20avanzada%20o%20de%20objetivos%20espec%C3%ADficos%2C%20sujeta%20a%20entrevista%20o%20revisi%C3%B3n%20de%20escritura.%0AQuiero%20confirmar%20esta%20recomendaci%C3%B3n%20con%20un%20asesor.",
+      "actionsVisible": true,
+      "overflowing": []
     }
   ],
   "consoleMessages": [],

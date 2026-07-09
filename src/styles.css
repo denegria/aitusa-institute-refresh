@@ -1477,7 +1477,8 @@ button {
 }
 
 input,
-select {
+select,
+textarea {
   width: 100%;
   min-height: 46px;
   padding: 11px 12px;
@@ -1485,6 +1486,11 @@ select {
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.72);
   color: var(--ink);
+}
+
+textarea {
+  resize: vertical;
+  line-height: 1.5;
 }
 
 .form-status,
@@ -1658,6 +1664,42 @@ select {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.quiz-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.quiz-level {
+  display: grid;
+  gap: 12px;
+}
+
+.quiz-level__heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.quiz-level__heading h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.quiz-level__heading span,
+.writing-prompt small {
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.quiz-level__items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
 .assessment-card,
 .quiz-card {
   padding: 16px;
@@ -1685,6 +1727,20 @@ select {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.92);
+}
+
+.writing-prompt {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.writing-prompt span {
+  display: grid;
+  gap: 6px;
 }
 
 .placement-nav {
@@ -1755,7 +1811,8 @@ select {
   .solution-grid,
   .course-detail__grid,
   .site-footer__grid,
-  .assessment-grid {
+  .assessment-grid,
+  .quiz-level__items {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1926,7 +1983,8 @@ select {
   .course-detail__grid,
   .form-grid,
   .site-footer__grid,
-  .assessment-grid {
+  .assessment-grid,
+  .quiz-level__items {
     grid-template-columns: 1fr;
   }
 

@@ -43,7 +43,10 @@ const appServer = createServer(async (request, response) => {
   const url = new URL(request.url, "http://127.0.0.1");
   const requested = decodeURIComponent(url.pathname === "/" ? "/index.html" : url.pathname);
   const routeFallback =
-    /^\/cursos\/[^/]+\/?$/.test(requested) || /^\/cursos\/[^/]+\/index\.html$/.test(requested);
+    /^\/placement-test\/?$/.test(requested) ||
+    /^\/placement-test\/index\.html$/.test(requested) ||
+    /^\/cursos\/[^/]+\/?$/.test(requested) ||
+    /^\/cursos\/[^/]+\/index\.html$/.test(requested);
   const target = path.resolve(root, routeFallback ? "./index.html" : `.${requested}`);
 
   if (!target.startsWith(root) || !existsSync(target) || !statSync(target).isFile()) {
@@ -591,12 +594,116 @@ const verifyCourseRoute = async () => {
   })()`);
 };
 
+const waitForSelector = async (selector, timeoutMs = 10000) => {
+  const deadline = Date.now() + timeoutMs;
+  let found = false;
+
+  while (Date.now() < deadline) {
+    found = await evaluate(`Boolean(document.querySelector(${JSON.stringify(selector)}))`);
+    if (found) return true;
+    await sleep(250);
+  }
+
+  throw new Error(`Timed out waiting for selector ${selector}`);
+};
+
+const verifyPlacementRoute = async () => {
+  console.log("Checking placement-route...");
+  await send("Emulation.setDeviceMetricsOverride", {
+    width: 390,
+    height: 1200,
+    deviceScaleFactor: 2,
+    mobile: true,
+  });
+
+  const loaded = waitForLoad();
+  const placementUrl = new URL("/placement-test/", appUrl).toString();
+  const nav = await send("Page.navigate", { url: placementUrl }, 30000);
+  if (nav.errorText && nav.errorText !== "net::ERR_ABORTED") {
+    throw new Error(`Placement route navigation failed: ${nav.errorText}`);
+  }
+  await loaded;
+  await waitForSelector("[data-placement-form]");
+  await sleep(400);
+
+  const initial = await evaluate(`(() => ({
+    name: 'placement-route-mobile',
+    location: location.href,
+    title: document.title,
+    h1: document.querySelector('h1')?.innerText || '',
+    levelGroups: document.querySelectorAll('.quiz-level').length,
+    quizCards: document.querySelectorAll('.quiz-card').length,
+    hasWritingPrompt: Boolean(document.querySelector('[name="writingSample"]')),
+    externalGoogleRefs: document.body.innerHTML.includes('docs.google.com') || document.body.innerText.includes('Google Form'),
+  }))()`);
+
+  await evaluate(`(() => {
+    const form = document.querySelector('[data-placement-form]');
+    form.querySelector('[name="name"]').value = 'Maria Lopez';
+    form.querySelector('[name="phone"]').value = '+17325550123';
+    form.querySelector('[name="email"]').value = 'maria@example.com';
+    form.querySelector('[name="city"]').value = 'Bound Brook';
+    form.querySelector('[name="ageGroup"]').value = 'Adulto';
+    ['speaking', 'listening', 'reading', 'writing'].forEach((name) => {
+      form.querySelector(\`input[name="\${name}"][value="2"]\`).checked = true;
+    });
+    form.querySelector('[data-placement-next]').click();
+    form.querySelector('[data-placement-next]').click();
+    [...form.querySelectorAll('.quiz-card')].forEach((card) => {
+      const correct = [...card.querySelectorAll('input')].find((input) => input.value === '1');
+      (correct || card.querySelector('input')).checked = true;
+    });
+    form.querySelector('[data-placement-next]').click();
+    form.querySelector('[name="writingSample"]').value = 'Bill is stronger than Jack. Jack is thinner than Bill. Both men are different.';
+    form.querySelector('input[name="goal"]').checked = true;
+    form.querySelector('[data-placement-next]').click();
+  })()`);
+
+  await waitForSelector("[data-placement-result] h3");
+  await sleep(500);
+
+  await stabilizeViewport();
+  await evaluate(`(() => {
+    const result = document.querySelector('[data-placement-result]');
+    const y = result.getBoundingClientRect().top + window.scrollY - 160;
+    window.scrollTo({ top: y, behavior: 'instant' });
+  })()`);
+  await sleep(250);
+  const shot = await captureViewport("placement route mobile");
+  const screenshot = path.join(screenshotsDir, "placement-route-mobile.png");
+  await writeFile(screenshot, Buffer.from(shot.data, "base64"));
+
+  const result = await evaluate(`(() => {
+    const overflowing = [...document.querySelectorAll('body *')]
+      .filter((el) => el.scrollWidth > el.clientWidth + 2 && getComputedStyle(el).overflowX === 'visible')
+      .slice(0, 12)
+      .map((el) => ({
+        tag: el.tagName.toLowerCase(),
+        id: el.id || null,
+        className: typeof el.className === 'string' ? el.className : null,
+        text: (el.innerText || el.alt || '').trim().slice(0, 90),
+        scrollWidth: el.scrollWidth,
+        clientWidth: el.clientWidth,
+      }));
+    return {
+      resultHeading: document.querySelector('[data-placement-result] h3')?.innerText || '',
+      resultText: document.querySelector('[data-placement-result]')?.innerText || '',
+      whatsappHref: document.querySelector('[data-placement-whatsapp]')?.href || '',
+      actionsVisible: !document.querySelector('[data-placement-actions]')?.hidden,
+      overflowing,
+    };
+  })()`);
+
+  return { ...initial, screenshot, ...result };
+};
+
 const results = [];
 try {
   results.push(await verifyViewport({ name: "desktop-home", width: 1440, height: 1400, mobile: false }));
   results.push(await verifyViewport({ name: "tablet-home", width: 820, height: 1180, mobile: true }));
   results.push(await verifyViewport({ name: "mobile-home", width: 390, height: 1200, mobile: true }));
   results.push(await verifyCourseRoute());
+  results.push(await verifyPlacementRoute());
 } finally {
   socket.close();
   browser.kill();

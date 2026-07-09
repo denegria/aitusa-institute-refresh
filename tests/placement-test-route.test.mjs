@@ -23,7 +23,7 @@ const validBody = {
     reading: 2,
     writing: 2,
   },
-  quizAnswers: [3, 2, 3, 2],
+  quizAnswers: Array(62).fill(1),
   goal: "Escuela o universidad",
   consent: {
     advisorHandoff: true,
@@ -39,6 +39,9 @@ describe("MIS-265 placement test route", () => {
     assert.equal(response.status, 200);
     assert.equal(body.ok, true);
     assert.equal(body.placementTest.contract.sourceKey, "aitusa-placement-test-v1");
+    assert.equal(body.placementTest.quizQuestionCount, 62);
+    assert.equal(body.placementTest.source.gradingMode, "automatic_provisional");
+    assert.equal(body.placementTest.source.answerKeyStatus, "pending_academic_review");
     assert.equal(body.crmWrite, false);
   });
 
@@ -48,7 +51,10 @@ describe("MIS-265 placement test route", () => {
 
     assert.equal(response.status, 200);
     assert.equal(body.ok, true);
-    assert.equal(body.recommendation.key, "advancing");
+    assert.equal(body.recommendation.key, "book-3-upper");
+    assert.equal(body.scores.quizQuestionCount, 62);
+    assert.equal(body.scores.maxScore, 65);
+    assert.equal(body.scores.answerKeyStatus, "pending_academic_review");
     assert.equal(body.crmPayloadPreview.crmWrite, false);
     assert.equal(body.crmSyncPreview.crmTimelinePreview.eventType, "placement_completed");
   });

@@ -271,6 +271,7 @@
 
               <section class="placement-panel" data-placement-panel="3" hidden>
                 <h2>Tu objetivo principal</h2>
+                ${renderWritingPrompt()}
                 <fieldset class="goal-options">
                   <legend>Selecciona el motivo principal por el que quieres estudiar ahora.</legend>
                   ${renderGoalOptions()}
@@ -1018,25 +1019,61 @@
   }
 
   function renderPlacementQuestions() {
+    let questionIndex = 0;
     return (placementTest.questions || [])
-      .map(
-        (question, qIndex) => `
-          <fieldset class="quiz-card">
-            <legend>${escapeHtml(question.prompt)}</legend>
-            ${question.options
-              .map(
-                (option, index) => `
-                  <label>
-                    <input type="radio" name="question-${qIndex}" value="${option.score}" ${index === 0 ? "required" : ""} />
-                    <span>${escapeHtml(option.label)}</span>
-                  </label>
-                `,
-              )
-              .join("")}
-          </fieldset>
-        `,
-      )
+      .map((level) => {
+        const items = (level.items || [])
+          .map((question) => {
+            const currentIndex = questionIndex;
+            questionIndex += 1;
+            return `
+              <fieldset class="quiz-card">
+                <legend>${escapeHtml(question.prompt)}</legend>
+                ${question.options
+                  .map((option, index) => {
+                    const score = option === question.answer ? 1 : 0;
+                    return `
+                      <label>
+                        <input type="radio" name="question-${currentIndex}" value="${score}" ${index === 0 ? "required" : ""} />
+                        <span>${escapeHtml(option)}</span>
+                      </label>
+                    `;
+                  })
+                  .join("")}
+              </fieldset>
+            `;
+          })
+          .join("");
+
+        return `
+          <section class="quiz-level">
+            <div class="quiz-level__heading">
+              <h3>${escapeHtml(level.level)}</h3>
+              <span>${(level.items || []).length} preguntas</span>
+            </div>
+            <div class="quiz-level__items">
+              ${items}
+            </div>
+          </section>
+        `;
+      })
       .join("");
+  }
+
+  function renderWritingPrompt() {
+    const prompt = placementTest.writingPrompt;
+    if (!prompt) return "";
+
+    return `
+      <label class="writing-prompt">
+        <span>
+          <strong>${escapeHtml(prompt.title)}</strong>
+          ${escapeHtml(prompt.prompt)}
+        </span>
+        <textarea name="writingSample" rows="5" placeholder="Escribe aquí tu respuesta breve."></textarea>
+        <small>${escapeHtml(prompt.note || "")}</small>
+      </label>
+    `;
   }
 
   function renderGoalOptions() {
@@ -1261,60 +1298,148 @@
       return true;
     };
 
-    const buildResult = () => {
+    const getFlatPlacementQuestions = () => (placementTest.questions || [])
+      .flatMap((level) => level.items || []);
+
+    const buildPlacementPayload = () => {
       const formData = new FormData(form);
-      const quizScore = (placementTest.questions || []).reduce((total, _, index) => {
-        return total + Number(formData.get(`question-${index}`) || 0);
-      }, 0);
+      const flatQuestions = getFlatPlacementQuestions();
+      const quizAnswers = flatQuestions.map((_, index) => Number(formData.get(`question-${index}`) || 0));
+      const student = {};
+      (placementTest.studentFields || []).forEach((field) => {
+        student[field.name] = String(formData.get(field.name) || "").trim();
+      });
+
+      return {
+        student,
+        selfAssessment: Object.fromEntries(
+          (placementTest.selfAssessments || []).map((group) => [
+            group.key,
+            Number(formData.get(group.key) || 0),
+          ]),
+        ),
+        quizAnswers,
+        goal: String(formData.get("goal") || "").trim(),
+        writingSample: String(formData.get("writingSample") || "").trim(),
+        consent: {
+          advisorHandoff: true,
+        },
+        submittedAt: new Date().toISOString(),
+      };
+    };
+
+    const buildFallbackResult = (payload) => {
+      const quizScore = payload.quizAnswers.reduce((total, value) => total + Number(value || 0), 0);
       const selfAssessmentScore = (placementTest.selfAssessments || []).reduce((total, group) => {
-        return total + Number(formData.get(group.key) || 0);
+        return total + Number(payload.selfAssessment[group.key] || 0);
       }, 0);
       const totalScore = quizScore + Math.round(selfAssessmentScore / Math.max(1, (placementTest.selfAssessments || []).length));
       const recommendation = (placementTest.recommendations || []).find((item) => totalScore >= item.min && totalScore <= item.max)
         || (placementTest.recommendations || [])[0];
-      const goal = formData.get("goal") || "Sin objetivo indicado";
-      const name = formData.get("name") || "Estudiante";
-      const city = formData.get("city") || "Sin ciudad";
+      const message = buildAdvisorMessage({
+        student: payload.student,
+        goal: payload.goal,
+        recommendation,
+        totalScore,
+      });
+
+      return {
+        ok: true,
+        recommendation,
+        scores: {
+          quizScore,
+          quizQuestionCount: payload.quizAnswers.length,
+          selfAssessmentScore,
+          selfAssessmentAverage: Math.round(selfAssessmentScore / Math.max(1, (placementTest.selfAssessments || []).length)),
+          totalScore,
+          maxScore: payload.quizAnswers.length + 3,
+          gradingMode: "automatic_provisional",
+          answerKeyStatus: "pending_academic_review",
+        },
+        advisorHandoff: {
+          href: `${site.whatsappHref}?text=${encodeURIComponent(message)}`,
+          message,
+          confirmationRequired: true,
+        },
+        crmWrite: false,
+        storageEnabled: false,
+      };
+    };
+
+    const buildAdvisorMessage = ({ student, goal, recommendation, totalScore }) => [
+      "Hola AIT USA, ya completé el examen de ubicación.",
+      `Nombre: ${student.name || "Estudiante"}`,
+      `Ciudad/Pais: ${student.city || "Sin ciudad"}`,
+      `WhatsApp/telefono: ${student.phone || "Sin telefono"}`,
+      `Email: ${student.email || "Sin email"}`,
+      `Grupo de edad: ${student.ageGroup || "Sin grupo indicado"}`,
+      `Objetivo: ${goal || "Sin objetivo indicado"}`,
+      `Resultado sugerido: ${recommendation.level}`,
+      `Puntaje orientativo: ${totalScore}`,
+      `Detalle: ${recommendation.recommendation || recommendation.copy}`,
+      "Quiero confirmar esta recomendación con un asesor.",
+    ].join("\n");
+
+    const renderResult = (body) => {
+      const recommendation = body.recommendation;
+      const scores = body.scores || {};
+      const goal = buildPlacementPayload().goal || "Sin objetivo indicado";
 
       resultBox.innerHTML = `
         <p class="eyebrow-chip">Recomendacion orientativa</p>
         <h3>${escapeHtml(recommendation.level)}</h3>
-        <p>${escapeHtml(recommendation.recommendation)}</p>
-        <p><strong>Formato sugerido:</strong> ${escapeHtml(recommendation.bestFit)}</p>
+        <p>${escapeHtml(recommendation.recommendation || recommendation.copy)}</p>
+        <p><strong>Puntaje:</strong> ${escapeHtml(scores.totalScore ?? "")} de ${escapeHtml(scores.maxScore ?? "")} puntos.</p>
+        <p><strong>Preguntas:</strong> ${escapeHtml(scores.quizScore ?? "")} de ${escapeHtml(scores.quizQuestionCount ?? "")} respuestas correctas.</p>
+        <p><strong>Formato sugerido:</strong> ${escapeHtml(recommendation.bestFit || "")}</p>
         <p><strong>Objetivo principal:</strong> ${escapeHtml(goal)}</p>
+        <p><strong>Revisión:</strong> la llave de respuestas está marcada como pendiente de revisión académica. El asesor confirma el nivel final.</p>
         <p><strong>Importante:</strong> esta recomendación necesita confirmación de un asesor antes de cerrar inscripción u horario.</p>
       `;
 
-      const message = [
-        "Hola AIT USA, ya completé el examen de ubicación.",
-        `Nombre: ${name}`,
-        `Ciudad/Pais: ${city}`,
-        `Objetivo: ${goal}`,
-        `Resultado sugerido: ${recommendation.level}`,
-        `Detalle: ${recommendation.recommendation}`,
-        "Quiero confirmar esta recomendación con un asesor.",
-      ].join("\n");
-
-      if (whatsappLink) {
-        whatsappLink.href = `${site.whatsappHref}?text=${encodeURIComponent(message)}`;
-      }
+      if (whatsappLink) whatsappLink.href = body.advisorHandoff?.href || site.whatsappHref;
 
       resultActions.hidden = false;
 
-      // TODO: connect to AIT CRM once the endpoint contract and required fields are approved.
       window.dispatchEvent(
         new CustomEvent("aitusa:placement-ready", {
           detail: {
-            totalScore,
+            totalScore: scores.totalScore,
             goal,
             recommendation,
+            crmWrite: false,
+            storageEnabled: false,
             submittedAt: new Date().toISOString(),
           },
         }),
       );
     };
 
-    nextButton?.addEventListener("click", () => {
+    const buildResult = async () => {
+      const payload = buildPlacementPayload();
+      resultBox.innerHTML = "<p>Calculando recomendación...</p>";
+      resultActions.hidden = true;
+      nextButton.disabled = true;
+
+      try {
+        const response = await fetch("/api/placement-test", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+        const body = await response.json();
+        if (!response.ok || !body.ok) throw new Error("placement_api_rejected");
+        renderResult(body);
+      } catch {
+        renderResult(buildFallbackResult(payload));
+      } finally {
+        nextButton.disabled = false;
+      }
+    };
+
+    nextButton?.addEventListener("click", async () => {
       if (step === panels.length - 1) {
         form.reset();
         resultActions.hidden = true;
@@ -1326,7 +1451,7 @@
       if (!validateCurrentStep()) return;
 
       if (step === panels.length - 2) {
-        buildResult();
+        await buildResult();
         showStep(step + 1);
         return;
       }

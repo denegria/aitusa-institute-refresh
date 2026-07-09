@@ -22,34 +22,64 @@ export const PLACEMENT_SELF_ASSESSMENTS = Object.freeze([
   "writing",
 ]);
 
-export const PLACEMENT_QUIZ_QUESTION_COUNT = 4;
+export const PLACEMENT_QUIZ_QUESTION_COUNT = 62;
 
 export const PLACEMENT_RECOMMENDATIONS = Object.freeze([
   Object.freeze({
-    key: "starter",
+    key: "foundation",
     min: 0,
-    max: 6,
-    level: "Inicio / Basico",
+    max: 12,
+    level: "Nivel inicial / Book 1 base",
     copy:
-      "Te conviene empezar con una ruta basica enfocada en comprension, frases utiles y practica guiada.",
+      "Te conviene empezar con una ruta base enfocada en comprension, frases utiles y practica guiada.",
     bestFit: "Ingles presencial o hibrido para construir confianza desde cero.",
   }),
   Object.freeze({
-    key: "developing",
-    min: 7,
-    max: 11,
-    level: "Basico alto / Intermedio inicial",
+    key: "book-1-bridge",
+    min: 13,
+    max: 23,
+    level: "Book 1 alto / Basico funcional",
     copy:
-      "Ya tienes base para trabajar conversacion simple, correccion en vivo y continuidad semanal.",
+      "Ya tienes algunas bases y puedes avanzar con correccion en vivo, estructura visual y practica semanal.",
     bestFit: "Ingles presencial, hibrido u online segun tu agenda y ubicacion.",
   }),
   Object.freeze({
-    key: "advancing",
-    min: 12,
-    max: 16,
-    level: "Intermedio / Intermedio alto",
+    key: "book-2-entry",
+    min: 24,
+    max: 34,
+    level: "Book 2 inicial / Intermedio bajo",
     copy:
-      "Puedes entrar a un grupo con mas practica oral y objetivos especificos de trabajo, escuela o continuidad academica.",
+      "Puedes trabajar estructuras de pasado, comparaciones y comunicacion cotidiana con mas continuidad.",
+    bestFit:
+      "Ruta conversacional con confirmacion de nivel antes de cerrar horario o inscripcion.",
+  }),
+  Object.freeze({
+    key: "book-2-upper",
+    min: 35,
+    max: 45,
+    level: "Book 2 alto / Intermedio",
+    copy:
+      "Tienes base para una clase con mas conversacion, correccion puntual y objetivos especificos.",
+    bestFit:
+      "Grupo intermedio presencial, hibrido u online segun disponibilidad y meta principal.",
+  }),
+  Object.freeze({
+    key: "book-3-entry",
+    min: 46,
+    max: 56,
+    level: "Book 3 inicial / Intermedio alto",
+    copy:
+      "Puedes practicar estructuras mas avanzadas, fluidez, escritura corta y situaciones de trabajo o estudio.",
+    bestFit:
+      "Ruta intermedia alta con practica oral y confirmacion academica antes de inscripcion final.",
+  }),
+  Object.freeze({
+    key: "book-3-upper",
+    min: 57,
+    max: 65,
+    level: "Book 3 alto / Avanzado orientativo",
+    copy:
+      "Tu resultado sugiere una ruta avanzada o de objetivos especificos, sujeta a entrevista o revision de escritura.",
     bestFit:
       "Ruta conversacional, online o presencial, segun disponibilidad y meta principal.",
   }),
@@ -62,6 +92,15 @@ export function getPlacementTestConfig() {
     contract: PLACEMENT_TEST_CONTRACT,
     selfAssessments: PLACEMENT_SELF_ASSESSMENTS,
     quizQuestionCount: PLACEMENT_QUIZ_QUESTION_COUNT,
+    source: {
+      title: "PLACEMENT EXAM (EXAMEN DE NIVELACION) COMMUNICATIVE ENGLISH",
+      legacyLevels: 6,
+      freeWritingIncluded: true,
+      gradingMode: "automatic_provisional",
+      answerKeyStatus: "pending_academic_review",
+      note:
+        "Las preguntas vienen del cuestionario legado. La calificacion automatica es orientativa hasta que AIT confirme la llave academica final.",
+    },
     recommendations: PLACEMENT_RECOMMENDATIONS,
     crmWrite: false,
   };
@@ -136,9 +175,13 @@ export function calculatePlacementScore(input) {
 
   return {
     quizScore,
+    quizQuestionCount: PLACEMENT_QUIZ_QUESTION_COUNT,
     selfAssessmentScore,
     selfAssessmentAverage,
     totalScore: quizScore + selfAssessmentAverage,
+    maxScore: PLACEMENT_QUIZ_QUESTION_COUNT + 3,
+    gradingMode: "automatic_provisional",
+    answerKeyStatus: "pending_academic_review",
   };
 }
 
@@ -196,10 +239,13 @@ export function buildPlacementCrmPayloadPreview({
       goal: input.goal,
       totalScore: scores.totalScore,
       quizScore: scores.quizScore,
+      quizQuestionCount: scores.quizQuestionCount,
       selfAssessmentAverage: scores.selfAssessmentAverage,
       recommendationKey: recommendation.key,
       recommendationLevel: recommendation.level,
       advisorConfirmationRequired: true,
+      gradingMode: scores.gradingMode,
+      answerKeyStatus: scores.answerKeyStatus,
     },
     consent: {
       advisorHandoff: input.consent.advisorHandoff === true,
@@ -238,6 +284,8 @@ export function buildPlacementCrmSyncPreview({
       recommendationLevel: recommendation.level,
       totalScore: scores.totalScore,
       goal: input.goal,
+      gradingMode: scores.gradingMode,
+      answerKeyStatus: scores.answerKeyStatus,
       contactFieldsProvided: crmPayloadPreview.contactFieldsProvided,
       advisorConfirmationRequired: true,
       crmStorageApproved: false,
@@ -283,7 +331,7 @@ export function validatePlacementInput(input = {}) {
     errors.push("quiz_answers_count_invalid");
   } else {
     input.quizAnswers.forEach((value, index) => {
-      if (!isScoreValue(value)) {
+      if (!isQuizScoreValue(value)) {
         errors.push(`quiz_answer_${index}_invalid`);
       }
     });
@@ -330,4 +378,9 @@ function isNonEmptyString(value) {
 function isScoreValue(value) {
   const number = Number(value);
   return Number.isInteger(number) && number >= 0 && number <= 3;
+}
+
+function isQuizScoreValue(value) {
+  const number = Number(value);
+  return Number.isInteger(number) && number >= 0 && number <= 1;
 }

@@ -21,7 +21,10 @@ const validSubmission = Object.freeze({
     reading: 1,
     writing: 1,
   }),
-  quizAnswers: Object.freeze([2, 2, 1, 2]),
+  quizAnswers: Object.freeze([
+    ...Array(38).fill(1),
+    ...Array(24).fill(0),
+  ]),
   goal: "Trabajo y entrevistas",
   consent: Object.freeze({
     advisorHandoff: true,
@@ -47,14 +50,18 @@ describe("MIS-265 placement test model", () => {
     assert.equal(validation.errors.includes("advisor_handoff_consent_required"), true);
   });
 
-  it("matches the existing static placement scoring approach", () => {
+  it("scores the full source-backed placement questionnaire as provisional", () => {
     const score = calculatePlacementScore(validSubmission);
 
-    assert.equal(score.quizScore, 7);
+    assert.equal(score.quizScore, 38);
+    assert.equal(score.quizQuestionCount, 62);
     assert.equal(score.selfAssessmentScore, 6);
     assert.equal(score.selfAssessmentAverage, 2);
-    assert.equal(score.totalScore, 9);
-    assert.equal(selectPlacementRecommendation(score.totalScore).key, "developing");
+    assert.equal(score.totalScore, 40);
+    assert.equal(score.maxScore, 65);
+    assert.equal(score.gradingMode, "automatic_provisional");
+    assert.equal(score.answerKeyStatus, "pending_academic_review");
+    assert.equal(selectPlacementRecommendation(score.totalScore).key, "book-2-upper");
   });
 
   it("builds advisor WhatsApp handoff and CRM-safe preview without storing data", () => {
@@ -62,12 +69,15 @@ describe("MIS-265 placement test model", () => {
 
     assert.equal(response.status, 200);
     assert.equal(response.body.ok, true);
-    assert.equal(response.body.recommendation.key, "developing");
+    assert.equal(response.body.recommendation.key, "book-2-upper");
     assert.equal(response.body.advisorHandoff.href.startsWith("https://wa.me/"), true);
     assert.match(response.body.advisorHandoff.message, /Fixture Student/);
     assert.equal(response.body.crmPayloadPreview.sourceKey, "aitusa-placement-test-v1");
     assert.equal(response.body.crmPayloadPreview.crmWrite, false);
     assert.equal(response.body.crmPayloadPreview.storageEnabled, false);
+    assert.equal(response.body.crmPayloadPreview.placement.quizQuestionCount, 62);
+    assert.equal(response.body.crmPayloadPreview.placement.gradingMode, "automatic_provisional");
+    assert.equal(response.body.crmPayloadPreview.placement.answerKeyStatus, "pending_academic_review");
     assert.deepEqual(response.body.crmPayloadPreview.contactFieldsProvided, {
       name: true,
       phone: true,
@@ -84,6 +94,8 @@ describe("MIS-265 placement test model", () => {
     assert.equal(response.body.crmSyncPreview.accepted, true);
     assert.equal(response.body.crmSyncPreview.delivery.crmWrite, false);
     assert.equal(payload.sourceKey, "aitusa-placement-test-v1");
+    assert.equal(payload.gradingMode, "automatic_provisional");
+    assert.equal(payload.answerKeyStatus, "pending_academic_review");
     assert.equal(JSON.stringify(payload).includes("+17325550123"), false);
     assert.equal(JSON.stringify(payload).includes("student@example.com"), false);
   });
