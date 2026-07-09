@@ -873,6 +873,22 @@
       online: "Online",
       pending: "Pendiente / no activa",
     };
+    const phoneBlock = location.phone
+      ? `<p class="location-contact"><span>Teléfono</span><a href="${escapeHtml(location.phoneHref || site.phoneHref || "#")}">${escapeHtml(location.phone)}</a></p>`
+      : "";
+    const whatsappBlock = location.whatsapp
+      ? `<p class="location-contact"><span>WhatsApp</span><a href="${escapeHtml(location.whatsappHref || site.whatsappHref || "#")}" target="_blank" rel="noreferrer">${escapeHtml(location.whatsapp)}</a></p>`
+      : "";
+    const hoursBlock = Array.isArray(location.hours) && location.hours.length
+      ? `
+        <div class="location-hours">
+          <p>${escapeHtml(location.hoursLabel || "Horarios")}</p>
+          <ul>
+            ${location.hours.map((hour) => `<li>${escapeHtml(hour)}</li>`).join("")}
+          </ul>
+        </div>
+      `
+      : "";
 
     return `
       <article class="location-card card location-card--${escapeHtml(location.status || "active")}">
@@ -880,6 +896,11 @@
         <h3>${escapeHtml(location.city)}</h3>
         <p class="location-address">${escapeHtml(location.address)}</p>
         <p>${escapeHtml(location.note)}</p>
+        <div class="location-contact-list">
+          ${phoneBlock}
+          ${whatsappBlock}
+        </div>
+        ${hoursBlock}
         <p class="proof-line">${escapeHtml(location.highlight)}</p>
       </article>
     `;

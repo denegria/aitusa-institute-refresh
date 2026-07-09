@@ -91,11 +91,11 @@ const site = {
   originalSite: "https://www.aitusainstitute.com/",
   forms: {
     level:
-      "https://docs.google.com/forms/d/1B_rhVh4lmOIySRtOTOs1rrjas7vns9zRzamncquwcQg/edit?pli=1",
+      "https://docs.google.com/forms/d/1B_rhVh4lmOIySRtOTOs1rrjas7vns9zRzamncquwcQg/viewform",
     offer:
-      "https://docs.google.com/forms/d/1YurGiSiF03j2WZm2eABawja6FJ_8q5RrowbyQML_yN8/edit",
+      "https://docs.google.com/forms/d/1YurGiSiF03j2WZm2eABawja6FJ_8q5RrowbyQML_yN8/viewform",
     registration:
-      "https://docs.google.com/forms/d/e/1FAIpQLSensXqOZWJD6is9dnGIJe-gooMJEdR4rf2xdClVYW9as1cbFg/viewform?usp=sf_link",
+      "https://docs.google.com/forms/d/1YurGiSiF03j2WZm2eABawja6FJ_8q5RrowbyQML_yN8/viewform",
   },
   images: {
     logo: asset("076-solo-logo-4-x-4-clases1.png"),
@@ -1002,6 +1002,22 @@ const books = [
   },
 ];
 
+const verifiedClassHours = [
+  "Lunes a jueves: 8:30 am, 9:30 am y 10:30 am",
+  "Lunes a jueves: 6:20 pm, 7:30 pm y 8:40 pm",
+  "Sábados: 10:00 am a 1:00 pm y 3:00 pm a 5:30 pm",
+  "Domingos: 10:00 am a 12:30 pm",
+];
+
+const centralLocationContact = {
+  phone: site.phone,
+  phoneHref: site.phoneHref,
+  whatsapp: site.whatsapp,
+  whatsappHref: site.whatsappHref,
+  hoursLabel: "Horarios de clase publicados",
+  hours: verifiedClassHours,
+};
+
 const locations = [
   {
     city: "Bound Brook, New Jersey",
@@ -1011,6 +1027,7 @@ const locations = [
     bestFor: "Ideal si quieres una sede central con coordinación administrativa directa.",
     highlight: "Recepción principal y coordinación administrativa.",
     cta: "Escribir sobre Bound Brook",
+    ...centralLocationContact,
   },
   {
     city: "Plainfield, New Jersey",
@@ -1020,6 +1037,7 @@ const locations = [
     bestFor: "Ideal si vives o trabajas en el centro de Nueva Jersey.",
     highlight: "Acceso fácil para estudiantes del área central de Nueva Jersey.",
     cta: "Escribir sobre Plainfield",
+    ...centralLocationContact,
   },
   {
     city: "Piscataway, New Jersey",
@@ -1029,6 +1047,7 @@ const locations = [
     bestFor: "Ideal si buscas una sede amplia y práctica para asistir con comodidad.",
     highlight: "Buena opción para quienes buscan una sede amplia y práctica.",
     cta: "Escribir sobre Piscataway",
+    ...centralLocationContact,
   },
   {
     city: "Flemington, New Jersey",
@@ -1038,6 +1057,8 @@ const locations = [
     bestFor: "Ideal si quieres confirmar disponibilidad antes de desplazarte.",
     highlight: "Disponible según disponibilidad y coordinación previa.",
     cta: "Confirmar Flemington",
+    ...centralLocationContact,
+    hoursLabel: "Confirmar horario antes de asistir",
   },
   {
     city: "New York / Online",
@@ -1047,6 +1068,7 @@ const locations = [
     bestFor: "Ideal si prefieres estudiar a distancia sin viajar a Nueva Jersey.",
     highlight: "Conexión remota para estudiantes fuera de Nueva Jersey.",
     cta: "Consultar online",
+    ...centralLocationContact,
   },
   {
     city: "North Plainfield, New Jersey",
@@ -1743,6 +1765,23 @@ const placementTest = {
     quiz: "Preguntas rápidas",
     goals: "Tu objetivo",
     result: "Recomendación inicial",
+  },
+  legacySource: {
+    title: "PLACEMENT EXAM (EXAMEN DE NIVELACION) COMMUNICATIVE ENGLISH",
+    href: site.forms.level,
+    formId: "1B_rhVh4lmOIySRtOTOs1rrjas7vns9zRzamncquwcQg",
+    source: "Google Form publicado desde el sitio Wix original",
+    capturedFields: [
+      "Date/Fecha",
+      "First Name/Nombre",
+      "Last Name/Apellido",
+      "Telephone Number/Telefono",
+      "Level 1 (Book 1)",
+      "Level 2 (Book 1)",
+      "Free Writing",
+    ],
+    note:
+      "La versión refresh conserva un MVP corto en sitio; este formulario legado es la fuente para una migración completa posterior.",
   },
   studentFields: [
     { name: "name", label: "Nombre completo", type: "text", required: true },

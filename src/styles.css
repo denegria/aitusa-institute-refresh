@@ -1145,6 +1145,51 @@ button {
   color: var(--blue-deep);
 }
 
+.location-contact-list,
+.location-hours {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.location-contact,
+.location-hours p,
+.location-hours li {
+  margin: 0;
+  font-size: 0.94rem;
+}
+
+.location-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: baseline;
+}
+
+.location-contact span,
+.location-hours p {
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.location-contact a {
+  color: var(--blue);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.location-contact a:hover,
+.location-contact a:focus-visible {
+  text-decoration: underline;
+}
+
+.location-hours ul {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding-left: 18px;
+}
+
 .proof-section {
   display: grid;
   gap: 22px;

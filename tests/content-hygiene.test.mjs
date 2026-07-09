@@ -1,0 +1,57 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import vm from "node:vm";
+import { describe, it } from "node:test";
+
+async function loadSiteData() {
+  const source = await readFile("src/content.js", "utf8");
+  const context = { window: {} };
+  vm.createContext(context);
+  vm.runInContext(source, context, { filename: "src/content.js" });
+  return context.window.AITUSA_DATA;
+}
+
+describe("MIS-267 content hygiene", () => {
+  it("keeps public Google Form links out of edit mode", async () => {
+    const { site } = await loadSiteData();
+
+    assert.equal(site.forms.level.includes("/edit"), false);
+    assert.equal(site.forms.offer.includes("/edit"), false);
+    assert.equal(site.forms.registration.includes("/edit"), false);
+    assert.match(site.forms.level, /\/viewform$/);
+    assert.match(site.forms.offer, /\/viewform$/);
+    assert.match(site.forms.registration, /\/viewform$/);
+  });
+
+  it("keeps verified active locations populated with phone, WhatsApp, and class hours", async () => {
+    const { locations, site } = await loadSiteData();
+    const activeLocations = locations.filter((location) => location.status === "active");
+
+    assert.equal(activeLocations.length >= 3, true);
+    for (const location of activeLocations) {
+      assert.match(location.address, /NJ \d{5}$/);
+      assert.equal(location.phone, site.phone);
+      assert.equal(location.phoneHref, site.phoneHref);
+      assert.equal(location.whatsapp, site.whatsapp);
+      assert.equal(location.whatsappHref, site.whatsappHref);
+      assert.equal(location.hours.length, 4);
+    }
+  });
+
+  it("keeps North Plainfield pending until source facts are approved", async () => {
+    const { locations } = await loadSiteData();
+    const northPlainfield = locations.find((location) => location.city.includes("North Plainfield"));
+
+    assert.equal(northPlainfield.status, "pending");
+    assert.match(northPlainfield.address, /pendiente/i);
+  });
+
+  it("captures the legacy placement exam source for the on-site handoff", async () => {
+    const { placementTest, site } = await loadSiteData();
+
+    assert.equal(placementTest.legacySource.href, site.forms.level);
+    assert.match(placementTest.legacySource.title, /PLACEMENT EXAM/);
+    assert.equal(placementTest.legacySource.formId, "1B_rhVh4lmOIySRtOTOs1rrjas7vns9zRzamncquwcQg");
+    assert.equal(placementTest.legacySource.capturedFields.includes("Free Writing"), true);
+  });
+});
