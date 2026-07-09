@@ -121,12 +121,41 @@ For the first launch:
 - Use `$95 registration + book` as a CTA that routes to advisor/contact or a verified hosted payment link.
 - Treat weekly/monthly partial payments as a separate payment architecture slice.
 
+### 2026-07-09 Processor Direction: Stripe First
+
+Decision: choose Stripe as the first online payment processor unless the client
+already has a Clover online setup that is clearly cheaper and equally easy.
+
+Why Stripe over Airwallex for the first version:
+
+- Stripe Payment Links can be created from the Stripe Dashboard and shared with
+  students without writing code.
+- Stripe has a simple public pricing baseline for US domestic cards:
+  `2.9% + $0.30` per successful transaction.
+- Stripe is the cleaner default for a US-local school that needs advisor-created
+  payment requests, receipts, later CRM webhooks, and future student payment
+  history.
+- Airwallex also supports no-code payment links and lists a slightly lower US
+  domestic card rate (`2.8% + $0.30`), but its main advantage is global
+  multi-currency collection, local payment methods, and like-for-like settlement.
+  That is stronger for cross-border commerce than for a simple New Jersey school
+  payment request v1.
+
+Source checks:
+
+- Stripe Payment Links: https://docs.stripe.com/payment-links
+- Stripe create Payment Link: https://docs.stripe.com/payment-links/create
+- Stripe US pricing: https://stripe.com/pricing
+- Airwallex Payment Links: https://www.airwallex.com/docs/payments/integration-options/invoices-and-payment-links/payment-links
+- Airwallex US pricing: https://www.airwallex.com/en-us/pricing
+
 ### Stripe
 
-Best default for online/account-linked payments.
+Best default for fast online/account-linked payments.
 
 Why:
 
+- Fastest low-setup path for hosted payment links.
 - Stripe supports hosted invoices and invoice payment pages.
 - Stripe customer portal can let students view/pay invoices and manage billing details.
 - Stripe API/webhooks are strong for CRM reconciliation.
@@ -158,8 +187,36 @@ Concerns:
 
 Recommended posture:
 
-- Research Clover as a processor option.
-- Do not choose Clover for the student account/ledger architecture unless it can support durable invoice/payment-link workflows cleanly.
+- Keep Clover for existing in-person card payments.
+- Ask the client to confirm whether Clover online already works well for payment
+  links, custom amounts, reporting, and fees.
+- Do not choose Clover for the student account/ledger architecture unless it can
+  support durable invoice/payment-link workflows cleanly.
+
+### Airwallex
+
+Useful later if AIT develops meaningful international or multi-currency payment
+needs.
+
+Strengths:
+
+- No-code payment links.
+- Broad local payment method and multi-currency support.
+- Slightly lower listed US domestic card rate than Stripe as of this memo.
+
+Concerns for v1:
+
+- More global-finance platform than simple school checkout.
+- Less obvious fit for a local advisor-generated student payment request flow.
+- Extra platform surface area is not worth it unless multi-currency settlement,
+  cross-border payments, or global supplier/payables operations matter.
+
+Recommended posture:
+
+- Do not use Airwallex for v1 unless the client has a clear international
+  payment requirement.
+- Revisit after Stripe/Clover decisions if AIT wants global student payments,
+  multi-currency balances, or international payables.
 
 ### 2026-07-09 Update
 
@@ -169,12 +226,11 @@ Alvaro clarified that the client currently accepts:
 - Zelle;
 - cash.
 
-Recommended next step: ask the client simple operating questions before choosing
-online payment implementation. Clover may be the best default if its online
-checkout, invoice/payment-link behavior, fees, and reporting are good enough,
-because the client already uses it in person. Stripe remains the clean fallback
-for account-linked online invoices and webhooks if Clover cannot support the
-needed workflow cleanly.
+Recommended next step: ask the client simple operating questions before enabling
+online payment implementation. Use Stripe as the assumed first online processor
+for least setup. Keep Clover/Zelle/cash in the payment history model so staff
+can still record current payment methods. Clover online remains worth checking
+only because the client already uses Clover in person.
 
 No live payment collection should be added until these questions are answered.
 

@@ -17,7 +17,7 @@ Goal: answer the decisions that are blocking the AIT USA refresh site, placement
 1. Should the refresh placement test be fully on the site, with no external form or embedded form?
 2. Should AIT staff confirm each placement result before enrollment?
 3. Should online payments start only after staff confirms the student, class, price, and schedule?
-4. Should Clover be the preferred online processor if the fees and online features are acceptable?
+4. Should we use Stripe first for online payment links, while keeping Clover for in-person card payments and recording Zelle/cash manually?
 5. Should North Plainfield stay hidden until the exact address, hours, and service status are confirmed?
 6. What homepage changes are approved now, and what should wait until after the client reviews the next design pass?
 7. What launch date or launch window should we work toward?
@@ -108,16 +108,26 @@ Student payment history means a simple list for each student showing what they w
 6. Is the `$95 registration + book` amount still correct and public?
 7. Are there different registration, book, or tuition prices by course or location?
 
-### Clover And Other Processors
+### Stripe, Clover, And Other Processors
 
-1. Does the current Clover account support online payment links or online checkout?
-2. Can Clover send a payment link by text or email?
-3. Can Clover show what student or class a payment belongs to?
-4. Can Clover handle a custom amount, like a partial tuition payment?
-5. Can Clover notify our system automatically when a payment succeeds, fails, or is refunded?
-6. What are the current Clover online fees?
-7. Can you share Clover's online pricing or a recent processing statement so we can compare it with Stripe, Square, or another processor?
-8. If Clover online is more expensive or weaker for online student records, are you open to Stripe or Square for website payments?
+Simple client framing:
+
+For the first online payment version, we recommend Stripe because it is usually
+the fastest way to create a secure payment link and send it to a student. Clover
+can still stay in use for in-person card payments. Zelle and cash can still be
+recorded by staff.
+
+1. Are you comfortable using Stripe for online payment links?
+2. Should Clover stay as the in-person card payment system?
+3. Should Zelle and cash still be accepted and entered manually by staff?
+4. Does the current Clover account support online payment links or online checkout?
+5. Can Clover send a payment link by text or email?
+6. Can Clover show what student or class a payment belongs to?
+7. Can Clover handle a custom amount, like a partial tuition payment?
+8. Can Clover notify our system automatically when a payment succeeds, fails, or is refunded?
+9. What are the current Clover online fees?
+10. Can the client share a recent Clover processing statement or online pricing page so we can compare it against Stripe if needed?
+11. If Clover online is easier or much cheaper than Stripe, should we use Clover online instead?
 
 ### Payment Requests
 
@@ -167,7 +177,7 @@ Questions:
    - Payment method?
    - Remaining balance?
 2. Should receipts be in Spanish, English, or both?
-3. Should Clover or the payment processor send the receipt?
+3. Should Stripe or the payment processor send the receipt?
 4. Should AIT CRM also show or send a receipt copy?
 5. Should staff receive a copy of every receipt?
 
