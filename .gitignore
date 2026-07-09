@@ -1,5 +1,8 @@
 node_modules/
+.next/
 dist/
+public/legacy/
+public/src/
 .chrome-profile/
 server.log
 server.err.log
