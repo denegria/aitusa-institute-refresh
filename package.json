@@ -18,6 +18,7 @@
     "test:attendance": "node --test tests/attendance.test.mjs tests/attendance-route.test.mjs",
     "test:check-in": "node --test tests/check-in.test.mjs tests/check-in-route.test.mjs",
     "test:crm-events": "node --test tests/crm-events.test.mjs tests/crm-event-route.test.mjs",
+    "test:lead-contact": "node --test tests/lead-contact.test.mjs tests/lead-contact-route.test.mjs",
     "test:learning": "node --test tests/learning-content.test.mjs tests/learning-route.test.mjs",
     "test:placement": "node --test tests/placement-test.test.mjs tests/placement-test-route.test.mjs",
     "test:privacy": "node --test tests/privacy-policy.test.mjs tests/privacy-route.test.mjs",
