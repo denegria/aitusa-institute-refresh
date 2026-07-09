@@ -1,3 +1,5 @@
+import { SENSITIVE_DATA_FIELD_NAMES } from "../privacy/privacyPolicy.js";
+
 export const CRM_EVENT_TYPES = Object.freeze({
   lead_form_submitted: Object.freeze({
     label: "Lead form submitted",
@@ -80,21 +82,7 @@ const ALLOWED_CONSENT_BASES = new Set([
   "not_required",
 ]);
 
-const SENSITIVE_FIELD_NAMES = new Set([
-  "audio",
-  "audioBlob",
-  "audioUrl",
-  "cardNumber",
-  "cvv",
-  "password",
-  "providerSubject",
-  "rawAudio",
-  "rawTranscript",
-  "recordingUrl",
-  "ssn",
-  "token",
-  "transcript",
-]);
+const SENSITIVE_FIELD_NAMES = new Set(SENSITIVE_DATA_FIELD_NAMES);
 
 const IDEMPOTENCY_KEY_PATTERN = /^[A-Za-z0-9._:-]{12,160}$/;
 
