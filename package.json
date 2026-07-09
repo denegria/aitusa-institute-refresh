@@ -16,6 +16,7 @@
     "check:assets": "node ./scripts/check-assets.mjs",
     "test:attendance": "node --test tests/attendance.test.mjs tests/attendance-route.test.mjs",
     "test:crm-events": "node --test tests/crm-events.test.mjs tests/crm-event-route.test.mjs",
+    "test:learning": "node --test tests/learning-content.test.mjs tests/learning-route.test.mjs",
     "test:privacy": "node --test tests/privacy-policy.test.mjs tests/privacy-route.test.mjs",
     "test:portal-auth": "node --test tests/portal-auth.test.mjs",
     "test:portal-shell": "node --test tests/portal-shell.test.mjs",
