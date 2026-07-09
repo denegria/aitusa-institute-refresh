@@ -18,6 +18,7 @@ describe("MIS-267 content hygiene", () => {
     assert.equal(site.forms.level, "/placement-test/");
     assert.equal(site.forms.offer.includes("docs.google.com"), false);
     assert.equal(site.forms.registration.includes("docs.google.com"), false);
+    assert.equal(JSON.stringify(site.forms).includes("Google Form"), false);
   });
 
   it("keeps verified active locations populated with phone, WhatsApp, and class hours", async () => {
@@ -50,5 +51,6 @@ describe("MIS-267 content hygiene", () => {
     assert.equal(placementTest.legacySource.formId, "1B_rhVh4lmOIySRtOTOs1rrjas7vns9zRzamncquwcQg");
     assert.equal(placementTest.legacySource.capturedFields.includes("Free Writing"), true);
     assert.equal(JSON.stringify(placementTest).includes("docs.google.com"), false);
+    assert.equal(JSON.stringify(placementTest).includes("Google Form"), false);
   });
 });

@@ -1777,7 +1777,7 @@ const placementTest = {
       "Free Writing",
     ],
     note:
-      "La versión refresh debe presentar y calificar el cuestionario en sitio, sin incrustar ni enlazar Google Forms.",
+      "La versión refresh debe presentar y calificar el cuestionario en sitio, sin incrustar ni enlazar servicios externos.",
   },
   studentFields: [
     { name: "name", label: "Nombre completo", type: "text", required: true },
