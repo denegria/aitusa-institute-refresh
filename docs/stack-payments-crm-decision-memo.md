@@ -22,35 +22,40 @@ No framework is currently installed. That means we can either keep the near-term
 Use a two-phase approach:
 
 1. Ship the current product-led refresh on the existing static architecture if the goal is speed.
-2. Move to SvelteKit for the next app-grade version if we are adding durable placement test flows, CRM submits, language switching, accounts, and payments.
+2. Move to a React-based app, preferably Next.js, for the next app-grade version
+   if we are adding durable placement test flows, CRM submits, language
+   switching, accounts, portal routes, and payments.
 
-Do not migrate to Next/React by default just because AIT CRM uses Next. This public website has different needs.
+Director update, 2026-07-08: the preferred direction is now an integrated
+React/Next path for the AIT USA refresh plus portal. Do not ship the portal as a
+separate long-term site. The current `/portal/` static route is a fixture-backed
+prototype in the same repo and should be treated as a bridge toward an
+integrated app migration, not as the final portal runtime.
 
-### Why SvelteKit Is A Strong Candidate
-
-SvelteKit is a good fit if the website becomes:
-
-- content-heavy;
-- multi-page;
-- form-heavy;
-- lightweight on lower-end phones;
-- hosted on Vercel;
-- integrated with server endpoints for placement tests and CRM lead creation.
-
-Official docs support Vercel deployment through the SvelteKit Vercel adapter.
-
-Svelte's value here is not magical "device compatibility." Compatibility comes from HTML, CSS, accessibility, image discipline, and restrained JS. But SvelteKit can help ship less client-side JS than a React-heavy app and keep the authoring model clean.
-
-### Why Next/React Is Still Viable
+### Why React/Next Is The Preferred Direction
 
 Next is the stronger default if we need:
 
+- integrated public site and portal routes;
+- WorkOS/AuthKit or comparable hosted auth integration;
+- server-side route handlers for CRM adapters and consent gates;
 - shared components or conventions with AIT CRM;
-- deeper account/auth integration soon;
 - React ecosystem integrations;
-- a team workflow already standardized on Next.
+- a team workflow already comfortable with React/Next;
+- Vercel-native previews and deployment behavior.
 
-The tradeoff is complexity and bundle weight for a site whose first job is marketing, placement, and lead capture.
+React is not automatically more compatible with older desktop or mobile
+devices. Compatibility comes from HTML, CSS, accessibility, image discipline,
+server-rendered/static output, restrained client-side JavaScript, and careful
+hydration. The reason to prefer React/Next here is ecosystem and operating
+model fit, not that devices are inherently more React-friendly.
+
+### Why SvelteKit Remains A Fallback
+
+SvelteKit remains viable if the team later prioritizes smaller client bundles
+and a lighter authoring model over React/Next ecosystem alignment. It should be
+kept as a fallback, not the default, unless React/Next migration cost becomes
+larger than expected.
 
 ### Keep Static If We Need Speed
 
@@ -69,6 +74,9 @@ Static becomes weaker when we need:
 - account sessions;
 - payment/customer portal integration;
 - server-side validation.
+
+Static routes can still be useful for prototypes and fixture-backed review, but
+they should not define the final portal architecture.
 
 ## Language Picker
 
@@ -89,7 +97,8 @@ Recommendation:
 Future implementation:
 
 - Static phase: data object with `es` and `en` fields where needed.
-- SvelteKit phase: route or cookie-based locale with `/es` and `/en` paths if SEO matters.
+- React/Next phase: route or cookie-based locale with `/es` and `/en` paths if
+  SEO matters.
 
 ## Payments Decision
 
@@ -247,19 +256,20 @@ Recommended lanes:
 
 For this slice:
 
-1. Keep current static stack for immediate product refresh unless we deliberately decide to migrate now.
-2. Make the content model language-picker ready.
-3. Post site leads to AIT CRM.
-4. Build placement test as automated recommendation + CRM lead capture.
-5. Use Stripe as default recommendation for account-linked online payments, with Clover investigated because of current in-person usage.
-6. Treat WhatsApp CRM ownership as a follow-up integration slice.
-7. Mention AI tutor/study assistant only as coming soon.
+1. Use current static routes only as temporary review/prototype scaffolding.
+2. Make React/Next the preferred app-grade migration direction for the
+   integrated public site plus portal.
+3. Make the content model language-picker ready.
+4. Post site leads to AIT CRM.
+5. Build placement test as automated recommendation + CRM lead capture.
+6. Use Stripe as default recommendation for account-linked online payments, with Clover investigated because of current in-person usage.
+7. Treat WhatsApp CRM ownership as a follow-up integration slice.
+8. Mention AI tutor/study assistant only as coming soon.
 
 ## Source Links
 
-- SvelteKit Vercel adapter: `https://svelte.dev/docs/kit/adapter-vercel`
-- Vercel SvelteKit guide: `https://vercel.com/docs/frameworks/full-stack/sveltekit`
 - Next.js on Vercel: `https://vercel.com/docs/frameworks/full-stack/nextjs`
+- Vercel SvelteKit guide, fallback only: `https://vercel.com/docs/frameworks/full-stack/sveltekit`
 - Stripe hosted invoice page: `https://docs.stripe.com/invoicing/hosted-invoice-page`
 - Stripe customer portal: `https://docs.stripe.com/customer-management`
 - Clover Hosted Checkout: `https://docs.clover.com/dev/docs/hosted-checkout-api`

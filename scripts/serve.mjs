@@ -31,13 +31,18 @@ const server = createServer((request, response) => {
   const routeFallback =
     requested === "/courses/" ||
     requested === "/courses" ||
+    requested === "/portal/" ||
+    requested === "/portal" ||
     requested === "/placement-test/" ||
     requested === "/placement-test" ||
     /^\/cursos\/[^/]+\/?$/.test(requested) ||
     /^\/cursos\/[^/]+\/index\.html$/.test(requested) ||
     /^\/courses\/[^/]+\/?$/.test(requested) ||
     /^\/courses\/[^/]+\/index\.html$/.test(requested);
-  const target = path.resolve(root, routeFallback ? "./index.html" : `.${requested}`);
+  const fallbackTarget = requested === "/portal/" || requested === "/portal"
+    ? "./portal/index.html"
+    : "./index.html";
+  const target = path.resolve(root, routeFallback ? fallbackTarget : `.${requested}`);
 
   if (!target.startsWith(root) || !existsSync(target) || !statSync(target).isFile()) {
     response.writeHead(404, { "content-type": "text/plain; charset=utf-8" });

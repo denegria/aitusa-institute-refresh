@@ -351,7 +351,9 @@ Phase 1: Portal planning
 
 Phase 2: Runtime decision
 
-- Choose SvelteKit, Next.js, or another approved app/runtime path.
+- Use React/Next as the preferred app/runtime path unless a later review finds
+  a blocker.
+- Keep SvelteKit and other runtimes as fallbacks, not the default path.
 - Choose auth provider against the requirements above.
 - Define server-side CRM adapter boundaries.
 - Define environment, secret, preview, and audit requirements.
@@ -384,8 +386,8 @@ Phase 4: Pilot
 
 ## Open Decisions
 
-- Portal app/runtime: keep static public site plus separate app, or migrate the
-  site into a full-stack framework.
+- Portal app/runtime: React/Next is the preferred integrated app direction; the
+  remaining decision is migration sequence and scope.
 - Auth provider shortlist and final vendor.
 - Email-only vs email plus SMS verification.
 - MFA requirement for teacher/admin roles.
