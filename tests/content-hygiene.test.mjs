@@ -12,15 +12,12 @@ async function loadSiteData() {
 }
 
 describe("MIS-267 content hygiene", () => {
-  it("keeps public Google Form links out of edit mode", async () => {
+  it("keeps Google Form URLs out of runtime site content", async () => {
     const { site } = await loadSiteData();
 
-    assert.equal(site.forms.level.includes("/edit"), false);
-    assert.equal(site.forms.offer.includes("/edit"), false);
-    assert.equal(site.forms.registration.includes("/edit"), false);
-    assert.match(site.forms.level, /\/viewform$/);
-    assert.match(site.forms.offer, /\/viewform$/);
-    assert.match(site.forms.registration, /\/viewform$/);
+    assert.equal(site.forms.level, "/placement-test/");
+    assert.equal(site.forms.offer.includes("docs.google.com"), false);
+    assert.equal(site.forms.registration.includes("docs.google.com"), false);
   });
 
   it("keeps verified active locations populated with phone, WhatsApp, and class hours", async () => {
@@ -47,11 +44,11 @@ describe("MIS-267 content hygiene", () => {
   });
 
   it("captures the legacy placement exam source for the on-site handoff", async () => {
-    const { placementTest, site } = await loadSiteData();
+    const { placementTest } = await loadSiteData();
 
-    assert.equal(placementTest.legacySource.href, site.forms.level);
     assert.match(placementTest.legacySource.title, /PLACEMENT EXAM/);
     assert.equal(placementTest.legacySource.formId, "1B_rhVh4lmOIySRtOTOs1rrjas7vns9zRzamncquwcQg");
     assert.equal(placementTest.legacySource.capturedFields.includes("Free Writing"), true);
+    assert.equal(JSON.stringify(placementTest).includes("docs.google.com"), false);
   });
 });

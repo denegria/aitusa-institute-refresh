@@ -90,12 +90,9 @@ const site = {
   ],
   originalSite: "https://www.aitusainstitute.com/",
   forms: {
-    level:
-      "https://docs.google.com/forms/d/1B_rhVh4lmOIySRtOTOs1rrjas7vns9zRzamncquwcQg/viewform",
-    offer:
-      "https://docs.google.com/forms/d/1YurGiSiF03j2WZm2eABawja6FJ_8q5RrowbyQML_yN8/viewform",
-    registration:
-      "https://docs.google.com/forms/d/1YurGiSiF03j2WZm2eABawja6FJ_8q5RrowbyQML_yN8/viewform",
+    level: "/placement-test/",
+    offer: "https://wa.me/17323790593",
+    registration: "https://wa.me/17323790593",
   },
   images: {
     logo: asset("076-solo-logo-4-x-4-clases1.png"),
@@ -1768,9 +1765,8 @@ const placementTest = {
   },
   legacySource: {
     title: "PLACEMENT EXAM (EXAMEN DE NIVELACION) COMMUNICATIVE ENGLISH",
-    href: site.forms.level,
     formId: "1B_rhVh4lmOIySRtOTOs1rrjas7vns9zRzamncquwcQg",
-    source: "Google Form publicado desde el sitio Wix original",
+    source: "Cuestionario legado del sitio Wix original",
     capturedFields: [
       "Date/Fecha",
       "First Name/Nombre",
@@ -1781,7 +1777,7 @@ const placementTest = {
       "Free Writing",
     ],
     note:
-      "La versión refresh conserva un MVP corto en sitio; este formulario legado es la fuente para una migración completa posterior.",
+      "La versión refresh debe presentar y calificar el cuestionario en sitio, sin incrustar ni enlazar Google Forms.",
   },
   studentFields: [
     { name: "name", label: "Nombre completo", type: "text", required: true },
