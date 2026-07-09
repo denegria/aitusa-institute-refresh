@@ -17,6 +17,7 @@
     "test:ai-study-buddy": "node --test tests/ai-study-buddy.test.mjs tests/ai-study-buddy-route.test.mjs",
     "test:attendance": "node --test tests/attendance.test.mjs tests/attendance-route.test.mjs",
     "test:check-in": "node --test tests/check-in.test.mjs tests/check-in-route.test.mjs",
+    "test:courses-seo": "node --test tests/courses-seo.test.mjs",
     "test:crm-events": "node --test tests/crm-events.test.mjs tests/crm-event-route.test.mjs",
     "test:lead-contact": "node --test tests/lead-contact.test.mjs tests/lead-contact-route.test.mjs",
     "test:learning": "node --test tests/learning-content.test.mjs tests/learning-route.test.mjs",
