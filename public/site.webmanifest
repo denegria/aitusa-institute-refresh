@@ -1,0 +1,15 @@
+{
+  "name": "AiT USA Institute",
+  "short_name": "AiT USA",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#073bce",
+  "icons": [
+    {
+      "src": "/public/assets/wix/076-solo-logo-4-x-4-clases1.png",
+      "sizes": "1200x1200",
+      "type": "image/png"
+    }
+  ]
+}

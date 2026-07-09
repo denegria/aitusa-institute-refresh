@@ -30,6 +30,60 @@ export function buildCourseDetailHtml(template, siteData, program) {
   });
 }
 
+export function buildRobotsTxt(siteData) {
+  return [
+    "User-agent: *",
+    "Allow: /",
+    "",
+    `Sitemap: ${absoluteUrl(siteData, "/sitemap.xml")}`,
+    "",
+  ].join("\n");
+}
+
+export function buildSitemapXml(siteData, { lastmod = currentDate() } = {}) {
+  const courseUrls = (siteData.programs || [])
+    .filter((program) => program.slug)
+    .map((program) => ({
+      loc: absoluteUrl(siteData, `/courses/${program.slug}/`),
+      changefreq: "monthly",
+      priority: "0.8",
+    }));
+
+  const urls = [
+    {
+      loc: absoluteUrl(siteData, "/"),
+      changefreq: "weekly",
+      priority: "1.0",
+    },
+    {
+      loc: absoluteUrl(siteData, "/courses/"),
+      changefreq: "weekly",
+      priority: "0.9",
+    },
+    {
+      loc: absoluteUrl(siteData, "/placement-test/"),
+      changefreq: "monthly",
+      priority: "0.9",
+    },
+    ...courseUrls,
+  ];
+
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...urls.flatMap((url) => [
+      "  <url>",
+      `    <loc>${escapeHtml(url.loc)}</loc>`,
+      `    <lastmod>${lastmod}</lastmod>`,
+      `    <changefreq>${url.changefreq}</changefreq>`,
+      `    <priority>${url.priority}</priority>`,
+      "  </url>",
+    ]),
+    "</urlset>",
+    "",
+  ].join("\n");
+}
+
 function withRouteMetadata(
   template,
   siteData,
@@ -124,6 +178,10 @@ function jsonLdScript(name, value) {
 
 function absoluteUrl(siteData, pathValue) {
   return new URL(pathValue, siteData.site?.canonical || "https://www.aitusainstitute.com/").toString();
+}
+
+function currentDate() {
+  return new Date().toISOString().slice(0, 10);
 }
 
 function escapeAttribute(value) {

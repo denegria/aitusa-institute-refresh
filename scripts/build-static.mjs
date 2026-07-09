@@ -4,6 +4,8 @@ import path from "node:path";
 import {
   buildCourseDetailHtml,
   buildCoursesIndexHtml,
+  buildRobotsTxt,
+  buildSitemapXml,
   loadLegacySiteData,
 } from "./legacy-route-html.mjs";
 
@@ -53,3 +55,6 @@ for (const file of ["robots.txt", "sitemap.xml", "site.webmanifest"]) {
     await cp(source, path.join(dist, file));
   }
 }
+
+await writeFile(path.join(dist, "robots.txt"), buildRobotsTxt(siteData));
+await writeFile(path.join(dist, "sitemap.xml"), buildSitemapXml(siteData));

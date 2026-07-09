@@ -4,6 +4,8 @@ import { fileURLToPath } from "node:url";
 import {
   buildCourseDetailHtml,
   buildCoursesIndexHtml,
+  buildRobotsTxt,
+  buildSitemapXml,
   loadLegacySiteData,
 } from "./legacy-route-html.mjs";
 
@@ -26,6 +28,10 @@ const [template, siteData] = await Promise.all([
   loadLegacySiteData(root),
 ]);
 const programs = siteData.programs || [];
+
+await writeFile(path.join(publicRoot, "robots.txt"), buildRobotsTxt(siteData));
+await writeFile(path.join(publicRoot, "sitemap.xml"), buildSitemapXml(siteData));
+await cp(path.join(root, "site.webmanifest"), path.join(publicRoot, "site.webmanifest"));
 
 await mkdir(path.join(publicRoot, "legacy", "courses"), { recursive: true });
 await writeFile(
