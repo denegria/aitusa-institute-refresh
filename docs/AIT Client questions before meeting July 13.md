@@ -4,13 +4,55 @@ Prepared for the Monday, July 13 client meeting.
 
 Goal: answer the decisions that are blocking the AIT USA refresh site, placement test, payments, student portal, and launch plan. Keep the conversation simple and focused. If the client is unsure, mark the item as `defer` and assign a follow-up owner.
 
+## Decisions We Need Monday
+
+Use this as the front page of the meeting. If the client can only answer a few
+things, get these first.
+
+### 1. Placement Test
+
+- Confirm the placement test should live fully on the AIT USA website.
+- Ask for the official answer key or the person who can approve it.
+- Confirm every result is provisional until staff approves the final level.
+- Decide whether placement submissions should later be saved in AIT CRM.
+
+### 2. Payments
+
+- Confirm students should pay online only after staff confirms the student,
+  class, price, and schedule.
+- Confirm Stripe is acceptable for first online payment links.
+- Confirm Clover stays in-person, and Zelle/cash are recorded manually.
+- Confirm what students are allowed to pay first: registration/book, tuition,
+  payment plan, or custom office-approved amount.
+
+### 3. CRM Follow-Up
+
+- Confirm website leads should eventually save into AIT CRM.
+- Confirm placement results should eventually save into AIT CRM as provisional
+  advisor-review records.
+- Confirm who receives follow-up tasks for new leads and placement results.
+- Confirm consent wording before we enable any live CRM writes.
+
+### 4. Locations And Hours
+
+- Confirm active locations, phone numbers, WhatsApp number, and class hours.
+- Confirm whether North Plainfield is active or should stay hidden.
+- Confirm whether the published hours are class hours, office hours, or both.
+
+### 5. Homepage And Launch
+
+- Confirm what homepage feedback is approved now.
+- Confirm what should wait for the next design pass.
+- Confirm target launch window, final approver, domain plan, and rollback owner.
+
 ## Recommended Meeting Order
 
 1. Placement test.
 2. Payments and student payment history.
-3. Locations, phone numbers, and hours.
-4. Homepage and client feedback.
-5. Launch timing and domain.
+3. CRM follow-up for leads and placement results.
+4. Locations, phone numbers, and hours.
+5. Homepage and client feedback.
+6. Launch timing and domain.
 
 ## Top Decisions Needed
 
@@ -18,9 +60,11 @@ Goal: answer the decisions that are blocking the AIT USA refresh site, placement
 2. Should AIT staff confirm each placement result before enrollment?
 3. Should online payments start only after staff confirms the student, class, price, and schedule?
 4. Should we use Stripe first for online payment links, while keeping Clover for in-person card payments and recording Zelle/cash manually?
-5. Should North Plainfield stay hidden until the exact address, hours, and service status are confirmed?
-6. What homepage changes are approved now, and what should wait until after the client reviews the next design pass?
-7. What launch date or launch window should we work toward?
+5. Should website leads and placement results be saved in AIT CRM later?
+6. Who should receive the follow-up task when a lead or placement result comes in?
+7. Should North Plainfield stay hidden until the exact address, hours, and service status are confirmed?
+8. What homepage changes are approved now, and what should wait until after the client reviews the next design pass?
+9. What launch date or launch window should we work toward?
 
 ## Placement Test
 
@@ -66,6 +110,8 @@ Questions:
     - All of the above?
 13. Later, should placement test results be saved in AIT CRM?
 14. If yes, what staff member or team should receive the placement follow-up task?
+15. If placement results are saved before the answer key is approved, should they be marked as "provisional / advisor must review"?
+16. Are we allowed to save the student's written answer, or should staff only see the score and recommended level for now?
 
 ## Payments And Student Payment History
 
@@ -333,6 +379,37 @@ Questions:
 7. What consent text should the form show before someone submits?
 8. Should SMS/text marketing opt-in be separate from normal contact permission?
 
+### CRM Write Enablement
+
+Simple client framing:
+
+Saving into AIT CRM means the website creates a lead/contact record and a
+follow-up task for staff. Until this is approved, the website can still send the
+student to WhatsApp, but it will not store the request in CRM.
+
+Questions:
+
+1. Should website contact requests be saved in AIT CRM?
+2. Should placement test results be saved in AIT CRM?
+3. Should placement results be saved before the official answer key is approved,
+   or only after approval?
+4. Who should receive follow-up tasks?
+   - Front desk?
+   - Advisor?
+   - A specific staff member?
+   - Different people by location?
+5. What should happen when the same student submits twice?
+6. What fields are staff allowed to store?
+   - Name?
+   - Phone?
+   - Email?
+   - City?
+   - Course interest?
+   - Placement score?
+   - Written placement answer?
+7. Should the student see a simple privacy/consent sentence before submitting?
+8. Who approves that consent sentence?
+
 ## Student Portal And Future Features
 
 Simple client framing:
@@ -427,3 +504,4 @@ Use this during the call.
 - This packet compiles open questions from the refresh strategy, placement-test handoff, payment/CRM memo, address/link verification, lead/contact handoff, student portal plan, and current Linear issue state.
 - The old Wix placement questionnaire is source material only. The refresh product should use AIT USA's own on-page questionnaire, not an embedded or linked external form.
 - Do not enable payment capture, live CRM writes, durable placement storage, or production launch until the relevant decisions above are approved.
+- CRM write enablement is tracked separately in MIS-301 and should remain off by default until staging smoke tests and client consent decisions are approved.
