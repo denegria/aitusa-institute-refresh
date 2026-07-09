@@ -12,6 +12,8 @@ export const ATTENDANCE_FIXTURES = Object.freeze({
       courseRef: "course_fixture_esl_101",
       title: "ESL 101 - Weekday Evening",
       instructorPortalAccountId: "acct_fixture_teacher_active",
+      locationRef: "location_bound_brook",
+      lateGraceMinutes: 10,
     }),
   ]),
   enrollments: Object.freeze([
@@ -120,6 +122,46 @@ export const ATTENDANCE_FIXTURES = Object.freeze({
       reason: "Advisor confirmed absence note.",
       before: Object.freeze({ status: "absent" }),
       after: Object.freeze({ status: "excused" }),
+    }),
+  ]),
+  checkInStations: Object.freeze([
+    Object.freeze({
+      stationRef: "station_bound_brook_front_desk",
+      label: "Bound Brook front desk",
+      locationRef: "location_bound_brook",
+      mode: "keyboard_wedge",
+      active: true,
+      allowedSectionRefs: Object.freeze(["section_fixture_english_101"]),
+    }),
+  ]),
+  checkInTokens: Object.freeze([
+    Object.freeze({
+      tokenRef: "token_fixture_student_001",
+      tokenHash:
+        "2ef2718b099402abf36f5335b49bcde0f8df8c7740ce42fe49449cee012465b9",
+      studentCrmContactRef: "crm_contact_fixture_student_001",
+      enrollmentRef: "enrollment_fixture_student_001",
+      status: "active",
+      issuedAt: "2026-06-20T14:00:00.000Z",
+    }),
+    Object.freeze({
+      tokenRef: "token_fixture_minor_001",
+      tokenHash:
+        "4f73350cf28146fcdb4f44f6d01bf62da4e6cdfd740cd7af190defe4e8d59ad7",
+      studentCrmContactRef: "crm_contact_fixture_minor_001",
+      enrollmentRef: "enrollment_fixture_minor_001",
+      status: "active",
+      issuedAt: "2026-06-20T14:00:00.000Z",
+    }),
+    Object.freeze({
+      tokenRef: "token_fixture_revoked_001",
+      tokenHash:
+        "c4dd1c5c941e7827b66469943e8292fa0fbd3602f9f95644a2a91e294cf1506f",
+      studentCrmContactRef: "crm_contact_fixture_student_001",
+      enrollmentRef: "enrollment_fixture_student_001",
+      status: "revoked",
+      issuedAt: "2026-06-01T14:00:00.000Z",
+      revokedAt: "2026-07-01T14:00:00.000Z",
     }),
   ]),
 });

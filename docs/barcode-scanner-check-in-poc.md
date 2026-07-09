@@ -1,8 +1,8 @@
 # AIT USA Barcode Scanner Check-In POC
 
-Date: 2026-07-08
+Date: 2026-07-09
 Linear: MIS-273
-Status: Docs/spec only
+Status: Fixture-backed POC boundary on staging
 
 ## Purpose
 
@@ -14,9 +14,38 @@ deployment: scanner mode, student ID/barcode format, locked check-in station UX,
 duplicate/late/wrong-class/offline handling, security rules, and how scans
 become attendance events in CRM/portal state.
 
-This document depends on the MIS-272 attendance model and does not approve
-hardware purchase, production deployment, database schema, CRM writes, or portal
-implementation.
+This slice includes a fixture-backed model and route boundary. It depends on the
+MIS-272 attendance model and does not approve hardware purchase, production
+deployment, database schema, CRM writes, durable attendance storage, or broad
+portal UI implementation.
+
+## Implemented POC Boundary
+
+Code paths:
+
+- `src/attendance/checkInModel.js`
+- `app/api/portal/check-in/route.js`
+- `tests/check-in.test.mjs`
+- `tests/check-in-route.test.mjs`
+
+API boundary:
+
+- `GET /api/portal/check-in` returns station/session/scanner metadata for an
+  authorized fixture teacher/admin station context.
+- `POST /api/portal/check-in` previews a scanner check-in result from fixture
+  input only.
+
+Default fixture query/body fields:
+
+- `accountKey`: defaults to `teacherActive`
+- `stationRef`: defaults to `station_bound_brook_front_desk`
+- `sessionRef`: defaults to `session_fixture_english_101_003`
+- `scannedValue`: required for `POST`
+- `scannedAt`: optional ISO timestamp for deterministic tests
+
+The route returns a MIS-277-compatible CRM sync preview with `crmWrite: false`.
+It does not store attendance records, call AIT CRM, or expose raw scanner token
+values in the CRM event payload.
 
 ## Recommended POC Direction
 
@@ -86,6 +115,10 @@ Example shape:
 
 `AIT-CHK-7F4K9Q2M`
 
+Implemented fixture validation uses:
+
+`AIT-CHK-[A-Z0-9]{8}`
+
 Server-side lookup result:
 
 - token hash;
@@ -97,6 +130,9 @@ Server-side lookup result:
 
 Do not store raw scanned tokens in CRM event metadata. Store a hash or safe
 lookup reference.
+
+Implemented POC behavior hashes normalized scanned values with SHA-256 and uses
+fixture token hashes for lookup. Raw scanner input is accepted in transit only.
 
 ## Check-In Station UX
 
@@ -180,6 +216,17 @@ Possible results:
 - `station_not_authorized`
 - `offline_pending`
 
+Implemented fixture results currently cover:
+
+- `accepted_present`
+- `accepted_late`
+- `duplicate`
+- `wrong_session`
+- `unknown_student`
+- `inactive_or_revoked`
+- `needs_review`
+- `station_role_required`
+
 ### 5. Attendance Event
 
 Backend emits or queues MIS-277-compatible event:
@@ -250,6 +297,9 @@ POC default:
 - If backend is unavailable, station shows degraded state and asks staff to use
   approved manual attendance path.
 
+Implemented POC default remains online-only. Offline queueing and local roster
+cache are intentionally not implemented.
+
 ## Security Rules
 
 - Station session must be authenticated or use an approved limited station token.
@@ -260,6 +310,14 @@ POC default:
 - Do not allow public website visitors to submit scanner events.
 - Manual override requires staff/admin role.
 - Every accepted scan must have an audit trail.
+
+Implemented fixture rules:
+
+- Only fixture `teacher` and `admin` roles can operate a station.
+- Station must be active and scoped to the selected section/location.
+- Unknown/malformed tokens return generic scanner failure states.
+- Revoked tokens do not reveal private student data beyond safe review state.
+- CRM previews include token hash only, never raw barcode token.
 
 ## CRM Event Mapping
 
@@ -376,4 +434,7 @@ MIS-273 acceptance coverage:
   defined.
 - Scan to CRM/portal state: MIS-272/MIS-277 event mapping is defined.
 
-This spec is ready for review as a docs-only MIS-273 slice.
+This POC boundary is ready for review as a fixture-backed MIS-273 slice. Next
+production gates are durable token storage, scoped station sessions, idempotent
+attendance writes, rate limiting/security logging, a real station UI, and a
+physical keyboard-wedge scanner smoke test.
