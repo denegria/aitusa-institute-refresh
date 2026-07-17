@@ -1427,6 +1427,97 @@ button {
   gap: 16px;
 }
 
+.form-honeypot {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.consent-panel {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(238, 244, 255, 0.62);
+}
+
+.consent-panel legend {
+  padding: 0 7px;
+  color: var(--ink);
+  font-weight: 900;
+}
+
+.consent-check {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.consent-check input {
+  width: 20px;
+  min-height: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  padding: 0;
+  accent-color: var(--blue-deep);
+}
+
+.consent-check--sms {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.consent-check--sms strong,
+.consent-check--sms small {
+  display: block;
+}
+
+.consent-check--sms strong {
+  margin-bottom: 5px;
+  color: var(--ink);
+}
+
+.consent-check--sms small,
+.form-grid label > small {
+  color: var(--ink-soft);
+  font-size: 0.76rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.consent-links {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.consent-links a,
+.form-status a {
+  color: var(--blue-deep);
+  font-weight: 800;
+  text-underline-offset: 3px;
+}
+
+.lead-form[aria-busy="true"] {
+  opacity: 0.78;
+}
+
 .contact-card__footnote {
   display: flex;
   justify-content: space-between;
@@ -1770,7 +1861,7 @@ textarea {
 }
 
 .site-footer__grid {
-  grid-template-columns: 1.4fr 1fr 1fr;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
 }
 
 .site-footer a {

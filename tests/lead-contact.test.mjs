@@ -5,6 +5,7 @@ import {
   evaluateLeadContactSubmission,
   validateLeadContactInput,
 } from "../src/leads/leadContactModel.js";
+import { SMS_DISCLOSURE_VERSION } from "../src/legal/publicLegalContent.js";
 
 const validSubmission = Object.freeze({
   lead: Object.freeze({
@@ -19,12 +20,13 @@ const validSubmission = Object.freeze({
     message: "Quiero saber horarios para empezar.",
   }),
   source: Object.freeze({
-    path: "/#contacto",
+    path: "/contactanos",
     campaign: "fixture-campaign",
   }),
   consent: Object.freeze({
     contactPermission: true,
     marketingSmsOptIn: false,
+    marketingSmsEvidence: null,
   }),
   startedAt: "2026-07-09T14:40:00.000Z",
   submittedAt: "2026-07-09T14:40:08.000Z",
@@ -35,17 +37,16 @@ describe("MIS-266 lead contact model", () => {
     const validation = validateLeadContactInput({
       lead: {
         name: "Only Name",
-        phone: "",
         email: "bad-email",
         interest: "bad-interest",
       },
-      consent: { contactPermission: false },
+      consent: { contactPermission: false, marketingSmsOptIn: false },
       honeypot: "filled",
     });
 
     assert.equal(validation.ok, false);
     assert.equal(validation.status, 400);
-    assert.equal(validation.errors.includes("lead_phone_required"), true);
+    assert.equal(validation.errors.includes("lead_name_required"), false);
     assert.equal(validation.errors.includes("lead_interest_invalid"), true);
     assert.equal(validation.errors.includes("lead_email_invalid"), true);
     assert.equal(
@@ -58,13 +59,13 @@ describe("MIS-266 lead contact model", () => {
   it("builds a WhatsApp advisor handoff with the submitted contact context", () => {
     const message = buildLeadAdvisorHandoffMessage({
       lead: validSubmission.lead,
-      sourcePath: "/#contacto",
+      sourcePath: "/contactanos",
     });
 
     assert.match(message, /Fixture Lead/);
     assert.match(message, /\+17325550123/);
     assert.match(message, /ingles-presencial/);
-    assert.match(message, /Origen: \/#contacto/);
+    assert.match(message, /Origen: \/contactanos/);
   });
 
   it("returns CRM-safe previews while keeping writes and storage disabled", () => {
@@ -100,5 +101,76 @@ describe("MIS-266 lead contact model", () => {
       ageGroup: true,
     });
     assert.equal(payload.messageProvided, true);
+  });
+
+  it("accepts an optional phone when marketing SMS consent is not selected", () => {
+    const response = evaluateLeadContactSubmission({
+      ...validSubmission,
+      lead: { ...validSubmission.lead, phone: "" },
+    });
+
+    assert.equal(response.status, 200);
+    assert.equal(response.body.crmPayloadPreview.contactFieldsProvided.phone, false);
+    assert.equal(response.body.crmPayloadPreview.consent.marketingSmsOptIn, false);
+    assert.equal(response.body.crmPayloadPreview.consent.marketingSmsEvidence, null);
+    assert.match(response.body.advisorHandoff.message, /No indicado/);
+  });
+
+  it("preserves versioned source and timestamp evidence for explicit SMS opt-in", () => {
+    const consentedAt = "2026-07-17T21:00:00.000Z";
+    const response = evaluateLeadContactSubmission({
+      ...validSubmission,
+      submittedAt: consentedAt,
+      consent: {
+        contactPermission: true,
+        marketingSmsOptIn: true,
+        marketingSmsEvidence: {
+          disclosureVersion: SMS_DISCLOSURE_VERSION,
+          sourcePath: "/contactanos",
+          consentedAt,
+        },
+      },
+    });
+
+    assert.equal(response.status, 200);
+    assert.deepEqual(response.body.crmPayloadPreview.consent.marketingSmsEvidence, {
+      disclosureVersion: SMS_DISCLOSURE_VERSION,
+      sourcePath: "/contactanos",
+      consentedAt,
+    });
+    assert.equal(response.body.crmSyncPreview.event.payload.marketingSmsOptIn, true);
+    assert.equal(
+      response.body.crmSyncPreview.event.payload.marketingSmsDisclosureVersion,
+      SMS_DISCLOSURE_VERSION,
+    );
+  });
+
+  it("rejects ambiguous or incomplete SMS consent evidence", () => {
+    const noPhone = validateLeadContactInput({
+      ...validSubmission,
+      lead: { ...validSubmission.lead, phone: "" },
+      consent: { contactPermission: true, marketingSmsOptIn: true },
+    });
+    assert.equal(noPhone.ok, false);
+    assert.equal(noPhone.errors.includes("marketing_sms_phone_required"), true);
+    assert.equal(noPhone.errors.includes("marketing_sms_evidence_required"), true);
+
+    const evidenceWithoutOptIn = validateLeadContactInput({
+      ...validSubmission,
+      consent: {
+        contactPermission: true,
+        marketingSmsOptIn: false,
+        marketingSmsEvidence: {
+          disclosureVersion: SMS_DISCLOSURE_VERSION,
+          sourcePath: "/contactanos",
+          consentedAt: "2026-07-17T21:00:00.000Z",
+        },
+      },
+    });
+    assert.equal(evidenceWithoutOptIn.ok, false);
+    assert.equal(
+      evidenceWithoutOptIn.errors.includes("marketing_sms_evidence_without_opt_in"),
+      true,
+    );
   });
 });

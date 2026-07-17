@@ -632,17 +632,20 @@
                   <input name="email" type="email" />
                 </label>
                 <label>
-                  Teléfono
-                  <input name="telefono" type="tel" required />
+                  Teléfono móvil <small>(opcional)</small>
+                  <input name="telefono" type="tel" inputmode="tel" autocomplete="tel" />
+                  <small>No recibirás SMS promocionales salvo que marques la casilla separada.</small>
                 </label>
                 <label>
                   Interés
-                  <select name="interes">
-                    <option value="Inglés">Inglés</option>
-                    <option value="Niños">Niños</option>
-                    <option value="GED">GED</option>
-                    <option value="Computación">Computación</option>
-                    <option value="Otro">Otro</option>
+                  <select name="interes" required>
+                    <option value="ingles-presencial">Inglés presencial</option>
+                    <option value="ingles-hibrido">Inglés híbrido</option>
+                    <option value="ingles-online">Inglés online</option>
+                    <option value="kids">Inglés para niños</option>
+                    <option value="ged">GED</option>
+                    <option value="computacion">Computación</option>
+                    <option value="otro">Otro</option>
                   </select>
                 </label>
                 <label>
@@ -658,7 +661,29 @@
                   <input name="ubicacion" type="text" placeholder="Ciudad / Estado o país" />
                 </label>
               </div>
-              <button class="button button--primary" type="submit">Hablar con un asesor</button>
+              <label class="form-honeypot" aria-hidden="true">
+                Sitio web de empresa
+                <input name="companyWebsite" type="text" tabindex="-1" autocomplete="off" />
+              </label>
+              <fieldset class="consent-panel">
+                <legend>Permisos de contacto</legend>
+                <label class="consent-check consent-check--required">
+                  <input name="contactPermission" type="checkbox" value="yes" required />
+                  <span>${escapeHtml(site.smsConsent?.contactPermission || "Autorizo a AIT USA Institute a responder esta solicitud.")}</span>
+                </label>
+                <label class="consent-check consent-check--sms">
+                  <input name="smsConsent" type="checkbox" value="yes" />
+                  <span>
+                    <strong>${escapeHtml(site.smsConsent?.checkboxLabel || "Sí, deseo recibir mensajes de texto de AIT USA Institute.")}</strong>
+                    <small>${escapeHtml(site.smsConsent?.disclosure || "La frecuencia puede variar. Pueden aplicarse tarifas. Responde STOP para cancelar y HELP para ayuda.")}</small>
+                  </span>
+                </label>
+                <p class="consent-links">
+                  Consulta nuestra <a href="${escapeHtml(site.legalLinks?.privacy || "/privacy-policy")}">Política de Privacidad</a>
+                  y nuestros <a href="${escapeHtml(site.legalLinks?.terms || "/terms-and-conditions")}">Términos y Condiciones</a>.
+                </p>
+              </fieldset>
+              <button class="button button--primary" type="submit" data-lead-submit>Preparar conversación</button>
               <p class="form-status" data-form-status aria-live="polite"></p>
             </form>
             <div class="contact-card__footnote">
@@ -779,6 +804,12 @@
             <a href="${site.phoneHref}">${escapeHtml(site.phone)}</a>
             <a href="${site.whatsappHref}" target="_blank" rel="noreferrer">${escapeHtml(site.whatsapp)}</a>
             <a href="${site.emailHref}">${escapeHtml(site.email)}</a>
+          </div>
+          <div>
+            <h3>Legal</h3>
+            <a href="${escapeHtml(site.legalLinks?.privacy || "/privacy-policy")}">Política de Privacidad</a>
+            <a href="${escapeHtml(site.legalLinks?.terms || "/terms-and-conditions")}">Términos y Condiciones</a>
+            <a href="${escapeHtml(site.legalLinks?.contact || "/contactanos")}">Formulario de contacto</a>
           </div>
         </div>
       </footer>
@@ -990,6 +1021,7 @@
           <label>
             ${escapeHtml(field.label)}
             <input name="${escapeHtml(field.name)}" type="${escapeHtml(field.type)}" ${field.required ? "required" : ""} />
+            ${field.help ? `<small>${escapeHtml(field.help)}</small>` : ""}
           </label>
         `;
       })
@@ -1210,18 +1242,67 @@
   function initLeadForm(scope) {
     const form = scope.querySelector("[data-lead-form]");
     const status = scope.querySelector("[data-form-status]");
+    const submitButton = scope.querySelector("[data-lead-submit]");
+    const phoneInput = form?.elements?.namedItem("telefono");
+    const smsInput = form?.elements?.namedItem("smsConsent");
+    const startedAt = new Date().toISOString();
 
     if (!form || !status) return;
 
-    form.addEventListener("submit", (event) => {
+    phoneInput?.addEventListener("input", () => phoneInput.setCustomValidity(""));
+    smsInput?.addEventListener("change", () => {
+      if (!smsInput.checked) phoneInput?.setCustomValidity("");
+    });
+
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const formData = new FormData(form);
       const name = `${formData.get("nombre") || ""} ${formData.get("apellido") || ""}`.trim();
-      const interest = formData.get("interes") || "Inglés";
+      const interest = formData.get("interes") || "ingles-presencial";
       const audience = formData.get("para") || "Para mi";
       const location = formData.get("ubicacion") || "Sin ubicación indicada";
-      const phone = formData.get("telefono") || "";
-      const email = formData.get("email") || "";
+      const phone = String(formData.get("telefono") || "").trim();
+      const email = String(formData.get("email") || "").trim();
+      const marketingSmsOptIn = formData.get("smsConsent") === "yes";
+
+      if (marketingSmsOptIn && !phone) {
+        phoneInput?.setCustomValidity("Ingresa un teléfono móvil para recibir mensajes de texto.");
+        phoneInput?.reportValidity();
+        phoneInput?.focus();
+        return;
+      }
+
+      const submittedAt = new Date().toISOString();
+      const sourcePath = `${window.location.pathname || "/"}#contacto`;
+      const payload = {
+        lead: {
+          name,
+          phone,
+          email,
+          city: String(location === "Sin ubicación indicada" ? "" : location),
+          interest,
+          ageGroup: audience,
+        },
+        source: {
+          path: sourcePath,
+          referrer: document.referrer || undefined,
+        },
+        consent: {
+          contactPermission: formData.get("contactPermission") === "yes",
+          marketingSmsOptIn,
+          smsConsent: marketingSmsOptIn,
+          marketingSmsEvidence: marketingSmsOptIn
+            ? {
+                disclosureVersion: site.smsConsent?.disclosureVersion,
+                sourcePath,
+                consentedAt: submittedAt,
+              }
+            : null,
+        },
+        honeypot: String(formData.get("companyWebsite") || ""),
+        startedAt,
+        submittedAt,
+      };
 
       const message = [
         "Hola AIT USA, quiero ayuda para elegir mi siguiente paso.",
@@ -1233,18 +1314,33 @@
         email ? `Email: ${email}` : "",
       ].filter(Boolean).join("\n");
 
-      const whatsappUrl = `${site.whatsappHref}?text=${encodeURIComponent(message)}`;
-      const popup = window.open(whatsappUrl, "_blank", "noopener");
+      const fallbackUrl = `${site.whatsappHref}?text=${encodeURIComponent(message)}`;
+      status.textContent = "Preparando tu solicitud de forma segura…";
+      form.setAttribute("aria-busy", "true");
+      if (submitButton) submitButton.disabled = true;
 
-      if (popup) {
-        status.textContent = "Abriendo WhatsApp con tu información para que un asesor te responda.";
-        return;
+      try {
+        const response = await fetch("/api/leads/contact", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const body = await response.json();
+        if (!response.ok || !body.ok) throw new Error("invalid_submission");
+
+        status.innerHTML = [
+          "Tu información no se guardó todavía. Tú decides si deseas enviarla. ",
+          `<a href="${escapeHtml(body.advisorHandoff.href)}" target="_blank" rel="noreferrer">Abrir WhatsApp</a>.`,
+        ].join("");
+      } catch {
+        status.innerHTML = [
+          "No pudimos preparar la solicitud. ",
+          `<a href="${escapeHtml(fallbackUrl)}" target="_blank" rel="noreferrer">Escribir directamente por WhatsApp</a>.`,
+        ].join("");
+      } finally {
+        form.removeAttribute("aria-busy");
+        if (submitButton) submitButton.disabled = false;
       }
-
-      status.innerHTML = [
-        "No se abrió WhatsApp automáticamente. ",
-        `<a href="${whatsappUrl}" target="_blank" rel="noreferrer">Abrir conversación manualmente</a>.`,
-      ].join("\n");
     });
   }
 

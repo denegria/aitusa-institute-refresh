@@ -27,6 +27,7 @@ const validBody = {
   consent: {
     contactPermission: true,
     marketingSmsOptIn: false,
+    marketingSmsEvidence: null,
   },
   startedAt: "2026-07-09T14:40:00.000Z",
   submittedAt: "2026-07-09T14:40:10.000Z",
@@ -40,6 +41,8 @@ describe("MIS-266 lead contact route", () => {
     assert.equal(response.status, 200);
     assert.equal(body.ok, true);
     assert.equal(body.leadContact.contract.sourceKey, "aitusa-website-lead-v1");
+    assert.equal(body.leadContact.requiredFields.includes("phone"), false);
+    assert.match(body.leadContact.consentCopy.marketingSmsDisclosure, /STOP/);
     assert.equal(body.crmWrite, false);
   });
 
@@ -55,7 +58,9 @@ describe("MIS-266 lead contact route", () => {
   });
 
   it("rejects incomplete submissions", async () => {
-    const response = await POST(request({ lead: {}, consent: {} }));
+    const response = await POST(
+      request({ lead: {}, consent: { marketingSmsOptIn: false } }),
+    );
     const body = await response.json();
 
     assert.equal(response.status, 422);
@@ -78,5 +83,19 @@ describe("MIS-266 lead contact route", () => {
     assert.equal(body.ok, false);
     assert.equal(body.errors.includes("spam_signal_detected"), true);
     assert.equal(body.storageEnabled, false);
+  });
+
+  it("accepts an unchecked SMS box without requiring a phone", async () => {
+    const response = await POST(
+      request({
+        ...validBody,
+        lead: { ...validBody.lead, phone: "" },
+      }),
+    );
+    const body = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(body.crmPayloadPreview.contactFieldsProvided.phone, false);
+    assert.equal(body.crmPayloadPreview.consent.marketingSmsOptIn, false);
   });
 });

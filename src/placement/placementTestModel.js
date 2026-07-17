@@ -85,7 +85,7 @@ export const PLACEMENT_RECOMMENDATIONS = Object.freeze([
   }),
 ]);
 
-const REQUIRED_STUDENT_FIELDS = ["name", "phone", "email", "city", "ageGroup"];
+const REQUIRED_STUDENT_FIELDS = ["name", "email", "city", "ageGroup"];
 
 export function getPlacementTestConfig() {
   return {
@@ -204,7 +204,7 @@ export function buildAdvisorHandoffMessage({
     "Hola AIT USA, ya complete el examen de ubicacion.",
     `Nombre: ${student.name}`,
     `Ciudad/Pais: ${student.city}`,
-    `WhatsApp/telefono: ${student.phone}`,
+    `WhatsApp/telefono: ${student.phone || "No indicado"}`,
     `Email: ${student.email}`,
     `Grupo de edad: ${student.ageGroup}`,
     `Objetivo: ${goal}`,
@@ -250,6 +250,8 @@ export function buildPlacementCrmPayloadPreview({
     consent: {
       advisorHandoff: input.consent.advisorHandoff === true,
       crmStorageApproved: false,
+      marketingSmsOptIn: false,
+      marketingSmsSource: "not_collected_on_placement_test",
     },
   };
 }
@@ -289,6 +291,7 @@ export function buildPlacementCrmSyncPreview({
       contactFieldsProvided: crmPayloadPreview.contactFieldsProvided,
       advisorConfirmationRequired: true,
       crmStorageApproved: false,
+      marketingSmsOptIn: false,
     },
   };
 

@@ -43,6 +43,20 @@ const site = {
   phoneHref: "tel:+17322710011",
   whatsapp: "+1 732-379-0593",
   whatsappHref: "https://wa.me/17323790593",
+  legalLinks: {
+    privacy: "/privacy-policy",
+    terms: "/terms-and-conditions",
+    contact: "/contactanos",
+  },
+  smsConsent: {
+    disclosureVersion: "aitusa-sms-consent-2026-07-17-v1",
+    contactPermission:
+      "Autorizo a AIT USA Institute a responder esta solicitud por teléfono, correo electrónico o WhatsApp. Esta autorización no incluye mensajes de texto promocionales.",
+    checkboxLabel:
+      "Sí, deseo recibir mensajes de texto de AIT USA Institute.",
+    disclosure:
+      "Al marcar esta casilla, acepto recibir mensajes de texto de AIT USA Institute sobre consultas, inscripción, clases, exámenes de ubicación, recordatorios y promociones. La frecuencia de los mensajes puede variar. Pueden aplicarse tarifas de mensajes y datos. Responde STOP para cancelar y HELP para obtener ayuda. El consentimiento no es una condición para comprar ni recibir servicios.",
+  },
   twitterHandle: "@AiTUSA_Institute",
   seoTitle:
     "AiT USA Institute | Inglés, GED y computación en Nueva Jersey",
@@ -1753,7 +1767,7 @@ const placementTest = {
   intro:
     "Completa el cuestionario de nivel directamente aquí. Recibirás una recomendación inicial automática y un asesor debe confirmarla antes de tu inscripción final.",
   privacyNote:
-    "No usamos formularios externos ni guardamos datos sensibles en esta versión. Tu información se usa para calcular el resultado y preparar el mensaje de WhatsApp que decides enviar.",
+    "No usamos formularios externos ni guardamos datos sensibles en esta versión. Tu información se usa para calcular el resultado y preparar el mensaje de WhatsApp que decides enviar. El teléfono es opcional y no te inscribe en mensajes promocionales.",
   crmNote:
     "La calificación automática es orientativa hasta que AIT confirme la llave académica final. Un asesor debe confirmar nivel, horario y siguiente paso.",
   steps: {
@@ -1789,7 +1803,13 @@ const placementTest = {
   },
   studentFields: [
     { name: "name", label: "Nombre completo", type: "text", required: true },
-    { name: "phone", label: "WhatsApp o teléfono", type: "tel", required: true },
+    {
+      name: "phone",
+      label: "WhatsApp o teléfono (opcional)",
+      type: "tel",
+      required: false,
+      help: "Se usa solo para el seguimiento que solicites; no crea consentimiento para SMS promocional.",
+    },
     { name: "email", label: "Email", type: "email", required: true },
     { name: "city", label: "Ciudad / País", type: "text", required: true },
     {

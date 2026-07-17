@@ -65,6 +65,21 @@ export function buildSitemapXml(siteData, { lastmod = currentDate() } = {}) {
       changefreq: "monthly",
       priority: "0.9",
     },
+    {
+      loc: absoluteUrl(siteData, "/contactanos"),
+      changefreq: "monthly",
+      priority: "0.9",
+    },
+    {
+      loc: absoluteUrl(siteData, "/privacy-policy"),
+      changefreq: "yearly",
+      priority: "0.3",
+    },
+    {
+      loc: absoluteUrl(siteData, "/terms-and-conditions"),
+      changefreq: "yearly",
+      priority: "0.3",
+    },
     ...courseUrls,
   ];
 

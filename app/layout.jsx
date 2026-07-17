@@ -5,6 +5,9 @@ export const metadata = {
   title: "AIT USA Institute",
   description:
     "AIT USA Institute public site and student portal migration foundation.",
+  icons: {
+    icon: "/assets/wix/076-solo-logo-4-x-4-clases1.png",
+  },
 };
 
 export default function RootLayout({ children }) {

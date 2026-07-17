@@ -43,7 +43,7 @@ describe("MIS-265 placement test model", () => {
     });
 
     assert.equal(validation.ok, false);
-    assert.equal(validation.errors.includes("student_phone_required"), true);
+    assert.equal(validation.errors.includes("student_phone_required"), false);
     assert.equal(validation.errors.includes("self_assessment_speaking_invalid"), true);
     assert.equal(validation.errors.includes("quiz_answers_count_invalid"), true);
     assert.equal(validation.errors.includes("goal_required"), true);
@@ -98,5 +98,21 @@ describe("MIS-265 placement test model", () => {
     assert.equal(payload.answerKeyStatus, "pending_academic_review");
     assert.equal(JSON.stringify(payload).includes("+17325550123"), false);
     assert.equal(JSON.stringify(payload).includes("student@example.com"), false);
+  });
+
+  it("keeps placement phone optional and explicitly outside marketing SMS opt-in", () => {
+    const response = evaluatePlacementTestSubmission({
+      ...validSubmission,
+      student: { ...validSubmission.student, phone: "" },
+    });
+
+    assert.equal(response.status, 200);
+    assert.equal(response.body.crmPayloadPreview.contactFieldsProvided.phone, false);
+    assert.equal(response.body.crmPayloadPreview.consent.marketingSmsOptIn, false);
+    assert.equal(
+      response.body.crmPayloadPreview.consent.marketingSmsSource,
+      "not_collected_on_placement_test",
+    );
+    assert.match(response.body.advisorHandoff.message, /No indicado/);
   });
 });

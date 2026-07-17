@@ -1,5 +1,13 @@
 import { createHash } from "node:crypto";
 import {
+  CONTACT_PERMISSION_COPY_ES,
+  PRIVACY_POLICY_VERSION,
+  SMS_CONSENT_COPY_ES,
+  SMS_DISCLOSURE_ES,
+  SMS_DISCLOSURE_VERSION,
+  TERMS_VERSION,
+} from "../legal/publicLegalContent.js";
+import {
   buildCrmEventResponse,
   toCrmTimelineSummary,
   validateCrmEventEnvelope,
@@ -8,7 +16,7 @@ import {
 export const LEAD_CONTACT_CONTRACT = Object.freeze({
   sourceKey: "aitusa-website-lead-v1",
   sourceName: "AIT USA Website Lead Form",
-  sourcePathDefault: "/#contacto",
+  sourcePathDefault: "/contactanos",
   crmDestination: "ait_crm",
   crmWrite: false,
   storageEnabled: false,
@@ -18,11 +26,15 @@ export const LEAD_CONTACT_CONTRACT = Object.freeze({
   whatsappNumber: "+1 732-379-0593",
   whatsappHref: "https://wa.me/17323790593",
   minSubmitSeconds: 3,
+  privacyPolicyVersion: PRIVACY_POLICY_VERSION,
+  termsVersion: TERMS_VERSION,
+  smsDisclosureVersion: SMS_DISCLOSURE_VERSION,
 });
 
-export const LEAD_REQUIRED_FIELDS = Object.freeze(["name", "phone", "interest"]);
+export const LEAD_REQUIRED_FIELDS = Object.freeze(["name", "interest"]);
 
 export const LEAD_OPTIONAL_FIELDS = Object.freeze([
+  "phone",
   "email",
   "city",
   "preferredMode",
@@ -51,8 +63,10 @@ export function getLeadContactConfig() {
     optionalFields: LEAD_OPTIONAL_FIELDS,
     interests: LEAD_INTERESTS,
     consentCopy: {
-      contactPermission:
-        "Acepto que AIT USA me contacte sobre programas, horarios y proximos pasos.",
+      contactPermission: CONTACT_PERMISSION_COPY_ES,
+      marketingSmsCheckbox: SMS_CONSENT_COPY_ES,
+      marketingSmsDisclosure: SMS_DISCLOSURE_ES,
+      marketingSmsDisclosureVersion: SMS_DISCLOSURE_VERSION,
       crmStorage:
         "AIT USA podra guardar mi solicitud en AIT CRM cuando el contrato de captura sea aprobado.",
     },
@@ -161,6 +175,8 @@ export function validateLeadContactInput(input = {}) {
     errors.push("contact_permission_consent_required");
   }
 
+  validateMarketingSmsConsent(input, errors);
+
   if (hasSpamSignal(input)) {
     errors.push("spam_signal_detected");
   }
@@ -180,7 +196,7 @@ export function buildLeadAdvisorHandoffMessage({ lead, sourcePath }) {
   return [
     "Hola AIT USA, quiero informacion para empezar.",
     `Nombre: ${lead.name}`,
-    `WhatsApp/telefono: ${lead.phone}`,
+    `WhatsApp/telefono: ${lead.phone || "No indicado"}`,
     lead.email ? `Email: ${lead.email}` : null,
     lead.city ? `Ciudad/Pais: ${lead.city}` : null,
     lead.ageGroup ? `Grupo de edad: ${lead.ageGroup}` : null,
@@ -223,6 +239,14 @@ export function buildLeadCrmPayloadPreview({ input, sourcePath, submittedAt }) {
       contactPermission: input.consent.contactPermission === true,
       crmStorageApproved: false,
       marketingSmsOptIn: input.consent.marketingSmsOptIn === true,
+      smsConsent: input.consent.marketingSmsOptIn === true,
+      marketingSmsEvidence: input.consent.marketingSmsOptIn === true
+        ? {
+            disclosureVersion: input.consent.marketingSmsEvidence.disclosureVersion,
+            sourcePath: input.consent.marketingSmsEvidence.sourcePath,
+            consentedAt: input.consent.marketingSmsEvidence.consentedAt,
+          }
+        : null,
     },
   };
 }
@@ -249,7 +273,7 @@ export function buildLeadCrmSyncPreview({
     },
     consent: {
       basis: "explicit",
-      policyVersion: "lead-contact-static-v1",
+      policyVersion: PRIVACY_POLICY_VERSION,
     },
     payload: {
       summary: `Lead form submitted: ${input.lead.interest}`,
@@ -265,6 +289,19 @@ export function buildLeadCrmSyncPreview({
       contactPermission: true,
       crmStorageApproved: false,
       marketingSmsOptIn: input.consent.marketingSmsOptIn === true,
+      smsConsent: input.consent.marketingSmsOptIn === true,
+      marketingSmsDisclosureVersion:
+        input.consent.marketingSmsOptIn === true
+          ? input.consent.marketingSmsEvidence.disclosureVersion
+          : null,
+      marketingSmsSourcePath:
+        input.consent.marketingSmsOptIn === true
+          ? input.consent.marketingSmsEvidence.sourcePath
+          : null,
+      marketingSmsConsentedAt:
+        input.consent.marketingSmsOptIn === true
+          ? input.consent.marketingSmsEvidence.consentedAt
+          : null,
     },
   };
 
@@ -309,6 +346,51 @@ function hasSpamSignal(input) {
   }
 
   return false;
+}
+
+function validateMarketingSmsConsent(input, errors) {
+  const optedIn = input.consent?.marketingSmsOptIn === true;
+  const evidence = input.consent?.marketingSmsEvidence;
+
+  if (
+    Object.prototype.hasOwnProperty.call(input.consent || {}, "smsConsent") &&
+    input.consent.smsConsent !== optedIn
+  ) {
+    errors.push("sms_consent_alias_mismatch");
+  }
+
+  if (!optedIn) {
+    if (evidence !== null && evidence !== undefined) {
+      errors.push("marketing_sms_evidence_without_opt_in");
+    }
+    return;
+  }
+
+  if (!isNonEmptyString(input.lead?.phone)) {
+    errors.push("marketing_sms_phone_required");
+  }
+
+  if (!isRecord(evidence)) {
+    errors.push("marketing_sms_evidence_required");
+    return;
+  }
+
+  if (evidence.disclosureVersion !== SMS_DISCLOSURE_VERSION) {
+    errors.push("marketing_sms_disclosure_version_invalid");
+  }
+
+  const evidencePath = normalizeSourcePath(evidence.sourcePath);
+  const requestPath = normalizeSourcePath(input.source?.path);
+  if (evidencePath !== requestPath) {
+    errors.push("marketing_sms_source_path_mismatch");
+  }
+
+  if (
+    !isNonEmptyString(evidence.consentedAt) ||
+    Number.isNaN(Date.parse(evidence.consentedAt))
+  ) {
+    errors.push("marketing_sms_consented_at_invalid");
+  }
 }
 
 function normalizeSourcePath(path) {

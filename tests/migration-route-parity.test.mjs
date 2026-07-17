@@ -24,6 +24,9 @@ describe("MIS-300 migration route parity", () => {
     assert.match(sitemap, /<loc>https:\/\/www\.aitusainstitute\.com\/<\/loc>/);
     assert.match(sitemap, /<loc>https:\/\/www\.aitusainstitute\.com\/courses\/<\/loc>/);
     assert.match(sitemap, /<loc>https:\/\/www\.aitusainstitute\.com\/placement-test\/<\/loc>/);
+    assert.match(sitemap, /<loc>https:\/\/www\.aitusainstitute\.com\/contactanos<\/loc>/);
+    assert.match(sitemap, /<loc>https:\/\/www\.aitusainstitute\.com\/privacy-policy<\/loc>/);
+    assert.match(sitemap, /<loc>https:\/\/www\.aitusainstitute\.com\/terms-and-conditions<\/loc>/);
     assert.doesNotMatch(sitemap, /\/portal\/|\/api\//);
 
     for (const program of siteData.programs) {
@@ -40,6 +43,7 @@ describe("MIS-300 migration route parity", () => {
     await execFileAsync("node", ["scripts/prepare-next-legacy.mjs"]);
 
     const rewrites = await nextConfig.rewrites();
+    const redirects = await nextConfig.redirects();
     const sources = rewrites.beforeFiles.map((rewrite) => rewrite.source);
 
     assert.deepEqual(
@@ -52,6 +56,13 @@ describe("MIS-300 migration route parity", () => {
         "/public/:path*",
       ].every((source) => sources.includes(source)),
       true,
+    );
+    assert.deepEqual(
+      redirects.map(({ source, destination }) => ({ source, destination })),
+      [
+        { source: "/copy-of-terms-of-use", destination: "/privacy-policy" },
+        { source: "/terms-of-use", destination: "/terms-and-conditions" },
+      ],
     );
 
     const catalogHtml = await readFile("public/legacy/courses/index.html", "utf8");
