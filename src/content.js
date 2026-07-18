@@ -110,6 +110,7 @@ const site = {
   },
   images: {
     logo: asset("076-solo-logo-4-x-4-clases1.png"),
+    approvedHero: "./public/assets/hero/approved-concept-1-classroom.png",
     hero: assetHires("graphic-concept-method.jpg"),
     heroPoster: assetHires("graphic-concept-method.jpg"),
     heroVideo: assetVideo("intro-video-great.mp4"),
@@ -1536,22 +1537,19 @@ const faqs = [
 ];
 
 const painHero = {
-  eyebrow: "Inglés presencial · híbrido · online",
-  headline:
-    "Aprende inglés sin traducirlo todo.",
-  headlineLines: ["Aprende inglés", "sin traducirlo todo."],
-  leadLines: [
-    "Método visual.",
-    "Práctica guiada.",
-    "Corrección en vivo.",
+  eyebrow: "Una escuela de inglés diferente",
+  headline: "Te guiamos al camino correcto para hablar inglés con confianza.",
+  headlineLines: [
+    "Te guiamos al",
+    "camino correcto",
+    "para hablar inglés",
+    "con confianza.",
   ],
   subheadline:
-    "AIT USA te ayuda a practicar inglés con estructura, apoyo visual y corrección en vivo antes de escoger horario, nivel y formato.",
-  trust:
-    "El foco es inglés. GED, computación y otros programas viven en el catálogo detallado para no distraer tu primer paso.",
+    "Con métodos, técnicas y estrategias propias, más de 20 años trabajando con la comunidad. Conocemos tus necesidades y frustraciones, por eso aprendemos de manera diferente y lo aplicamos con éxito.",
   ctas: {
-    primary: "Ver mi nivel",
-    secondary: "Hablar con un asesor",
+    primary: "Encuentra tu nivel",
+    secondary: "Conoce nuestro método",
     tertiary: "Ver cursos detallados",
   },
 };
@@ -1610,6 +1608,7 @@ const solutionCharacteristics = [
 const productOfferings = [
   {
     key: "in-person-english",
+    anchor: "ingles-presencial",
     title: "Inglés presencial",
     badge: "Programa destacado",
     marker: "Aula",
@@ -1630,6 +1629,7 @@ const productOfferings = [
   },
   {
     key: "hybrid-english",
+    anchor: "ingles-hibrido",
     title: "Inglés híbrido",
     badge: "Flexibilidad con seguimiento",
     marker: "Mixto",
@@ -1650,6 +1650,7 @@ const productOfferings = [
   },
   {
     key: "online-english",
+    anchor: "ingles-online",
     title: "Inglés online",
     badge: "Ruta a distancia",
     marker: "Online",

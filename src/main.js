@@ -33,6 +33,7 @@
     route.slug ? programs.find((program) => program.slug === route.slug) || null : null;
 
   renderPage();
+  initIcons();
   bindGlobalInteractions();
   updateSeo();
 
@@ -49,6 +50,7 @@
       initLeadForm(document);
       initFaqs(document);
       initCourseRouteState();
+      scrollToInitialHash();
       return;
     }
 
@@ -308,26 +310,27 @@
     return `
       <a class="skip-link" href="#main-content">Saltar al contenido</a>
       <header class="site-header">
-        <a class="brand" href="/">
+        <a class="brand" href="/" aria-label="AIT USA Institute, inicio">
           <img src="${asset(site.images.logo)}" alt="Logo de AiT USA Institute" />
           <span>
-            <strong>${escapeHtml(site.name || "AiT USA Institute")}</strong>
-            <small>Inglés práctico desde 2004</small>
+            <strong>AIT USA</strong>
+            <small>INSTITUTE</small>
           </span>
         </a>
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-          <span class="menu-toggle__icon" aria-hidden="true"></span>
-          Menu
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú">
+          <i class="menu-toggle__open" data-lucide="menu" aria-hidden="true"></i>
+          <i class="menu-toggle__close" data-lucide="x" aria-hidden="true"></i>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Navegación principal">
           <a href="/" ${activePage === "home" ? 'aria-current="page"' : ""}>Inicio</a>
           <a href="${homeLink("#metodo")}">Método</a>
           <a href="${homeLink("#cursos")}">Cursos</a>
-          <a href="${homeLink("#experiencia")}">Resultados</a>
           <a href="${homeLink("#sedes")}">Sedes</a>
+          <a href="${homeLink("#experiencia")}">Recursos</a>
           <a href="${homeLink("#contacto")}">Contacto</a>
         </nav>
         <a class="header-cta" href="${site.phoneHref}">
+          <i data-lucide="phone" aria-hidden="true"></i>
           Llámanos
         </a>
       </header>
@@ -335,58 +338,75 @@
   }
 
   function renderHero() {
-    const activeLocations = [
-      ...locations.filter((location) => location.status === "active").slice(0, 3),
-      ...locations.filter((location) => location.status === "online").slice(0, 1),
-    ];
-
     return `
-      <section class="hero section" id="inicio">
-        <div class="section-inner hero__grid">
+      <section class="hero" id="inicio">
+        <div class="hero__main">
           <div class="hero__copy">
-            <p class="section-kicker hero__kicker">
-              <span aria-hidden="true"></span>
-              ${escapeHtml(painHero.eyebrow || "")}
-            </p>
+            <p class="hero__kicker">${escapeHtml(painHero.eyebrow || "")}</p>
             <h1>
-              <span>${escapeHtml(painHero.headlineLines?.[0] || painHero.headline || "")}</span>
-              <span>${escapeHtml(painHero.headlineLines?.[1] || "")}</span>
+              ${(painHero.headlineLines || [painHero.headline || ""])
+                .map((line) => `<span>${escapeHtml(line)}</span>`)
+                .join("")}
             </h1>
             <p class="hero__summary">${escapeHtml(painHero.subheadline || "")}</p>
-            <div class="hero__lead-stack">
-              ${(painHero.leadLines || [painHero.subheadline || ""])
-                .map((line) => `<p>${escapeHtml(line)}</p>`)
-                .join("")}
+            <div class="button-row hero__actions">
+              <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">
+                ${escapeHtml(painHero.ctas?.primary || "Encuentra tu nivel")}
+                <i data-lucide="arrow-right" aria-hidden="true"></i>
+              </a>
+              <a class="button button--ghost" href="#metodo">
+                <i data-lucide="circle-play" aria-hidden="true"></i>
+                ${escapeHtml(painHero.ctas?.secondary || "Conoce nuestro método")}
+              </a>
             </div>
-            <p class="hero__trust">${escapeHtml(painHero.trust || "")}</p>
-            <div class="button-row">
-              <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">${escapeHtml(painHero.ctas?.primary || "Ver mi nivel")}</a>
-              <a class="button button--ghost" href="${site.whatsappHref}" target="_blank" rel="noreferrer">${escapeHtml(painHero.ctas?.secondary || "Hablar con un asesor")}</a>
-            </div>
-            <div class="hero__locations" aria-label="Sedes y formatos">
-              <strong>New Jersey</strong>
-              ${activeLocations
-                .map((location) => `<a href="#sedes">${escapeHtml(location.status === "online" ? "Online" : location.city.replace(", New Jersey", ""))}</a>`)
-                .join("")}
-            </div>
+            <nav class="hero__modalities" aria-label="Formatos de clase">
+              <a href="/courses/#ingles-presencial">
+                <i data-lucide="users-round" aria-hidden="true"></i>
+                <span>Presencial</span>
+              </a>
+              <a href="/courses/#ingles-online">
+                <i data-lucide="laptop" aria-hidden="true"></i>
+                <span>Online</span>
+              </a>
+              <a href="/courses/#ingles-hibrido">
+                <i data-lucide="monitor-smartphone" aria-hidden="true"></i>
+                <span>Híbrido</span>
+              </a>
+            </nav>
           </div>
-          <div class="hero__proof">
-            <a class="hero-video-card" href="#experiencia" aria-label="Ver videos reales de AiT USA">
-              <img src="${asset(site.images.introVideoPoster)}" alt="Video real de introducción a AiT USA Institute." />
-              <span class="hero-video-card__play" aria-hidden="true"></span>
-              <span class="hero-video-card__caption">Video real · Método AiT USA</span>
-            </a>
-            <div class="format-badges" aria-label="Formatos de clase">
-              <span>Presencial</span>
-              <span>Híbrido</span>
-              <span>Online</span>
-            </div>
-            <div class="hero__signal-bar" aria-label="Señales de confianza">
-              <div><strong>20+</strong><span>años</span></div>
-              <div><strong>GC</strong><span>Graphic Concept</span></div>
-              <div><strong>3</strong><span>formatos</span></div>
-              <div><strong>NJ</strong><span>sedes locales</span></div>
-            </div>
+          <figure class="hero__visual">
+            <img
+              src="${asset(site.images.approvedHero)}"
+              alt="Asesora de AIT USA orientando a una estudiante adulta en un salón de inglés."
+              width="1536"
+              height="1024"
+              fetchpriority="high"
+            />
+          </figure>
+        </div>
+        <div class="hero__proof-band" aria-label="Qué hace diferente a AIT USA">
+          <div class="hero__proof-inner">
+            <article>
+              <i data-lucide="brain" aria-hidden="true"></i>
+              <div>
+                <h2>Comprendemos, no traducimos</h2>
+                <p>Técnicas de comprensión que te permiten entender el inglés de forma natural.</p>
+              </div>
+            </article>
+            <article>
+              <i data-lucide="message-circle" aria-hidden="true"></i>
+              <div>
+                <h2>Hablamos, no memorizamos</h2>
+                <p>Técnicas para hablar inglés sin memorizar miles de palabras.</p>
+              </div>
+            </article>
+            <article>
+              <i data-lucide="book-open" aria-hidden="true"></i>
+              <div>
+                <h2>Método Graphic Concept</h2>
+                <p>Nuestro método único, patentado y probado por más de 20 años de experiencia.</p>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -818,7 +838,10 @@
 
   function renderOfferingCard(item) {
     return `
-      <article class="offering-card card offering-card--${escapeHtml(item.emphasis || "secondary")}">
+      <article
+        class="offering-card card offering-card--${escapeHtml(item.emphasis || "secondary")}"
+        id="${escapeHtml(item.anchor || item.key)}"
+      >
         <img src="${asset(item.image)}" alt="${escapeHtml(item.imageAlt)}" />
         <div class="offering-card__body">
           <p class="eyebrow-chip">${escapeHtml(item.badge || "")}</p>
@@ -1129,15 +1152,45 @@
       menuButton.addEventListener("click", () => {
         const open = nav.classList.toggle("is-open");
         menuButton.setAttribute("aria-expanded", String(open));
+        menuButton.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
       });
 
       nav.querySelectorAll("a").forEach((link) => {
         link.addEventListener("click", () => {
           nav.classList.remove("is-open");
           menuButton.setAttribute("aria-expanded", "false");
+          menuButton.setAttribute("aria-label", "Abrir menú");
         });
       });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape" || !nav.classList.contains("is-open")) return;
+        nav.classList.remove("is-open");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.setAttribute("aria-label", "Abrir menú");
+        menuButton.focus();
+      });
     }
+  }
+
+  function initIcons() {
+    if (window.lucide?.createIcons) {
+      window.lucide.createIcons();
+    }
+  }
+
+  function scrollToInitialHash() {
+    const hash = decodeURIComponent(window.location.hash || "").replace(/^#/, "");
+    if (!hash) return;
+
+    const target = document.getElementById(hash);
+    if (!target) return;
+
+    window.requestAnimationFrame(() => {
+      target.scrollIntoView({ block: "start" });
+      target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
+    });
   }
 
   function initCatalogInteractions(scope) {
