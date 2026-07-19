@@ -1,0 +1,109 @@
+# AIT USA Approved Homepage Hero Specification
+
+## Source Of Truth
+
+- Approved direction: Concept 1 - Clean Production Lockup.
+- Desktop reference: `docs/design/approved-concept-1-desktop.png`.
+- Implementation scope: shared header, homepage hero, modality links, and immediate three-part proof band.
+- Out of scope: broader homepage redesign, CRM capture, payments, authentication, platform work, and removal of the legacy public-site bridge.
+
+## Final Spanish Copy
+
+Eyebrow:
+
+> Una escuela de inglés diferente
+
+Headline:
+
+> Te guiamos al camino correcto para hablar inglés con confianza.
+
+Supporting copy:
+
+> Con métodos, técnicas y estrategias propias, más de 20 años trabajando con la comunidad. Conocemos tus necesidades y frustraciones, por eso aprendemos de manera diferente y lo aplicamos con éxito.
+
+Primary CTA:
+
+> Encuentra tu nivel
+
+Secondary CTA:
+
+> Conoce nuestro método
+
+Modalities:
+
+- Presencial
+- Online
+- Híbrido
+
+Proof statements:
+
+1. **Comprendemos, no traducimos**
+
+   Técnicas de comprensión que te permiten entender el inglés de forma natural.
+2. **Hablamos, no memorizamos**
+
+   Técnicas para hablar inglés sin memorizar miles de palabras.
+3. **Método Graphic Concept**
+
+   Nuestro método único, patentado y probado por más de 20 años de experiencia.
+
+## Visual System
+
+- Brand navy: `#061a4a`
+- Deep proof-band navy: `#03183a`
+- CTA navy: `#08347d`
+- Gold accent: `#c4932d`
+- Primary text: `#07122f`
+- Supporting text: `#263247`
+- White: `#ffffff`
+- Headline font: Georgia with Times New Roman fallback.
+- Body and UI font: Plus Jakarta Sans with Segoe UI and Arial fallbacks.
+- Buttons: 6px radius, 48-52px height, strong navy or white/outlined treatment.
+- Icons: Lucide line icons at a consistent 1.8px stroke, rendered in gold for modality and proof elements.
+- Hero image: warm editorial classroom scene with Hispanic adult students and a professional advisor. Faces remain unobstructed and the advisor/student interaction is the visual proof.
+
+## Responsive Layout
+
+### Desktop: 1100px and wider
+
+- 88px shared header with full navigation and telephone CTA.
+- Hero uses a 44/56 split between copy and image.
+- Copy aligns to the same left grid as the logo.
+- Image fills the right side and keeps the advisor and foreground student visible.
+- Modalities appear as one connected row below the CTAs.
+- Proof band uses three equal columns directly below the hero image/copy stage.
+
+### Tablet: 721px to 1099px
+
+- Compact header with menu control when navigation no longer fits.
+- Hero keeps a balanced two-column layout until 900px, then stacks copy above the image.
+- Headline reduces without changing its editorial hierarchy.
+- Image uses a 3:2 frame and an object position that protects both faces.
+- Proof band remains three columns when space permits and becomes a stacked list below 900px.
+
+### Mobile: 720px and narrower
+
+- Logo remains visible at full mobile size; navigation opens beneath the header.
+- Copy comes first, followed by two full-width CTAs.
+- Modalities become a stable three-column row with icon above label.
+- Hero image follows the actions in a 4:3 crop, with the advisor face and student interaction centered.
+- Proof statements stack vertically with icons aligned consistently.
+- No horizontal scrolling, clipped controls, overlapping copy, or off-screen actions.
+
+## Functional Destinations
+
+- Primary CTA: `/placement-test/`
+- Secondary CTA: `#metodo`
+- Presencial: `/courses/#ingles-presencial`
+- Online: `/courses/#ingles-online`
+- Híbrido: `/courses/#ingles-hibrido`
+- Header phone CTA: configured AIT USA telephone link
+
+## Accessibility And Behavior
+
+- Semantic `nav`, `figure`, headings, links, and proof articles.
+- Descriptive hero image alternative text.
+- Keyboard-visible focus states on every action.
+- Mobile menu exposes `aria-expanded`, `aria-controls`, and an updated accessible label.
+- At 200% zoom, content may reflow but must not overlap or become unreachable.
+- Motion remains limited to existing hover transitions; no autoplay or decorative animation is introduced.
