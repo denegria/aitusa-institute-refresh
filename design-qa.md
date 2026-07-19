@@ -114,6 +114,10 @@ final result: passed
 ## Comparison Target
 
 - Source visual truth: approved Option 3 supplied in the Telegram design review at 1487 x 1058.
+- Source visual path: `/root/.openclaw/giuseppe-workspace/media/inbound/openclaw-staged-dff56a70-a7e6-4ffe-ac42-5b6935255975/bfa38782-ca05-44c8-b591-60d724e13f94.jpg`.
+- Implementation screenshot: `runtime/exports/aitusa-homepage-phase2-method-fade-qa-v2/desktop-home-method.png`.
+- Comparison viewport/state: desktop 1440 x 1400 browser capture, homepage default state, first Method tab selected, video paused at its poster.
+- Focused fade evidence: the full-view comparison is also a focused Method-section crop; boundary and 100px-in RGB samples are recorded in Pass 3 because the remaining issue was tonal blending rather than unreadable typography or controls.
 - Locked composition: 37% editorial copy / 63% video, 74% main stage / 26% selector.
 - Locked visual language: Plus Jakarta Sans headline, electric-blue second phrase, blue-to-gold vertical rule, minimal Graphic Concept copy, full-bleed real video, and original blue-number selector.
 
@@ -151,9 +155,16 @@ final result: passed
 - Corrected desktop typography rhythm and detail placement against a side-by-side source/implementation comparison.
 - Preserved native video controls, keyboard-operable tabs, inactive-video pausing, and lazy metadata loading on activation.
 
+### Pass 3 — fade refinement
+
+- P2: the copy/video transition still read as a vertical panel seam because the video filter darkened the poster's first pixels while the copy edge remained too bright.
+- Fix: added a dedicated raster haze layer over the video edge and deepened only the copy panel's boundary atmosphere, preserving text contrast and leaving the live video controls interactive.
+- Post-fix evidence: `runtime/exports/aitusa-homepage-phase2-method-fade-qa-v2/method-fade-comparison.png`.
+- Boundary sampling at the same visual point is now effectively matched: source `rgb(189, 193, 204)`, implementation `rgb(189, 194, 199)`. At 100px into the dissolve, source `rgb(115, 110, 107)`, implementation `rgb(111, 118, 127)`; the small hue difference reflects the authentic-video backdrop rather than fade geometry.
+
 ## Validation Status
 
-- Source/implementation comparison: `runtime/exports/aitusa-homepage-phase2-method-fidelity-qa-final4/method-comparison.png`.
+- Source/implementation comparison: `runtime/exports/aitusa-homepage-phase2-method-fade-qa-v2/method-fade-comparison.png`.
 - Desktop, tablet, and mobile browser captures completed with no missing images, video metadata failures, black frames, overflow, console errors, or runtime exceptions.
 - Keyboard checks passed for ArrowRight, End, and restored first-tab selection.
 - No actionable P0, P1, or P2 mismatches remain.

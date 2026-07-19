@@ -456,6 +456,14 @@
                       >
                         <source src="${asset(item.video)}" type="video/mp4" />
                       </video>
+                      <img
+                        class="method-panel__fade"
+                        src="${asset("./public/assets/method/method-video-fade.png")}"
+                        alt=""
+                        width="360"
+                        height="786"
+                        aria-hidden="true"
+                      />
                     </div>
                   </article>
                 `,
