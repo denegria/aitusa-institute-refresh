@@ -19,9 +19,13 @@ describe("homepage Method showcase", () => {
       Array.from(solutionCharacteristics, (item) => item.tabLabel),
       ["Comprensión visual", "Práctica guiada", "Ruta semanal"],
     );
-    for (const item of solutionCharacteristics) {
+    for (const [index, item] of solutionCharacteristics.entries()) {
       assert.match(item.video, /^\.\/public\/assets\/wix\/videos\/.+\.mp4$/);
-      assert.match(item.videoPoster, /^\.\/public\/assets\/wix\/videos\/.+\.jpg$/);
+      if (index === 0) {
+        assert.equal(item.videoPoster, "./public/assets/method/method-real-studio-poster.png");
+      } else {
+        assert.match(item.videoPoster, /^\.\/public\/assets\/wix\/videos\/.+\.jpg$/);
+      }
     }
   });
 

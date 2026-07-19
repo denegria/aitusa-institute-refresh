@@ -319,6 +319,10 @@ const stabilizeViewport = async () => {
       try {
         video.currentTime = 0;
       } catch {}
+      if (video.classList.contains('method-panel__video')) {
+        video.preload = 'none';
+      }
+      video.load();
     });
   })()`);
   await sleep(250);
@@ -379,19 +383,21 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     const missingImages = images
       .filter((img) => !img.complete || img.naturalWidth === 0)
       .map((img) => img.currentSrc || img.src);
-    const methodVideos = [...document.querySelectorAll('.clip-card__media-player, .method-panel__video')];
-    await Promise.all(methodVideos.map((video) => new Promise((resolve) => {
-      if (video.readyState >= 1 || video.error) {
-        resolve();
-        return;
-      }
-      const done = () => resolve();
-      video.preload = 'metadata';
-      video.addEventListener('loadedmetadata', done, { once: true });
-      video.addEventListener('error', done, { once: true });
-      video.load();
-      setTimeout(done, 3500);
-    })));
+    const methodVideos = [...document.querySelectorAll('.clip-card__media-player, .method-panel.is-active .method-panel__video')];
+    for (const video of methodVideos) {
+      await new Promise((resolve) => {
+        if (video.readyState >= 1 || video.error) {
+          resolve();
+          return;
+        }
+        const done = () => resolve();
+        video.preload = 'metadata';
+        video.addEventListener('loadedmetadata', done, { once: true });
+        video.addEventListener('error', done, { once: true });
+        video.load();
+        setTimeout(done, 5000);
+      });
+    }
     const videoMetadataIssues = methodVideos
       .filter((video) => video.readyState < 1 || video.error)
       .map((video) => ({

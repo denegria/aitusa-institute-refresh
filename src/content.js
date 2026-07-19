@@ -130,6 +130,7 @@ const site = {
     thirdCharacteristicVideoPoster: assetVideoPoster("third-characteristic.jpg"),
     differenceVideo: assetVideo("what-makes-us-different.mp4"),
     differenceVideoPoster: assetVideoPoster("what-makes-us-different.jpg"),
+    methodStudioPoster: "./public/assets/method/method-real-studio-poster.png",
     internationalStudentVideo: assetVideo("international-student-testimonial.mp4"),
     internationalStudentVideoPoster: assetVideoPoster("international-student-testimonial.jpg"),
     ericInterviewVideo: assetVideo("student-interview-eric-great.mp4"),
@@ -1565,7 +1566,7 @@ const solutionCharacteristics = [
     proof:
       "Ruta por niveles, seguimiento y materiales propios para sostener el avance.",
     video: site.images.differenceVideo,
-    videoPoster: site.images.differenceVideoPoster,
+    videoPoster: site.images.methodStudioPoster,
     videoAspect: "portrait",
     videoWidth: 480,
     videoHeight: 848,

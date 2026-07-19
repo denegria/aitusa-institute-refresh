@@ -432,23 +432,23 @@
                     <div class="method-panel__copy">
                       <div class="method-panel__heading">
                         <p class="method-kicker">Método</p>
-                        <h2>Entiende el método.<br />Luego elige tu ruta.</h2>
+                        <h2>
+                          <span>Entiende<br />el método.</span>
+                          <span class="method-heading__accent">Luego elige<br />tu ruta.</span>
+                        </h2>
                       </div>
                       <div class="method-panel__detail">
                         <p class="method-detail__label">${escapeHtml(item.label)}</p>
                         <span class="method-detail__rule" aria-hidden="true"></span>
-                        <h3>${escapeHtml(item.title)}</h3>
-                        <p>${escapeHtml(item.body)}</p>
-                        <p class="proof-line">${escapeHtml(item.proof)}</p>
+                        <h3>${escapeHtml(item.title)}.</h3>
                       </div>
                     </div>
                     <div class="method-panel__media" style="--method-poster: url('${asset(item.videoPoster)}')">
-                      <div class="method-panel__ambient" aria-hidden="true"></div>
                       <video
                         class="method-panel__video"
                         controls
                         playsinline
-                        preload="metadata"
+                        preload="none"
                         width="${item.videoWidth || 16}"
                         height="${item.videoHeight || 9}"
                         poster="${asset(item.videoPoster)}"
@@ -1273,11 +1273,15 @@
       activeIndex = (index + panels.length) % panels.length;
       panels.forEach((panel, panelIndex) => {
         const active = panelIndex === activeIndex;
+        const video = panel.querySelector("video");
         panel.hidden = !active;
         panel.classList.toggle("is-active", active);
 
-        if (!active) {
-          panel.querySelector("video")?.pause();
+        if (active && video && video.readyState < 1) {
+          video.preload = "metadata";
+          video.load();
+        } else if (!active) {
+          video?.pause();
         }
       });
       tabs.forEach((tab, tabIndex) => {

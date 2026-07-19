@@ -113,16 +113,16 @@ final result: passed
 
 ## Comparison Target
 
-- Source visual truth: approved Option 3 supplied in the Telegram design review.
-- Locked composition: editorial copy at left, real instructor video stage at right, three-part method selector below.
-- Brand corrections: Georgia display type, Plus Jakarta Sans support copy, Primary Ink, Deep Navy, CTA Navy, Institute Gold, and no decorative gradients.
+- Source visual truth: approved Option 3 supplied in the Telegram design review at 1487 x 1058.
+- Locked composition: 37% editorial copy / 63% video, 74% main stage / 26% selector.
+- Locked visual language: Plus Jakarta Sans headline, electric-blue second phrase, blue-to-gold vertical rule, minimal Graphic Concept copy, full-bleed real video, and original blue-number selector.
 
 ## Implementation Contract
 
 - Preserve the approved hero without modification.
 - Preserve all three real AiT instructor videos and their supporting method copy.
-- Do not ship the generated instructor or generated studio background from the concept image.
-- Reproduce the dark studio mood with a Deep Navy stage and a darkened, blurred extension of each authentic video poster behind the untouched video.
+- Do not ship the generated instructor from the concept image.
+- Use a poster derived from the real AiT instructor video, composited over the approved studio backdrop; play the authentic source video unchanged.
 - Implement the bottom strip as semantic tabs with click, Left/Right Arrow, Home, and End controls.
 - Pause video in inactive panels.
 
@@ -132,13 +132,31 @@ final result: passed
 - Tablet: stacked copy and video with the three-column selector retained.
 - Mobile: stacked copy and video with the tabs presented as full-width rows to avoid cramped labels and horizontal overflow.
 
+## Comparison History
+
+### Pass 1 — rejected
+
+- P1: the implementation used a constrained floating card instead of the source's full-bleed 1487:1058 frame.
+- P1: Georgia, gold, and Primary Ink replaced the source's sans-serif/electric-blue headline treatment.
+- P1: supporting body and proof paragraphs added density that is absent from the approved composition.
+- P1: the video was contained inside a narrow navy stage instead of filling the complete right panel.
+- P1: selector proportions, numbers, active state, and top notch did not match the source.
+
+### Pass 2 — passed
+
+- Rebuilt the section as the source's full-bleed 1487:1058 frame with measured 37.1/62.9 columns and 74.3/25.7 rows.
+- Restored the approved sans-serif navy/electric-blue headline, blue-to-gold rule, minimal Graphic Concept treatment, and original selector geometry.
+- Replaced the generated instructor with a frame extracted from the real AiT video and matched the studio backdrop for the paused poster state.
+- Matched the first selector's active blue number, top rule, downward notch, gold dividers, and 37.1/31.45/31.45 widths.
+- Corrected desktop typography rhythm and detail placement against a side-by-side source/implementation comparison.
+- Preserved native video controls, keyboard-operable tabs, inactive-video pausing, and lazy metadata loading on activation.
+
 ## Validation Status
 
-- Desktop, tablet, and mobile browser captures match the approved composition and brand corrections.
-- All three real videos loaded metadata and produced visible frames.
-- No missing images, horizontal overflow, console errors, runtime exceptions, or screenshot errors were found.
-- Arrow Right selected the second tab, End selected the third tab, and the verifier restored the first tab at all three viewports.
-- The instructor remains authentic. The source footage is not segmented; the dark studio mood is produced by the Deep Navy stage and a darkened extension of the real poster behind the untouched video.
+- Source/implementation comparison: `runtime/exports/aitusa-homepage-phase2-method-fidelity-qa-final4/method-comparison.png`.
+- Desktop, tablet, and mobile browser captures completed with no missing images, video metadata failures, black frames, overflow, console errors, or runtime exceptions.
+- Keyboard checks passed for ArrowRight, End, and restored first-tab selection.
+- No actionable P0, P1, or P2 mismatches remain.
 
 ## Final Result
 
