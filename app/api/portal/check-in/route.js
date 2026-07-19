@@ -2,10 +2,14 @@ import {
   getScannerStationResponse,
   previewScannerCheckIn,
 } from "../../../../src/attendance/checkInModel.js";
+import { getPortalPrototypeGateResponse } from "../../../../src/portal/portalAvailability.js";
 
 export const runtime = "nodejs";
 
 export async function GET(request) {
+  const gateResponse = getPortalPrototypeGateResponse();
+  if (gateResponse) return gateResponse;
+
   const url = new URL(request.url);
   const accountKey = url.searchParams.get("accountKey") ?? "teacherActive";
   const stationRef =
@@ -18,6 +22,9 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
+  const gateResponse = getPortalPrototypeGateResponse();
+  if (gateResponse) return gateResponse;
+
   const body = await request.json().catch(() => ({}));
   const response = previewScannerCheckIn({
     accountKey: body.accountKey ?? "teacherActive",
