@@ -113,12 +113,12 @@ final result: passed
 
 ## Comparison Target
 
-- Source visual truth: approved Option 3 supplied in the Telegram design review at 1487 x 1058.
-- Source visual path: `/root/.openclaw/giuseppe-workspace/media/inbound/openclaw-staged-dff56a70-a7e6-4ffe-ac42-5b6935255975/bfa38782-ca05-44c8-b591-60d724e13f94.jpg`.
-- Implementation screenshot: `runtime/exports/aitusa-homepage-phase2-method-transition-qa/desktop-home-method.png`.
+- Source visual truth: the refined approved Method reference supplied in Telegram at 1280 x 910, specifically its smoother white-to-blue atmosphere and earlier video overlap.
+- Source visual path: `/root/.openclaw/giuseppe-workspace/media/inbound/openclaw-staged-33f5ee07-6f45-4e9f-9eb6-65526e815b67/be1ea676-e438-4837-b4ac-12834d98cbb3.jpg`.
+- Implementation screenshot: `runtime/exports/aitusa-method-smooth-blue-final-qa/desktop-home-method.png`.
 - Comparison viewport/state: desktop 1440 x 1400 browser capture, homepage default state, first Method tab selected, video paused at its poster.
-- Focused fade evidence: the full-view comparison is also a focused Method-section crop; Pass 4 records the structural transition correction because the remaining issue was layer continuity rather than typography or controls.
-- Locked composition: 37% editorial copy / 63% video, 74% main stage / 26% selector.
+- Focused fade evidence: the full-view comparison is also a focused Method-section crop; Pass 5 records the video-overlap and atmosphere correction that removed the remaining rough blue join.
+- Locked composition: 37.1% editorial/tab boundary, video beginning at 29.61% beneath the haze, 74% main stage / 26% selector.
 - Locked visual language: Plus Jakarta Sans headline, electric-blue second phrase, blue-to-gold vertical rule, minimal Graphic Concept copy, full-bleed real video, and original blue-number selector.
 
 ## Implementation Contract
@@ -162,16 +162,24 @@ final result: passed
 - Post-fix evidence: `runtime/exports/aitusa-homepage-phase2-method-fade-qa-v2/method-fade-comparison.png`.
 - Product-owner finding: despite close boundary samples, the effect remained visibly different because it was still two independent panel treatments joined by a synthetic opacity strip.
 
-### Pass 4 — continuous source transition
+### Pass 4 — rejected source-strip transition
 
 - Fix: removed the synthetic fade strip and the separate copy-edge gradient.
 - Added one feathered raster transition extracted directly from the approved concept's text-free lamp/plant region, positioned across both layout columns above the copy background and authentic video.
 - This reproduces the source's continuous atmospheric artwork instead of approximating it with two backgrounds. The transition fades out before the native control bar, preserving video interaction.
 - Post-fix evidence: `runtime/exports/aitusa-homepage-phase2-method-transition-qa/method-transition-comparison.png`.
+- Product-owner finding: the blue still looked rougher than the reference because the poster and native control bar began at the 37.1% tab boundary, while the reference video starts beneath the haze at about 29.6%. The remaining video darkening also made the right side visibly harsher.
+
+### Pass 5 — passed smooth atmosphere
+
+- Moved the desktop video/poster start to 29.61% while preserving the 37.1% copy and selector geometry, matching the reference's underlapping control bar and eliminating the hard lower seam.
+- Removed the video darkening filter and reduced the media tint from 14% to 2%, restoring the reference's brighter, smoother blue field.
+- Rebuilt the atmosphere as a wider, text-free raster sampled from the refined reference: its horizontal base is derived from clean source pixels, while the exact lamp/plant detail is blended over it with smoothstep edge and bottom feathers.
+- Post-fix evidence: `runtime/exports/aitusa-method-smooth-blue-final-qa/after-comparison.png`.
 
 ## Validation Status
 
-- Source/implementation comparison: `runtime/exports/aitusa-homepage-phase2-method-transition-qa/method-transition-comparison.png`.
+- Source/implementation comparison: `runtime/exports/aitusa-method-smooth-blue-final-qa/after-comparison.png`.
 - Desktop, tablet, and mobile browser captures completed with no missing images, video metadata failures, black frames, overflow, console errors, or runtime exceptions.
 - Keyboard checks passed for ArrowRight, End, and restored first-tab selection.
 - No actionable P0, P1, or P2 mismatches remain.

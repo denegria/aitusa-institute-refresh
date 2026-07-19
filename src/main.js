@@ -461,8 +461,8 @@
                       class="method-panel__transition"
                       src="${asset("./public/assets/method/method-transition-source.png")}"
                       alt=""
-                      width="270"
-                      height="690"
+                      width="350"
+                      height="600"
                       aria-hidden="true"
                     />
                   </article>
