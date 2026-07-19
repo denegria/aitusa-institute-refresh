@@ -1,4 +1,8 @@
+import { notFound } from "next/navigation";
 import { createPortalShellModel } from "../../src/portal/portalShell.js";
+import { isPortalPrototypeAvailable } from "../../src/portal/portalAvailability.js";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Portal estudiantil | AIT USA Institute",
@@ -25,6 +29,8 @@ function resolveCardState(card) {
 }
 
 export default function PortalPage() {
+  if (!isPortalPrototypeAvailable()) notFound();
+
   const model = createPortalShellModel("studentActive");
   const title =
     model.state === "ready" ? `Hola, ${model.account.displayName}` : "Cuenta en revision";

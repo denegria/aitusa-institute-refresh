@@ -33,6 +33,17 @@ static renderer into React components after visual QA and product approval.
 - No payment provider or capture flow is added.
 - No AI provider is called from the browser or server.
 
+## Prototype availability gate
+
+The fixture-backed portal is a preview and local-development review surface,
+not a production student portal. Vercel exposes `VERCEL_ENV` and
+`VERCEL_TARGET_ENV` at build and runtime; `/portal` and every
+`/api/portal/*` handler return `404 Not Found` when either marker identifies a
+production deployment. An unclassified Vercel deployment also fails closed.
+
+This gate is temporary. Replace it only when real sign-in, server-owned
+sessions, authorization, and CRM identity linking are implemented and approved.
+
 ## Validation target
 
 Use these checks for this foundation slice:

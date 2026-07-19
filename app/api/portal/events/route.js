@@ -3,10 +3,14 @@ import {
   toCrmTimelineSummary,
   validateCrmEventEnvelope,
 } from "../../../../src/crm/eventContract.js";
+import { getPortalPrototypeGateResponse } from "../../../../src/portal/portalAvailability.js";
 
 export const runtime = "nodejs";
 
 export async function POST(request) {
+  const gateResponse = getPortalPrototypeGateResponse();
+  if (gateResponse) return gateResponse;
+
   let envelope;
   try {
     envelope = await request.json();
