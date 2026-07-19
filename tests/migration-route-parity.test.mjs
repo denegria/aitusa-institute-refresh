@@ -28,6 +28,7 @@ describe("MIS-300 migration route parity", () => {
     assert.match(sitemap, /<loc>https:\/\/www\.aitusainstitute\.com\/privacy-policy<\/loc>/);
     assert.match(sitemap, /<loc>https:\/\/www\.aitusainstitute\.com\/terms-and-conditions<\/loc>/);
     assert.doesNotMatch(sitemap, /\/portal\/|\/api\//);
+    assert.doesNotMatch(sitemap, /<lastmod>/);
 
     for (const program of siteData.programs) {
       assert.match(

@@ -306,6 +306,13 @@ export function buildPlacementCrmSyncPreview({
 }
 
 export function validatePlacementInput(input = {}) {
+  if (!isRecord(input)) {
+    return {
+      ok: false,
+      errors: ["request_body_invalid"],
+    };
+  }
+
   const errors = [];
 
   if (!isRecord(input.student)) {
@@ -348,7 +355,12 @@ export function validatePlacementInput(input = {}) {
     errors.push("advisor_handoff_consent_required");
   }
 
-  if (input.submittedAt && Number.isNaN(Date.parse(input.submittedAt))) {
+  if (
+    input.submittedAt !== undefined &&
+    input.submittedAt !== null &&
+    (!isNonEmptyString(input.submittedAt) ||
+      Number.isNaN(Date.parse(input.submittedAt)))
+  ) {
     errors.push("submitted_at_invalid");
   }
 

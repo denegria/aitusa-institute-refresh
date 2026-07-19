@@ -1,7 +1,7 @@
 # SMS legal and opt-in implementation
 
-Issue: MIS-327  
-Prepared: 2026-07-17  
+Issue: MIS-327
+Prepared: 2026-07-17
 Status: staging implementation; not legal approval and not a Telnyx resubmission
 
 ## Public routes
@@ -91,4 +91,3 @@ path is approved and verified.
 7. Production CRM storage is enabled only through the MIS-301 approval gate.
 8. STOP/HELP and opt-out behavior is tested before any audience launch.
 9. Telnyx campaign narrative, use case, samples, and public flow are consistent.
-

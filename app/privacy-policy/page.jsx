@@ -11,4 +11,3 @@ export const metadata = {
 export default function PrivacyPolicyPage() {
   return <LegalPage policy={privacyPolicy} />;
 }
-

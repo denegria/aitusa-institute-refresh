@@ -68,4 +68,21 @@ describe("MIS-265 placement test route", () => {
     assert.equal(body.errors.includes("student_required"), true);
     assert.equal(body.crmWrite, false);
   });
+
+  it("rejects malformed request bodies without throwing", async () => {
+    for (const bodyValue of [null, { ...validBody, submittedAt: 123 }]) {
+      const response = await POST(request(bodyValue));
+      const body = await response.json();
+
+      assert.equal(response.status, 422);
+      assert.equal(body.ok, false);
+      assert.equal(
+        body.errors.includes(
+          bodyValue === null ? "request_body_invalid" : "submitted_at_invalid",
+        ),
+        true,
+      );
+      assert.equal(body.crmWrite, false);
+    }
+  });
 });

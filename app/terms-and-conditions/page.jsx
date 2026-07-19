@@ -11,4 +11,3 @@ export const metadata = {
 export default function TermsAndConditionsPage() {
   return <LegalPage policy={termsAndConditions} />;
 }
-

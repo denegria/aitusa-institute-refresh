@@ -141,6 +141,14 @@ export function evaluateLeadContactSubmission(input = {}) {
 }
 
 export function validateLeadContactInput(input = {}) {
+  if (!isRecord(input)) {
+    return {
+      ok: false,
+      status: 422,
+      errors: ["request_body_invalid"],
+    };
+  }
+
   const errors = [];
 
   if (!isRecord(input.lead)) {
@@ -173,6 +181,15 @@ export function validateLeadContactInput(input = {}) {
 
   if (input.consent?.contactPermission !== true) {
     errors.push("contact_permission_consent_required");
+  }
+
+  if (
+    input.submittedAt !== undefined &&
+    input.submittedAt !== null &&
+    (!isNonEmptyString(input.submittedAt) ||
+      Number.isNaN(Date.parse(input.submittedAt)))
+  ) {
+    errors.push("submitted_at_invalid");
   }
 
   validateMarketingSmsConsent(input, errors);
@@ -333,7 +350,10 @@ function hasSpamSignal(input) {
   if (isNonEmptyString(input.honeypot)) return true;
   if (isNonEmptyString(input.companyWebsite)) return true;
 
-  if (input.startedAt && input.submittedAt) {
+  if (
+    isNonEmptyString(input.startedAt) &&
+    isNonEmptyString(input.submittedAt)
+  ) {
     const started = Date.parse(input.startedAt);
     const submitted = Date.parse(input.submittedAt);
     if (

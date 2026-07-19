@@ -40,7 +40,7 @@ export function buildRobotsTxt(siteData) {
   ].join("\n");
 }
 
-export function buildSitemapXml(siteData, { lastmod = currentDate() } = {}) {
+export function buildSitemapXml(siteData) {
   const courseUrls = (siteData.programs || [])
     .filter((program) => program.slug)
     .map((program) => ({
@@ -89,7 +89,6 @@ export function buildSitemapXml(siteData, { lastmod = currentDate() } = {}) {
     ...urls.flatMap((url) => [
       "  <url>",
       `    <loc>${escapeHtml(url.loc)}</loc>`,
-      `    <lastmod>${lastmod}</lastmod>`,
       `    <changefreq>${url.changefreq}</changefreq>`,
       `    <priority>${url.priority}</priority>`,
       "  </url>",
@@ -193,10 +192,6 @@ function jsonLdScript(name, value) {
 
 function absoluteUrl(siteData, pathValue) {
   return new URL(pathValue, siteData.site?.canonical || "https://www.aitusainstitute.com/").toString();
-}
-
-function currentDate() {
-  return new Date().toISOString().slice(0, 10);
 }
 
 function escapeAttribute(value) {
