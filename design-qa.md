@@ -106,3 +106,40 @@ The implementation preserves the source hierarchy: compact institute header, dom
 ## Final Result
 
 final result: passed
+
+---
+
+# Design QA: Homepage Phase 2 Method Section
+
+## Comparison Target
+
+- Source visual truth: approved Option 3 supplied in the Telegram design review.
+- Locked composition: editorial copy at left, real instructor video stage at right, three-part method selector below.
+- Brand corrections: Georgia display type, Plus Jakarta Sans support copy, Primary Ink, Deep Navy, CTA Navy, Institute Gold, and no decorative gradients.
+
+## Implementation Contract
+
+- Preserve the approved hero without modification.
+- Preserve all three real AiT instructor videos and their supporting method copy.
+- Do not ship the generated instructor or generated studio background from the concept image.
+- Reproduce the dark studio mood with a Deep Navy stage and a darkened, blurred extension of each authentic video poster behind the untouched video.
+- Implement the bottom strip as semantic tabs with click, Left/Right Arrow, Home, and End controls.
+- Pause video in inactive panels.
+
+## Responsive Contract
+
+- Desktop: two-column copy/video composition with a three-column tab strip.
+- Tablet: stacked copy and video with the three-column selector retained.
+- Mobile: stacked copy and video with the tabs presented as full-width rows to avoid cramped labels and horizontal overflow.
+
+## Validation Status
+
+- Desktop, tablet, and mobile browser captures match the approved composition and brand corrections.
+- All three real videos loaded metadata and produced visible frames.
+- No missing images, horizontal overflow, console errors, runtime exceptions, or screenshot errors were found.
+- Arrow Right selected the second tab, End selected the third tab, and the verifier restored the first tab at all three viewports.
+- The instructor remains authentic. The source footage is not segmented; the dark studio mood is produced by the Deep Navy stage and a darkened extension of the real poster behind the untouched video.
+
+## Final Result
+
+final result: passed

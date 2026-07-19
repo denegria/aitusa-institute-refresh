@@ -1557,7 +1557,8 @@ const painHero = {
 const solutionCharacteristics = [
   {
     key: "graphic-concept",
-    label: "Método visual",
+    label: "Graphic Concept",
+    tabLabel: "Comprensión visual",
     title: "Aprende a entender sin traducir palabra por palabra",
     body:
       "El método Graphic Concept organiza el inglés de forma visual para que comprendas mejor lo que escuchas y lo que quieres decir, sin depender de listas interminables de memoria.",
@@ -1574,6 +1575,7 @@ const solutionCharacteristics = [
   {
     key: "guided-practice",
     label: "Práctica guiada",
+    tabLabel: "Práctica guiada",
     title: "Habla con corrección en vivo, no solo con teoría",
     body:
       "Aquí la práctica importa. Trabajas con docentes que corrigen, repiten y guían la conversación para ayudarte a responder con más seguridad en situaciones reales.",
@@ -1590,6 +1592,7 @@ const solutionCharacteristics = [
   {
     key: "continuity",
     label: "Continuidad",
+    tabLabel: "Ruta semanal",
     title: "Sigue una ruta que se adapta a tu nivel, horario y objetivo",
     body:
       "AIT USA te orienta para ubicar tu nivel, elegir formato y mantener continuidad con seguimiento, libro y próximos pasos claros.",
