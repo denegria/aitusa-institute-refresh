@@ -2648,6 +2648,29 @@ textarea {
   }
 }
 
+@media (max-width: 899px) {
+  .hero__proof-inner {
+    grid-template-columns: 1fr;
+    padding: 8px clamp(28px, 7vw, 56px);
+  }
+
+  .hero__proof-inner article {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 16px;
+    padding: 20px 0;
+  }
+
+  .hero__proof-inner article + article {
+    border-top: 1px solid rgba(196, 147, 45, 0.56);
+    border-left: 0;
+  }
+
+  .hero__proof-inner svg {
+    width: 42px;
+    height: 42px;
+  }
+}
+
 @media (max-width: 760px) {
   .site-header {
     min-height: 72px;

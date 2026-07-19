@@ -92,6 +92,12 @@ The implementation preserves the source hierarchy: compact institute header, dom
 - Fix: reduced only the mobile display scale, tightened vertical gaps, shortened button height, and preserved all approved copy.
 - Post-fix evidence: `docs/design/evidence/hero-mobile-390x844.png`; the classroom scene begins around 671px and is visibly established above the fold.
 
+### Pass 3
+
+- P2: at 768px portrait width, the three proof statements remained in desktop columns and wrapped too aggressively.
+- Fix: stacked the proof statements below 900px while preserving the desktop three-column band and mobile spacing.
+- Post-fix evidence: `docs/design/evidence/hero-tablet-768x1024.png`; proof headings and descriptions now retain a comfortable reading measure with consistent icon alignment.
+
 ## Follow-Up Polish
 
 - P3: the source concept includes generated AIT branding inside the classroom image. The implementation removes it because the source asset was flattened and its text could not remain crisp or accessible across responsive crops.
