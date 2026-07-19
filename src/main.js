@@ -456,15 +456,15 @@
                       >
                         <source src="${asset(item.video)}" type="video/mp4" />
                       </video>
-                      <img
-                        class="method-panel__fade"
-                        src="${asset("./public/assets/method/method-video-fade.png")}"
-                        alt=""
-                        width="360"
-                        height="786"
-                        aria-hidden="true"
-                      />
                     </div>
+                    <img
+                      class="method-panel__transition"
+                      src="${asset("./public/assets/method/method-transition-source.png")}"
+                      alt=""
+                      width="270"
+                      height="690"
+                      aria-hidden="true"
+                    />
                   </article>
                 `,
               )
