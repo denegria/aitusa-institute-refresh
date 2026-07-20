@@ -457,8 +457,9 @@
                         <source src="${asset(item.video)}" type="video/mp4" />
                       </video>
                     </div>
+                    <div class="method-panel__veil" aria-hidden="true"></div>
                     <img
-                      class="method-panel__transition"
+                      class="method-panel__transition-art"
                       src="${asset("./public/assets/method/method-transition-source.png")}"
                       alt=""
                       width="350"

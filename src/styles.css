@@ -881,14 +881,40 @@ button {
   filter: none;
 }
 
-.method-panel__transition {
+.method-panel__veil {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: 54%;
+  height: 88.89%;
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    #f7f9fc 0%,
+    #f7f9fc 54%,
+    rgba(247, 249, 252, 0.82) 66%,
+    rgba(247, 249, 252, 0.34) 84%,
+    rgba(247, 249, 252, 0) 100%
+  );
+  backdrop-filter: blur(28px) saturate(0.86);
+  -webkit-backdrop-filter: blur(28px) saturate(0.86);
+  mask-image: linear-gradient(90deg, #000 0%, #000 62%, rgba(0, 0, 0, 0.72) 78%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 62%, rgba(0, 0, 0, 0.72) 78%, transparent 100%);
+  pointer-events: none;
+}
+
+.method-panel__transition-art {
   position: absolute;
   top: 0;
   left: 23.4375%;
   z-index: 3;
+  display: block;
   width: 27.34375%;
   height: 88.89%;
+  max-width: none;
   object-fit: fill;
+  opacity: 0.54;
   pointer-events: none;
 }
 
@@ -2752,7 +2778,8 @@ textarea {
     min-height: 620px;
   }
 
-  .method-panel__transition {
+  .method-panel__veil,
+  .method-panel__transition-art {
     display: none;
   }
 
