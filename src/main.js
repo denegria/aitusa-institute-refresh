@@ -443,7 +443,12 @@
                         <h3>${escapeHtml(item.title)}.</h3>
                       </div>
                     </div>
-                    <div class="method-panel__media" style="--method-poster: url('${asset(item.videoPoster)}')">
+                    <div
+                      class="method-panel__media-underlay"
+                      style="--method-poster: url('${asset(item.videoPoster)}')"
+                      aria-hidden="true"
+                    ></div>
+                    <div class="method-panel__media">
                       <video
                         class="method-panel__video"
                         controls
@@ -457,6 +462,7 @@
                         <source src="${asset(item.video)}" type="video/mp4" />
                       </video>
                     </div>
+                    <div class="method-panel__diffusion" aria-hidden="true"></div>
                     <div class="method-panel__veil" aria-hidden="true"></div>
                     <img
                       class="method-panel__transition-art"

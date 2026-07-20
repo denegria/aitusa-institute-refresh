@@ -178,16 +178,31 @@ final result: passed
 - Post-fix evidence: `runtime/exports/aitusa-method-smooth-blue-final-qa/after-comparison.png`.
 - Product-owner finding: the transition remained visibly composited because its softness was baked into a raster layer instead of blurring the live poster/video beneath it.
 
-### Pass 6 — passed live backdrop blur
+### Pass 6 — rejected live backdrop blur
 
 - Source technique review: the shared Grok conversation proposed a translucent white overlay with `backdrop-blur-xl` and a left-to-right gradient. Its original HTML did not implement that final treatment, but the proposed backdrop-filter layer correctly identified what the prior implementation lacked.
 - Added a real 28px `backdrop-filter` blur and saturation reduction over the live poster/video, then feathered the filter itself with a broad alpha mask so the blur does not end at a rectangular edge.
 - Added a translucent white-to-transparent veil over the same region and retained the approved lamp/plant artwork at reduced opacity. Copy remains live above the effect; the authentic video remains interactive underneath it.
 - Post-fix evidence: `runtime/exports/aitusa-method-grok-blur-qa/final/comparison.png`.
+- Product-owner finding: the effect still read as an approximation. The native control surface began at the early video-underlap boundary, and blur, veil, and artwork still behaved like one joined filter instead of a continuous staged scene.
+
+### Pass 7 — passed approved-image implementation contract
+
+- Source visual truth: `/root/.openclaw/giuseppe-workspace/media/inbound/openclaw-staged-046c5733-dd22-43db-98d7-9895db4a0a0c/709b9a30-63bc-4461-a0cc-9bf00aae6242.jpg`.
+- Browser-rendered implementation: `/root/.openclaw/giuseppe-workspace/runtime/exports/aitusa-method-official-spec-qa/method-current-1280x910.png`.
+- Comparison viewport/state: normalized 1280 x 910 Method section, first tab selected, authentic video paused on its poster, default light theme.
+- Full-view comparison evidence: `/root/.openclaw/giuseppe-workspace/runtime/exports/aitusa-method-official-spec-qa/comparison-pass-3.png`.
+- Focused transition comparison: `/root/.openclaw/giuseppe-workspace/runtime/exports/aitusa-method-official-spec-qa/fade-focus-pass-3.png`.
+- Rebuilt the stage so the visual underlay begins at 29.61% beneath the haze while the real controlled video begins at the approved 37.1% boundary. This preserves the continuous scene without moving the native control bar into the copy field.
+- Separated the 32px live diffusion, nonlinear off-white veil, and approved lamp/plant atmosphere into independent layers with independently feathered masks.
+- Restored the approved artwork above the veil with only outer-edge feathering, matching the source lamp position, plant visibility, panel texture, haze width, and blue release while the real video remains underneath.
+- Responsive comparison found and fixed a pre-existing P1 mobile/tablet issue where the desktop composite poster left a vertical white slab over the video. Stacked layouts now remove the desktop horizontal layers and use a full-width video with an 88px vertical feather.
+- Desktop, tablet, and mobile browser verification passed with no missing images, video metadata failures, black frames, horizontal overflow, console messages, or runtime exceptions.
+- Keyboard interaction passed for ArrowRight, End, and restoration of the first Method tab. Native video controls remained visible and interactive.
 
 ## Validation Status
 
-- Source/implementation comparison: `runtime/exports/aitusa-method-grok-blur-qa/final/comparison.png`.
+- Source/implementation comparison: `/root/.openclaw/giuseppe-workspace/runtime/exports/aitusa-method-official-spec-qa/comparison-pass-3.png`.
 - Desktop, tablet, and mobile browser captures completed with no missing images, video metadata failures, black frames, overflow, console errors, or runtime exceptions.
 - Keyboard checks passed for ArrowRight, End, and restored first-tab selection.
 - No actionable P0, P1, or P2 mismatches remain.

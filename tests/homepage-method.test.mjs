@@ -41,4 +41,17 @@ describe("homepage Method showcase", () => {
     assert.doesNotMatch(source, /data-solution-prev/);
     assert.doesNotMatch(source, /data-solution-next/);
   });
+
+  it("keeps the live video controls separate from the atmospheric underlap", async () => {
+    const source = await readFile("src/main.js", "utf8");
+    const styles = await readFile("src/styles.css", "utf8");
+
+    assert.match(source, /method-panel__media-underlay/);
+    assert.match(source, /method-panel__diffusion/);
+    assert.match(styles, /\.method-panel__media-underlay\s*\{/);
+    assert.match(styles, /\.method-panel__diffusion\s*\{/);
+    assert.match(styles, /inset:\s*0 0 0 37\.1%/);
+    assert.match(styles, /left:\s*29\.61%/);
+    assert.match(styles, /backdrop-filter:\s*blur\(32px\)/);
+  });
 });
