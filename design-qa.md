@@ -3,6 +3,10 @@
 ## Comparison Target
 
 - Source visual truth: `docs/design/approved-concept-1-desktop.png`
+- Latest viewport/crop source: `/root/.openclaw/giuseppe-workspace/media/inbound/openclaw-staged-53e763b9-0275-4e90-8886-8101b62a3e41/67fefdd1-4ef0-4aa5-8f62-eb57a2383e72.jpg`
+- Latest 1904 x 950 implementation: `screenshots/hero-reference-1904x950.png`
+- Latest short-desktop implementation: `screenshots/hero-short-1867x847.png`
+- Latest full-view comparison: `/root/.openclaw/giuseppe-workspace/runtime/exports/aitusa-hero-viewport-fit/comparison-pass3-1904x950.png`
 - Desktop implementation: `docs/design/evidence/hero-desktop-1440x900.png`
 - Tablet implementation: `docs/design/evidence/hero-tablet-768x1024.png`
 - Mobile implementation: `docs/design/evidence/hero-mobile-390x844.png`
@@ -14,6 +18,8 @@
 ## Viewports
 
 - Desktop: 1440 x 900
+- Wide reference: 1904 x 950
+- Short desktop: 1867 x 847
 - Tablet: 768 x 1024
 - Mobile: 390 x 844
 
@@ -33,6 +39,7 @@ The implementation preserves the source hierarchy: compact institute header, dom
 ### Spacing And Layout Rhythm
 
 - Desktop header is 92px, the hero stage ends at 713px, and the proof band ends at 856px, matching the approved reference geometry.
+- At 1904 x 950, the full opening composition ends at 923.97px. At 1867 x 847, the main stage, proof band, and community line scale together and end at 846.98px, keeping the complete story inside the viewport.
 - Copy and logo share the same left alignment.
 - CTAs and modalities remain grouped without overlapping the image.
 - The approved `Clases reales...` transition appears immediately after the proof band, as shown in Concept 1.
@@ -55,6 +62,7 @@ The implementation preserves the source hierarchy: compact institute header, dom
 - The advisor, foreground student, supporting students, classroom sign, branded
   folder, and placement booklet preserve the selected visual's composition and
   proof details.
+- The desktop classroom master now renders at exactly the viewport width rather than 66px wider than the 1904px reference, revealing more of the original scene while retaining the reference's shallow vertical offset.
 - Navigation, copy, CTAs, modalities, and proof statements remain live semantic HTML rather than baked image text.
 - No placeholder imagery, CSS illustration, or custom SVG artwork is used.
 
@@ -190,6 +198,13 @@ The implementation preserves the source hierarchy: compact institute header, dom
   approved full-size Concept 1 controls remain unchanged at 1440px and wider.
 - Post-fix evidence: `docs/design/evidence/desktop-compact-1280x900.png` and
   `docs/design/evidence/hero-desktop-1440x900.png`.
+
+### Pass 11
+
+- P1: the 1867 x 847 desktop composition ended at 924px, placing the full proof band and the `Clases reales...` community line below the first viewport. The hero image also rendered at 1970.02px inside the 1904px reference frame and started 68.29px above the stage, producing the over-zoomed crop Alvaro flagged.
+- Fix: made the desktop main stage, proof band, and community line share viewport-aware height tokens; added a compact vertical rhythm for shorter desktop screens; rendered the approved 1536 x 1024 master at exactly `100vw`; and tuned its vertical offset to `-2.5%` so the advisor, sign, students, and booklet match the supplied frame without enlarging the asset.
+- Post-fix measurements: the 1904 x 950 composition ends at 923.97px with a 1904px-wide image; the 1867 x 847 composition ends at 846.98px with a 1867px-wide image. Both checks report zero viewport issues, console messages, or runtime exceptions.
+- Post-fix evidence: `screenshots/hero-reference-1904x950.png`, `screenshots/hero-short-1867x847.png`, and `/root/.openclaw/giuseppe-workspace/runtime/exports/aitusa-hero-viewport-fit/comparison-pass3-1904x950.png`.
 
 ## Follow-Up Polish
 

@@ -542,6 +542,107 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
   return { name, width, height, screenshot: target, secondaryScreenshot: secondaryTarget, sectionScreenshots, screenshotError, ...summary, interactions };
 };
 
+const verifyHeroViewport = async ({ name, width, height }) => {
+  console.log(`Checking ${name}...`);
+  await send("Emulation.setDeviceMetricsOverride", {
+    width,
+    height,
+    deviceScaleFactor: 1,
+    mobile: false,
+  });
+
+  const loaded = waitForLoad();
+  const nav = await send("Page.navigate", { url: appUrl }, 30000);
+  if (nav.errorText && nav.errorText !== "net::ERR_ABORTED") {
+    throw new Error(`Navigation failed: ${nav.errorText}`);
+  }
+  await loaded;
+  await waitForAppReady();
+  await sleep(400);
+
+  await evaluate(`(async () => {
+    const image = document.querySelector('.hero__visual img');
+    if (!image) return;
+    image.loading = 'eager';
+    if (image.complete && image.naturalWidth > 0) return;
+    await new Promise((resolve) => {
+      const done = () => resolve();
+      image.addEventListener('load', done, { once: true });
+      image.addEventListener('error', done, { once: true });
+      setTimeout(done, 2500);
+    });
+  })()`);
+  await stabilizeViewport();
+
+  const metrics = await evaluate(`(() => {
+    const header = document.querySelector('.site-header');
+    const main = document.querySelector('.hero__main');
+    const proof = document.querySelector('.hero__proof-band');
+    const community = document.querySelector('.hero__community-line');
+    const image = document.querySelector('.hero__visual img');
+    const rect = (element) => element?.getBoundingClientRect() || null;
+    const round = (value) => Math.round(value * 100) / 100;
+    const headerRect = rect(header);
+    const mainRect = rect(main);
+    const proofRect = rect(proof);
+    const communityRect = rect(community);
+    const imageRect = rect(image);
+    const viewportIssues = [];
+
+    if (!headerRect || !mainRect || !proofRect || !communityRect || !imageRect) {
+      viewportIssues.push({ type: 'hero-elements-missing' });
+    } else {
+      if (communityRect.bottom > innerHeight + 1) {
+        viewportIssues.push({
+          type: 'hero-exceeds-viewport',
+          communityBottom: round(communityRect.bottom),
+          viewportHeight: innerHeight,
+        });
+      }
+      if (Math.abs(imageRect.width - innerWidth) > 2) {
+        viewportIssues.push({
+          type: 'hero-image-overzoomed',
+          imageWidth: round(imageRect.width),
+          viewportWidth: innerWidth,
+        });
+      }
+      const expectedImageTop = mainRect.top - (imageRect.height * 0.025);
+      if (Math.abs(imageRect.left) > 2 || Math.abs(imageRect.top - expectedImageTop) > 2) {
+        viewportIssues.push({
+          type: 'hero-image-offset',
+          imageLeft: round(imageRect.left),
+          imageTop: round(imageRect.top),
+          expectedImageTop: round(expectedImageTop),
+          mainTop: round(mainRect.top),
+        });
+      }
+    }
+
+    return {
+      viewportHeight: innerHeight,
+      header: headerRect && { top: round(headerRect.top), bottom: round(headerRect.bottom), height: round(headerRect.height) },
+      main: mainRect && { top: round(mainRect.top), bottom: round(mainRect.bottom), height: round(mainRect.height) },
+      proof: proofRect && { top: round(proofRect.top), bottom: round(proofRect.bottom), height: round(proofRect.height) },
+      community: communityRect && { top: round(communityRect.top), bottom: round(communityRect.bottom), height: round(communityRect.height) },
+      image: imageRect && {
+        left: round(imageRect.left),
+        top: round(imageRect.top),
+        width: round(imageRect.width),
+        height: round(imageRect.height),
+        naturalWidth: image.naturalWidth,
+        naturalHeight: image.naturalHeight,
+      },
+      viewportIssues,
+    };
+  })()`);
+
+  const shot = await captureViewport(`${name} hero`);
+  const screenshot = path.join(screenshotsDir, `${name}.png`);
+  await writeFile(screenshot, Buffer.from(shot.data, "base64"));
+
+  return { name, width, height, screenshot, ...metrics };
+};
+
 const verifyCourseRoute = async () => {
   console.log("Checking course-route...");
   await send("Emulation.setDeviceMetricsOverride", {
@@ -698,12 +799,20 @@ const verifyPlacementRoute = async () => {
 };
 
 const results = [];
+const heroOnly = process.env.VERIFY_HERO_ONLY === "1";
+const skipHero = process.env.VERIFY_SKIP_HERO === "1";
 try {
-  results.push(await verifyViewport({ name: "desktop-home", width: 1440, height: 1400, mobile: false }));
-  results.push(await verifyViewport({ name: "tablet-home", width: 820, height: 1180, mobile: true }));
-  results.push(await verifyViewport({ name: "mobile-home", width: 390, height: 1200, mobile: true }));
-  results.push(await verifyCourseRoute());
-  results.push(await verifyPlacementRoute());
+  if (!skipHero) {
+    results.push(await verifyHeroViewport({ name: "hero-reference-1904x950", width: 1904, height: 950 }));
+    results.push(await verifyHeroViewport({ name: "hero-short-1867x847", width: 1867, height: 847 }));
+  }
+  if (!heroOnly) {
+    results.push(await verifyViewport({ name: "desktop-home", width: 1440, height: 1400, mobile: false }));
+    results.push(await verifyViewport({ name: "tablet-home", width: 820, height: 1180, mobile: true }));
+    results.push(await verifyViewport({ name: "mobile-home", width: 390, height: 1200, mobile: true }));
+    results.push(await verifyCourseRoute());
+    results.push(await verifyPlacementRoute());
+  }
 } finally {
   socket.close();
   browser.kill();
@@ -733,6 +842,7 @@ console.log(JSON.stringify({ results, exceptions, consoleMessageCount: consoleMe
 const blockingResults = results.filter((result) =>
   (result.missingImages && result.missingImages.length) ||
   (result.overflowing && result.overflowing.length) ||
+  (result.viewportIssues && result.viewportIssues.length) ||
   (result.videoMetadataIssues && result.videoMetadataIssues.length) ||
   (result.videoVisualIssues && result.videoVisualIssues.length)
 );
