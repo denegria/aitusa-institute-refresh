@@ -32,22 +32,30 @@ The implementation preserves the source hierarchy: compact institute header, dom
 
 ### Spacing And Layout Rhythm
 
-- Desktop header is 88px and the hero/proof composition ends at approximately 883px, leaving the next section visible at a 900px viewport.
+- Desktop header is 92px, the hero stage ends at 713px, and the proof band ends at 856px, matching the approved reference geometry.
 - Copy and logo share the same left alignment.
 - CTAs and modalities remain grouped without overlapping the image.
+- The approved `Clases reales...` transition appears immediately after the proof band, as shown in Concept 1.
 - Tablet and mobile stack the image below the decision content with no horizontal overflow.
 
 ### Colors And Tokens
 
-- Navy, deep navy, gold, white, and neutral text map to the approved source.
+- The primary CTA uses the sampled approved navy `#002258`, and the proof band
+  uses the sampled deep navy `#001a3d`.
+- The eyebrow uses `#ad6e0e`; proof and modality icons use the warmer,
+  reference-matched gold family rather than the previous yellow-gold treatment.
 - The CTA hierarchy, gold icon treatment, proof-band dividers, and white header remain consistent across viewports.
 - Contrast remains strong for headings, controls, proof copy, and focus indicators.
 
 ### Image Quality And Asset Fidelity
 
-- The hero uses a dedicated high-resolution image derived from the approved classroom art direction.
-- The advisor, foreground student, and supporting students remain visible and naturally cropped.
-- The standalone image intentionally omits baked-in navigation, copy, logos, and unreadable generated signage so the live page remains accessible and responsive.
+- The hero uses a clean production edit of the approved Concept 1 scene so its
+  original broad white-to-photo dissolve can sit behind live HTML without
+  duplicating flattened interface text.
+- The advisor, foreground student, supporting students, classroom sign, branded
+  folder, and placement booklet preserve the selected visual's composition and
+  proof details.
+- Navigation, copy, CTAs, modalities, and proof statements remain live semantic HTML rather than baked image text.
 - No placeholder imagery, CSS illustration, or custom SVG artwork is used.
 
 ### Copy And Content
@@ -98,10 +106,94 @@ The implementation preserves the source hierarchy: compact institute header, dom
 - Fix: stacked the proof statements below 900px while preserving the desktop three-column band and mobile spacing.
 - Post-fix evidence: `docs/design/evidence/hero-tablet-768x1024.png`; proof headings and descriptions now retain a comfortable reading measure with consistent icon alignment.
 
+### Pass 4
+
+- P1: the implementation used a different clean classroom image, so the advisor, student, signage, folder, booklet, and crop could not match the approved Concept 1 visual.
+- Fix: switched to the exact Concept 1 master, isolated its classroom region with a responsive CSS crop, and realigned the 92px header, 42/58 hero split, copy lines, CTA row, modality row, proof columns, and community transition.
+- Post-fix evidence: `docs/design/evidence/desktop-comparison.png`, `docs/design/evidence/header-comparison.png`, and `docs/design/evidence/proof-comparison.png`.
+
+### Pass 5
+
+- P1: the copy/photo boundary remained a hard vertical seam, while the CTA blue,
+  proof-band navy, eyebrow gold, and proof icon gold drifted from the approved
+  reference.
+- Fix: sampled the reference palette directly, replaced the flattened master
+  with a clean edit of the approved classroom scene, and let its broad white
+  feather overlap beneath the live copy.
+- Post-fix evidence: `docs/design/evidence/desktop-comparison.png`,
+  `docs/design/evidence/hero-tablet-768x1024.png`, and
+  `docs/design/evidence/hero-mobile-390x844.png`.
+
+### Pass 6
+
+- P2: copy and controls sat too close to the photo transition; CTA labels and
+  shadows felt heavier than the reference; the modality strip read as a
+  bordered card and extended too far into the image.
+- Fix: tightened the headline and summary measure, reduced CTA label weight and
+  shadow, shortened the action group, removed the modality strip's outer
+  border/radius/shadow, replaced full-height gold borders with short neutral
+  dividers, and applied a subtle warm photographic finish.
+- Post-fix evidence: `docs/design/evidence/controls-comparison.png`,
+  `docs/design/evidence/desktop-comparison.png`,
+  `docs/design/evidence/hero-tablet-768x1024.png`, and
+  `docs/design/evidence/hero-mobile-390x844.png`.
+
+### Pass 7
+
+- P2: the secondary CTA used an outlined interior play shape, the modality strip
+  stopped above the hero's bottom edge, and the hero content gutter did not
+  exactly match the logo gutter across desktop widths.
+- Fix: filled the play triangle while retaining the circle outline, anchored the
+  modality strip to the hero bottom, and introduced one responsive desktop
+  gutter shared by the header and hero content.
+- Measured alignment: `57.6px` at 1440px and `24px` at both 1180px and 1060px;
+  logo, copy, primary CTA, and modalities matched at each viewport with no
+  horizontal overflow.
+- Post-fix evidence: `docs/design/evidence/controls-comparison.png` and
+  `docs/design/evidence/desktop-comparison.png`.
+
+### Pass 8
+
+- Annotation: reduce the large-desktop hero copy padding from 58px to 24px,
+  move the modality strip with it, and rebalance the proof band horizontally.
+- Fix: made 24px the desktop hero gutter while preserving the header's own
+  navigation spacing; reduced the first proof group's inset from 88px to 54px
+  and mirrored 54px on the third group's outer edge.
+- Responsive decision: the existing 24px gutter at 1180px and 1060px remains
+  unchanged, so the annotation removes a large-desktop jump rather than
+  creating another breakpoint.
+- Post-fix evidence: `docs/design/evidence/annotation-desktop-1647x746.png`,
+  `docs/design/evidence/hero-desktop-1440x900.png`, and
+  `docs/design/evidence/proof-comparison.png`.
+
+### Pass 9
+
+- P2: the hero and proof interiors were capped at 1440px and centered while the
+  header continued across the viewport. On larger desktop displays this moved
+  the hero copy, controls, and proof content far inside the logo edge and left
+  unused white space beside the photograph.
+- Fix: removed the 1440px interior cap and applied the header's responsive
+  `clamp(32px, 4vw, 58px)` gutter to the hero copy, controls, modality strip,
+  and outer proof groups. Tablet and smaller desktop layouts retain their
+  existing 24px gutter below 1181px.
+- Post-fix evidence: `docs/design/evidence/wide-desktop-1867x847.png`,
+  `docs/design/evidence/hero-desktop-1440x900.png`, and
+  `docs/design/evidence/proof-comparison.png`.
+
+### Pass 10
+
+- P2: immediately above the 1180px layout breakpoint, the fixed-width CTA row
+  overflowed the copy column and the full-width modality strip reached into the
+  photographic subject.
+- Fix: introduced a fluid compact-control range from 1181px through 1439px.
+  Buttons, icons, gaps, and modality height scale down together, while the
+  approved full-size Concept 1 controls remain unchanged at 1440px and wider.
+- Post-fix evidence: `docs/design/evidence/desktop-compact-1280x900.png` and
+  `docs/design/evidence/hero-desktop-1440x900.png`.
+
 ## Follow-Up Polish
 
-- P3: the source concept includes generated AIT branding inside the classroom image. The implementation removes it because the source asset was flattened and its text could not remain crisp or accessible across responsive crops.
-- P3: the Lucide proof icons are slightly simpler than the concept's illustrated icons, but they are consistent, legible, and production-ready.
+- P3: the Lucide proof icons are intentionally simpler than the concept's generated illustrated icons, but they remain consistent, legible, accessible, and production-ready.
 
 ## Final Result
 

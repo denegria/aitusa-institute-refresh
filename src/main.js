@@ -348,7 +348,11 @@
                 .map((line) => `<span>${escapeHtml(line)}</span>`)
                 .join("")}
             </h1>
-            <p class="hero__summary">${escapeHtml(painHero.subheadline || "")}</p>
+            <p class="hero__summary">
+              ${(painHero.subheadlineLines || [painHero.subheadline || ""])
+                .map((line) => `<span>${escapeHtml(line)}</span>`)
+                .join("")}
+            </p>
             <div class="button-row hero__actions">
               <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">
                 ${escapeHtml(painHero.ctas?.primary || "Encuentra tu nivel")}
@@ -408,6 +412,11 @@
               </div>
             </article>
           </div>
+        </div>
+        <div class="hero__community-line" aria-label="Compromiso con la comunidad">
+          <span aria-hidden="true"></span>
+          <p>Clases reales. Profesores reales. Estudiantes reales. En tu comunidad.</p>
+          <span aria-hidden="true"></span>
         </div>
       </section>
     `;

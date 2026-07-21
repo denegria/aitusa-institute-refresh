@@ -110,7 +110,7 @@ const site = {
   },
   images: {
     logo: asset("076-solo-logo-4-x-4-clases1.png"),
-    approvedHero: "./public/assets/hero/approved-concept-1-classroom.png",
+    approvedHero: "./public/assets/hero/approved-concept-1-clean.png",
     hero: assetHires("graphic-concept-method.jpg"),
     heroPoster: assetHires("graphic-concept-method.jpg"),
     heroVideo: assetVideo("intro-video-great.mp4"),
@@ -1547,6 +1547,12 @@ const painHero = {
   ],
   subheadline:
     "Con métodos, técnicas y estrategias propias, más de 20 años trabajando con la comunidad. Conocemos tus necesidades y frustraciones, por eso aprendemos de manera diferente y lo aplicamos con éxito.",
+  subheadlineLines: [
+    "Con métodos, técnicas y estrategias propias, más de 20 años",
+    "trabajando con la comunidad. Conocemos tus necesidades y",
+    "frustraciones, por eso aprendemos de manera diferente",
+    "y lo aplicamos con éxito.",
+  ],
   ctas: {
     primary: "Encuentra tu nivel",
     secondary: "Conoce nuestro método",

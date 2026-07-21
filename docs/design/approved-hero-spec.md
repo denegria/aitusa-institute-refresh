@@ -50,27 +50,47 @@ Proof statements:
 ## Visual System
 
 - Brand navy: `#061a4a`
-- Deep proof-band navy: `#03183a`
-- CTA navy: `#08347d`
-- Gold accent: `#c4932d`
+- Deep proof-band navy: `#001a3d`
+- CTA navy: `#002258`
+- Eyebrow gold: `#ad6e0e`
+- Icon gold: `#c28a26`
+- Brand gold: `#c4932d`
 - Primary text: `#07122f`
 - Supporting text: `#263247`
 - White: `#ffffff`
 - Headline font: Georgia with Times New Roman fallback.
 - Body and UI font: Plus Jakarta Sans with Segoe UI and Arial fallbacks.
-- Buttons: 6px radius, 48-52px height, strong navy or white/outlined treatment.
+- Buttons: 6px radius, 48-52px height, 700-weight labels, restrained shadow,
+  and strong navy or white/outlined treatment.
+- Secondary CTA icon: outlined circle with a filled play triangle, matching the
+  approved Concept 1 control.
 - Icons: Lucide line icons at a consistent 1.8px stroke, rendered in gold for modality and proof elements.
+- Modalities: open white strip with no outer border or shadow; short neutral
+  vertical dividers separate Presencial, Online, and Híbrido.
 - Hero image: warm editorial classroom scene with Hispanic adult students and a professional advisor. Faces remain unobstructed and the advisor/student interaction is the visual proof.
 
 ## Responsive Layout
 
 ### Desktop: 1100px and wider
 
-- 88px shared header with full navigation and telephone CTA.
-- Hero uses a 44/56 split between copy and image.
+- 92px shared header with full navigation and telephone CTA.
+- Hero uses a 42/58 split between copy and image.
 - Copy aligns to the same left grid as the logo.
-- Image fills the right side and keeps the advisor and foreground student visible.
+- On desktop, the header, hero copy, CTAs, and modality strip share one
+  responsive outer gutter: `clamp(32px, 4vw, 58px)`. The hero and proof band
+  remain full-width on large displays instead of centering inside a 1440px cap.
+- Image overlaps the copy boundary beneath a broad white feather so the classroom
+  dissolves into the text field without a hard vertical seam.
+- Headline, supporting copy, CTAs, and modalities finish inside the protected
+  white field before the photograph becomes visually dominant.
 - Modalities appear as one connected row below the CTAs.
+- The modality strip is anchored directly to the bottom of the hero stage, with
+  no white gap before the proof band.
+- Between 1181px and 1439px, CTA and modality widths scale with the available
+  copy field so controls remain clear of the photographic subject. Full Concept
+  1 control dimensions return at 1440px and wider.
+- The proof band's first and last groups use the same responsive outer gutter
+  as the logo and hero copy, preserving one left edge across wide desktops.
 - Proof band uses three equal columns directly below the hero image/copy stage.
 
 ### Tablet: 721px to 1099px
