@@ -864,7 +864,7 @@ button {
   inset: 0 0 0 31%;
   z-index: 1;
   overflow: hidden;
-  background: #03183a var(--method-poster) center 42% / cover no-repeat;
+  background: #03183a;
 }
 
 .method-panel__video {
@@ -874,9 +874,9 @@ button {
   height: 100%;
   max-width: none;
   min-height: 0;
-  object-fit: cover;
-  object-position: center 42%;
-  background: transparent;
+  object-fit: contain;
+  object-position: 62% center;
+  background: #03183a;
 }
 
 .method-tabs {
@@ -985,11 +985,11 @@ button {
   }
 
   .method-panel__video {
-    object-position: center 20%;
+    object-position: center;
   }
 
   .method-panel:first-child .method-panel__video {
-    object-position: 75% 42%;
+    object-position: center;
   }
 
   .method-tabs {
@@ -1148,12 +1148,8 @@ button {
     font-size: clamp(1rem, min(1.65vw, 2.8vh), 1.55rem);
   }
 
-  .method-panel__media {
-    background-position: center 20%;
-  }
-
   .method-panel__video {
-    object-position: center 20%;
+    object-position: 62% center;
   }
 
   .method-tab {

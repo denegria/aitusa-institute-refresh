@@ -456,10 +456,7 @@
                     <div class="method-panel__media">
                       <video
                         class="method-panel__video"
-                        autoplay
                         controls
-                        loop
-                        muted
                         playsinline
                         preload="metadata"
                         width="${item.videoWidth || 16}"
@@ -1290,11 +1287,8 @@
         panel.hidden = !active;
         panel.classList.toggle("is-active", active);
 
-        if (active && video) {
-          if (video.readyState < 1) video.load();
-          video.play().catch(() => {
-            // Native controls remain available when a browser blocks autoplay.
-          });
+        if (active && video && video.readyState < 1) {
+          video.load();
         } else if (!active) {
           video?.pause();
         }

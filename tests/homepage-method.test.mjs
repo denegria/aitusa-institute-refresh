@@ -34,8 +34,9 @@ describe("homepage Method showcase", () => {
     assert.match(source, /role="tablist"/);
     assert.match(source, /role="tab"/);
     assert.match(source, /role="tabpanel"/);
-    assert.match(source, /class="method-panel__video"[\s\S]*autoplay[\s\S]*loop[\s\S]*muted/);
-    assert.match(source, /video\.play\(\)\.catch/);
+    assert.doesNotMatch(source, /class="method-panel__video"[\s\S]*autoplay/);
+    assert.doesNotMatch(source, /class="method-panel__video"[\s\S]*muted/);
+    assert.doesNotMatch(source, /video\.play\(\)/);
     assert.match(source, /ArrowLeft/);
     assert.match(source, /ArrowRight/);
     assert.doesNotMatch(source, /data-solution-prev/);
@@ -50,5 +51,6 @@ describe("homepage Method showcase", () => {
     assert.doesNotMatch(source, /method-panel__diffusion/);
     assert.match(styles, /\.method-panel::after\s*\{/);
     assert.match(styles, /transparent 56%/);
+    assert.match(styles, /\.method-panel__video\s*\{[\s\S]*object-fit: contain/);
   });
 });
