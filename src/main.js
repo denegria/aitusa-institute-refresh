@@ -55,7 +55,7 @@
     }
 
     app.innerHTML = renderHomePage();
-    initSolutionCarousel(document);
+    initMethodTabs(document);
     initCatalogInteractions(document);
     initLeadForm(document);
     initFaqs(document);
@@ -424,62 +424,89 @@
 
   function renderSolutionSection() {
     return `
-      <section class="section section--white" id="metodo">
-        <div class="section-inner solution-intro">
-          <div class="section-heading section-heading--framed">
-            <p class="section-kicker">Método probado</p>
-            <h2>Primero entiende cómo funciona la clase. Después eliges horario, nivel y formato.</h2>
-            <p>La portada no necesita vender todos los cursos. Necesita mostrar que AiT USA enseña inglés con método, práctica y seguimiento real.</p>
-          </div>
-          <div class="method-proof-grid" aria-label="Qué hace diferente al método AiT USA">
-            <article>
-              <strong>Comprensión visual</strong>
-              <span>Dejas de depender de traducción palabra por palabra.</span>
-            </article>
-            <article>
-              <strong>Práctica guiada</strong>
-              <span>Hablas con corrección en vivo y ejemplos reales.</span>
-            </article>
-            <article>
-              <strong>Ruta semanal</strong>
-              <span>Sabes qué practicar, cuándo avanzar y qué ajustar.</span>
-            </article>
-          </div>
-          <div class="solution-carousel" data-solution-carousel>
+      <section class="method-section" id="metodo" aria-label="Método AiT USA">
+        <div class="section-inner method-showcase" data-method-tabs>
+          <div class="method-showcase__panels">
             ${solutionCharacteristics
               .map(
                 (item, index) => `
-                  <article class="solution-slide${index === 0 ? " is-active" : ""}" data-solution-slide ${index === 0 ? "" : "hidden"}>
-                    <div class="solution-card__media solution-card__media--${item.videoAspect === "portrait" ? "portrait" : "landscape"}">
-                      <div class="media-frame" style="--media-aspect: ${Number(item.videoWidth) || 16} / ${Number(item.videoHeight) || 9}">
-                      <video class="clip-card__media-player" controls playsinline preload="metadata" width="${item.videoWidth || 16}" height="${item.videoHeight || 9}" poster="${asset(item.videoPoster)}">
-                        <source src="${asset(item.video)}" type="video/mp4" />
-                      </video>
+                  <article
+                    class="method-panel${index === 0 ? " is-active" : ""}"
+                    id="method-panel-${index + 1}"
+                    role="tabpanel"
+                    aria-labelledby="method-tab-${index + 1}"
+                    data-method-panel
+                    ${index === 0 ? "" : "hidden"}
+                  >
+                    <div class="method-panel__copy">
+                      <div class="method-panel__heading">
+                        <p class="method-kicker">Método</p>
+                        <h2>
+                          <span>Entiende<br />el método.</span>
+                          <span class="method-heading__accent">Luego elige<br />tu ruta.</span>
+                        </h2>
+                      </div>
+                      <div class="method-panel__detail">
+                        <p class="method-detail__label">${escapeHtml(item.label)}</p>
+                        <span class="method-detail__rule" aria-hidden="true"></span>
+                        <h3>${escapeHtml(item.title)}.</h3>
                       </div>
                     </div>
-                    <div class="solution-card__copy">
-                      <p class="eyebrow-chip">${escapeHtml(item.label)}</p>
-                      <h3>${escapeHtml(item.title)}</h3>
-                      <p>${escapeHtml(item.body)}</p>
-                      <p class="proof-line">${escapeHtml(item.proof)}</p>
+                    <div
+                      class="method-panel__media-underlay"
+                      style="--method-poster: url('${asset(item.videoPoster)}')"
+                      aria-hidden="true"
+                    ></div>
+                    <div class="method-panel__media">
+                      <video
+                        class="method-panel__video"
+                        controls
+                        playsinline
+                        preload="none"
+                        width="${item.videoWidth || 16}"
+                        height="${item.videoHeight || 9}"
+                        poster="${asset(item.videoPoster)}"
+                        aria-label="${escapeHtml(item.label)}: ${escapeHtml(item.title)}"
+                      >
+                        <source src="${asset(item.video)}" type="video/mp4" />
+                      </video>
                     </div>
+                    <div class="method-panel__diffusion" aria-hidden="true"></div>
+                    <div class="method-panel__veil" aria-hidden="true"></div>
+                    <img
+                      class="method-panel__transition-art"
+                      src="${asset("./public/assets/method/method-transition-source.png")}"
+                      alt=""
+                      width="350"
+                      height="600"
+                      aria-hidden="true"
+                    />
                   </article>
                 `,
               )
               .join("")}
-            <div class="carousel-controls" aria-label="Cambiar caracteristica">
-              <button class="icon-button" type="button" data-solution-prev aria-label="Anterior">←</button>
-              <div class="carousel-dots">
-                ${solutionCharacteristics
-                  .map(
-                    (_, index) => `
-                      <button class="carousel-dot${index === 0 ? " is-active" : ""}" type="button" data-solution-dot="${index}" aria-label="Ver caracteristica ${index + 1}"></button>
-                    `,
-                  )
-                  .join("")}
-              </div>
-              <button class="icon-button" type="button" data-solution-next aria-label="Siguiente">→</button>
-            </div>
+          </div>
+          <div class="method-tabs" role="tablist" aria-label="Características del método AiT USA">
+            ${solutionCharacteristics
+              .map(
+                (item, index) => `
+                  <button
+                    class="method-tab${index === 0 ? " is-active" : ""}"
+                    id="method-tab-${index + 1}"
+                    type="button"
+                    role="tab"
+                    aria-selected="${index === 0 ? "true" : "false"}"
+                    aria-controls="method-panel-${index + 1}"
+                    tabindex="${index === 0 ? "0" : "-1"}"
+                    data-method-tab="${index}"
+                  >
+                    <span class="method-tab__number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+                    <span class="method-tab__rule" aria-hidden="true"></span>
+                    <span class="method-tab__label">${escapeHtml(item.tabLabel || item.label)}</span>
+                  </button>
+                `,
+              )
+              .join("")}
           </div>
         </div>
       </section>
@@ -1258,34 +1285,53 @@
     }
   }
 
-  function initSolutionCarousel(scope) {
-    const carousel = scope.querySelector("[data-solution-carousel]");
-    if (!carousel) return;
+  function initMethodTabs(scope) {
+    const method = scope.querySelector("[data-method-tabs]");
+    if (!method) return;
 
-    const slides = [...carousel.querySelectorAll("[data-solution-slide]")];
-    const dots = [...carousel.querySelectorAll("[data-solution-dot]")];
-    const prev = carousel.querySelector("[data-solution-prev]");
-    const next = carousel.querySelector("[data-solution-next]");
+    const panels = [...method.querySelectorAll("[data-method-panel]")];
+    const tabs = [...method.querySelectorAll("[data-method-tab]")];
     let activeIndex = 0;
 
-    const showSlide = (index) => {
-      activeIndex = (index + slides.length) % slides.length;
-      slides.forEach((slide, slideIndex) => {
-        const active = slideIndex === activeIndex;
-        slide.hidden = !active;
-        slide.classList.toggle("is-active", active);
+    const showPanel = (index, moveFocus = false) => {
+      activeIndex = (index + panels.length) % panels.length;
+      panels.forEach((panel, panelIndex) => {
+        const active = panelIndex === activeIndex;
+        const video = panel.querySelector("video");
+        panel.hidden = !active;
+        panel.classList.toggle("is-active", active);
+
+        if (active && video && video.readyState < 1) {
+          video.preload = "metadata";
+          video.load();
+        } else if (!active) {
+          video?.pause();
+        }
       });
-      dots.forEach((dot, dotIndex) => {
-        const active = dotIndex === activeIndex;
-        dot.classList.toggle("is-active", active);
-        dot.setAttribute("aria-current", active ? "true" : "false");
+      tabs.forEach((tab, tabIndex) => {
+        const active = tabIndex === activeIndex;
+        tab.classList.toggle("is-active", active);
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
       });
+
+      if (moveFocus) tabs[activeIndex]?.focus();
     };
 
-    prev?.addEventListener("click", () => showSlide(activeIndex - 1));
-    next?.addEventListener("click", () => showSlide(activeIndex + 1));
-    dots.forEach((dot, index) => {
-      dot.addEventListener("click", () => showSlide(index));
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => showPanel(index));
+      tab.addEventListener("keydown", (event) => {
+        const keyActions = {
+          ArrowLeft: () => showPanel(activeIndex - 1, true),
+          ArrowRight: () => showPanel(activeIndex + 1, true),
+          Home: () => showPanel(0, true),
+          End: () => showPanel(tabs.length - 1, true),
+        };
+
+        if (!keyActions[event.key]) return;
+        event.preventDefault();
+        keyActions[event.key]();
+      });
     });
   }
 

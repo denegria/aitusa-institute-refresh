@@ -5,7 +5,9 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 
 const root = process.cwd();
-const screenshotsDir = path.join(root, "screenshots");
+const screenshotsDir = process.env.AIT_REFRESH_QA_SCREENSHOTS_DIR
+  ? path.resolve(process.env.AIT_REFRESH_QA_SCREENSHOTS_DIR)
+  : path.join(root, "screenshots");
 const profileDir = path.join(root, ".chrome-profile");
 const chromeCandidates = [
   "/usr/bin/google-chrome-stable",
@@ -317,6 +319,10 @@ const stabilizeViewport = async () => {
       try {
         video.currentTime = 0;
       } catch {}
+      if (video.classList.contains('method-panel__video')) {
+        video.preload = 'none';
+      }
+      video.load();
     });
   })()`);
   await sleep(250);
@@ -377,19 +383,21 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     const missingImages = images
       .filter((img) => !img.complete || img.naturalWidth === 0)
       .map((img) => img.currentSrc || img.src);
-    const methodVideos = [...document.querySelectorAll('.clip-card__media-player')];
-    await Promise.all(methodVideos.map((video) => new Promise((resolve) => {
-      if (video.readyState >= 1 || video.error) {
-        resolve();
-        return;
-      }
-      const done = () => resolve();
-      video.preload = 'metadata';
-      video.addEventListener('loadedmetadata', done, { once: true });
-      video.addEventListener('error', done, { once: true });
-      video.load();
-      setTimeout(done, 3500);
-    })));
+    const methodVideos = [...document.querySelectorAll('.clip-card__media-player, .method-panel.is-active .method-panel__video')];
+    for (const video of methodVideos) {
+      await new Promise((resolve) => {
+        if (video.readyState >= 1 || video.error) {
+          resolve();
+          return;
+        }
+        const done = () => resolve();
+        video.preload = 'metadata';
+        video.addEventListener('loadedmetadata', done, { once: true });
+        video.addEventListener('error', done, { once: true });
+        video.load();
+        setTimeout(done, 5000);
+      });
+    }
     const videoMetadataIssues = methodVideos
       .filter((video) => video.readyState < 1 || video.error)
       .map((video) => ({
@@ -463,7 +471,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       visiblePrograms: [...document.querySelectorAll('.program-card')].filter((card) => !card.hidden).length,
       courseDetails: document.querySelectorAll('[data-course-detail]').length,
       courseDetailLinks: document.querySelectorAll('[data-course-detail-link]').length,
-      videoCards: document.querySelectorAll('.clip-card, .testimonial-card video, [data-hero-player]').length,
+      videoCards: document.querySelectorAll('.clip-card, .testimonial-card video, [data-hero-player], .method-panel__video').length,
       locations: document.querySelectorAll('.location-card').length,
       variantLists: document.querySelectorAll('.variant-list').length,
       faqs: document.querySelectorAll('.faq-list details').length,
@@ -500,6 +508,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     };
 
     await captureSection("#experiencia", "videos");
+    await captureSection("#metodo", "method");
+    await captureSection(".method-tabs", "method-tabs");
     await captureSection("#cursos", "courses");
     await captureSection("footer.site-footer", "footer");
 
@@ -529,15 +539,28 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     screenshotError = error.message;
   }
 
-  const interactions = await evaluate(`(() => ({
-    technologyVisible: [...document.querySelectorAll('.program-card')].filter((card) => !card.hidden).length,
-    courseDetails: document.querySelectorAll('[data-course-detail]').length,
-    courseRoutePath: location.pathname,
-    openCourseDetail: document.querySelector('[data-course-detail][open]')?.dataset.courseDetail || '',
-    officeDetailHasExcel: document.querySelector('[data-course-detail="computacion-oficina"]')?.innerText.includes('Excel') || false,
-    formStatus: document.querySelector('[data-form-status]')?.innerText || '',
-    menuButtonPresent: Boolean(document.querySelector('.menu-toggle')),
-  }))()`);
+  const interactions = await evaluate(`(() => {
+    const methodTabs = [...document.querySelectorAll('[data-method-tab]')];
+    methodTabs[0]?.focus();
+    methodTabs[0]?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    const arrowSelected = document.querySelector('[data-method-tab][aria-selected="true"]')?.dataset.methodTab || '';
+    methodTabs[1]?.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }));
+    const endSelected = document.querySelector('[data-method-tab][aria-selected="true"]')?.dataset.methodTab || '';
+    methodTabs[0]?.click();
+
+    return {
+      technologyVisible: [...document.querySelectorAll('.program-card')].filter((card) => !card.hidden).length,
+      courseDetails: document.querySelectorAll('[data-course-detail]').length,
+      courseRoutePath: location.pathname,
+      openCourseDetail: document.querySelector('[data-course-detail][open]')?.dataset.courseDetail || '',
+      officeDetailHasExcel: document.querySelector('[data-course-detail="computacion-oficina"]')?.innerText.includes('Excel') || false,
+      formStatus: document.querySelector('[data-form-status]')?.innerText || '',
+      menuButtonPresent: Boolean(document.querySelector('.menu-toggle')),
+      methodArrowSelected: arrowSelected,
+      methodEndSelected: endSelected,
+      methodRestoredSelected: document.querySelector('[data-method-tab][aria-selected="true"]')?.dataset.methodTab || '',
+    };
+  })()`);
 
   return { name, width, height, screenshot: target, secondaryScreenshot: secondaryTarget, sectionScreenshots, screenshotError, ...summary, interactions };
 };
