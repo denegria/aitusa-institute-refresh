@@ -456,9 +456,12 @@
                     <div class="method-panel__media">
                       <video
                         class="method-panel__video"
+                        autoplay
                         controls
+                        loop
+                        muted
                         playsinline
-                        preload="none"
+                        preload="metadata"
                         width="${item.videoWidth || 16}"
                         height="${item.videoHeight || 9}"
                         poster="${asset(item.videoPoster)}"
@@ -1287,9 +1290,11 @@
         panel.hidden = !active;
         panel.classList.toggle("is-active", active);
 
-        if (active && video && video.readyState < 1) {
-          video.preload = "metadata";
-          video.load();
+        if (active && video) {
+          if (video.readyState < 1) video.load();
+          video.play().catch(() => {
+            // Native controls remain available when a browser blocks autoplay.
+          });
         } else if (!active) {
           video?.pause();
         }
@@ -1319,6 +1324,8 @@
         keyActions[event.key]();
       });
     });
+
+    showPanel(0);
   }
 
   function initCourseRouteState() {

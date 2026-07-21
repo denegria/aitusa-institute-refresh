@@ -34,6 +34,8 @@ describe("homepage Method showcase", () => {
     assert.match(source, /role="tablist"/);
     assert.match(source, /role="tab"/);
     assert.match(source, /role="tabpanel"/);
+    assert.match(source, /class="method-panel__video"[\s\S]*autoplay[\s\S]*loop[\s\S]*muted/);
+    assert.match(source, /video\.play\(\)\.catch/);
     assert.match(source, /ArrowLeft/);
     assert.match(source, /ArrowRight/);
     assert.doesNotMatch(source, /data-solution-prev/);
