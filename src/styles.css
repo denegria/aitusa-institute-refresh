@@ -731,9 +731,13 @@ button {
 }
 
 .method-section {
+  --method-paper: #faf8f4;
+  --method-blue: #174ea6;
+  --method-navy: #001a3d;
+
   overflow: hidden;
   padding: clamp(28px, 3.2vw, 48px) 0 0;
-  background: linear-gradient(180deg, #ffffff 0%, #f4f6fa clamp(84px, 8vw, 120px));
+  background: linear-gradient(180deg, #ffffff 0%, var(--method-paper) clamp(84px, 8vw, 120px));
 }
 
 .method-showcase {
@@ -744,7 +748,7 @@ button {
   max-width: none;
   aspect-ratio: 1487 / 1058;
   margin: 0;
-  background: #f4f6fa;
+  background: var(--method-paper);
 }
 
 .method-showcase__panels,
@@ -757,7 +761,7 @@ button {
   display: grid;
   grid-template-columns: minmax(0, 40%) minmax(0, 60%);
   height: 100%;
-  background: #f4f6fa;
+  background: var(--method-paper);
   isolation: isolate;
 }
 
@@ -771,13 +775,13 @@ button {
   z-index: 2;
   background: linear-gradient(
     90deg,
-    #f4f6fa 0%,
-    #f4f6fa 31%,
-    rgba(244, 246, 250, 0.98) 35%,
-    rgba(244, 246, 250, 0.88) 39%,
-    rgba(240, 244, 250, 0.68) 43%,
-    rgba(232, 239, 249, 0.42) 47%,
-    rgba(219, 231, 247, 0.18) 51%,
+    var(--method-paper) 0%,
+    var(--method-paper) 31%,
+    rgba(250, 248, 244, 0.98) 35%,
+    rgba(248, 247, 244, 0.88) 39%,
+    rgba(242, 243, 241, 0.68) 43%,
+    rgba(228, 233, 236, 0.42) 47%,
+    rgba(202, 214, 225, 0.18) 51%,
     transparent 56%
   );
   content: "";
@@ -806,14 +810,14 @@ button {
   left: 0;
   width: 4px;
   height: clamp(112px, 9.5vw, 144px);
-  background: linear-gradient(180deg, #0b55d9 0%, #c4932d 100%);
+  background: linear-gradient(180deg, var(--method-blue) 0%, #c4932d 100%);
   content: "";
 }
 
 .method-kicker,
 .method-detail__label {
   margin: 0;
-  color: #0b55d9;
+  color: var(--method-blue);
   font-size: clamp(0.72rem, 0.9vw, 0.88rem);
   font-weight: 800;
   letter-spacing: 0;
@@ -833,7 +837,7 @@ button {
 }
 
 .method-heading__accent {
-  color: #0b55d9;
+  color: var(--method-blue);
 }
 
 .method-panel__detail {
@@ -864,7 +868,7 @@ button {
   inset: 0 0 0 31%;
   z-index: 1;
   overflow: hidden;
-  background: #03183a;
+  background: var(--method-navy);
 }
 
 .method-panel__video {
@@ -876,14 +880,14 @@ button {
   min-height: 0;
   object-fit: contain;
   object-position: 62% center;
-  background: #03183a;
+  background: var(--method-navy);
 }
 
 .method-tabs {
   display: grid;
   grid-template-columns: minmax(0, 37.1fr) repeat(2, minmax(0, 31.45fr));
   min-height: 0;
-  background: #03183a;
+  background: var(--method-navy);
 }
 
 .method-tab {
@@ -898,7 +902,7 @@ button {
   border: 0;
   border-top: 5px solid transparent;
   border-right: 1px solid rgba(107, 135, 179, 0.5);
-  background: #03183a;
+  background: var(--method-navy);
   color: #ffffff;
   text-align: left;
 }
@@ -912,8 +916,8 @@ button {
 }
 
 .method-tab.is-active {
-  border-top-color: #0b55d9;
-  background: #03183a;
+  border-top-color: var(--method-blue);
+  background: var(--method-navy);
 }
 
 .method-tab.is-active::before {
@@ -922,7 +926,7 @@ button {
   left: 50%;
   width: 0;
   height: 0;
-  border-top: 16px solid #0b55d9;
+  border-top: 16px solid var(--method-blue);
   border-right: 16px solid transparent;
   border-left: 16px solid transparent;
   content: "";
@@ -965,7 +969,7 @@ button {
 
   .method-panel__copy {
     min-height: 500px;
-    background: #f4f6fa;
+    background: var(--method-paper);
   }
 
   .method-panel__media {
@@ -979,7 +983,12 @@ button {
     inset: 0 0 auto;
     z-index: 2;
     height: 72px;
-    background: linear-gradient(180deg, #f4f6fa 0%, rgba(244, 246, 250, 0.72) 24%, transparent 100%);
+    background: linear-gradient(
+      180deg,
+      var(--method-paper) 0%,
+      rgba(250, 248, 244, 0.72) 24%,
+      transparent 100%
+    );
     content: "";
     pointer-events: none;
   }
@@ -1073,7 +1082,7 @@ button {
 
   .method-tab.is-active {
     border-top-color: transparent;
-    border-left-color: #3e78ef;
+    border-left-color: var(--method-blue);
   }
 
   .method-tab.is-active::before {
@@ -1094,7 +1103,7 @@ button {
 }
 
 .method-tab.is-active .method-tab__number {
-  color: #3e78ef;
+  color: var(--method-blue);
 }
 
 .method-tab__rule {
