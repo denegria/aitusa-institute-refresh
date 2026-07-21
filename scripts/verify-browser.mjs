@@ -599,6 +599,13 @@ const verifyHeroViewport = async ({ name, width, height }) => {
           viewportHeight: innerHeight,
         });
       }
+      if (Math.abs(proofRect.top - mainRect.bottom) > 1) {
+        viewportIssues.push({
+          type: 'hero-proof-gap',
+          mainBottom: round(mainRect.bottom),
+          proofTop: round(proofRect.top),
+        });
+      }
       if (Math.abs(imageRect.width - innerWidth) > 2) {
         viewportIssues.push({
           type: 'hero-image-overzoomed',
@@ -614,6 +621,13 @@ const verifyHeroViewport = async ({ name, width, height }) => {
           imageTop: round(imageRect.top),
           expectedImageTop: round(expectedImageTop),
           mainTop: round(mainRect.top),
+        });
+      }
+      if (imageRect.bottom < mainRect.bottom - 1) {
+        viewportIssues.push({
+          type: 'hero-image-does-not-cover-stage',
+          imageBottom: round(imageRect.bottom),
+          mainBottom: round(mainRect.bottom),
         });
       }
     }

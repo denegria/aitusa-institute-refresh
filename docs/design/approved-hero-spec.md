@@ -84,8 +84,13 @@ Proof statements:
 - Headline, supporting copy, CTAs, and modalities finish inside the protected
   white field before the photograph becomes visually dominant.
 - Modalities appear as one connected row below the CTAs.
-- The modality strip is anchored directly to the bottom of the hero stage, with
-  no white gap before the proof band.
+- At 1181px and wider, the header, main hero stage, proof band, and community
+  line share one viewport-height budget. The proof band and community line use
+  compact responsive heights so the complete approved composition remains
+  visible on the initial desktop screen.
+- The image keeps its natural aspect ratio and shifts vertically within the
+  stage to protect the advisor, student, and placement booklet from the crop.
+- The modality strip stays grouped directly beneath the CTA row.
 - Between 1181px and 1439px, CTA and modality widths scale with the available
   copy field so controls remain clear of the photographic subject. Full Concept
   1 control dimensions return at 1440px and wider.

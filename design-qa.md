@@ -206,6 +206,38 @@ The implementation preserves the source hierarchy: compact institute header, dom
 - Post-fix measurements: the 1904 x 950 composition ends at 923.97px with a 1904px-wide image; the 1867 x 847 composition ends at 846.98px with a 1867px-wide image. Both checks report zero viewport issues, console messages, or runtime exceptions.
 - Post-fix evidence: `screenshots/hero-reference-1904x950.png`, `screenshots/hero-short-1867x847.png`, and `/root/.openclaw/giuseppe-workspace/runtime/exports/aitusa-hero-viewport-fit/comparison-pass3-1904x950.png`.
 
+### Pass 12
+
+- P1: fitting the main stage, proof band, and community line into one desktop
+  viewport capped the photograph at 621px on taller displays. At 1898 x 938,
+  the proof band began at 713px and clipped the placement booklet and lower
+  classroom composition.
+- Fix: made the desktop main stage itself fill the available viewport below the
+  92px header, bounded between 621px and 960px. The image keeps its natural
+  aspect ratio and viewport-wide treatment; the taller frame reveals more of
+  the student, booklet, and table without distorting faces. The modalities stay
+  grouped beneath the CTAs instead of floating at the bottom of the taller
+  stage. Proof and community content now follow below the first desktop viewport.
+- Responsive checks cover 1904 x 950 and 1867 x 847, with the proof band starting
+  exactly at the main-stage boundary and the image covering the full stage.
+
+### Pass 13
+
+- P1: allowing the main stage to consume the full height below the header moved
+  the proof band and `Clases reales...` community line below the initial screen.
+- Fix: reserved responsive viewport space for the proof band and community line,
+  then assigned the remaining height to the main stage. Short desktop screens
+  receive a tighter type, control, modality, and proof rhythm while preserving
+  all approved content. The image remains undistorted and shifts upward slightly
+  to retain more of the placement booklet within the shorter frame.
+- Measured in the in-app browser at 1898 x 938, 1440 x 900, 1280 x 720, and
+  the 1181 x 700 desktop boundary. The community line ends at the viewport edge
+  in every case, all controls remain inside the main stage, and horizontal
+  overflow is zero.
+- Post-fix evidence: `screenshots/hero-reference-1904x950.png`,
+  `screenshots/hero-short-1867x847.png`, and
+  `screenshots/hero-tall-1898x938.png`.
+
 ## Follow-Up Polish
 
 - P3: the Lucide proof icons are intentionally simpler than the concept's generated illustrated icons, but they remain consistent, legible, accessible, and production-ready.
