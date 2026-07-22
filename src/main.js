@@ -466,6 +466,10 @@
                       >
                         <source src="${asset(item.video)}" type="video/mp4" />
                       </video>
+                      <p class="method-panel__media-label">
+                        <i data-lucide="video" aria-hidden="true"></i>
+                        <span>Video real · Método AIT USA</span>
+                      </p>
                     </div>
                   </article>
                 `,

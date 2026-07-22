@@ -871,6 +871,15 @@ button {
   background: var(--method-navy);
 }
 
+.method-panel__media::after {
+  position: absolute;
+  inset: clamp(10px, 1.1vw, 16px);
+  z-index: 2;
+  border: 1px solid rgba(196, 147, 45, 0.58);
+  content: "";
+  pointer-events: none;
+}
+
 .method-panel__video {
   position: relative;
   z-index: 1;
@@ -881,6 +890,30 @@ button {
   object-fit: contain;
   object-position: 62% center;
   background: var(--method-navy);
+}
+
+.method-panel__media-label {
+  position: absolute;
+  top: clamp(24px, 2.8vw, 42px);
+  right: clamp(26px, 3vw, 46px);
+  z-index: 3;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: clamp(0.66rem, 0.78vw, 0.78rem);
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 2px 8px rgba(0, 16, 43, 0.55);
+  text-transform: uppercase;
+}
+
+.method-panel__media-label svg {
+  width: 18px;
+  height: 18px;
+  color: #c4932d;
+  stroke-width: 2;
 }
 
 .method-tabs {

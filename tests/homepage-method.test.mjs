@@ -53,4 +53,14 @@ describe("homepage Method showcase", () => {
     assert.match(styles, /transparent 56%/);
     assert.match(styles, /\.method-panel__video\s*\{[\s\S]*object-fit: contain/);
   });
+
+  it("adds restrained media polish without changing the staging surfaces", async () => {
+    const source = await readFile("src/main.js", "utf8");
+    const styles = await readFile("src/styles.css", "utf8");
+
+    assert.match(source, /Video real · Método AIT USA/);
+    assert.match(styles, /\.method-panel__media::after\s*\{[\s\S]*border: 1px solid rgba\(196, 147, 45, 0\.58\)/);
+    assert.match(styles, /\.method-tab\s*\{[\s\S]*background: var\(--method-navy\)/);
+    assert.match(styles, /\.method-tab\.is-active\s*\{[\s\S]*background: var\(--method-navy\)/);
+  });
 });
