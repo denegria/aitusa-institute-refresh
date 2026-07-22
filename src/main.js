@@ -56,6 +56,7 @@
 
     app.innerHTML = renderHomePage();
     initMethodTabs(document);
+    initProofGallery(document);
     initCatalogInteractions(document);
     initLeadForm(document);
     initFaqs(document);
@@ -597,45 +598,86 @@
 
   function renderProofSection() {
     const featured = testimonials.find((item) => item.name === "Jessica") || testimonials[0];
-    const rest = testimonials.filter((item) => item !== featured).slice(0, 3);
+    const orderedTestimonials = [
+      featured,
+      ...testimonials.filter((item) => item !== featured),
+    ].filter(Boolean).slice(0, 4);
+
+    const shortLabels = {
+      Jessica: "Jessica",
+      "Testimonio internacional": "Testimonio internacional",
+      Eric: "Eric · entrevista",
+      Leila: "Leila · testimonio",
+    };
 
     return `
-      <section class="section section--blue" id="experiencia">
-        <div class="section-inner proof-section">
-          <div class="section-heading section-heading--inverted">
+      <section class="section proof-editorial" id="experiencia" data-proof-gallery>
+        <div class="proof-editorial__inner">
+          <div class="proof-editorial__heading">
             <p class="section-kicker">Prueba real</p>
             <h2>No tienes que creernos. Mira los resultados por ti mismo.</h2>
-            <p>Mira clases y testimonios reales antes de tomar tu siguiente paso.</p>
+            <p>Clases y testimonios reales antes de tomar tu siguiente paso.</p>
           </div>
-          ${featured ? `
-            <article class="proof-feature">
-              <div class="proof-feature__media">
-                <div class="media-frame media-frame--${(featured.videoHeight || 9) > (featured.videoWidth || 16) ? "portrait" : "landscape"}" style="--media-aspect: ${Number(featured.videoWidth) || 16} / ${Number(featured.videoHeight) || 9}">
-                  <video class="testimonial-card__video" controls playsinline preload="metadata" width="${featured.videoWidth || 16}" height="${featured.videoHeight || 9}" poster="${asset(featured.videoPoster || featured.image)}">
-                    <source src="${asset(featured.video)}" type="video/mp4" />
-                  </video>
+
+          <div class="proof-editorial__stage" aria-live="polite">
+            ${orderedTestimonials.map((item, index) => `
+              <article
+                class="proof-editorial__panel${index === 0 ? " is-active" : ""}"
+                id="proof-panel-${index}"
+                role="tabpanel"
+                aria-labelledby="proof-tab-${index}"
+                data-proof-panel
+                ${index === 0 ? "" : "hidden"}
+              >
+                <video
+                  controls
+                  playsinline
+                  preload="metadata"
+                  width="${item.videoWidth || 16}"
+                  height="${item.videoHeight || 9}"
+                  poster="${asset(item.videoPoster || item.image)}"
+                  aria-label="${escapeHtml(shortLabels[item.name] || item.name)}"
+                >
+                  <source src="${asset(item.video)}" type="video/mp4" />
+                </video>
+                <div class="proof-editorial__caption">
+                  <strong>${escapeHtml(shortLabels[item.name] || item.name)}</strong>
+                  <span>${escapeHtml(item.result)} · ${escapeHtml(item.duration || "")}</span>
                 </div>
-              </div>
-              <div class="proof-feature__copy">
-                <p class="eyebrow-chip">Testimonio destacado</p>
-                <h3>${escapeHtml(featured.headline || featured.name)}</h3>
-                <p>${escapeHtml(featured.text)}</p>
-                <p class="proof-line">${escapeHtml(featured.result)} · ${escapeHtml(featured.duration || "")}</p>
-                <div class="proof-feature__signals" aria-label="Señales de prueba">
-                  <span>Entrevista real</span>
-                  <span>Clase y proceso</span>
-                  <span>Antes de inscribirte</span>
-                </div>
-              </div>
-            </article>
-          ` : ""}
-          <div class="proof-support-heading">
-            <h3>Más voces para validar el ritmo y el acompañamiento.</h3>
-            <p>Videos cortos, sin inventar frases ni esconder la experiencia real detrás de bloques de texto.</p>
+              </article>
+            `).join("")}
           </div>
-          <div class="testimonial-grid testimonial-grid--compact">
-            ${rest.map(renderTestimonialCard).join("")}
+
+          <div class="proof-editorial__tabs" role="tablist" aria-label="Videos de testimonios reales">
+            ${orderedTestimonials.map((item, index) => `
+              <button
+                class="proof-editorial__tab${index === 0 ? " is-active" : ""}"
+                id="proof-tab-${index}"
+                type="button"
+                role="tab"
+                aria-controls="proof-panel-${index}"
+                aria-selected="${index === 0 ? "true" : "false"}"
+                tabindex="${index === 0 ? "0" : "-1"}"
+                data-proof-tab
+              >
+                <span class="proof-editorial__tab-number" aria-hidden="true">${index + 1}</span>
+                <span class="proof-editorial__thumb">
+                  <img src="${asset(item.videoPoster || item.image)}" alt="" loading="lazy" />
+                  <i data-lucide="circle-play" aria-hidden="true"></i>
+                </span>
+                <span class="proof-editorial__tab-copy">
+                  <strong>${escapeHtml(shortLabels[item.name] || item.name)}</strong>
+                  <span>${escapeHtml(item.result)}</span>
+                  <span>${escapeHtml(item.duration || "")}</span>
+                </span>
+              </button>
+            `).join("")}
           </div>
+
+          <p class="proof-editorial__note">
+            <i data-lucide="film" aria-hidden="true"></i>
+            <span>Cuatro videos reales para conocer el método y la experiencia AIT USA.</span>
+          </p>
         </div>
       </section>
     `;
@@ -1000,23 +1042,6 @@
     `;
   }
 
-  function renderTestimonialCard(item) {
-    return `
-      <article class="testimonial-card card">
-        <div class="media-frame media-frame--${(item.videoHeight || 9) > (item.videoWidth || 16) ? "portrait" : "landscape"}" style="--media-aspect: ${Number(item.videoWidth) || 16} / ${Number(item.videoHeight) || 9}">
-          <video controls playsinline preload="metadata" width="${item.videoWidth || 16}" height="${item.videoHeight || 9}" poster="${asset(item.videoPoster || item.image)}">
-            <source src="${asset(item.video)}" type="video/mp4" />
-          </video>
-        </div>
-        <div class="testimonial-card__body">
-          <h3>${escapeHtml(item.name)}</h3>
-          <p>${escapeHtml(item.text)}</p>
-          <p class="proof-line">${escapeHtml(item.result)} · ${escapeHtml(item.duration || "")}</p>
-        </div>
-      </article>
-    `;
-  }
-
   function renderCtaBox(title, body, href, label, external, number, tone = "secondary") {
     return `
       <article class="cta-box cta-box--${escapeHtml(tone)} card">
@@ -1297,6 +1322,59 @@
           video?.pause();
         }
       });
+      tabs.forEach((tab, tabIndex) => {
+        const active = tabIndex === activeIndex;
+        tab.classList.toggle("is-active", active);
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+
+      if (moveFocus) tabs[activeIndex]?.focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => showPanel(index));
+      tab.addEventListener("keydown", (event) => {
+        const keyActions = {
+          ArrowLeft: () => showPanel(activeIndex - 1, true),
+          ArrowRight: () => showPanel(activeIndex + 1, true),
+          Home: () => showPanel(0, true),
+          End: () => showPanel(tabs.length - 1, true),
+        };
+
+        if (!keyActions[event.key]) return;
+        event.preventDefault();
+        keyActions[event.key]();
+      });
+    });
+
+    showPanel(0);
+  }
+
+  function initProofGallery(scope) {
+    const gallery = scope.querySelector("[data-proof-gallery]");
+    if (!gallery) return;
+
+    const panels = [...gallery.querySelectorAll("[data-proof-panel]")];
+    const tabs = [...gallery.querySelectorAll("[data-proof-tab]")];
+    let activeIndex = 0;
+
+    const showPanel = (index, moveFocus = false) => {
+      activeIndex = (index + panels.length) % panels.length;
+
+      panels.forEach((panel, panelIndex) => {
+        const active = panelIndex === activeIndex;
+        const video = panel.querySelector("video");
+        panel.hidden = !active;
+        panel.classList.toggle("is-active", active);
+
+        if (active && video && video.readyState < 1) {
+          video.load();
+        } else if (!active) {
+          video?.pause();
+        }
+      });
+
       tabs.forEach((tab, tabIndex) => {
         const active = tabIndex === activeIndex;
         tab.classList.toggle("is-active", active);
