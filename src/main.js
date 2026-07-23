@@ -60,6 +60,7 @@
     initCatalogInteractions(document);
     initLeadForm(document);
     initFaqs(document);
+    scrollToInitialHash();
   }
 
   function getRoute() {
@@ -172,6 +173,7 @@
       <main id="main-content">
         ${renderHero()}
         ${renderSolutionSection()}
+        ${renderCommunitySection()}
         ${renderOfferingPathSection()}
         ${renderLocationsSection()}
         ${renderProofSection()}
@@ -515,8 +517,9 @@
           </div>
           <div class="offer-map" aria-label="Opciones principales de estudio">
             ${productOfferings
+              .slice(0, 3)
               .map(
-                (item, index) => `
+                (item) => `
                   <article class="offer-node offer-node--${escapeHtml(item.emphasis || "secondary")}">
                     <span class="offer-node__marker" aria-hidden="true">${escapeHtml(item.marker || item.shortLabel || "")}</span>
                     <div>
@@ -524,13 +527,63 @@
                       <h3>${escapeHtml(item.title)}</h3>
                       <p>${escapeHtml(item.summary)}</p>
                     </div>
+                    <a class="offer-node__link" href="${escapeHtml(item.href)}">
+                      ${escapeHtml(item.cta)}
+                      <i data-lucide="arrow-right" aria-hidden="true"></i>
+                    </a>
                   </article>
                 `,
               )
               .join("")}
           </div>
-          <div class="offer-path__actions">
-            <a class="button button--ghost" href="/courses/">Ver cursos detallados</a>
+          <p class="catalog-note">
+            También ofrecemos inglés para niños, GED, computación, español para extranjeros y programas de apoyo.
+            <a href="/courses/#programas-de-apoyo">Ver catálogo completo</a>.
+          </p>
+        </div>
+      </section>
+    `;
+  }
+
+  function renderCommunitySection() {
+    return `
+      <section class="community-band" id="comunidad" aria-labelledby="comunidad-title">
+        <div class="community-band__inner">
+          <figure class="community-band__media">
+            <img
+              src="${asset(site.images.testimonialAntonina)}"
+              alt="Estudiantes reales de AIT USA con sus libros de inglés."
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            <figcaption>
+              <i data-lucide="users-round" aria-hidden="true"></i>
+              Estudiantes reales · AIT USA Institute
+            </figcaption>
+          </figure>
+          <div class="community-band__copy">
+            <p class="section-kicker">Una comunidad que abre puertas</p>
+            <h2 id="comunidad-title">El progreso se comparte.</h2>
+            <p class="community-band__lead">
+              Nuestros profesores conocen la metodología y acompañan cada paso. Los estudiantes encuentran un espacio acogedor para practicar, equivocarse y seguir avanzando.
+            </p>
+            <div class="community-band__points">
+              <article>
+                <i data-lucide="messages-square" aria-hidden="true"></i>
+                <div>
+                  <h3>Acompañamiento cercano</h3>
+                  <p>Orientación clara para comprender el método, practicar y mantener una ruta constante.</p>
+                </div>
+              </article>
+              <article>
+                <i data-lucide="book-open-check" aria-hidden="true"></i>
+                <div>
+                  <h3>Espacio para practicar</h3>
+                  <p>Una comunidad donde aprender también significa preguntar, intentar y avanzar con confianza.</p>
+                </div>
+              </article>
+            </div>
           </div>
         </div>
       </section>
@@ -690,22 +743,31 @@
           <div class="final-cta-copy">
             <div class="section-heading section-heading--framed">
               <p class="section-kicker">Siguiente paso</p>
-              <h2 id="contacto-title">Empieza con una guía clara.</h2>
-              <p>Te ayudamos a elegir nivel, horario y modalidad antes de confirmar la inscripción + libro por $95.</p>
+              <h2 id="contacto-title">Elige tu siguiente paso.</h2>
+              <p>Dos rutas claras para comenzar, con una persona disponible si prefieres hablar primero.</p>
             </div>
             <div class="next-step-list">
-              ${renderCtaBox("Haz el examen de ubicación", "Recibe una recomendación inicial antes de elegir horario, nivel o modalidad.", conversionCtas.placement?.href, "Ver mi nivel", false, "01", "primary")}
-              ${renderCtaBox("Habla por WhatsApp", "Te ayudamos a elegir programa, horario y modalidad sin adivinar.", conversionCtas.advisor?.href || site.whatsappHref, "Hablar con un asesor", true, "02", "secondary")}
-              ${renderCtaBox("Llámanos", "Resuelve dudas rápidas de sede, horario o formato con una persona.", site.phoneHref, "Llamar", false, "03", "secondary")}
-              ${renderCtaBox("Inscripción + libro $95", "Cuando estés listo, te guiamos para confirmar el proceso de inscripción.", conversionCtas.registration?.href, "Confirmar proceso", true, "04", "subtle")}
+              ${renderCtaBox("No sé cuál es mi nivel", "Recibe una recomendación inicial antes de elegir horario, nivel o modalidad.", conversionCtas.placement?.href, "Encontrar mi nivel", false, "01", "primary")}
+              ${renderCtaBox("Estoy listo para empezar", "Confirma por WhatsApp el proceso de inscripción + libro por $95.", conversionCtas.registration?.href, "Inscripción + libro · $95", true, "02", "secondary")}
+            </div>
+            <div class="next-step-contact" aria-label="Contacto directo">
+              <span>¿Prefieres empezar hablando?</span>
+              <a href="${site.phoneHref}"><i data-lucide="phone" aria-hidden="true"></i>${escapeHtml(site.phone)}</a>
+              <a href="${site.whatsappHref}" target="_blank" rel="noreferrer"><i data-lucide="message-circle" aria-hidden="true"></i>WhatsApp</a>
             </div>
           </div>
 
-          <div class="contact-card card">
-            <p class="section-kicker">Respuesta humana</p>
-            <h3>¿Prefieres hablar con alguien primero?</h3>
-            <p>Completa este formulario breve y preparamos un mensaje de WhatsApp con tu interés principal.</p>
-            <form class="lead-form" data-lead-form>
+          <details class="contact-card contact-card--secondary card">
+            <summary>
+              <span>
+                <small>Respuesta humana</small>
+                <strong>Prefiero dejar mis datos</strong>
+              </span>
+              <i class="contact-card__chevron" data-lucide="chevron-down" aria-hidden="true"></i>
+            </summary>
+            <div class="contact-card__content">
+              <p>Completa este formulario breve y preparamos un mensaje de WhatsApp con tu interés principal.</p>
+              <form class="lead-form" data-lead-form>
               <div class="form-grid">
                 <label>
                   Nombre
@@ -773,12 +835,13 @@
               </fieldset>
               <button class="button button--primary" type="submit" data-lead-submit>Preparar conversación</button>
               <p class="form-status" data-form-status aria-live="polite"></p>
-            </form>
-            <div class="contact-card__footnote">
-              <strong>También puedes escribir directo.</strong>
-              <a href="${site.whatsappHref}" target="_blank" rel="noreferrer">${escapeHtml(site.whatsapp)}</a>
+              </form>
+              <div class="contact-card__footnote">
+                <strong>También puedes escribir directo.</strong>
+                <a href="${site.whatsappHref}" target="_blank" rel="noreferrer">${escapeHtml(site.whatsapp)}</a>
+              </div>
             </div>
-          </div>
+          </details>
         </div>
       </section>
     `;
@@ -1237,11 +1300,21 @@
     const target = document.getElementById(hash);
     if (!target) return;
 
-    window.requestAnimationFrame(() => {
+    const alignTarget = () => {
       target.scrollIntoView({ block: "start" });
       target.setAttribute("tabindex", "-1");
       target.focus({ preventScroll: true });
-    });
+    };
+
+    window.requestAnimationFrame(alignTarget);
+    window.setTimeout(alignTarget, 450);
+    window.setTimeout(alignTarget, 1500);
+
+    if (document.readyState === "complete") {
+      window.setTimeout(alignTarget, 120);
+    } else {
+      window.addEventListener("load", () => window.requestAnimationFrame(alignTarget), { once: true });
+    }
   }
 
   function initCatalogInteractions(scope) {
