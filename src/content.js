@@ -13,9 +13,9 @@ const site = {
   heroHeadline:
     "Aprende inglés sin traducir ni memorizar miles de palabras.",
   heroLead:
-    "Recuperamos la promesa original de AiT USA y la ordenamos mejor: método Graphic Concept, práctica guiada, videos reales y una ruta inicial para saber por dónde empezar.",
+    "Método Graphic Concept, práctica guiada, videos reales y una ruta clara para saber por dónde empezar.",
   heroQuote:
-    "Primero entiende el método. Luego elige curso, horario y formato con menos dudas.",
+    "Conoce el método. Después compara curso, horario y formato con menos dudas.",
   heroMicrocopy:
     "Mira el video real y después pide una ruta inicial por WhatsApp.",
   heroQuickCapture: {
@@ -196,7 +196,7 @@ const heroPoints = [
 const heroHighlights = site.heroHighlights || [];
 
 const heroVideoHighlights = [
-  "Conoce el método antes de escribir",
+  "Conoce el método antes de inscribirte",
   "Programas presenciales, híbridos y online",
   "Orientación por WhatsApp para elegir ruta",
 ];
@@ -364,7 +364,7 @@ const programs = [
         "Noches: 6:20 pm, 7:30 pm y 8:40 pm.",
         "Sábados y domingos disponibles según bloque.",
       ],
-      note: "El sitio original comunica presencial, híbrido y online; conviene confirmar sede y horario antes de inscribirse.",
+      note: "Los formatos y horarios pueden variar por sede. Confirma tu grupo antes de inscribirte.",
     },
   },
   {
@@ -409,7 +409,7 @@ const programs = [
           title: "Ruta por niveles",
           items: [
             "Básico, intermedio y avanzado.",
-            "Meta comunicada por el sitio original: comprender presente, pasado y futuro en aproximadamente 10 meses con persistencia.",
+            "Meta del programa: comprender presente, pasado y futuro en aproximadamente 10 meses con práctica constante.",
             "Becas para alumnos destacados al concluir niveles básico e intermedio.",
           ],
         },
@@ -418,7 +418,7 @@ const programs = [
         "Formato online desde cualquier país.",
         "Requiere equipo con internet, audífono y micrófono para participar con claridad.",
       ],
-      note: "La página original prioriza metodología, tutorías, niveles, workshops y becas.",
+      note: "Pregunta por tutorías, niveles, talleres y becas disponibles para tu grupo.",
     },
   },
   {
@@ -465,7 +465,7 @@ const programs = [
         "Lunes a jueves por la tarde/noche: 6:30 pm, 7:30 pm y 8:30 pm.",
         "Sábados: 10:00 am a 1:00 pm y 2:00 pm a 5:00 pm.",
       ],
-      note: "El contenido original repite algunos bloques; aquí quedó consolidado para lectura clara.",
+      note: "El nivel y el horario recomendado se confirman con la familia antes de la inscripción.",
     },
   },
   {
@@ -499,16 +499,16 @@ const programs = [
           ],
         },
         {
-          title: "Lo que falta por enriquecer",
+          title: "Cómo se desarrolla",
           items: [
-            "La página pública de detalle aparece casi vacía en la captura actual.",
-            "El resumen visible del curso viene principalmente del listado público de cursos.",
-            "Podemos ampliar esta página cuando recuperemos material interno de Wix o nuevo copy del equipo.",
+            "Práctica conversacional con situaciones de estudio, trabajo y vida diaria.",
+            "Actividades guiadas para ganar vocabulario y responder con más seguridad.",
+            "Seguimiento remoto para resolver dudas y mantener continuidad.",
           ],
         },
       ],
       schedule: ["Horario online a confirmar por WhatsApp según país y disponibilidad."],
-      note: "Buen candidato para reforzar con copy adicional antes de publicar.",
+      note: "Confirma el grupo disponible y la zona horaria antes de inscribirte.",
     },
   },
   {
@@ -534,7 +534,7 @@ const programs = [
         "Preparación para adultos que buscan obtener el diploma equivalente a High School con una ruta guiada.",
       sections: [
         {
-          title: "Estructura recuperada",
+          title: "Cómo funciona",
           items: [
             "Tiempo estimado: 6 meses.",
             "Dos clases por semana, una hora por clase.",
@@ -555,7 +555,7 @@ const programs = [
         "Sábados: 11:00 am a 1:00 pm.",
         "Sábados: 2:00 pm a 4:00 pm o 4:00 pm a 6:00 pm.",
       ],
-      note: "La página pública de detalle es escasa; los horarios vienen del producto GED capturado desde Wix.",
+      note: "Confirma el bloque disponible y tu punto de inicio antes de inscribirte.",
     },
   },
   {
@@ -598,7 +598,7 @@ const programs = [
         },
       ],
       schedule: ["Horario presencial u online a confirmar según materia, nivel y disponibilidad."],
-      note: "La página pública de detalle aparece casi vacía; el resumen visible viene del listado de cursos.",
+      note: "La materia, el nivel y el horario se confirman antes de empezar.",
     },
   },
   {
@@ -675,7 +675,7 @@ const programs = [
           items: [
             "Procesador de textos para cartas, estimados, facturas, recibos, memos e informes.",
             "Preparación de resúmenes, flyers, avisos y documentos prácticos.",
-            "Duración capturada: 4 semanas.",
+            "Duración estimada: 4 semanas.",
           ],
         },
         {
@@ -683,7 +683,7 @@ const programs = [
           items: [
             "Formatos, bases de datos, gráficos estadísticos y operadores matemáticos.",
             "Aplicación en casos reales de oficina.",
-            "Duración capturada: 8 semanas.",
+            "Duración estimada: 8 semanas.",
           ],
         },
         {
@@ -691,7 +691,7 @@ const programs = [
           items: [
             "Diapositivas con imágenes, texto, efectos y animación.",
             "Presentaciones para vender, capacitar o presentar proyectos.",
-            "Duración capturada: 4 semanas.",
+            "Duración estimada: 4 semanas.",
           ],
         },
       ],
@@ -726,7 +726,7 @@ const programs = [
         "Curso técnico introductorio para aprender diagnóstico, mantenimiento y reparación básica de laptops y desktops.",
       sections: [
         {
-          title: "Lo que comunica el sitio original",
+          title: "Lo que aprenderás",
           items: [
             "Aprender a reparar cualquier marca y modelo de computadora, laptop o desktop.",
             "Base de diagnóstico y mantenimiento para problemas frecuentes.",
@@ -736,9 +736,9 @@ const programs = [
         {
           title: "Ruta técnica relacionada",
           items: [
-            "El producto Wix también menciona Computer Repair & Networking como curso online de 3 meses.",
-            "Ese producto aparece junto a Diseño Gráfico y Web Design.",
-            "Precio de referencia capturado para Computer Repair & Networking: $2,400.",
+            "Pregunta por la modalidad online de Computer Repair & Networking.",
+            "También puedes consultar opciones relacionadas con Diseño Gráfico y Web Design.",
+            "Confirma duración, horario y precio antes de inscribirte.",
           ],
         },
       ],
@@ -746,7 +746,7 @@ const programs = [
         "Ruta técnica online: viernes 10:00 am a 12:30 pm, sábado 10:00 am a 12:30 pm o viernes 6:00 pm a 8:30 pm.",
         "Preguntar por otros horarios disponibles.",
       ],
-      note: "La página pública de reparación está escasa; esta versión combina el listado público con datos del producto técnico capturado.",
+      note: "La disponibilidad de esta ruta técnica puede variar. Confirma grupo y modalidad con un asesor.",
     },
   },
 ];
@@ -1096,7 +1096,7 @@ const locations = [
     note: "Sede en revisión. No activa para inscripción pública todavía.",
     status: "pending",
     bestFor: "Mención informativa únicamente hasta confirmar dirección y operación final.",
-    highlight: "Pendiente de validación interna antes de publicarse como sede normal.",
+    highlight: "Esta ubicación todavía no está disponible como sede activa.",
     cta: "Pedir actualización de North Plainfield",
   },
 ];
@@ -1482,8 +1482,8 @@ const faqs = [
   {
     question: "¿Puedo ver videos reales antes de inscribirme?",
     answer:
-      "Sí. Ve el video de experiencia para observar el ritmo de clase, la corrección en vivo y cómo se maneja la práctica oral con tus mismas dudas iniciales.",
-    outcome: "Si el formato te funciona, ya sabes qué esperar antes de escribir.",
+      "Sí. Mira nuestros videos para conocer el ritmo de clase, la corrección en vivo y la práctica oral antes de tomar una decisión.",
+    outcome: "Así sabes qué esperar antes de inscribirte.",
     cta: "Ver videos reales",
   },
   {
@@ -1601,7 +1601,7 @@ const solutionCharacteristics = [
     videoWidth: 464,
     videoHeight: 832,
     image: site.images.heroClassroom,
-    imageAlt: "Clase real de ingles con correccion en vivo.",
+    imageAlt: "Clase real de inglés con corrección en vivo.",
   },
   {
     key: "continuity",
@@ -1641,7 +1641,7 @@ const productOfferings = [
     image: site.images.adultEnglish,
     imageAlt: "Clase presencial de inglés para adultos en AiT USA.",
     href: "/courses/#ingles-presencial",
-    cta: "Ver ingles presencial",
+    cta: "Ver inglés presencial",
     relatedPrograms: ["ingles-jovenes-adultos"],
   },
   {
@@ -1683,7 +1683,7 @@ const productOfferings = [
     image: site.images.onlineEnglish,
     imageAlt: "Clase de inglés online con apoyo visual.",
     href: "/courses/#ingles-online",
-    cta: "Ver ingles online",
+    cta: "Ver inglés online",
     relatedPrograms: ["ingles-online-adultos"],
   },
   {
@@ -1721,7 +1721,7 @@ const courseCatalog = [
     key: "english-paths",
     title: "Rutas principales de inglés",
     description:
-      "Empieza por la ruta que mejor encaja con tu formato ideal. Inglés presencial aparece primero porque es la oferta principal.",
+      "Compara la experiencia presencial con las alternativas online para elegir cómo quieres estudiar.",
     anchor: "rutas-principales-de-ingles",
     programs: ["ingles-jovenes-adultos", "ingles-online-adultos", "ingles-ninos"],
   },
@@ -1785,9 +1785,9 @@ const placementTest = {
   intro:
     "Completa el cuestionario de nivel directamente aquí. Recibirás una recomendación inicial automática y un asesor debe confirmarla antes de tu inscripción final.",
   privacyNote:
-    "No usamos formularios externos ni guardamos datos sensibles en esta versión. Tu información se usa para calcular el resultado y preparar el mensaje de WhatsApp que decides enviar. El teléfono es opcional y no te inscribe en mensajes promocionales.",
+    "Tus respuestas se usan para calcular una recomendación inicial y preparar el mensaje de WhatsApp que tú decides enviar. El teléfono es opcional y no te inscribe en mensajes promocionales.",
   crmNote:
-    "La calificación automática es orientativa hasta que AIT confirme la llave académica final. Un asesor debe confirmar nivel, horario y siguiente paso.",
+    "El resultado es una guía inicial. Un asesor confirma contigo el nivel, el horario y el siguiente paso antes de la inscripción.",
   steps: {
     student: "Tus datos",
     selfAssessment: "Cómo te sientes hoy",
@@ -1959,7 +1959,7 @@ const placementTest = {
     prompt:
       "Compara dos personas en tres oraciones. Puedes usar ideas como large, thin, heavy, colorful, weak o strong. Escribe \"No sé\" si no sabes cómo contestar.",
     note:
-      "La escritura no cambia el puntaje automático en esta versión; sirve para que el asesor confirme el nivel con mejor contexto.",
+      "La escritura no cambia el puntaje automático; ayuda al asesor a confirmar tu nivel con más contexto.",
   },
   goals: [
     "Trabajo y entrevistas",

@@ -194,8 +194,8 @@
               <p class="section-kicker">Catálogo detallado</p>
               <h1>Explora cursos, formatos y próximos pasos con más detalle.</h1>
               <p>
-                Esta página concentra el detalle que no conviene cargar en la portada: modalidades,
-                objetivos, horarios y orientación para inglés, GED, computación y programas de apoyo.
+                Compara modalidades, objetivos y horarios para inglés, GED, computación
+                y programas de apoyo.
               </p>
               <div class="button-row">
                 <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">Hacer examen de ubicación</a>
@@ -445,8 +445,8 @@
                       <div class="method-panel__heading">
                         <p class="method-kicker">Método</p>
                         <h2>
-                          <span>Entiende<br />el método.</span>
-                          <span class="method-heading__accent">Luego elige<br />cómo estudiar.</span>
+                          <span>Así funciona<br />el método.</span>
+                          <span class="method-heading__accent">Comprende,<br />practica y avanza.</span>
                         </h2>
                       </div>
                       <div class="method-panel__detail">
@@ -510,8 +510,8 @@
       <section class="section section--soft" id="cursos">
         <div class="section-inner offer-path">
           <div class="section-heading section-heading--framed">
-            <p class="section-kicker">Cómo quieres estudiar</p>
-            <h2>Elige la opción que mejor encaja contigo.</h2>
+            <p class="section-kicker">Presencial, híbrido u online</p>
+            <h2>¿Cómo quieres estudiar?</h2>
             <p>Compara las clases presenciales, híbridas y online. Si buscas otra meta, también puedes explorar nuestros programas de apoyo.</p>
           </div>
           <div class="offer-map" aria-label="Opciones principales de estudio">
@@ -594,8 +594,8 @@
         <div class="section-inner">
           <div class="section-heading">
             <p class="section-kicker">Por dónde empezar</p>
-            <h2>Empieza por inglés presencial y luego compara el formato que mejor encaja contigo.</h2>
-            <p>Compara cursos, horarios y requisitos con más calma en esta página.</p>
+            <h2>Empieza por inglés presencial o compara otras modalidades.</h2>
+            <p>Revisa cursos, horarios y requisitos antes de elegir tu ruta.</p>
           </div>
           <div class="offering-grid">
             ${productOfferings.map(renderOfferingCard).join("")}
@@ -639,9 +639,9 @@
       <section class="section section--white" id="sedes">
         <div class="section-inner">
           <div class="section-heading">
-            <p class="section-kicker">Dónde encontrarnos</p>
-            <h2 id="sedes-title">Encuentra la sede que mejor encaja con tu rutina.</h2>
-            <p>Compara ubicaciones y horarios sin salir de esta sección.</p>
+            <p class="section-kicker">Sedes</p>
+            <h2 id="sedes-title">Sedes cerca de ti.</h2>
+            <p>Revisa ubicaciones y horarios para elegir la alternativa más conveniente.</p>
           </div>
           <div class="location-explorer">
             <div class="real-map-card">
@@ -801,7 +801,7 @@
             </div>
             <div class="final-cta-actions">
               <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">
-                Encontrar mi nivel
+                Encuentra tu nivel
                 <i data-lucide="arrow-right" aria-hidden="true"></i>
               </a>
               <a class="button button--ghost" href="${conversionCtas.advisor?.href || site.whatsappHref}" target="_blank" rel="noreferrer">
@@ -914,7 +914,7 @@
             <h2 id="catalogo-mini-title">Ver todos los cursos.</h2>
           </div>
           <div class="course-teaser__copy">
-            <p>El detalle completo vive en una página aparte para mantener esta portada enfocada en el primer paso.</p>
+            <p>Revisa modalidades, horarios y requisitos de cada programa antes de elegir.</p>
           </div>
           <a class="button button--ghost" href="/courses/">Ver cursos</a>
         </div>
@@ -928,8 +928,8 @@
         <div class="section-inner">
           <div class="section-heading">
             <p class="section-kicker">Catálogo completo</p>
-            <h2>Compara formato, audiencia, horarios y metas antes de escribir.</h2>
-            <p>La portada te orienta; aquí ves el detalle por programa y las fichas completas que puedes compartir o revisar con un asesor.</p>
+            <h2>Compara formatos, horarios y objetivos antes de elegir.</h2>
+            <p>Revisa cada programa con calma o comparte la ficha con un asesor para resolver tus dudas.</p>
           </div>
           ${renderFilterBar()}
           <p class="course-count" data-course-count>Mostrando ${programs.length} programas.</p>
@@ -1818,7 +1818,7 @@
         <p><strong>Preguntas:</strong> ${escapeHtml(scores.quizScore ?? "")} de ${escapeHtml(scores.quizQuestionCount ?? "")} respuestas correctas.</p>
         <p><strong>Formato sugerido:</strong> ${escapeHtml(recommendation.bestFit || "")}</p>
         <p><strong>Objetivo principal:</strong> ${escapeHtml(goal)}</p>
-        <p><strong>Revisión:</strong> la llave de respuestas está marcada como pendiente de revisión académica. El asesor confirma el nivel final.</p>
+        <p><strong>Confirmación:</strong> un asesor revisa el resultado contigo antes de definir nivel, horario e inscripción.</p>
         <p><strong>Importante:</strong> esta recomendación necesita confirmación de un asesor antes de cerrar inscripción u horario.</p>
       `;
 

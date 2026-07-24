@@ -64,4 +64,41 @@ describe("MIS-267 content hygiene", () => {
     assert.equal(JSON.stringify(placementTest).includes("docs.google.com"), false);
     assert.equal(JSON.stringify(placementTest).includes("Google Form"), false);
   });
+
+  it("keeps public-facing copy free of source-capture and implementation notes", async () => {
+    const {
+      courseCatalog,
+      faqs,
+      locations,
+      placementTest,
+      productOfferings,
+      programs,
+      site,
+    } = await loadSiteData();
+    const publicCopy = JSON.stringify({
+      courseCatalog,
+      faqs,
+      locations,
+      placementTest: {
+        intro: placementTest.intro,
+        privacyNote: placementTest.privacyNote,
+        crmNote: placementTest.crmNote,
+        writingPrompt: placementTest.writingPrompt,
+      },
+      productOfferings,
+      programs,
+      site,
+    });
+
+    assert.doesNotMatch(
+      publicCopy,
+      /sitio original|página (?:original|pública)|contenido original|capturad[oa]|producto Wix|esta versión|estructura recuperada|lo que comunica|llave académica/i,
+    );
+
+    const renderedSource = await readFile("src/main.js", "utf8");
+    assert.doesNotMatch(
+      renderedSource,
+      /llave de respuestas|pendiente de revisión académica|sin salir de esta sección|antes de escribir/i,
+    );
+  });
 });

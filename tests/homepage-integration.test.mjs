@@ -21,6 +21,9 @@ describe("homepage selective concept integration", () => {
     assert.ok(faqIndex > locationsIndex);
     assert.ok(finalCtaIndex > faqIndex);
     assert.match(source, /src="\$\{site\.images\.testimonialAntonina\}"/);
+    assert.match(source, /Así funciona<br \/>el método\./);
+    assert.match(source, /Comprende,<br \/>practica y avanza\./);
+    assert.doesNotMatch(source, /Luego elige<br \/>cómo estudiar/);
     assert.doesNotMatch(source, /asset\(site\.images\.testimonialAntonina\)/);
     assert.doesNotMatch(source, /De estudiante a profesor/);
     assert.doesNotMatch(source, /cuidadosamente seleccionados/);
@@ -53,7 +56,7 @@ describe("homepage selective concept integration", () => {
 
     assert.equal((section.match(/renderCtaBox\(/g) || []).length, 0);
     assert.match(section, /¿Listo para empezar\?/);
-    assert.match(section, /Encontrar mi nivel/);
+    assert.match(section, /Encuentra tu nivel/);
     assert.match(section, /Hablar por WhatsApp/);
     assert.match(section, /final-cta-actions/);
     assert.match(section, /conversionCtas\.placement/);
@@ -91,6 +94,19 @@ describe("homepage selective concept integration", () => {
     assert.doesNotMatch(section, /real-map-card__footer/);
     assert.doesNotMatch(section, /location-map__art/);
     assert.doesNotMatch(section, /status !== "pending"\)\.map/);
+  });
+
+  it("keeps homepage transitions conversational instead of exposing funnel scaffolding", async () => {
+    const source = await readFile("src/main.js", "utf8");
+    const homepageSections = source.slice(
+      source.indexOf("function renderOfferingPathSection"),
+      source.indexOf("function renderProofSection"),
+    );
+
+    assert.match(homepageSections, /¿Cómo quieres estudiar\?/);
+    assert.match(homepageSections, /Sedes cerca de ti\./);
+    assert.doesNotMatch(homepageSections, /mejor encaja/);
+    assert.doesNotMatch(homepageSections, /sin salir de esta sección/);
   });
 
   it("keeps the verified schedule on the three active New Jersey campuses", async () => {
