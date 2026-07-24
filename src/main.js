@@ -630,16 +630,50 @@
   }
 
   function renderLocationsSection() {
+    const publishedLocations = locations.filter((location) => location.status !== "pending");
+    const mappedLocations = publishedLocations.filter((location) => location.status !== "online");
+    const onlineLocation = publishedLocations.find((location) => location.status === "online");
+
     return `
       <section class="section section--white" id="sedes">
         <div class="section-inner">
           <div class="section-heading">
-            <p class="section-kicker">Dónde estudiar</p>
-            <h2 id="sedes-title">Elige una sede en Nueva Jersey o estudia online.</h2>
-            <p>Revisa la ubicación que te conviene y consulta los horarios disponibles antes de inscribirte.</p>
+            <p class="section-kicker">Dónde encontrarnos</p>
+            <h2 id="sedes-title">Encuentra la sede que mejor encaja con tu rutina.</h2>
+            <p>Ubícala en el mapa, compara los horarios publicados y elige la opción más práctica para ti.</p>
           </div>
-          <div class="location-grid">
-            ${locations.filter((location) => location.status !== "pending").map(renderLocationCard).join("")}
+          <div class="location-explorer">
+            <div class="location-map-card" aria-label="Mapa ilustrado de las sedes de AIT USA Institute en Nueva Jersey">
+              <div class="location-map-card__heading">
+                <span>Área de servicio</span>
+                <strong>Nueva Jersey</strong>
+              </div>
+              <div class="location-map">
+                <svg class="location-map__art" viewBox="0 0 520 620" role="img" aria-labelledby="location-map-title location-map-description">
+                  <title id="location-map-title">Mapa de sedes de AIT USA Institute</title>
+                  <desc id="location-map-description">Mapa ilustrado con marcadores para Bound Brook, Plainfield, Piscataway y Flemington.</desc>
+                  <path class="location-map__watermark" d="M53 137C118 89 194 68 280 74c91 6 153 47 190 118-59 38-96 90-112 155-16 66-5 129 31 190-82 26-160 25-234-3-75-29-121-82-139-161-18-78-6-157 37-236Z" />
+                  <path class="location-map__land" d="M267 38c35 22 58 55 67 99 6 29 7 58 1 86-7 34 1 62 25 83 31 28 39 61 24 100-14 34-38 59-72 76-20 10-32 27-37 50-5 25-20 41-45 50-12-31-32-54-60-70-25-15-38-37-38-66 0-35-10-65-29-91 27-28 43-62 47-101 4-37 20-65 49-84 31-20 49-51 53-93 1-16 6-29 15-39Z" />
+                  <path class="location-map__county-line" d="M170 199c47 15 95 17 145 5M132 354c68-17 140-14 216 9M178 507c38-21 75-30 111-26" />
+                  <path class="location-map__route" d="M278 139c-13 79-20 145-20 199 0 67 14 123 42 168" />
+                  <circle class="location-map__route-node" cx="269" cy="253" r="5" />
+                  <circle class="location-map__route-node" cx="259" cy="340" r="5" />
+                  <circle class="location-map__route-node" cx="278" cy="433" r="5" />
+                  <text class="location-map__state-label" x="262" y="298" text-anchor="middle">NEW JERSEY</text>
+                </svg>
+                <div class="location-map__pins">
+                  ${mappedLocations.map(renderLocationPin).join("")}
+                </div>
+              </div>
+              <p class="location-map-card__note">
+                <i data-lucide="mouse-pointer-2" aria-hidden="true"></i>
+                Toca un pin para ver la dirección y los horarios.
+              </p>
+            </div>
+            <div class="location-list" aria-label="Sedes y horarios">
+              ${mappedLocations.map(renderLocationRow).join("")}
+              ${onlineLocation ? renderLocationRow(onlineLocation, mappedLocations.length) : ""}
+            </div>
           </div>
         </div>
       </section>
@@ -1054,35 +1088,79 @@
     `;
   }
 
-  function renderLocationCard(location) {
+  function renderLocationPin(location, index) {
+    const locationId = location.mapKey || `location-${index + 1}`;
+    const shortCity = location.city.split(",")[0];
+
+    return `
+      <a
+        class="location-pin location-pin--${escapeHtml(locationId)}"
+        href="#sede-${escapeHtml(locationId)}"
+        aria-label="Ver ${escapeHtml(location.city)}"
+      >
+        <span class="location-pin__marker" aria-hidden="true">
+          <i data-lucide="map-pin"></i>
+          <strong>${String(index + 1).padStart(2, "0")}</strong>
+        </span>
+        <span class="location-pin__label">${escapeHtml(shortCity)}</span>
+      </a>
+    `;
+  }
+
+  function renderLocationRow(location, index) {
     const statusLabel = {
-      active: "Clases presenciales",
-      limited: "Disponibilidad limitada",
-      online: "Clases online",
+      active: location.note || "Sede presencial",
+      limited: "Confirma antes de visitar",
+      online: "Clases desde donde estés",
       pending: "Pendiente / no activa",
     };
     const isLimited = location.status === "limited";
     const isOnline = location.status === "online";
+    const locationId = location.mapKey || "online";
+    const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.address)}`;
     const actionHref = isLimited
       ? `${site.whatsappHref}?text=${encodeURIComponent(`Hola AIT USA, quiero confirmar disponibilidad para ${location.city}.`)}`
       : isOnline
         ? "/courses/#ingles-online"
-        : "/courses/#ingles-presencial";
-    const actionLabel = isLimited ? "Consultar disponibilidad" : "Ver horarios";
-    const actionTarget = isLimited ? 'target="_blank" rel="noreferrer"' : "";
-    const availability = isLimited
-      ? "Confirma la disponibilidad antes de desplazarte."
+        : mapsHref;
+    const actionLabel = isLimited
+      ? "Confirmar por WhatsApp"
       : isOnline
-        ? "Estudia desde donde estés con horario confirmado por el equipo."
-        : "Grupos de mañana, tarde, noche y fin de semana.";
+        ? "Ver clases online"
+        : "Cómo llegar";
+    const actionTarget = isLimited || !isOnline ? 'target="_blank" rel="noreferrer"' : "";
+    const hours = Array.isArray(location.hours) ? location.hours : [];
 
     return `
-      <article class="location-card card location-card--${escapeHtml(location.status || "active")}">
-        <p class="eyebrow-chip">${escapeHtml(statusLabel[location.status] || "Sede")}</p>
-        <h3>${escapeHtml(location.city)}</h3>
-        <p class="location-address">${escapeHtml(location.address)}</p>
-        <p class="location-card__availability">${escapeHtml(availability)}</p>
-        <a class="location-card__action" href="${escapeHtml(actionHref)}" ${actionTarget}>
+      <article
+        class="location-row location-row--${escapeHtml(location.status || "active")}"
+        id="sede-${escapeHtml(locationId)}"
+      >
+        <div class="location-row__topline">
+          <span class="location-row__number" aria-hidden="true">${isOnline ? '<i data-lucide="monitor"></i>' : String(index + 1).padStart(2, "0")}</span>
+          <p class="eyebrow-chip">${escapeHtml(statusLabel[location.status] || "Sede")}</p>
+        </div>
+        <div class="location-row__identity">
+          <div>
+            <h3>${escapeHtml(location.city)}</h3>
+            <p class="location-address">${escapeHtml(location.address)}</p>
+          </div>
+          ${!isOnline ? `
+            <a class="location-row__map-link" href="${escapeHtml(mapsHref)}" target="_blank" rel="noreferrer" aria-label="Abrir ${escapeHtml(location.city)} en Google Maps">
+              <i data-lucide="navigation" aria-hidden="true"></i>
+            </a>
+          ` : ""}
+        </div>
+        <div class="location-row__hours">
+          <p>
+            <i data-lucide="clock-3" aria-hidden="true"></i>
+            <strong>${escapeHtml(location.hoursLabel || "Horarios")}</strong>
+          </p>
+          <ul>
+            ${hours.map((hour) => `<li>${escapeHtml(hour)}</li>`).join("")}
+          </ul>
+        </div>
+        <a class="location-row__action" href="${escapeHtml(actionHref)}" ${actionTarget}>
           ${escapeHtml(actionLabel)}
           <i data-lucide="arrow-right" aria-hidden="true"></i>
         </a>

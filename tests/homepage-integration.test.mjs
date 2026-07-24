@@ -63,17 +63,36 @@ describe("homepage selective concept integration", () => {
     assert.match(section, /Prefiero que me contacten/);
   });
 
-  it("keeps homepage location cards concise and sends schedule detail one click deeper", async () => {
+  it("pairs a New Jersey pin map with location rows and published hours", async () => {
     const source = await readFile("src/main.js", "utf8");
     const section = source.slice(
-      source.indexOf("function renderLocationCard"),
+      source.indexOf("function renderLocationsSection"),
+      source.indexOf("function renderProofSection"),
+    );
+    const locationRenderers = source.slice(
+      source.indexOf("function renderLocationPin"),
       source.indexOf("function renderPendingLocationNote"),
     );
 
-    assert.match(section, /Ver horarios/);
-    assert.match(section, /Consultar disponibilidad/);
-    assert.match(section, /location-card__action/);
-    assert.doesNotMatch(section, /location-contact-list/);
-    assert.doesNotMatch(section, /location-hours/);
+    assert.match(section, /location-explorer/);
+    assert.match(section, /location-map-card/);
+    assert.match(section, /location-map__pins/);
+    assert.match(section, /mappedLocations\.map\(renderLocationPin\)/);
+    assert.match(section, /mappedLocations\.map\(renderLocationRow\)/);
+    assert.match(locationRenderers, /location-row__hours/);
+    assert.match(locationRenderers, /location\.hours/);
+    assert.match(locationRenderers, /Cómo llegar/);
+    assert.match(locationRenderers, /Confirmar por WhatsApp/);
+    assert.doesNotMatch(section, /status !== "pending"\)\.map/);
+  });
+
+  it("keeps the verified schedule on the three active New Jersey campuses", async () => {
+    const content = await readFile("src/content.js", "utf8");
+
+    assert.match(content, /Lunes a jueves: 8:30 am, 9:30 am y 10:30 am/);
+    assert.match(content, /Lunes a jueves: 6:20 pm, 7:30 pm y 8:40 pm/);
+    assert.match(content, /Sábados: 10:00 am a 1:00 pm y 3:00 pm a 5:30 pm/);
+    assert.match(content, /Domingos: 10:00 am a 12:30 pm/);
+    assert.equal((content.match(/\.\.\.centralLocationContact/g) || []).length, 5);
   });
 });

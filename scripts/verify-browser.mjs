@@ -464,7 +464,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       courseDetails: document.querySelectorAll('[data-course-detail]').length,
       courseDetailLinks: document.querySelectorAll('[data-course-detail-link]').length,
       videoCards: document.querySelectorAll('.clip-card, .testimonial-card video, [data-hero-player]').length,
-      locations: document.querySelectorAll('.location-card').length,
+      locations: document.querySelectorAll('.location-row').length,
       variantLists: document.querySelectorAll('.variant-list').length,
       faqs: document.querySelectorAll('.faq-list details').length,
       missingImages,

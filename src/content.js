@@ -1035,6 +1035,7 @@ const locations = [
   {
     city: "Bound Brook, New Jersey",
     address: "213 E. Main St., Bound Brook, NJ 08805",
+    mapKey: "bound-brook",
     note: "Oficina central / sede principal",
     status: "active",
     bestFor: "Ideal si quieres una sede central con coordinación administrativa directa.",
@@ -1045,6 +1046,7 @@ const locations = [
   {
     city: "Plainfield, New Jersey",
     address: "108 Watchung Ave., Plainfield, NJ 07060",
+    mapKey: "plainfield",
     note: "Sede presencial",
     status: "active",
     bestFor: "Ideal si vives o trabajas en el centro de Nueva Jersey.",
@@ -1055,6 +1057,7 @@ const locations = [
   {
     city: "Piscataway, New Jersey",
     address: "451 S. Washington Ave., Piscataway, NJ 08854",
+    mapKey: "piscataway",
     note: "Sede presencial",
     status: "active",
     bestFor: "Ideal si buscas una sede amplia y práctica para asistir con comodidad.",
@@ -1065,6 +1068,7 @@ const locations = [
   {
     city: "Flemington, New Jersey",
     address: "Flemington, NJ, USA",
+    mapKey: "flemington",
     note: "Confirmar detalles de sede",
     status: "limited",
     bestFor: "Ideal si quieres confirmar disponibilidad antes de desplazarte.",
@@ -1072,6 +1076,7 @@ const locations = [
     cta: "Confirmar Flemington",
     ...centralLocationContact,
     hoursLabel: "Confirmar horario antes de asistir",
+    hours: ["El horario y el punto de encuentro se confirman antes de asistir."],
   },
   {
     city: "New York / Online",
@@ -1082,6 +1087,8 @@ const locations = [
     highlight: "Conexión remota para estudiantes fuera de Nueva Jersey.",
     cta: "Consultar online",
     ...centralLocationContact,
+    hoursLabel: "Horario online",
+    hours: ["La disponibilidad se confirma por WhatsApp según tu nivel y zona horaria."],
   },
   {
     city: "North Plainfield, New Jersey",
