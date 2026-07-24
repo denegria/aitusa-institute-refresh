@@ -63,26 +63,30 @@ describe("homepage selective concept integration", () => {
     assert.match(section, /Prefiero que me contacten/);
   });
 
-  it("pairs a New Jersey pin map with location rows and published hours", async () => {
+  it("uses a real map with compact location rows and one shared schedule", async () => {
     const source = await readFile("src/main.js", "utf8");
     const section = source.slice(
       source.indexOf("function renderLocationsSection"),
       source.indexOf("function renderProofSection"),
     );
     const locationRenderers = source.slice(
-      source.indexOf("function renderLocationPin"),
+      source.indexOf("function renderRealMapPin"),
       source.indexOf("function renderPendingLocationNote"),
     );
 
     assert.match(section, /location-explorer/);
-    assert.match(section, /location-map-card/);
-    assert.match(section, /location-map__pins/);
-    assert.match(section, /mappedLocations\.map\(renderLocationPin\)/);
-    assert.match(section, /mappedLocations\.map\(renderLocationRow\)/);
-    assert.match(locationRenderers, /location-row__hours/);
-    assert.match(locationRenderers, /location\.hours/);
-    assert.match(locationRenderers, /Cómo llegar/);
-    assert.match(locationRenderers, /Confirmar por WhatsApp/);
+    assert.match(section, /real-map-card__image/);
+    assert.match(section, /new-jersey-campus-map\.jpg/);
+    assert.match(section, /© OpenStreetMap/);
+    assert.match(section, /mappedLocations\.map\(renderRealMapPin\)/);
+    assert.match(section, /mappedLocations\.map\(renderCompactLocationRow\)/);
+    assert.match(section, /location-hours-panel/);
+    assert.match(section, /mainCampusHours\.map/);
+    assert.match(locationRenderers, /compact-location-row/);
+    assert.match(locationRenderers, /google\.com\/maps\/search/);
+    assert.doesNotMatch(section, /<iframe/);
+    assert.doesNotMatch(section, /<svg/);
+    assert.doesNotMatch(section, /location-map__art/);
     assert.doesNotMatch(section, /status !== "pending"\)\.map/);
   });
 
