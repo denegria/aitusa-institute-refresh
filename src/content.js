@@ -9,7 +9,7 @@ const site = {
   tagline:
     "Una escuela de inglés diferente desde 2004.",
   description:
-    "Explora clases de inglés, GED, computación y español con videos reales, horarios claros y orientación directa para elegir tu mejor ruta.",
+    "Aprende inglés con práctica guiada, clases reales y opciones presenciales, híbridas u online.",
   heroHeadline:
     "Aprende inglés sin traducir ni memorizar miles de palabras.",
   heroLead:
@@ -61,7 +61,7 @@ const site = {
   seoTitle:
     "AiT USA Institute | Inglés, GED y computación en Nueva Jersey",
   seoDescription:
-    "Mira videos reales de AiT USA y explora programas de inglés, niños, GED, computación y español en Nueva Jersey. Compara presencial, híbrido y online y recibe una ruta inicial clara.",
+    "Aprende inglés con el método Graphic Concept, práctica guiada y clases reales en Nueva Jersey o desde donde estés.",
   seoKeywords:
     "AiT USA Institute, clases de inglés Nueva Jersey, GED, computación, español, clases para niños, videos reales de inglés, clases presenciales, clases híbridas, clases online, entrevista de trabajo en inglés, ruta inicial personalizada, Bound Brook, Plainfield, Piscataway, inglés conversacional para adultos",
   seoImage: assetVideoPoster("intro-video-great.jpg"),
@@ -1482,29 +1482,29 @@ const faqs = [
   {
     question: "¿Es difícil aprender inglés si nunca fui bueno en idiomas?",
     answer:
-      "No cuando trabajamos con práctica guiada y hábitos consistentes. Empezamos con comprensión funcional, pasamos a expresión y luego repetición estructurada en contexto real.",
-    outcome: "La dificultad baja cuando el método te da un camino de práctica corto y medible.",
+      "No. Empezamos con ejemplos visuales, frases útiles y práctica guiada. Vas entendiendo primero y hablando poco a poco, sin memorizar listas interminables.",
+    outcome: "Cuando entiendes el patrón, practicar se vuelve más claro.",
     cta: "Pedir orientación",
   },
   {
     question: "Voy a clases pero no logro hablar, ¿qué hago?",
     answer:
-      "Necesitas más práctica oral con corrección en vivo. Aquí trabajas con micro-objetivos para hablar con más soltura sin sentir tanta presión.",
-    outcome: "La práctica deja de quedarse en teoría y empieza a sentirse útil.",
+      "En clase no solo escuchas: practicas conversaciones cortas y recibes corrección en el momento. Así ganas seguridad para usar el inglés fuera del salón.",
+    outcome: "Lo que aprendes en clase empieza a servirte en conversaciones reales.",
     cta: "Pedir orientación",
   },
   {
     question: "Entiendo la clase, pero luego se me olvida la práctica, ¿es normal?",
     answer:
       "Sí, es normal al inicio. Usamos mapas visuales, repetición corta y rutina semanal para que lo que aprendes pase de escuchar a usarlo.",
-    outcome: "En una sola semana pasas de memorización aislada a conversación útil.",
+    outcome: "La práctica breve y constante ayuda a que lo aprendido se quede contigo.",
     cta: "Ver libro",
   },
   {
     question: "No tengo mucho tiempo, pero quiero aprender a hablar inglés.",
     answer:
       "Puedes empezar con 15 a 20 minutos diarios y elegir horario flexible (mañana, noche o fin de semana) con metas pequeñas y medibles.",
-    outcome: "Te proponemos un plan realista para avanzar sin colapsar tu agenda.",
+    outcome: "Te proponemos un plan realista para avanzar sin desordenar tu agenda.",
     cta: "Ver horarios",
   },
   {
@@ -1539,20 +1539,20 @@ const faqs = [
 
 const painHero = {
   eyebrow: "Una escuela de inglés diferente",
-  headline: "Te guiamos al camino correcto para hablar inglés con confianza.",
+  headline: "Te guiamos por el camino correcto para hablar inglés con confianza.",
   headlineLines: [
-    "Te guiamos al",
+    "Te guiamos por el",
     "camino correcto",
     "para hablar inglés",
     "con confianza.",
   ],
   subheadline:
-    "Con métodos, técnicas y estrategias propias, más de 20 años trabajando con la comunidad. Conocemos tus necesidades y frustraciones, por eso aprendemos de manera diferente y lo aplicamos con éxito.",
+    "Durante más de 20 años hemos ayudado a nuestra comunidad a entender, practicar y hablar inglés con confianza. Sin memorizar listas interminables. Con una guía clara y acompañamiento real.",
   subheadlineLines: [
-    "Con métodos, técnicas y estrategias propias, más de 20 años",
-    "trabajando con la comunidad. Conocemos tus necesidades y",
-    "frustraciones, por eso aprendemos de manera diferente",
-    "y lo aplicamos con éxito.",
+    "Durante más de 20 años ayudamos a nuestra comunidad",
+    "a entender, practicar y hablar inglés con confianza.",
+    "Sin listas interminables. Con guía clara",
+    "y acompañamiento real.",
   ],
   ctas: {
     primary: "Encuentra tu nivel",
@@ -1599,8 +1599,8 @@ const solutionCharacteristics = [
   {
     key: "continuity",
     label: "Continuidad",
-    tabLabel: "Ruta semanal",
-    title: "Sigue una ruta que se adapta a tu nivel, horario y objetivo",
+    tabLabel: "Apoyo constante",
+    title: "Avanza con un plan que se adapta a tu nivel, horario y objetivo",
     body:
       "AIT USA te orienta para ubicar tu nivel, elegir formato y mantener continuidad con seguimiento, libro y próximos pasos claros.",
     proof:
@@ -1646,7 +1646,7 @@ const productOfferings = [
     emphasis: "secondary",
     audience: "Quienes necesitan flexibilidad sin perder estructura",
     summary:
-      "Combina la guía de AIT USA con una ruta más adaptable a tu agenda. Buena opción si buscas continuidad sin depender de un solo formato.",
+      "Combina la guía de AIT USA con un formato flexible para tu agenda, sin perder la práctica ni el acompañamiento.",
     details: [
       "Alterna entre apoyo presencial y acompañamiento remoto.",
       "Mantiene seguimiento con un horario realista.",
@@ -1662,7 +1662,7 @@ const productOfferings = [
     key: "online-english",
     anchor: "ingles-online",
     title: "Inglés online",
-    badge: "Ruta a distancia",
+    badge: "Desde donde estés",
     marker: "Online",
     emphasis: "secondary",
     audience: "Estudiantes en otros lugares o con agenda remota",
@@ -1682,12 +1682,12 @@ const productOfferings = [
   {
     key: "support-programs",
     title: "Programas de apoyo",
-    badge: "Más rutas académicas",
+    badge: "Otros programas",
     marker: "Apoyo",
     emphasis: "secondary",
     audience: "Familias y estudiantes con metas específicas",
     summary:
-      "Explora inglés para niños, GED, computación, español para extranjeros y cursos técnicos sin cargar toda la explicación en la portada.",
+      "Explora inglés para niños, GED, computación, español para extranjeros y cursos técnicos.",
     details: [
       "Inglés para niños de 8 a 13 años.",
       "GED y tutorías para metas académicas concretas.",

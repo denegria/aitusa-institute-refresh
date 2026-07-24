@@ -86,7 +86,7 @@
 
   function updateSeo() {
     const titleMap = {
-      home: "AiT USA Institute | Inglés en New Jersey con ruta clara para empezar",
+      home: "AiT USA Institute | Aprende inglés con confianza en New Jersey",
       courses: selectedProgram
         ? `${selectedProgram.title} | Cursos AiT USA Institute`
         : "Cursos AiT USA Institute | Catálogo detallado",
@@ -95,7 +95,7 @@
 
     const descriptionMap = {
       home:
-        "AIT USA ordena tu siguiente paso: examen de ubicación, inglés presencial como oferta principal, programas de apoyo y testimonios reales.",
+        "Aprende inglés con el método Graphic Concept, práctica guiada, clases reales y opciones presenciales, híbridas u online.",
       courses: selectedProgram
         ? `${selectedProgram.title}. ${selectedProgram.summary}`
         : "Explora el catálogo detallado de inglés, GED, computación y programas de apoyo de AiT USA Institute.",
@@ -170,16 +170,15 @@
   function renderHomePage() {
     return `
       ${renderHeader("home")}
-      <main id="main-content">
+      <main id="main-content" class="home-page">
         ${renderHero()}
         ${renderSolutionSection()}
+        ${renderProofSection()}
         ${renderCommunitySection()}
         ${renderOfferingPathSection()}
         ${renderLocationsSection()}
-        ${renderProofSection()}
-        ${renderFinalCtaSection()}
-        ${renderCourseTeaserSection()}
         ${renderFaqSection()}
+        ${renderFinalCtaSection()}
       </main>
       ${renderFooter()}
     `;
@@ -447,7 +446,7 @@
                         <p class="method-kicker">Método</p>
                         <h2>
                           <span>Entiende<br />el método.</span>
-                          <span class="method-heading__accent">Luego elige<br />tu ruta.</span>
+                          <span class="method-heading__accent">Luego elige<br />cómo estudiar.</span>
                         </h2>
                       </div>
                       <div class="method-panel__detail">
@@ -511,9 +510,9 @@
       <section class="section section--soft" id="cursos">
         <div class="section-inner offer-path">
           <div class="section-heading section-heading--framed">
-            <p class="section-kicker">Por dónde empezar</p>
-            <h2>Elige la modalidad que mejor encaja contigo.</h2>
-            <p>Compara el formato aquí y revisa cursos, horarios y requisitos en la página de cursos.</p>
+            <p class="section-kicker">Cómo quieres estudiar</p>
+            <h2>Elige la opción que mejor encaja contigo.</h2>
+            <p>Compara las clases presenciales, híbridas y online. Si buscas otra meta, también puedes explorar nuestros programas de apoyo.</p>
           </div>
           <div class="offer-map" aria-label="Opciones principales de estudio">
             ${productOfferings
@@ -551,11 +550,10 @@
         <div class="community-band__inner">
           <figure class="community-band__media">
             <img
-              src="${asset(site.images.testimonialAntonina)}"
+              src="${site.images.testimonialAntonina}"
               alt="Estudiantes reales de AIT USA con sus libros de inglés."
               width="1200"
               height="800"
-              loading="lazy"
             />
             <figcaption>
               <i data-lucide="users-round" aria-hidden="true"></i>
@@ -573,7 +571,7 @@
                 <i data-lucide="messages-square" aria-hidden="true"></i>
                 <div>
                   <h3>Acompañamiento cercano</h3>
-                  <p>Orientación clara para comprender el método, practicar y mantener una ruta constante.</p>
+                  <p>Orientación clara para comprender el método, practicar y avanzar con constancia.</p>
                 </div>
               </article>
               <article>
@@ -636,14 +634,13 @@
       <section class="section section--white" id="sedes">
         <div class="section-inner">
           <div class="section-heading">
-            <p class="section-kicker">Sedes activas</p>
-            <h2 id="sedes-title">Estudia en Nueva Jersey o avanza desde donde estés con opción online.</h2>
-            <p>Estas son las opciones activas o disponibles con confirmación previa.</p>
+            <p class="section-kicker">Dónde estudiar</p>
+            <h2 id="sedes-title">Elige una sede en Nueva Jersey o estudia online.</h2>
+            <p>Revisa la ubicación que te conviene y consulta los horarios disponibles antes de inscribirte.</p>
           </div>
           <div class="location-grid">
             ${locations.filter((location) => location.status !== "pending").map(renderLocationCard).join("")}
           </div>
-          ${renderPendingLocationNote()}
         </div>
       </section>
     `;
@@ -669,7 +666,7 @@
           <div class="proof-editorial__heading">
             <p class="section-kicker">Prueba real</p>
             <h2>No tienes que creernos. Mira los resultados por ti mismo.</h2>
-            <p>Clases y testimonios reales antes de tomar tu siguiente paso.</p>
+            <p>Mira cómo se viven las clases y escucha a quienes ya pasaron por el proceso.</p>
           </div>
 
           <div class="proof-editorial__stage" aria-live="polite">
@@ -742,26 +739,31 @@
         <div class="section-inner final-cta-layout">
           <div class="final-cta-copy">
             <div class="section-heading section-heading--framed">
-              <p class="section-kicker">Siguiente paso</p>
-              <h2 id="contacto-title">Elige tu siguiente paso.</h2>
-              <p>Dos rutas claras para comenzar, con una persona disponible si prefieres hablar primero.</p>
+              <p class="section-kicker">Empieza aquí</p>
+              <h2 id="contacto-title">¿Listo para empezar?</h2>
+              <p>Haz el examen de ubicación y te ayudamos a elegir tu nivel, horario y modalidad.</p>
             </div>
-            <div class="next-step-list">
-              ${renderCtaBox("No sé cuál es mi nivel", "Recibe una recomendación inicial antes de elegir horario, nivel o modalidad.", conversionCtas.placement?.href, "Encontrar mi nivel", false, "01", "primary")}
-              ${renderCtaBox("Estoy listo para empezar", "Confirma por WhatsApp el proceso de inscripción + libro por $95.", conversionCtas.registration?.href, "Inscripción + libro · $95", true, "02", "secondary")}
+            <div class="final-cta-actions">
+              <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">
+                Encontrar mi nivel
+                <i data-lucide="arrow-right" aria-hidden="true"></i>
+              </a>
+              <a class="button button--ghost" href="${conversionCtas.advisor?.href || site.whatsappHref}" target="_blank" rel="noreferrer">
+                <i data-lucide="message-circle" aria-hidden="true"></i>
+                Hablar por WhatsApp
+              </a>
             </div>
-            <div class="next-step-contact" aria-label="Contacto directo">
-              <span>¿Prefieres empezar hablando?</span>
-              <a href="${site.phoneHref}"><i data-lucide="phone" aria-hidden="true"></i>${escapeHtml(site.phone)}</a>
-              <a href="${site.whatsappHref}" target="_blank" rel="noreferrer"><i data-lucide="message-circle" aria-hidden="true"></i>WhatsApp</a>
-            </div>
+            <p class="final-cta-note">
+              <i data-lucide="shield-check" aria-hidden="true"></i>
+              La recomendación inicial es gratuita. Un asesor confirma contigo el nivel y el horario antes de la inscripción.
+            </p>
           </div>
 
           <details class="contact-card contact-card--secondary card">
             <summary>
               <span>
                 <small>Respuesta humana</small>
-                <strong>Prefiero dejar mis datos</strong>
+                <strong>Prefiero que me contacten</strong>
               </span>
               <i class="contact-card__chevron" data-lucide="chevron-down" aria-hidden="true"></i>
             </summary>
@@ -908,8 +910,8 @@
         <div class="section-inner faq-layout">
           <div class="section-heading section-heading--framed">
             <p class="section-kicker">Preguntas frecuentes</p>
-            <h2>Resuelve dudas antes de hablar con el equipo.</h2>
-            <p>Preguntas cortas para quitar fricción antes del primer contacto. La conversación real sigue por WhatsApp o llamada.</p>
+            <h2>¿Todavía tienes dudas?</h2>
+            <p>Aquí respondemos las preguntas que más escuchamos de nuestros estudiantes.</p>
           </div>
           <div class="faq-list">
             ${faqs
@@ -942,10 +944,10 @@
                 <small>${escapeHtml(site.legal || "")}</small>
               </span>
             </a>
-            <p>Inglés presencial, híbrido y online con método visual, práctica guiada y orientación para elegir tu siguiente paso.</p>
+            <p>Inglés presencial, híbrido y online con método visual, práctica guiada y acompañamiento para avanzar con confianza.</p>
           </div>
           <div>
-            <h3>Rutas</h3>
+            <h3>Explora</h3>
             <a href="/courses/">Cursos detallados</a>
             <a href="/placement-test/">Examen de ubicación</a>
             <a href="${conversionCtas.registration?.href || site.whatsappHref}" target="_blank" rel="noreferrer">Inscripción + libro $95</a>
@@ -1054,40 +1056,36 @@
 
   function renderLocationCard(location) {
     const statusLabel = {
-      active: "Activa",
-      limited: "Confirmar disponibilidad",
-      online: "Online",
+      active: "Clases presenciales",
+      limited: "Disponibilidad limitada",
+      online: "Clases online",
       pending: "Pendiente / no activa",
     };
-    const phoneBlock = location.phone
-      ? `<p class="location-contact"><span>Teléfono</span><a href="${escapeHtml(location.phoneHref || site.phoneHref || "#")}">${escapeHtml(location.phone)}</a></p>`
-      : "";
-    const whatsappBlock = location.whatsapp
-      ? `<p class="location-contact"><span>WhatsApp</span><a href="${escapeHtml(location.whatsappHref || site.whatsappHref || "#")}" target="_blank" rel="noreferrer">${escapeHtml(location.whatsapp)}</a></p>`
-      : "";
-    const hoursBlock = Array.isArray(location.hours) && location.hours.length
-      ? `
-        <div class="location-hours">
-          <p>${escapeHtml(location.hoursLabel || "Horarios")}</p>
-          <ul>
-            ${location.hours.map((hour) => `<li>${escapeHtml(hour)}</li>`).join("")}
-          </ul>
-        </div>
-      `
-      : "";
+    const isLimited = location.status === "limited";
+    const isOnline = location.status === "online";
+    const actionHref = isLimited
+      ? `${site.whatsappHref}?text=${encodeURIComponent(`Hola AIT USA, quiero confirmar disponibilidad para ${location.city}.`)}`
+      : isOnline
+        ? "/courses/#ingles-online"
+        : "/courses/#ingles-presencial";
+    const actionLabel = isLimited ? "Consultar disponibilidad" : "Ver horarios";
+    const actionTarget = isLimited ? 'target="_blank" rel="noreferrer"' : "";
+    const availability = isLimited
+      ? "Confirma la disponibilidad antes de desplazarte."
+      : isOnline
+        ? "Estudia desde donde estés con horario confirmado por el equipo."
+        : "Grupos de mañana, tarde, noche y fin de semana.";
 
     return `
       <article class="location-card card location-card--${escapeHtml(location.status || "active")}">
         <p class="eyebrow-chip">${escapeHtml(statusLabel[location.status] || "Sede")}</p>
         <h3>${escapeHtml(location.city)}</h3>
         <p class="location-address">${escapeHtml(location.address)}</p>
-        <p>${escapeHtml(location.note)}</p>
-        <div class="location-contact-list">
-          ${phoneBlock}
-          ${whatsappBlock}
-        </div>
-        ${hoursBlock}
-        <p class="proof-line">${escapeHtml(location.highlight)}</p>
+        <p class="location-card__availability">${escapeHtml(availability)}</p>
+        <a class="location-card__action" href="${escapeHtml(actionHref)}" ${actionTarget}>
+          ${escapeHtml(actionLabel)}
+          <i data-lucide="arrow-right" aria-hidden="true"></i>
+        </a>
       </article>
     `;
   }
@@ -1555,7 +1553,7 @@
       };
 
       const message = [
-        "Hola AIT USA, quiero ayuda para elegir mi siguiente paso.",
+        "Hola AIT USA, quiero ayuda para elegir el programa y horario que me convienen.",
         `Nombre: ${name || "Sin nombre"}`,
         `Interés: ${interest}`,
         `Para: ${audience}`,

@@ -3,18 +3,31 @@ import { readFile } from "node:fs/promises";
 import { describe, it } from "node:test";
 
 describe("homepage selective concept integration", () => {
-  it("places the verified-media community band between Method and modalities", async () => {
+  it("keeps the homepage in one proof-led funnel sequence", async () => {
     const source = await readFile("src/main.js", "utf8");
     const methodIndex = source.indexOf("${renderSolutionSection()}");
+    const proofIndex = source.indexOf("${renderProofSection()}");
     const communityIndex = source.indexOf("${renderCommunitySection()}");
     const offeringsIndex = source.indexOf("${renderOfferingPathSection()}");
+    const locationsIndex = source.indexOf("${renderLocationsSection()}");
+    const faqIndex = source.indexOf("${renderFaqSection()}");
+    const finalCtaIndex = source.indexOf("${renderFinalCtaSection()}");
 
     assert.ok(methodIndex >= 0);
-    assert.ok(communityIndex > methodIndex);
+    assert.ok(proofIndex > methodIndex);
+    assert.ok(communityIndex > proofIndex);
     assert.ok(offeringsIndex > communityIndex);
-    assert.match(source, /site\.images\.testimonialAntonina/);
+    assert.ok(locationsIndex > offeringsIndex);
+    assert.ok(faqIndex > locationsIndex);
+    assert.ok(finalCtaIndex > faqIndex);
+    assert.match(source, /src="\$\{site\.images\.testimonialAntonina\}"/);
+    assert.doesNotMatch(source, /asset\(site\.images\.testimonialAntonina\)/);
     assert.doesNotMatch(source, /De estudiante a profesor/);
     assert.doesNotMatch(source, /cuidadosamente seleccionados/);
+    assert.doesNotMatch(
+      source.slice(source.indexOf("function renderHomePage"), source.indexOf("function renderCoursesPage")),
+      /renderCourseTeaserSection/,
+    );
     assert.match(source, /initFaqs\(document\);\s*scrollToInitialHash\(\);/);
   });
 
@@ -31,21 +44,36 @@ describe("homepage selective concept integration", () => {
     assert.match(section, /Ver catálogo completo/);
   });
 
-  it("reduces the next-step area to two choices with direct phone and WhatsApp links", async () => {
+  it("uses placement as the primary conversion action and WhatsApp as the human fallback", async () => {
     const source = await readFile("src/main.js", "utf8");
     const section = source.slice(
       source.indexOf("function renderFinalCtaSection"),
       source.indexOf("function renderCourseTeaserSection"),
     );
 
-    assert.equal((section.match(/renderCtaBox\(/g) || []).length, 2);
-    assert.match(section, /No sé cuál es mi nivel/);
-    assert.match(section, /Estoy listo para empezar/);
-    assert.match(section, /next-step-contact/);
-    assert.match(section, /site\.phoneHref/);
-    assert.match(section, /site\.whatsappHref/);
+    assert.equal((section.match(/renderCtaBox\(/g) || []).length, 0);
+    assert.match(section, /¿Listo para empezar\?/);
+    assert.match(section, /Encontrar mi nivel/);
+    assert.match(section, /Hablar por WhatsApp/);
+    assert.match(section, /final-cta-actions/);
+    assert.match(section, /conversionCtas\.placement/);
+    assert.match(section, /conversionCtas\.advisor/);
     assert.match(section, /contact-card--secondary/);
     assert.match(section, /<details class="contact-card/);
-    assert.match(section, /Prefiero dejar mis datos/);
+    assert.match(section, /Prefiero que me contacten/);
+  });
+
+  it("keeps homepage location cards concise and sends schedule detail one click deeper", async () => {
+    const source = await readFile("src/main.js", "utf8");
+    const section = source.slice(
+      source.indexOf("function renderLocationCard"),
+      source.indexOf("function renderPendingLocationNote"),
+    );
+
+    assert.match(section, /Ver horarios/);
+    assert.match(section, /Consultar disponibilidad/);
+    assert.match(section, /location-card__action/);
+    assert.doesNotMatch(section, /location-contact-list/);
+    assert.doesNotMatch(section, /location-hours/);
   });
 });

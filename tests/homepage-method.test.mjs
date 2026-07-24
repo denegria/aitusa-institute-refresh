@@ -17,7 +17,7 @@ describe("homepage Method showcase", () => {
 
     assert.deepEqual(
       Array.from(solutionCharacteristics, (item) => item.tabLabel),
-      ["Comprensión visual", "Práctica guiada", "Ruta semanal"],
+      ["Comprensión visual", "Práctica guiada", "Apoyo constante"],
     );
     for (const item of solutionCharacteristics) {
       assert.match(item.video, /^\.\/public\/assets\/wix\/videos\/.+\.mp4$/);
