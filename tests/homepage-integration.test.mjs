@@ -78,6 +78,8 @@ describe("homepage selective concept integration", () => {
     assert.match(section, /real-map-card__image/);
     assert.match(section, /new-jersey-campus-map\.jpg/);
     assert.match(section, /© OpenStreetMap/);
+    assert.match(section, /real-map-card__attribution/);
+    assert.match(section, /aria-label="Ampliar mapa en OpenStreetMap"/);
     assert.match(section, /mappedLocations\.map\(renderRealMapPin\)/);
     assert.match(section, /mappedLocations\.map\(renderCompactLocationRow\)/);
     assert.match(section, /location-hours-panel/);
@@ -86,6 +88,7 @@ describe("homepage selective concept integration", () => {
     assert.match(locationRenderers, /google\.com\/maps\/search/);
     assert.doesNotMatch(section, /<iframe/);
     assert.doesNotMatch(section, /<svg/);
+    assert.doesNotMatch(section, /real-map-card__footer/);
     assert.doesNotMatch(section, /location-map__art/);
     assert.doesNotMatch(section, /status !== "pending"\)\.map/);
   });

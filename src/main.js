@@ -658,14 +658,21 @@
                 <div class="real-map-card__pins" aria-label="Sedes marcadas en el mapa">
                   ${mappedLocations.map(renderRealMapPin).join("")}
                 </div>
-              </div>
-              <div class="real-map-card__footer">
-                <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">
-                  <i data-lucide="map" aria-hidden="true"></i>
+                <a
+                  class="real-map-card__attribution"
+                  href="https://www.openstreetmap.org/copyright"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   © OpenStreetMap
                 </a>
-                <a href="https://www.openstreetmap.org/#map=11/40.57/-74.61" target="_blank" rel="noreferrer">
-                  Ampliar mapa
+                <a
+                  class="real-map-card__expand"
+                  href="https://www.openstreetmap.org/#map=11/40.57/-74.61"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Ampliar mapa en OpenStreetMap"
+                >
                   <i data-lucide="external-link" aria-hidden="true"></i>
                 </a>
               </div>
