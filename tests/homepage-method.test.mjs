@@ -24,7 +24,7 @@ describe("homepage Method showcase", () => {
     }
     assert.equal(
       solutionCharacteristics[0].videoPoster,
-      "./public/assets/method/method-real-studio-poster.png",
+      "./public/assets/wix/videos/posters/what-makes-us-different.jpg",
     );
   });
 

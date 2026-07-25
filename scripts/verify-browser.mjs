@@ -316,9 +316,11 @@ const stabilizeViewport = async () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     document.querySelectorAll('video').forEach((video) => {
       video.pause();
-      try {
-        video.currentTime = 0;
-      } catch {}
+      if (video.currentTime > 0.01) {
+        try {
+          video.currentTime = 0;
+        } catch {}
+      }
     });
   })()`);
   await sleep(250);
@@ -379,6 +381,38 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     const missingImages = images
       .filter((img) => !img.complete || img.naturalWidth === 0)
       .map((img) => img.currentSrc || img.src);
+    const methodPosterIssues = (await Promise.all(
+      [...document.querySelectorAll('.method-panel__video')].map(async (video) => {
+        const poster = new Image();
+        poster.src = video.poster;
+        await new Promise((resolve) => {
+          if (poster.complete) {
+            resolve();
+            return;
+          }
+          poster.addEventListener('load', resolve, { once: true });
+          poster.addEventListener('error', resolve, { once: true });
+          setTimeout(resolve, 2500);
+        });
+        const expectedWidth = Number(video.getAttribute('width'));
+        const expectedHeight = Number(video.getAttribute('height'));
+        const expectedRatio = expectedWidth / expectedHeight;
+        const actualRatio = poster.naturalWidth / poster.naturalHeight;
+        if (
+          !poster.naturalWidth ||
+          !poster.naturalHeight ||
+          !Number.isFinite(expectedRatio) ||
+          Math.abs(actualRatio - expectedRatio) > 0.015
+        ) {
+          return {
+            poster: video.poster,
+            expected: [expectedWidth, expectedHeight],
+            actual: [poster.naturalWidth, poster.naturalHeight],
+          };
+        }
+        return null;
+      }),
+    )).filter(Boolean);
     const methodVideos = [...document.querySelectorAll('.clip-card__media-player')];
     await Promise.all(methodVideos.map((video) => new Promise((resolve) => {
       if (video.readyState >= 1 || video.error) {
@@ -499,6 +533,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       variantLists: document.querySelectorAll('.variant-list').length,
       faqs: document.querySelectorAll('.faq-list details').length,
       missingImages,
+      methodPosterIssues,
       videoMetadataIssues,
       videoVisualIssues,
       methodFrameIssues,
@@ -923,6 +958,7 @@ const blockingResults = results.filter((result) =>
   (result.missingImages && result.missingImages.length) ||
   (result.overflowing && result.overflowing.length) ||
   (result.viewportIssues && result.viewportIssues.length) ||
+  (result.methodPosterIssues && result.methodPosterIssues.length) ||
   (result.videoMetadataIssues && result.videoMetadataIssues.length) ||
   (result.videoVisualIssues && result.videoVisualIssues.length) ||
   (result.methodFrameIssues && result.methodFrameIssues.length)

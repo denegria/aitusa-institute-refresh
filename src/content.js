@@ -121,7 +121,7 @@ const site = {
     thirdCharacteristicVideo: assetVideo("third-characteristic.mp4"),
     thirdCharacteristicVideoPoster: assetVideoPoster("third-characteristic.jpg"),
     differenceVideo: assetVideo("what-makes-us-different.mp4"),
-    methodStudioPoster: "./public/assets/method/method-real-studio-poster.png",
+    methodStudioPoster: assetVideoPoster("what-makes-us-different.jpg"),
     internationalStudentVideo: assetVideo("international-student-testimonial.mp4"),
     internationalStudentVideoPoster: assetVideoPoster("international-student-testimonial.jpg"),
     ericInterviewVideo: assetVideo("student-interview-eric-great.mp4"),
