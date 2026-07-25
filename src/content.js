@@ -115,21 +115,12 @@ const site = {
     heroPoster: assetHires("graphic-concept-method.jpg"),
     heroVideo: assetVideo("intro-video-great.mp4"),
     heroVideoPortrait: assetVideo("intro-video-great.mp4"),
-    heroVideoFallback: assetVideo("promo-video-great.mp4"),
     heroVideoPoster: assetVideoPoster("intro-video-great.jpg"),
     introVideo: assetVideo("intro-video-great.mp4"),
     introVideoPoster: assetVideoPoster("intro-video-great.jpg"),
-    promoVideo: assetVideo("promo-video-great.mp4"),
-    promoVideoPoster: assetVideoPoster("promo-video-great.jpg"),
-    // The provided first/second characteristic MP4s are black logo-only exports; keep them local until replacements are available.
-    firstCharacteristicVideo: assetVideo("first-characteristic.mp4"),
-    firstCharacteristicVideoPoster: assetVideoPoster("first-characteristic.jpg"),
-    secondCharacteristicVideo: assetVideo("second-characteristic.mp4"),
-    secondCharacteristicVideoPoster: assetVideoPoster("second-characteristic.jpg"),
     thirdCharacteristicVideo: assetVideo("third-characteristic.mp4"),
     thirdCharacteristicVideoPoster: assetVideoPoster("third-characteristic.jpg"),
     differenceVideo: assetVideo("what-makes-us-different.mp4"),
-    differenceVideoPoster: assetVideoPoster("what-makes-us-different.jpg"),
     methodStudioPoster: "./public/assets/method/method-real-studio-poster.png",
     internationalStudentVideo: assetVideo("international-student-testimonial.mp4"),
     internationalStudentVideoPoster: assetVideoPoster("international-student-testimonial.jpg"),
@@ -137,11 +128,7 @@ const site = {
     ericInterviewVideoPoster: assetVideoPoster("student-interview-eric-great.jpg"),
     jessicaInterviewVideo: assetVideo("student-interview-jessica-great.mp4"),
     jessicaInterviewVideoPoster: assetVideoPoster("student-interview-jessica-great.jpg"),
-    leilaTestimonialVideo: assetVideo("student-testimonial-leila-needs-reduced-volume.mp4"),
-    leilaTestimonialVideoPoster: assetVideoPoster("student-testimonial-leila-needs-reduced-volume.jpg"),
     heroClassroom: assetHires("hero-classroom.jpg"),
-    heroFemaleClassroom: assetHires("contact-female-speaking.jpg"),
-    heroFemaleTeacher: assetHires("contact-female-speaking.jpg"),
     heroFemaleZoom: assetHires("online-instructor-headset.jpg"),
     heroFemaleSpeakingPoster: asset("live/hero-female-speaking-poster.jpg"),
     adultEnglish: assetHires("adult-speaking-class.jpg"),
@@ -158,22 +145,11 @@ const site = {
     level: assetHires("adult-speaking-class.jpg"),
     routeLevels: assetHires("english-levels.jpg"),
     routeConcept: assetHires("graphic-concept-method.jpg"),
-    scholarship: assetHires("scholarships.jpg"),
-    contact: assetHires("contact-female-speaking.jpg"),
     contactAlt:
       "Salón de AiT USA preparado para una clase de inglés con estudiantes.",
     headset: assetHires("online-instructor-headset.jpg"),
     devices: assetHires("devices-study.jpg"),
-    testimonialAntonina: assetHires("testimonial-antonina-1200.jpg"),
-    testimonialMarisol: assetHires("testimonial-marisol-1200.jpg"),
-    productEuropa: asset("products/product-europa-mes-4weeks.jpg"),
-    productLibro: asset("products/product-libro.jpg"),
-    productRegistrationBook: asset("products/product-registracion-y-libro.jpg"),
-    productRegistration: asset("products/product-solo-registracion-pago-unico.jpg"),
-    productProgramming: asset("products/product-cursos-de-programming.jpg"),
-    productLatam: asset("products/product-latinoamerica-mes-4-weeks.jpg"),
     productGed: asset("products/product-ged.jpg"),
-    productComputing: asset("products/product-computacion.jpg"),
   },
 };
 const heroQuickCapture = site.heroQuickCapture;
@@ -751,35 +727,6 @@ const programs = [
   },
 ];
 
-const heroGallery = [
-  {
-    label: "Video de introducción",
-    title: "Conoce el punto de partida antes de elegir programa.",
-    image: site.images.introVideoPoster,
-    video: site.images.introVideo,
-    videoPoster: site.images.introVideoPoster,
-    imageAlt: "Frame del video introductorio de AiT USA Institute.",
-  },
-  {
-    label: "Promoción general",
-    title:
-      "Una vista rápida de la experiencia, programas y acompañamiento.",
-    image: site.images.promoVideoPoster,
-    video: site.images.promoVideo,
-    videoPoster: site.images.promoVideoPoster,
-    imageAlt:
-      "Frame del video promocional de AiT USA Institute.",
-  },
-  {
-    label: "Lo que nos diferencia",
-    title: "Método visual, práctica guiada y seguimiento cercano.",
-    image: site.images.differenceVideoPoster,
-    video: site.images.differenceVideo,
-    videoPoster: site.images.differenceVideoPoster,
-    imageAlt: "Frame del video sobre lo que diferencia a AiT USA.",
-  },
-];
-
 const heroProof = [
   {
     value: "20+",
@@ -801,32 +748,6 @@ const heroProof = [
     href: "#horarios",
     cta: "Comparar horarios",
     intent: "scheduleFlex",
-  },
-];
-
-const instructorClips = [
-  {
-    title: "Qué hace diferente a AiT USA",
-    eyebrow: "Diferenciador",
-    image: site.images.differenceVideoPoster,
-    video: site.images.differenceVideo,
-    videoPoster: site.images.differenceVideoPoster,
-    imageAlt: "Frame del video sobre lo que diferencia a AiT USA.",
-    caption:
-      "Una explicación breve de lo que hace distinta la experiencia frente a una clase genérica.",
-    duration: "0:38",
-  },
-  {
-    title: "Tercera característica del método",
-    eyebrow: "Característica 3",
-    image: site.images.thirdCharacteristicVideoPoster,
-    video: site.images.thirdCharacteristicVideo,
-    videoPoster: site.images.thirdCharacteristicVideoPoster,
-    imageAlt:
-      "Instructora mostrando el progreso por niveles mientras guía una clase visual.",
-    caption:
-      "El tercer clip resume la continuidad: objetivo, práctica y seguimiento para avanzar sin perder ritmo.",
-    duration: "0:17",
   },
 ];
 
@@ -953,65 +874,6 @@ const methodBlocks = [
     imageAlt: "Instructora guiando el avance por niveles con una escala de progreso colorida.",
     text:
       "Básico, intermedio y avanzado avanzan con metas claras y continuidad semanal.",
-  },
-];
-
-const books = [
-  {
-    title: "Introducción Plus",
-    subtitle: "Libro introductorio de inglés",
-    level: "Introductorio",
-    image: asset("031-intro-book-portada.jpg"),
-    bestFor: "Ideal si estás dando tu primer paso y quieres entender la base del método.",
-    text: "Aquí empieza la familiarización con el inglés y con la ruta académica del método.",
-  },
-  {
-    title: "Paso Plus 1",
-    subtitle: "Libro del estudiante",
-    level: "Básico",
-    image: asset("035-step-plus-1-portada.jpg"),
-    bestFor: "Ideal para empezar a construir estructura y confianza desde cero.",
-    text: "Introducción al método, la técnica y la estrategia.",
-  },
-  {
-    title: "Paso Plus 2",
-    subtitle: "Libro del estudiante",
-    level: "Básico",
-    image: asset("037-step-plus-2-portada.jpg"),
-    bestFor: "Ideal si ya viste lo básico y quieres practicar patrones esenciales.",
-    text: "Continuación de la base visual para practicar patrones esenciales.",
-  },
-  {
-    title: "Paso Plus 3",
-    subtitle: "Libro del estudiante",
-    level: "Intermedio",
-    image: asset("039-step-plus-3-portada.jpg"),
-    bestFor: "Ideal si quieres pasar a presente, pasado y futuro con más control.",
-    text: "Trabajo sobre tiempos presente, pasado y futuro.",
-  },
-  {
-    title: "Paso Plus 4",
-    subtitle: "Libro del estudiante",
-    level: "Intermedio",
-    image: asset("041-step-plus-4-portada.jpg"),
-    bestFor: "Ideal para usar los tiempos con mayor seguridad en conversación real.",
-    text: "Refuerzo para usar los tiempos con mayor seguridad.",
-  },
-  {
-    title: "Paso Plus 5",
-    subtitle: "Libro del estudiante",
-    level: "Avanzado",
-    image: asset("043-step-plus-5-portada.jpg"),
-    bestFor: "Ideal si ya tienes base y quieres expresarte con más libertad.",
-    text: "Preparación para expresarse con más libertad.",
-  },
-  {
-    title: "Paso Plus 6",
-    subtitle: "Libro del estudiante",
-    level: "Avanzado",
-    image: asset("045-step-plus-6-portada.jpg"),
-    bestFor: "Ideal si estás listo para cerrar la ruta y avanzar a mayor fluidez.",
-    text: "Cierre de ruta para estudiantes listos para avanzar.",
   },
 ];
 
@@ -1144,56 +1006,6 @@ const testimonials = [
     text:
       "Jessica empezó como estudiante de AiT y hoy es una de las docentes referentes del método. Escucha más contexto sobre su experiencia, el ritmo de clase y los detalles que ayudan a avanzar.",
   },
-  {
-    name: "Leila",
-    image: site.images.leilaTestimonialVideoPoster,
-    video: site.images.leilaTestimonialVideo,
-    videoPoster: site.images.leilaTestimonialVideoPoster,
-    videoWidth: 848,
-    videoHeight: 480,
-    duration: "1:06",
-    imageAlt:
-      "Estudiante compartiendo testimonio en video sobre su avance y experiencia.",
-    result: "Testimonio en video",
-    text:
-      "Escucha cómo vivió su proceso y qué le ayudó a seguir avanzando.",
-  },
-];
-
-const teachers = [
-  {
-    name: "Instructora de inglés conversacional",
-    intent: "classSample",
-    href: "#experiencia",
-    image: site.images.contact,
-    imageAlt: "Instructora de AiT USA corrigiendo pronunciación durante una clase real de conversación.",
-    role: "Corrección en vivo con seguimiento semanal.",
-    description:
-      "Trabaja contigo para que cada intervención sea más natural, clara y útil desde el primer bloque.",
-    badge: "Clase real",
-  },
-  {
-    name: "Instructora de práctica online",
-    intent: "classSample",
-    href: "#experiencia",
-    image: site.images.heroFemaleZoom,
-    imageAlt: "Instructora de AiT USA guiando una clase online con audífonos y micrófono.",
-    role: "Aprendizaje remoto con participación guiada.",
-    description:
-      "Guía la dinámica desde la distancia para que practiques confianza oral con apoyo y estructura.",
-    badge: "Formato online",
-  },
-  {
-    name: "Instructora de continuidad académica",
-    intent: "default",
-    href: "#contacto",
-    image: site.images.routeLevels,
-    imageAlt: "Instructora de AiT USA mostrando el avance por niveles y metas semanales.",
-    role: "Soporte constante y ruta personalizada.",
-    description:
-      "Acompaña el seguimiento de metas semanales para que avances sin perder ritmo ni motivación.",
-    badge: "Seguimiento semanal",
-  },
 ];
 
 const trustHighlights = [
@@ -1227,36 +1039,6 @@ const trustFeature = [
     image: site.images.heroClassroom,
     imageAlt: "Instructora de AiT USA liderando una clase real frente al pizarrón con apoyo visual.",
     chips: ["Clase visible", "Seguimiento", "Confianza"],
-  },
-];
-
-const paymentGuides = [
-  {
-    title: "Quiero empezar a hablar inglés",
-    text: "Empieza con la mensualidad o la combinación registración + libro si quieres una ruta completa.",
-    cta: "Ver ruta recomendada",
-    href: "#cursos",
-  },
-  {
-    title: "Solo necesito material de estudio",
-    text: "El libro individual funciona bien si ya estás en clase y quieres reforzar la ruta en casa.",
-    cta: "Ver material",
-    href: "#libros",
-  },
-  {
-    title: "Necesito ajustar mi presupuesto",
-    text: "Compararemos mensualidad, libro, registración y modalidad para encontrar la ruta que encaje contigo sin perder claridad.",
-    cta: "Hablar con asesor",
-    href: "#contacto",
-    image: site.images.scholarship,
-    imageAlt: "Dos estudiantes revisando opciones de estudio con laptop y cuaderno.",
-    tag: "Apoyo y presupuesto",
-  },
-  {
-    title: "Busco otra área académica o técnica",
-    text: "GED, computación básica y oficina tienen su propio camino según tu objetivo inmediato.",
-    cta: "Explorar opción",
-    href: "#cursos",
   },
 ];
 
@@ -1336,138 +1118,6 @@ const requirements = [
     image: site.images.devices,
     imageAlt: "Laptop, tablet y teléfono para conectarse a clases online.",
     text: "Laptop, desktop, tableta o teléfono con conexión estable.",
-  },
-];
-
-const storeProducts = [
-  {
-    title: "Europa - mensualidad",
-    price: "$175.00",
-    status: "Disponible",
-    sku: "",
-    image: site.images.productEuropa,
-    imageAlt: "Estudiante adulta tomando clase online desde casa con laptop y cuaderno.",
-    bestFor: "Ideal para estudiantes en Europa que quieren estudiar 100% online.",
-    cta: "Consultar Europa",
-    note:
-      "Plan 100% online para estudiantes en Europa, con pago y acceso coordinados por WhatsApp.",
-    variants: [],
-  },
-  {
-    title: "Libro de estudio",
-    price: "$55.00",
-    status: "Disponible",
-    sku: "",
-    image: site.images.productLibro,
-    imageAlt: "Estudiante estudiando con libro abierto, cuaderno y laptop.",
-    bestFor: "Ideal si ya estás inscrito y solo necesitas el material de estudio.",
-    cta: "Quiero este libro",
-    note:
-      "Libro físico para clases presenciales u online dentro de Estados Unidos; fuera de USA se coordina la versión digital por WhatsApp.",
-    variants: [],
-  },
-  {
-    title: "Registración + libro",
-    price: "$95.00",
-    status: "Disponible",
-    sku: "",
-    image: site.images.productRegistrationBook,
-    imageAlt: "Instructora guiando registración + libro con workbook y laptop en la mesa.",
-    bestFor: "Recomendado para comenzar una ruta nueva con seguimiento completo.",
-    cta: "Consultar paquete",
-    note:
-      "Paquete de registración más libro para iniciar el curso y mantener la ruta de seguimiento.",
-    variants: [
-      { name: "Online", price: "$95.00" },
-      { name: "Presencial", price: "$95.00" },
-    ],
-  },
-  {
-    title: "Solo registración",
-    price: "$55.00",
-    status: "Disponible",
-    sku: "",
-    image: site.images.productRegistration,
-    imageAlt: "Estudiante completando registración con apoyo de una instructora y tablet en la mesa.",
-    bestFor: "Ideal si solo necesitas asegurar tu cupo en el nivel correcto.",
-    cta: "Pedir registración",
-    note:
-      "Pago único de registración para niveles básico, intermedio y avanzado, disponible online o presencial.",
-    variants: [
-      { name: "Básico | Online", price: "$55.00" },
-      { name: "Intermedio | Online", price: "$55.00" },
-      { name: "Avanzado | Online", price: "$55.00" },
-      { name: "Básico | Presencial", price: "$55.00" },
-      { name: "Intermedio | Presencial", price: "$55.00" },
-      { name: "Avanzado | Presencial", price: "$55.00" },
-    ],
-  },
-  {
-    title: "Cursos de programación",
-    price: "$3,500.00",
-    status: "Disponible",
-    sku: "",
-    image: site.images.productProgramming,
-    imageAlt: "Instructora guiando una clase de programación y diseño con código y wireframes en pantalla.",
-    bestFor: "Perfecto para estudiantes que buscan formación técnica con salida laboral.",
-    cta: "Ver cursos técnicos",
-    note:
-      "Cursos online de tres meses: diseño gráfico, diseño web y reparación de computadoras y redes, con opciones de inicio mensual.",
-    variants: [
-      { name: "Diseño gráfico", price: "$3,500.00" },
-      { name: "Diseño web", price: "$3,500.00" },
-      { name: "Reparación de computadoras y redes", price: "$2,400.00" },
-    ],
-  },
-  {
-    title: "Latinoamérica - mensualidad",
-    price: "$145.00",
-    status: "Disponible",
-    sku: "364215376135191",
-    image: site.images.productLatam,
-    imageAlt: "Plan Latinoamérica mensual para clases de inglés online.",
-    bestFor: "Ideal para estudiantes de Latinoamérica que quieren avanzar cada mes.",
-    cta: "Consultar Latinoamérica",
-    note:
-      "Mensualidad cada 4 semanas para niveles básico, intermedio y avanzado, con opciones online y presencial.",
-    variants: [
-      { name: "Básico | Online | Mensual", price: "$145.00" },
-      { name: "Intermedio | Online | Mensual", price: "$145.00" },
-      { name: "Avanzado | Online | Mensual", price: "$145.00" },
-      { name: "Básico | Presencial | Mensual", price: "$145.00" },
-      { name: "Intermedio | Presencial | Mensual", price: "$145.00" },
-      { name: "Avanzado | Presencial | Mensual", price: "$145.00" },
-    ],
-  },
-  {
-    title: "Preparación GED",
-    price: "$240.00",
-    status: "Disponible",
-    sku: "364215375135191",
-    image: site.images.productGed,
-    imageAlt: "Tutora guiando preparación GED con workbook, lápices y calculadora.",
-    bestFor: "Pensado para adultos que buscan completar equivalencia de High School.",
-    cta: "Consultar GED",
-    note:
-      "Curso estimado de seis meses, con dos clases de una hora por semana, horario de sábados y seguimiento de progreso.",
-    variants: [],
-  },
-  {
-    title: "Computación básica y oficina",
-    price: "$325.00",
-    status: "Disponible",
-    sku: "364115376135191",
-    image: site.images.productComputing,
-    imageAlt: "Instructora guiando a una estudiante en computación para oficina con laptop y gráficos en pantalla.",
-    bestFor: "Ideal para principiantes que necesitan habilidades de computadora y oficina.",
-    cta: "Ver computación",
-    note:
-      "Cursos básicos de internet, Mac o Windows, más cursos de oficina en Word, Excel y PowerPoint con horarios de mañana, tarde y noche.",
-    variants: [
-      { name: "Internet", price: "$325.00" },
-      { name: "Mac o Windows", price: "$325.00" },
-      { name: "Microsoft Office", price: "$325.00" },
-    ],
   },
 ];
 
@@ -2031,13 +1681,10 @@ window.AITUSA_DATA = {
   heroVideoHighlights,
   heroHighlights,
   heroQuickCapture,
-  books,
   differentiators,
   downloads,
   faqs,
   heroPoints,
-  heroGallery,
-  instructorClips,
   locations,
   methodCharacteristics,
   methodBlocks,
@@ -2048,16 +1695,13 @@ window.AITUSA_DATA = {
   schedules,
   site,
   stats,
-  storeProducts,
   learningOutcomes,
   heroSignal,
   heroStartPath,
   launchPath,
-  teachers,
   testimonials,
   trustHighlights,
   trustFeature,
-  paymentGuides,
   contactPrep,
   footerFacts,
   courseGuides,

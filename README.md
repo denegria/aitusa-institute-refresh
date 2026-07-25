@@ -1,6 +1,7 @@
 # AiT USA Institute Refresh
 
-Static first-pass rebuild of the public Wix site at https://www.aitusainstitute.com/.
+Next-hosted refresh of the public AiT USA Institute site, with a legacy
+HTML/CSS/JavaScript homepage and Next application/API routes.
 
 ## Run Locally
 
@@ -15,16 +16,12 @@ You can also open `index.html` directly in a browser. No package install is requ
 ## Project Structure
 
 - `index.html` - page shell
-- `src/content.js` - structured copy, contact details, programs, books, schedules, FAQ, products
+- `src/content.js` - structured copy, contact details, active programs, schedules, FAQ, and published media
 - `src/main.js` - renders the page and handles filters, mobile menu, FAQ, and lead form behavior
 - `src/styles.css` - visual system and responsive layout
-- `public/assets/wix/` - media downloaded from public Wix pages
-- `public/assets/wix/products/` - product media pulled from Wix static media after dashboard access
-- `content/raw/` - raw HTML snapshots captured from public pages
-- `content/wix-backend/` - dashboard navigation, product-table exports, product detail snapshots, and distilled product catalog
-- `content/capture-manifest.json` - capture report for pages and assets
-- `content/image-inventory.json` - image alt/source/local mapping
+- `public/assets/` - media used by current public routes and SEO metadata
 - `content/external-links.txt` - Google Forms, WhatsApp, and social links found in the public HTML
+- `content/site-content.md` - concise source notes retained from the original migration
 
 ## Capture Scripts
 
@@ -36,18 +33,16 @@ node ./scripts/check-assets.mjs
 node ./scripts/verify-browser.mjs
 ```
 
-The capture script needs network access. It saves public page HTML and Wix-hosted media that are exposed in the rendered HTML.
+The capture script needs network access. Its raw HTML, inventory, and dashboard
+outputs are local-only migration artifacts and are ignored by Git.
 
 `verify-browser.mjs` starts a temporary local server, opens Chrome/Edge headless through DevTools Protocol, checks desktop and mobile viewports, writes screenshots to `screenshots/`, and saves a JSON report.
 
-## Wix Dashboard Capture
+## Historical Migration Evidence
 
-The Codex in-app browser was used with the logged-in Wix dashboard to capture the store catalog without touching private orders, contacts, inbox, or form submissions.
-
-- `content/wix-backend/exports/store-products-full.json` - 8 product rows with Wix product IDs, prices, SKUs, statuses, and image URLs
-- `content/wix-backend/exports/product-*-detail.json` - raw detail-page captures for each product
-- `content/wix-backend/exports/products-structured.json` - cleaned product catalog used by the rebuilt page
-- `content/wix-backend/snapshots/product-*.dom.txt` - DOM snapshots for audit/debugging
+The original Wix captures, product snapshots, generated screenshots, and design
+evidence remain recoverable from Git commit `3578ef8`. They are not required by
+the production build and should not be recommitted to the active product tree.
 
 ## Known Follow-Ups
 

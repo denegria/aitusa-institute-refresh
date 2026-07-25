@@ -9,7 +9,10 @@ server.err.log
 .DS_Store
 Thumbs.db
 *.log
-screenshots/product-refresh-qa/
-screenshots/sentry-qa-*/
+screenshots/
+content/raw/
+content/wix-backend/
+content/capture-manifest.json
+content/image-inventory.json
 
 .vercel

@@ -12,13 +12,13 @@ async function loadSiteData() {
 }
 
 describe("homepage Prueba real gallery", () => {
-  it("uses the four approved staging videos and their real durations", async () => {
+  it("uses the three published staging videos and their real durations", async () => {
     const { testimonials } = await loadSiteData();
 
-    assert.equal(testimonials.length, 4);
+    assert.equal(testimonials.length, 3);
     assert.deepEqual(
       Array.from(testimonials, (item) => item.duration),
-      ["0:46", "0:42", "2:52", "1:06"],
+      ["0:46", "0:42", "2:52"],
     );
 
     for (const item of testimonials) {
