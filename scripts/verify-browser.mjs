@@ -446,6 +446,32 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       return null;
     };
     const videoVisualIssues = (await Promise.all(methodVideos.map(inspectVideoFrame))).filter(Boolean);
+    const methodFrameIssues = [...document.querySelectorAll('.method-panel:not([hidden]) .method-panel__media')]
+      .flatMap((media) => {
+        const video = media.querySelector('.method-panel__video');
+        if (!video) {
+          return [{ reason: 'missing-video' }];
+        }
+        const mediaRect = media.getBoundingClientRect();
+        const videoRect = video.getBoundingClientRect();
+        const frameInset = parseFloat(getComputedStyle(media).paddingTop);
+        const gaps = {
+          top: videoRect.top - mediaRect.top,
+          right: mediaRect.right - videoRect.right,
+          bottom: mediaRect.bottom - videoRect.bottom,
+          left: videoRect.left - mediaRect.left,
+        };
+        const tolerance = 1.5;
+        const aligned = Number.isFinite(frameInset) && Object.values(gaps)
+          .every((gap) => Math.abs(gap - frameInset) <= tolerance);
+        return aligned ? [] : [{
+          reason: 'video-outside-frame',
+          frameInset,
+          gaps: Object.fromEntries(
+            Object.entries(gaps).map(([side, gap]) => [side, Math.round(gap * 100) / 100]),
+          ),
+        }];
+      });
     const overflowing = [...document.querySelectorAll('body *')]
       .filter((el) => el.scrollWidth > el.clientWidth + 2 && getComputedStyle(el).overflowX === 'visible')
       .slice(0, 12)
@@ -475,6 +501,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       missingImages,
       videoMetadataIssues,
       videoVisualIssues,
+      methodFrameIssues,
       overflowing,
       pageHeight: document.documentElement.scrollHeight,
     };
@@ -897,7 +924,8 @@ const blockingResults = results.filter((result) =>
   (result.overflowing && result.overflowing.length) ||
   (result.viewportIssues && result.viewportIssues.length) ||
   (result.videoMetadataIssues && result.videoMetadataIssues.length) ||
-  (result.videoVisualIssues && result.videoVisualIssues.length)
+  (result.videoVisualIssues && result.videoVisualIssues.length) ||
+  (result.methodFrameIssues && result.methodFrameIssues.length)
 );
 
 if (exceptions.length || consoleMessages.length || blockingResults.length) {

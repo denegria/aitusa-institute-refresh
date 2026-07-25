@@ -864,16 +864,18 @@ button {
 }
 
 .method-panel__media {
+  --method-frame-inset: clamp(10px, 1.1vw, 16px);
   position: absolute;
   inset: 0 0 0 31%;
   z-index: 1;
   overflow: hidden;
+  padding: var(--method-frame-inset);
   background: var(--method-navy);
 }
 
 .method-panel__media::after {
   position: absolute;
-  inset: clamp(10px, 1.1vw, 16px);
+  inset: var(--method-frame-inset);
   z-index: 2;
   border: 1px solid rgba(196, 147, 45, 0.58);
   content: "";
