@@ -44,7 +44,9 @@ describe("homepage selective concept integration", () => {
     );
 
     assert.match(section, /productOfferings\s*\.slice\(0, 3\)/);
+    assert.match(section, /offer-node__marker/);
     assert.match(section, /offer-node__link/);
+    assert.doesNotMatch(section, /eyebrow-chip/);
     assert.match(section, /También ofrecemos inglés para niños, GED, computación/);
     assert.doesNotMatch(section, /Ver catálogo completo/);
   });
@@ -152,6 +154,10 @@ describe("homepage selective concept integration", () => {
     assert.match(styles, /\.home-page \.compact-location-row\s*\{[\s\S]*grid-template-areas:[\s\S]*"number copy"[\s\S]*"number action"/);
     assert.match(styles, /\.home-page \.compact-location-row__copy strong,[\s\S]*white-space: normal/);
     assert.match(styles, /\.site-footer__grid > div:not\(:first-child\) a\s*\{[\s\S]*min-height: 44px/);
+    assert.match(
+      styles,
+      /@media \(max-width: 719px\)[\s\S]*\.home-page \.offer-node\s*\{[\s\S]*gap: 14px;[\s\S]*padding: 18px/,
+    );
     assert.match(source, /Información de inscripción y libro \(\$95\)/);
   });
 });

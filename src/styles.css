@@ -1468,8 +1468,7 @@ button {
   color: var(--white);
 }
 
-.offer-node--primary p,
-.offer-node--primary .eyebrow-chip {
+.offer-node--primary p {
   color: rgba(255, 255, 255, 0.82);
 }
 
@@ -4768,6 +4767,28 @@ textarea {
 @media (max-width: 719px) {
   .home-page .offer-path {
     gap: 20px;
+  }
+
+  .home-page .offer-node {
+    gap: 14px;
+    padding: 18px;
+  }
+
+  .home-page .offer-node__marker {
+    min-width: 0;
+    min-height: 36px;
+    padding: 7px 12px;
+    font-size: 0.88rem;
+  }
+
+  .home-page .offer-node h3 {
+    margin-bottom: 8px;
+    font-size: 1.35rem;
+  }
+
+  .home-page .offer-node > div > p {
+    font-size: 0.94rem;
+    line-height: 1.55;
   }
 
   .home-page .offer-path .section-heading,

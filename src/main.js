@@ -525,7 +525,6 @@
                   <article class="offer-node offer-node--${escapeHtml(item.emphasis || "secondary")}">
                     <span class="offer-node__marker" aria-hidden="true">${escapeHtml(item.marker || item.shortLabel || "")}</span>
                     <div>
-                      <p class="eyebrow-chip">${escapeHtml(item.badge || "")}</p>
                       <h3>${escapeHtml(item.title)}</h3>
                       <p>${escapeHtml(item.summary)}</p>
                     </div>
