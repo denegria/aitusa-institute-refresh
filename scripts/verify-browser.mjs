@@ -504,7 +504,9 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       sectionScreenshots[label] = sectionTarget;
     };
 
+    await captureSection("#metodo", "method");
     await captureSection("#experiencia", "videos");
+    await captureSection(".proof-editorial__tabs", "story-controls");
     await captureSection("#cursos", "courses");
     await captureSection(".faq-section", "faq");
     await captureSection("footer.site-footer", "footer");
@@ -841,18 +843,25 @@ const results = [];
 const heroOnly = process.env.VERIFY_HERO_ONLY === "1";
 const skipHero = process.env.VERIFY_SKIP_HERO === "1";
 const auditOnly = process.env.VERIFY_AUDIT_ONLY === "1";
+const mobileOnly = process.env.VERIFY_MOBILE_ONLY === "1";
 try {
-  if (!auditOnly && !skipHero) {
+  if (!auditOnly && !skipHero && !mobileOnly) {
     results.push(await verifyHeroViewport({ name: "hero-reference-1904x950", width: 1904, height: 950 }));
     results.push(await verifyHeroViewport({ name: "hero-short-1867x847", width: 1867, height: 847 }));
   }
-  if (auditOnly) {
+  if (mobileOnly) {
+    results.push(await verifyViewport({ name: "mobile-home-360", width: 360, height: 1200, mobile: true }));
+    results.push(await verifyViewport({ name: "mobile-home-390", width: 390, height: 1200, mobile: true }));
+    results.push(await verifyViewport({ name: "mobile-home-430", width: 430, height: 1200, mobile: true }));
+  } else if (auditOnly) {
     results.push(await verifyViewport({ name: "audit-desktop-1920x1080", width: 1920, height: 1080, mobile: false }));
     results.push(await verifyViewport({ name: "audit-mobile-390x844", width: 390, height: 844, mobile: true }));
   } else if (!heroOnly) {
     results.push(await verifyViewport({ name: "desktop-home", width: 1440, height: 1400, mobile: false }));
     results.push(await verifyViewport({ name: "tablet-home", width: 820, height: 1180, mobile: true }));
-    results.push(await verifyViewport({ name: "mobile-home", width: 390, height: 1200, mobile: true }));
+    results.push(await verifyViewport({ name: "mobile-home-360", width: 360, height: 1200, mobile: true }));
+    results.push(await verifyViewport({ name: "mobile-home-390", width: 390, height: 1200, mobile: true }));
+    results.push(await verifyViewport({ name: "mobile-home-430", width: 430, height: 1200, mobile: true }));
     results.push(await verifyCourseRoute());
     results.push(await verifyPlacementRoute());
   }

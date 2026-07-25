@@ -20,8 +20,8 @@ describe("homepage selective concept integration", () => {
     assert.ok(finalCtaIndex > faqIndex);
     assert.doesNotMatch(source, /renderCommunitySection/);
     assert.match(source, /Un espacio para practicar, equivocarse y seguir avanzando con confianza/);
-    assert.match(source, /Así funciona<br \/>el método\./);
-    assert.match(source, /Comprende,<br \/>practica y avanza\./);
+    assert.match(source, /Así funciona <br class="method-heading__desktop-break" \/>el método\./);
+    assert.match(source, /Comprende,<br class="method-heading__desktop-break" \/> practica y avanza\./);
     assert.doesNotMatch(source, /Luego elige<br \/>cómo estudiar/);
     assert.doesNotMatch(source, /asset\(site\.images\.testimonialAntonina\)/);
     assert.doesNotMatch(source, /De estudiante a profesor/);
@@ -139,5 +139,19 @@ describe("homepage selective concept integration", () => {
     assert.match(content, /Sábados: 10:00 am a 1:00 pm y 3:00 pm a 5:30 pm/);
     assert.match(content, /Domingos: 10:00 am a 12:30 pm/);
     assert.equal((content.match(/\.\.\.centralLocationContact/g) || []).length, 5);
+  });
+
+  it("keeps the approved mobile polish legible and touch friendly", async () => {
+    const source = await readFile("src/main.js", "utf8");
+    const styles = await readFile("src/styles.css", "utf8");
+
+    assert.match(styles, /\.hero__kicker\s*\{[\s\S]*color: #8a6412/);
+    assert.match(styles, /\.method-heading__desktop-break\s*\{\s*display: none/);
+    assert.match(styles, /\.proof-editorial__tab-meta\s*\{\s*display: none/);
+    assert.match(styles, /\.home-page \.real-map-pin\s*\{[\s\S]*width: 44px;[\s\S]*height: 44px/);
+    assert.match(styles, /\.home-page \.compact-location-row\s*\{[\s\S]*grid-template-areas:[\s\S]*"number copy"[\s\S]*"number action"/);
+    assert.match(styles, /\.home-page \.compact-location-row__copy strong,[\s\S]*white-space: normal/);
+    assert.match(styles, /\.site-footer__grid > div:not\(:first-child\) a\s*\{[\s\S]*min-height: 44px/);
+    assert.match(source, /Información de inscripción y libro \(\$95\)/);
   });
 });

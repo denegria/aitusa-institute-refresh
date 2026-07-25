@@ -1060,8 +1060,8 @@ button {
 
   .method-panel__copy {
     min-height: 0;
-    gap: 38px;
-    padding: 38px 24px 42px;
+    gap: 30px;
+    padding: 32px 24px 36px;
   }
 
   .method-panel__heading {
@@ -1069,12 +1069,17 @@ button {
   }
 
   .method-panel__heading::before {
-    height: 122px;
+    height: 108px;
   }
 
   .method-panel__heading h2 {
     margin-top: 18px;
-    font-size: clamp(2.4rem, 11.5vw, 3.15rem);
+    font-size: clamp(2.28rem, 9.8vw, 2.5rem);
+    line-height: 1.08;
+  }
+
+  .method-heading__desktop-break {
+    display: none;
   }
 
   .method-panel__detail {
@@ -3168,7 +3173,7 @@ textarea {
 
 .hero__kicker {
   margin: 0;
-  color: #ad6e0e;
+  color: #8a6412;
   font-size: 0.94rem;
   font-weight: 800;
   line-height: 1.2;
@@ -3176,7 +3181,7 @@ textarea {
 }
 
 .hero .hero__kicker {
-  color: #ad6e0e;
+  color: #8a6412;
 }
 
 .hero h1 {
@@ -3836,6 +3841,7 @@ textarea {
   .site-header {
     min-height: 72px;
     padding: 10px 12px;
+    background: #ffffff;
   }
 
   .brand img {
@@ -3875,8 +3881,8 @@ textarea {
 
   .hero__summary {
     margin-top: 14px;
-    font-size: 0.9rem;
-    line-height: 1.48;
+    font-size: 1rem;
+    line-height: 1.52;
   }
 
   .hero__actions {
@@ -3963,8 +3969,8 @@ textarea {
 
 @media (max-width: 520px) {
   .header-cta {
-    width: 42px;
-    min-height: 42px;
+    width: 44px;
+    min-height: 44px;
     justify-content: center;
     padding: 0;
     font-size: 0;
@@ -4095,9 +4101,26 @@ textarea {
     aspect-ratio: 1 / 1;
   }
 
+  .proof-editorial__thumb svg {
+    right: 8px;
+    bottom: 8px;
+    width: 44px;
+    height: 44px;
+    padding: 7px;
+  }
+
   .proof-editorial__tab-copy strong {
     min-height: 0;
     font-size: 0.84rem;
+  }
+
+  .proof-editorial__tab-meta {
+    display: none;
+  }
+
+  .proof-editorial__tab-copy .proof-editorial__tab-duration {
+    font-size: 0.78rem;
+    font-weight: 750;
   }
 
   .proof-editorial__note {
@@ -4380,7 +4403,7 @@ textarea {
 .home-page .real-map-card__expand svg {
   width: 16px;
   height: 16px;
-  color: #c4932d;
+  color: #8a6412;
 }
 
 .home-page .real-map-card__attribution:hover,
@@ -4497,7 +4520,7 @@ textarea {
   gap: 6px;
   align-items: center;
   justify-self: end;
-  color: #c4932d;
+  color: #8a6412;
   font-size: 0.72rem;
   font-weight: 850;
   white-space: nowrap;
@@ -4695,6 +4718,125 @@ textarea {
 
 .home-page .contact-card--secondary {
   background: rgba(255, 255, 255, 0.96);
+}
+
+@media (max-width: 719px) {
+  .home-page .offer-path {
+    gap: 20px;
+  }
+
+  .home-page .offer-path .section-heading,
+  .home-page #sedes .section-heading,
+  .home-page .faq-layout .section-heading {
+    margin-bottom: 0;
+  }
+
+  .home-page .offer-node__link {
+    min-height: 44px;
+    padding-block: 8px;
+  }
+
+  .home-page #sedes .section-heading h2 {
+    max-width: 100%;
+    font-size: clamp(2.15rem, 10vw, 2.4rem);
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
+  .home-page .location-explorer {
+    margin-top: 24px;
+  }
+
+  .home-page .real-map-pin {
+    width: 44px;
+    height: 44px;
+  }
+
+  .home-page .real-map-card__expand {
+    width: 44px;
+    height: 44px;
+  }
+
+  .home-page .real-map-card__expand svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .home-page .compact-location-row {
+    grid-template-areas:
+      "number copy"
+      "number action";
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 4px 10px;
+    align-items: start;
+    min-height: 0;
+    padding: 12px;
+  }
+
+  .home-page .compact-location-row__number {
+    grid-area: number;
+    width: 34px;
+    height: 34px;
+  }
+
+  .home-page .compact-location-row__copy {
+    grid-area: copy;
+  }
+
+  .home-page .compact-location-row__copy > span {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .home-page .compact-location-row__copy strong,
+  .home-page .compact-location-row__copy small {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  .home-page .compact-location-row__copy strong {
+    font-size: 0.98rem;
+  }
+
+  .home-page .compact-location-row__copy small {
+    font-size: 0.84rem;
+    line-height: 1.4;
+  }
+
+  .home-page .compact-location-row__action {
+    grid-area: action;
+    justify-self: start;
+    min-height: 32px;
+    padding-top: 4px;
+    font-size: 0.8rem;
+  }
+
+  .home-page .location-hours-panel ul {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .home-page .location-hours-panel li {
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  .home-page .location-hours-panel__note {
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+
+  .home-page .faq-layout {
+    gap: 18px;
+  }
+
+  .site-footer__grid > div:not(:first-child) a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    margin-bottom: 0;
+  }
 }
 
 @media (min-width: 720px) {

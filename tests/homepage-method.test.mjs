@@ -59,6 +59,7 @@ describe("homepage Method showcase", () => {
     const styles = await readFile("src/styles.css", "utf8");
 
     assert.match(source, /Video real · Método AIT USA/);
+    assert.match(source, /item\.key === "graphic-concept" \? "Método Graphic Concept"/);
     assert.match(styles, /\.method-panel__media::after\s*\{[\s\S]*border: 1px solid rgba\(196, 147, 45, 0\.58\)/);
     assert.match(styles, /\.method-tab\s*\{[\s\S]*background: var\(--method-navy\)/);
     assert.match(styles, /\.method-tab\.is-active\s*\{[\s\S]*background: var\(--method-navy\)/);

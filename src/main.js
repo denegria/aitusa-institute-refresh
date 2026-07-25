@@ -448,12 +448,12 @@
                       <div class="method-panel__heading">
                         <p class="method-kicker">Método</p>
                         <h2>
-                          <span>Así funciona<br />el método.</span>
-                          <span class="method-heading__accent">Comprende,<br />practica y avanza.</span>
+                          <span>Así funciona <br class="method-heading__desktop-break" />el método.</span>
+                          <span class="method-heading__accent">Comprende,<br class="method-heading__desktop-break" /> practica y avanza.</span>
                         </h2>
                       </div>
                       <div class="method-panel__detail">
-                        <p class="method-detail__label">${escapeHtml(item.label)}</p>
+                        <p class="method-detail__label">${escapeHtml(item.key === "graphic-concept" ? "Método Graphic Concept" : item.label)}</p>
                         <span class="method-detail__rule" aria-hidden="true"></span>
                         <h3>${escapeHtml(item.title)}.</h3>
                       </div>
@@ -738,8 +738,8 @@
                 </span>
                 <span class="proof-editorial__tab-copy">
                   <strong>${escapeHtml(shortLabels[item.name] || item.name)}</strong>
-                  <span>${escapeHtml(item.result)}</span>
-                  <span>${escapeHtml(item.duration || "")}</span>
+                  <span class="proof-editorial__tab-meta">${escapeHtml(item.result)}</span>
+                  <span class="proof-editorial__tab-duration">${escapeHtml(item.duration || "")}</span>
                 </span>
               </button>
             `).join("")}
@@ -955,7 +955,7 @@
             <h3>Explora</h3>
             <a href="/courses/">Cursos detallados</a>
             <a href="/placement-test/">Examen de ubicación</a>
-            <a href="${conversionCtas.registration?.href || site.whatsappHref}" target="_blank" rel="noreferrer">Inscripción + libro $95</a>
+            <a href="${conversionCtas.registration?.href || site.whatsappHref}" target="_blank" rel="noreferrer">Información de inscripción y libro ($95)</a>
           </div>
           <div>
             <h3>Contacto</h3>

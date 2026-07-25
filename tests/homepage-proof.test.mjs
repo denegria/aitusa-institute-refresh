@@ -38,6 +38,8 @@ describe("homepage Prueba real gallery", () => {
     assert.match(proofSection, /role="tablist"/);
     assert.match(proofSection, /role="tab"/);
     assert.match(proofSection, /role="tabpanel"/);
+    assert.match(proofSection, /proof-editorial__tab-meta/);
+    assert.match(proofSection, /proof-editorial__tab-duration/);
     assert.doesNotMatch(proofSection, /autoplay/);
     assert.doesNotMatch(proofSection, /muted/);
   });
