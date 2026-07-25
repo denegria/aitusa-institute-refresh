@@ -64,4 +64,18 @@ describe("homepage Method showcase", () => {
     assert.match(styles, /\.method-tab\s*\{[\s\S]*background: var\(--method-navy\)/);
     assert.match(styles, /\.method-tab\.is-active\s*\{[\s\S]*background: var\(--method-navy\)/);
   });
+
+  it("brightens the mobile tab stack and fills behind floating browser chrome", async () => {
+    const styles = await readFile("src/styles.css", "utf8");
+
+    assert.match(
+      styles,
+      /@media \(max-width: 760px\)[\s\S]*\.method-tab\.is-active\s*\{[\s\S]*background: linear-gradient\(100deg, #104a94/,
+    );
+    assert.match(styles, /\.method-tab\.is-active \.method-tab__number\s*\{[\s\S]*color: #d9b45d/);
+    assert.match(
+      styles,
+      /\.site-header::before\s*\{[\s\S]*bottom: 100%;[\s\S]*height: max\(96px, env\(safe-area-inset-top\)\);[\s\S]*background: #ffffff/,
+    );
+  });
 });

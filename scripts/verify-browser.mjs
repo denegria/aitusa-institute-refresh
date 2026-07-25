@@ -505,6 +505,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     };
 
     await captureSection("#metodo", "method");
+    await captureSection(".method-tabs", "method-tabs");
     await captureSection("#experiencia", "videos");
     await captureSection(".proof-editorial__tabs", "story-controls");
     await captureSection("#cursos", "courses");
