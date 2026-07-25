@@ -635,17 +635,8 @@
             <div class="location-compact-panel">
               <div class="location-compact-list" aria-label="Sedes presenciales en Nueva Jersey">
                 ${mappedLocations.map(renderCompactLocationRow).join("")}
+                ${onlineLocation ? renderCompactLocationRow(onlineLocation, mappedLocations.length) : ""}
               </div>
-              ${
-                onlineLocation
-                  ? `
-                    <div class="location-online-option">
-                      <p class="location-online-option__label">¿No estás cerca de una sede?</p>
-                      ${renderCompactLocationRow(onlineLocation, mappedLocations.length)}
-                    </div>
-                  `
-                  : ""
-              }
               <div class="location-hours-panel">
                 <div class="location-hours-panel__heading">
                   <span class="location-hours-panel__icon"><i data-lucide="clock-3" aria-hidden="true"></i></span>
@@ -678,6 +669,10 @@
       "Testimonio internacional": "Testimonio internacional",
       Eric: "Eric · entrevista",
       Leila: "Leila · testimonio",
+    };
+    const tabLabels = {
+      ...shortLabels,
+      "Testimonio internacional": "Global",
     };
 
     return `
@@ -736,7 +731,7 @@
                   <i data-lucide="circle-play" aria-hidden="true"></i>
                 </span>
                 <span class="proof-editorial__tab-copy">
-                  <strong>${escapeHtml(shortLabels[item.name] || item.name)}</strong>
+                  <strong>${escapeHtml(tabLabels[item.name] || item.name)}</strong>
                   <span class="proof-editorial__tab-meta">${escapeHtml(item.result)}</span>
                   <span class="proof-editorial__tab-duration">${escapeHtml(item.duration || "")}</span>
                 </span>

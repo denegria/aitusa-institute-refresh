@@ -97,8 +97,8 @@ describe("homepage selective concept integration", () => {
     assert.match(section, /aria-label="Ampliar mapa en OpenStreetMap"/);
     assert.match(section, /mappedLocations\.map\(renderRealMapPin\)/);
     assert.match(section, /mappedLocations\.map\(renderCompactLocationRow\)/);
-    assert.match(section, /location-online-option/);
-    assert.match(section, /¿No estás cerca de una sede\?/);
+    assert.match(section, /onlineLocation \? renderCompactLocationRow/);
+    assert.doesNotMatch(section, /location-online-option/);
     assert.match(section, /location-hours-panel/);
     assert.match(section, /mainCampusHours\.map/);
     assert.match(locationRenderers, /compact-location-row/);
@@ -158,6 +158,11 @@ describe("homepage selective concept integration", () => {
       styles,
       /@media \(max-width: 719px\)[\s\S]*\.home-page \.offer-node\s*\{[\s\S]*gap: 14px;[\s\S]*padding: 18px/,
     );
+    assert.match(styles, /Viewport rhythm: keep each homepage chapter within one comfortable screen/);
+    assert.match(styles, /\.hero__proof-inner\s*\{[\s\S]*scroll-snap-type: x mandatory/);
+    assert.match(styles, /\.method-tabs\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
+    assert.match(styles, /\.home-page \.offer-map\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);
+    assert.match(styles, /\.home-page \.location-compact-list\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);
     assert.match(source, /Información de inscripción y libro \(\$95\)/);
   });
 });

@@ -517,6 +517,27 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         scrollWidth: el.scrollWidth,
         clientWidth: el.clientWidth,
       }));
+    const sectionRhythm = [...document.querySelectorAll('main > section')]
+      .map((section) => {
+        const height = Math.round(section.getBoundingClientRect().height);
+        return {
+          id: section.id || null,
+          className: section.className || null,
+          height,
+          viewportRatio: Math.round((height / innerHeight) * 100) / 100,
+        };
+      });
+    const stickyHeaderHeight = Math.round(document.querySelector('.site-header')?.getBoundingClientRect().height || 0);
+    const availableSectionHeight = innerHeight - stickyHeaderHeight;
+    const sectionRhythmIssues = sectionRhythm
+      .filter((section) => section.height > availableSectionHeight + 2)
+      .map((section) => ({
+        type: 'section-exceeds-viewport',
+        ...section,
+        viewportHeight: innerHeight,
+        stickyHeaderHeight,
+        availableSectionHeight,
+      }));
     return {
       location: location.href,
       title: document.title,
@@ -538,6 +559,9 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       videoVisualIssues,
       methodFrameIssues,
       overflowing,
+      sectionRhythm,
+      sectionRhythmIssues,
+      availableSectionHeight,
       pageHeight: document.documentElement.scrollHeight,
     };
   })()`);
@@ -913,11 +937,12 @@ try {
     results.push(await verifyHeroViewport({ name: "hero-short-1867x847", width: 1867, height: 847 }));
   }
   if (mobileOnly) {
-    results.push(await verifyViewport({ name: "mobile-home-360", width: 360, height: 1200, mobile: true }));
-    results.push(await verifyViewport({ name: "mobile-home-390", width: 390, height: 1200, mobile: true }));
-    results.push(await verifyViewport({ name: "mobile-home-430", width: 430, height: 1200, mobile: true }));
+    results.push(await verifyViewport({ name: "mobile-home-360", width: 360, height: 800, mobile: true }));
+    results.push(await verifyViewport({ name: "mobile-home-390", width: 390, height: 844, mobile: true }));
+    results.push(await verifyViewport({ name: "mobile-home-430", width: 430, height: 932, mobile: true }));
   } else if (auditOnly) {
     results.push(await verifyViewport({ name: "audit-desktop-1920x1080", width: 1920, height: 1080, mobile: false }));
+    results.push(await verifyViewport({ name: "audit-desktop-1440x900", width: 1440, height: 900, mobile: false }));
     results.push(await verifyViewport({ name: "audit-mobile-390x844", width: 390, height: 844, mobile: true }));
   } else if (!heroOnly) {
     results.push(await verifyViewport({ name: "desktop-home", width: 1440, height: 1400, mobile: false }));
@@ -957,6 +982,7 @@ console.log(JSON.stringify({ results, exceptions, consoleMessageCount: consoleMe
 const blockingResults = results.filter((result) =>
   (result.missingImages && result.missingImages.length) ||
   (result.overflowing && result.overflowing.length) ||
+  (result.sectionRhythmIssues && result.sectionRhythmIssues.length) ||
   (result.viewportIssues && result.viewportIssues.length) ||
   (result.methodPosterIssues && result.methodPosterIssues.length) ||
   (result.videoMetadataIssues && result.videoMetadataIssues.length) ||
