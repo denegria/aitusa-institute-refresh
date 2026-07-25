@@ -56,8 +56,8 @@ describe("homepage Prueba real gallery", () => {
     const styles = await readFile("src/styles.css", "utf8");
 
     assert.match(styles, /\.proof-editorial__panel video\s*\{[\s\S]*object-fit: contain/);
-    assert.match(styles, /\.proof-editorial__tabs\s*\{[\s\S]*grid-template-columns: repeat\(4/);
-    assert.match(styles, /@media \(max-width: 640px\)[\s\S]*\.proof-editorial__tabs\s*\{[\s\S]*grid-template-columns: repeat\(2/);
+    assert.match(styles, /\.proof-editorial__tabs\s*\{[\s\S]*grid-template-columns: repeat\(3/);
+    assert.match(styles, /@media \(max-width: 640px\)[\s\S]*\.proof-editorial__tabs\s*\{[\s\S]*grid-template-columns: repeat\(3/);
     assert.match(styles, /--proof-gold: #c4932d/);
     assert.match(styles, /--proof-navy: #001a3d/);
   });

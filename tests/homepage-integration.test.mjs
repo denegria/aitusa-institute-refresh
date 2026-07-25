@@ -7,7 +7,6 @@ describe("homepage selective concept integration", () => {
     const source = await readFile("src/main.js", "utf8");
     const methodIndex = source.indexOf("${renderSolutionSection()}");
     const proofIndex = source.indexOf("${renderProofSection()}");
-    const communityIndex = source.indexOf("${renderCommunitySection()}");
     const offeringsIndex = source.indexOf("${renderOfferingPathSection()}");
     const locationsIndex = source.indexOf("${renderLocationsSection()}");
     const faqIndex = source.indexOf("${renderFaqSection()}");
@@ -15,12 +14,12 @@ describe("homepage selective concept integration", () => {
 
     assert.ok(methodIndex >= 0);
     assert.ok(proofIndex > methodIndex);
-    assert.ok(communityIndex > proofIndex);
-    assert.ok(offeringsIndex > communityIndex);
+    assert.ok(offeringsIndex > proofIndex);
     assert.ok(locationsIndex > offeringsIndex);
     assert.ok(faqIndex > locationsIndex);
     assert.ok(finalCtaIndex > faqIndex);
-    assert.match(source, /src="\$\{site\.images\.testimonialAntonina\}"/);
+    assert.doesNotMatch(source, /renderCommunitySection/);
+    assert.match(source, /Un espacio para practicar, equivocarse y seguir avanzando con confianza/);
     assert.match(source, /Así funciona<br \/>el método\./);
     assert.match(source, /Comprende,<br \/>practica y avanza\./);
     assert.doesNotMatch(source, /Luego elige<br \/>cómo estudiar/);
@@ -31,20 +30,23 @@ describe("homepage selective concept integration", () => {
       source.slice(source.indexOf("function renderHomePage"), source.indexOf("function renderCoursesPage")),
       /renderCourseTeaserSection/,
     );
-    assert.match(source, /initFaqs\(document\);\s*scrollToInitialHash\(\);/);
+    assert.match(
+      source,
+      /initFaqs\(document\);\s*initSectionNavigation\(document\);\s*scrollToInitialHash\(\);/,
+    );
   });
 
   it("keeps three primary modality choices and moves support programs into catalog copy", async () => {
     const source = await readFile("src/main.js", "utf8");
     const section = source.slice(
       source.indexOf("function renderOfferingPathSection"),
-      source.indexOf("function renderCommunitySection"),
+      source.indexOf("function renderOfferingsSection"),
     );
 
     assert.match(section, /productOfferings\s*\.slice\(0, 3\)/);
     assert.match(section, /offer-node__link/);
     assert.match(section, /También ofrecemos inglés para niños, GED, computación/);
-    assert.match(section, /Ver catálogo completo/);
+    assert.doesNotMatch(section, /Ver catálogo completo/);
   });
 
   it("uses placement as the primary conversion action and WhatsApp as the human fallback", async () => {
@@ -63,7 +65,15 @@ describe("homepage selective concept integration", () => {
     assert.match(section, /conversionCtas\.advisor/);
     assert.match(section, /contact-card--secondary/);
     assert.match(section, /<details class="contact-card/);
-    assert.match(section, /Prefiero que me contacten/);
+    assert.match(section, /¿Prefieres que te llamemos\?/);
+    assert.match(section, /name="nombre"/);
+    assert.match(section, /name="telefono"/);
+    assert.match(section, /name="email"/);
+    assert.match(section, /name="ubicacion"/);
+    assert.match(section, /name="mejorHorario"/);
+    assert.doesNotMatch(section, /name="apellido"/);
+    assert.doesNotMatch(section, /name="interes"/);
+    assert.doesNotMatch(section, /name="para"/);
   });
 
   it("uses a real map with compact location rows and one shared schedule", async () => {
@@ -85,6 +95,8 @@ describe("homepage selective concept integration", () => {
     assert.match(section, /aria-label="Ampliar mapa en OpenStreetMap"/);
     assert.match(section, /mappedLocations\.map\(renderRealMapPin\)/);
     assert.match(section, /mappedLocations\.map\(renderCompactLocationRow\)/);
+    assert.match(section, /location-online-option/);
+    assert.match(section, /¿No estás cerca de una sede\?/);
     assert.match(section, /location-hours-panel/);
     assert.match(section, /mainCampusHours\.map/);
     assert.match(locationRenderers, /compact-location-row/);
@@ -94,6 +106,16 @@ describe("homepage selective concept integration", () => {
     assert.doesNotMatch(section, /real-map-card__footer/);
     assert.doesNotMatch(section, /location-map__art/);
     assert.doesNotMatch(section, /status !== "pending"\)\.map/);
+  });
+
+  it("tracks the active homepage section in the sticky navigation", async () => {
+    const source = await readFile("src/main.js", "utf8");
+
+    assert.match(source, /data-nav-section/);
+    assert.match(source, /function initSectionNavigation/);
+    assert.match(source, /aria-current", "location"/);
+    assert.match(source, /window\.requestAnimationFrame\(setActiveSection\)/);
+    assert.match(source, /window\.addEventListener\("scroll", requestUpdate/);
   });
 
   it("keeps homepage transitions conversational instead of exposing funnel scaffolding", async () => {

@@ -5,7 +5,9 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 
 const root = process.cwd();
-const screenshotsDir = path.join(root, "screenshots");
+const screenshotsDir = process.env.VERIFY_SCREENSHOTS_DIR
+  ? path.resolve(process.env.VERIFY_SCREENSHOTS_DIR)
+  : path.join(root, "screenshots");
 const profileDir = path.join(root, ".chrome-profile");
 const chromeCandidates = [
   "/usr/bin/google-chrome-stable",
@@ -504,17 +506,31 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
 
     await captureSection("#experiencia", "videos");
     await captureSection("#cursos", "courses");
+    await captureSection(".faq-section", "faq");
     await captureSection("footer.site-footer", "footer");
+
+    await evaluate(`(() => {
+      const contactCard = document.querySelector('.contact-card--secondary');
+      if (contactCard) contactCard.open = true;
+    })()`);
+    await captureSection("#contacto", "contact-open");
 
     await evaluate(`(() => {
       document.querySelector('[data-filter="tecnologia"]')?.click();
       const form = document.querySelector('[data-lead-form]');
-      form?.querySelector('[name="nombre"]').setAttribute('value', 'Maria');
-      form?.querySelector('[name="apellido"]').setAttribute('value', 'Lopez');
-      form?.querySelector('[name="email"]').setAttribute('value', 'maria@example.com');
-      form?.querySelector('[name="telefono"]').setAttribute('value', '5551234');
-      form?.querySelector('[name="ubicacion"]').setAttribute('value', 'New Jersey');
-      form?.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      const nameInput = form?.querySelector('[name="nombre"]');
+      const emailInput = form?.querySelector('[name="email"]');
+      const phoneInput = form?.querySelector('[name="telefono"]');
+      const locationInput = form?.querySelector('[name="ubicacion"]');
+      const scheduleInput = form?.querySelector('[name="mejorHorario"]');
+      const contactPermission = form?.querySelector('[name="contactPermission"]');
+      if (nameInput) nameInput.value = 'Maria';
+      if (emailInput) emailInput.value = 'maria@example.com';
+      if (phoneInput) phoneInput.value = '5551234';
+      if (locationInput) locationInput.value = 'Bound Brook';
+      if (scheduleInput) scheduleInput.value = 'Noche';
+      if (contactPermission) contactPermission.checked = true;
+      form?.requestSubmit();
       document.querySelector('[data-course-detail-link="computacion-oficina"]')?.click();
     })()`);
 
@@ -539,6 +555,12 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     openCourseDetail: document.querySelector('[data-course-detail][open]')?.dataset.courseDetail || '',
     officeDetailHasExcel: document.querySelector('[data-course-detail="computacion-oficina"]')?.innerText.includes('Excel') || false,
     formStatus: document.querySelector('[data-form-status]')?.innerText || '',
+    activeNavLabel: document.querySelector('.site-nav [aria-current="location"]')?.innerText || '',
+    contactCardOpen: Boolean(document.querySelector('.contact-card--secondary')?.open),
+    contactSectionHeight: Math.round(document.querySelector('#contacto')?.getBoundingClientRect().height || 0),
+    contactFieldNames: [...document.querySelectorAll('[data-lead-form] [name]')]
+      .filter((field) => field.type !== 'hidden')
+      .map((field) => field.name),
     menuButtonPresent: Boolean(document.querySelector('.menu-toggle')),
   }))()`);
 
@@ -818,12 +840,16 @@ const verifyPlacementRoute = async () => {
 const results = [];
 const heroOnly = process.env.VERIFY_HERO_ONLY === "1";
 const skipHero = process.env.VERIFY_SKIP_HERO === "1";
+const auditOnly = process.env.VERIFY_AUDIT_ONLY === "1";
 try {
-  if (!skipHero) {
+  if (!auditOnly && !skipHero) {
     results.push(await verifyHeroViewport({ name: "hero-reference-1904x950", width: 1904, height: 950 }));
     results.push(await verifyHeroViewport({ name: "hero-short-1867x847", width: 1867, height: 847 }));
   }
-  if (!heroOnly) {
+  if (auditOnly) {
+    results.push(await verifyViewport({ name: "audit-desktop-1920x1080", width: 1920, height: 1080, mobile: false }));
+    results.push(await verifyViewport({ name: "audit-mobile-390x844", width: 390, height: 844, mobile: true }));
+  } else if (!heroOnly) {
     results.push(await verifyViewport({ name: "desktop-home", width: 1440, height: 1400, mobile: false }));
     results.push(await verifyViewport({ name: "tablet-home", width: 820, height: 1180, mobile: true }));
     results.push(await verifyViewport({ name: "mobile-home", width: 390, height: 1200, mobile: true }));

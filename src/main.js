@@ -60,6 +60,7 @@
     initCatalogInteractions(document);
     initLeadForm(document);
     initFaqs(document);
+    initSectionNavigation(document);
     scrollToInitialHash();
   }
 
@@ -174,7 +175,6 @@
         ${renderHero()}
         ${renderSolutionSection()}
         ${renderProofSection()}
-        ${renderCommunitySection()}
         ${renderOfferingPathSection()}
         ${renderLocationsSection()}
         ${renderFaqSection()}
@@ -309,6 +309,9 @@
   }
 
   function renderHeader(activePage) {
+    const sectionLinkAttribute = (sectionId) =>
+      activePage === "home" ? `data-nav-section="${sectionId}"` : "";
+
     return `
       <a class="skip-link" href="#main-content">Saltar al contenido</a>
       <header class="site-header">
@@ -324,12 +327,12 @@
           <i class="menu-toggle__close" data-lucide="x" aria-hidden="true"></i>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Navegación principal">
-          <a href="/" ${activePage === "home" ? 'aria-current="page"' : ""}>Inicio</a>
-          <a href="${homeLink("#metodo")}">Método</a>
-          <a href="${homeLink("#cursos")}">Cursos</a>
-          <a href="${homeLink("#sedes")}">Sedes</a>
-          <a href="${homeLink("#experiencia")}">Recursos</a>
-          <a href="${homeLink("#contacto")}">Contacto</a>
+          <a href="${activePage === "home" ? "#inicio" : "/"}" ${sectionLinkAttribute("inicio")} ${activePage === "home" ? 'aria-current="location"' : ""}>Inicio</a>
+          <a href="${homeLink("#metodo")}" ${sectionLinkAttribute("metodo")}>Método</a>
+          <a href="${homeLink("#experiencia")}" ${sectionLinkAttribute("experiencia")}>Experiencias</a>
+          <a href="${homeLink("#cursos")}" ${sectionLinkAttribute("cursos")}>Cursos</a>
+          <a href="${homeLink("#sedes")}" ${sectionLinkAttribute("sedes")}>Sedes</a>
+          <a href="${homeLink("#contacto")}" ${sectionLinkAttribute("contacto")}>Contacto</a>
         </nav>
         <a class="header-cta" href="${site.phoneHref}">
           <i data-lucide="phone" aria-hidden="true"></i>
@@ -535,54 +538,7 @@
               )
               .join("")}
           </div>
-          <p class="catalog-note">
-            También ofrecemos inglés para niños, GED, computación, español para extranjeros y programas de apoyo.
-            <a href="/courses/#programas-de-apoyo">Ver catálogo completo</a>.
-          </p>
-        </div>
-      </section>
-    `;
-  }
-
-  function renderCommunitySection() {
-    return `
-      <section class="community-band" id="comunidad" aria-labelledby="comunidad-title">
-        <div class="community-band__inner">
-          <figure class="community-band__media">
-            <img
-              src="${site.images.testimonialAntonina}"
-              alt="Estudiantes reales de AIT USA con sus libros de inglés."
-              width="1200"
-              height="800"
-            />
-            <figcaption>
-              <i data-lucide="users-round" aria-hidden="true"></i>
-              Estudiantes reales · AIT USA Institute
-            </figcaption>
-          </figure>
-          <div class="community-band__copy">
-            <p class="section-kicker">Una comunidad que abre puertas</p>
-            <h2 id="comunidad-title">El progreso se comparte.</h2>
-            <p class="community-band__lead">
-              Nuestros profesores conocen la metodología y acompañan cada paso. Los estudiantes encuentran un espacio acogedor para practicar, equivocarse y seguir avanzando.
-            </p>
-            <div class="community-band__points">
-              <article>
-                <i data-lucide="messages-square" aria-hidden="true"></i>
-                <div>
-                  <h3>Acompañamiento cercano</h3>
-                  <p>Orientación clara para comprender el método, practicar y avanzar con constancia.</p>
-                </div>
-              </article>
-              <article>
-                <i data-lucide="book-open-check" aria-hidden="true"></i>
-                <div>
-                  <h3>Espacio para practicar</h3>
-                  <p>Una comunidad donde aprender también significa preguntar, intentar y avanzar con confianza.</p>
-                </div>
-              </article>
-            </div>
-          </div>
+          <p class="catalog-note">También ofrecemos inglés para niños, GED, computación, español para extranjeros y programas de apoyo.</p>
         </div>
       </section>
     `;
@@ -678,10 +634,19 @@
               </div>
             </div>
             <div class="location-compact-panel">
-              <div class="location-compact-list" aria-label="Sedes">
+              <div class="location-compact-list" aria-label="Sedes presenciales en Nueva Jersey">
                 ${mappedLocations.map(renderCompactLocationRow).join("")}
-                ${onlineLocation ? renderCompactLocationRow(onlineLocation, mappedLocations.length) : ""}
               </div>
+              ${
+                onlineLocation
+                  ? `
+                    <div class="location-online-option">
+                      <p class="location-online-option__label">¿No estás cerca de una sede?</p>
+                      ${renderCompactLocationRow(onlineLocation, mappedLocations.length)}
+                    </div>
+                  `
+                  : ""
+              }
               <div class="location-hours-panel">
                 <div class="location-hours-panel__heading">
                   <span class="location-hours-panel__icon"><i data-lucide="clock-3" aria-hidden="true"></i></span>
@@ -707,7 +672,7 @@
     const orderedTestimonials = [
       featured,
       ...testimonials.filter((item) => item !== featured),
-    ].filter(Boolean).slice(0, 4);
+    ].filter(Boolean).slice(0, 3);
 
     const shortLabels = {
       Jessica: "Jessica",
@@ -720,9 +685,9 @@
       <section class="section proof-editorial" id="experiencia" data-proof-gallery>
         <div class="proof-editorial__inner">
           <div class="proof-editorial__heading">
-            <p class="section-kicker">Prueba real</p>
-            <h2>No tienes que creernos. Mira los resultados por ti mismo.</h2>
-            <p>Mira cómo se viven las clases y escucha a quienes ya pasaron por el proceso.</p>
+            <p class="section-kicker">Experiencias reales</p>
+            <h2>Escucha a quienes ya viven la experiencia AIT.</h2>
+            <p>Tres historias para conocer el ritmo de clase, el acompañamiento y la práctica desde la voz de nuestros estudiantes.</p>
           </div>
 
           <div class="proof-editorial__stage" aria-live="polite">
@@ -754,7 +719,7 @@
             `).join("")}
           </div>
 
-          <div class="proof-editorial__tabs" role="tablist" aria-label="Videos de testimonios reales">
+          <div class="proof-editorial__tabs" role="tablist" aria-label="Experiencias de estudiantes en video">
             ${orderedTestimonials.map((item, index) => `
               <button
                 class="proof-editorial__tab${index === 0 ? " is-active" : ""}"
@@ -781,8 +746,8 @@
           </div>
 
           <p class="proof-editorial__note">
-            <i data-lucide="film" aria-hidden="true"></i>
-            <span>Cuatro videos reales para conocer el método y la experiencia AIT USA.</span>
+            <i data-lucide="users-round" aria-hidden="true"></i>
+            <span>Un espacio para practicar, equivocarse y seguir avanzando con confianza.</span>
           </p>
         </div>
       </section>
@@ -818,80 +783,64 @@
           <details class="contact-card contact-card--secondary card">
             <summary>
               <span>
-                <small>Respuesta humana</small>
-                <strong>Prefiero que me contacten</strong>
+                <small>Una alternativa simple</small>
+                <strong>¿Prefieres que te llamemos?</strong>
               </span>
               <i class="contact-card__chevron" data-lucide="chevron-down" aria-hidden="true"></i>
             </summary>
             <div class="contact-card__content">
-              <p>Completa este formulario breve y preparamos un mensaje de WhatsApp con tu interés principal.</p>
+              <p>Déjanos lo esencial para coordinar una llamada. Te preguntaremos el resto cuando hablemos.</p>
               <form class="lead-form" data-lead-form>
-              <div class="form-grid">
+              <div class="form-grid callback-form-grid">
                 <label>
                   Nombre
-                  <input name="nombre" type="text" required />
+                  <input name="nombre" type="text" autocomplete="name" required />
                 </label>
                 <label>
-                  Apellido
-                  <input name="apellido" type="text" required />
+                  Teléfono
+                  <input name="telefono" type="tel" inputmode="tel" autocomplete="tel" />
                 </label>
                 <label>
                   Email
-                  <input name="email" type="email" />
+                  <input name="email" type="email" autocomplete="email" />
+                  <small>Escribe un teléfono o un email.</small>
                 </label>
                 <label>
-                  Teléfono móvil <small>(opcional)</small>
-                  <input name="telefono" type="tel" inputmode="tel" autocomplete="tel" />
-                  <small>No recibirás SMS promocionales salvo que marques la casilla separada.</small>
-                </label>
-                <label>
-                  Interés
-                  <select name="interes" required>
-                    <option value="ingles-presencial">Inglés presencial</option>
-                    <option value="ingles-hibrido">Inglés híbrido</option>
-                    <option value="ingles-online">Inglés online</option>
-                    <option value="kids">Inglés para niños</option>
-                    <option value="ged">GED</option>
-                    <option value="computacion">Computación</option>
-                    <option value="otro">Otro</option>
+                  Sede o modalidad preferida
+                  <select name="ubicacion" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="Bound Brook">Bound Brook</option>
+                    <option value="Plainfield">Plainfield</option>
+                    <option value="Piscataway">Piscataway</option>
+                    <option value="Flemington">Flemington con cita previa</option>
+                    <option value="Online">Online</option>
+                    <option value="No estoy seguro">No estoy seguro</option>
                   </select>
                 </label>
                 <label>
-                  Para
-                  <select name="para">
-                    <option value="Para mi">Para mi</option>
-                    <option value="Para mi hijo o hija">Para mi hijo o hija</option>
-                    <option value="Para otra persona">Para otra persona</option>
+                  Mejor momento para llamarte
+                  <select name="mejorHorario" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="Mañana">Mañana</option>
+                    <option value="Tarde">Tarde</option>
+                    <option value="Noche">Noche</option>
+                    <option value="Fin de semana">Fin de semana</option>
+                    <option value="Prefiero coordinar">Prefiero coordinar</option>
                   </select>
-                </label>
-                <label class="form-grid__full">
-                  Ubicación
-                  <input name="ubicacion" type="text" placeholder="Ciudad / Estado o país" />
                 </label>
               </div>
               <label class="form-honeypot" aria-hidden="true">
                 Sitio web de empresa
                 <input name="companyWebsite" type="text" tabindex="-1" autocomplete="off" />
               </label>
-              <fieldset class="consent-panel">
-                <legend>Permisos de contacto</legend>
-                <label class="consent-check consent-check--required">
-                  <input name="contactPermission" type="checkbox" value="yes" required />
-                  <span>${escapeHtml(site.smsConsent?.contactPermission || "Autorizo a AIT USA Institute a responder esta solicitud.")}</span>
-                </label>
-                <label class="consent-check consent-check--sms">
-                  <input name="smsConsent" type="checkbox" value="yes" />
-                  <span>
-                    <strong>${escapeHtml(site.smsConsent?.checkboxLabel || "Sí, deseo recibir mensajes de texto de AIT USA Institute.")}</strong>
-                    <small>${escapeHtml(site.smsConsent?.disclosure || "La frecuencia puede variar. Pueden aplicarse tarifas. Responde STOP para cancelar y HELP para ayuda.")}</small>
-                  </span>
-                </label>
-                <p class="consent-links">
-                  Consulta nuestra <a href="${escapeHtml(site.legalLinks?.privacy || "/privacy-policy")}">Política de Privacidad</a>
-                  y nuestros <a href="${escapeHtml(site.legalLinks?.terms || "/terms-and-conditions")}">Términos y Condiciones</a>.
-                </p>
-              </fieldset>
-              <button class="button button--primary" type="submit" data-lead-submit>Preparar conversación</button>
+              <label class="callback-consent">
+                <input name="contactPermission" type="checkbox" value="yes" required />
+                <span>${escapeHtml(site.smsConsent?.contactPermission || "Autorizo a AIT USA Institute a responder esta solicitud.")}</span>
+              </label>
+              <p class="callback-privacy">
+                Consulta nuestra <a href="${escapeHtml(site.legalLinks?.privacy || "/privacy-policy")}">Política de Privacidad</a>.
+              </p>
+              <button class="button button--primary" type="submit" data-lead-submit>Solicitar llamada</button>
               <p class="form-status" data-form-status aria-live="polite"></p>
               </form>
               <div class="contact-card__footnote">
@@ -1128,7 +1077,7 @@
   function renderCompactLocationRow(location, index) {
     const statusLabel = {
       active: location.note?.includes("principal") ? "Principal" : "Presencial",
-      limited: "Confirmar",
+      limited: "Con cita",
       online: "Online",
       pending: "Pendiente / no activa",
     };
@@ -1137,17 +1086,18 @@
     const locationId = location.mapKey || "online";
     const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.address)}`;
     const actionHref = isLimited
-      ? `${site.whatsappHref}?text=${encodeURIComponent(`Hola AIT USA, quiero confirmar disponibilidad para ${location.city}.`)}`
+      ? `${site.whatsappHref}?text=${encodeURIComponent(`Hola AIT USA, quiero consultar la atención con cita previa en ${location.city}.`)}`
       : isOnline
         ? "/courses/#ingles-online"
         : mapsHref;
     const actionTarget = isLimited || !isOnline ? 'target="_blank" rel="noreferrer"' : "";
     const shortCity = isOnline ? "Clases online" : location.city.split(",")[0];
     const supportingText = isLimited
-      ? "Horario y punto de encuentro por confirmar"
+      ? "Atención disponible con coordinación previa"
       : isOnline
         ? "Disponible según nivel y zona horaria"
         : location.address;
+    const actionLabel = isLimited ? "Consultar" : isOnline ? "Ver online" : "Cómo llegar";
 
     return `
       <a
@@ -1166,7 +1116,10 @@
           </span>
           <small>${escapeHtml(supportingText)}</small>
         </span>
-        <i class="compact-location-row__arrow" data-lucide="${isOnline ? "arrow-right" : "navigation"}" aria-hidden="true"></i>
+        <span class="compact-location-row__action">
+          ${escapeHtml(actionLabel)}
+          <i data-lucide="${isOnline ? "arrow-right" : "navigation"}" aria-hidden="true"></i>
+        </span>
       </a>
     `;
   }
@@ -1364,6 +1317,55 @@
         menuButton.focus();
       });
     }
+  }
+
+  function initSectionNavigation(scope) {
+    const links = [...scope.querySelectorAll("[data-nav-section]")];
+    const sections = links
+      .map((link) => ({
+        link,
+        section: scope.getElementById(link.dataset.navSection),
+      }))
+      .filter((item) => item.section)
+      .sort((a, b) => a.section.offsetTop - b.section.offsetTop);
+
+    if (sections.length === 0) return;
+
+    let frameRequested = false;
+
+    const setActiveSection = () => {
+      const readingLine = window.scrollY + Math.min(window.innerHeight * 0.32, 280);
+      let active = sections[0];
+
+      sections.forEach((item) => {
+        if (item.section.offsetTop <= readingLine) active = item;
+      });
+
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 8) {
+        active = sections.at(-1);
+      }
+
+      sections.forEach((item) => {
+        if (item === active) {
+          item.link.setAttribute("aria-current", "location");
+        } else {
+          item.link.removeAttribute("aria-current");
+        }
+      });
+
+      frameRequested = false;
+    };
+
+    const requestUpdate = () => {
+      if (frameRequested) return;
+      frameRequested = true;
+      window.requestAnimationFrame(setActiveSection);
+    };
+
+    setActiveSection();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    window.addEventListener("hashchange", requestUpdate);
   }
 
   function initIcons() {
@@ -1573,31 +1575,34 @@
     const status = scope.querySelector("[data-form-status]");
     const submitButton = scope.querySelector("[data-lead-submit]");
     const phoneInput = form?.elements?.namedItem("telefono");
-    const smsInput = form?.elements?.namedItem("smsConsent");
+    const emailInput = form?.elements?.namedItem("email");
     const startedAt = new Date().toISOString();
 
     if (!form || !status) return;
 
-    phoneInput?.addEventListener("input", () => phoneInput.setCustomValidity(""));
-    smsInput?.addEventListener("change", () => {
-      if (!smsInput.checked) phoneInput?.setCustomValidity("");
-    });
+    const clearContactValidity = () => {
+      phoneInput?.setCustomValidity("");
+      emailInput?.setCustomValidity("");
+    };
+
+    phoneInput?.addEventListener("input", clearContactValidity);
+    emailInput?.addEventListener("input", clearContactValidity);
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const formData = new FormData(form);
-      const name = `${formData.get("nombre") || ""} ${formData.get("apellido") || ""}`.trim();
-      const interest = formData.get("interes") || "ingles-presencial";
-      const audience = formData.get("para") || "Para mi";
+      const name = String(formData.get("nombre") || "").trim();
       const location = formData.get("ubicacion") || "Sin ubicación indicada";
+      const preferredSchedule = formData.get("mejorHorario") || "Prefiero coordinar";
       const phone = String(formData.get("telefono") || "").trim();
       const email = String(formData.get("email") || "").trim();
-      const marketingSmsOptIn = formData.get("smsConsent") === "yes";
+      const interest = location === "Online" ? "ingles-online" : "ingles-presencial";
 
-      if (marketingSmsOptIn && !phone) {
-        phoneInput?.setCustomValidity("Ingresa un teléfono móvil para recibir mensajes de texto.");
-        phoneInput?.reportValidity();
-        phoneInput?.focus();
+      if (!phone && !email) {
+        const contactInput = phoneInput || emailInput;
+        contactInput?.setCustomValidity("Escribe un teléfono o un email para que podamos contactarte.");
+        contactInput?.reportValidity();
+        contactInput?.focus();
         return;
       }
 
@@ -1610,7 +1615,8 @@
           email,
           city: String(location === "Sin ubicación indicada" ? "" : location),
           interest,
-          ageGroup: audience,
+          preferredSchedule,
+          message: "Solicitud de llamada desde la página principal.",
         },
         source: {
           path: sourcePath,
@@ -1618,15 +1624,9 @@
         },
         consent: {
           contactPermission: formData.get("contactPermission") === "yes",
-          marketingSmsOptIn,
-          smsConsent: marketingSmsOptIn,
-          marketingSmsEvidence: marketingSmsOptIn
-            ? {
-                disclosureVersion: site.smsConsent?.disclosureVersion,
-                sourcePath,
-                consentedAt: submittedAt,
-              }
-            : null,
+          marketingSmsOptIn: false,
+          smsConsent: false,
+          marketingSmsEvidence: null,
         },
         honeypot: String(formData.get("companyWebsite") || ""),
         startedAt,
@@ -1634,12 +1634,11 @@
       };
 
       const message = [
-        "Hola AIT USA, quiero ayuda para elegir el programa y horario que me convienen.",
+        "Hola AIT USA, quiero coordinar una llamada.",
         `Nombre: ${name || "Sin nombre"}`,
-        `Interés: ${interest}`,
-        `Para: ${audience}`,
-        `Ubicación: ${location}`,
-        `Teléfono: ${phone}`,
+        `Sede o modalidad: ${location}`,
+        `Mejor momento: ${preferredSchedule}`,
+        phone ? `Teléfono: ${phone}` : "",
         email ? `Email: ${email}` : "",
       ].filter(Boolean).join("\n");
 

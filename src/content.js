@@ -1069,14 +1069,14 @@ const locations = [
     city: "Flemington, New Jersey",
     address: "Flemington, NJ, USA",
     mapKey: "flemington",
-    note: "Confirmar detalles de sede",
+    note: "Atención con cita previa",
     status: "limited",
-    bestFor: "Ideal si quieres confirmar disponibilidad antes de desplazarte.",
-    highlight: "Disponible según disponibilidad y coordinación previa.",
-    cta: "Confirmar Flemington",
+    bestFor: "Ideal si necesitas atención en el área de Flemington con coordinación previa.",
+    highlight: "Atención disponible con cita previa.",
+    cta: "Consultar atención en Flemington",
     ...centralLocationContact,
-    hoursLabel: "Confirmar horario antes de asistir",
-    hours: ["El horario y el punto de encuentro se confirman antes de asistir."],
+    hoursLabel: "Atención con cita previa",
+    hours: ["Coordina el horario y punto de encuentro antes de asistir."],
   },
   {
     city: "New York / Online",
@@ -1480,13 +1480,6 @@ const faqs = [
     cta: "Ver videos reales",
   },
   {
-    question: "¿Puedo ver videos reales antes de inscribirme?",
-    answer:
-      "Sí. Mira nuestros videos para conocer el ritmo de clase, la corrección en vivo y la práctica oral antes de tomar una decisión.",
-    outcome: "Así sabes qué esperar antes de inscribirte.",
-    cta: "Ver videos reales",
-  },
-  {
     question: "¿Es difícil aprender inglés si nunca fui bueno en idiomas?",
     answer:
       "No. Empezamos con ejemplos visuales, frases útiles y práctica guiada. Vas entendiendo primero y hablando poco a poco, sin memorizar listas interminables.",
@@ -1494,35 +1487,35 @@ const faqs = [
     cta: "Pedir orientación",
   },
   {
-    question: "Voy a clases pero no logro hablar, ¿qué hago?",
+    question: "Voy a clases, pero no logro hablar. ¿Qué puedo hacer?",
     answer:
       "En clase no solo escuchas: practicas conversaciones cortas y recibes corrección en el momento. Así ganas seguridad para usar el inglés fuera del salón.",
     outcome: "Lo que aprendes en clase empieza a servirte en conversaciones reales.",
     cta: "Pedir orientación",
   },
   {
-    question: "Entiendo la clase, pero luego se me olvida la práctica, ¿es normal?",
+    question: "Entiendo la clase, pero luego se me olvida la práctica. ¿Es normal?",
     answer:
       "Sí, es normal al inicio. Usamos mapas visuales, repetición corta y rutina semanal para que lo que aprendes pase de escuchar a usarlo.",
     outcome: "La práctica breve y constante ayuda a que lo aprendido se quede contigo.",
     cta: "Ver libro",
   },
   {
-    question: "No tengo mucho tiempo, pero quiero aprender a hablar inglés.",
+    question: "No tengo mucho tiempo, pero quiero aprender a hablar inglés. ¿Puedo avanzar?",
     answer:
       "Puedes empezar con 15 a 20 minutos diarios y elegir horario flexible (mañana, noche o fin de semana) con metas pequeñas y medibles.",
     outcome: "Te proponemos un plan realista para avanzar sin desordenar tu agenda.",
     cta: "Ver horarios",
   },
   {
-    question: "Trabajo todo el día, ¿aun así puedo estudiar?",
+    question: "Trabajo todo el día. ¿Aun así puedo estudiar?",
     answer:
       "Sí. Tenemos opciones presenciales, híbridas y online para estudiar sin romper tu rutina laboral, con continuidad semanal realista.",
     outcome: "Puedes mantener continuidad aunque tu semana cambie.",
     cta: "Ver horarios",
   },
   {
-    question: "Nunca fui buen estudiante, ¿todavía puedo aprender?",
+    question: "Nunca fui buen estudiante. ¿Todavía puedo aprender?",
     answer:
       "Sí. Si te cuesta mantener ritmo, esta ruta se enfoca en objetivos semanales claros, práctica oral guiada y seguimiento cercano para recuperar confianza.",
     outcome: "Lo difícil deja de ser confuso y se convierte en un proceso con metas.",
@@ -1627,12 +1620,12 @@ const productOfferings = [
     key: "in-person-english",
     anchor: "ingles-presencial",
     title: "Inglés presencial",
-    badge: "Programa destacado",
-    marker: "Aula",
+    badge: "En sedes de Nueva Jersey",
+    marker: "Presencial",
     emphasis: "primary",
     audience: "Adultos y jóvenes que quieren practicar más de cerca",
     summary:
-      "La opción principal para quienes quieren practicar más de cerca, recibir corrección directa y sostener una rutina real de aprendizaje.",
+      "Practica cara a cara y recibe corrección inmediata en una sede de Nueva Jersey, con horarios publicados para sostener tu rutina.",
     details: [
       "Corrección en vivo y práctica constante.",
       "Sedes activas en Nueva Jersey más apoyo para elegir horario.",
@@ -1641,19 +1634,19 @@ const productOfferings = [
     image: site.images.adultEnglish,
     imageAlt: "Clase presencial de inglés para adultos en AiT USA.",
     href: "/courses/#ingles-presencial",
-    cta: "Ver inglés presencial",
+    cta: "Ver formato presencial",
     relatedPrograms: ["ingles-jovenes-adultos"],
   },
   {
     key: "hybrid-english",
     anchor: "ingles-hibrido",
     title: "Inglés híbrido",
-    badge: "Flexibilidad con seguimiento",
-    marker: "Mixto",
+    badge: "Presencial + remoto",
+    marker: "Híbrido",
     emphasis: "secondary",
     audience: "Quienes necesitan flexibilidad sin perder estructura",
     summary:
-      "Combina la guía de AIT USA con un formato flexible para tu agenda, sin perder la práctica ni el acompañamiento.",
+      "Combina encuentros presenciales con apoyo remoto cuando tu semana cambia, sin perder práctica ni seguimiento.",
     details: [
       "Alterna entre apoyo presencial y acompañamiento remoto.",
       "Mantiene seguimiento con un horario realista.",
@@ -1662,19 +1655,19 @@ const productOfferings = [
     image: site.images.heroFemaleZoom,
     imageAlt: "Instructora guiando una clase de inglés en formato híbrido.",
     href: "/courses/#ingles-hibrido",
-    cta: "Ver opción híbrida",
+    cta: "Ver formato híbrido",
     relatedPrograms: ["ingles-jovenes-adultos", "ingles-online-adultos"],
   },
   {
     key: "online-english",
     anchor: "ingles-online",
     title: "Inglés online",
-    badge: "Desde donde estés",
+    badge: "Desde cualquier lugar",
     marker: "Online",
     emphasis: "secondary",
     audience: "Estudiantes en otros lugares o con agenda remota",
     summary:
-      "Clases online con guía visual, práctica en vivo y acompañamiento para avanzar desde casa o desde otro país.",
+      "Conéctate desde casa o desde otro país con práctica en vivo; coordinamos el horario según tu nivel y zona horaria.",
     details: [
       "Ideal para estudiantes fuera de Nueva Jersey.",
       "WhatsApp y orientación para elegir nivel y horario.",
@@ -1683,7 +1676,7 @@ const productOfferings = [
     image: site.images.onlineEnglish,
     imageAlt: "Clase de inglés online con apoyo visual.",
     href: "/courses/#ingles-online",
-    cta: "Ver inglés online",
+    cta: "Ver formato online",
     relatedPrograms: ["ingles-online-adultos"],
   },
   {
