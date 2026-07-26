@@ -24,12 +24,24 @@ describe("homepage Method story", () => {
       "./public/assets/wix/videos/posters/intro-video-great.jpg",
     );
     assert.equal(methodNarrative.videoLabel, "Conoce el método completo · 1:45");
+    assert.equal(
+      methodNarrative.introduction,
+      "Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. Así nació Graphic Concept: una forma diferente de aprender, creada para ayudarte a comprender y hablar inglés sin memorizar listas interminables.",
+    );
     assert.deepEqual(
       Array.from(solutionCharacteristics, (item) => item.title),
       [
         "Comprende sin traducir",
-        "Habla sin memorizar miles de palabras",
-        "Un método propio, patentado y probado",
+        "Habla sin memorizar",
+        "Avanza a tu ritmo",
+      ],
+    );
+    assert.deepEqual(
+      Array.from(solutionCharacteristics, (item) => item.body),
+      [
+        "Entrena tu comprensión para entender inglés directamente, sin traducir palabra por palabra.",
+        "Practica estructuras útiles para hablar desde la primera clase, sin listas interminables.",
+        "Graphic Concept se adapta a tu nivel: un método propio, patentado y probado para hablar con más facilidad.",
       ],
     );
     assert.deepEqual(

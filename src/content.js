@@ -1212,7 +1212,7 @@ const methodNarrative = {
   eyebrow: "Método Graphic Concept",
   heading: "Tres razones por las que somos diferentes.",
   introduction:
-    "Durante más de 20 años trabajando con nuestra comunidad, conocimos de cerca sus necesidades y frustraciones. Por eso creamos métodos, técnicas y estrategias propias para quienes están cansados de intentarlo o de memorizar miles de palabras sin poder hablar.",
+    "Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. Así nació Graphic Concept: una forma diferente de aprender, creada para ayudarte a comprender y hablar inglés sin memorizar listas interminables.",
   videoLabel: "Conoce el método completo · 1:45",
   videoAriaLabel: "Conoce el método Graphic Concept completo",
   video: site.images.introVideo,
@@ -1227,21 +1227,21 @@ const solutionCharacteristics = [
     icon: "ear",
     title: "Comprende sin traducir",
     body:
-      "Aprende técnicas de comprensión para entender cuando te hablen en inglés.",
+      "Entrena tu comprensión para entender inglés directamente, sin traducir palabra por palabra.",
   },
   {
     key: "speak",
     icon: "message-circle",
-    title: "Habla sin memorizar miles de palabras",
+    title: "Habla sin memorizar",
     body:
-      "Practica estructuras que puedas usar, sin depender de listas interminables.",
+      "Practica estructuras útiles para hablar desde la primera clase, sin listas interminables.",
   },
   {
     key: "graphic-concept",
     icon: "route",
-    title: "Un método propio, patentado y probado",
+    title: "Avanza a tu ritmo",
     body:
-      "Graphic Concept se adapta a tu nivel para ayudarte a hablar con más facilidad y rapidez.",
+      "Graphic Concept se adapta a tu nivel: un método propio, patentado y probado para hablar con más facilidad.",
   },
 ];
 
