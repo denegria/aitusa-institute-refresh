@@ -679,13 +679,28 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         footerBackground,
       });
     }
-    const contactColumns = contactGrid ? getComputedStyle(contactGrid).gridTemplateColumns : '';
-    const navColumns = navGrid ? getComputedStyle(navGrid).gridTemplateColumns : '';
-    if (!contactGrid || !navGrid || contactColumns !== navColumns) {
+    const footerLabels = [...document.querySelectorAll('.site-footer__group-label')]
+      .map((label) => label.textContent.trim());
+    const footerNavLinks = [...document.querySelectorAll('.site-footer__nav a')];
+    if (!contactGrid || !navGrid || footerLabels.join('|') !== 'Contacto|Explora') {
       closingSurfaceIssues.push({
-        type: 'footer-grid-mismatch',
-        contactColumns,
-        navColumns,
+        type: 'footer-link-groups-missing',
+        footerLabels,
+      });
+    }
+    if (
+      footerNavLinks.length !== 3
+      || footerNavLinks.some((link) => !link.querySelector('svg'))
+      || footerNavLinks.some((link) => link.href.includes('wa.me'))
+    ) {
+      closingSurfaceIssues.push({
+        type: 'footer-page-navigation-unclear',
+        linkCount: footerNavLinks.length,
+        links: footerNavLinks.map((link) => ({
+          text: link.textContent.trim(),
+          href: link.href,
+          hasIcon: Boolean(link.querySelector('svg')),
+        })),
       });
     }
     const parseColor = (value) => {
@@ -816,6 +831,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       ['final-cta-primary', '.final-cta-actions .button--primary', null],
       ['final-cta-contact', '.final-cta-contact-link', finalCtaBackground],
       ['footer-utility', '.site-footer__contact a', footerBackground],
+      ['footer-navigation', '.site-footer__nav a', footerBackground],
+      ['footer-group-label', '.site-footer__group-label', footerBackground],
       ['footer-legal', '.site-footer__identity', footerBackground],
       ['footer-legal-link', '.site-footer__legal a', footerBackground],
     ].forEach(([label, selector, forcedBackground]) => {

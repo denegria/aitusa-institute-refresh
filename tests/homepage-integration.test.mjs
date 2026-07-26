@@ -178,7 +178,9 @@ describe("homepage selective concept integration", () => {
     assert.match(styles, /\.site-footer__contact a,[\s\S]*\.site-footer__nav a\s*\{[\s\S]*min-height: 44px/);
     assert.match(styles, /\.final-cta-contact-link\s*\{[\s\S]*min-height: 44px/);
     assert.match(styles, /\.site-footer\s*\{[\s\S]*background: #001a3d/);
-    assert.match(styles, /\.site-footer__contact,[\s\S]*\.site-footer__nav\s*\{[\s\S]*grid-template-columns: repeat\(3/);
+    assert.match(styles, /\.site-footer__contact\s*\{[\s\S]*grid-template-columns: repeat\(3/);
+    assert.match(styles, /\.site-footer__nav\s*\{[\s\S]*display: flex;[\s\S]*flex-wrap: wrap/);
+    assert.match(styles, /\.site-footer \.site-footer__group-label\s*\{[\s\S]*color: #d9b45d/);
     assert.doesNotMatch(styles, /\.site-footer__contact a\s*\{[\s\S]*background: rgba\(255, 255, 255, 0\.07\)/);
     assert.match(styles, /\.callback-dialog__shell\s*\{[\s\S]*max-height: min\(760px, 92dvh\)/);
     assert.match(
@@ -197,7 +199,10 @@ describe("homepage selective concept integration", () => {
     assert.match(styles, /\.method-editorial\s*\{[\s\S]*grid-template-areas:/);
     assert.match(styles, /\.home-page \.offer-map\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);
     assert.match(styles, /\.home-page \.location-compact-list\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);
-    assert.match(source, />Inscripción<\/a>/);
+    assert.match(source, /id="footer-contact-label">Contacto/);
+    assert.match(source, /id="footer-nav-label">Explora/);
+    assert.match(source, /site-footer__nav[\s\S]*data-lucide="arrow-right"/);
+    assert.doesNotMatch(source, />Inscripción<\/a>/);
     assert.doesNotMatch(source, /Información de inscripción y libro \(\$95\)/);
   });
 

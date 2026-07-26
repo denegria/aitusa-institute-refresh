@@ -949,26 +949,41 @@
       <footer class="site-footer">
         <div class="section-inner site-footer__compact">
           <div class="site-footer__link-rows">
-            <div class="site-footer__contact" aria-label="Contactar a AIT USA">
-              <a href="${site.phoneHref}" aria-label="Llamar a ${escapeHtml(site.phone)}">
-                <i data-lucide="phone" aria-hidden="true"></i>
-                Llamar
-              </a>
-              <a href="${site.whatsappHref}" target="_blank" rel="noreferrer">
-                <i data-lucide="message-circle" aria-hidden="true"></i>
-                WhatsApp
-              </a>
-              <a href="${site.emailHref}">
-                <i data-lucide="mail" aria-hidden="true"></i>
-                Email
-              </a>
+            <div class="site-footer__group">
+              <p class="site-footer__group-label" id="footer-contact-label">Contacto</p>
+              <div class="site-footer__contact" aria-labelledby="footer-contact-label">
+                <a href="${site.phoneHref}" aria-label="Llamar a ${escapeHtml(site.phone)}">
+                  <i data-lucide="phone" aria-hidden="true"></i>
+                  Llamar
+                </a>
+                <a href="${site.whatsappHref}" target="_blank" rel="noreferrer">
+                  <i data-lucide="message-circle" aria-hidden="true"></i>
+                  WhatsApp
+                </a>
+                <a href="${site.emailHref}">
+                  <i data-lucide="mail" aria-hidden="true"></i>
+                  Email
+                </a>
+              </div>
             </div>
 
-            <nav class="site-footer__nav" aria-label="Enlaces del pie de página">
-              <a href="/courses/">Cursos</a>
-              <a href="/placement-test/">Examen de nivel</a>
-              <a href="${conversionCtas.registration?.href || site.whatsappHref}" target="_blank" rel="noreferrer">Inscripción</a>
-            </nav>
+            <div class="site-footer__group">
+              <p class="site-footer__group-label" id="footer-nav-label">Explora</p>
+              <nav class="site-footer__nav" aria-labelledby="footer-nav-label">
+                <a href="/courses/">
+                  <span>Cursos</span>
+                  <i data-lucide="arrow-right" aria-hidden="true"></i>
+                </a>
+                <a href="/placement-test/">
+                  <span>Examen de nivel</span>
+                  <i data-lucide="arrow-right" aria-hidden="true"></i>
+                </a>
+                <a href="${escapeHtml(site.legalLinks?.contact || "/contactanos")}">
+                  <span>Contacto</span>
+                  <i data-lucide="arrow-right" aria-hidden="true"></i>
+                </a>
+              </nav>
+            </div>
           </div>
 
           <div class="site-footer__legal">
@@ -976,7 +991,6 @@
             <div class="site-footer__legal-links">
               <a href="${escapeHtml(site.legalLinks?.privacy || "/privacy-policy")}">Privacidad</a>
               <a href="${escapeHtml(site.legalLinks?.terms || "/terms-and-conditions")}">Términos</a>
-              <a href="${escapeHtml(site.legalLinks?.contact || "/contactanos")}">Contacto</a>
             </div>
           </div>
         </div>
