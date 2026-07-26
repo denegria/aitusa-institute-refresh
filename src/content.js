@@ -1191,24 +1191,17 @@ const faqs = [
 
 const painHero = {
   eyebrow: "Una escuela de inglés diferente",
-  headline: "Te guiamos por el camino correcto para hablar inglés con confianza.",
-  headlineLines: [
-    "Te guiamos por el",
-    "camino correcto",
-    "para hablar inglés",
-    "con confianza.",
-  ],
+  headline: "Habla inglés con confianza.",
+  headlineLines: ["Habla inglés", "con confianza."],
   subheadline:
-    "Durante más de 20 años hemos ayudado a nuestra comunidad a entender, practicar y hablar inglés con confianza. Sin memorizar listas interminables. Con una guía clara y acompañamiento real.",
+    "Clases prácticas, guía clara y acompañamiento para que avances paso a paso.",
   subheadlineLines: [
-    "Durante más de 20 años ayudamos a nuestra comunidad",
-    "a entender, practicar y hablar inglés con confianza.",
-    "Sin listas interminables. Con guía clara",
-    "y acompañamiento real.",
+    "Clases prácticas, guía clara y acompañamiento",
+    "para que avances paso a paso.",
   ],
   ctas: {
     primary: "Encuentra tu nivel",
-    secondary: "Conoce nuestro método",
+    secondary: "Conoce el método",
     tertiary: "Ver cursos detallados",
   },
 };

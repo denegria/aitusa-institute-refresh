@@ -538,6 +538,48 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         stickyHeaderHeight,
         availableSectionHeight,
       }));
+    const mobileHeroIssues = [];
+    if (innerWidth <= 719) {
+      const hero = document.querySelector('.hero');
+      const heroVisual = document.querySelector('.hero__visual');
+      const modalities = document.querySelector('.hero__modalities');
+      const proofBand = document.querySelector('.hero__proof-band');
+      const actions = [...document.querySelectorAll('.hero__actions .button')];
+      const communityText = document.querySelector('.hero__community-line p')?.innerText || '';
+      const normalizedCommunityText = communityText.toLocaleLowerCase('es');
+      const heroHeight = Math.round(hero?.getBoundingClientRect().height || 0);
+      const visualHeight = Math.round(heroVisual?.getBoundingClientRect().height || 0);
+      if (getComputedStyle(modalities).display !== 'none') {
+        mobileHeroIssues.push({ type: 'mobile-hero-modalities-visible' });
+      }
+      if (getComputedStyle(proofBand).display !== 'none') {
+        mobileHeroIssues.push({ type: 'mobile-hero-proof-band-visible' });
+      }
+      if (actions.length !== 2 || actions.some((action) => action.getBoundingClientRect().height < 44)) {
+        mobileHeroIssues.push({
+          type: 'mobile-hero-actions-invalid',
+          count: actions.length,
+          heights: actions.map((action) => Math.round(action.getBoundingClientRect().height)),
+        });
+      }
+      if (visualHeight < 340) {
+        mobileHeroIssues.push({ type: 'mobile-hero-image-too-small', visualHeight });
+      }
+      if (heroHeight > availableSectionHeight + 2) {
+        mobileHeroIssues.push({
+          type: 'mobile-hero-exceeds-viewport',
+          heroHeight,
+          availableSectionHeight,
+        });
+      }
+      if (
+        !normalizedCommunityText.includes('profesores que te conocen')
+        || !normalizedCommunityText.includes('práctica en cada clase')
+        || !normalizedCommunityText.includes('una comunidad que te acompaña')
+      ) {
+        mobileHeroIssues.push({ type: 'mobile-hero-community-message-missing', communityText });
+      }
+    }
     const footerHeight = Math.round(document.querySelector('.site-footer')?.getBoundingClientRect().height || 0);
     const footerHeightLimit = innerWidth <= 719 ? 240 : 200;
     const footerHeightIssues = footerHeight > footerHeightLimit
@@ -652,6 +694,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       overflowing,
       sectionRhythm,
       sectionRhythmIssues,
+      mobileHeroIssues,
       footerHeight,
       footerHeightIssues,
       closingSurfaceIssues,
@@ -1139,6 +1182,7 @@ const blockingResults = results.filter((result) =>
   (result.missingImages && result.missingImages.length) ||
   (result.overflowing && result.overflowing.length) ||
   (result.sectionRhythmIssues && result.sectionRhythmIssues.length) ||
+  (result.mobileHeroIssues && result.mobileHeroIssues.length) ||
   (result.footerHeightIssues && result.footerHeightIssues.length) ||
   (result.closingSurfaceIssues && result.closingSurfaceIssues.length) ||
   (result.viewportIssues && result.viewportIssues.length) ||

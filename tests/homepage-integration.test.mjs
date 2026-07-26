@@ -151,8 +151,16 @@ describe("homepage selective concept integration", () => {
   it("keeps the approved mobile polish legible and touch friendly", async () => {
     const source = await readFile("src/main.js", "utf8");
     const styles = await readFile("src/styles.css", "utf8");
+    const content = await readFile("src/content.js", "utf8");
+    const hero = source.slice(source.indexOf("function renderHero"), source.indexOf("function renderOfferingsSection"));
 
     assert.match(styles, /\.hero__kicker\s*\{[\s\S]*color: #8a6412/);
+    assert.match(content, /headline: "Habla inglés con confianza\."/);
+    assert.match(content, /secondary: "Conoce el método"/);
+    assert.match(source, /Profesores que te conocen/);
+    assert.match(source, /Práctica en cada clase/);
+    assert.match(source, /Una comunidad que te acompaña/);
+    assert.equal((hero.match(/class="button button--/g) || []).length, 2);
     assert.match(styles, /\.method-heading__desktop-break\s*\{\s*display: none/);
     assert.match(styles, /\.proof-shelf__rail\s*\{[\s\S]*scroll-snap-type: x mandatory/);
     assert.match(styles, /\.proof-dialog__media video\s*\{[\s\S]*object-fit: contain/);
@@ -170,7 +178,14 @@ describe("homepage selective concept integration", () => {
       /@media \(max-width: 719px\)[\s\S]*\.home-page \.offer-node\s*\{[\s\S]*gap: 14px;[\s\S]*padding: 18px/,
     );
     assert.match(styles, /Viewport rhythm: keep each homepage chapter within one comfortable screen/);
-    assert.match(styles, /\.hero__proof-inner\s*\{[\s\S]*scroll-snap-type: x mandatory/);
+    assert.match(
+      styles,
+      /@media \(max-width: 719px\)[\s\S]*\.hero__modalities,\s*\.hero__proof-band\s*\{\s*display: none/,
+    );
+    assert.match(
+      styles,
+      /@media \(max-width: 719px\)[\s\S]*\.hero__visual\s*\{\s*height: clamp\(350px, 46svh, 390px\)/,
+    );
     assert.match(styles, /\.method-tabs\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
     assert.match(styles, /\.home-page \.offer-map\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);
     assert.match(styles, /\.home-page \.location-compact-list\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);

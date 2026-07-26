@@ -421,9 +421,13 @@
           </div>
         </div>
         <div class="hero__community-line" aria-label="Compromiso con la comunidad">
-          <span aria-hidden="true"></span>
-          <p>Clases reales. Profesores reales. Estudiantes reales. En tu comunidad.</p>
-          <span aria-hidden="true"></span>
+          <span class="hero__community-rule" aria-hidden="true"></span>
+          <p aria-label="Profesores que te conocen. Práctica en cada clase. Una comunidad que te acompaña.">
+            <span aria-hidden="true">Profesores que te conocen</span>
+            <span aria-hidden="true">Práctica en cada clase</span>
+            <span aria-hidden="true">Una comunidad que te acompaña</span>
+          </p>
+          <span class="hero__community-rule" aria-hidden="true"></span>
         </div>
       </section>
     `;
