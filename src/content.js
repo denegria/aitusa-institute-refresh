@@ -1224,18 +1224,21 @@ const methodNarrative = {
 const solutionCharacteristics = [
   {
     key: "understand",
+    icon: "ear",
     title: "Comprende sin traducir",
     body:
       "Aprende técnicas de comprensión para entender cuando te hablen en inglés.",
   },
   {
     key: "speak",
+    icon: "message-circle",
     title: "Habla sin memorizar miles de palabras",
     body:
       "Practica estructuras que puedas usar, sin depender de listas interminables.",
   },
   {
     key: "graphic-concept",
+    icon: "route",
     title: "Un método propio, patentado y probado",
     body:
       "Graphic Concept se adapta a tu nivel para ayudarte a hablar con más facilidad y rapidez.",

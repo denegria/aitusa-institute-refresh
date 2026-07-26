@@ -5983,12 +5983,22 @@ textarea {
   border-bottom: 1px solid rgba(7, 18, 47, 0.16);
 }
 
-.method-reason__number {
+.method-reason__icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  margin-top: 1px;
+  border: 1px solid color-mix(in srgb, var(--method-gold) 42%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--method-gold) 7%, transparent);
   color: var(--method-gold);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.35rem;
-  font-weight: 700;
-  line-height: 1;
+}
+
+.method-reason__icon svg {
+  width: 19px;
+  height: 19px;
+  stroke-width: 1.9;
 }
 
 .method-reasons h3 {
@@ -6141,13 +6151,21 @@ textarea {
   }
 
   .method-reasons li {
-    grid-template-columns: 28px minmax(0, 1fr);
-    gap: 8px;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 10px;
     padding: 8px 0;
   }
 
-  .method-reason__number {
-    font-size: 1rem;
+  .method-reason__icon {
+    width: 34px;
+    height: 34px;
+    margin-top: 0;
+    border-radius: 9px;
+  }
+
+  .method-reason__icon svg {
+    width: 17px;
+    height: 17px;
   }
 
   .method-reasons h3 {

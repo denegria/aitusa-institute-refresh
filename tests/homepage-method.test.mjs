@@ -32,6 +32,10 @@ describe("homepage Method story", () => {
         "Un método propio, patentado y probado",
       ],
     );
+    assert.deepEqual(
+      Array.from(solutionCharacteristics, (item) => item.icon),
+      ["ear", "message-circle", "route"],
+    );
   });
 
   it("renders one accessible video with an adjacent written summary", async () => {
@@ -47,6 +51,12 @@ describe("homepage Method story", () => {
     assert.match(method, /data-method-video/);
     assert.match(method, /class="method-reasons"/);
     assert.match(method, /aria-label="Resumen del método en tres razones"/);
+    assert.match(method, /<ul class="method-reasons"/);
+    assert.match(method, /class="method-reason__icon"/);
+    assert.match(method, /data-lucide=/);
+    assert.match(method, /aria-hidden="true"/);
+    assert.doesNotMatch(method, /method-reason__number/);
+    assert.doesNotMatch(method, /<ol class="method-reasons"/);
     assert.match(method, /methodNarrative\.video/);
     assert.doesNotMatch(method, /role="tablist"/);
     assert.doesNotMatch(method, /role="tab"/);

@@ -429,12 +429,14 @@
               <span>${escapeHtml(methodNarrative.videoLabel || "Conoce el método completo · 1:45")}</span>
             </figcaption>
           </figure>
-          <ol class="method-reasons" aria-label="Resumen del método en tres razones">
+          <ul class="method-reasons" aria-label="Resumen del método en tres razones">
             ${solutionCharacteristics
               .map(
-                (item, index) => `
+                (item) => `
                   <li>
-                    <span class="method-reason__number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+                    <span class="method-reason__icon" aria-hidden="true">
+                      <i data-lucide="${escapeHtml(item.icon || "circle-check")}"></i>
+                    </span>
                     <div>
                       <h3>${escapeHtml(item.title)}</h3>
                       <p>${escapeHtml(item.body)}</p>
@@ -443,7 +445,7 @@
                 `,
               )
               .join("")}
-          </ol>
+          </ul>
         </div>
       </section>
     `;

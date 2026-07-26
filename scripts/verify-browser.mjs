@@ -540,6 +540,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       }));
     const mobileHeroIssues = [];
     const methodFullscreenIssues = [];
+    const methodIconIssues = [];
     if (innerWidth <= 719) {
       const hero = document.querySelector('.hero');
       const heroVisual = document.querySelector('.hero__visual');
@@ -596,6 +597,32 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
           summaryText,
         });
       }
+
+      const methodIcons = [...document.querySelectorAll('#metodo .method-reason__icon')];
+      if (methodIcons.length !== 3) {
+        methodIconIssues.push({
+          type: 'mobile-method-icon-count-invalid',
+          count: methodIcons.length,
+        });
+      }
+      methodIcons.forEach((icon, index) => {
+        const rect = icon.getBoundingClientRect();
+        if (
+          !icon.querySelector('svg')
+          || icon.getAttribute('aria-hidden') !== 'true'
+          || rect.width < 34
+          || rect.height < 34
+        ) {
+          methodIconIssues.push({
+            type: 'mobile-method-icon-invalid',
+            index,
+            hasSvg: Boolean(icon.querySelector('svg')),
+            ariaHidden: icon.getAttribute('aria-hidden'),
+            width: Math.round(rect.width),
+            height: Math.round(rect.height),
+          });
+        }
+      });
 
       const methodVideo = document.querySelector('[data-method-video]');
       if (!methodVideo) {
@@ -741,7 +768,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         ['study-options-body', '#cursos .section-heading > p:not(.section-kicker)', '#cursos'],
         ['locations-body', '#sedes .section-heading > p:not(.section-kicker)', '#sedes'],
         ['faq-body', '.faq-section .section-heading > p:not(.section-kicker)', '.faq-section'],
-        ['method-number', '#metodo .method-reason__number', '#metodo'],
+        ['method-icon', '#metodo .method-reason__icon', '#metodo'],
         ['header-phone-icon', '.header-cta svg', '.site-header'],
       ].forEach(([label, selector, backgroundSelector]) => {
         const element = document.querySelector(selector);
@@ -835,6 +862,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       sectionRhythmIssues,
       mobileHeroIssues,
       methodFullscreenIssues,
+      methodIconIssues,
       footerHeight,
       footerHeightIssues,
       closingSurfaceIssues,
@@ -1312,6 +1340,7 @@ const blockingResults = results.filter((result) =>
   (result.sectionRhythmIssues && result.sectionRhythmIssues.length) ||
   (result.mobileHeroIssues && result.mobileHeroIssues.length) ||
   (result.methodFullscreenIssues && result.methodFullscreenIssues.length) ||
+  (result.methodIconIssues && result.methodIconIssues.length) ||
   (result.footerHeightIssues && result.footerHeightIssues.length) ||
   (result.closingSurfaceIssues && result.closingSurfaceIssues.length) ||
   (result.paletteIssues && result.paletteIssues.length) ||
