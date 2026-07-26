@@ -167,7 +167,7 @@ describe("homepage selective concept integration", () => {
     assert.match(styles, /\.hero h1\s*\{[\s\S]*font-family: var\(--font-display\)/);
     assert.doesNotMatch(styles, /\.hero h1\s*\{[\s\S]*transform: scaleX/);
     assert.match(styles, /\.hero__headline-lead\s*\{[\s\S]*font-size: 1em;[\s\S]*font-weight: 600/);
-    assert.match(styles, /\.hero__headline-emphasis\s*\{[\s\S]*font-weight: 800/);
+    assert.match(styles, /\.hero__headline-emphasis\s*\{[\s\S]*font-weight: 700/);
     assert.match(styles, /\.hero__headline-accent\s*\{[\s\S]*font-family: var\(--font-display\)/);
     assert.match(styles, /\.method-editorial__intro h2\s*\{[\s\S]*font-family: var\(--font-display\)/);
     assert.match(styles, /\.proof-shelf__rail\s*\{[\s\S]*scroll-snap-type: x mandatory/);

@@ -3450,7 +3450,7 @@ textarea {
   font-family: var(--font-display);
   font-size: clamp(3rem, 3.4vw, 3.4rem);
   font-weight: 700;
-  line-height: 1.02;
+  line-height: 1.04;
   letter-spacing: -0.045em;
 }
 
@@ -5688,7 +5688,7 @@ textarea {
 /* Brand-language hero and single-story Method */
 
 .hero__headline-lead {
-  margin-bottom: 2px;
+  margin-bottom: 6px;
   font-family: inherit;
   font-size: 1em;
   font-weight: 600;
@@ -5698,13 +5698,13 @@ textarea {
 
 .hero__headline-emphasis {
   color: #061a4a;
-  font-weight: 800;
-  letter-spacing: -0.05em;
+  font-weight: 700;
+  letter-spacing: -0.035em;
   text-transform: uppercase;
 }
 
 .hero__headline-accent {
-  margin: 8px 0 0;
+  margin: 12px 0 0;
   color: #9a6c11;
   font-family: var(--font-display);
   font-size: clamp(1.2rem, 1.4vw, 1.45rem);
@@ -5905,32 +5905,32 @@ textarea {
 
 @media (max-width: 719px) {
   .hero__copy {
-    padding-top: 19px;
-    padding-bottom: 16px;
+    padding-top: 22px;
+    padding-bottom: 19px;
   }
 
   .hero h1 {
-    margin-top: 7px;
-    font-size: clamp(1.95rem, 8.9vw, 2.2rem);
+    margin-top: 10px;
+    font-size: clamp(2rem, 9.15vw, 2.25rem);
   }
 
   .hero__headline-lead {
-    margin-bottom: 2px;
+    margin-bottom: 7px;
   }
 
   .hero__headline-accent {
-    margin-top: 7px;
+    margin-top: 10px;
     font-size: 1.08rem;
   }
 
   .hero__summary {
-    margin-top: 10px;
+    margin-top: 14px;
     font-size: 0.94rem;
     line-height: 1.44;
   }
 
   .hero__actions {
-    margin-top: 14px;
+    margin-top: 18px;
   }
 
   .hero__actions .button {

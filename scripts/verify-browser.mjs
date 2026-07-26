@@ -545,6 +545,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       const heroVisual = document.querySelector('.hero__visual');
       const modalities = document.querySelector('.hero__modalities');
       const actions = [...document.querySelectorAll('.hero__actions .button')];
+      const headlineLead = document.querySelector('.hero__headline-lead');
+      const headlineEmphasis = document.querySelector('.hero__headline-emphasis');
       const headlineText = document.querySelector('.hero h1')?.innerText || '';
       const accentText = document.querySelector('.hero__headline-accent')?.innerText || '';
       const summaryText = document.querySelector('.hero__summary')?.innerText || '';
@@ -560,6 +562,17 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
           count: actions.length,
           heights: actions.map((action) => Math.round(action.getBoundingClientRect().height)),
         });
+      }
+      if (headlineLead && headlineEmphasis) {
+        const leadRect = headlineLead.getBoundingClientRect();
+        const emphasisRect = headlineEmphasis.getBoundingClientRect();
+        const headlineLineGap = Math.round((emphasisRect.top - leadRect.bottom) * 100) / 100;
+        if (headlineLineGap < 4) {
+          mobileHeroIssues.push({
+            type: 'mobile-hero-headline-lines-too-tight',
+            headlineLineGap,
+          });
+        }
       }
       if (visualHeight < 340) {
         mobileHeroIssues.push({ type: 'mobile-hero-image-too-small', visualHeight });
