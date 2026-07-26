@@ -3448,9 +3448,9 @@ textarea {
   margin: 18px 0 0;
   color: #07122f;
   font-family: var(--font-display);
-  font-size: 4rem;
+  font-size: clamp(3rem, 3.4vw, 3.4rem);
   font-weight: 700;
-  line-height: 1.01;
+  line-height: 1.02;
   letter-spacing: -0.045em;
 }
 
@@ -5688,25 +5688,26 @@ textarea {
 /* Brand-language hero and single-story Method */
 
 .hero__headline-lead {
-  margin-bottom: 8px;
+  margin-bottom: 2px;
   font-family: inherit;
-  font-size: 0.45em;
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.015em;
+  font-size: 1em;
+  font-weight: 600;
+  line-height: inherit;
+  letter-spacing: -0.035em;
 }
 
 .hero__headline-emphasis {
   color: #061a4a;
-  letter-spacing: -0.055em;
+  font-weight: 800;
+  letter-spacing: -0.05em;
   text-transform: uppercase;
 }
 
 .hero__headline-accent {
-  margin: 9px 0 0;
+  margin: 8px 0 0;
   color: #9a6c11;
   font-family: var(--font-display);
-  font-size: clamp(1.25rem, 1.7vw, 1.65rem);
+  font-size: clamp(1.2rem, 1.4vw, 1.45rem);
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.025em;
@@ -5883,12 +5884,6 @@ textarea {
   }
 }
 
-@media (min-width: 1181px) and (max-width: 1439px) {
-  .hero h1 {
-    font-size: clamp(3.35rem, 4.6vw, 3.75rem);
-  }
-}
-
 @media (min-width: 720px) and (max-width: 1040px) {
   .method-section {
     padding-block: 34px;
@@ -5916,27 +5911,30 @@ textarea {
 
   .hero h1 {
     margin-top: 7px;
-    font-size: clamp(2.2rem, 10.1vw, 2.5rem);
+    font-size: clamp(1.95rem, 8.9vw, 2.2rem);
   }
 
   .hero__headline-lead {
-    margin-bottom: 4px;
-    font-size: 0.48em;
+    margin-bottom: 2px;
   }
 
   .hero__headline-accent {
-    margin-top: 5px;
-    font-size: 1.05rem;
+    margin-top: 7px;
+    font-size: 1.08rem;
   }
 
   .hero__summary {
-    margin-top: 8px;
-    font-size: 0.86rem;
-    line-height: 1.38;
+    margin-top: 10px;
+    font-size: 0.94rem;
+    line-height: 1.44;
   }
 
   .hero__actions {
-    margin-top: 12px;
+    margin-top: 14px;
+  }
+
+  .hero__actions .button {
+    font-size: 0.8rem;
   }
 
   .method-section {
