@@ -19,7 +19,9 @@ describe("homepage selective concept integration", () => {
     assert.ok(faqIndex > locationsIndex);
     assert.ok(finalCtaIndex > faqIndex);
     assert.doesNotMatch(source, /renderCommunitySection/);
-    assert.match(source, /Un espacio para practicar, equivocarse y seguir avanzando con confianza/);
+    assert.match(source, /Historias de estudiantes AIT/);
+    assert.match(source, /Desliza para conocer más historias/);
+    assert.doesNotMatch(source, /Un espacio para practicar, equivocarse y seguir avanzando con confianza/);
     assert.match(source, /Así funciona <br class="method-heading__desktop-break" \/>el método\./);
     assert.match(source, /Comprende,<br class="method-heading__desktop-break" \/> practica y avanza\./);
     assert.doesNotMatch(source, /Luego elige<br \/>cómo estudiar/);
@@ -149,7 +151,8 @@ describe("homepage selective concept integration", () => {
 
     assert.match(styles, /\.hero__kicker\s*\{[\s\S]*color: #8a6412/);
     assert.match(styles, /\.method-heading__desktop-break\s*\{\s*display: none/);
-    assert.match(styles, /\.proof-editorial__tab-meta\s*\{\s*display: none/);
+    assert.match(styles, /\.proof-shelf__rail\s*\{[\s\S]*scroll-snap-type: x mandatory/);
+    assert.match(styles, /\.proof-dialog__media video\s*\{[\s\S]*object-fit: contain/);
     assert.match(styles, /\.home-page \.real-map-pin\s*\{[\s\S]*width: 44px;[\s\S]*height: 44px/);
     assert.match(styles, /\.home-page \.compact-location-row\s*\{[\s\S]*grid-template-areas:[\s\S]*"number copy"[\s\S]*"number action"/);
     assert.match(styles, /\.home-page \.compact-location-row__copy strong,[\s\S]*white-space: normal/);

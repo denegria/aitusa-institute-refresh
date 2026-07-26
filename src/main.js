@@ -56,7 +56,7 @@
 
     app.innerHTML = renderHomePage();
     initMethodTabs(document);
-    initProofGallery(document);
+    initProofShelf(document);
     initCatalogInteractions(document);
     initLeadForm(document);
     initFaqs(document);
@@ -658,91 +658,111 @@
   }
 
   function renderProofSection() {
-    const featured = testimonials.find((item) => item.name === "Jessica") || testimonials[0];
-    const orderedTestimonials = [
-      featured,
-      ...testimonials.filter((item) => item !== featured),
-    ].filter(Boolean).slice(0, 3);
-
     const shortLabels = {
       Jessica: "Jessica",
-      "Testimonio internacional": "Testimonio internacional",
-      Eric: "Eric · entrevista",
-      Leila: "Leila · testimonio",
+      "Testimonio internacional": "Experiencia internacional",
+      Eric: "Eric",
+      Leila: "Leila",
     };
-    const tabLabels = {
-      ...shortLabels,
-      "Testimonio internacional": "Global",
-    };
+    const orderedTestimonials = [
+      testimonials.find((item) => item.name === "Jessica"),
+      ...testimonials.filter((item) => item.name !== "Jessica"),
+    ].filter(Boolean);
 
     return `
-      <section class="section proof-editorial" id="experiencia" data-proof-gallery>
-        <div class="proof-editorial__inner">
-          <div class="proof-editorial__heading">
-            <p class="section-kicker">Experiencias reales</p>
-            <h2>Escucha a quienes ya viven la experiencia AIT.</h2>
-            <p>Tres historias para conocer el ritmo de clase, el acompañamiento y la práctica desde la voz de nuestros estudiantes.</p>
-          </div>
+      <section class="section proof-editorial" id="experiencia" data-proof-shelf>
+        <div class="proof-shelf__inner">
+          <div class="proof-shelf__heading">
+            <div>
+              <p class="section-kicker">Experiencias reales</p>
+              <h2>Historias de estudiantes AIT.</h2>
+              <p>Conoce las clases, la práctica y el acompañamiento desde la voz de quienes ya viven la experiencia.</p>
+            </div>
 
-          <div class="proof-editorial__stage" aria-live="polite">
-            ${orderedTestimonials.map((item, index) => `
-              <article
-                class="proof-editorial__panel${index === 0 ? " is-active" : ""}"
-                id="proof-panel-${index}"
-                role="tabpanel"
-                aria-labelledby="proof-tab-${index}"
-                data-proof-panel
-                ${index === 0 ? "" : "hidden"}
-              >
-                <video
-                  controls
-                  playsinline
-                  preload="metadata"
-                  width="${item.videoWidth || 16}"
-                  height="${item.videoHeight || 9}"
-                  poster="${asset(item.videoPoster || item.image)}"
-                  aria-label="${escapeHtml(shortLabels[item.name] || item.name)}"
-                >
-                  <source src="${asset(item.video)}" type="video/mp4" />
-                </video>
-                <div class="proof-editorial__caption">
-                  <strong>${escapeHtml(shortLabels[item.name] || item.name)}</strong>
-                  <span>${escapeHtml(item.result)} · ${escapeHtml(item.duration || "")}</span>
-                </div>
-              </article>
-            `).join("")}
-          </div>
-
-          <div class="proof-editorial__tabs" role="tablist" aria-label="Experiencias de estudiantes en video">
-            ${orderedTestimonials.map((item, index) => `
-              <button
-                class="proof-editorial__tab${index === 0 ? " is-active" : ""}"
-                id="proof-tab-${index}"
-                type="button"
-                role="tab"
-                aria-controls="proof-panel-${index}"
-                aria-selected="${index === 0 ? "true" : "false"}"
-                tabindex="${index === 0 ? "0" : "-1"}"
-                data-proof-tab
-              >
-                <span class="proof-editorial__tab-number" aria-hidden="true">${index + 1}</span>
-                <span class="proof-editorial__thumb">
-                  <img src="${asset(item.videoPoster || item.image)}" alt="" loading="lazy" />
-                  <i data-lucide="circle-play" aria-hidden="true"></i>
-                </span>
-                <span class="proof-editorial__tab-copy">
-                  <strong>${escapeHtml(tabLabels[item.name] || item.name)}</strong>
-                  <span class="proof-editorial__tab-meta">${escapeHtml(item.result)}</span>
-                  <span class="proof-editorial__tab-duration">${escapeHtml(item.duration || "")}</span>
-                </span>
+            <div class="proof-shelf__controls" aria-label="Navegar historias">
+              <span>${orderedTestimonials.length} historias</span>
+              <button type="button" data-proof-rail-prev aria-label="Ver historias anteriores">
+                <i data-lucide="arrow-left" aria-hidden="true"></i>
               </button>
+              <button type="button" data-proof-rail-next aria-label="Ver más historias">
+                <i data-lucide="arrow-right" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="proof-shelf__rail" role="list" aria-label="Historias de estudiantes en video" data-proof-rail>
+            ${orderedTestimonials.map((item, index) => `
+              <a
+                class="proof-story"
+                href="${asset(item.video)}"
+                role="listitem"
+                aria-haspopup="dialog"
+                data-proof-story
+                data-proof-index="${index}"
+                data-proof-video="${asset(item.video)}"
+                data-proof-poster="${asset(item.videoPoster || item.image)}"
+                data-proof-name="${escapeHtml(shortLabels[item.name] || item.name)}"
+                data-proof-headline="${escapeHtml(item.headline || item.text)}"
+                data-proof-meta="${escapeHtml(item.result)} · ${escapeHtml(item.duration || "")}"
+                data-proof-width="${item.videoWidth || 16}"
+                data-proof-height="${item.videoHeight || 9}"
+              >
+                <img
+                  src="${asset(item.videoPoster || item.image)}"
+                  alt="${escapeHtml(item.imageAlt || "")}"
+                  loading="${index < 3 ? "eager" : "lazy"}"
+                />
+                <span class="proof-story__shade" aria-hidden="true"></span>
+                <span class="proof-story__duration">${escapeHtml(item.duration || "")}</span>
+                <span class="proof-story__play" aria-hidden="true">
+                  <i data-lucide="play"></i>
+                </span>
+                <span class="proof-story__copy">
+                  <small>${escapeHtml(item.result)}</small>
+                  <strong>${escapeHtml(shortLabels[item.name] || item.name)}</strong>
+                  <span>${escapeHtml(item.headline || item.text)}</span>
+                </span>
+              </a>
             `).join("")}
           </div>
 
-          <p class="proof-editorial__note">
-            <i data-lucide="users-round" aria-hidden="true"></i>
-            <span>Un espacio para practicar, equivocarse y seguir avanzando con confianza.</span>
+          <p class="proof-shelf__hint">
+            <i data-lucide="move-horizontal" aria-hidden="true"></i>
+            <span>Desliza para conocer más historias.</span>
           </p>
+
+          <dialog class="proof-dialog" aria-labelledby="proof-dialog-title" data-proof-dialog>
+            <div class="proof-dialog__shell">
+              <button class="proof-dialog__close" type="button" data-proof-dialog-close aria-label="Cerrar historia">
+                <i data-lucide="x" aria-hidden="true"></i>
+              </button>
+
+              <div class="proof-dialog__media">
+                <div class="proof-dialog__video-frame" data-proof-dialog-video-frame>
+                  <video controls playsinline preload="metadata" data-proof-dialog-video></video>
+                </div>
+              </div>
+
+              <div class="proof-dialog__footer">
+                <div class="proof-dialog__copy">
+                  <span data-proof-dialog-meta></span>
+                  <h3 id="proof-dialog-title" data-proof-dialog-title></h3>
+                  <p data-proof-dialog-headline></p>
+                </div>
+
+                <div class="proof-dialog__nav" aria-label="Cambiar historia">
+                  <button type="button" data-proof-dialog-prev>
+                    <i data-lucide="arrow-left" aria-hidden="true"></i>
+                    <span>Anterior</span>
+                  </button>
+                  <button type="button" data-proof-dialog-next>
+                    <span>Siguiente</span>
+                    <i data-lucide="arrow-right" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </dialog>
         </div>
       </section>
     `;
@@ -1499,57 +1519,124 @@
     showPanel(0);
   }
 
-  function initProofGallery(scope) {
-    const gallery = scope.querySelector("[data-proof-gallery]");
-    if (!gallery) return;
+  function initProofShelf(scope) {
+    const shelf = scope.querySelector("[data-proof-shelf]");
+    if (!shelf) return;
 
-    const panels = [...gallery.querySelectorAll("[data-proof-panel]")];
-    const tabs = [...gallery.querySelectorAll("[data-proof-tab]")];
+    const rail = shelf.querySelector("[data-proof-rail]");
+    const stories = [...shelf.querySelectorAll("[data-proof-story]")];
+    const railPrevious = shelf.querySelector("[data-proof-rail-prev]");
+    const railNext = shelf.querySelector("[data-proof-rail-next]");
+    const dialog = shelf.querySelector("[data-proof-dialog]");
+    const dialogMedia = shelf.querySelector(".proof-dialog__media");
+    const dialogVideoFrame = shelf.querySelector("[data-proof-dialog-video-frame]");
+    const dialogVideo = shelf.querySelector("[data-proof-dialog-video]");
+    const dialogTitle = shelf.querySelector("[data-proof-dialog-title]");
+    const dialogMeta = shelf.querySelector("[data-proof-dialog-meta]");
+    const dialogHeadline = shelf.querySelector("[data-proof-dialog-headline]");
+    const dialogPrevious = shelf.querySelector("[data-proof-dialog-prev]");
+    const dialogNext = shelf.querySelector("[data-proof-dialog-next]");
+    const dialogClose = shelf.querySelector("[data-proof-dialog-close]");
     let activeIndex = 0;
+    let activeVideoWidth = 16;
+    let activeVideoHeight = 9;
+    let lastTrigger = null;
 
-    const showPanel = (index, moveFocus = false) => {
-      activeIndex = (index + panels.length) % panels.length;
-
-      panels.forEach((panel, panelIndex) => {
-        const active = panelIndex === activeIndex;
-        const video = panel.querySelector("video");
-        panel.hidden = !active;
-        panel.classList.toggle("is-active", active);
-
-        if (active && video && video.readyState < 1) {
-          video.load();
-        } else if (!active) {
-          video?.pause();
-        }
-      });
-
-      tabs.forEach((tab, tabIndex) => {
-        const active = tabIndex === activeIndex;
-        tab.classList.toggle("is-active", active);
-        tab.setAttribute("aria-selected", String(active));
-        tab.tabIndex = active ? 0 : -1;
-      });
-
-      if (moveFocus) tabs[activeIndex]?.focus();
+    const updateRailControls = () => {
+      if (!rail) return;
+      const maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth);
+      if (railPrevious) railPrevious.disabled = rail.scrollLeft <= 4;
+      if (railNext) railNext.disabled = rail.scrollLeft >= maxScroll - 4;
     };
 
-    tabs.forEach((tab, index) => {
-      tab.addEventListener("click", () => showPanel(index));
-      tab.addEventListener("keydown", (event) => {
-        const keyActions = {
-          ArrowLeft: () => showPanel(activeIndex - 1, true),
-          ArrowRight: () => showPanel(activeIndex + 1, true),
-          Home: () => showPanel(0, true),
-          End: () => showPanel(tabs.length - 1, true),
-        };
+    const scrollRail = (direction) => {
+      if (!rail || !stories[0]) return;
+      const gap = Number.parseFloat(window.getComputedStyle(rail).columnGap) || 0;
+      const distance = stories[0].getBoundingClientRect().width + gap;
+      rail.scrollBy({ left: distance * direction, behavior: "smooth" });
+    };
 
-        if (!keyActions[event.key]) return;
+    const sizeDialogVideo = () => {
+      if (!dialog?.open || !dialogMedia || !dialogVideoFrame) return;
+      const mediaStyle = window.getComputedStyle(dialogMedia);
+      const horizontalPadding =
+        (Number.parseFloat(mediaStyle.paddingLeft) || 0) +
+        (Number.parseFloat(mediaStyle.paddingRight) || 0);
+      const verticalPadding =
+        (Number.parseFloat(mediaStyle.paddingTop) || 0) +
+        (Number.parseFloat(mediaStyle.paddingBottom) || 0);
+      const availableWidth = Math.max(1, dialogMedia.clientWidth - horizontalPadding);
+      const availableHeight = Math.max(1, dialogMedia.clientHeight - verticalPadding);
+      const ratio = activeVideoWidth / activeVideoHeight;
+      const width = Math.min(availableWidth, availableHeight * ratio);
+      const height = width / ratio;
+
+      dialogVideoFrame.style.width = `${Math.round(width)}px`;
+      dialogVideoFrame.style.height = `${Math.round(height)}px`;
+    };
+
+    const showStory = (index) => {
+      if (!dialogVideo || stories.length === 0) return;
+      activeIndex = (index + stories.length) % stories.length;
+      const story = stories[activeIndex];
+
+      dialogVideo.pause();
+      dialogVideo.src = story.dataset.proofVideo || story.href;
+      dialogVideo.poster = story.dataset.proofPoster || "";
+      const videoWidth = Number(story.dataset.proofWidth) || 16;
+      const videoHeight = Number(story.dataset.proofHeight) || 9;
+      activeVideoWidth = videoWidth;
+      activeVideoHeight = videoHeight;
+      dialogVideo.width = videoWidth;
+      dialogVideo.height = videoHeight;
+      dialogVideo.setAttribute("aria-label", story.dataset.proofName || "Historia de estudiante");
+      dialogVideo.load();
+
+      if (dialogTitle) dialogTitle.textContent = story.dataset.proofName || "";
+      if (dialogMeta) dialogMeta.textContent = story.dataset.proofMeta || "";
+      if (dialogHeadline) dialogHeadline.textContent = story.dataset.proofHeadline || "";
+      window.requestAnimationFrame(sizeDialogVideo);
+    };
+
+    const openStory = (index, trigger) => {
+      if (!dialog?.showModal) return;
+      lastTrigger = trigger;
+      showStory(index);
+      dialog.showModal();
+      document.documentElement.classList.add("has-proof-dialog");
+      window.requestAnimationFrame(sizeDialogVideo);
+      dialogClose?.focus();
+    };
+
+    stories.forEach((story, index) => {
+      story.addEventListener("click", (event) => {
+        if (!dialog?.showModal) return;
         event.preventDefault();
-        keyActions[event.key]();
+        openStory(index, story);
       });
     });
 
-    showPanel(0);
+    railPrevious?.addEventListener("click", () => scrollRail(-1));
+    railNext?.addEventListener("click", () => scrollRail(1));
+    rail?.addEventListener("scroll", updateRailControls, { passive: true });
+    window.addEventListener("resize", () => {
+      updateRailControls();
+      sizeDialogVideo();
+    });
+
+    dialogPrevious?.addEventListener("click", () => showStory(activeIndex - 1));
+    dialogNext?.addEventListener("click", () => showStory(activeIndex + 1));
+    dialogClose?.addEventListener("click", () => dialog?.close());
+    dialog?.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog?.addEventListener("close", () => {
+      dialogVideo?.pause();
+      document.documentElement.classList.remove("has-proof-dialog");
+      lastTrigger?.focus();
+    });
+
+    updateRailControls();
   }
 
   function initCourseRouteState() {

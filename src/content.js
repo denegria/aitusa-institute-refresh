@@ -966,19 +966,21 @@ const locations = [
 const testimonials = [
   {
     name: "Testimonio internacional",
+    headline: "Una conversación sobre el proceso y lo que ayuda a avanzar con claridad.",
     image: site.images.internationalStudentVideoPoster,
     video: site.images.internationalStudentVideo,
     videoPoster: site.images.internationalStudentVideoPoster,
     videoWidth: 1080,
     videoHeight: 1080,
     duration: "0:46",
-    imageAlt: "Antonina y Zulma compartiendo su experiencia real en una clase de inglés de AiT USA.",
+    imageAlt: "Una estudiante compartiendo su experiencia real con AiT USA.",
     result: "Testimonio internacional",
     text:
       "Escucha cómo vivió el proceso y qué le ayudó a avanzar con más claridad.",
   },
   {
     name: "Eric",
+    headline: "Una entrevista breve sobre el método y el acompañamiento constante.",
     image: site.images.ericInterviewVideoPoster,
     video: site.images.ericInterviewVideo,
     videoPoster: site.images.ericInterviewVideoPoster,
@@ -993,7 +995,7 @@ const testimonials = [
   },
   {
     name: "Jessica",
-    headline: "Jessica entrevista a un estudiante",
+    headline: "Una conversación sobre el ritmo de clase y la práctica que ayuda a avanzar.",
     image: site.images.jessicaInterviewVideoPoster,
     video: site.images.jessicaInterviewVideo,
     videoPoster: site.images.jessicaInterviewVideoPoster,

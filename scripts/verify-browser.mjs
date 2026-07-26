@@ -568,6 +568,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
 
   let target = null;
   let secondaryTarget = null;
+  let proofDialogCheck = null;
   const sectionScreenshots = {};
   let screenshotError = null;
   try {
@@ -593,7 +594,41 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     await captureSection("#metodo", "method");
     await captureSection(".method-tabs", "method-tabs");
     await captureSection("#experiencia", "videos");
-    await captureSection(".proof-editorial__tabs", "story-controls");
+    await captureSection(".proof-shelf__rail", "story-controls");
+
+    await evaluate(`document.querySelector('[data-proof-story]')?.click()`);
+    await sleep(250);
+    proofDialogCheck = await evaluate(`(() => {
+      const dialog = document.querySelector('[data-proof-dialog]');
+      const video = document.querySelector('[data-proof-dialog-video]');
+      const title = document.querySelector('[data-proof-dialog-title]');
+      const firstTitle = title?.innerText || '';
+      document.querySelector('[data-proof-dialog-next]')?.click();
+      const nextTitle = title?.innerText || '';
+      const issues = [];
+      if (!dialog?.open) issues.push('dialog-did-not-open');
+      if (!video?.currentSrc) issues.push('dialog-video-source-missing');
+      if (!video?.paused) issues.push('dialog-video-autoplayed');
+      if (!firstTitle || !nextTitle || firstTitle === nextTitle) issues.push('dialog-next-story-failed');
+      return {
+        open: Boolean(dialog?.open),
+        videoSrc: video?.currentSrc || '',
+        videoPaused: Boolean(video?.paused),
+        firstTitle,
+        nextTitle,
+        issues,
+      };
+    })()`);
+    await sleep(180);
+    if (width === 390 || width === 1440) {
+      const dialogShot = await captureViewport(`${name} story dialog`);
+      const dialogTarget = path.join(screenshotsDir, `${name}-story-dialog.png`);
+      await writeFile(dialogTarget, Buffer.from(dialogShot.data, "base64"));
+      sectionScreenshots["story-dialog"] = dialogTarget;
+    }
+    await evaluate(`document.querySelector('[data-proof-dialog]')?.close()`);
+    await sleep(120);
+
     await captureSection("#cursos", "courses");
     await captureSection(".faq-section", "faq");
     await captureSection("footer.site-footer", "footer");
@@ -653,7 +688,18 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     menuButtonPresent: Boolean(document.querySelector('.menu-toggle')),
   }))()`);
 
-  return { name, width, height, screenshot: target, secondaryScreenshot: secondaryTarget, sectionScreenshots, screenshotError, ...summary, interactions };
+  return {
+    name,
+    width,
+    height,
+    screenshot: target,
+    secondaryScreenshot: secondaryTarget,
+    sectionScreenshots,
+    screenshotError,
+    proofDialogCheck,
+    ...summary,
+    interactions,
+  };
 };
 
 const verifyHeroViewport = async ({ name, width, height }) => {
@@ -987,7 +1033,8 @@ const blockingResults = results.filter((result) =>
   (result.methodPosterIssues && result.methodPosterIssues.length) ||
   (result.videoMetadataIssues && result.videoMetadataIssues.length) ||
   (result.videoVisualIssues && result.videoVisualIssues.length) ||
-  (result.methodFrameIssues && result.methodFrameIssues.length)
+  (result.methodFrameIssues && result.methodFrameIssues.length) ||
+  (result.proofDialogCheck?.issues && result.proofDialogCheck.issues.length)
 );
 
 if (exceptions.length || consoleMessages.length || blockingResults.length) {
