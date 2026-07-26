@@ -57,6 +57,7 @@
     }
 
     app.innerHTML = renderHomePage();
+    initMethodVideo(document);
     initProofShelf(document);
     initCallbackDialog(document);
     initCatalogInteractions(document);
@@ -413,12 +414,12 @@
               <video
                 class="method-editorial__video"
                 controls
-                playsinline
                 preload="metadata"
                 width="${methodNarrative.videoWidth || 464}"
                 height="${methodNarrative.videoHeight || 832}"
                 poster="${asset(methodNarrative.videoPoster)}"
                 aria-label="${escapeHtml(methodNarrative.videoAriaLabel || "Conoce el método completo")}"
+                data-method-video
               >
                 <source src="${asset(methodNarrative.video)}" type="video/mp4" />
               </video>
@@ -446,6 +447,33 @@
         </div>
       </section>
     `;
+  }
+
+  function initMethodVideo(scope) {
+    const video = scope.querySelector("[data-method-video]");
+    if (!video) return;
+
+    const mobileViewport = window.matchMedia("(max-width: 719px)");
+    const enterMobileFullscreen = () => {
+      if (!mobileViewport.matches) return;
+      if (document.fullscreenElement === video || video.webkitDisplayingFullscreen) return;
+
+      if (typeof video.webkitEnterFullscreen === "function") {
+        try {
+          video.webkitEnterFullscreen();
+        } catch {
+          // iOS will still use native fullscreen because playsinline is intentionally omitted.
+        }
+        return;
+      }
+
+      if (typeof video.requestFullscreen === "function") {
+        const request = video.requestFullscreen();
+        request?.catch?.(() => {});
+      }
+    };
+
+    video.addEventListener("play", enterMobileFullscreen);
   }
 
   function renderOfferingPathSection() {

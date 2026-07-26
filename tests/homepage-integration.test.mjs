@@ -164,6 +164,10 @@ describe("homepage selective concept integration", () => {
     assert.doesNotMatch(hero, /hero__proof-band/);
     assert.equal((hero.match(/class="button button--/g) || []).length, 2);
     assert.match(styles, /\.hero__headline-emphasis\s*\{[\s\S]*text-transform: uppercase/);
+    assert.match(styles, /\.hero h1\s*\{[\s\S]*font-family: var\(--font-display\)/);
+    assert.doesNotMatch(styles, /\.hero h1\s*\{[\s\S]*transform: scaleX/);
+    assert.match(styles, /\.hero__headline-accent\s*\{[\s\S]*font-family: var\(--font-display\)/);
+    assert.match(styles, /\.method-editorial__intro h2\s*\{[\s\S]*font-family: var\(--font-display\)/);
     assert.match(styles, /\.proof-shelf__rail\s*\{[\s\S]*scroll-snap-type: x mandatory/);
     assert.match(styles, /\.proof-dialog__media video\s*\{[\s\S]*object-fit: contain/);
     assert.match(styles, /\.home-page \.real-map-pin\s*\{[\s\S]*width: 44px;[\s\S]*height: 44px/);

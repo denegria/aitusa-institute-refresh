@@ -539,6 +539,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         availableSectionHeight,
       }));
     const mobileHeroIssues = [];
+    const methodFullscreenIssues = [];
     if (innerWidth <= 719) {
       const hero = document.querySelector('.hero');
       const heroVisual = document.querySelector('.hero__visual');
@@ -581,6 +582,37 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
           accentText,
           summaryText,
         });
+      }
+
+      const methodVideo = document.querySelector('[data-method-video]');
+      if (!methodVideo) {
+        methodFullscreenIssues.push({ type: 'mobile-method-video-missing' });
+      } else {
+        let fullscreenRequested = false;
+        const originalRequestFullscreen = methodVideo.requestFullscreen;
+        const originalWebkitEnterFullscreen = methodVideo.webkitEnterFullscreen;
+        methodVideo.requestFullscreen = () => {
+          fullscreenRequested = true;
+          return Promise.resolve();
+        };
+        if (originalWebkitEnterFullscreen) {
+          methodVideo.webkitEnterFullscreen = () => {
+            fullscreenRequested = true;
+          };
+        }
+        methodVideo.dispatchEvent(new Event('play'));
+        await Promise.resolve();
+        if (originalRequestFullscreen) {
+          methodVideo.requestFullscreen = originalRequestFullscreen;
+        } else {
+          delete methodVideo.requestFullscreen;
+        }
+        if (originalWebkitEnterFullscreen) {
+          methodVideo.webkitEnterFullscreen = originalWebkitEnterFullscreen;
+        }
+        if (!fullscreenRequested) {
+          methodFullscreenIssues.push({ type: 'mobile-method-fullscreen-not-requested' });
+        }
       }
     }
     const footerHeight = Math.round(document.querySelector('.site-footer')?.getBoundingClientRect().height || 0);
@@ -698,6 +730,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       sectionRhythm,
       sectionRhythmIssues,
       mobileHeroIssues,
+      methodFullscreenIssues,
       footerHeight,
       footerHeightIssues,
       closingSurfaceIssues,
@@ -1173,6 +1206,7 @@ const blockingResults = results.filter((result) =>
   (result.overflowing && result.overflowing.length) ||
   (result.sectionRhythmIssues && result.sectionRhythmIssues.length) ||
   (result.mobileHeroIssues && result.mobileHeroIssues.length) ||
+  (result.methodFullscreenIssues && result.methodFullscreenIssues.length) ||
   (result.footerHeightIssues && result.footerHeightIssues.length) ||
   (result.closingSurfaceIssues && result.closingSurfaceIssues.length) ||
   (result.viewportIssues && result.viewportIssues.length) ||

@@ -40,9 +40,11 @@ describe("homepage Method story", () => {
       source.indexOf("function renderSolutionSection"),
       source.indexOf("function renderOfferingPathSection"),
     );
+    const videoMarkup = method.slice(method.indexOf("<video"), method.indexOf("</video>"));
 
     assert.equal((method.match(/<video/g) || []).length, 1);
     assert.match(method, /class="method-editorial__video"/);
+    assert.match(method, /data-method-video/);
     assert.match(method, /class="method-reasons"/);
     assert.match(method, /aria-label="Resumen del método en tres razones"/);
     assert.match(method, /methodNarrative\.video/);
@@ -51,8 +53,13 @@ describe("homepage Method story", () => {
     assert.doesNotMatch(method, /role="tabpanel"/);
     assert.doesNotMatch(method, /autoplay/);
     assert.doesNotMatch(method, /muted/);
+    assert.doesNotMatch(videoMarkup, /playsinline/);
     assert.doesNotMatch(source, /function initMethodTabs/);
     assert.doesNotMatch(source, /video\.play\(\)/);
+    assert.match(source, /function initMethodVideo/);
+    assert.match(source, /video\.webkitEnterFullscreen\(\)/);
+    assert.match(source, /video\.requestFullscreen\(\)/);
+    assert.match(source, /video\.addEventListener\("play", enterMobileFullscreen\)/);
   });
 
   it("does not render the former short duplicate or third characteristic video", async () => {
@@ -80,11 +87,11 @@ describe("homepage Method story", () => {
     );
     assert.match(
       styles,
-      /\.method-video-frame\s*\{[\s\S]*aspect-ratio: 464 \/ 832;[\s\S]*background: var\(--method-navy\)/,
+      /\.method-video-frame\s*\{[\s\S]*padding: clamp\(8px, 0\.8vw, 12px\);[\s\S]*background: var\(--method-navy\)/,
     );
     assert.match(
       styles,
-      /\.method-editorial__video\s*\{[\s\S]*object-fit: contain/,
+      /\.method-editorial__video\s*\{[\s\S]*height: auto;[\s\S]*aspect-ratio: 464 \/ 832;[\s\S]*object-fit: contain/,
     );
     assert.match(
       styles,
