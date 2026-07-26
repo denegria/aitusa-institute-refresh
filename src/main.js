@@ -46,6 +46,7 @@
 
     if (route.page === "courses") {
       app.innerHTML = renderCoursesPage();
+      initCallbackDialog(document);
       initCatalogInteractions(document);
       initLeadForm(document);
       initFaqs(document);
@@ -57,6 +58,7 @@
     app.innerHTML = renderHomePage();
     initMethodTabs(document);
     initProofShelf(document);
+    initCallbackDialog(document);
     initCatalogInteractions(document);
     initLeadForm(document);
     initFaqs(document);
@@ -770,7 +772,7 @@
 
   function renderFinalCtaSection() {
     return `
-      <section class="section final-cta-section" id="contacto">
+      <section class="section final-cta-section" id="contacto" aria-labelledby="contacto-title">
         <div class="section-inner final-cta-layout">
           <div class="final-cta-copy">
             <div class="section-heading section-heading--framed">
@@ -783,27 +785,55 @@
                 Encuentra tu nivel
                 <i data-lucide="arrow-right" aria-hidden="true"></i>
               </a>
-              <a class="button button--ghost" href="${conversionCtas.advisor?.href || site.whatsappHref}" target="_blank" rel="noreferrer">
+              <a class="final-cta-whatsapp" href="${conversionCtas.advisor?.href || site.whatsappHref}" target="_blank" rel="noreferrer">
                 <i data-lucide="message-circle" aria-hidden="true"></i>
-                Hablar por WhatsApp
+                ¿Tienes preguntas? <strong>Escríbenos por WhatsApp</strong>
               </a>
             </div>
             <p class="final-cta-note">
               <i data-lucide="shield-check" aria-hidden="true"></i>
-              La recomendación inicial es gratuita. Un asesor confirma contigo el nivel y el horario antes de la inscripción.
+              Orientación inicial gratuita. Confirmamos nivel y horario contigo.
             </p>
           </div>
 
-          <details class="contact-card contact-card--secondary card">
-            <summary>
-              <span>
-                <small>Una alternativa simple</small>
-                <strong>¿Prefieres que te llamemos?</strong>
-              </span>
-              <i class="contact-card__chevron" data-lucide="chevron-down" aria-hidden="true"></i>
-            </summary>
-            <div class="contact-card__content">
-              <p>Déjanos lo esencial para coordinar una llamada. Te preguntaremos el resto cuando hablemos.</p>
+          <button
+            class="callback-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="callback-dialog"
+            data-callback-dialog-open
+          >
+            <span>
+              <small>¿Prefieres que te llamemos?</small>
+              <strong>Solicita que te llamemos</strong>
+            </span>
+            <i data-lucide="arrow-right" aria-hidden="true"></i>
+          </button>
+
+          <dialog
+            class="callback-dialog"
+            id="callback-dialog"
+            aria-labelledby="callback-dialog-title"
+            data-callback-dialog
+          >
+            <div class="callback-dialog__shell">
+              <header class="callback-dialog__header">
+                <div>
+                  <p class="section-kicker">Una alternativa simple</p>
+                  <h3 id="callback-dialog-title">Solicita una llamada</h3>
+                </div>
+                <button
+                  class="callback-dialog__close"
+                  type="button"
+                  aria-label="Cerrar solicitud de llamada"
+                  data-callback-dialog-close
+                >
+                  <i data-lucide="x" aria-hidden="true"></i>
+                </button>
+              </header>
+
+              <div class="callback-dialog__content">
+                <p>Déjanos lo esencial para coordinar una llamada. Te preguntaremos el resto cuando hablemos.</p>
               <form class="lead-form" data-lead-form>
               <div class="form-grid callback-form-grid">
                 <label>
@@ -857,12 +887,9 @@
               <button class="button button--primary" type="submit" data-lead-submit>Solicitar llamada</button>
               <p class="form-status" data-form-status aria-live="polite"></p>
               </form>
-              <div class="contact-card__footnote">
-                <strong>También puedes escribir directo.</strong>
-                <a href="${site.whatsappHref}" target="_blank" rel="noreferrer">${escapeHtml(site.whatsapp)}</a>
               </div>
             </div>
-          </details>
+          </dialog>
         </div>
       </section>
     `;
@@ -952,36 +979,46 @@
   }
 
   function renderFooter() {
+    const currentYear = new Date().getFullYear();
+
     return `
       <footer class="site-footer">
-        <div class="section-inner site-footer__grid">
-          <div>
+        <div class="section-inner site-footer__compact">
+          <div class="site-footer__top">
             <a class="site-footer__logo" href="/">
               <img src="${asset(site.images.logo)}" alt="Logo de AiT USA Institute" />
-              <span>
-                <strong>${escapeHtml(site.name || "AiT USA Institute")}</strong>
-                <small>${escapeHtml(site.legal || "")}</small>
-              </span>
+              <strong>AIT USA</strong>
             </a>
-            <p>Inglés presencial, híbrido y online con método visual, práctica guiada y acompañamiento para avanzar con confianza.</p>
+
+            <div class="site-footer__contact" aria-label="Contactar a AIT USA">
+              <a href="${site.phoneHref}" aria-label="Llamar a ${escapeHtml(site.phone)}">
+                <i data-lucide="phone" aria-hidden="true"></i>
+                Llamar
+              </a>
+              <a href="${site.whatsappHref}" target="_blank" rel="noreferrer">
+                <i data-lucide="message-circle" aria-hidden="true"></i>
+                WhatsApp
+              </a>
+              <a href="${site.emailHref}">
+                <i data-lucide="mail" aria-hidden="true"></i>
+                Email
+              </a>
+            </div>
           </div>
-          <div>
-            <h3>Explora</h3>
-            <a href="/courses/">Cursos detallados</a>
-            <a href="/placement-test/">Examen de ubicación</a>
-            <a href="${conversionCtas.registration?.href || site.whatsappHref}" target="_blank" rel="noreferrer">Información de inscripción y libro ($95)</a>
-          </div>
-          <div>
-            <h3>Contacto</h3>
-            <a href="${site.phoneHref}">${escapeHtml(site.phone)}</a>
-            <a href="${site.whatsappHref}" target="_blank" rel="noreferrer">${escapeHtml(site.whatsapp)}</a>
-            <a href="${site.emailHref}">${escapeHtml(site.email)}</a>
-          </div>
-          <div>
-            <h3>Legal</h3>
-            <a href="${escapeHtml(site.legalLinks?.privacy || "/privacy-policy")}">Política de Privacidad</a>
-            <a href="${escapeHtml(site.legalLinks?.terms || "/terms-and-conditions")}">Términos y Condiciones</a>
-            <a href="${escapeHtml(site.legalLinks?.contact || "/contactanos")}">Formulario de contacto</a>
+
+          <div class="site-footer__bottom">
+            <nav class="site-footer__nav" aria-label="Enlaces del pie de página">
+              <a href="/courses/">Cursos</a>
+              <a href="/placement-test/">Examen de nivel</a>
+              <a href="${conversionCtas.registration?.href || site.whatsappHref}" target="_blank" rel="noreferrer">Inscripción</a>
+            </nav>
+
+            <div class="site-footer__legal">
+              <span>© ${currentYear} ${escapeHtml(site.legal || "Arrieta Institute LLC")}</span>
+              <a href="${escapeHtml(site.legalLinks?.privacy || "/privacy-policy")}">Privacidad</a>
+              <a href="${escapeHtml(site.legalLinks?.terms || "/terms-and-conditions")}">Términos</a>
+              <a href="${escapeHtml(site.legalLinks?.contact || "/contactanos")}">Contacto</a>
+            </div>
           </div>
         </div>
       </footer>
@@ -1637,6 +1674,32 @@
     });
 
     updateRailControls();
+  }
+
+  function initCallbackDialog(scope) {
+    const dialog = scope.querySelector("[data-callback-dialog]");
+    const openButton = scope.querySelector("[data-callback-dialog-open]");
+    const closeButton = scope.querySelector("[data-callback-dialog-close]");
+    let lastTrigger = null;
+
+    if (!dialog || !openButton) return;
+
+    openButton.addEventListener("click", () => {
+      if (!dialog.showModal) return;
+      lastTrigger = openButton;
+      dialog.showModal();
+      document.documentElement.classList.add("has-callback-dialog");
+      closeButton?.focus();
+    });
+
+    closeButton?.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener("close", () => {
+      document.documentElement.classList.remove("has-callback-dialog");
+      lastTrigger?.focus();
+    });
   }
 
   function initCourseRouteState() {

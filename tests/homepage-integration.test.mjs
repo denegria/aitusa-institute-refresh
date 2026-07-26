@@ -63,12 +63,13 @@ describe("homepage selective concept integration", () => {
     assert.equal((section.match(/renderCtaBox\(/g) || []).length, 0);
     assert.match(section, /¿Listo para empezar\?/);
     assert.match(section, /Encuentra tu nivel/);
-    assert.match(section, /Hablar por WhatsApp/);
+    assert.match(section, /Escríbenos por WhatsApp/);
     assert.match(section, /final-cta-actions/);
     assert.match(section, /conversionCtas\.placement/);
     assert.match(section, /conversionCtas\.advisor/);
-    assert.match(section, /contact-card--secondary/);
-    assert.match(section, /<details class="contact-card/);
+    assert.match(section, /callback-launcher/);
+    assert.match(section, /<dialog[\s\S]*data-callback-dialog/);
+    assert.match(section, /aria-haspopup="dialog"/);
     assert.match(section, /¿Prefieres que te llamemos\?/);
     assert.match(section, /name="nombre"/);
     assert.match(section, /name="telefono"/);
@@ -156,7 +157,9 @@ describe("homepage selective concept integration", () => {
     assert.match(styles, /\.home-page \.real-map-pin\s*\{[\s\S]*width: 44px;[\s\S]*height: 44px/);
     assert.match(styles, /\.home-page \.compact-location-row\s*\{[\s\S]*grid-template-areas:[\s\S]*"number copy"[\s\S]*"number action"/);
     assert.match(styles, /\.home-page \.compact-location-row__copy strong,[\s\S]*white-space: normal/);
-    assert.match(styles, /\.site-footer__grid > div:not\(:first-child\) a\s*\{[\s\S]*min-height: 44px/);
+    assert.match(styles, /\.site-footer__contact a,[\s\S]*\.site-footer__nav a\s*\{[\s\S]*min-height: 44px/);
+    assert.match(styles, /\.callback-launcher\s*\{[\s\S]*min-height: 88px/);
+    assert.match(styles, /\.callback-dialog__shell\s*\{[\s\S]*max-height: min\(760px, 92dvh\)/);
     assert.match(
       styles,
       /@media \(max-width: 719px\)[\s\S]*\.home-page \.offer-node\s*\{[\s\S]*gap: 14px;[\s\S]*padding: 18px/,
@@ -166,6 +169,7 @@ describe("homepage selective concept integration", () => {
     assert.match(styles, /\.method-tabs\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
     assert.match(styles, /\.home-page \.offer-map\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);
     assert.match(styles, /\.home-page \.location-compact-list\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);
-    assert.match(source, /Información de inscripción y libro \(\$95\)/);
+    assert.match(source, />Inscripción<\/a>/);
+    assert.doesNotMatch(source, /Información de inscripción y libro \(\$95\)/);
   });
 });

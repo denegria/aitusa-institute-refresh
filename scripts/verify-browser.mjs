@@ -538,6 +538,16 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         stickyHeaderHeight,
         availableSectionHeight,
       }));
+    const footerHeight = Math.round(document.querySelector('.site-footer')?.getBoundingClientRect().height || 0);
+    const footerHeightLimit = innerWidth <= 719 ? 320 : 240;
+    const footerHeightIssues = footerHeight > footerHeightLimit
+      ? [{
+          type: 'footer-exceeds-compact-height',
+          footerHeight,
+          footerHeightLimit,
+          viewportWidth: innerWidth,
+        }]
+      : [];
     return {
       location: location.href,
       title: document.title,
@@ -561,6 +571,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       overflowing,
       sectionRhythm,
       sectionRhythmIssues,
+      footerHeight,
+      footerHeightIssues,
       availableSectionHeight,
       pageHeight: document.documentElement.scrollHeight,
     };
@@ -569,6 +581,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
   let target = null;
   let secondaryTarget = null;
   let proofDialogCheck = null;
+  let callbackDialogCheck = null;
   const sectionScreenshots = {};
   let screenshotError = null;
   try {
@@ -633,11 +646,24 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     await captureSection(".faq-section", "faq");
     await captureSection("footer.site-footer", "footer");
 
-    await evaluate(`(() => {
-      const contactCard = document.querySelector('.contact-card--secondary');
-      if (contactCard) contactCard.open = true;
+    await evaluate(`document.querySelector('[data-callback-dialog-open]')?.click()`);
+    await sleep(120);
+    callbackDialogCheck = await evaluate(`(() => {
+      const dialog = document.querySelector('[data-callback-dialog]');
+      const closeButton = document.querySelector('[data-callback-dialog-close]');
+      const issues = [];
+      if (!dialog?.open) issues.push('callback-dialog-did-not-open');
+      if (document.activeElement !== closeButton) issues.push('callback-dialog-close-not-focused');
+      return {
+        open: Boolean(dialog?.open),
+        closeFocused: document.activeElement === closeButton,
+        issues,
+      };
     })()`);
-    await captureSection("#contacto", "contact-open");
+    const contactDialogShot = await captureViewport(`${name} contact dialog`);
+    const contactDialogTarget = path.join(screenshotsDir, `${name}-contact-open.png`);
+    await writeFile(contactDialogTarget, Buffer.from(contactDialogShot.data, "base64"));
+    sectionScreenshots["contact-open"] = contactDialogTarget;
 
     await evaluate(`(() => {
       document.querySelector('[data-filter="tecnologia"]')?.click();
@@ -655,6 +681,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       if (scheduleInput) scheduleInput.value = 'Noche';
       if (contactPermission) contactPermission.checked = true;
       form?.requestSubmit();
+      document.querySelector('[data-callback-dialog]')?.close();
       document.querySelector('[data-course-detail-link="computacion-oficina"]')?.click();
     })()`);
 
@@ -680,7 +707,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     officeDetailHasExcel: document.querySelector('[data-course-detail="computacion-oficina"]')?.innerText.includes('Excel') || false,
     formStatus: document.querySelector('[data-form-status]')?.innerText || '',
     activeNavLabel: document.querySelector('.site-nav [aria-current="location"]')?.innerText || '',
-    contactCardOpen: Boolean(document.querySelector('.contact-card--secondary')?.open),
+    contactDialogOpen: Boolean(document.querySelector('[data-callback-dialog]')?.open),
     contactSectionHeight: Math.round(document.querySelector('#contacto')?.getBoundingClientRect().height || 0),
     contactFieldNames: [...document.querySelectorAll('[data-lead-form] [name]')]
       .filter((field) => field.type !== 'hidden')
@@ -697,6 +724,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     sectionScreenshots,
     screenshotError,
     proofDialogCheck,
+    callbackDialogCheck,
     ...summary,
     interactions,
   };
@@ -1029,12 +1057,14 @@ const blockingResults = results.filter((result) =>
   (result.missingImages && result.missingImages.length) ||
   (result.overflowing && result.overflowing.length) ||
   (result.sectionRhythmIssues && result.sectionRhythmIssues.length) ||
+  (result.footerHeightIssues && result.footerHeightIssues.length) ||
   (result.viewportIssues && result.viewportIssues.length) ||
   (result.methodPosterIssues && result.methodPosterIssues.length) ||
   (result.videoMetadataIssues && result.videoMetadataIssues.length) ||
   (result.videoVisualIssues && result.videoVisualIssues.length) ||
   (result.methodFrameIssues && result.methodFrameIssues.length) ||
-  (result.proofDialogCheck?.issues && result.proofDialogCheck.issues.length)
+  (result.proofDialogCheck?.issues && result.proofDialogCheck.issues.length) ||
+  (result.callbackDialogCheck?.issues && result.callbackDialogCheck.issues.length)
 );
 
 if (exceptions.length || consoleMessages.length || blockingResults.length) {
