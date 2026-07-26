@@ -698,7 +698,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       [
         ['hero', '#inicio', 'rgb(255, 255, 255)'],
         ['method', '#metodo', 'rgb(247, 242, 232)'],
-        ['testimonials', '#experiencia', 'rgb(238, 244, 255)'],
+        ['testimonials', '#experiencia', 'rgb(0, 26, 61)'],
         ['study-options', '#cursos', 'rgb(255, 255, 255)'],
         ['locations', '#sedes', 'rgb(247, 242, 232)'],
         ['faq', '.faq-section', 'rgb(245, 247, 250)'],

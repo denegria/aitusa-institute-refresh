@@ -219,7 +219,15 @@ describe("homepage selective concept integration", () => {
       styles,
       /\.home-page #metodo,[\s\S]*\.home-page #sedes\s*\{[\s\S]*background: var\(--home-warm\)/,
     );
-    assert.match(styles, /\.home-page #experiencia\s*\{[\s\S]*background: var\(--home-cool\)/);
+    assert.match(styles, /\.home-page #experiencia\s*\{[\s\S]*background: var\(--home-navy\)/);
+    assert.match(
+      styles,
+      /\.home-page #experiencia \.proof-shelf__heading h2\s*\{[\s\S]*color: #ffffff/,
+    );
+    assert.match(
+      styles,
+      /\.home-page #experiencia \.proof-shelf__controls button\s*\{[\s\S]*background: rgba\(255, 255, 255, 0\.08\)/,
+    );
     assert.match(styles, /\.home-page \.faq-section\s*\{[\s\S]*background: var\(--home-mist\)/);
     assert.match(
       styles,
