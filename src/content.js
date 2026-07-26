@@ -1191,13 +1191,15 @@ const faqs = [
 
 const painHero = {
   eyebrow: "Una escuela de inglés diferente",
-  headline: "Habla inglés con confianza.",
-  headlineLines: ["Habla inglés", "con confianza."],
+  headline: "Si lo que buscas es HABLAR INGLÉS",
+  headlineLead: "Si lo que buscas es",
+  headlineEmphasis: "HABLAR INGLÉS",
+  headlineAccent: "rápido, fácil y sin estrés.",
   subheadline:
-    "Clases prácticas, guía clara y acompañamiento para que avances paso a paso.",
+    "Conoce una forma diferente de aprender, creada junto a nuestra comunidad durante más de 20 años.",
   subheadlineLines: [
-    "Clases prácticas, guía clara y acompañamiento",
-    "para que avances paso a paso.",
+    "Conoce una forma diferente de aprender, creada junto a",
+    "nuestra comunidad durante más de 20 años.",
   ],
   ctas: {
     primary: "Encuentra tu nivel",
@@ -1206,57 +1208,37 @@ const painHero = {
   },
 };
 
+const methodNarrative = {
+  eyebrow: "Método Graphic Concept",
+  heading: "Tres razones por las que somos diferentes.",
+  introduction:
+    "Durante más de 20 años trabajando con nuestra comunidad, conocimos de cerca sus necesidades y frustraciones. Por eso creamos métodos, técnicas y estrategias propias para quienes están cansados de intentarlo o de memorizar miles de palabras sin poder hablar.",
+  videoLabel: "Conoce el método completo · 1:45",
+  videoAriaLabel: "Conoce el método Graphic Concept completo",
+  video: site.images.introVideo,
+  videoPoster: site.images.introVideoPoster,
+  videoWidth: 464,
+  videoHeight: 832,
+};
+
 const solutionCharacteristics = [
   {
+    key: "understand",
+    title: "Comprende sin traducir",
+    body:
+      "Aprende técnicas de comprensión para entender cuando te hablen en inglés.",
+  },
+  {
+    key: "speak",
+    title: "Habla sin memorizar miles de palabras",
+    body:
+      "Practica estructuras que puedas usar, sin depender de listas interminables.",
+  },
+  {
     key: "graphic-concept",
-    label: "Graphic Concept",
-    tabLabel: "Comprensión visual",
-    title: "Aprende a entender sin traducir palabra por palabra",
+    title: "Un método propio, patentado y probado",
     body:
-      "El método Graphic Concept organiza el inglés de forma visual para que comprendas mejor lo que escuchas y lo que quieres decir, sin depender de listas interminables de memoria.",
-    proof:
-      "Ruta por niveles, seguimiento y materiales propios para sostener el avance.",
-    video: site.images.differenceVideo,
-    videoPoster: site.images.methodStudioPoster,
-    videoAspect: "portrait",
-    videoWidth: 480,
-    videoHeight: 848,
-    image: site.images.method,
-    imageAlt: "Instructora mostrando el método Graphic Concept en clase real.",
-  },
-  {
-    key: "guided-practice",
-    label: "Práctica guiada",
-    tabLabel: "Práctica guiada",
-    title: "Habla con corrección en vivo, no solo con teoría",
-    body:
-      "Aquí la práctica importa. Trabajas con docentes que corrigen, repiten y guían la conversación para ayudarte a responder con más seguridad en situaciones reales.",
-    proof:
-      "Acompañamiento claro para estudiar dentro y fuera de clase.",
-    video: site.images.introVideo,
-    videoPoster: site.images.introVideoPoster,
-    videoAspect: "portrait",
-    videoWidth: 464,
-    videoHeight: 832,
-    image: site.images.heroClassroom,
-    imageAlt: "Clase real de inglés con corrección en vivo.",
-  },
-  {
-    key: "continuity",
-    label: "Continuidad",
-    tabLabel: "Apoyo constante",
-    title: "Avanza con un plan que se adapta a tu nivel, horario y objetivo",
-    body:
-      "AIT USA te orienta para ubicar tu nivel, elegir formato y mantener continuidad con seguimiento, libro y próximos pasos claros.",
-    proof:
-      "Explora inglés para niños, GED, computación, español y otras rutas para metas específicas.",
-    video: site.images.thirdCharacteristicVideo,
-    videoPoster: site.images.thirdCharacteristicVideoPoster,
-    videoAspect: "portrait",
-    videoWidth: 720,
-    videoHeight: 1280,
-    image: site.images.routeLevels,
-    imageAlt: "Ruta por niveles y continuidad académica en AiT USA.",
+      "Graphic Concept se adapta a tu nivel para ayudarte a hablar con más facilidad y rapidez.",
   },
 ];
 
@@ -1667,6 +1649,7 @@ const placementTest = {
 
 window.AITUSA_DATA = {
   painHero,
+  methodNarrative,
   solutionCharacteristics,
   productOfferings,
   courseCatalog,

@@ -11,76 +11,94 @@ async function loadSiteData() {
   return context.window.AITUSA_DATA;
 }
 
-describe("homepage Method showcase", () => {
-  it("keeps the three paths connected to real AIT videos", async () => {
-    const { solutionCharacteristics } = await loadSiteData();
+describe("homepage Method story", () => {
+  it("uses the complete 1:45 explanation and keeps all three reasons visible", async () => {
+    const { methodNarrative, solutionCharacteristics } = await loadSiteData();
 
-    assert.deepEqual(
-      Array.from(solutionCharacteristics, (item) => item.tabLabel),
-      ["Comprensión visual", "Práctica guiada", "Apoyo constante"],
-    );
-    for (const item of solutionCharacteristics) {
-      assert.match(item.video, /^\.\/public\/assets\/wix\/videos\/.+\.mp4$/);
-    }
     assert.equal(
-      solutionCharacteristics[0].videoPoster,
-      "./public/assets/wix/videos/posters/what-makes-us-different.jpg",
+      methodNarrative.video,
+      "./public/assets/wix/videos/intro-video-great.mp4",
+    );
+    assert.equal(
+      methodNarrative.videoPoster,
+      "./public/assets/wix/videos/posters/intro-video-great.jpg",
+    );
+    assert.equal(methodNarrative.videoLabel, "Conoce el método completo · 1:45");
+    assert.deepEqual(
+      Array.from(solutionCharacteristics, (item) => item.title),
+      [
+        "Comprende sin traducir",
+        "Habla sin memorizar miles de palabras",
+        "Un método propio, patentado y probado",
+      ],
     );
   });
 
-  it("renders an accessible tab interface instead of carousel controls", async () => {
+  it("renders one accessible video with an adjacent written summary", async () => {
     const source = await readFile("src/main.js", "utf8");
+    const method = source.slice(
+      source.indexOf("function renderSolutionSection"),
+      source.indexOf("function renderOfferingPathSection"),
+    );
 
-    assert.match(source, /role="tablist"/);
-    assert.match(source, /role="tab"/);
-    assert.match(source, /role="tabpanel"/);
-    assert.doesNotMatch(source, /class="method-panel__video"[\s\S]*autoplay/);
-    assert.doesNotMatch(source, /class="method-panel__video"[\s\S]*muted/);
+    assert.equal((method.match(/<video/g) || []).length, 1);
+    assert.match(method, /class="method-editorial__video"/);
+    assert.match(method, /class="method-reasons"/);
+    assert.match(method, /aria-label="Resumen del método en tres razones"/);
+    assert.match(method, /methodNarrative\.video/);
+    assert.doesNotMatch(method, /role="tablist"/);
+    assert.doesNotMatch(method, /role="tab"/);
+    assert.doesNotMatch(method, /role="tabpanel"/);
+    assert.doesNotMatch(method, /autoplay/);
+    assert.doesNotMatch(method, /muted/);
+    assert.doesNotMatch(source, /function initMethodTabs/);
     assert.doesNotMatch(source, /video\.play\(\)/);
-    assert.match(source, /ArrowLeft/);
-    assert.match(source, /ArrowRight/);
-    assert.doesNotMatch(source, /data-solution-prev/);
-    assert.doesNotMatch(source, /data-solution-next/);
   });
 
-  it("uses one scoped gradient blend without the rejected transition artwork", async () => {
+  it("does not render the former short duplicate or third characteristic video", async () => {
+    const source = await readFile("src/main.js", "utf8");
+    const method = source.slice(
+      source.indexOf("function renderSolutionSection"),
+      source.indexOf("function renderOfferingPathSection"),
+    );
+
+    assert.doesNotMatch(method, /differenceVideo|what-makes-us-different/);
+    assert.doesNotMatch(method, /thirdCharacteristicVideo|third-characteristic/);
+    assert.equal((method.match(/asset\(methodNarrative\.video\)/g) || []).length, 1);
+  });
+
+  it("preserves the approved editorial hierarchy without decorative tab chrome", async () => {
     const source = await readFile("src/main.js", "utf8");
     const styles = await readFile("src/styles.css", "utf8");
 
-    assert.doesNotMatch(source, /method-panel__transition-art/);
-    assert.doesNotMatch(source, /method-panel__diffusion/);
-    assert.match(styles, /\.method-panel::after\s*\{/);
-    assert.match(styles, /transparent 56%/);
-    assert.match(styles, /\.method-panel__video\s*\{[\s\S]*object-fit: contain/);
-  });
-
-  it("adds restrained media polish without changing the staging surfaces", async () => {
-    const source = await readFile("src/main.js", "utf8");
-    const styles = await readFile("src/styles.css", "utf8");
-
-    assert.match(source, /Video real · Método AIT USA/);
-    assert.match(source, /item\.key === "graphic-concept" \? "Método Graphic Concept"/);
+    assert.match(source, /Método Graphic Concept/);
+    assert.match(source, /method-editorial__intro/);
+    assert.match(source, /method-video-frame/);
     assert.match(
       styles,
-      /\.method-panel__media\s*\{[\s\S]*--method-frame-inset: clamp\(10px, 1\.1vw, 16px\);[\s\S]*padding: var\(--method-frame-inset\)/,
+      /\.method-editorial\s*\{[\s\S]*grid-template-areas:[\s\S]*"intro media"[\s\S]*"reasons media"/,
     );
     assert.match(
       styles,
-      /\.method-panel__media::after\s*\{[\s\S]*inset: var\(--method-frame-inset\)/,
+      /\.method-video-frame\s*\{[\s\S]*aspect-ratio: 464 \/ 832;[\s\S]*background: var\(--method-navy\)/,
     );
-    assert.match(styles, /\.method-panel__media::after\s*\{[\s\S]*border: 1px solid rgba\(196, 147, 45, 0\.58\)/);
-    assert.match(styles, /\.method-tab\s*\{[\s\S]*background: var\(--method-navy\)/);
-    assert.match(styles, /\.method-tab\.is-active\s*\{[\s\S]*background: var\(--method-navy\)/);
+    assert.match(
+      styles,
+      /\.method-editorial__video\s*\{[\s\S]*object-fit: contain/,
+    );
+    assert.match(
+      styles,
+      /@media \(max-width: 719px\)[\s\S]*grid-template-areas:[\s\S]*"intro"[\s\S]*"media"[\s\S]*"reasons"/,
+    );
   });
 
-  it("brightens the mobile tab stack and fills behind floating browser chrome", async () => {
+  it("keeps the mobile summary legible and the safe-area header fill intact", async () => {
     const styles = await readFile("src/styles.css", "utf8");
 
     assert.match(
       styles,
-      /@media \(max-width: 760px\)[\s\S]*\.method-tab\.is-active\s*\{[\s\S]*background: linear-gradient\(100deg, #104a94/,
+      /@media \(max-width: 719px\)[\s\S]*\.method-reasons h3\s*\{[\s\S]*font-size: 0\.83rem/,
     );
-    assert.match(styles, /\.method-tab\.is-active \.method-tab__number\s*\{[\s\S]*color: #d9b45d/);
     assert.match(
       styles,
       /\.site-header::before\s*\{[\s\S]*bottom: 100%;[\s\S]*height: max\(96px, env\(safe-area-inset-top\)\);[\s\S]*background: #ffffff/,

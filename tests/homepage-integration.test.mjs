@@ -22,8 +22,9 @@ describe("homepage selective concept integration", () => {
     assert.match(source, /Historias de estudiantes AIT/);
     assert.match(source, /Desliza para conocer más historias/);
     assert.doesNotMatch(source, /Un espacio para practicar, equivocarse y seguir avanzando con confianza/);
-    assert.match(source, /Así funciona <br class="method-heading__desktop-break" \/>el método\./);
-    assert.match(source, /Comprende,<br class="method-heading__desktop-break" \/> practica y avanza\./);
+    assert.match(source, /methodNarrative\.heading/);
+    assert.match(source, /class="method-reasons"/);
+    assert.doesNotMatch(source, /data-method-tabs/);
     assert.doesNotMatch(source, /Luego elige<br \/>cómo estudiar/);
     assert.doesNotMatch(source, /asset\(site\.images\.testimonialAntonina\)/);
     assert.doesNotMatch(source, /De estudiante a profesor/);
@@ -155,13 +156,14 @@ describe("homepage selective concept integration", () => {
     const hero = source.slice(source.indexOf("function renderHero"), source.indexOf("function renderOfferingsSection"));
 
     assert.match(styles, /\.hero__kicker\s*\{[\s\S]*color: #8a6412/);
-    assert.match(content, /headline: "Habla inglés con confianza\."/);
+    assert.match(content, /headline: "Si lo que buscas es HABLAR INGLÉS"/);
+    assert.match(content, /headlineAccent: "rápido, fácil y sin estrés\."/);
     assert.match(content, /secondary: "Conoce el método"/);
-    assert.match(source, /Profesores que te conocen/);
-    assert.match(source, /Práctica en cada clase/);
-    assert.match(source, /Una comunidad que te acompaña/);
+    assert.match(content, /nuestra comunidad durante más de 20 años/);
+    assert.doesNotMatch(hero, /hero__community-line/);
+    assert.doesNotMatch(hero, /hero__proof-band/);
     assert.equal((hero.match(/class="button button--/g) || []).length, 2);
-    assert.match(styles, /\.method-heading__desktop-break\s*\{\s*display: none/);
+    assert.match(styles, /\.hero__headline-emphasis\s*\{[\s\S]*text-transform: uppercase/);
     assert.match(styles, /\.proof-shelf__rail\s*\{[\s\S]*scroll-snap-type: x mandatory/);
     assert.match(styles, /\.proof-dialog__media video\s*\{[\s\S]*object-fit: contain/);
     assert.match(styles, /\.home-page \.real-map-pin\s*\{[\s\S]*width: 44px;[\s\S]*height: 44px/);
@@ -180,13 +182,13 @@ describe("homepage selective concept integration", () => {
     assert.match(styles, /Viewport rhythm: keep each homepage chapter within one comfortable screen/);
     assert.match(
       styles,
-      /@media \(max-width: 719px\)[\s\S]*\.hero__modalities,\s*\.hero__proof-band\s*\{\s*display: none/,
+      /@media \(max-width: 719px\)[\s\S]*\.hero__modalities,[\s\S]*\.hero__proof-band\s*\{\s*display: none/,
     );
     assert.match(
       styles,
       /@media \(max-width: 719px\)[\s\S]*\.hero__visual\s*\{\s*height: clamp\(350px, 46svh, 390px\)/,
     );
-    assert.match(styles, /\.method-tabs\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
+    assert.match(styles, /\.method-editorial\s*\{[\s\S]*grid-template-areas:/);
     assert.match(styles, /\.home-page \.offer-map\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);
     assert.match(styles, /\.home-page \.location-compact-list\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);
     assert.match(source, />Inscripción<\/a>/);

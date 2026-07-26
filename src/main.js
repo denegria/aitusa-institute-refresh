@@ -10,6 +10,7 @@
     conversionCtas = {},
     faqs = [],
     locations = [],
+    methodNarrative = {},
     painHero = {},
     placementTest = {},
     productOfferings = [],
@@ -56,7 +57,6 @@
     }
 
     app.innerHTML = renderHomePage();
-    initMethodTabs(document);
     initProofShelf(document);
     initCallbackDialog(document);
     initCatalogInteractions(document);
@@ -351,10 +351,10 @@
           <div class="hero__copy">
             <p class="hero__kicker">${escapeHtml(painHero.eyebrow || "")}</p>
             <h1>
-              ${(painHero.headlineLines || [painHero.headline || ""])
-                .map((line) => `<span>${escapeHtml(line)}</span>`)
-                .join("")}
+              <span class="hero__headline-lead">${escapeHtml(painHero.headlineLead || "")}</span>
+              <span class="hero__headline-emphasis">${escapeHtml(painHero.headlineEmphasis || painHero.headline || "")}</span>
             </h1>
+            <p class="hero__headline-accent">${escapeHtml(painHero.headlineAccent || "")}</p>
             <p class="hero__summary">
               ${(painHero.subheadlineLines || [painHero.subheadline || ""])
                 .map((line) => `<span>${escapeHtml(line)}</span>`)
@@ -395,120 +395,54 @@
             />
           </figure>
         </div>
-        <div class="hero__proof-band" aria-label="Qué hace diferente a AIT USA">
-          <div class="hero__proof-inner">
-            <article>
-              <i data-lucide="brain" aria-hidden="true"></i>
-              <div>
-                <h2>Comprendemos, no traducimos</h2>
-                <p>Técnicas de comprensión que te permiten entender el inglés de forma natural.</p>
-              </div>
-            </article>
-            <article>
-              <i data-lucide="message-circle" aria-hidden="true"></i>
-              <div>
-                <h2>Hablamos, no memorizamos</h2>
-                <p>Técnicas para hablar inglés sin memorizar miles de palabras.</p>
-              </div>
-            </article>
-            <article>
-              <i data-lucide="book-open" aria-hidden="true"></i>
-              <div>
-                <h2>Método Graphic Concept</h2>
-                <p>Nuestro método único, patentado y probado por más de 20 años de experiencia.</p>
-              </div>
-            </article>
-          </div>
-        </div>
-        <div class="hero__community-line" aria-label="Compromiso con la comunidad">
-          <span class="hero__community-rule" aria-hidden="true"></span>
-          <p aria-label="Profesores que te conocen. Práctica en cada clase. Una comunidad que te acompaña.">
-            <span aria-hidden="true">Profesores que te conocen</span>
-            <span aria-hidden="true">Práctica en cada clase</span>
-            <span aria-hidden="true">Una comunidad que te acompaña</span>
-          </p>
-          <span class="hero__community-rule" aria-hidden="true"></span>
-        </div>
       </section>
     `;
   }
 
   function renderSolutionSection() {
     return `
-      <section class="method-section" id="metodo" aria-label="Método AiT USA">
-        <div class="method-showcase" data-method-tabs>
-          <div class="method-showcase__panels">
+      <section class="method-section" id="metodo" aria-labelledby="method-title">
+        <div class="method-editorial">
+          <header class="method-editorial__intro">
+            <p class="method-kicker">${escapeHtml(methodNarrative.eyebrow || "Método Graphic Concept")}</p>
+            <h2 id="method-title">${escapeHtml(methodNarrative.heading || "")}</h2>
+            <p>${escapeHtml(methodNarrative.introduction || "")}</p>
+          </header>
+          <figure class="method-editorial__media">
+            <div class="method-video-frame">
+              <video
+                class="method-editorial__video"
+                controls
+                playsinline
+                preload="metadata"
+                width="${methodNarrative.videoWidth || 464}"
+                height="${methodNarrative.videoHeight || 832}"
+                poster="${asset(methodNarrative.videoPoster)}"
+                aria-label="${escapeHtml(methodNarrative.videoAriaLabel || "Conoce el método completo")}"
+              >
+                <source src="${asset(methodNarrative.video)}" type="video/mp4" />
+              </video>
+            </div>
+            <figcaption>
+              <i data-lucide="circle-play" aria-hidden="true"></i>
+              <span>${escapeHtml(methodNarrative.videoLabel || "Conoce el método completo · 1:45")}</span>
+            </figcaption>
+          </figure>
+          <ol class="method-reasons" aria-label="Resumen del método en tres razones">
             ${solutionCharacteristics
               .map(
                 (item, index) => `
-                  <article
-                    class="method-panel${index === 0 ? " is-active" : ""}"
-                    id="method-panel-${index + 1}"
-                    role="tabpanel"
-                    aria-labelledby="method-tab-${index + 1}"
-                    data-method-panel
-                    style="--method-poster: url('${asset(item.videoPoster)}')"
-                    ${index === 0 ? "" : "hidden"}
-                  >
-                    <div class="method-panel__copy">
-                      <div class="method-panel__heading">
-                        <p class="method-kicker">Método</p>
-                        <h2>
-                          <span>Así funciona <br class="method-heading__desktop-break" />el método.</span>
-                          <span class="method-heading__accent">Comprende,<br class="method-heading__desktop-break" /> practica y avanza.</span>
-                        </h2>
-                      </div>
-                      <div class="method-panel__detail">
-                        <p class="method-detail__label">${escapeHtml(item.key === "graphic-concept" ? "Método Graphic Concept" : item.label)}</p>
-                        <span class="method-detail__rule" aria-hidden="true"></span>
-                        <h3>${escapeHtml(item.title)}.</h3>
-                      </div>
+                  <li>
+                    <span class="method-reason__number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+                    <div>
+                      <h3>${escapeHtml(item.title)}</h3>
+                      <p>${escapeHtml(item.body)}</p>
                     </div>
-                    <div class="method-panel__media">
-                      <video
-                        class="method-panel__video"
-                        controls
-                        playsinline
-                        preload="metadata"
-                        width="${item.videoWidth || 16}"
-                        height="${item.videoHeight || 9}"
-                        poster="${asset(item.videoPoster)}"
-                        aria-label="${escapeHtml(item.label)}: ${escapeHtml(item.title)}"
-                      >
-                        <source src="${asset(item.video)}" type="video/mp4" />
-                      </video>
-                      <p class="method-panel__media-label">
-                        <i data-lucide="video" aria-hidden="true"></i>
-                        <span>Video real · Método AIT USA</span>
-                      </p>
-                    </div>
-                  </article>
+                  </li>
                 `,
               )
               .join("")}
-          </div>
-          <div class="method-tabs" role="tablist" aria-label="Características del método AiT USA">
-            ${solutionCharacteristics
-              .map(
-                (item, index) => `
-                  <button
-                    class="method-tab${index === 0 ? " is-active" : ""}"
-                    id="method-tab-${index + 1}"
-                    type="button"
-                    role="tab"
-                    aria-selected="${index === 0 ? "true" : "false"}"
-                    aria-controls="method-panel-${index + 1}"
-                    tabindex="${index === 0 ? "0" : "-1"}"
-                    data-method-tab="${index}"
-                  >
-                    <span class="method-tab__number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
-                    <span class="method-tab__rule" aria-hidden="true"></span>
-                    <span class="method-tab__label">${escapeHtml(item.tabLabel || item.label)}</span>
-                  </button>
-                `,
-              )
-              .join("")}
-          </div>
+          </ol>
         </div>
       </section>
     `;
@@ -1498,57 +1432,6 @@
     } else {
       applyFilter(selectedProgram?.category || "todos");
     }
-  }
-
-  function initMethodTabs(scope) {
-    const method = scope.querySelector("[data-method-tabs]");
-    if (!method) return;
-
-    const panels = [...method.querySelectorAll("[data-method-panel]")];
-    const tabs = [...method.querySelectorAll("[data-method-tab]")];
-    let activeIndex = 0;
-
-    const showPanel = (index, moveFocus = false) => {
-      activeIndex = (index + panels.length) % panels.length;
-      panels.forEach((panel, panelIndex) => {
-        const active = panelIndex === activeIndex;
-        const video = panel.querySelector("video");
-        panel.hidden = !active;
-        panel.classList.toggle("is-active", active);
-
-        if (active && video && video.readyState < 1) {
-          video.load();
-        } else if (!active) {
-          video?.pause();
-        }
-      });
-      tabs.forEach((tab, tabIndex) => {
-        const active = tabIndex === activeIndex;
-        tab.classList.toggle("is-active", active);
-        tab.setAttribute("aria-selected", String(active));
-        tab.tabIndex = active ? 0 : -1;
-      });
-
-      if (moveFocus) tabs[activeIndex]?.focus();
-    };
-
-    tabs.forEach((tab, index) => {
-      tab.addEventListener("click", () => showPanel(index));
-      tab.addEventListener("keydown", (event) => {
-        const keyActions = {
-          ArrowLeft: () => showPanel(activeIndex - 1, true),
-          ArrowRight: () => showPanel(activeIndex + 1, true),
-          Home: () => showPanel(0, true),
-          End: () => showPanel(tabs.length - 1, true),
-        };
-
-        if (!keyActions[event.key]) return;
-        event.preventDefault();
-        keyActions[event.key]();
-      });
-    });
-
-    showPanel(0);
   }
 
   function initProofShelf(scope) {

@@ -382,7 +382,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       .filter((img) => !img.complete || img.naturalWidth === 0)
       .map((img) => img.currentSrc || img.src);
     const methodPosterIssues = (await Promise.all(
-      [...document.querySelectorAll('.method-panel__video')].map(async (video) => {
+      [...document.querySelectorAll('.method-editorial__video')].map(async (video) => {
         const poster = new Image();
         poster.src = video.poster;
         await new Promise((resolve) => {
@@ -413,7 +413,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         return null;
       }),
     )).filter(Boolean);
-    const methodVideos = [...document.querySelectorAll('.clip-card__media-player')];
+    const methodVideos = [...document.querySelectorAll('.method-editorial__video')];
     await Promise.all(methodVideos.map((video) => new Promise((resolve) => {
       if (video.readyState >= 1 || video.error) {
         resolve();
@@ -480,9 +480,9 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       return null;
     };
     const videoVisualIssues = (await Promise.all(methodVideos.map(inspectVideoFrame))).filter(Boolean);
-    const methodFrameIssues = [...document.querySelectorAll('.method-panel:not([hidden]) .method-panel__media')]
+    const methodFrameIssues = [...document.querySelectorAll('.method-video-frame')]
       .flatMap((media) => {
-        const video = media.querySelector('.method-panel__video');
+        const video = media.querySelector('.method-editorial__video');
         if (!video) {
           return [{ reason: 'missing-video' }];
         }
@@ -543,17 +543,15 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       const hero = document.querySelector('.hero');
       const heroVisual = document.querySelector('.hero__visual');
       const modalities = document.querySelector('.hero__modalities');
-      const proofBand = document.querySelector('.hero__proof-band');
       const actions = [...document.querySelectorAll('.hero__actions .button')];
-      const communityText = document.querySelector('.hero__community-line p')?.innerText || '';
-      const normalizedCommunityText = communityText.toLocaleLowerCase('es');
+      const headlineText = document.querySelector('.hero h1')?.innerText || '';
+      const accentText = document.querySelector('.hero__headline-accent')?.innerText || '';
+      const summaryText = document.querySelector('.hero__summary')?.innerText || '';
+      const normalizedPromise = [headlineText, accentText, summaryText].join(' ').toLocaleLowerCase('es');
       const heroHeight = Math.round(hero?.getBoundingClientRect().height || 0);
       const visualHeight = Math.round(heroVisual?.getBoundingClientRect().height || 0);
       if (getComputedStyle(modalities).display !== 'none') {
         mobileHeroIssues.push({ type: 'mobile-hero-modalities-visible' });
-      }
-      if (getComputedStyle(proofBand).display !== 'none') {
-        mobileHeroIssues.push({ type: 'mobile-hero-proof-band-visible' });
       }
       if (actions.length !== 2 || actions.some((action) => action.getBoundingClientRect().height < 44)) {
         mobileHeroIssues.push({
@@ -573,11 +571,16 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         });
       }
       if (
-        !normalizedCommunityText.includes('profesores que te conocen')
-        || !normalizedCommunityText.includes('práctica en cada clase')
-        || !normalizedCommunityText.includes('una comunidad que te acompaña')
+        !normalizedPromise.includes('hablar inglés')
+        || !normalizedPromise.includes('rápido, fácil y sin estrés')
+        || !normalizedPromise.includes('comunidad durante más de 20 años')
       ) {
-        mobileHeroIssues.push({ type: 'mobile-hero-community-message-missing', communityText });
+        mobileHeroIssues.push({
+          type: 'mobile-hero-signature-promise-missing',
+          headlineText,
+          accentText,
+          summaryText,
+        });
       }
     }
     const footerHeight = Math.round(document.querySelector('.site-footer')?.getBoundingClientRect().height || 0);
@@ -730,7 +733,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     };
 
     await captureSection("#metodo", "method");
-    await captureSection(".method-tabs", "method-tabs");
+    await captureSection(".method-reasons", "method-reasons");
     await captureSection("#experiencia", "videos");
     await captureSection(".proof-shelf__rail", "story-controls");
 
@@ -890,33 +893,22 @@ const verifyHeroViewport = async ({ name, width, height }) => {
   const metrics = await evaluate(`(() => {
     const header = document.querySelector('.site-header');
     const main = document.querySelector('.hero__main');
-    const proof = document.querySelector('.hero__proof-band');
-    const community = document.querySelector('.hero__community-line');
     const image = document.querySelector('.hero__visual img');
     const rect = (element) => element?.getBoundingClientRect() || null;
     const round = (value) => Math.round(value * 100) / 100;
     const headerRect = rect(header);
     const mainRect = rect(main);
-    const proofRect = rect(proof);
-    const communityRect = rect(community);
     const imageRect = rect(image);
     const viewportIssues = [];
 
-    if (!headerRect || !mainRect || !proofRect || !communityRect || !imageRect) {
+    if (!headerRect || !mainRect || !imageRect) {
       viewportIssues.push({ type: 'hero-elements-missing' });
     } else {
-      if (communityRect.bottom > innerHeight + 1) {
+      if (mainRect.bottom > innerHeight + 1) {
         viewportIssues.push({
           type: 'hero-exceeds-viewport',
-          communityBottom: round(communityRect.bottom),
+          heroBottom: round(mainRect.bottom),
           viewportHeight: innerHeight,
-        });
-      }
-      if (Math.abs(proofRect.top - mainRect.bottom) > 1) {
-        viewportIssues.push({
-          type: 'hero-proof-gap',
-          mainBottom: round(mainRect.bottom),
-          proofTop: round(proofRect.top),
         });
       }
       if (Math.abs(imageRect.width - innerWidth) > 2) {
@@ -949,8 +941,6 @@ const verifyHeroViewport = async ({ name, width, height }) => {
       viewportHeight: innerHeight,
       header: headerRect && { top: round(headerRect.top), bottom: round(headerRect.bottom), height: round(headerRect.height) },
       main: mainRect && { top: round(mainRect.top), bottom: round(mainRect.bottom), height: round(mainRect.height) },
-      proof: proofRect && { top: round(proofRect.top), bottom: round(proofRect.bottom), height: round(proofRect.height) },
-      community: communityRect && { top: round(communityRect.top), bottom: round(communityRect.bottom), height: round(communityRect.height) },
       image: imageRect && {
         left: round(imageRect.left),
         top: round(imageRect.top),
