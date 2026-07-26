@@ -778,37 +778,33 @@
             <div class="section-heading section-heading--framed">
               <p class="section-kicker">Empieza aquí</p>
               <h2 id="contacto-title">¿Listo para empezar?</h2>
-              <p>Haz el examen de ubicación y te ayudamos a elegir tu nivel, horario y modalidad.</p>
+              <p>Haz el examen de ubicación y te ayudamos a elegir tu nivel, horario y modalidad. La orientación inicial es gratuita.</p>
             </div>
-            <div class="final-cta-actions">
-              <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">
-                Encuentra tu nivel
-                <i data-lucide="arrow-right" aria-hidden="true"></i>
-              </a>
-              <a class="final-cta-whatsapp" href="${conversionCtas.advisor?.href || site.whatsappHref}" target="_blank" rel="noreferrer">
-                <i data-lucide="message-circle" aria-hidden="true"></i>
-                ¿Tienes preguntas? <strong>Escríbenos por WhatsApp</strong>
-              </a>
+            <div class="final-cta-conversion">
+              <div class="final-cta-actions">
+                <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">
+                  Encuentra tu nivel
+                  <i data-lucide="arrow-right" aria-hidden="true"></i>
+                </a>
+              </div>
+              <div class="final-cta-contact-row" aria-label="Otras formas de contactarnos">
+                <a class="final-cta-contact-link" href="${conversionCtas.advisor?.href || site.whatsappHref}" target="_blank" rel="noreferrer">
+                  <i data-lucide="message-circle" aria-hidden="true"></i>
+                  <span>WhatsApp</span>
+                </a>
+                <button
+                  class="final-cta-contact-link"
+                  type="button"
+                  aria-haspopup="dialog"
+                  aria-controls="callback-dialog"
+                  data-callback-dialog-open
+                >
+                  <i data-lucide="phone-call" aria-hidden="true"></i>
+                  <span>Solicitar llamada</span>
+                </button>
+              </div>
             </div>
-            <p class="final-cta-note">
-              <i data-lucide="shield-check" aria-hidden="true"></i>
-              Orientación inicial gratuita. Confirmamos nivel y horario contigo.
-            </p>
           </div>
-
-          <button
-            class="callback-launcher"
-            type="button"
-            aria-haspopup="dialog"
-            aria-controls="callback-dialog"
-            data-callback-dialog-open
-          >
-            <span>
-              <small>¿Prefieres que te llamemos?</small>
-              <strong>Solicita que te llamemos</strong>
-            </span>
-            <i data-lucide="arrow-right" aria-hidden="true"></i>
-          </button>
 
           <dialog
             class="callback-dialog"
@@ -984,12 +980,7 @@
     return `
       <footer class="site-footer">
         <div class="section-inner site-footer__compact">
-          <div class="site-footer__top">
-            <a class="site-footer__logo" href="/">
-              <img src="${asset(site.images.logo)}" alt="Logo de AiT USA Institute" />
-              <strong>AIT USA</strong>
-            </a>
-
+          <div class="site-footer__link-rows">
             <div class="site-footer__contact" aria-label="Contactar a AIT USA">
               <a href="${site.phoneHref}" aria-label="Llamar a ${escapeHtml(site.phone)}">
                 <i data-lucide="phone" aria-hidden="true"></i>
@@ -1004,17 +995,17 @@
                 Email
               </a>
             </div>
-          </div>
 
-          <div class="site-footer__bottom">
             <nav class="site-footer__nav" aria-label="Enlaces del pie de página">
               <a href="/courses/">Cursos</a>
               <a href="/placement-test/">Examen de nivel</a>
               <a href="${conversionCtas.registration?.href || site.whatsappHref}" target="_blank" rel="noreferrer">Inscripción</a>
             </nav>
+          </div>
 
-            <div class="site-footer__legal">
-              <span>© ${currentYear} ${escapeHtml(site.legal || "Arrieta Institute LLC")}</span>
+          <div class="site-footer__legal">
+            <span class="site-footer__identity"><strong>AIT USA</strong> · © ${currentYear} ${escapeHtml(site.legal || "Arrieta Institute LLC")}</span>
+            <div class="site-footer__legal-links">
               <a href="${escapeHtml(site.legalLinks?.privacy || "/privacy-policy")}">Privacidad</a>
               <a href="${escapeHtml(site.legalLinks?.terms || "/terms-and-conditions")}">Términos</a>
               <a href="${escapeHtml(site.legalLinks?.contact || "/contactanos")}">Contacto</a>

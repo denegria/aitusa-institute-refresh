@@ -63,14 +63,16 @@ describe("homepage selective concept integration", () => {
     assert.equal((section.match(/renderCtaBox\(/g) || []).length, 0);
     assert.match(section, /¿Listo para empezar\?/);
     assert.match(section, /Encuentra tu nivel/);
-    assert.match(section, /Escríbenos por WhatsApp/);
+    assert.match(section, /final-cta-contact-row/);
+    assert.match(section, />WhatsApp</);
+    assert.match(section, /Solicitar llamada/);
     assert.match(section, /final-cta-actions/);
     assert.match(section, /conversionCtas\.placement/);
     assert.match(section, /conversionCtas\.advisor/);
-    assert.match(section, /callback-launcher/);
+    assert.doesNotMatch(section, /callback-launcher/);
+    assert.doesNotMatch(section, /final-cta-note/);
     assert.match(section, /<dialog[\s\S]*data-callback-dialog/);
     assert.match(section, /aria-haspopup="dialog"/);
-    assert.match(section, /¿Prefieres que te llamemos\?/);
     assert.match(section, /name="nombre"/);
     assert.match(section, /name="telefono"/);
     assert.match(section, /name="email"/);
@@ -158,7 +160,10 @@ describe("homepage selective concept integration", () => {
     assert.match(styles, /\.home-page \.compact-location-row\s*\{[\s\S]*grid-template-areas:[\s\S]*"number copy"[\s\S]*"number action"/);
     assert.match(styles, /\.home-page \.compact-location-row__copy strong,[\s\S]*white-space: normal/);
     assert.match(styles, /\.site-footer__contact a,[\s\S]*\.site-footer__nav a\s*\{[\s\S]*min-height: 44px/);
-    assert.match(styles, /\.callback-launcher\s*\{[\s\S]*min-height: 88px/);
+    assert.match(styles, /\.final-cta-contact-link\s*\{[\s\S]*min-height: 44px/);
+    assert.match(styles, /\.site-footer\s*\{[\s\S]*background: #001a3d/);
+    assert.match(styles, /\.site-footer__contact,[\s\S]*\.site-footer__nav\s*\{[\s\S]*grid-template-columns: repeat\(3/);
+    assert.doesNotMatch(styles, /\.site-footer__contact a\s*\{[\s\S]*background: rgba\(255, 255, 255, 0\.07\)/);
     assert.match(styles, /\.callback-dialog__shell\s*\{[\s\S]*max-height: min\(760px, 92dvh\)/);
     assert.match(
       styles,

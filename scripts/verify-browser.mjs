@@ -539,7 +539,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         availableSectionHeight,
       }));
     const footerHeight = Math.round(document.querySelector('.site-footer')?.getBoundingClientRect().height || 0);
-    const footerHeightLimit = innerWidth <= 719 ? 320 : 240;
+    const footerHeightLimit = innerWidth <= 719 ? 240 : 200;
     const footerHeightIssues = footerHeight > footerHeightLimit
       ? [{
           type: 'footer-exceeds-compact-height',
@@ -548,6 +548,87 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
           viewportWidth: innerWidth,
         }]
       : [];
+    const finalCta = document.querySelector('.final-cta-section');
+    const footer = document.querySelector('.site-footer');
+    const contactGrid = document.querySelector('.site-footer__contact');
+    const navGrid = document.querySelector('.site-footer__nav');
+    const closingSurfaceIssues = [];
+    const finalCtaBackground = finalCta ? getComputedStyle(finalCta).backgroundColor : '';
+    const footerBackground = footer ? getComputedStyle(footer).backgroundColor : '';
+    if (!finalCta || !footer || finalCtaBackground !== footerBackground) {
+      closingSurfaceIssues.push({
+        type: 'closing-surface-color-mismatch',
+        finalCtaBackground,
+        footerBackground,
+      });
+    }
+    const contactColumns = contactGrid ? getComputedStyle(contactGrid).gridTemplateColumns : '';
+    const navColumns = navGrid ? getComputedStyle(navGrid).gridTemplateColumns : '';
+    if (!contactGrid || !navGrid || contactColumns !== navColumns) {
+      closingSurfaceIssues.push({
+        type: 'footer-grid-mismatch',
+        contactColumns,
+        navColumns,
+      });
+    }
+    const parseColor = (value) => {
+      const channels = value.match(/[\\d.]+/g)?.map(Number) || [];
+      return {
+        red: channels[0] || 0,
+        green: channels[1] || 0,
+        blue: channels[2] || 0,
+        alpha: channels.length > 3 ? channels[3] : 1,
+      };
+    };
+    const composite = (foreground, background) => ({
+      red: (foreground.red * foreground.alpha) + (background.red * (1 - foreground.alpha)),
+      green: (foreground.green * foreground.alpha) + (background.green * (1 - foreground.alpha)),
+      blue: (foreground.blue * foreground.alpha) + (background.blue * (1 - foreground.alpha)),
+      alpha: 1,
+    });
+    const luminance = (color) => {
+      const channel = (value) => {
+        const normalized = value / 255;
+        return normalized <= 0.04045
+          ? normalized / 12.92
+          : ((normalized + 0.055) / 1.055) ** 2.4;
+      };
+      return (0.2126 * channel(color.red)) + (0.7152 * channel(color.green)) + (0.0722 * channel(color.blue));
+    };
+    const contrastRatio = (foregroundValue, backgroundValue) => {
+      const background = parseColor(backgroundValue);
+      const foreground = composite(parseColor(foregroundValue), background);
+      const foregroundLuminance = luminance(foreground);
+      const backgroundLuminance = luminance(background);
+      return (Math.max(foregroundLuminance, backgroundLuminance) + 0.05)
+        / (Math.min(foregroundLuminance, backgroundLuminance) + 0.05);
+    };
+    [
+      ['final-cta-copy', '.final-cta-copy .section-heading > p:last-child', finalCtaBackground],
+      ['final-cta-primary', '.final-cta-actions .button--primary', null],
+      ['final-cta-contact', '.final-cta-contact-link', finalCtaBackground],
+      ['footer-utility', '.site-footer__contact a', footerBackground],
+      ['footer-legal', '.site-footer__identity', footerBackground],
+      ['footer-legal-link', '.site-footer__legal a', footerBackground],
+    ].forEach(([label, selector, forcedBackground]) => {
+      const element = document.querySelector(selector);
+      if (!element) {
+        closingSurfaceIssues.push({ type: 'closing-surface-element-missing', label });
+        return;
+      }
+      const style = getComputedStyle(element);
+      const background = forcedBackground || style.backgroundColor;
+      const ratio = Math.round(contrastRatio(style.color, background) * 100) / 100;
+      if (ratio < 4.5) {
+        closingSurfaceIssues.push({
+          type: 'closing-surface-low-contrast',
+          label,
+          ratio,
+          color: style.color,
+          background,
+        });
+      }
+    });
     return {
       location: location.href,
       title: document.title,
@@ -573,6 +654,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       sectionRhythmIssues,
       footerHeight,
       footerHeightIssues,
+      closingSurfaceIssues,
       availableSectionHeight,
       pageHeight: document.documentElement.scrollHeight,
     };
@@ -1058,6 +1140,7 @@ const blockingResults = results.filter((result) =>
   (result.overflowing && result.overflowing.length) ||
   (result.sectionRhythmIssues && result.sectionRhythmIssues.length) ||
   (result.footerHeightIssues && result.footerHeightIssues.length) ||
+  (result.closingSurfaceIssues && result.closingSurfaceIssues.length) ||
   (result.viewportIssues && result.viewportIssues.length) ||
   (result.methodPosterIssues && result.methodPosterIssues.length) ||
   (result.videoMetadataIssues && result.videoMetadataIssues.length) ||
