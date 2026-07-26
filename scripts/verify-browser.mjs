@@ -693,6 +693,97 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       return (Math.max(foregroundLuminance, backgroundLuminance) + 0.05)
         / (Math.min(foregroundLuminance, backgroundLuminance) + 0.05);
     };
+    const paletteIssues = [];
+    if (innerWidth <= 719) {
+      [
+        ['hero', '#inicio', 'rgb(255, 255, 255)'],
+        ['method', '#metodo', 'rgb(247, 242, 232)'],
+        ['testimonials', '#experiencia', 'rgb(238, 244, 255)'],
+        ['study-options', '#cursos', 'rgb(255, 255, 255)'],
+        ['locations', '#sedes', 'rgb(247, 242, 232)'],
+        ['faq', '.faq-section', 'rgb(245, 247, 250)'],
+        ['final-cta', '#contacto', 'rgb(0, 26, 61)'],
+      ].forEach(([label, selector, expected]) => {
+        const element = document.querySelector(selector);
+        const actual = element ? getComputedStyle(element).backgroundColor : '';
+        if (!element || actual !== expected) {
+          paletteIssues.push({
+            type: 'mobile-section-surface-mismatch',
+            label,
+            expected,
+            actual,
+          });
+        }
+      });
+
+      [
+        ['method', '#metodo .method-editorial__intro h2'],
+        ['testimonials', '#experiencia .proof-shelf__heading h2'],
+        ['study-options', '#cursos .section-heading h2'],
+        ['locations', '#sedes .section-heading h2'],
+        ['faq', '.faq-section .section-heading h2'],
+      ].forEach(([label, selector]) => {
+        const element = document.querySelector(selector);
+        const fontWeight = element ? getComputedStyle(element).fontWeight : '';
+        if (!element || fontWeight !== '700') {
+          paletteIssues.push({
+            type: 'mobile-section-heading-weight-mismatch',
+            label,
+            fontWeight,
+          });
+        }
+      });
+
+      [
+        ['hero-body', '#inicio .hero__summary', '#inicio'],
+        ['method-body', '#metodo .method-editorial__intro > p:last-child', '#metodo'],
+        ['testimonials-body', '#experiencia .proof-shelf__heading > div:first-child > p:last-child', '#experiencia'],
+        ['study-options-body', '#cursos .section-heading > p:not(.section-kicker)', '#cursos'],
+        ['locations-body', '#sedes .section-heading > p:not(.section-kicker)', '#sedes'],
+        ['faq-body', '.faq-section .section-heading > p:not(.section-kicker)', '.faq-section'],
+        ['method-number', '#metodo .method-reason__number', '#metodo'],
+        ['header-phone-icon', '.header-cta svg', '.site-header'],
+      ].forEach(([label, selector, backgroundSelector]) => {
+        const element = document.querySelector(selector);
+        const backgroundElement = document.querySelector(backgroundSelector);
+        if (!element || !backgroundElement) {
+          paletteIssues.push({ type: 'mobile-palette-element-missing', label });
+          return;
+        }
+        const color = getComputedStyle(element).color;
+        const background = label === 'header-phone-icon'
+          ? 'rgb(255, 255, 255)'
+          : getComputedStyle(backgroundElement).backgroundColor;
+        const ratio = Math.round(contrastRatio(color, background) * 100) / 100;
+        if (ratio < 4.5) {
+          paletteIssues.push({
+            type: 'mobile-palette-low-contrast',
+            label,
+            ratio,
+            color,
+            background,
+          });
+        }
+      });
+
+      const methodReason = document.querySelector('#metodo .method-reasons p');
+      const methodReasonSize = parseFloat(methodReason ? getComputedStyle(methodReason).fontSize : '0');
+      if (!methodReason || methodReasonSize < 12) {
+        paletteIssues.push({
+          type: 'mobile-method-copy-too-small',
+          fontSize: methodReasonSize,
+        });
+      }
+
+      const attribution = document.querySelector('.real-map-card__attribution');
+      const attributionHeight = Math.round(attribution?.getBoundingClientRect().height || 0);
+      if (!attribution || attributionHeight < 44) {
+        paletteIssues.push({
+          type: 'mobile-map-attribution-target-too-small',
+          height: attributionHeight,
+        });
+      }
+    }
     [
       ['final-cta-copy', '.final-cta-copy .section-heading > p:last-child', finalCtaBackground],
       ['final-cta-primary', '.final-cta-actions .button--primary', null],
@@ -747,6 +838,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       footerHeight,
       footerHeightIssues,
       closingSurfaceIssues,
+      paletteIssues,
       availableSectionHeight,
       pageHeight: document.documentElement.scrollHeight,
     };
@@ -1222,6 +1314,7 @@ const blockingResults = results.filter((result) =>
   (result.methodFullscreenIssues && result.methodFullscreenIssues.length) ||
   (result.footerHeightIssues && result.footerHeightIssues.length) ||
   (result.closingSurfaceIssues && result.closingSurfaceIssues.length) ||
+  (result.paletteIssues && result.paletteIssues.length) ||
   (result.viewportIssues && result.viewportIssues.length) ||
   (result.methodPosterIssues && result.methodPosterIssues.length) ||
   (result.videoMetadataIssues && result.videoMetadataIssues.length) ||

@@ -200,4 +200,35 @@ describe("homepage selective concept integration", () => {
     assert.match(source, />Inscripción<\/a>/);
     assert.doesNotMatch(source, /Información de inscripción y libro \(\$95\)/);
   });
+
+  it("uses one semantic homepage palette with deliberate section contrast", async () => {
+    const styles = await readFile("src/styles.css", "utf8");
+
+    assert.match(styles, /--home-navy: #001a3d/);
+    assert.match(styles, /--home-body: #475569/);
+    assert.match(styles, /--home-gold-text: #8a6412/);
+    assert.match(styles, /--home-paper: #ffffff/);
+    assert.match(styles, /--home-warm: #f7f2e8/);
+    assert.match(styles, /--home-cool: #eef4ff/);
+    assert.match(styles, /--home-mist: #f5f7fa/);
+    assert.match(
+      styles,
+      /\.home-page #inicio,[\s\S]*\.home-page #cursos\s*\{[\s\S]*background: var\(--home-paper\)/,
+    );
+    assert.match(
+      styles,
+      /\.home-page #metodo,[\s\S]*\.home-page #sedes\s*\{[\s\S]*background: var\(--home-warm\)/,
+    );
+    assert.match(styles, /\.home-page #experiencia\s*\{[\s\S]*background: var\(--home-cool\)/);
+    assert.match(styles, /\.home-page \.faq-section\s*\{[\s\S]*background: var\(--home-mist\)/);
+    assert.match(
+      styles,
+      /\.home-page #metodo \.method-editorial__intro h2,[\s\S]*\.home-page \.faq-section \.section-heading h2\s*\{[\s\S]*font-weight: 700/,
+    );
+    assert.match(styles, /--method-gold: var\(--home-gold-text\)/);
+    assert.match(
+      styles,
+      /@media \(max-width: 719px\)[\s\S]*\.home-page \.real-map-card__attribution\s*\{[\s\S]*min-height: 44px/,
+    );
+  });
 });
