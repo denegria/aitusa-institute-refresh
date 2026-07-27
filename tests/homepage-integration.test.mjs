@@ -186,6 +186,12 @@ describe("homepage selective concept integration", () => {
     assert.match(styles, /\.callback-dialog__shell\s*\{[\s\S]*max-height: min\(760px, 92dvh\)/);
     assert.match(
       styles,
+      /@media \(max-width: 719px\)[\s\S]*\.home-page > \.section\s*\{[\s\S]*padding-block: 26px;[\s\S]*\.home-page \.final-cta-section\s*\{[\s\S]*padding-block: 44px 48px;/,
+    );
+    assert.match(styles, /\.home-page \.final-cta-copy\s*\{[\s\S]*gap: 24px;/);
+    assert.match(styles, /\.home-page \.final-cta-conversion\s*\{[\s\S]*gap: 14px;/);
+    assert.match(
+      styles,
       /@media \(max-width: 719px\)[\s\S]*\.home-page \.offer-node\s*\{[\s\S]*gap: 14px;[\s\S]*padding: 18px/,
     );
     assert.match(styles, /Viewport rhythm: keep each homepage chapter within one comfortable screen/);

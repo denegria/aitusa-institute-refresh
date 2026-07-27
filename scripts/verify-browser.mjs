@@ -672,11 +672,19 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     const closingSurfaceIssues = [];
     const finalCtaBackground = finalCta ? getComputedStyle(finalCta).backgroundColor : '';
     const footerBackground = footer ? getComputedStyle(footer).backgroundColor : '';
+    const finalCtaHeight = Math.round(finalCta?.getBoundingClientRect().height || 0);
     if (!finalCta || !footer || finalCtaBackground !== footerBackground) {
       closingSurfaceIssues.push({
         type: 'closing-surface-color-mismatch',
         finalCtaBackground,
         footerBackground,
+      });
+    }
+    if (innerWidth <= 719 && finalCtaHeight < 430) {
+      closingSurfaceIssues.push({
+        type: 'mobile-final-cta-too-compact',
+        finalCtaHeight,
+        minimumHeight: 430,
       });
     }
     const footerLabels = [...document.querySelectorAll('.site-footer__group-label')]

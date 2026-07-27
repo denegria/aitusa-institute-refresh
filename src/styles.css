@@ -5265,12 +5265,12 @@ textarea {
     gap: 18px;
   }
 
-  .home-page .final-cta-section {
-    padding-block: 32px;
+  .home-page .final-cta-copy {
+    gap: 24px;
   }
 
-  .home-page .final-cta-copy {
-    gap: 20px;
+  .home-page .final-cta-conversion {
+    gap: 14px;
   }
 
   .home-page .final-cta-copy .section-heading h2 {
@@ -5487,6 +5487,10 @@ textarea {
 @media (max-width: 719px) {
   .home-page > .section {
     padding-block: 26px;
+  }
+
+  .home-page .final-cta-section {
+    padding-block: 44px 48px;
   }
 
   .home-page .section-heading {
