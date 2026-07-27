@@ -638,9 +638,14 @@
       testimonials.find((item) => item.name === "Jessica"),
       ...testimonials.filter((item) => item.name !== "Jessica"),
     ].filter(Boolean);
+    const fillsDesktopRow = orderedTestimonials.length === 3;
 
     return `
-      <section class="section proof-editorial" id="experiencia" data-proof-shelf>
+      <section
+        class="section proof-editorial${fillsDesktopRow ? " proof-editorial--complete-row" : ""}"
+        id="experiencia"
+        data-proof-shelf
+      >
         <div class="proof-shelf__inner">
           <div class="proof-shelf__heading">
             <div>

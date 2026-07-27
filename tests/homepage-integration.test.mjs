@@ -203,6 +203,14 @@ describe("homepage selective concept integration", () => {
       styles,
       /@media \(max-width: 719px\)[\s\S]*\.hero__visual\s*\{\s*height: clamp\(350px, 46svh, 390px\)/,
     );
+    assert.match(
+      styles,
+      /@media \(min-width: 1041px\) and \(max-height: 820px\)[\s\S]*\.home-page #cursos\s*\{[\s\S]*padding-block: 34px/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 1041px\) and \(max-height: 820px\)[\s\S]*\.home-page #sedes \.real-map-card__frame\s*\{[\s\S]*min-height: 320px/,
+    );
     assert.match(styles, /\.method-editorial\s*\{[\s\S]*grid-template-areas:/);
     assert.match(styles, /\.home-page \.offer-map\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);
     assert.match(styles, /\.home-page \.location-compact-list\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);

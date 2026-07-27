@@ -41,6 +41,8 @@ describe("homepage Prueba real gallery", () => {
     assert.match(proofSection, /href="\$\{asset\(item\.video\)\}"/);
     assert.match(proofSection, /<dialog/);
     assert.match(proofSection, /data-proof-dialog-video/);
+    assert.match(proofSection, /const fillsDesktopRow = orderedTestimonials\.length === 3/);
+    assert.match(proofSection, /proof-editorial--complete-row/);
     assert.doesNotMatch(proofSection, /slice\(0,\s*3\)/);
     assert.doesNotMatch(proofSection, /Tres historias/);
     assert.doesNotMatch(proofSection, /autoplay/);
@@ -69,5 +71,17 @@ describe("homepage Prueba real gallery", () => {
     assert.match(styles, /\.proof-shelf__controls button,[\s\S]*min-height: 44px/);
     assert.match(styles, /--proof-gold: #c4932d/);
     assert.match(styles, /--proof-navy: #001a3d/);
+    assert.match(
+      styles,
+      /@media \(min-width: 1041px\)[\s\S]*\.home-page \.proof-editorial--complete-row \.proof-shelf__controls button\s*\{[\s\S]*display: none/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 1041px\)[\s\S]*\.home-page \.proof-editorial--complete-row \.proof-shelf__rail\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);[\s\S]*overflow-x: visible/,
+    );
+    assert.match(
+      styles,
+      /\.home-page \.proof-editorial--complete-row \.proof-shelf__hint\s*\{[\s\S]*display: none/,
+    );
   });
 });

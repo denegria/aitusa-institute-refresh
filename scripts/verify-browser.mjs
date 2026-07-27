@@ -1326,12 +1326,18 @@ const heroOnly = process.env.VERIFY_HERO_ONLY === "1";
 const skipHero = process.env.VERIFY_SKIP_HERO === "1";
 const auditOnly = process.env.VERIFY_AUDIT_ONLY === "1";
 const mobileOnly = process.env.VERIFY_MOBILE_ONLY === "1";
+const desktopOnly = process.env.VERIFY_DESKTOP_ONLY === "1";
 try {
-  if (!auditOnly && !skipHero && !mobileOnly) {
+  if (!auditOnly && !skipHero && !mobileOnly && !desktopOnly) {
     results.push(await verifyHeroViewport({ name: "hero-reference-1904x950", width: 1904, height: 950 }));
     results.push(await verifyHeroViewport({ name: "hero-short-1867x847", width: 1867, height: 847 }));
   }
-  if (mobileOnly) {
+  if (desktopOnly) {
+    results.push(await verifyViewport({ name: "desktop-home-1920x1080", width: 1920, height: 1080, mobile: false }));
+    results.push(await verifyViewport({ name: "desktop-home-1536x864", width: 1536, height: 864, mobile: false }));
+    results.push(await verifyViewport({ name: "desktop-home-1440x900", width: 1440, height: 900, mobile: false }));
+    results.push(await verifyViewport({ name: "desktop-home-1366x768", width: 1366, height: 768, mobile: false }));
+  } else if (mobileOnly) {
     results.push(await verifyViewport({ name: "mobile-home-360", width: 360, height: 800, mobile: true }));
     results.push(await verifyViewport({ name: "mobile-home-390", width: 390, height: 844, mobile: true }));
     results.push(await verifyViewport({ name: "mobile-home-430", width: 430, height: 932, mobile: true }));

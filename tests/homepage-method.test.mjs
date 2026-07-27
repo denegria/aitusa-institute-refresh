@@ -119,6 +119,14 @@ describe("homepage Method story", () => {
       styles,
       /@media \(max-width: 719px\)[\s\S]*grid-template-areas:[\s\S]*"intro"[\s\S]*"media"[\s\S]*"reasons"/,
     );
+    assert.match(
+      styles,
+      /@media \(min-width: 1600px\) and \(min-height: 980px\)[\s\S]*\.method-editorial\s*\{[\s\S]*grid-template-columns: minmax\(0, 1\.52fr\) minmax\(400px, 0\.68fr\)/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 1600px\) and \(min-height: 980px\)[\s\S]*\.method-reasons\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/,
+    );
   });
 
   it("keeps the mobile summary legible and the safe-area header fill intact", async () => {
