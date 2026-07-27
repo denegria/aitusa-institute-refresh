@@ -5117,13 +5117,6 @@ textarea {
   color: rgba(255, 255, 255, 0.76);
 }
 
-.home-page .final-cta-contact-link + .final-cta-contact-link {
-  margin-left: 16px;
-  padding-left: 16px;
-  border-left: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 0;
-}
-
 .home-page .final-cta-contact-link:hover,
 .home-page .final-cta-contact-link:focus-visible {
   color: #ffffff;

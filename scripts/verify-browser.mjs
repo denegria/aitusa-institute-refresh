@@ -682,6 +682,21 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     const footerLabels = [...document.querySelectorAll('.site-footer__group-label')]
       .map((label) => label.textContent.trim());
     const footerNavLinks = [...document.querySelectorAll('.site-footer__nav a')];
+    const finalCtaSecondaryActions = [...document.querySelectorAll('.final-cta-contact-row .final-cta-contact-link')];
+    if (
+      finalCtaSecondaryActions.length !== 1
+      || finalCtaSecondaryActions[0]?.tagName !== 'BUTTON'
+      || !finalCtaSecondaryActions[0]?.textContent.includes('Solicitar llamada')
+    ) {
+      closingSurfaceIssues.push({
+        type: 'final-cta-secondary-action-duplicated',
+        actions: finalCtaSecondaryActions.map((action) => ({
+          tagName: action.tagName,
+          text: action.textContent.trim(),
+          href: action.href || '',
+        })),
+      });
+    }
     if (!contactGrid || !navGrid || footerLabels.join('|') !== 'Contacto|Explora') {
       closingSurfaceIssues.push({
         type: 'footer-link-groups-missing',

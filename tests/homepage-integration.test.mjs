@@ -54,7 +54,7 @@ describe("homepage selective concept integration", () => {
     assert.doesNotMatch(section, /Ver catálogo completo/);
   });
 
-  it("uses placement as the primary conversion action and WhatsApp as the human fallback", async () => {
+  it("uses placement as the primary conversion action and callback as the sole secondary action", async () => {
     const source = await readFile("src/main.js", "utf8");
     const section = source.slice(
       source.indexOf("function renderFinalCtaSection"),
@@ -65,11 +65,12 @@ describe("homepage selective concept integration", () => {
     assert.match(section, /¿Listo para empezar\?/);
     assert.match(section, /Encuentra tu nivel/);
     assert.match(section, /final-cta-contact-row/);
-    assert.match(section, />WhatsApp</);
     assert.match(section, /Solicitar llamada/);
+    assert.equal((section.match(/class="final-cta-contact-link"/g) || []).length, 1);
+    assert.doesNotMatch(section, />WhatsApp</);
     assert.match(section, /final-cta-actions/);
     assert.match(section, /conversionCtas\.placement/);
-    assert.match(section, /conversionCtas\.advisor/);
+    assert.doesNotMatch(section, /conversionCtas\.advisor/);
     assert.doesNotMatch(section, /callback-launcher/);
     assert.doesNotMatch(section, /final-cta-note/);
     assert.match(section, /<dialog[\s\S]*data-callback-dialog/);

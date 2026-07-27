@@ -755,11 +755,7 @@
                   <i data-lucide="arrow-right" aria-hidden="true"></i>
                 </a>
               </div>
-              <div class="final-cta-contact-row" aria-label="Otras formas de contactarnos">
-                <a class="final-cta-contact-link" href="${conversionCtas.advisor?.href || site.whatsappHref}" target="_blank" rel="noreferrer">
-                  <i data-lucide="message-circle" aria-hidden="true"></i>
-                  <span>WhatsApp</span>
-                </a>
+              <div class="final-cta-contact-row" aria-label="Otra forma de contactarnos">
                 <button
                   class="final-cta-contact-link"
                   type="button"
