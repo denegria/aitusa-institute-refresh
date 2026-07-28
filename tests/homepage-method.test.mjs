@@ -139,6 +139,10 @@ describe("homepage Method story", () => {
       styles,
       /@media \(min-width: 1600px\) and \(min-height: 820px\)[\s\S]*\.method-editorial__media\s*\{[\s\S]*clamp\(360px, calc\(\(100svh - 190px\) \* 0\.5577\), 430px\)/,
     );
+    assert.match(
+      styles,
+      /@media \(min-width: 1600px\) and \(min-height: 820px\)[\s\S]*\.method-editorial__intro > p:last-child\s*\{[\s\S]*font-size: 1\.08rem;[\s\S]*font-weight: 500;[\s\S]*\.method-reasons p\s*\{[\s\S]*font-size: 1rem;[\s\S]*font-weight: 500;/,
+    );
   });
 
   it("keeps the mobile summary legible and the safe-area header fill intact", async () => {

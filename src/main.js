@@ -350,28 +350,48 @@
       <section class="hero" id="inicio">
         <div class="hero__main">
           <div class="hero__copy">
-            <p class="hero__kicker">${escapeHtml(painHero.eyebrow || "")}</p>
-            <h1>
-              <span class="hero__headline-lead">${escapeHtml(painHero.headlineLead || "")}</span>
-              <span class="hero__headline-emphasis">${escapeHtml(painHero.headlineEmphasis || painHero.headline || "")}</span>
-            </h1>
-            ${painHero.headlineAccent
-              ? `<p class="hero__headline-accent">${escapeHtml(painHero.headlineAccent)}</p>`
+            <div class="hero__title-block">
+              <p class="hero__kicker">${escapeHtml(painHero.eyebrow || "")}</p>
+              <h1>
+                <span class="hero__headline-lead">${escapeHtml(painHero.headlineLead || "")}</span>
+                <span class="hero__headline-emphasis">${escapeHtml(painHero.headlineEmphasis || painHero.headline || "")}</span>
+              </h1>
+              ${painHero.headlineAccent
+                ? `<p class="hero__headline-accent">${escapeHtml(painHero.headlineAccent)}</p>`
+                : ""}
+            </div>
+            ${(painHero.objections || []).length
+              ? `
+                <ol class="hero__objections" aria-label="Tres motivos para aprender inglés">
+                  ${painHero.objections
+                    .map(
+                      (item, index) => `
+                        <li>
+                          <span aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+                          <p>${escapeHtml(item)}</p>
+                        </li>
+                      `,
+                    )
+                    .join("")}
+                </ol>
+              `
               : ""}
-            <p class="hero__summary">
-              ${(painHero.subheadlineLines || [painHero.subheadline || ""])
-                .map((line) => `<span>${escapeHtml(line)}</span>`)
-                .join("")}
-            </p>
-            <div class="button-row hero__actions">
-              <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">
-                ${escapeHtml(painHero.ctas?.primary || "Conoce tu nivel")}
-                <i data-lucide="arrow-right" aria-hidden="true"></i>
-              </a>
-              <a class="button button--ghost" href="#metodo">
-                <i data-lucide="circle-play" aria-hidden="true"></i>
-                ${escapeHtml(painHero.ctas?.secondary || "Explora el método")}
-              </a>
+            <div class="hero__conversion">
+              <p class="hero__summary">
+                ${(painHero.subheadlineLines || [painHero.subheadline || ""])
+                  .map((line) => `<span>${escapeHtml(line)}</span>`)
+                  .join("")}
+              </p>
+              <div class="button-row hero__actions">
+                <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">
+                  ${escapeHtml(painHero.ctas?.primary || "Conoce tu nivel")}
+                  <i data-lucide="arrow-right" aria-hidden="true"></i>
+                </a>
+                <a class="button button--ghost" href="#metodo">
+                  <i data-lucide="circle-play" aria-hidden="true"></i>
+                  ${escapeHtml(painHero.ctas?.secondary || "Explora el método")}
+                </a>
+              </div>
             </div>
             <nav class="hero__modalities" aria-label="Formatos de clase">
               <a href="/courses/#ingles-presencial">

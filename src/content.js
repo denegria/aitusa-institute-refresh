@@ -1200,6 +1200,11 @@ const painHero = {
   subheadlineLines: [
     "Graphic Concept es nuestro método visual para ayudarte a pensar en inglés y comunicarte en el trabajo, los estudios y la vida diaria.",
   ],
+  objections: [
+    "Si lo que buscas es HABLAR INGLÉS, rápido, fácil y sin estrés.",
+    "Si lo que buscas es HABLAR INGLÉS, pero estás cansado de intentarlo.",
+    "Si lo que buscas es HABLAR INGLÉS, pero te obligan a memorizar miles de palabras y no alcanza ni el tiempo ni la cabeza.",
+  ],
   ctas: {
     primary: "Conoce tu nivel",
     secondary: "Explora el método",
