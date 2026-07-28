@@ -215,7 +215,7 @@ describe("homepage selective concept integration", () => {
     );
     assert.match(
       styles,
-      /@media \(min-width: 1600px\) and \(min-height: 980px\)[\s\S]*\.hero__copy\s*\{[\s\S]*display: flex;[\s\S]*justify-content: center/,
+      /@media \(min-width: 1600px\) and \(min-height: 980px\)[\s\S]*\.hero__copy\s*\{[\s\S]*display: flex;[\s\S]*justify-content: space-between;[\s\S]*padding: clamp\(104px, 12svh, 132px\)/,
     );
     assert.match(styles, /\.method-editorial\s*\{[\s\S]*grid-template-areas:/);
     assert.match(styles, /\.home-page \.offer-map\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);

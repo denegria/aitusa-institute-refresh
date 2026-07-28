@@ -131,6 +131,10 @@ describe("homepage Method story", () => {
       styles,
       /@media \(min-width: 1600px\) and \(min-height: 980px\)[\s\S]*\.method-reasons li > div\s*\{[\s\S]*grid-template-columns: minmax\(190px, 0\.72fr\) minmax\(0, 1\.28fr\)/,
     );
+    assert.match(
+      styles,
+      /@media \(min-width: 1600px\) and \(min-height: 980px\)[\s\S]*\.method-editorial\s*\{[\s\S]*height: calc\(100% - clamp\(32px, 6svh, 64px\)\);[\s\S]*min-height: 790px/,
+    );
   });
 
   it("keeps the mobile summary legible and the safe-area header fill intact", async () => {
