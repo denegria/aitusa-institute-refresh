@@ -121,19 +121,23 @@ describe("homepage Method story", () => {
     );
     assert.match(
       styles,
-      /@media \(min-width: 1600px\) and \(min-height: 980px\)[\s\S]*\.method-editorial\s*\{[\s\S]*grid-template-columns: minmax\(0, 1\.52fr\) minmax\(400px, 0\.68fr\)/,
+      /@media \(min-width: 1600px\) and \(min-height: 820px\)[\s\S]*\.method-editorial\s*\{[\s\S]*grid-template-columns: minmax\(0, 1\.52fr\) minmax\(400px, 0\.68fr\)/,
     );
     assert.match(
       styles,
-      /@media \(min-width: 1600px\) and \(min-height: 980px\)[\s\S]*\.method-reasons\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\);[\s\S]*align-self: stretch/,
+      /@media \(min-width: 1600px\) and \(min-height: 820px\)[\s\S]*\.method-reasons\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\);[\s\S]*align-self: stretch/,
     );
     assert.match(
       styles,
-      /@media \(min-width: 1600px\) and \(min-height: 980px\)[\s\S]*\.method-reasons li > div\s*\{[\s\S]*grid-template-columns: minmax\(190px, 0\.72fr\) minmax\(0, 1\.28fr\)/,
+      /@media \(min-width: 1600px\) and \(min-height: 820px\)[\s\S]*\.method-reasons li > div\s*\{[\s\S]*grid-template-columns: minmax\(190px, 0\.72fr\) minmax\(0, 1\.28fr\)/,
     );
     assert.match(
       styles,
-      /@media \(min-width: 1600px\) and \(min-height: 980px\)[\s\S]*\.method-editorial\s*\{[\s\S]*height: calc\(100% - clamp\(32px, 6svh, 64px\)\);[\s\S]*min-height: 790px/,
+      /@media \(min-width: 1600px\) and \(min-height: 820px\)[\s\S]*\.method-editorial\s*\{[\s\S]*height: calc\(100% - clamp\(32px, 6svh, 64px\)\);[\s\S]*min-height: min\(790px, 100%\)/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 1600px\) and \(min-height: 820px\)[\s\S]*\.method-editorial__media\s*\{[\s\S]*clamp\(360px, calc\(\(100svh - 190px\) \* 0\.5577\), 430px\)/,
     );
   });
 
