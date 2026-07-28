@@ -5413,6 +5413,10 @@ textarea {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .home-page .final-cta-section {
+    padding-block: clamp(44px, 4.8svh, 52px);
+  }
+
   .home-page .location-explorer {
     grid-template-columns: minmax(0, 1.12fr) minmax(360px, 0.88fr);
     gap: clamp(20px, 3vw, 34px);
@@ -5444,6 +5448,7 @@ textarea {
   .home-page .final-cta-conversion {
     width: 100%;
     justify-items: center;
+    transform: translateY(clamp(10px, 1.2svh, 14px));
   }
 
   .home-page .final-cta-actions {

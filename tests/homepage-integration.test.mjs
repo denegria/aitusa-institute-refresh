@@ -250,6 +250,10 @@ describe("homepage selective concept integration", () => {
     );
     assert.match(
       styles,
+      /@media \(min-width: 960px\)[\s\S]*\.home-page \.final-cta-section\s*\{[\s\S]*padding-block: clamp\(44px, 4\.8svh, 52px\);[\s\S]*\.home-page \.final-cta-conversion\s*\{[\s\S]*transform: translateY\(clamp\(10px, 1\.2svh, 14px\)\)/,
+    );
+    assert.match(
+      styles,
       /@media \(min-width: 960px\) and \(max-width: 1040px\)[\s\S]*\.home-page \.final-cta-copy \.section-heading h2\s*\{[\s\S]*font-size: clamp\(2\.75rem, 4\.6vw, 3rem\)/,
     );
     assert.match(
