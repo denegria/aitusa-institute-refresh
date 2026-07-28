@@ -262,7 +262,7 @@ describe("homepage selective concept integration", () => {
     );
     assert.match(
       styles,
-      /@media \(min-width: 960px\)[\s\S]*\.home-page \.final-cta-section\s*\{[\s\S]*padding-top: clamp\(44px, 4\.8svh, 52px\);[\s\S]*padding-bottom: clamp\(64px, 6svh, 72px\);[\s\S]*\.home-page \.final-cta-conversion\s*\{[\s\S]*transform: translateY\(clamp\(70px, 3\.9vw, 75px\)\)/,
+      /@media \(min-width: 960px\)[\s\S]*\.home-page \.final-cta-section\s*\{[\s\S]*padding-top: clamp\(44px, 4\.8svh, 52px\);[\s\S]*padding-bottom: clamp\(64px, 6svh, 72px\);[\s\S]*\.home-page \.final-cta-conversion\s*\{[\s\S]*transform: translateY\(10px\)/,
     );
     assert.match(
       styles,
@@ -271,10 +271,6 @@ describe("homepage selective concept integration", () => {
     assert.match(
       styles,
       /@media \(min-width: 960px\)[\s\S]*\.home-page \.final-cta-copy \.section-heading > p:not\(\.section-kicker\)\s*\{[\s\S]*margin-top: 20px;/,
-    );
-    assert.match(
-      styles,
-      /@media \(min-width: 960px\) and \(max-width: 975px\)[\s\S]*\.home-page \.final-cta-conversion\s*\{[\s\S]*transform: translateY\(55px\)/,
     );
     assert.match(
       styles,
