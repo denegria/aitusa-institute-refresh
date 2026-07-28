@@ -5048,7 +5048,7 @@ textarea {
 .home-page .location-hours-panel ul {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px clamp(16px, 1.4vw, 24px);
+  gap: 7px 12px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -5056,15 +5056,15 @@ textarea {
 
 .home-page .location-hours-panel li {
   color: rgba(255, 255, 255, 0.82);
-  font-size: 0.82rem;
-  line-height: 1.42;
+  font-size: 0.78rem;
+  line-height: 1.35;
 }
 
 .home-page .location-hours-panel__note {
   margin: 10px 0 0;
   padding-top: 9px;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.75rem;
   line-height: 1.35;
   border-top: 1px solid rgba(255, 255, 255, 0.13);
 }
@@ -5372,7 +5372,7 @@ textarea {
 
   .site-footer__contact a,
   .site-footer__nav a {
-    font-size: 0.78rem;
+    font-size: 0.81rem;
   }
 
   .site-footer__contact a {
@@ -5380,20 +5380,7 @@ textarea {
   }
 
   .site-footer__nav {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 4px;
-  }
-
-  .site-footer__nav a {
-    width: 100%;
-    gap: 1px;
-    padding-inline: 1px;
-  }
-
-  .site-footer__nav svg {
-    width: 10px;
-    height: 10px;
+    gap: 4px 10px;
   }
 
   .site-footer__legal {
@@ -6344,6 +6331,20 @@ textarea {
 /* Desktop composition pass: preserve the approved mobile layout while using
    wide and short desktop canvases more deliberately. */
 @media (min-width: 1041px) {
+  .home-page #experiencia,
+  .home-page #cursos,
+  .home-page #sedes,
+  .home-page .faq-section {
+    padding-block: clamp(44px, 5.2svh, 60px);
+  }
+
+  .home-page #experiencia .proof-shelf__inner,
+  .home-page #cursos .section-inner,
+  .home-page #sedes .section-inner,
+  .home-page .faq-section .section-inner {
+    width: min(clamp(1180px, 82.5vw, 1320px), calc(100% - 28px));
+  }
+
   .home-page .proof-editorial--complete-row .proof-shelf__heading {
     position: relative;
   }
@@ -6380,7 +6381,7 @@ textarea {
   .home-page #cursos .section-heading h2,
   .home-page #sedes .section-heading h2,
   .home-page .faq-layout .section-heading h2 {
-    font-size: clamp(3rem, 3.3vw, 3.75rem);
+    font-size: clamp(3rem, 3.15vw, 3.55rem);
   }
 
   .home-page #cursos .section-heading > p:not(.section-kicker),
@@ -6389,13 +6390,37 @@ textarea {
   .home-page .offer-node > div > p {
     font-size: 1rem;
   }
-}
 
-@media (min-width: 1600px) {
-  .home-page #experiencia .proof-shelf__inner,
-  .home-page #cursos .section-inner,
-  .home-page #sedes .section-inner {
-    width: min(1320px, calc(100% - 96px));
+  .home-page #metodo .method-kicker {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+  }
+
+  .home-page #metodo .method-editorial__intro > p:last-child {
+    max-width: 42rem;
+    margin-top: 16px;
+  }
+
+  .home-page #metodo .method-reasons p {
+    max-width: 680px;
+  }
+
+  .home-page #experiencia .proof-shelf__heading > div:first-child > p:last-child {
+    margin-top: 16px;
+  }
+
+  .home-page .location-hours-panel ul {
+    gap: 8px clamp(16px, 1.4vw, 24px);
+  }
+
+  .home-page .location-hours-panel li {
+    font-size: 0.82rem;
+    line-height: 1.42;
+  }
+
+  .home-page .location-hours-panel__note {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.78rem;
   }
 }
 
@@ -6423,7 +6448,7 @@ textarea {
   }
 
   .hero__summary {
-    max-width: 540px;
+    max-width: clamp(540px, 36vw, 580px);
     margin-top: clamp(14px, 2svh, 20px);
     font-size: clamp(0.92rem, 1.05vw, 1rem);
     font-weight: 500;
@@ -6433,7 +6458,7 @@ textarea {
   .hero__objections {
     display: grid;
     gap: 8px;
-    max-width: 540px;
+    max-width: clamp(540px, 36vw, 580px);
     margin: clamp(16px, 2.2svh, 22px) 0 0;
     padding: 0;
     color: var(--home-navy);
@@ -6523,7 +6548,7 @@ textarea {
   .hero__objections {
     display: grid;
     gap: 10px;
-    max-width: 640px;
+    max-width: clamp(560px, 33vw, 620px);
     margin: clamp(26px, 3svh, 32px) 0 0;
     padding: 0;
     color: var(--home-navy);
@@ -6532,7 +6557,7 @@ textarea {
 
   .hero__objections li {
     display: flex;
-    min-height: 64px;
+    min-height: clamp(58px, 5.8svh, 62px);
     align-items: center;
     padding: 13px 18px;
     border: 1px solid rgba(0, 26, 61, 0.14);
@@ -6549,11 +6574,11 @@ textarea {
   }
 
   .hero__conversion {
-    margin-top: clamp(60px, 7svh, 76px);
+    margin-top: clamp(28px, 4svh, 44px);
   }
 
   .hero__summary {
-    max-width: 630px;
+    max-width: clamp(560px, 33vw, 620px);
     margin-top: 22px;
     font-size: 1.08rem;
     font-weight: 500;
@@ -6562,7 +6587,7 @@ textarea {
 
   .hero__actions {
     width: 100%;
-    max-width: 640px;
+    max-width: clamp(560px, 33vw, 620px);
     margin-top: 0;
   }
 
@@ -6574,11 +6599,11 @@ textarea {
   }
 
   .hero__modalities {
-    margin-top: clamp(34px, 4svh, 44px);
+    margin-top: clamp(24px, 3svh, 34px);
   }
 
   .hero__modalities a {
-    min-height: 82px;
+    min-height: clamp(76px, 7.2svh, 80px);
     font-size: 0.95rem;
   }
 
@@ -6691,11 +6716,11 @@ textarea {
 
 @media (min-width: 1181px) and (max-width: 1599px) {
   .hero h1 {
-    font-size: clamp(3.05rem, 3.65vw, 3.45rem);
+    font-size: clamp(2.9rem, 3.45vw, 3.35rem);
   }
 
   .hero__headline-emphasis {
-    font-size: 0.9em;
+    font-size: 0.88em;
   }
 }
 
@@ -6710,6 +6735,20 @@ textarea {
 }
 
 @media (min-width: 1041px) and (max-height: 820px) {
+  .home-page #experiencia,
+  .home-page #cursos,
+  .home-page #sedes,
+  .home-page .faq-section {
+    padding-block: 34px;
+  }
+
+  .home-page #experiencia .proof-shelf__heading h2,
+  .home-page #cursos .section-heading h2,
+  .home-page #sedes .section-heading h2,
+  .home-page .faq-layout .section-heading h2 {
+    font-size: clamp(2.75rem, 3.4vw, 3.1rem);
+  }
+
   .home-page #cursos {
     padding-block: 34px;
   }
@@ -6759,7 +6798,7 @@ textarea {
   }
 
   .home-page #sedes {
-    padding-block: 18px;
+    padding-block: 22px;
   }
 
   .home-page #sedes .section-heading {
@@ -6809,5 +6848,14 @@ textarea {
   .home-page #sedes .location-hours-panel__note {
     margin-top: 7px;
     padding-top: 7px;
+  }
+}
+
+@media (min-width: 1041px) and (min-height: 821px) and (max-height: 880px) {
+  .home-page #experiencia,
+  .home-page #cursos,
+  .home-page #sedes,
+  .home-page .faq-section {
+    padding-block: 35px;
   }
 }

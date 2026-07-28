@@ -217,7 +217,7 @@ describe("homepage selective concept integration", () => {
     );
     assert.match(
       styles,
-      /@media \(max-width: 719px\)[\s\S]*\.site-footer__contact a,[\s\S]*font-size: 0\.78rem;[\s\S]*\.site-footer__nav\s*\{[\s\S]*display: grid;[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);[\s\S]*\.site-footer__nav a\s*\{[\s\S]*width: 100%;[\s\S]*\.site-footer__nav svg\s*\{[\s\S]*width: 10px;/,
+      /@media \(max-width: 719px\)[\s\S]*\.site-footer__contact a,[\s\S]*font-size: 0\.81rem;[\s\S]*\.site-footer__nav\s*\{[\s\S]*gap: 4px 10px;/,
     );
     assert.match(styles, /Viewport rhythm: keep each homepage chapter within one comfortable screen/);
     assert.match(
@@ -246,7 +246,7 @@ describe("homepage selective concept integration", () => {
     );
     assert.match(
       styles,
-      /@media \(min-width: 1600px\) and \(min-height: 960px\)[\s\S]*\.hero__conversion\s*\{[\s\S]*margin-top: clamp\(60px, 7svh, 76px\)[\s\S]*\.hero__actions\s*\{[\s\S]*max-width: 640px[\s\S]*\.hero__modalities\s*\{[\s\S]*margin-top: clamp\(34px, 4svh, 44px\)/,
+      /@media \(min-width: 1600px\) and \(min-height: 960px\)[\s\S]*\.hero__conversion\s*\{[\s\S]*margin-top: clamp\(28px, 4svh, 44px\)[\s\S]*\.hero__actions\s*\{[\s\S]*max-width: clamp\(560px, 33vw, 620px\)[\s\S]*\.hero__modalities\s*\{[\s\S]*margin-top: clamp\(24px, 3svh, 34px\)/,
     );
     assert.match(
       styles,
@@ -278,7 +278,7 @@ describe("homepage selective concept integration", () => {
     );
     assert.match(
       styles,
-      /\.home-page \.location-hours-panel ul\s*\{[\s\S]*gap: 8px clamp\(16px, 1\.4vw, 24px\)[\s\S]*\.home-page \.location-hours-panel li\s*\{[\s\S]*font-size: 0\.82rem/,
+      /@media \(min-width: 1041px\)[\s\S]*\.home-page \.location-hours-panel ul\s*\{[\s\S]*gap: 8px clamp\(16px, 1\.4vw, 24px\)[\s\S]*\.home-page \.location-hours-panel li\s*\{[\s\S]*font-size: 0\.82rem/,
     );
     assert.match(
       styles,
