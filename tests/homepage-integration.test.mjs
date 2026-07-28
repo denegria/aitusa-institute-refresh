@@ -224,11 +224,15 @@ describe("homepage selective concept integration", () => {
     );
     assert.match(
       styles,
-      /\.hero__objections\s*\{\s*display: none;[\s\S]*@media \(min-width: 1600px\) and \(min-height: 820px\)[\s\S]*\.hero__copy\s*\{[\s\S]*display: flex;[\s\S]*justify-content: flex-start;[\s\S]*padding: clamp\(46px, 6svh, 64px\)[\s\S]*\.hero__objections\s*\{[\s\S]*display: grid/,
+      /\.hero__objections\s*\{\s*display: none;[\s\S]*@media \(min-width: 1600px\) and \(min-height: 960px\)[\s\S]*\.hero__copy\s*\{[\s\S]*display: flex;[\s\S]*justify-content: flex-start;[\s\S]*clamp\(54px, 6svh, 66px\)[\s\S]*\.hero__objections\s*\{[\s\S]*display: grid/,
     );
     assert.match(
       styles,
-      /@media \(min-width: 1181px\) and \(max-width: 1599px\) and \(min-height: 768px\)[\s\S]*\.hero__copy\s*\{[\s\S]*display: flex;[\s\S]*padding: clamp\(30px, 4\.5svh, 44px\)[\s\S]*\.hero__objections\s*\{[\s\S]*display: grid/,
+      /@media \(min-width: 1181px\) and \(max-width: 1599px\) and \(min-height: 768px\)[\s\S]*max-height: 959px[\s\S]*\.hero__copy\s*\{[\s\S]*display: flex;[\s\S]*clamp\(48px, 7svh, 64px\)[\s\S]*\.hero__objections\s*\{[\s\S]*display: grid/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 1600px\) and \(min-height: 960px\)[\s\S]*\.hero__conversion\s*\{[\s\S]*margin-top: clamp\(60px, 7svh, 76px\)[\s\S]*\.hero__actions\s*\{[\s\S]*max-width: 640px[\s\S]*\.hero__modalities\s*\{[\s\S]*margin-top: clamp\(34px, 4svh, 44px\)/,
     );
     assert.match(styles, /\.method-editorial\s*\{[\s\S]*grid-template-areas:/);
     assert.match(styles, /\.home-page \.offer-map\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);
