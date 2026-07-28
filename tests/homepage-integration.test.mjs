@@ -193,8 +193,16 @@ describe("homepage selective concept integration", () => {
     assert.match(styles, /\.site-footer__contact\s*\{[\s\S]*grid-template-columns: repeat\(3/);
     assert.match(styles, /\.site-footer__nav\s*\{[\s\S]*display: flex;[\s\S]*flex-wrap: wrap/);
     assert.match(styles, /\.site-footer \.site-footer__group-label\s*\{[\s\S]*color: #d9b45d/);
-    assert.match(styles, /\.site-footer__legal\s*\{[\s\S]*color: rgba\(255, 255, 255, 0\.76\)/);
-    assert.match(styles, /\.site-footer__legal a\s*\{[\s\S]*color: rgba\(255, 255, 255, 0\.86\)/);
+    assert.match(styles, /\.site-footer__legal\s*\{[\s\S]*color: rgba\(255, 255, 255, 0\.64\)/);
+    assert.match(styles, /\.site-footer__legal a\s*\{[\s\S]*color: rgba\(255, 255, 255, 0\.72\)/);
+    assert.match(
+      styles,
+      /@media \(min-width: 960px\)[\s\S]*\.site-footer__contact a,[\s\S]*color: rgba\(255, 255, 255, 0\.92\);[\s\S]*\.site-footer__legal\s*\{[\s\S]*color: rgba\(255, 255, 255, 0\.76\);[\s\S]*\.site-footer__legal a\s*\{[\s\S]*color: rgba\(255, 255, 255, 0\.86\)/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 960px\)[\s\S]*\.site-footer__nav\s*\{[\s\S]*display: grid;[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);[\s\S]*\.site-footer__nav a\s*\{[\s\S]*width: 100%;/,
+    );
     assert.doesNotMatch(styles, /\.site-footer__contact a\s*\{[\s\S]*background: rgba\(255, 255, 255, 0\.07\)/);
     assert.match(styles, /\.callback-dialog__shell\s*\{[\s\S]*max-height: min\(760px, 92dvh\)/);
     assert.match(
@@ -250,7 +258,11 @@ describe("homepage selective concept integration", () => {
     );
     assert.match(
       styles,
-      /@media \(min-width: 960px\)[\s\S]*\.home-page \.final-cta-section\s*\{[\s\S]*padding-block: clamp\(44px, 4\.8svh, 52px\);[\s\S]*\.home-page \.final-cta-conversion\s*\{[\s\S]*transform: translateY\(clamp\(10px, 1\.2svh, 14px\)\)/,
+      /@media \(min-width: 960px\)[\s\S]*\.home-page \.final-cta-section\s*\{[\s\S]*padding-block: clamp\(44px, 4\.8svh, 52px\);[\s\S]*\.home-page \.final-cta-conversion\s*\{[\s\S]*transform: translateY\(clamp\(18px, 2svh, 22px\)\)/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 960px\)[\s\S]*\.home-page \.final-cta-actions \.button\s*\{[\s\S]*min-height: 46px;[\s\S]*padding-block: 9px;[\s\S]*padding-inline: 18px;[\s\S]*\.home-page \.final-cta-contact-link\s*\{[\s\S]*font-size: 0\.82rem/,
     );
     assert.match(
       styles,
