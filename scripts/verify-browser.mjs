@@ -586,12 +586,13 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         });
       }
       if (
-        !normalizedPromise.includes('hablar inglés')
-        || !normalizedPromise.includes('rápido, fácil y sin estrés')
-        || !normalizedPromise.includes('comunidad durante más de 20 años')
+        !normalizedPromise.includes('comprende el inglés')
+        || !normalizedPromise.includes('exprésate con confianza')
+        || !normalizedPromise.includes('graphic concept')
+        || !normalizedPromise.includes('trabajo, los estudios y la vida diaria')
       ) {
         mobileHeroIssues.push({
-          type: 'mobile-hero-signature-promise-missing',
+          type: 'mobile-hero-core-promise-missing',
           headlineText,
           accentText,
           summaryText,

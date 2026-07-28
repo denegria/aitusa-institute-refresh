@@ -157,14 +157,16 @@ describe("homepage selective concept integration", () => {
     const hero = source.slice(source.indexOf("function renderHero"), source.indexOf("function renderOfferingsSection"));
 
     assert.match(styles, /\.hero__kicker\s*\{[\s\S]*color: #8a6412/);
-    assert.match(content, /headline: "Si lo que buscas es HABLAR INGLÉS"/);
-    assert.match(content, /headlineAccent: "rápido, fácil y sin estrés\."/);
-    assert.match(content, /secondary: "Conoce el método"/);
-    assert.match(content, /nuestra comunidad durante más de 20 años/);
+    assert.match(content, /headline: "Comprende el inglés\. Exprésate con confianza\."/);
+    assert.match(content, /headlineAccent: ""/);
+    assert.match(content, /primary: "Conoce tu nivel"/);
+    assert.match(content, /secondary: "Explora el método"/);
+    assert.match(content, /Graphic Concept es nuestro método visual/);
+    assert.match(content, /comunicarte en el trabajo, los estudios y la vida diaria/);
     assert.doesNotMatch(hero, /hero__community-line/);
     assert.doesNotMatch(hero, /hero__proof-band/);
     assert.equal((hero.match(/class="button button--/g) || []).length, 2);
-    assert.match(styles, /\.hero__headline-emphasis\s*\{[\s\S]*text-transform: uppercase/);
+    assert.match(styles, /\.hero__headline-emphasis\s*\{[\s\S]*text-transform: none/);
     assert.match(styles, /\.hero h1\s*\{[\s\S]*font-family: var\(--font-display\)/);
     assert.doesNotMatch(styles, /\.hero h1\s*\{[\s\S]*transform: scaleX/);
     assert.match(styles, /\.hero__headline-lead\s*\{[\s\S]*font-size: 1em;[\s\S]*font-weight: 600/);
@@ -210,6 +212,10 @@ describe("homepage selective concept integration", () => {
     assert.match(
       styles,
       /@media \(min-width: 1041px\) and \(max-height: 820px\)[\s\S]*\.home-page #sedes \.real-map-card__frame\s*\{[\s\S]*min-height: 320px/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 1600px\) and \(min-height: 980px\)[\s\S]*\.hero__copy\s*\{[\s\S]*display: flex;[\s\S]*justify-content: center/,
     );
     assert.match(styles, /\.method-editorial\s*\{[\s\S]*grid-template-areas:/);
     assert.match(styles, /\.home-page \.offer-map\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);

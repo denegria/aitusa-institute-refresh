@@ -1190,20 +1190,19 @@ const faqs = [
 ];
 
 const painHero = {
-  eyebrow: "Una escuela de inglés diferente",
-  headline: "Si lo que buscas es HABLAR INGLÉS",
-  headlineLead: "Si lo que buscas es",
-  headlineEmphasis: "HABLAR INGLÉS",
-  headlineAccent: "rápido, fácil y sin estrés.",
+  eyebrow: "Escuela de inglés en Nueva Jersey · Desde 2004",
+  headline: "Comprende el inglés. Exprésate con confianza.",
+  headlineLead: "Comprende el inglés.",
+  headlineEmphasis: "Exprésate con confianza.",
+  headlineAccent: "",
   subheadline:
-    "Conoce una forma diferente de aprender, creada junto a nuestra comunidad durante más de 20 años.",
+    "Graphic Concept es nuestro método visual para ayudarte a pensar en inglés y comunicarte en el trabajo, los estudios y la vida diaria.",
   subheadlineLines: [
-    "Conoce una forma diferente de aprender, creada junto a",
-    "nuestra comunidad durante más de 20 años.",
+    "Graphic Concept es nuestro método visual para ayudarte a pensar en inglés y comunicarte en el trabajo, los estudios y la vida diaria.",
   ],
   ctas: {
-    primary: "Encuentra tu nivel",
-    secondary: "Conoce el método",
+    primary: "Conoce tu nivel",
+    secondary: "Explora el método",
     tertiary: "Ver cursos detallados",
   },
 };

@@ -125,7 +125,11 @@ describe("homepage Method story", () => {
     );
     assert.match(
       styles,
-      /@media \(min-width: 1600px\) and \(min-height: 980px\)[\s\S]*\.method-reasons\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/,
+      /@media \(min-width: 1600px\) and \(min-height: 980px\)[\s\S]*\.method-reasons\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\);[\s\S]*align-self: stretch/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 1600px\) and \(min-height: 980px\)[\s\S]*\.method-reasons li > div\s*\{[\s\S]*grid-template-columns: minmax\(190px, 0\.72fr\) minmax\(0, 1\.28fr\)/,
     );
   });
 

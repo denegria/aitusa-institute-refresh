@@ -355,7 +355,9 @@
               <span class="hero__headline-lead">${escapeHtml(painHero.headlineLead || "")}</span>
               <span class="hero__headline-emphasis">${escapeHtml(painHero.headlineEmphasis || painHero.headline || "")}</span>
             </h1>
-            <p class="hero__headline-accent">${escapeHtml(painHero.headlineAccent || "")}</p>
+            ${painHero.headlineAccent
+              ? `<p class="hero__headline-accent">${escapeHtml(painHero.headlineAccent)}</p>`
+              : ""}
             <p class="hero__summary">
               ${(painHero.subheadlineLines || [painHero.subheadline || ""])
                 .map((line) => `<span>${escapeHtml(line)}</span>`)
@@ -363,12 +365,12 @@
             </p>
             <div class="button-row hero__actions">
               <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">
-                ${escapeHtml(painHero.ctas?.primary || "Encuentra tu nivel")}
+                ${escapeHtml(painHero.ctas?.primary || "Conoce tu nivel")}
                 <i data-lucide="arrow-right" aria-hidden="true"></i>
               </a>
               <a class="button button--ghost" href="#metodo">
                 <i data-lucide="circle-play" aria-hidden="true"></i>
-                ${escapeHtml(painHero.ctas?.secondary || "Conoce nuestro método")}
+                ${escapeHtml(painHero.ctas?.secondary || "Explora el método")}
               </a>
             </div>
             <nav class="hero__modalities" aria-label="Formatos de clase">
