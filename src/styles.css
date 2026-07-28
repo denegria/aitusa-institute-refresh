@@ -2865,7 +2865,7 @@ textarea {
   min-width: 0;
   padding: 6px 8px;
   border-radius: 6px;
-  color: rgba(255, 255, 255, 0.86);
+  color: rgba(255, 255, 255, 0.92);
   font-size: 0.82rem;
   font-weight: 800;
   text-align: center;
@@ -2910,7 +2910,7 @@ textarea {
   justify-content: center;
   padding-top: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
-  color: rgba(255, 255, 255, 0.64);
+  color: rgba(255, 255, 255, 0.76);
   font-size: 0.74rem;
   text-align: center;
 }
@@ -2934,7 +2934,7 @@ textarea {
   min-height: 44px;
   padding: 6px 5px;
   border-radius: 6px;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.86);
   text-decoration: none;
 }
 
@@ -5022,7 +5022,7 @@ textarea {
 .home-page .location-hours-panel ul {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 7px 12px;
+  gap: 8px clamp(16px, 1.4vw, 24px);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -5030,15 +5030,15 @@ textarea {
 
 .home-page .location-hours-panel li {
   color: rgba(255, 255, 255, 0.82);
-  font-size: 0.78rem;
-  line-height: 1.35;
+  font-size: 0.82rem;
+  line-height: 1.42;
 }
 
 .home-page .location-hours-panel__note {
   margin: 10px 0 0;
   padding-top: 9px;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.78rem;
   line-height: 1.35;
   border-top: 1px solid rgba(255, 255, 255, 0.13);
 }
@@ -5442,7 +5442,17 @@ textarea {
   }
 
   .home-page .final-cta-conversion {
-    justify-items: start;
+    width: 100%;
+    justify-items: center;
+  }
+
+  .home-page .final-cta-actions {
+    justify-items: center;
+  }
+
+  .home-page .final-cta-contact-row {
+    justify-content: center;
+    width: 100%;
   }
 }
 
@@ -6264,6 +6274,20 @@ textarea {
 /* Desktop composition pass: preserve the approved mobile layout while using
    wide and short desktop canvases more deliberately. */
 @media (min-width: 1041px) {
+  .home-page .proof-editorial--complete-row .proof-shelf__heading {
+    position: relative;
+  }
+
+  .home-page .proof-editorial--complete-row .proof-shelf__controls {
+    position: absolute;
+    right: 0;
+    bottom: -10px;
+  }
+
+  .home-page .proof-editorial--complete-row .proof-shelf__controls > span {
+    margin-right: 0;
+  }
+
   .home-page .proof-editorial--complete-row .proof-shelf__controls button {
     display: none;
   }
@@ -6564,6 +6588,34 @@ textarea {
     font-size: 1.05rem;
     font-weight: 500;
     line-height: 1.55;
+  }
+}
+
+@media (min-width: 2200px) and (min-height: 1200px) {
+  .hero {
+    --hero-main-height: min(1120px, calc(100svh - 94px));
+  }
+
+  .hero__copy {
+    justify-content: center;
+    padding-top: 86px;
+    padding-bottom: 86px;
+  }
+
+  .method-section {
+    height: min(1120px, calc(100svh - 94px));
+    padding-block: 64px;
+  }
+
+  .method-editorial {
+    grid-template-rows: auto auto;
+    align-content: center;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .method-reasons {
+    align-self: start;
   }
 }
 

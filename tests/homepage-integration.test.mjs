@@ -193,6 +193,8 @@ describe("homepage selective concept integration", () => {
     assert.match(styles, /\.site-footer__contact\s*\{[\s\S]*grid-template-columns: repeat\(3/);
     assert.match(styles, /\.site-footer__nav\s*\{[\s\S]*display: flex;[\s\S]*flex-wrap: wrap/);
     assert.match(styles, /\.site-footer \.site-footer__group-label\s*\{[\s\S]*color: #d9b45d/);
+    assert.match(styles, /\.site-footer__legal\s*\{[\s\S]*color: rgba\(255, 255, 255, 0\.76\)/);
+    assert.match(styles, /\.site-footer__legal a\s*\{[\s\S]*color: rgba\(255, 255, 255, 0\.86\)/);
     assert.doesNotMatch(styles, /\.site-footer__contact a\s*\{[\s\S]*background: rgba\(255, 255, 255, 0\.07\)/);
     assert.match(styles, /\.callback-dialog__shell\s*\{[\s\S]*max-height: min\(760px, 92dvh\)/);
     assert.match(
@@ -233,6 +235,22 @@ describe("homepage selective concept integration", () => {
     assert.match(
       styles,
       /@media \(min-width: 1600px\) and \(min-height: 960px\)[\s\S]*\.hero__conversion\s*\{[\s\S]*margin-top: clamp\(60px, 7svh, 76px\)[\s\S]*\.hero__actions\s*\{[\s\S]*max-width: 640px[\s\S]*\.hero__modalities\s*\{[\s\S]*margin-top: clamp\(34px, 4svh, 44px\)/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 2200px\) and \(min-height: 1200px\)[\s\S]*--hero-main-height: min\(1120px, calc\(100svh - 94px\)\)[\s\S]*\.hero__copy\s*\{[\s\S]*justify-content: center/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 720px\)[\s\S]*\.home-page \.final-cta-conversion\s*\{[\s\S]*justify-items: center;[\s\S]*\.home-page \.final-cta-contact-row\s*\{[\s\S]*justify-content: center/,
+    );
+    assert.match(
+      styles,
+      /\.home-page \.location-hours-panel ul\s*\{[\s\S]*gap: 8px clamp\(16px, 1\.4vw, 24px\)[\s\S]*\.home-page \.location-hours-panel li\s*\{[\s\S]*font-size: 0\.82rem/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 1041px\)[\s\S]*\.proof-editorial--complete-row \.proof-shelf__controls\s*\{[\s\S]*position: absolute;[\s\S]*bottom: -10px/,
     );
     assert.match(styles, /\.method-editorial\s*\{[\s\S]*grid-template-areas:/);
     assert.match(styles, /\.home-page \.offer-map\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);
