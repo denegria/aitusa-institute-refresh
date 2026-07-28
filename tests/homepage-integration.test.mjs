@@ -246,6 +246,14 @@ describe("homepage selective concept integration", () => {
     );
     assert.match(
       styles,
+      /@media \(min-width: 960px\)[\s\S]*\.home-page \.final-cta-copy\s*\{[\s\S]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);[\s\S]*gap: 24px;/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 960px\) and \(max-width: 1040px\)[\s\S]*\.home-page \.final-cta-copy \.section-heading h2\s*\{[\s\S]*font-size: clamp\(2\.75rem, 4\.6vw, 3rem\)/,
+    );
+    assert.match(
+      styles,
       /\.home-page \.location-hours-panel ul\s*\{[\s\S]*gap: 8px clamp\(16px, 1\.4vw, 24px\)[\s\S]*\.home-page \.location-hours-panel li\s*\{[\s\S]*font-size: 0\.82rem/,
     );
     assert.match(

@@ -5436,8 +5436,8 @@ textarea {
   }
 
   .home-page .final-cta-copy {
-    grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
-    gap: clamp(44px, 6vw, 76px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
     align-items: center;
   }
 
@@ -5453,6 +5453,12 @@ textarea {
   .home-page .final-cta-contact-row {
     justify-content: center;
     width: 100%;
+  }
+}
+
+@media (min-width: 960px) and (max-width: 1040px) {
+  .home-page .final-cta-copy .section-heading h2 {
+    font-size: clamp(2.75rem, 4.6vw, 3rem);
   }
 }
 
