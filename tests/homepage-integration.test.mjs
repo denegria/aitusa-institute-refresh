@@ -215,6 +215,10 @@ describe("homepage selective concept integration", () => {
       styles,
       /@media \(max-width: 719px\)[\s\S]*\.home-page \.offer-node\s*\{[\s\S]*gap: 14px;[\s\S]*padding: 18px/,
     );
+    assert.match(
+      styles,
+      /@media \(max-width: 719px\)[\s\S]*\.site-footer__contact a,[\s\S]*font-size: 0\.78rem;[\s\S]*\.site-footer__nav\s*\{[\s\S]*display: grid;[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);[\s\S]*\.site-footer__nav a\s*\{[\s\S]*width: 100%;[\s\S]*\.site-footer__nav svg\s*\{[\s\S]*width: 10px;/,
+    );
     assert.match(styles, /Viewport rhythm: keep each homepage chapter within one comfortable screen/);
     assert.match(
       styles,
@@ -258,11 +262,19 @@ describe("homepage selective concept integration", () => {
     );
     assert.match(
       styles,
-      /@media \(min-width: 960px\)[\s\S]*\.home-page \.final-cta-section\s*\{[\s\S]*padding-block: clamp\(44px, 4\.8svh, 52px\);[\s\S]*\.home-page \.final-cta-conversion\s*\{[\s\S]*transform: translateY\(clamp\(18px, 2svh, 22px\)\)/,
+      /@media \(min-width: 960px\)[\s\S]*\.home-page \.final-cta-section\s*\{[\s\S]*padding-top: clamp\(44px, 4\.8svh, 52px\);[\s\S]*padding-bottom: clamp\(64px, 6svh, 72px\);[\s\S]*\.home-page \.final-cta-conversion\s*\{[\s\S]*transform: translateY\(clamp\(70px, 3\.9vw, 75px\)\)/,
     );
     assert.match(
       styles,
       /@media \(min-width: 960px\)[\s\S]*\.home-page \.final-cta-actions \.button\s*\{[\s\S]*min-height: 46px;[\s\S]*padding-block: 9px;[\s\S]*padding-inline: 18px;[\s\S]*\.home-page \.final-cta-contact-link\s*\{[\s\S]*font-size: 0\.82rem/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 960px\)[\s\S]*\.home-page \.final-cta-copy \.section-heading > p:not\(\.section-kicker\)\s*\{[\s\S]*margin-top: 20px;/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 960px\) and \(max-width: 975px\)[\s\S]*\.home-page \.final-cta-conversion\s*\{[\s\S]*transform: translateY\(55px\)/,
     );
     assert.match(
       styles,
