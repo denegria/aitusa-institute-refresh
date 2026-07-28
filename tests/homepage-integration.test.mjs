@@ -163,12 +163,15 @@ describe("homepage selective concept integration", () => {
     assert.match(content, /secondary: "Explora el método"/);
     assert.match(content, /Graphic Concept es nuestro método visual/);
     assert.match(content, /comunicarte en el trabajo, los estudios y la vida diaria/);
-    assert.match(content, /Si lo que buscas es HABLAR INGLÉS, rápido, fácil y sin estrés\./);
-    assert.match(content, /pero estás cansado de intentarlo\./);
-    assert.match(content, /memorizar miles de palabras y no alcanza ni el tiempo ni la cabeza\./);
+    assert.match(content, /¿Quieres hablar inglés rápido, fácil y sin estrés\?/);
+    assert.match(content, /¿Llevas tiempo intentando hablar inglés y todavía no lo logras\?/);
+    assert.match(content, /¿Te obligan a memorizar miles de palabras y sientes que no te alcanzan ni el tiempo ni la cabeza\?/);
     assert.match(hero, /class="hero__title-block"/);
-    assert.match(hero, /class="hero__objections"/);
+    assert.match(hero, /<ul class="hero__objections"/);
+    assert.doesNotMatch(hero, /padStart/);
     assert.match(hero, /class="hero__conversion"/);
+    assert.ok(hero.indexOf("hero__summary") < hero.indexOf("hero__objections"));
+    assert.ok(hero.indexOf("hero__objections") < hero.indexOf("hero__conversion"));
     assert.doesNotMatch(hero, /hero__community-line/);
     assert.doesNotMatch(hero, /hero__proof-band/);
     assert.equal((hero.match(/class="button button--/g) || []).length, 2);
@@ -222,6 +225,10 @@ describe("homepage selective concept integration", () => {
     assert.match(
       styles,
       /\.hero__objections\s*\{\s*display: none;[\s\S]*@media \(min-width: 1600px\) and \(min-height: 820px\)[\s\S]*\.hero__copy\s*\{[\s\S]*display: flex;[\s\S]*justify-content: flex-start;[\s\S]*padding: clamp\(46px, 6svh, 64px\)[\s\S]*\.hero__objections\s*\{[\s\S]*display: grid/,
+    );
+    assert.match(
+      styles,
+      /@media \(min-width: 1181px\) and \(max-width: 1599px\) and \(min-height: 768px\)[\s\S]*\.hero__copy\s*\{[\s\S]*display: flex;[\s\S]*padding: clamp\(30px, 4\.5svh, 44px\)[\s\S]*\.hero__objections\s*\{[\s\S]*display: grid/,
     );
     assert.match(styles, /\.method-editorial\s*\{[\s\S]*grid-template-areas:/);
     assert.match(styles, /\.home-page \.offer-map\s*\{[\s\S]*display: flex;[\s\S]*scroll-snap-type: x mandatory/);

@@ -360,28 +360,27 @@
                 ? `<p class="hero__headline-accent">${escapeHtml(painHero.headlineAccent)}</p>`
                 : ""}
             </div>
+            <p class="hero__summary">
+              ${(painHero.subheadlineLines || [painHero.subheadline || ""])
+                .map((line) => `<span>${escapeHtml(line)}</span>`)
+                .join("")}
+            </p>
             ${(painHero.objections || []).length
               ? `
-                <ol class="hero__objections" aria-label="Tres motivos para aprender inglés">
+                <ul class="hero__objections" aria-label="Preguntas comunes al aprender inglés">
                   ${painHero.objections
                     .map(
-                      (item, index) => `
+                      (item) => `
                         <li>
-                          <span aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
                           <p>${escapeHtml(item)}</p>
                         </li>
                       `,
                     )
                     .join("")}
-                </ol>
+                </ul>
               `
               : ""}
             <div class="hero__conversion">
-              <p class="hero__summary">
-                ${(painHero.subheadlineLines || [painHero.subheadline || ""])
-                  .map((line) => `<span>${escapeHtml(line)}</span>`)
-                  .join("")}
-              </p>
               <div class="button-row hero__actions">
                 <a class="button button--primary" href="${conversionCtas.placement?.href || "/placement-test/"}">
                   ${escapeHtml(painHero.ctas?.primary || "Conoce tu nivel")}
