@@ -747,6 +747,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     const locationFocusButtons = [...document.querySelectorAll('#sedes .compact-location-row__focus')];
     const locationOverview = document.querySelector('#sedes .real-map-card__overview');
     const externalMapLauncher = document.querySelector('#sedes .real-map-card__expand');
+    const locationHourEntries = [...document.querySelectorAll('#sedes .location-hours-panel li')];
+    const locationHoursDisclosure = document.querySelector('#sedes .location-hours-panel :is(details, summary)');
     if (
       locationRows.length !== 4
       || locationPins.length !== 4
@@ -754,7 +756,10 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       || !locationOverview
       || externalMapLauncher
       || !locationHours
-      || locationHours.open
+      || locationHours.tagName !== 'SECTION'
+      || locationHourEntries.length !== 4
+      || locationHourEntries.some((entry) => entry.getBoundingClientRect().height <= 0)
+      || locationHoursDisclosure
     ) {
       designConsistencyIssues.push({
         type: 'physical-location-lookup-invalid',
@@ -763,8 +768,10 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         focusButtonCount: locationFocusButtons.length,
         hasOverviewControl: Boolean(locationOverview),
         hasExternalMapLauncher: Boolean(externalMapLauncher),
-        hasHoursDisclosure: Boolean(locationHours),
-        hoursOpenByDefault: Boolean(locationHours?.open),
+        hasHoursPanel: Boolean(locationHours),
+        hoursPanelTag: locationHours?.tagName || '',
+        hourEntryCount: locationHourEntries.length,
+        hasHoursDisclosure: Boolean(locationHoursDisclosure),
       });
     }
 
@@ -938,18 +945,20 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         });
       }
 
-      const hoursSummary = locationHours?.querySelector('summary');
-      const hoursSummaryHeight = Math.round(hoursSummary?.getBoundingClientRect().height || 0);
-      const hoursCopySize = parseFloat(
-        locationHours?.querySelector('li')
-          ? getComputedStyle(locationHours.querySelector('li')).fontSize
-          : '0',
-      );
-      if (!hoursSummary || hoursSummaryHeight < 44 || hoursCopySize < 14) {
+      const visibleHourEntries = [...(locationHours?.querySelectorAll('li') || [])]
+        .filter((entry) => entry.getBoundingClientRect().height > 0);
+      const hoursCopySizes = visibleHourEntries
+        .map((entry) => parseFloat(getComputedStyle(entry).fontSize));
+      if (
+        visibleHourEntries.length !== 4
+        || hoursCopySizes.some((fontSize) => fontSize < 14)
+        || locationHours?.querySelector('details, summary, button')
+      ) {
         designConsistencyIssues.push({
-          type: 'mobile-location-hours-disclosure-invalid',
-          summaryHeight: hoursSummaryHeight,
-          copyFontSize: hoursCopySize,
+          type: 'mobile-location-hours-panel-invalid',
+          visibleEntryCount: visibleHourEntries.length,
+          copyFontSizes: hoursCopySizes,
+          hasDisclosureControl: Boolean(locationHours?.querySelector('details, summary, button')),
         });
       }
 
@@ -1247,27 +1256,28 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     ) {
       locationMapCheck.issues.push('map-overview-reset-failed');
     }
-    await evaluate(`document.querySelector('#sedes .location-hours-panel > summary')?.click()`);
-    await sleep(180);
     locationHoursCheck = await evaluate(`(() => {
-      const details = document.querySelector('#sedes .location-hours-panel');
-      const firstHour = details?.querySelector('li');
+      const panel = document.querySelector('#sedes .location-hours-panel');
+      const hours = [...(panel?.querySelectorAll('li') || [])];
+      const visibleHours = hours.filter((hour) => hour.getBoundingClientRect().height > 0);
       const issues = [];
-      if (!details?.open) issues.push('location-hours-did-not-open');
-      if (!firstHour || firstHour.getBoundingClientRect().height <= 0) issues.push('location-hours-content-not-visible');
+      if (panel?.tagName !== 'SECTION') issues.push('location-hours-not-static-section');
+      if (hours.length !== 4 || visibleHours.length !== 4) issues.push('location-hours-not-permanently-visible');
+      if (panel?.querySelector('details, summary, button')) issues.push('location-hours-disclosure-control-present');
       return {
-        open: Boolean(details?.open),
-        firstHourVisible: Boolean(firstHour && firstHour.getBoundingClientRect().height > 0),
+        panelTag: panel?.tagName || '',
+        hourCount: hours.length,
+        visibleHourCount: visibleHours.length,
+        hasDisclosureControl: Boolean(panel?.querySelector('details, summary, button')),
         issues,
       };
     })()`);
     if (width === 390 || width === 1440) {
-      const hoursShot = await captureViewport(`${name} location hours`);
-      const hoursTarget = path.join(screenshotsDir, `${name}-location-hours-open.png`);
+      const hoursShot = await captureViewport(`${name} visible location hours`);
+      const hoursTarget = path.join(screenshotsDir, `${name}-location-hours-visible.png`);
       await writeFile(hoursTarget, Buffer.from(hoursShot.data, "base64"));
-      sectionScreenshots["location-hours-open"] = hoursTarget;
+      sectionScreenshots["location-hours-visible"] = hoursTarget;
     }
-    await evaluate(`document.querySelector('#sedes .location-hours-panel[open] > summary')?.click()`);
     await captureSection(".faq-section", "faq");
     navigationCheck = await evaluate(`(() => {
       const activeLabel = document.querySelector('.site-nav [aria-current="location"]')?.innerText || '';

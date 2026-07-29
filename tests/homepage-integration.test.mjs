@@ -66,7 +66,7 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(source, /name="apellido"|name="interes"|name="para"/);
   });
 
-  it("keeps the real map, linked location controls, and shared schedule", async () => {
+  it("keeps the real map, linked location controls, and always-visible shared schedule", async () => {
     const { sections, locationExplorer } = await readSources();
     const source = `${sections}\n${locationExplorer}`;
 
@@ -81,7 +81,9 @@ describe("homepage React integration", () => {
     assert.match(source, /onScroll=\{handleRailScroll\}/);
     assert.match(source, /real-map-card__overview/);
     assert.match(source, /google\.com\/maps\/search/);
-    assert.match(source, /<details className="location-hours-panel">/);
+    assert.match(source, /<section className="location-hours-panel"/);
+    assert.match(source, /<HourItem key=\{hour\} hour=\{hour\}/);
+    assert.doesNotMatch(source, /<details|<summary|location-hours-panel__toggle/);
     assert.match(sections, /!?\["pending", "online"\]\.includes\(location\.status\)/);
     assert.doesNotMatch(sections, /\{online \? <LocationRow/);
     assert.doesNotMatch(source, /real-map-card__expand/);

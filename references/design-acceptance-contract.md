@@ -18,8 +18,8 @@ action without learning a new visual or scrolling convention in each section.
 - Present mobile study formats and supporting programs without hidden
   horizontal scrolling.
 - Treat Sedes as a physical-location lookup: show the four New Jersey
-  locations, keep Online in Courses, and place published hours in an explicit
-  native disclosure.
+  locations, keep Online in Courses, and keep published hours permanently
+  visible in the section.
 - Restore a compact mobile location rail with a visible next-card peek,
   counter, and 44px previous/next controls. Selecting a card or pin focuses the
   existing on-page map; only the explicit `Cómo llegar`/`Consultar` action may
@@ -75,14 +75,14 @@ action without learning a new visual or scrolling convention in each section.
   wrapping, except for the explicitly controlled testimonial and location
   rails.
 - Method and Sedes stay within one compact-mobile viewport plus a small
-  readability allowance; Sedes must fit a 390×844 viewport when its hours
-  disclosure is closed.
+  readability allowance; Sedes must fit a 390×844 viewport with its complete
+  hours panel visible.
 - Every physical location remains reachable through swipe, the visible rail
   controls, and map pins. The selected card and selected pin share one state.
 - Map focus is reversible through an on-map overview control and must not
   navigate or open a new tab.
-- Published hours remain complete and legible at 14px or larger when expanded;
-  the disclosure summary is at least 44px tall.
+- Published hours remain complete, permanently visible, and legible at 14px or
+  larger.
 - Desktop Method H2 stays at or below 1.22× the Hero H1, preserving emphasis
   without overtaking the page title.
 - No page-level horizontal overflow.
@@ -97,9 +97,9 @@ action without learning a new visual or scrolling convention in each section.
 - Local and live staging screenshots at the primary viewports.
 - DOM measurements confirm aligned desktop grids and no hidden horizontal
   overflow in mobile study or supporting-program content.
-- DOM measurements confirm four physical location rows, a closed-by-default
-  hours disclosure, consistent mobile intro markers, an opaque header, and no
-  stale FAQ navigation state.
+- DOM measurements confirm four physical location rows, four visible schedule
+  entries with no disclosure control, consistent mobile intro markers, an
+  opaque header, and no stale FAQ navigation state.
 - Interaction evidence confirms card selection, pin selection, mobile rail
   controls, manual rail scrolling, map focus/reset, and external navigation only
   from the dedicated location CTA.

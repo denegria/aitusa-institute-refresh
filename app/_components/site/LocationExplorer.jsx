@@ -77,6 +77,19 @@ function LocationRow({ location, index, selected, onSelect, whatsappHref }) {
   );
 }
 
+function HourItem({ hour }) {
+  const divider = hour.indexOf(":");
+  const day = divider >= 0 ? hour.slice(0, divider) : hour;
+  const time = divider >= 0 ? hour.slice(divider + 1).trim() : "";
+
+  return (
+    <li>
+      <strong>{day}</strong>
+      {time ? <span>{time}</span> : null}
+    </li>
+  );
+}
+
 export function LocationExplorer({ locations, hours, whatsappHref }) {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [railIndex, setRailIndex] = useState(0);
@@ -203,21 +216,21 @@ export function LocationExplorer({ locations, hours, whatsappHref }) {
             />
           ))}
         </div>
-        <details className="location-hours-panel">
-          <summary className="location-hours-panel__summary">
+        <section className="location-hours-panel" aria-labelledby="location-hours-title">
+          <div className="location-hours-panel__header">
             <span className="location-hours-panel__heading">
               <span className="location-hours-panel__icon"><i data-lucide="clock-3" aria-hidden="true" /></span>
-              <span><span className="eyebrow-chip">Horarios publicados</span><strong>Bound Brook · Plainfield · Piscataway</strong></span>
+              <span>
+                <span className="eyebrow-chip">Horarios publicados</span>
+                <h3 id="location-hours-title">Bound Brook · Plainfield · Piscataway</h3>
+              </span>
             </span>
-            <span className="location-hours-panel__toggle">
-              Ver horarios<i data-lucide="chevron-down" aria-hidden="true" />
-            </span>
-          </summary>
+          </div>
           <div className="location-hours-panel__content">
-            <ul>{hours.map((hour) => <li key={hour}>{hour}</li>)}</ul>
+            <ul>{hours.map((hour) => <HourItem key={hour} hour={hour} />)}</ul>
             <p className="location-hours-panel__note">Los cupos pueden variar. Confirma tu turno antes de inscribirte.</p>
           </div>
-        </details>
+        </section>
       </div>
     </div>
   );
