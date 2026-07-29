@@ -111,7 +111,8 @@ export function ProofStories() {
     >
       <div className="proof-shelf__inner">
         <div className="proof-shelf__heading proof-shelf__heading--mobile-framed">
-          <div>
+          <div className="proof-shelf__copy">
+            <span className="chapter-accent" aria-hidden="true" />
             <p className="section-kicker">Experiencias reales</p>
             <h2>Historias de estudiantes AIT.</h2>
             <p>Conoce las clases, la práctica y el acompañamiento desde la voz de quienes ya viven la experiencia.</p>

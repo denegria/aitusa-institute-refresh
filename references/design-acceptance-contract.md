@@ -9,17 +9,24 @@ action without learning a new visual or scrolling convention in each section.
 
 ## Chosen interaction model
 
-- Keep the Hero full-bleed and the testimonial stories as the one intentional
+- Keep the Hero full-bleed and the testimonial stories as an intentional
   horizontal carousel.
 - Keep Method as an editorial copy + portrait-video composition, but place its
   copy on the shared homepage content grid and use the shared framed heading.
 - On mobile, pair Method's portrait video with the three fully visible reasons
   instead of stacking four full-width blocks.
-- Present mobile study formats, supporting programs, and locations without
-  hidden horizontal scrolling.
+- Present mobile study formats and supporting programs without hidden
+  horizontal scrolling.
 - Treat Sedes as a physical-location lookup: show the four New Jersey
   locations, keep Online in Courses, and place published hours in an explicit
   native disclosure.
+- Restore a compact mobile location rail with a visible next-card peek,
+  counter, and 44px previous/next controls. Selecting a card or pin focuses the
+  existing on-page map; only the explicit `Cómo llegar`/`Consultar` action may
+  leave the page.
+- Keep the verified static New Jersey map asset and add controlled zoom/focus
+  behavior. Do not introduce a map SDK, API key, live tile dependency, or
+  geolocation permission.
 - Keep the final CTA as a focused two-column conversion block inside the shared
   wide-desktop content grid.
 
@@ -28,10 +35,18 @@ action without learning a new visual or scrolling convention in each section.
 - Preserve all approved copy, routes, media, map pins, hours, CTA behavior,
   callback dialog behavior, course links, and location links.
 - Preserve Presencial as the visually dominant principal program.
+- Remove modality chips whose text duplicates the course-card heading; retain
+  only the truthful `Programa principal` hierarchy signal.
 - Preserve the dark testimonial chapter, its controls, and its dialog.
+- Give Experiences a visible desktop chapter accent and FAQ a guaranteed
+  mobile horizontal accent.
 - Preserve the Hero composition and approved desktop/mobile variants.
 - Use the same horizontal gradient marker on every mobile chapter intro after
   the Hero. Method must not retain a mobile vertical rule.
+- Replace the repeated `Sedes` kicker + `Sedes cerca de ti` opening with one
+  contextual kicker and one section title.
+- Keep the OpenStreetMap attribution visible but materially smaller; remove the
+  separate external-map launch control.
 - Keep the sticky header fully opaque and clear the navigation active state
   while the unlisted FAQ chapter is the reading section.
 - Do not touch production, CRM writes, portal behavior, or Study Buddy behavior.
@@ -57,10 +72,15 @@ action without learning a new visual or scrolling convention in each section.
 - Method heading baseline matches standard framed headings while its media stays
   portrait and centered.
 - Mobile informational/lookup sections expose all options vertically or through
-  wrapping; only testimonial stories retain a horizontal rail.
+  wrapping, except for the explicitly controlled testimonial and location
+  rails.
 - Method and Sedes stay within one compact-mobile viewport plus a small
-  readability allowance; neither may regain a hidden rail or remove content to
-  meet the height target.
+  readability allowance; Sedes must fit a 390×844 viewport when its hours
+  disclosure is closed.
+- Every physical location remains reachable through swipe, the visible rail
+  controls, and map pins. The selected card and selected pin share one state.
+- Map focus is reversible through an on-map overview control and must not
+  navigate or open a new tab.
 - Published hours remain complete and legible at 14px or larger when expanded;
   the disclosure summary is at least 44px tall.
 - Desktop Method H2 stays at or below 1.22× the Hero H1, preserving emphasis
@@ -76,10 +96,13 @@ action without learning a new visual or scrolling convention in each section.
 - Browser verification passes with no runtime/console errors.
 - Local and live staging screenshots at the primary viewports.
 - DOM measurements confirm aligned desktop grids and no hidden horizontal
-  overflow in mobile study, supporting-program, or location content.
+  overflow in mobile study or supporting-program content.
 - DOM measurements confirm four physical location rows, a closed-by-default
   hours disclosure, consistent mobile intro markers, an opaque header, and no
   stale FAQ navigation state.
+- Interaction evidence confirms card selection, pin selection, mobile rail
+  controls, manual rail scrolling, map focus/reset, and external navigation only
+  from the dedicated location CTA.
 
 This contract supersedes only the prior contract's locked mobile horizontal-card
 behavior. Its study-format content, links, Presencial hierarchy, and restrained

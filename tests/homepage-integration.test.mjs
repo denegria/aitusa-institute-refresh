@@ -6,6 +6,7 @@ const readSources = async () => ({
   page: await readFile("app/(public-site)/page.jsx", "utf8"),
   sections: await readFile("app/_components/site/PublicSections.jsx", "utf8"),
   interactive: await readFile("app/_components/site/InteractiveSections.jsx", "utf8"),
+  locationExplorer: await readFile("app/_components/site/LocationExplorer.jsx", "utf8"),
   chrome: await readFile("app/_components/site/SiteChrome.jsx", "utf8"),
   styles: await readFile("src/styles.css", "utf8"),
 });
@@ -32,11 +33,11 @@ describe("homepage React integration", () => {
   it("keeps three primary modality choices and the approved support-program rail", async () => {
     const { sections } = await readSources();
     const start = sections.indexOf("const supportingPrograms");
-    const end = sections.indexOf("function MapPin");
+    const end = sections.indexOf("export function LocationsSection");
     const source = sections.slice(start, end);
 
     assert.match(source, /productOfferings\.slice\(0, 3\)/);
-    assert.match(source, /offer-node__marker/);
+    assert.doesNotMatch(source, /offer-node__marker/);
     assert.match(source, /offer-node__status/);
     assert.match(source, /Programa principal/);
     assert.match(source, /catalog-programs/);
@@ -65,18 +66,26 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(source, /name="apellido"|name="interes"|name="para"/);
   });
 
-  it("keeps the real map, compact location rows, and shared schedule", async () => {
-    const { sections } = await readSources();
-    assert.match(sections, /location-explorer/);
-    assert.match(sections, /new-jersey-campus-map\.jpg/);
-    assert.match(sections, /© OpenStreetMap/);
-    assert.match(sections, /function MapPin/);
-    assert.match(sections, /function LocationRow/);
-    assert.match(sections, /google\.com\/maps\/search/);
-    assert.match(sections, /<details className="location-hours-panel">/);
+  it("keeps the real map, linked location controls, and shared schedule", async () => {
+    const { sections, locationExplorer } = await readSources();
+    const source = `${sections}\n${locationExplorer}`;
+
+    assert.match(sections, /<LocationExplorer/);
+    assert.match(source, /new-jersey-campus-map\.jpg/);
+    assert.match(source, /© OpenStreetMap/);
+    assert.match(source, /function MapPin/);
+    assert.match(source, /function LocationRow/);
+    assert.match(source, /data-map-focused/);
+    assert.match(source, /aria-pressed=\{selected\}/);
+    assert.match(source, /location-rail-toolbar/);
+    assert.match(source, /onScroll=\{handleRailScroll\}/);
+    assert.match(source, /real-map-card__overview/);
+    assert.match(source, /google\.com\/maps\/search/);
+    assert.match(source, /<details className="location-hours-panel">/);
     assert.match(sections, /!?\["pending", "online"\]\.includes\(location\.status\)/);
     assert.doesNotMatch(sections, /\{online \? <LocationRow/);
-    assert.doesNotMatch(sections, /<iframe|<svg/);
+    assert.doesNotMatch(source, /real-map-card__expand/);
+    assert.doesNotMatch(source, /<iframe|<svg/);
   });
 
   it("tracks active homepage sections and preserves the mobile menu keyboard escape", async () => {
@@ -115,7 +124,7 @@ describe("homepage React integration", () => {
     assert.match(styles, /Viewport rhythm: keep each homepage chapter within one comfortable screen/);
   });
 
-  it("shares the desktop chapter grid and exposes mobile lookup content without hidden rails", async () => {
+  it("shares the desktop chapter grid and makes mobile lookup rails explicit", async () => {
     const { sections, interactive, chrome, styles } = await readSources();
 
     assert.match(
@@ -136,10 +145,12 @@ describe("homepage React integration", () => {
     );
     assert.match(
       styles,
-      /\.home-page #sedes \.location-compact-list\s*\{[\s\S]*display: grid;[\s\S]*overflow-x: visible;[\s\S]*scroll-snap-type: none/,
+      /Location focus and final chapter-accent pass:[\s\S]*\.home-page #sedes \.location-compact-list\s*\{[\s\S]*display: flex;[\s\S]*overflow-x: auto;[\s\S]*scroll-snap-type: x mandatory/,
     );
     assert.match(interactive, /proof-shelf__heading proof-shelf__heading--mobile-framed/);
+    assert.match(interactive, /className="chapter-accent"/);
     assert.match(sections, /className="section faq-section" id="faq"/);
+    assert.match(sections, /chapter-accent chapter-accent--mobile/);
     assert.match(chrome, /readingSectionIds/);
     assert.match(
       styles,
@@ -149,6 +160,7 @@ describe("homepage React integration", () => {
       styles,
       /:is\(#metodo, #cursos, #sedes, \.faq-section, #contacto\)[\s\S]*linear-gradient\(90deg, #4f84f6, #d9b45d\)/,
     );
-    assert.match(styles, /\.home-page #sedes \.real-map-card__frame\s*\{[\s\S]*height: 165px/);
+    assert.match(styles, /\.home-page #sedes \.real-map-card__frame\s*\{[\s\S]*height: 158px/);
+    assert.match(styles, /\.home-page #sedes \.location-rail-toolbar\s*\{[\s\S]*display: flex/);
   });
 });

@@ -8,6 +8,7 @@ import {
   solutionCharacteristics,
 } from "../../../src/content";
 import { CallbackDialog, FaqList, MethodVideo } from "./InteractiveSections";
+import { LocationExplorer } from "./LocationExplorer";
 
 export function HeroSection() {
   return (
@@ -111,11 +112,11 @@ export function OfferingPathSection() {
         <div className="offer-map" aria-label="Opciones principales de estudio">
           {productOfferings.slice(0, 3).map((item) => (
             <article className={`offer-node offer-node--${item.emphasis || "secondary"}`} key={item.key}>
-              <div className="offer-node__header">
-                <span className="offer-node__marker">{item.marker || item.shortLabel || ""}</span>
+              <div>
                 {item.emphasis === "primary" ? <span className="offer-node__status">Programa principal</span> : null}
+                <h3>{item.title}</h3>
+                <p>{item.summary}</p>
               </div>
-              <div><h3>{item.title}</h3><p>{item.summary}</p></div>
               <a className="offer-node__link" href={item.href}>
                 {item.cta}<i data-lucide="arrow-right" aria-hidden="true" />
               </a>
@@ -135,57 +136,6 @@ export function OfferingPathSection() {
   );
 }
 
-function MapPin({ location, index }) {
-  const id = location.mapKey || `location-${index + 1}`;
-  return (
-    <a className={`real-map-pin real-map-pin--${id}`} href={`#sede-${id}`} aria-label={`Ver ${location.city}`}>
-      <i data-lucide="map-pin" aria-hidden="true" />
-      <strong>{String(index + 1).padStart(2, "0")}</strong>
-    </a>
-  );
-}
-
-function LocationRow({ location, index }) {
-  const statusLabel = {
-    active: location.note?.includes("principal") ? "Principal" : "Presencial",
-    limited: "Con cita",
-    pending: "Pendiente / no activa",
-  };
-  const limited = location.status === "limited";
-  const id = location.mapKey;
-  const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.address)}`;
-  const href = limited
-    ? `${site.whatsappHref}?text=${encodeURIComponent(`Hola AIT USA, quiero consultar la atención con cita previa en ${location.city}.`)}`
-    : mapsHref;
-  const shortCity = location.city.split(",")[0];
-  const supportingText = limited
-    ? "Atención disponible con coordinación previa"
-    : location.address;
-  const actionLabel = limited ? "Consultar" : "Cómo llegar";
-
-  return (
-    <a
-      className={`compact-location-row compact-location-row--${location.status || "active"}`}
-      id={`sede-${id}`}
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      aria-label={`${actionLabel}: ${shortCity}. ${supportingText}`}
-    >
-      <span className="compact-location-row__number" aria-hidden="true">
-        {String(index + 1).padStart(2, "0")}
-      </span>
-      <span className="compact-location-row__copy">
-        <span><strong>{shortCity}</strong><em>{statusLabel[location.status] || "Sede"}</em></span>
-        <small>{supportingText}</small>
-      </span>
-      <span className="compact-location-row__action">
-        <span>{actionLabel}</span><i data-lucide="navigation" aria-hidden="true" />
-      </span>
-    </a>
-  );
-}
-
 export function LocationsSection() {
   const mapped = locations.filter((location) => !["pending", "online"].includes(location.status));
   const hours = mapped.find((location) => location.status === "active")?.hours || [];
@@ -194,58 +144,11 @@ export function LocationsSection() {
     <section className="section section--white" id="sedes">
       <div className="section-inner">
         <div className="section-heading section-heading--framed">
-          <p className="section-kicker">Sedes</p>
+          <p className="section-kicker">Nueva Jersey</p>
           <h2 id="sedes-title">Sedes cerca de ti.</h2>
           <p>Revisa ubicaciones y horarios para elegir la alternativa más conveniente.</p>
         </div>
-        <div className="location-explorer">
-          <div className="real-map-card">
-            <div className="real-map-card__frame">
-              <img
-                className="real-map-card__image"
-                src="/assets/maps/new-jersey-campus-map.jpg"
-                alt="Mapa real del centro de Nueva Jersey con Bound Brook, Plainfield, Piscataway y Flemington."
-                width="874"
-                height="660"
-                loading="eager"
-                decoding="async"
-              />
-              <div className="real-map-card__pins" aria-label="Sedes marcadas en el mapa">
-                {mapped.map((location, index) => <MapPin key={location.mapKey} location={location} index={index} />)}
-              </div>
-              <a className="real-map-card__attribution" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap</a>
-              <a
-                className="real-map-card__expand"
-                href="https://www.openstreetmap.org/#map=11/40.57/-74.61"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Ampliar mapa en OpenStreetMap"
-              >
-                <i data-lucide="external-link" aria-hidden="true" />
-              </a>
-            </div>
-          </div>
-          <div className="location-compact-panel">
-            <div className="location-compact-list" aria-label="Sedes presenciales en Nueva Jersey">
-              {mapped.map((location, index) => <LocationRow key={location.mapKey} location={location} index={index} />)}
-            </div>
-            <details className="location-hours-panel">
-              <summary className="location-hours-panel__summary">
-                <span className="location-hours-panel__heading">
-                  <span className="location-hours-panel__icon"><i data-lucide="clock-3" aria-hidden="true" /></span>
-                  <span><span className="eyebrow-chip">Horarios publicados</span><strong>Bound Brook · Plainfield · Piscataway</strong></span>
-                </span>
-                <span className="location-hours-panel__toggle">
-                  Ver horarios<i data-lucide="chevron-down" aria-hidden="true" />
-                </span>
-              </summary>
-              <div className="location-hours-panel__content">
-                <ul>{hours.map((hour) => <li key={hour}>{hour}</li>)}</ul>
-                <p className="location-hours-panel__note">Los cupos pueden variar. Confirma tu turno antes de inscribirte.</p>
-              </div>
-            </details>
-          </div>
-        </div>
+        <LocationExplorer locations={mapped} hours={hours} whatsappHref={site.whatsappHref} />
       </div>
     </section>
   );
@@ -256,6 +159,7 @@ export function FaqSection() {
     <section className="section faq-section" id="faq">
       <div className="section-inner faq-layout">
         <div className="section-heading section-heading--framed">
+          <span className="chapter-accent chapter-accent--mobile" aria-hidden="true" />
           <p className="section-kicker">Preguntas frecuentes</p>
           <h2>¿Todavía tienes dudas?</h2>
           <p>Aquí respondemos las preguntas que más escuchamos de nuestros estudiantes.</p>

@@ -743,10 +743,26 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
 
     const locationRows = [...document.querySelectorAll('#sedes .compact-location-row')];
     const locationHours = document.querySelector('#sedes .location-hours-panel');
-    if (locationRows.length !== 4 || !locationHours || locationHours.open) {
+    const locationPins = [...document.querySelectorAll('#sedes .real-map-pin')];
+    const locationFocusButtons = [...document.querySelectorAll('#sedes .compact-location-row__focus')];
+    const locationOverview = document.querySelector('#sedes .real-map-card__overview');
+    const externalMapLauncher = document.querySelector('#sedes .real-map-card__expand');
+    if (
+      locationRows.length !== 4
+      || locationPins.length !== 4
+      || locationFocusButtons.length !== 4
+      || !locationOverview
+      || externalMapLauncher
+      || !locationHours
+      || locationHours.open
+    ) {
       designConsistencyIssues.push({
         type: 'physical-location-lookup-invalid',
         rowCount: locationRows.length,
+        pinCount: locationPins.length,
+        focusButtonCount: locationFocusButtons.length,
+        hasOverviewControl: Boolean(locationOverview),
+        hasExternalMapLauncher: Boolean(externalMapLauncher),
         hasHoursDisclosure: Boolean(locationHours),
         hoursOpenByDefault: Boolean(locationHours?.open),
       });
@@ -835,17 +851,18 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
 
       const attribution = document.querySelector('.real-map-card__attribution');
       const attributionHeight = Math.round(attribution?.getBoundingClientRect().height || 0);
-      if (!attribution || attributionHeight < 44) {
+      const attributionFontSize = parseFloat(attribution ? getComputedStyle(attribution).fontSize : '0');
+      if (!attribution || attributionHeight > 32 || attributionFontSize > 9) {
         paletteIssues.push({
-          type: 'mobile-map-attribution-target-too-small',
+          type: 'mobile-map-attribution-not-compact',
           height: attributionHeight,
+          fontSize: attributionFontSize,
         });
       }
 
       [
         ['study-options', '#cursos .offer-map'],
         ['supporting-programs', '#cursos .catalog-programs__links'],
-        ['locations', '#sedes .location-compact-list'],
       ].forEach(([label, selector]) => {
         const element = document.querySelector(selector);
         if (!element || element.scrollWidth > element.clientWidth + 2) {
@@ -868,21 +885,26 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       }
 
       [
-        ['method', '#metodo .method-editorial__intro'],
-        ['testimonials', '#experiencia .proof-shelf__heading > div:first-child'],
-        ['study-options', '#cursos .section-heading'],
-        ['locations', '#sedes .section-heading'],
-        ['faq', '#faq .section-heading'],
-        ['final-cta', '#contacto .section-heading'],
-      ].forEach(([label, selector]) => {
+        ['method', '#metodo .method-editorial__intro', true],
+        ['testimonials', '#experiencia .chapter-accent', false],
+        ['study-options', '#cursos .section-heading', true],
+        ['locations', '#sedes .section-heading', true],
+        ['faq', '#faq .chapter-accent--mobile', false],
+        ['final-cta', '#contacto .section-heading', true],
+      ].forEach(([label, selector, pseudo]) => {
         const element = document.querySelector(selector);
-        const marker = element ? getComputedStyle(element, '::before') : null;
+        const marker = element ? getComputedStyle(element, pseudo ? '::before' : null) : null;
+        const markerRect = !pseudo && element ? element.getBoundingClientRect() : null;
         const markerWidth = parseFloat(marker?.width || '0');
         const markerHeight = parseFloat(marker?.height || '0');
         if (
           !element
+          || marker?.display === 'none'
+          || marker?.visibility === 'hidden'
+          || parseFloat(marker?.opacity || '1') === 0
           || markerWidth < 50
           || markerHeight < 4
+          || (!pseudo && (!markerRect || markerRect.width < 50 || markerRect.height < 4))
           || marker?.backgroundImage === 'none'
         ) {
           designConsistencyIssues.push({
@@ -930,6 +952,30 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
           copyFontSize: hoursCopySize,
         });
       }
+
+      const locationRail = document.querySelector('#sedes .location-compact-list');
+      const locationCards = [...document.querySelectorAll('#sedes [data-location-card]')];
+      const locationRailButtons = [...document.querySelectorAll('#sedes .location-rail-toolbar button')];
+      const firstLocationCardWidth = Math.round(locationCards[0]?.getBoundingClientRect().width || 0);
+      const locationRailWidth = Math.round(locationRail?.getBoundingClientRect().width || 0);
+      if (
+        !locationRail
+        || locationRail.scrollWidth <= locationRail.clientWidth + 2
+        || locationCards.length !== 4
+        || firstLocationCardWidth >= locationRailWidth - 16
+        || locationRailButtons.length !== 2
+        || locationRailButtons.some((button) => button.getBoundingClientRect().height < 44)
+      ) {
+        designConsistencyIssues.push({
+          type: 'mobile-location-rail-invalid',
+          cardCount: locationCards.length,
+          clientWidth: locationRail?.clientWidth || 0,
+          scrollWidth: locationRail?.scrollWidth || 0,
+          firstCardWidth: firstLocationCardWidth,
+          railWidth: locationRailWidth,
+          controlHeights: locationRailButtons.map((button) => Math.round(button.getBoundingClientRect().height)),
+        });
+      }
     }
 
     if (innerWidth >= 1041) {
@@ -964,6 +1010,24 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
           heroHeadingSize,
           methodHeadingSize: desktopMethodHeadingSize,
           ratio: Math.round(headingRatio * 100) / 100,
+        });
+      }
+
+      const experienceAccent = document.querySelector('#experiencia .chapter-accent');
+      const experienceAccentRect = experienceAccent?.getBoundingClientRect();
+      const experienceAccentStyle = experienceAccent ? getComputedStyle(experienceAccent) : null;
+      if (
+        !experienceAccent
+        || !experienceAccentRect
+        || experienceAccentRect.width < 4
+        || experienceAccentRect.height < 40
+        || experienceAccentStyle?.backgroundImage === 'none'
+      ) {
+        designConsistencyIssues.push({
+          type: 'desktop-experience-accent-missing',
+          width: Math.round(experienceAccentRect?.width || 0),
+          height: Math.round(experienceAccentRect?.height || 0),
+          backgroundImage: experienceAccentStyle?.backgroundImage || '',
         });
       }
     }
@@ -1035,6 +1099,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
   let secondaryTarget = null;
   let proofDialogCheck = null;
   let callbackDialogCheck = null;
+  let locationMapCheck = null;
   let locationHoursCheck = null;
   let navigationCheck = null;
   const sectionScreenshots = {};
@@ -1101,6 +1166,87 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     await captureSection("#cursos", "courses");
     await captureSection(".catalog-programs", "programs");
     await captureSection("#sedes", "locations");
+    const locationBeforeFocus = await evaluate("location.href");
+    await evaluate(`document.querySelector('#sedes .real-map-pin--plainfield')?.click()`);
+    await sleep(520);
+    locationMapCheck = await evaluate(`(() => {
+      const frame = document.querySelector('#sedes .real-map-card__frame');
+      const stage = document.querySelector('#sedes .real-map-card__stage');
+      const selectedCard = document.querySelector('#sedes [data-location-card].is-selected');
+      const selectedCardButton = selectedCard?.querySelector('.compact-location-row__focus');
+      const selectedPin = document.querySelector('#sedes .real-map-pin[aria-pressed="true"]');
+      const action = selectedCard?.querySelector('.compact-location-row__action');
+      const overview = document.querySelector('#sedes .real-map-card__overview');
+      const issues = [];
+      if (frame?.dataset.mapFocused !== 'true') issues.push('map-did-not-enter-focused-state');
+      if (!stage?.style.transform || stage.style.transform === 'none') issues.push('map-stage-did-not-transform');
+      if (selectedCard?.dataset.locationIndex !== '1') issues.push('plainfield-card-not-selected');
+      if (selectedCardButton?.getAttribute('aria-pressed') !== 'true') issues.push('selected-card-state-not-announced');
+      if (!selectedPin?.classList.contains('real-map-pin--plainfield')) issues.push('plainfield-pin-not-selected');
+      if (!action?.href.includes('google.com/maps/search') || action.target !== '_blank') {
+        issues.push('selected-location-cta-invalid');
+      }
+      if (!overview || overview.disabled) issues.push('map-overview-control-unavailable');
+      if (document.querySelector('#sedes .real-map-card__expand')) issues.push('external-map-launcher-still-present');
+      return {
+        location: location.href,
+        focused: frame?.dataset.mapFocused || '',
+        transform: stage?.style.transform || '',
+        selectedCardIndex: selectedCard?.dataset.locationIndex || '',
+        selectedPin: selectedPin?.className || '',
+        actionHref: action?.href || '',
+        actionTarget: action?.target || '',
+        issues,
+      };
+    })()`);
+    if (locationMapCheck.location !== locationBeforeFocus) {
+      locationMapCheck.issues.push('location-focus-navigated-away');
+    }
+    if (width === 390 || width === 1440) {
+      const focusedMapShot = await captureViewport(`${name} focused location map`);
+      const focusedMapTarget = path.join(screenshotsDir, `${name}-location-map-focused.png`);
+      await writeFile(focusedMapTarget, Buffer.from(focusedMapShot.data, "base64"));
+      sectionScreenshots["location-map-focused"] = focusedMapTarget;
+    }
+    if (mobile) {
+      await evaluate(`document.querySelector('#sedes .location-rail-toolbar button:last-child')?.click()`);
+      await sleep(620);
+      const railCheck = await evaluate(`(() => {
+        const rail = document.querySelector('#sedes .location-compact-list');
+        const selectedCard = document.querySelector('#sedes [data-location-card].is-selected');
+        const counter = document.querySelector('#sedes .location-rail-toolbar > span')?.textContent.trim() || '';
+        return {
+          scrollLeft: Math.round(rail?.scrollLeft || 0),
+          selectedCardIndex: selectedCard?.dataset.locationIndex || '',
+          counter,
+        };
+      })()`);
+      locationMapCheck.rail = railCheck;
+      if (railCheck.scrollLeft <= 0 || railCheck.selectedCardIndex !== "2" || !railCheck.counter.includes("3")) {
+        locationMapCheck.issues.push('mobile-location-rail-controls-failed');
+      }
+    }
+    await evaluate(`document.querySelector('#sedes .real-map-card__overview')?.click()`);
+    await sleep(260);
+    const resetMapCheck = await evaluate(`(() => {
+      const frame = document.querySelector('#sedes .real-map-card__frame');
+      const stage = document.querySelector('#sedes .real-map-card__stage');
+      return {
+        focused: frame?.dataset.mapFocused || '',
+        transform: stage?.style.transform || '',
+        selectedCards: document.querySelectorAll('#sedes [data-location-card].is-selected').length,
+        selectedPins: document.querySelectorAll('#sedes .real-map-pin[aria-pressed="true"]').length,
+      };
+    })()`);
+    locationMapCheck.reset = resetMapCheck;
+    if (
+      resetMapCheck.focused !== "false"
+      || resetMapCheck.transform
+      || resetMapCheck.selectedCards
+      || resetMapCheck.selectedPins
+    ) {
+      locationMapCheck.issues.push('map-overview-reset-failed');
+    }
     await evaluate(`document.querySelector('#sedes .location-hours-panel > summary')?.click()`);
     await sleep(180);
     locationHoursCheck = await evaluate(`(() => {
@@ -1211,6 +1357,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     screenshotError,
     proofDialogCheck,
     callbackDialogCheck,
+    locationMapCheck,
     locationHoursCheck,
     navigationCheck,
     ...summary,
@@ -1664,6 +1811,7 @@ const blockingResults = results.filter((result) =>
   (result.methodFrameIssues && result.methodFrameIssues.length) ||
   (result.proofDialogCheck?.issues && result.proofDialogCheck.issues.length) ||
   (result.callbackDialogCheck?.issues && result.callbackDialogCheck.issues.length) ||
+  (result.locationMapCheck?.issues && result.locationMapCheck.issues.length) ||
   (result.locationHoursCheck?.issues && result.locationHoursCheck.issues.length) ||
   (result.navigationCheck?.issues && result.navigationCheck.issues.length)
 );
