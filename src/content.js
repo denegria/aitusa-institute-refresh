@@ -878,10 +878,20 @@ const methodBlocks = [
 ];
 
 const verifiedClassHours = [
-  "Lunes a jueves: 8:30 am, 9:30 am y 10:30 am",
-  "Lunes a jueves: 6:20 pm, 7:30 pm y 8:40 pm",
-  "Sábados: 10:00 am a 1:00 pm y 3:00 pm a 5:30 pm",
-  "Domingos: 10:00 am a 12:30 pm",
+  {
+    label: "Lun–jue",
+    slots: [
+      { label: "Mañana", times: "8:30 · 9:30 · 10:30 am" },
+      { label: "Noche", times: "6:20 · 7:30 · 8:40 pm" },
+    ],
+  },
+  {
+    label: "Fin de semana",
+    slots: [
+      { label: "Sáb", times: "10 am–1 pm · 3–5:30 pm" },
+      { label: "Dom", times: "10 am–12:30 pm" },
+    ],
+  },
 ];
 
 const centralLocationContact = {

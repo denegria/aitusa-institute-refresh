@@ -83,6 +83,10 @@ action without learning a new visual or scrolling convention in each section.
   navigate or open a new tab.
 - Published hours remain complete, permanently visible, and legible at 14px or
   larger.
+- The hours panel groups the repeated weekday schedule into two scannable
+  blocks—`Lun–jue` and `Fin de semana`—with four labeled time slots. Preserve
+  every verified start time/range while avoiding repeated day names and
+  sentence-style schedule copy.
 - Desktop Method H2 stays at or below 1.22× the Hero H1, preserving emphasis
   without overtaking the page title.
 - No page-level horizontal overflow.
@@ -98,8 +102,8 @@ action without learning a new visual or scrolling convention in each section.
 - DOM measurements confirm aligned desktop grids and no hidden horizontal
   overflow in mobile study or supporting-program content.
 - DOM measurements confirm four physical location rows, four visible schedule
-  entries with no disclosure control, consistent mobile intro markers, an
-  opaque header, and no stale FAQ navigation state.
+  slots in two visible day groups with no disclosure control, consistent mobile
+  intro markers, an opaque header, and no stale FAQ navigation state.
 - Interaction evidence confirms card selection, pin selection, mobile rail
   controls, manual rail scrolling, map focus/reset, and external navigation only
   from the dedicated location CTA.

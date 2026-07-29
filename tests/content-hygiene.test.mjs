@@ -28,7 +28,8 @@ describe("MIS-267 content hygiene", () => {
       assert.equal(location.phoneHref, site.phoneHref);
       assert.equal(location.whatsapp, site.whatsapp);
       assert.equal(location.whatsappHref, site.whatsappHref);
-      assert.equal(location.hours.length, 4);
+      assert.equal(location.hours.length, 2);
+      assert.equal(location.hours.flatMap((group) => group.slots).length, 4);
     }
   });
 

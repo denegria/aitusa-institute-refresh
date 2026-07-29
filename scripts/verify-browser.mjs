@@ -747,7 +747,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     const locationFocusButtons = [...document.querySelectorAll('#sedes .compact-location-row__focus')];
     const locationOverview = document.querySelector('#sedes .real-map-card__overview');
     const externalMapLauncher = document.querySelector('#sedes .real-map-card__expand');
-    const locationHourEntries = [...document.querySelectorAll('#sedes .location-hours-panel li')];
+    const locationHourGroups = [...document.querySelectorAll('#sedes .location-hours-panel__group')];
+    const locationHourEntries = [...document.querySelectorAll('#sedes [data-schedule-slot]')];
     const locationHoursDisclosure = document.querySelector('#sedes .location-hours-panel :is(details, summary)');
     if (
       locationRows.length !== 4
@@ -757,6 +758,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       || externalMapLauncher
       || !locationHours
       || locationHours.tagName !== 'SECTION'
+      || locationHourGroups.length !== 2
       || locationHourEntries.length !== 4
       || locationHourEntries.some((entry) => entry.getBoundingClientRect().height <= 0)
       || locationHoursDisclosure
@@ -770,6 +772,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         hasExternalMapLauncher: Boolean(externalMapLauncher),
         hasHoursPanel: Boolean(locationHours),
         hoursPanelTag: locationHours?.tagName || '',
+        hourGroupCount: locationHourGroups.length,
         hourEntryCount: locationHourEntries.length,
         hasHoursDisclosure: Boolean(locationHoursDisclosure),
       });
@@ -945,17 +948,21 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         });
       }
 
-      const visibleHourEntries = [...(locationHours?.querySelectorAll('li') || [])]
+      const visibleHourGroups = [...(locationHours?.querySelectorAll('.location-hours-panel__group') || [])]
+        .filter((entry) => entry.getBoundingClientRect().height > 0);
+      const visibleHourEntries = [...(locationHours?.querySelectorAll('[data-schedule-slot]') || [])]
         .filter((entry) => entry.getBoundingClientRect().height > 0);
       const hoursCopySizes = visibleHourEntries
-        .map((entry) => parseFloat(getComputedStyle(entry).fontSize));
+        .map((entry) => parseFloat(getComputedStyle(entry.querySelector('dd')).fontSize));
       if (
-        visibleHourEntries.length !== 4
+        visibleHourGroups.length !== 2
+        || visibleHourEntries.length !== 4
         || hoursCopySizes.some((fontSize) => fontSize < 14)
         || locationHours?.querySelector('details, summary, button')
       ) {
         designConsistencyIssues.push({
           type: 'mobile-location-hours-panel-invalid',
+          visibleGroupCount: visibleHourGroups.length,
           visibleEntryCount: visibleHourEntries.length,
           copyFontSizes: hoursCopySizes,
           hasDisclosureControl: Boolean(locationHours?.querySelector('details, summary, button')),
@@ -1258,14 +1265,19 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     }
     locationHoursCheck = await evaluate(`(() => {
       const panel = document.querySelector('#sedes .location-hours-panel');
-      const hours = [...(panel?.querySelectorAll('li') || [])];
+      const groups = [...(panel?.querySelectorAll('.location-hours-panel__group') || [])];
+      const hours = [...(panel?.querySelectorAll('[data-schedule-slot]') || [])];
+      const visibleGroups = groups.filter((group) => group.getBoundingClientRect().height > 0);
       const visibleHours = hours.filter((hour) => hour.getBoundingClientRect().height > 0);
       const issues = [];
       if (panel?.tagName !== 'SECTION') issues.push('location-hours-not-static-section');
+      if (groups.length !== 2 || visibleGroups.length !== 2) issues.push('location-hours-groups-not-visible');
       if (hours.length !== 4 || visibleHours.length !== 4) issues.push('location-hours-not-permanently-visible');
       if (panel?.querySelector('details, summary, button')) issues.push('location-hours-disclosure-control-present');
       return {
         panelTag: panel?.tagName || '',
+        groupCount: groups.length,
+        visibleGroupCount: visibleGroups.length,
         hourCount: hours.length,
         visibleHourCount: visibleHours.length,
         hasDisclosureControl: Boolean(panel?.querySelector('details, summary, button')),

@@ -82,7 +82,8 @@ describe("homepage React integration", () => {
     assert.match(source, /real-map-card__overview/);
     assert.match(source, /google\.com\/maps\/search/);
     assert.match(source, /<section className="location-hours-panel"/);
-    assert.match(source, /<HourItem key=\{hour\} hour=\{hour\}/);
+    assert.match(source, /<ScheduleGroup key=\{group\.label\} group=\{group\}/);
+    assert.match(source, /data-schedule-slot/);
     assert.doesNotMatch(source, /<details|<summary|location-hours-panel__toggle/);
     assert.match(sections, /!?\["pending", "online"\]\.includes\(location\.status\)/);
     assert.doesNotMatch(sections, /\{online \? <LocationRow/);

@@ -7773,6 +7773,55 @@ textarea {
   }
 }
 
+.home-page #sedes .location-hours-panel__group {
+  display: grid;
+  min-width: 0;
+  gap: 7px;
+}
+
+.home-page #sedes .location-hours-panel__group + .location-hours-panel__group {
+  padding-left: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.home-page #sedes .location-hours-panel__group > strong {
+  color: #d9b45d;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.home-page #sedes .location-hours-panel__group dl {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+}
+
+.home-page #sedes .location-hours-panel__slot {
+  display: grid;
+  min-width: 0;
+  gap: 1px;
+}
+
+.home-page #sedes .location-hours-panel__slot dt {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.home-page #sedes .location-hours-panel__slot dd {
+  margin: 0;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .home-page .real-map-card__stage,
   .home-page .real-map-pin,
