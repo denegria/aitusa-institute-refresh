@@ -1,14 +1,10 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import vm from "node:vm";
 import { describe, it } from "node:test";
+import { siteData } from "../src/content.js";
 
 async function loadSiteData() {
-  const source = await readFile("src/content.js", "utf8");
-  const context = { window: {} };
-  vm.createContext(context);
-  vm.runInContext(source, context, { filename: "src/content.js" });
-  return context.window.AITUSA_DATA;
+  return siteData;
 }
 
 describe("homepage Method story", () => {
@@ -17,11 +13,11 @@ describe("homepage Method story", () => {
 
     assert.equal(
       methodNarrative.video,
-      "./public/assets/wix/videos/intro-video-great.mp4",
+      "/assets/wix/videos/intro-video-great.mp4",
     );
     assert.equal(
       methodNarrative.videoPoster,
-      "./public/assets/wix/videos/posters/intro-video-great.jpg",
+      "/assets/wix/videos/posters/intro-video-great.jpg",
     );
     assert.equal(methodNarrative.videoLabel, "Conoce el método completo · 1:45");
     assert.equal(
@@ -51,53 +47,56 @@ describe("homepage Method story", () => {
   });
 
   it("renders one accessible video with an adjacent written summary", async () => {
-    const source = await readFile("src/main.js", "utf8");
-    const method = source.slice(
-      source.indexOf("function renderSolutionSection"),
-      source.indexOf("function renderOfferingPathSection"),
+    const interactiveSource = await readFile("app/_components/site/InteractiveSections.jsx", "utf8");
+    const source = interactiveSource.slice(
+      interactiveSource.indexOf("export function MethodVideo"),
+      interactiveSource.indexOf("export function ProofStories"),
     );
+    const sections = await readFile("app/_components/site/PublicSections.jsx", "utf8");
+    const method = `${source}\n${sections}`;
     const videoMarkup = method.slice(method.indexOf("<video"), method.indexOf("</video>"));
 
     assert.equal((method.match(/<video/g) || []).length, 1);
-    assert.match(method, /class="method-editorial__video"/);
-    assert.match(method, /data-method-video/);
-    assert.match(method, /class="method-reasons"/);
+    assert.match(method, /className="method-editorial__video"/);
+    assert.match(method, /className="method-reasons"/);
     assert.match(method, /aria-label="Resumen del método en tres razones"/);
-    assert.match(method, /<ul class="method-reasons"/);
-    assert.match(method, /class="method-reason__icon"/);
+    assert.match(method, /<ul className="method-reasons"/);
+    assert.match(method, /className="method-reason__icon"/);
     assert.match(method, /data-lucide=/);
     assert.match(method, /aria-hidden="true"/);
     assert.doesNotMatch(method, /method-reason__number/);
     assert.doesNotMatch(method, /<ol class="method-reasons"/);
-    assert.match(method, /methodNarrative\.video/);
+    assert.match(method, /narrative\.video/);
     assert.doesNotMatch(method, /role="tablist"/);
     assert.doesNotMatch(method, /role="tab"/);
     assert.doesNotMatch(method, /role="tabpanel"/);
     assert.doesNotMatch(method, /autoplay/);
     assert.doesNotMatch(method, /muted/);
     assert.doesNotMatch(videoMarkup, /playsinline/);
-    assert.doesNotMatch(source, /function initMethodTabs/);
+    assert.doesNotMatch(source, /initMethodTabs/);
     assert.doesNotMatch(source, /video\.play\(\)/);
-    assert.match(source, /function initMethodVideo/);
+    assert.match(source, /function MethodVideo/);
     assert.match(source, /video\.webkitEnterFullscreen\(\)/);
-    assert.match(source, /video\.requestFullscreen\(\)/);
-    assert.match(source, /video\.addEventListener\("play", enterMobileFullscreen\)/);
+    assert.match(source, /video\.requestFullscreen/);
+    assert.match(source, /onPlay=\{enterMobileFullscreen\}/);
   });
 
   it("does not render the former short duplicate or third characteristic video", async () => {
-    const source = await readFile("src/main.js", "utf8");
-    const method = source.slice(
-      source.indexOf("function renderSolutionSection"),
-      source.indexOf("function renderOfferingPathSection"),
-    );
+    const method = [
+      await readFile("app/_components/site/InteractiveSections.jsx", "utf8"),
+      await readFile("app/_components/site/PublicSections.jsx", "utf8"),
+    ].join("\n");
 
     assert.doesNotMatch(method, /differenceVideo|what-makes-us-different/);
     assert.doesNotMatch(method, /thirdCharacteristicVideo|third-characteristic/);
-    assert.equal((method.match(/asset\(methodNarrative\.video\)/g) || []).length, 1);
+    assert.equal((method.match(/narrative\.video\}/g) || []).length, 1);
   });
 
   it("preserves the approved editorial hierarchy without decorative tab chrome", async () => {
-    const source = await readFile("src/main.js", "utf8");
+    const source = [
+      await readFile("app/_components/site/PublicSections.jsx", "utf8"),
+      await readFile("app/_components/site/InteractiveSections.jsx", "utf8"),
+    ].join("\n");
     const styles = await readFile("src/styles.css", "utf8");
 
     assert.match(source, /Método Graphic Concept/);

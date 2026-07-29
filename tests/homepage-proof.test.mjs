@@ -1,14 +1,10 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import vm from "node:vm";
 import { describe, it } from "node:test";
+import { siteData } from "../src/content.js";
 
 async function loadSiteData() {
-  const source = await readFile("src/content.js", "utf8");
-  const context = { window: {} };
-  vm.createContext(context);
-  vm.runInContext(source, context, { filename: "src/content.js" });
-  return context.window.AITUSA_DATA;
+  return siteData;
 }
 
 describe("homepage Prueba real gallery", () => {
@@ -21,27 +17,23 @@ describe("homepage Prueba real gallery", () => {
     assert.equal(testimonials.find((item) => item.name === "Jessica")?.duration, "2:52");
 
     for (const item of testimonials) {
-      assert.match(item.video, /^\.\/public\/assets\/wix\/videos\/.+\.mp4$/);
-      assert.match(item.videoPoster, /^\.\/public\/assets\/wix\/videos\/posters\/.+\.jpg$/);
+      assert.match(item.video, /^\/assets\/wix\/videos\/.+\.mp4$/);
+      assert.match(item.videoPoster, /^\/assets\/wix\/videos\/posters\/.+\.jpg$/);
     }
   });
 
   it("renders a scalable story shelf with a no-JS video fallback", async () => {
-    const source = await readFile("src/main.js", "utf8");
-    const proofSection = source.slice(
-      source.indexOf("function renderProofSection"),
-      source.indexOf("function renderFinalCtaSection"),
-    );
+    const proofSection = await readFile("app/_components/site/InteractiveSections.jsx", "utf8");
 
-    assert.match(proofSection, /data-proof-shelf/);
-    assert.match(proofSection, /data-proof-rail/);
+    assert.match(proofSection, /function ProofStories/);
+    assert.match(proofSection, /className="proof-shelf__rail"/);
     assert.match(proofSection, /role="list"/);
     assert.match(proofSection, /role="listitem"/);
     assert.match(proofSection, /aria-haspopup="dialog"/);
-    assert.match(proofSection, /href="\$\{asset\(item\.video\)\}"/);
+    assert.match(proofSection, /href=\{item\.video\}/);
     assert.match(proofSection, /<dialog/);
-    assert.match(proofSection, /data-proof-dialog-video/);
-    assert.match(proofSection, /const fillsDesktopRow = orderedTestimonials\.length === 3/);
+    assert.match(proofSection, /<video/);
+    assert.match(proofSection, /ordered\.length === 3/);
     assert.match(proofSection, /proof-editorial--complete-row/);
     assert.doesNotMatch(proofSection, /slice\(0,\s*3\)/);
     assert.doesNotMatch(proofSection, /Tres historias/);
@@ -50,14 +42,13 @@ describe("homepage Prueba real gallery", () => {
   });
 
   it("supports rail and dialog navigation without autoplay", async () => {
-    const source = await readFile("src/main.js", "utf8");
+    const source = await readFile("app/_components/site/InteractiveSections.jsx", "utf8");
 
-    assert.match(source, /function initProofShelf/);
-    assert.match(source, /scrollBy\(\{ left: distance \* direction, behavior: "smooth" \}\)/);
+    assert.match(source, /function ProofStories/);
+    assert.match(source, /rail\.scrollBy/);
     assert.match(source, /dialog\.showModal\(\)/);
-    assert.match(source, /dialogVideo\.pause\(\)/);
-    assert.match(source, /dialogVideo\.load\(\)/);
-    assert.match(source, /lastTrigger\?\.focus\(\)/);
+    assert.match(source, /video\?\.pause\(\)/);
+    assert.match(source, /triggerRef\.current\?\.focus\(\)/);
     assert.doesNotMatch(source, /video\.play\(\)/);
   });
 

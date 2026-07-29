@@ -1,4 +1,4 @@
-﻿const asset = (name) => `./public/assets/wix/${name}`;
+﻿const asset = (name) => `/assets/wix/${name}`;
 const assetHires = (name) => asset(`hires/${name}`);
 const assetVideo = (name) => asset(`videos/${name}`);
 const assetVideoPoster = (name) => asset(`videos/posters/${name}`);
@@ -110,7 +110,7 @@ const site = {
   },
   images: {
     logo: asset("076-solo-logo-4-x-4-clases1.png"),
-    approvedHero: "./public/assets/hero/approved-concept-1-clean.png",
+    approvedHero: "/assets/hero/approved-concept-1-clean.png",
     hero: assetHires("graphic-concept-method.jpg"),
     heroPoster: assetHires("graphic-concept-method.jpg"),
     heroVideo: assetVideo("intro-video-great.mp4"),
@@ -1654,7 +1654,7 @@ const placementTest = {
   ],
 };
 
-window.AITUSA_DATA = {
+export const siteData = {
   painHero,
   methodNarrative,
   solutionCharacteristics,
@@ -1691,3 +1691,47 @@ window.AITUSA_DATA = {
   footerFacts,
   courseGuides,
 };
+
+if (typeof window !== "undefined") {
+  window.AITUSA_DATA = siteData;
+}
+
+export {
+  contactPrep,
+  conversionCtas,
+  courseCatalog,
+  courseGuides,
+  differentiators,
+  downloads,
+  faqs,
+  footerFacts,
+  heroHighlights,
+  heroPoints,
+  heroProof,
+  heroQuickCapture,
+  heroSignal,
+  heroStartPath,
+  heroVideoHighlights,
+  launchPath,
+  learningOutcomes,
+  locations,
+  methodBlocks,
+  methodCharacteristics,
+  methodNarrative,
+  modalities,
+  nav,
+  painHero,
+  placementTest,
+  productOfferings,
+  programs,
+  requirements,
+  schedules,
+  site,
+  solutionCharacteristics,
+  stats,
+  testimonials,
+  trustFeature,
+  trustHighlights,
+};
+
+export default siteData;

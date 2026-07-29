@@ -1,5 +1,5 @@
-import { mkdir, readFile, writeFile, rm } from "node:fs/promises";
-import { existsSync, statSync } from "node:fs";
+import { mkdir, writeFile, rm } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { createServer } from "node:http";
 import path from "node:path";
 import { spawn } from "node:child_process";
@@ -26,48 +26,7 @@ if (!chrome) {
 await mkdir(screenshotsDir, { recursive: true });
 await rm(profileDir, { recursive: true, force: true });
 
-const types = {
-  ".css": "text/css; charset=utf-8",
-  ".html": "text/html; charset=utf-8",
-  ".js": "text/javascript; charset=utf-8",
-  ".json": "application/json; charset=utf-8",
-  ".txt": "text/plain; charset=utf-8",
-  ".webmanifest": "application/manifest+json; charset=utf-8",
-  ".xml": "application/xml; charset=utf-8",
-  ".png": "image/png",
-  ".jpg": "image/jpeg",
-  ".jpeg": "image/jpeg",
-  ".mp4": "video/mp4",
-  ".webm": "video/webm",
-};
-
-const appServer = createServer(async (request, response) => {
-  const url = new URL(request.url, "http://127.0.0.1");
-  const requested = decodeURIComponent(url.pathname === "/" ? "/index.html" : url.pathname);
-  const routeFallback =
-    /^\/placement-test\/?$/.test(requested) ||
-    /^\/placement-test\/index\.html$/.test(requested) ||
-    /^\/cursos\/[^/]+\/?$/.test(requested) ||
-    /^\/cursos\/[^/]+\/index\.html$/.test(requested);
-  const target = path.resolve(root, routeFallback ? "./index.html" : `.${requested}`);
-
-  if (!target.startsWith(root) || !existsSync(target) || !statSync(target).isFile()) {
-    response.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
-    response.end("Not found");
-    return;
-  }
-
-  const body = await readFile(target);
-  response.writeHead(200, {
-    "content-type": types[path.extname(target).toLowerCase()] || "application/octet-stream",
-    "content-length": body.length,
-  });
-  response.end(body);
-});
-
-await new Promise((resolve) => appServer.listen(0, "127.0.0.1", resolve));
-const appPort = appServer.address().port;
-const appUrl = `http://127.0.0.1:${appPort}/index.html`;
+const appUrl = process.env.VERIFY_BASE_URL || "http://127.0.0.1:4173/";
 
 const getOpenPort = async () => {
   const probe = createServer();
@@ -270,17 +229,12 @@ const waitForAppReady = async () => {
   while (Date.now() < deadline) {
     try {
       lastState = await evaluate(`(() => {
-        const app = document.querySelector('#app');
         return {
           readyState: document.readyState,
           location: location.href,
           title: document.title,
           bodyLength: document.body?.innerHTML?.length || 0,
           scripts: [...document.scripts].map((script) => script.src || script.type || "inline").slice(-4),
-          aitData: Boolean(window.AITUSA_DATA),
-          aitProgramCount: window.AITUSA_DATA?.programs?.length || 0,
-          appChildren: app?.children?.length || 0,
-          appTextLength: app?.innerText?.length || 0,
           h1: document.querySelector('h1')?.innerText || null,
           programs: document.querySelectorAll('.program-card').length,
           offerNodes: document.querySelectorAll('.offer-node').length,
@@ -946,12 +900,13 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
 
     await evaluate(`document.querySelector('[data-proof-story]')?.click()`);
     await sleep(250);
-    proofDialogCheck = await evaluate(`(() => {
+    proofDialogCheck = await evaluate(`(async () => {
       const dialog = document.querySelector('[data-proof-dialog]');
       const video = document.querySelector('[data-proof-dialog-video]');
       const title = document.querySelector('[data-proof-dialog-title]');
       const firstTitle = title?.innerText || '';
       document.querySelector('[data-proof-dialog-next]')?.click();
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
       const nextTitle = title?.innerText || '';
       const issues = [];
       if (!dialog?.open) issues.push('dialog-did-not-open');
@@ -1262,7 +1217,8 @@ const verifyPlacementRoute = async () => {
     externalGoogleRefs: document.body.innerHTML.includes('docs.google.com') || document.body.innerText.includes('Google Form'),
   }))()`);
 
-  await evaluate(`(() => {
+  await evaluate(`(async () => {
+    const nextFrame = () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     const form = document.querySelector('[data-placement-form]');
     form.querySelector('[name="name"]').value = 'Maria Lopez';
     form.querySelector('[name="phone"]').value = '+17325550123';
@@ -1273,15 +1229,19 @@ const verifyPlacementRoute = async () => {
       form.querySelector(\`input[name="\${name}"][value="2"]\`).checked = true;
     });
     form.querySelector('[data-placement-next]').click();
+    await nextFrame();
     form.querySelector('[data-placement-next]').click();
+    await nextFrame();
     [...form.querySelectorAll('.quiz-card')].forEach((card) => {
       const correct = [...card.querySelectorAll('input')].find((input) => input.value === '1');
       (correct || card.querySelector('input')).checked = true;
     });
     form.querySelector('[data-placement-next]').click();
+    await nextFrame();
     form.querySelector('[name="writingSample"]').value = 'Bill is stronger than Jack. Jack is thinner than Bill. Both men are different.';
     form.querySelector('input[name="goal"]').checked = true;
     form.querySelector('[data-placement-next]').click();
+    await nextFrame();
   })()`);
 
   await waitForSelector("[data-placement-result] h3");
@@ -1322,18 +1282,126 @@ const verifyPlacementRoute = async () => {
   return { ...initial, screenshot, ...result };
 };
 
+const verifyPublicShellRoute = async ({
+  name,
+  route,
+  expectedHeading,
+  width = 1280,
+  height = 900,
+  mobile = false,
+  screenshot = false,
+  expectContactForm = false,
+  expectLegalToc = false,
+}) => {
+  console.log(`Checking ${name}...`);
+  await send("Emulation.setDeviceMetricsOverride", {
+    width,
+    height,
+    deviceScaleFactor: mobile ? 2 : 1,
+    mobile,
+  });
+
+  const loaded = waitForLoad();
+  const routeUrl = new URL(route, appUrl).toString();
+  const nav = await send("Page.navigate", { url: routeUrl }, 30000);
+  if (nav.errorText && nav.errorText !== "net::ERR_ABORTED") {
+    throw new Error(`${name} navigation failed: ${nav.errorText}`);
+  }
+  await loaded;
+  await waitForSelector("#main-content h1");
+  await sleep(300);
+
+  let screenshotPath = null;
+  if (screenshot) {
+    await stabilizeViewport();
+    const shot = await captureViewport(name);
+    screenshotPath = path.join(screenshotsDir, `${name}.png`);
+    await writeFile(screenshotPath, Buffer.from(shot.data, "base64"));
+  }
+
+  const result = await evaluate(`(() => {
+    const overflowing = [...document.querySelectorAll('body *')]
+      .filter((el) => el.scrollWidth > el.clientWidth + 2 && getComputedStyle(el).overflowX === 'visible')
+      .slice(0, 12)
+      .map((el) => ({
+        tag: el.tagName.toLowerCase(),
+        id: el.id || null,
+        className: typeof el.className === 'string' ? el.className : null,
+        text: (el.innerText || el.alt || '').trim().slice(0, 90),
+        scrollWidth: el.scrollWidth,
+        clientWidth: el.clientWidth,
+      }));
+    return {
+      location: location.href,
+      title: document.title,
+      heading: document.querySelector('#main-content h1')?.innerText || '',
+      sharedHeader: document.querySelectorAll('.site-header').length,
+      sharedFooter: document.querySelectorAll('.site-footer').length,
+      hasSkipLink: Boolean(document.querySelector('.skip-link[href="#main-content"]')),
+      hasContactForm: Boolean(document.querySelector('[data-lead-form]')),
+      hasOptionalSmsConsent: Boolean(document.querySelector('[name="smsConsent"]:not([required])')),
+      hasLegalToc: Boolean(document.querySelector('[aria-label^="Contenido de"]')),
+      overflowing,
+    };
+  })()`);
+
+  if (result.heading !== expectedHeading) {
+    throw new Error(`${name} heading mismatch: ${JSON.stringify(result.heading)}`);
+  }
+  if (result.sharedHeader !== 1 || result.sharedFooter !== 1 || !result.hasSkipLink) {
+    throw new Error(`${name} does not use the shared public shell: ${JSON.stringify(result)}`);
+  }
+  if (expectContactForm && (!result.hasContactForm || !result.hasOptionalSmsConsent)) {
+    throw new Error(`${name} contact form contract is incomplete: ${JSON.stringify(result)}`);
+  }
+  if (expectLegalToc && !result.hasLegalToc) {
+    throw new Error(`${name} legal table of contents is missing: ${JSON.stringify(result)}`);
+  }
+  if (result.overflowing.length) {
+    throw new Error(`${name} has horizontal overflow: ${JSON.stringify(result.overflowing)}`);
+  }
+
+  return { name, screenshot: screenshotPath, ...result };
+};
+
 const results = [];
 const heroOnly = process.env.VERIFY_HERO_ONLY === "1";
 const skipHero = process.env.VERIFY_SKIP_HERO === "1";
 const auditOnly = process.env.VERIFY_AUDIT_ONLY === "1";
 const mobileOnly = process.env.VERIFY_MOBILE_ONLY === "1";
 const desktopOnly = process.env.VERIFY_DESKTOP_ONLY === "1";
+const routesOnly = process.env.VERIFY_ROUTES_ONLY === "1";
 try {
-  if (!auditOnly && !skipHero && !mobileOnly && !desktopOnly) {
+  if (!auditOnly && !skipHero && !mobileOnly && !desktopOnly && !routesOnly) {
     results.push(await verifyHeroViewport({ name: "hero-reference-1904x950", width: 1904, height: 950 }));
     results.push(await verifyHeroViewport({ name: "hero-short-1867x847", width: 1867, height: 847 }));
   }
-  if (desktopOnly) {
+  if (routesOnly) {
+    results.push(await verifyCourseRoute());
+    results.push(await verifyPlacementRoute());
+    results.push(await verifyPublicShellRoute({
+      name: "contact-route-mobile",
+      route: "/contactanos",
+      expectedHeading: "Cuéntanos qué necesitas.",
+      width: 390,
+      height: 844,
+      mobile: true,
+      screenshot: true,
+      expectContactForm: true,
+    }));
+    results.push(await verifyPublicShellRoute({
+      name: "privacy-route",
+      route: "/privacy-policy",
+      expectedHeading: "Política de Privacidad",
+      expectLegalToc: true,
+    }));
+    results.push(await verifyPublicShellRoute({
+      name: "terms-route",
+      route: "/terms-and-conditions",
+      expectedHeading: "Términos y Condiciones",
+      expectLegalToc: true,
+    }));
+  } else if (desktopOnly) {
     results.push(await verifyViewport({ name: "desktop-home-1920x1080", width: 1920, height: 1080, mobile: false }));
     results.push(await verifyViewport({ name: "desktop-home-1536x864", width: 1536, height: 864, mobile: false }));
     results.push(await verifyViewport({ name: "desktop-home-1440x900", width: 1440, height: 900, mobile: false }));
@@ -1358,7 +1426,6 @@ try {
 } finally {
   socket.close();
   browser.kill();
-  appServer.close();
 }
 
 await writeFile(

@@ -1,17 +1,9 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
-import vm from "node:vm";
+import { siteData as data } from "../src/content.js";
 
 const root = process.cwd();
-const contentPath = path.join(root, "src", "content.js");
 const assetRoot = path.join(root, "public", "assets");
-
-const source = readFileSync(contentPath, "utf8");
-const context = { window: {} };
-vm.createContext(context);
-vm.runInContext(source, context, { filename: "src/content.js" });
-
-const data = context.window.AITUSA_DATA || {};
 const textExtensions = new Set([
   ".css",
   ".html",
@@ -33,7 +25,6 @@ const ignoredDirectoryNames = new Set([
   "node_modules",
   "out",
 ]);
-const preloadTagPattern = /<link\b[^>]*\brel=["']preload["'][^>]*>/gi;
 
 const walkFiles = (directory) =>
   readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -91,8 +82,6 @@ const runtimeTextFiles = walkFiles(root).filter((file) => {
   }
 
   return (
-    relative === "index.html" ||
-    relative === "site.webmanifest" ||
     relative.startsWith("app/") ||
     relative.startsWith("src/") ||
     relative.startsWith("public/")
@@ -110,13 +99,7 @@ const assetFiles = walkFiles(assetRoot).map((file) => ({
 
 const runtimeTexts = runtimeTextFiles.map((file) => {
   const relative = path.relative(root, file).split(path.sep).join("/");
-  const sourceText = readFileSync(file, "utf8");
-  return {
-    file,
-    text: relative === "index.html"
-      ? sourceText.replace(preloadTagPattern, "")
-      : sourceText,
-  };
+  return { file, text: readFileSync(file, "utf8") };
 });
 
 for (const { text } of runtimeTexts) {
@@ -133,23 +116,8 @@ const orphaned = assetFiles
   .filter((asset) => !liveRefs.has(asset.relative))
   .sort((left, right) => statSync(right.absolute).size - statSync(left.absolute).size);
 
-const indexSource = readFileSync(path.join(root, "index.html"), "utf8");
-const preloadTags = indexSource.match(preloadTagPattern) || [];
-const nonPreloadIndex = indexSource.replace(preloadTagPattern, "");
-const preloadOnly = preloadTags
-  .map((tag) => tag.match(/\bhref=["']([^"']+)["']/i)?.[1])
-  .map(normalizeAssetRef)
-  .filter(Boolean)
-  .filter((ref) => {
-    const short = ref.replace(/^public\//, "");
-    return !nonPreloadIndex.includes(ref) &&
-      !nonPreloadIndex.includes(short) &&
-      ![...liveRefs].some((liveRef) => liveRef === ref);
-  })
-  .sort();
-
 console.log(
-  `asset refs ${liveRefs.size} missing ${missing.length} orphaned ${orphaned.length} preload-only ${preloadOnly.length}`,
+  `asset refs ${liveRefs.size} missing ${missing.length} orphaned ${orphaned.length}`,
 );
 
 if (missing.length) {
@@ -164,11 +132,6 @@ if (orphaned.length) {
   }
 }
 
-if (preloadOnly.length) {
-  console.log("\nPreloaded but not rendered:");
-  console.log(preloadOnly.join("\n"));
-}
-
-if (missing.length || orphaned.length || preloadOnly.length) {
+if (missing.length || orphaned.length) {
   process.exit(1);
 }

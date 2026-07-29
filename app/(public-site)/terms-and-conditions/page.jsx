@@ -1,5 +1,5 @@
-import { LegalPage } from "../_components/LegalPage.jsx";
-import { termsAndConditions } from "../../src/legal/publicLegalContent.js";
+import { LegalPage } from "../../_components/LegalPage.jsx";
+import { termsAndConditions } from "../../../src/legal/publicLegalContent.js";
 
 export const metadata = {
   title: "Términos y Condiciones | AIT USA Institute",

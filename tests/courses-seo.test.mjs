@@ -1,42 +1,34 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { readFile } from "node:fs/promises";
-import { promisify } from "node:util";
 import { describe, it } from "node:test";
+import { programs } from "../src/content.js";
 
-const execFileAsync = promisify(execFile);
+describe("MIS-264 native React course routes", () => {
+  it("defines catalog metadata and a native App Router page", async () => {
+    const source = await readFile("app/(public-site)/courses/page.jsx", "utf8");
+    assert.match(source, /Cursos AiT USA Institute \| Catálogo detallado/);
+    assert.match(source, /canonical: "\/courses\/"/);
+    assert.match(source, /Explora el catálogo detallado de inglés, GED, computación/);
+    assert.match(source, /<CoursesPage/);
+  });
 
-describe("MIS-264 course route metadata generation", () => {
-  it("generates course catalog and detail HTML with route-specific SEO metadata", async () => {
-    await execFileAsync("node", ["scripts/prepare-next-legacy.mjs"]);
+  it("statically generates every course with route-specific metadata and schema", async () => {
+    const route = await readFile("app/(public-site)/courses/[slug]/page.jsx", "utf8");
+    const shell = await readFile("app/_components/site/CoursesPage.jsx", "utf8");
 
-    const coursesHtml = await readFile("public/legacy/courses/index.html", "utf8");
-    assert.match(coursesHtml, /<title>Cursos AiT USA Institute \| Catálogo detallado<\/title>/);
-    assert.match(coursesHtml, /<link rel="canonical" href="https:\/\/www\.aitusainstitute\.com\/courses\/" \/>/);
-    assert.match(coursesHtml, /Explora el catálogo detallado de inglés, GED, computación/);
+    assert.match(route, /generateStaticParams/);
+    assert.match(route, /programs\.map/);
+    assert.match(route, /generateMetadata/);
+    assert.match(route, /"@type": "Course"/);
+    assert.match(route, /dangerouslySetInnerHTML/);
+    assert.match(shell, /`\$\{program\.title\} \| Cursos AiT USA Institute`/);
+    assert.match(shell, /canonical: `\/courses\/\$\{program\.slug\}\/`/);
+    assert.equal(programs.length, 9);
+  });
 
-    const detailHtml = await readFile(
-      "public/legacy/courses/ingles-jovenes-adultos/index.html",
-      "utf8",
-    );
-    assert.match(
-      detailHtml,
-      /<title>Inglés para jóvenes y adultos \| Cursos AiT USA Institute<\/title>/,
-    );
-    assert.match(
-      detailHtml,
-      /<link rel="canonical" href="https:\/\/www\.aitusainstitute\.com\/courses\/ingles-jovenes-adultos\/" \/>/,
-    );
-    assert.match(detailHtml, /"@type": "Course"/);
-    assert.match(detailHtml, /"name": "Inglés para jóvenes y adultos"/);
-
-    const spanishAliasHtml = await readFile(
-      "public/legacy/cursos/ingles-jovenes-adultos/index.html",
-      "utf8",
-    );
-    assert.match(
-      spanishAliasHtml,
-      /<link rel="canonical" href="https:\/\/www\.aitusainstitute\.com\/courses\/ingles-jovenes-adultos\/" \/>/,
-    );
+  it("keeps Spanish aliases canonical by redirecting to the English route family", async () => {
+    const alias = await readFile("app/(public-site)/cursos/[slug]/page.jsx", "utf8");
+    assert.match(alias, /permanentRedirect/);
+    assert.match(alias, /`\/courses\/\$\{slug\}\/`/);
   });
 });

@@ -1,14 +1,10 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import vm from "node:vm";
 import { describe, it } from "node:test";
+import { siteData } from "../src/content.js";
 
 async function loadSiteData() {
-  const source = await readFile("src/content.js", "utf8");
-  const context = { window: {} };
-  vm.createContext(context);
-  vm.runInContext(source, context, { filename: "src/content.js" });
-  return context.window.AITUSA_DATA;
+  return siteData;
 }
 
 describe("MIS-267 content hygiene", () => {
@@ -95,7 +91,10 @@ describe("MIS-267 content hygiene", () => {
       /sitio original|página (?:original|pública)|contenido original|capturad[oa]|producto Wix|esta versión|estructura recuperada|lo que comunica|llave académica/i,
     );
 
-    const renderedSource = await readFile("src/main.js", "utf8");
+    const renderedSource = [
+      await readFile("app/_components/site/PublicSections.jsx", "utf8"),
+      await readFile("app/_components/site/PlacementExperience.jsx", "utf8"),
+    ].join("\n");
     assert.doesNotMatch(
       renderedSource,
       /llave de respuestas|pendiente de revisión académica|sin salir de esta sección|antes de escribir/i,

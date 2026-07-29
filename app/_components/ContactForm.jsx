@@ -101,7 +101,7 @@ export function ContactForm() {
   }
 
   return (
-    <form className={styles.contactForm} onSubmit={handleSubmit} noValidate={false}>
+    <form className={styles.contactForm} data-lead-form onSubmit={handleSubmit} noValidate={false}>
       <div className={styles.formGrid}>
         <label>
           Nombre completo

@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { LEGAL_EFFECTIVE_DATE_ES } from "../../src/legal/publicLegalContent.js";
-import { PublicFooter, PublicHeader } from "./PublicChrome.jsx";
+import { SiteFooter, SiteHeader } from "./site/SiteChrome.jsx";
 import styles from "./public.module.css";
 
 export function LegalPage({ policy }) {
   return (
     <div className={styles.pageShell}>
-      <PublicHeader />
-      <main className={styles.legalMain}>
+      <SiteHeader activePage="legal" />
+      <main id="main-content" className={styles.legalMain}>
         <header className={styles.legalHero}>
           <p className={styles.eyebrow}>{policy.eyebrow}</p>
           <h1>{policy.title}</h1>
@@ -64,7 +64,7 @@ export function LegalPage({ policy }) {
           </article>
         </div>
       </main>
-      <PublicFooter />
+      <SiteFooter />
     </div>
   );
 }

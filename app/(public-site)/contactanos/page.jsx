@@ -1,6 +1,6 @@
-import { ContactForm } from "../_components/ContactForm.jsx";
-import { PublicFooter, PublicHeader } from "../_components/PublicChrome.jsx";
-import styles from "../_components/public.module.css";
+import { ContactForm } from "../../_components/ContactForm.jsx";
+import { SiteFooter, SiteHeader } from "../../_components/site/SiteChrome.jsx";
+import styles from "../../_components/public.module.css";
 
 export const metadata = {
   title: "Contáctanos | AIT USA Institute",
@@ -12,8 +12,8 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <div className={styles.pageShell}>
-      <PublicHeader />
-      <main className={styles.contactMain}>
+      <SiteHeader activePage="contact" />
+      <main id="main-content" className={styles.contactMain}>
         <div className={styles.contactLayout}>
           <section className={styles.contactIntro}>
             <p className={styles.eyebrow}>Respuesta humana</p>
@@ -31,7 +31,7 @@ export default function ContactPage() {
           <ContactForm />
         </div>
       </main>
-      <PublicFooter />
+      <SiteFooter />
     </div>
   );
 }
