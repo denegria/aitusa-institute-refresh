@@ -149,49 +149,46 @@ function LocationRow({ location, index }) {
   const statusLabel = {
     active: location.note?.includes("principal") ? "Principal" : "Presencial",
     limited: "Con cita",
-    online: "Online",
     pending: "Pendiente / no activa",
   };
   const limited = location.status === "limited";
-  const online = location.status === "online";
-  const id = location.mapKey || "online";
+  const id = location.mapKey;
   const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.address)}`;
   const href = limited
     ? `${site.whatsappHref}?text=${encodeURIComponent(`Hola AIT USA, quiero consultar la atención con cita previa en ${location.city}.`)}`
-    : online ? "/courses/#ingles-online" : mapsHref;
-  const shortCity = online ? "Clases online" : location.city.split(",")[0];
+    : mapsHref;
+  const shortCity = location.city.split(",")[0];
   const supportingText = limited
     ? "Atención disponible con coordinación previa"
-    : online ? "Disponible según nivel y zona horaria" : location.address;
-  const actionLabel = limited ? "Consultar" : online ? "Ver online" : "Cómo llegar";
+    : location.address;
+  const actionLabel = limited ? "Consultar" : "Cómo llegar";
 
   return (
     <a
       className={`compact-location-row compact-location-row--${location.status || "active"}`}
       id={`sede-${id}`}
       href={href}
-      target={limited || !online ? "_blank" : undefined}
-      rel={limited || !online ? "noreferrer" : undefined}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`${actionLabel}: ${shortCity}. ${supportingText}`}
     >
       <span className="compact-location-row__number" aria-hidden="true">
-        {online ? <i data-lucide="monitor" /> : String(index + 1).padStart(2, "0")}
+        {String(index + 1).padStart(2, "0")}
       </span>
       <span className="compact-location-row__copy">
         <span><strong>{shortCity}</strong><em>{statusLabel[location.status] || "Sede"}</em></span>
         <small>{supportingText}</small>
       </span>
       <span className="compact-location-row__action">
-        {actionLabel}<i data-lucide={online ? "arrow-right" : "navigation"} aria-hidden="true" />
+        <span>{actionLabel}</span><i data-lucide="navigation" aria-hidden="true" />
       </span>
     </a>
   );
 }
 
 export function LocationsSection() {
-  const published = locations.filter((location) => location.status !== "pending");
-  const mapped = published.filter((location) => location.status !== "online");
-  const online = published.find((location) => location.status === "online");
-  const hours = published.find((location) => location.status === "active")?.hours || [];
+  const mapped = locations.filter((location) => !["pending", "online"].includes(location.status));
+  const hours = mapped.find((location) => location.status === "active")?.hours || [];
 
   return (
     <section className="section section--white" id="sedes">
@@ -231,16 +228,22 @@ export function LocationsSection() {
           <div className="location-compact-panel">
             <div className="location-compact-list" aria-label="Sedes presenciales en Nueva Jersey">
               {mapped.map((location, index) => <LocationRow key={location.mapKey} location={location} index={index} />)}
-              {online ? <LocationRow location={online} index={mapped.length} /> : null}
             </div>
-            <div className="location-hours-panel">
-              <div className="location-hours-panel__heading">
-                <span className="location-hours-panel__icon"><i data-lucide="clock-3" aria-hidden="true" /></span>
-                <div><p className="eyebrow-chip">Horarios publicados</p><h3>Bound Brook · Plainfield · Piscataway</h3></div>
+            <details className="location-hours-panel">
+              <summary className="location-hours-panel__summary">
+                <span className="location-hours-panel__heading">
+                  <span className="location-hours-panel__icon"><i data-lucide="clock-3" aria-hidden="true" /></span>
+                  <span><span className="eyebrow-chip">Horarios publicados</span><strong>Bound Brook · Plainfield · Piscataway</strong></span>
+                </span>
+                <span className="location-hours-panel__toggle">
+                  Ver horarios<i data-lucide="chevron-down" aria-hidden="true" />
+                </span>
+              </summary>
+              <div className="location-hours-panel__content">
+                <ul>{hours.map((hour) => <li key={hour}>{hour}</li>)}</ul>
+                <p className="location-hours-panel__note">Los cupos pueden variar. Confirma tu turno antes de inscribirte.</p>
               </div>
-              <ul>{hours.map((hour) => <li key={hour}>{hour}</li>)}</ul>
-              <p className="location-hours-panel__note">Los cupos pueden variar. Confirma tu turno antes de inscribirte.</p>
-            </div>
+            </details>
           </div>
         </div>
       </div>
@@ -250,7 +253,7 @@ export function LocationsSection() {
 
 export function FaqSection() {
   return (
-    <section className="section faq-section">
+    <section className="section faq-section" id="faq">
       <div className="section-inner faq-layout">
         <div className="section-heading section-heading--framed">
           <p className="section-kicker">Preguntas frecuentes</p>

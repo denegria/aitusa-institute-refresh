@@ -11,6 +11,7 @@ const sections = [
   ["Sedes", "sedes"],
   ["Contacto", "contacto"],
 ];
+const readingSectionIds = [...sections.map(([, id]) => id), "faq"];
 
 export function SiteHeader({ activePage = "home" }) {
   const [open, setOpen] = useState(false);
@@ -21,8 +22,8 @@ export function SiteHeader({ activePage = "home" }) {
 
     let frameRequested = false;
     const update = () => {
-      const nodes = sections
-        .map(([, id]) => document.getElementById(id))
+      const nodes = readingSectionIds
+        .map((id) => document.getElementById(id))
         .filter(Boolean)
         .sort((a, b) => a.offsetTop - b.offsetTop);
       if (!nodes.length) return;

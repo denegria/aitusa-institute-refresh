@@ -73,13 +73,16 @@ describe("homepage React integration", () => {
     assert.match(sections, /function MapPin/);
     assert.match(sections, /function LocationRow/);
     assert.match(sections, /google\.com\/maps\/search/);
-    assert.match(sections, /location-hours-panel/);
+    assert.match(sections, /<details className="location-hours-panel">/);
+    assert.match(sections, /!?\["pending", "online"\]\.includes\(location\.status\)/);
+    assert.doesNotMatch(sections, /\{online \? <LocationRow/);
     assert.doesNotMatch(sections, /<iframe|<svg/);
   });
 
   it("tracks active homepage sections and preserves the mobile menu keyboard escape", async () => {
     const { chrome } = await readSources();
     assert.match(chrome, /setActiveSection/);
+    assert.match(chrome, /readingSectionIds[\s\S]*"faq"/);
     assert.match(chrome, /window\.requestAnimationFrame\(update\)/);
     assert.match(chrome, /window\.addEventListener\("scroll"/);
     assert.match(chrome, /aria-current=\{current\}/);
@@ -113,7 +116,7 @@ describe("homepage React integration", () => {
   });
 
   it("shares the desktop chapter grid and exposes mobile lookup content without hidden rails", async () => {
-    const { sections, styles } = await readSources();
+    const { sections, interactive, chrome, styles } = await readSources();
 
     assert.match(
       sections,
@@ -135,5 +138,17 @@ describe("homepage React integration", () => {
       styles,
       /\.home-page #sedes \.location-compact-list\s*\{[\s\S]*display: grid;[\s\S]*overflow-x: visible;[\s\S]*scroll-snap-type: none/,
     );
+    assert.match(interactive, /proof-shelf__heading proof-shelf__heading--mobile-framed/);
+    assert.match(sections, /className="section faq-section" id="faq"/);
+    assert.match(chrome, /readingSectionIds/);
+    assert.match(
+      styles,
+      /Final design-lock polish:[\s\S]*mobile chapter marker[\s\S]*grid-template-areas:\s*"intro intro"\s*"media reasons"/,
+    );
+    assert.match(
+      styles,
+      /:is\(#metodo, #cursos, #sedes, \.faq-section, #contacto\)[\s\S]*linear-gradient\(90deg, #4f84f6, #d9b45d\)/,
+    );
+    assert.match(styles, /\.home-page #sedes \.real-map-card__frame\s*\{[\s\S]*height: 165px/);
   });
 });

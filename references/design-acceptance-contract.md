@@ -13,8 +13,13 @@ action without learning a new visual or scrolling convention in each section.
   horizontal carousel.
 - Keep Method as an editorial copy + portrait-video composition, but place its
   copy on the shared homepage content grid and use the shared framed heading.
+- On mobile, pair Method's portrait video with the three fully visible reasons
+  instead of stacking four full-width blocks.
 - Present mobile study formats, supporting programs, and locations without
   hidden horizontal scrolling.
+- Treat Sedes as a physical-location lookup: show the four New Jersey
+  locations, keep Online in Courses, and place published hours in an explicit
+  native disclosure.
 - Keep the final CTA as a focused two-column conversion block inside the shared
   wide-desktop content grid.
 
@@ -25,6 +30,10 @@ action without learning a new visual or scrolling convention in each section.
 - Preserve Presencial as the visually dominant principal program.
 - Preserve the dark testimonial chapter, its controls, and its dialog.
 - Preserve the Hero composition and approved desktop/mobile variants.
+- Use the same horizontal gradient marker on every mobile chapter intro after
+  the Hero. Method must not retain a mobile vertical rule.
+- Keep the sticky header fully opaque and clear the navigation active state
+  while the unlisted FAQ chapter is the reading section.
 - Do not touch production, CRM writes, portal behavior, or Study Buddy behavior.
 
 ## Non-goals
@@ -49,6 +58,13 @@ action without learning a new visual or scrolling convention in each section.
   portrait and centered.
 - Mobile informational/lookup sections expose all options vertically or through
   wrapping; only testimonial stories retain a horizontal rail.
+- Method and Sedes stay within one compact-mobile viewport plus a small
+  readability allowance; neither may regain a hidden rail or remove content to
+  meet the height target.
+- Published hours remain complete and legible at 14px or larger when expanded;
+  the disclosure summary is at least 44px tall.
+- Desktop Method H2 stays at or below 1.22× the Hero H1, preserving emphasis
+  without overtaking the page title.
 - No page-level horizontal overflow.
 - Mobile targets remain at least 44px where the existing interaction contract
   requires it.
@@ -61,6 +77,9 @@ action without learning a new visual or scrolling convention in each section.
 - Local and live staging screenshots at the primary viewports.
 - DOM measurements confirm aligned desktop grids and no hidden horizontal
   overflow in mobile study, supporting-program, or location content.
+- DOM measurements confirm four physical location rows, a closed-by-default
+  hours disclosure, consistent mobile intro markers, an opaque header, and no
+  stale FAQ navigation state.
 
 This contract supersedes only the prior contract's locked mobile horizontal-card
 behavior. Its study-format content, links, Presencial hierarchy, and restrained

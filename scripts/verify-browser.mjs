@@ -239,10 +239,16 @@ const waitForAppReady = async () => {
           programs: document.querySelectorAll('.program-card').length,
           offerNodes: document.querySelectorAll('.offer-node').length,
           faqs: document.querySelectorAll('.faq-list details').length,
+          unresolvedIconPlaceholders: document.querySelectorAll('i[data-lucide]').length,
         };
       })()`);
 
-      if (lastState.h1 && (lastState.programs > 0 || lastState.offerNodes > 0) && lastState.faqs > 0) {
+      if (
+        lastState.h1
+        && (lastState.programs > 0 || lastState.offerNodes > 0)
+        && lastState.faqs > 0
+        && lastState.unresolvedIconPlaceholders === 0
+      ) {
         return lastState;
       }
     } catch {
@@ -484,7 +490,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     const stickyHeaderHeight = Math.round(document.querySelector('.site-header')?.getBoundingClientRect().height || 0);
     const availableSectionHeight = innerHeight - stickyHeaderHeight;
     const sectionHeightLimit = innerWidth <= 719 ? innerHeight : availableSectionHeight;
-    const intentionallyScrollableMobileSections = new Set(['cursos', 'sedes']);
+    const intentionallyScrollableMobileSections = new Set(['cursos']);
     const sectionRhythmIssues = sectionRhythm
       .filter((section) => (
         section.height > sectionHeightLimit + 2
@@ -720,6 +726,32 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     };
     const paletteIssues = [];
     const designConsistencyIssues = [];
+    const headerSurface = document.querySelector('.site-header');
+    const headerBackground = headerSurface ? parseColor(getComputedStyle(headerSurface).backgroundColor) : null;
+    if (
+      !headerBackground
+      || headerBackground.alpha !== 1
+      || headerBackground.red !== 255
+      || headerBackground.green !== 255
+      || headerBackground.blue !== 255
+    ) {
+      designConsistencyIssues.push({
+        type: 'header-surface-not-opaque-white',
+        background: headerSurface ? getComputedStyle(headerSurface).backgroundColor : '',
+      });
+    }
+
+    const locationRows = [...document.querySelectorAll('#sedes .compact-location-row')];
+    const locationHours = document.querySelector('#sedes .location-hours-panel');
+    if (locationRows.length !== 4 || !locationHours || locationHours.open) {
+      designConsistencyIssues.push({
+        type: 'physical-location-lookup-invalid',
+        rowCount: locationRows.length,
+        hasHoursDisclosure: Boolean(locationHours),
+        hoursOpenByDefault: Boolean(locationHours?.open),
+      });
+    }
+
     if (innerWidth <= 719) {
       [
         ['hero', '#inicio', 'rgb(255, 255, 255)'],
@@ -834,6 +866,70 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
           fontSize: methodHeadingSize,
         });
       }
+
+      [
+        ['method', '#metodo .method-editorial__intro'],
+        ['testimonials', '#experiencia .proof-shelf__heading > div:first-child'],
+        ['study-options', '#cursos .section-heading'],
+        ['locations', '#sedes .section-heading'],
+        ['faq', '#faq .section-heading'],
+        ['final-cta', '#contacto .section-heading'],
+      ].forEach(([label, selector]) => {
+        const element = document.querySelector(selector);
+        const marker = element ? getComputedStyle(element, '::before') : null;
+        const markerWidth = parseFloat(marker?.width || '0');
+        const markerHeight = parseFloat(marker?.height || '0');
+        if (
+          !element
+          || markerWidth < 50
+          || markerHeight < 4
+          || marker?.backgroundImage === 'none'
+        ) {
+          designConsistencyIssues.push({
+            type: 'mobile-chapter-marker-inconsistent',
+            label,
+            markerWidth,
+            markerHeight,
+            backgroundImage: marker?.backgroundImage || '',
+          });
+        }
+      });
+
+      const methodIntro = document.querySelector('#metodo .method-editorial__intro');
+      const methodBorderWidth = parseFloat(methodIntro ? getComputedStyle(methodIntro).borderLeftWidth : '0');
+      if (!methodIntro || methodBorderWidth !== 0) {
+        designConsistencyIssues.push({
+          type: 'mobile-method-vertical-rule-present',
+          borderLeftWidth: methodBorderWidth,
+        });
+      }
+
+      const supportingProgramHeights = [...document.querySelectorAll('#cursos .catalog-programs__link')]
+        .map((link) => Math.round(link.getBoundingClientRect().height));
+      if (
+        supportingProgramHeights.length !== 5
+        || supportingProgramHeights.some((height) => height < 44)
+      ) {
+        designConsistencyIssues.push({
+          type: 'mobile-supporting-program-target-too-small',
+          heights: supportingProgramHeights,
+        });
+      }
+
+      const hoursSummary = locationHours?.querySelector('summary');
+      const hoursSummaryHeight = Math.round(hoursSummary?.getBoundingClientRect().height || 0);
+      const hoursCopySize = parseFloat(
+        locationHours?.querySelector('li')
+          ? getComputedStyle(locationHours.querySelector('li')).fontSize
+          : '0',
+      );
+      if (!hoursSummary || hoursSummaryHeight < 44 || hoursCopySize < 14) {
+        designConsistencyIssues.push({
+          type: 'mobile-location-hours-disclosure-invalid',
+          summaryHeight: hoursSummaryHeight,
+          copyFontSize: hoursCopySize,
+        });
+      }
     }
 
     if (innerWidth >= 1041) {
@@ -854,6 +950,22 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
           });
         }
       });
+
+      const heroHeading = document.querySelector('#inicio h1');
+      const desktopMethodHeading = document.querySelector('#metodo .method-editorial__intro h2');
+      const heroHeadingSize = parseFloat(heroHeading ? getComputedStyle(heroHeading).fontSize : '0');
+      const desktopMethodHeadingSize = parseFloat(
+        desktopMethodHeading ? getComputedStyle(desktopMethodHeading).fontSize : '0',
+      );
+      const headingRatio = heroHeadingSize ? desktopMethodHeadingSize / heroHeadingSize : Infinity;
+      if (!heroHeading || !desktopMethodHeading || headingRatio > 1.22) {
+        designConsistencyIssues.push({
+          type: 'desktop-method-heading-overtakes-hero',
+          heroHeadingSize,
+          methodHeadingSize: desktopMethodHeadingSize,
+          ratio: Math.round(headingRatio * 100) / 100,
+        });
+      }
     }
     [
       ['final-cta-copy', '.final-cta-copy .section-heading > p:last-child', finalCtaBackground],
@@ -923,6 +1035,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
   let secondaryTarget = null;
   let proofDialogCheck = null;
   let callbackDialogCheck = null;
+  let locationHoursCheck = null;
+  let navigationCheck = null;
   const sectionScreenshots = {};
   let screenshotError = null;
   try {
@@ -987,7 +1101,35 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     await captureSection("#cursos", "courses");
     await captureSection(".catalog-programs", "programs");
     await captureSection("#sedes", "locations");
+    await evaluate(`document.querySelector('#sedes .location-hours-panel > summary')?.click()`);
+    await sleep(180);
+    locationHoursCheck = await evaluate(`(() => {
+      const details = document.querySelector('#sedes .location-hours-panel');
+      const firstHour = details?.querySelector('li');
+      const issues = [];
+      if (!details?.open) issues.push('location-hours-did-not-open');
+      if (!firstHour || firstHour.getBoundingClientRect().height <= 0) issues.push('location-hours-content-not-visible');
+      return {
+        open: Boolean(details?.open),
+        firstHourVisible: Boolean(firstHour && firstHour.getBoundingClientRect().height > 0),
+        issues,
+      };
+    })()`);
+    if (width === 390 || width === 1440) {
+      const hoursShot = await captureViewport(`${name} location hours`);
+      const hoursTarget = path.join(screenshotsDir, `${name}-location-hours-open.png`);
+      await writeFile(hoursTarget, Buffer.from(hoursShot.data, "base64"));
+      sectionScreenshots["location-hours-open"] = hoursTarget;
+    }
+    await evaluate(`document.querySelector('#sedes .location-hours-panel[open] > summary')?.click()`);
     await captureSection(".faq-section", "faq");
+    navigationCheck = await evaluate(`(() => {
+      const activeLabel = document.querySelector('.site-nav [aria-current="location"]')?.innerText || '';
+      return {
+        faqActiveNavLabel: activeLabel,
+        issues: activeLabel ? [\`faq-retains-active-nav:\${activeLabel}\`] : [],
+      };
+    })()`);
     await captureSection("footer.site-footer", "footer");
 
     await evaluate(`document.querySelector('[data-callback-dialog-open]')?.click()`);
@@ -1069,6 +1211,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     screenshotError,
     proofDialogCheck,
     callbackDialogCheck,
+    locationHoursCheck,
+    navigationCheck,
     ...summary,
     interactions,
   };
@@ -1519,7 +1663,9 @@ const blockingResults = results.filter((result) =>
   (result.videoVisualIssues && result.videoVisualIssues.length) ||
   (result.methodFrameIssues && result.methodFrameIssues.length) ||
   (result.proofDialogCheck?.issues && result.proofDialogCheck.issues.length) ||
-  (result.callbackDialogCheck?.issues && result.callbackDialogCheck.issues.length)
+  (result.callbackDialogCheck?.issues && result.callbackDialogCheck.issues.length) ||
+  (result.locationHoursCheck?.issues && result.locationHoursCheck.issues.length) ||
+  (result.navigationCheck?.issues && result.navigationCheck.issues.length)
 );
 
 if (exceptions.length || consoleMessages.length || blockingResults.length) {

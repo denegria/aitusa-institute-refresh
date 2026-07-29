@@ -110,7 +110,7 @@ export function ProofStories() {
       data-proof-shelf
     >
       <div className="proof-shelf__inner">
-        <div className="proof-shelf__heading">
+        <div className="proof-shelf__heading proof-shelf__heading--mobile-framed">
           <div>
             <p className="section-kicker">Experiencias reales</p>
             <h2>Historias de estudiantes AIT.</h2>
