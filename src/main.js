@@ -500,6 +500,14 @@
   }
 
   function renderOfferingPathSection() {
+    const supportingPrograms = [
+      { label: "Inglés para niños", href: "/courses/ingles-ninos/" },
+      { label: "GED", href: "/courses/ged/" },
+      { label: "Computación", href: "/courses/#computacion-y-cursos-tecnicos" },
+      { label: "Español para extranjeros", href: "/courses/espanol-extranjeros/" },
+      { label: "Programas de apoyo", href: "/courses/#apoyo-academico" },
+    ];
+
     return `
       <section class="section section--soft" id="cursos">
         <div class="section-inner offer-path">
@@ -514,7 +522,14 @@
               .map(
                 (item) => `
                   <article class="offer-node offer-node--${escapeHtml(item.emphasis || "secondary")}">
-                    <span class="offer-node__marker" aria-hidden="true">${escapeHtml(item.marker || item.shortLabel || "")}</span>
+                    <div class="offer-node__header">
+                      <span class="offer-node__marker">${escapeHtml(item.marker || item.shortLabel || "")}</span>
+                      ${
+                        item.emphasis === "primary"
+                          ? '<span class="offer-node__status">Programa principal</span>'
+                          : ""
+                      }
+                    </div>
                     <div>
                       <h3>${escapeHtml(item.title)}</h3>
                       <p>${escapeHtml(item.summary)}</p>
@@ -528,7 +543,22 @@
               )
               .join("")}
           </div>
-          <p class="catalog-note">También ofrecemos inglés para niños, GED, computación, español para extranjeros y programas de apoyo.</p>
+          <nav class="catalog-programs" aria-label="Otros programas de AIT USA">
+            <p class="catalog-programs__label">También ofrecemos</p>
+            <ul class="catalog-programs__links">
+              ${supportingPrograms
+                .map(
+                  (program) => `
+                    <li>
+                      <a class="catalog-programs__link" href="${escapeHtml(program.href)}">
+                        ${escapeHtml(program.label)}
+                      </a>
+                    </li>
+                  `,
+                )
+                .join("")}
+            </ul>
+          </nav>
         </div>
       </section>
     `;

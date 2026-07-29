@@ -1443,19 +1443,61 @@ button {
   color: var(--white);
 }
 
-.catalog-note {
-  margin: 0;
+.catalog-programs {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 12px 18px;
+  align-items: center;
   padding-top: 18px;
   border-top: 1px solid rgba(0, 26, 61, 0.16);
-  color: var(--ink-soft);
-  font-size: 0.94rem;
-  line-height: 1.6;
 }
 
-.catalog-note a {
+.catalog-programs__label {
+  margin: 0;
   color: var(--blue-deep);
+  font-size: 0.76rem;
   font-weight: 850;
-  text-underline-offset: 4px;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.catalog-programs__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.catalog-programs__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 7px 12px;
+  border: 1px solid rgba(0, 26, 61, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--blue-deep);
+  font-size: 0.84rem;
+  font-weight: 780;
+  line-height: 1.2;
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.catalog-programs__link:hover,
+.catalog-programs__link:focus-visible {
+  border-color: var(--blue-deep);
+  background: var(--blue-deep);
+  color: var(--white);
+  transform: translateY(-1px);
 }
 
 .offer-node--primary {
@@ -1469,6 +1511,23 @@ button {
 
 .offer-node--primary > div > p {
   color: rgba(255, 255, 255, 0.76);
+}
+
+.offer-node__header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.offer-node__status {
+  color: #d9b45d;
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .offer-node__marker {
@@ -5819,10 +5878,34 @@ textarea {
     scroll-snap-align: start;
   }
 
-  .home-page .catalog-note {
+  .home-page .catalog-programs {
+    grid-template-columns: 1fr;
+    gap: 10px;
     padding-top: 12px;
+  }
+
+  .home-page .catalog-programs__label {
+    font-size: 0.7rem;
+  }
+
+  .home-page .catalog-programs__links {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .home-page .catalog-programs__links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .home-page .catalog-programs__links li {
+    flex: none;
+  }
+
+  .home-page .catalog-programs__link {
+    min-height: 38px;
     font-size: 0.82rem;
-    line-height: 1.4;
   }
 
   .home-page #sedes .section-heading {
@@ -6791,10 +6874,8 @@ textarea {
     padding-block: 7px;
   }
 
-  .home-page #cursos .catalog-note {
+  .home-page #cursos .catalog-programs {
     padding-top: 12px;
-    font-size: 0.88rem;
-    line-height: 1.45;
   }
 
   .home-page #sedes {

@@ -48,9 +48,19 @@ describe("homepage selective concept integration", () => {
 
     assert.match(section, /productOfferings\s*\.slice\(0, 3\)/);
     assert.match(section, /offer-node__marker/);
+    assert.match(section, /offer-node__status/);
+    assert.match(section, /Programa principal/);
     assert.match(section, /offer-node__link/);
     assert.doesNotMatch(section, /eyebrow-chip/);
-    assert.match(section, /También ofrecemos inglés para niños, GED, computación/);
+    assert.match(section, /class="catalog-programs"/);
+    assert.match(section, /aria-label="Otros programas de AIT USA"/);
+    assert.match(section, /Inglés para niños/);
+    assert.match(section, /\/courses\/ingles-ninos\//);
+    assert.match(section, /\/courses\/ged\//);
+    assert.match(section, /computacion-y-cursos-tecnicos/);
+    assert.match(section, /\/courses\/espanol-extranjeros\//);
+    assert.match(section, /apoyo-academico/);
+    assert.doesNotMatch(section, /class="catalog-note"/);
     assert.doesNotMatch(section, /Ver catálogo completo/);
   });
 
