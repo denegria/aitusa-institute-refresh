@@ -584,7 +584,7 @@
     return `
       <section class="section section--white" id="sedes">
         <div class="section-inner">
-          <div class="section-heading">
+          <div class="section-heading section-heading--framed">
             <p class="section-kicker">Sedes</p>
             <h2 id="sedes-title">Sedes cerca de ti.</h2>
             <p>Revisa ubicaciones y horarios para elegir la alternativa más conveniente.</p>
