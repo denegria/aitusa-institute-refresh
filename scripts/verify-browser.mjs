@@ -749,6 +749,15 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     const externalMapLauncher = document.querySelector('#sedes .real-map-card__expand');
     const locationHourGroups = [...document.querySelectorAll('#sedes .location-hours-panel__group')];
     const locationHourEntries = [...document.querySelectorAll('#sedes [data-schedule-slot]')];
+    const locationHoursTitle = document.querySelector('#location-hours-title')?.textContent.trim() || '';
+    const locationHourTimes = locationHourEntries
+      .map((entry) => entry.querySelector('dd')?.textContent.trim() || '');
+    const expectedLocationHourTimes = [
+      '8:30 am–10 pm',
+      '9:30 am–8 pm',
+      '9:30 am–6 pm',
+      '10 am–1 pm',
+    ];
     const locationHoursDisclosure = document.querySelector('#sedes .location-hours-panel :is(details, summary)');
     if (
       locationRows.length !== 4
@@ -760,6 +769,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       || locationHours.tagName !== 'SECTION'
       || locationHourGroups.length !== 2
       || locationHourEntries.length !== 4
+      || locationHoursTitle !== 'Bound Brook · Sede principal'
+      || locationHourTimes.some((time, index) => time !== expectedLocationHourTimes[index])
       || locationHourEntries.some((entry) => entry.getBoundingClientRect().height <= 0)
       || locationHoursDisclosure
     ) {
@@ -774,6 +785,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         hoursPanelTag: locationHours?.tagName || '',
         hourGroupCount: locationHourGroups.length,
         hourEntryCount: locationHourEntries.length,
+        hoursTitle: locationHoursTitle,
+        hourTimes: locationHourTimes,
         hasHoursDisclosure: Boolean(locationHoursDisclosure),
       });
     }
@@ -1267,12 +1280,17 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       const panel = document.querySelector('#sedes .location-hours-panel');
       const groups = [...(panel?.querySelectorAll('.location-hours-panel__group') || [])];
       const hours = [...(panel?.querySelectorAll('[data-schedule-slot]') || [])];
+      const title = panel?.querySelector('#location-hours-title')?.textContent.trim() || '';
+      const times = hours.map((hour) => hour.querySelector('dd')?.textContent.trim() || '');
+      const expectedTimes = ['8:30 am–10 pm', '9:30 am–8 pm', '9:30 am–6 pm', '10 am–1 pm'];
       const visibleGroups = groups.filter((group) => group.getBoundingClientRect().height > 0);
       const visibleHours = hours.filter((hour) => hour.getBoundingClientRect().height > 0);
       const issues = [];
       if (panel?.tagName !== 'SECTION') issues.push('location-hours-not-static-section');
+      if (title !== 'Bound Brook · Sede principal') issues.push('location-hours-scope-invalid');
       if (groups.length !== 2 || visibleGroups.length !== 2) issues.push('location-hours-groups-not-visible');
       if (hours.length !== 4 || visibleHours.length !== 4) issues.push('location-hours-not-permanently-visible');
+      if (times.some((time, index) => time !== expectedTimes[index])) issues.push('location-hours-copy-invalid');
       if (panel?.querySelector('details, summary, button')) issues.push('location-hours-disclosure-control-present');
       return {
         panelTag: panel?.tagName || '',
@@ -1280,6 +1298,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         visibleGroupCount: visibleGroups.length,
         hourCount: hours.length,
         visibleHourCount: visibleHours.length,
+        title,
+        times,
         hasDisclosureControl: Boolean(panel?.querySelector('details, summary, button')),
         issues,
       };

@@ -83,10 +83,11 @@ action without learning a new visual or scrolling convention in each section.
   navigate or open a new tab.
 - Published hours remain complete, permanently visible, and legible at 14px or
   larger.
-- The hours panel groups the repeated weekday schedule into two scannable
-  blocks—`Lun–jue` and `Fin de semana`—with four labeled time slots. Preserve
-  every verified start time/range while avoiding repeated day names and
-  sentence-style schedule copy.
+- The hours panel is scoped only to the verified Bound Brook headquarters.
+  Never imply that Plainfield or Piscataway share its hours until source
+  evidence confirms that. Group the weekly schedule into `Entre semana` and
+  `Fin de semana`, with the exact verified slots for `Lun–jue`, `Vie`, `Sáb`,
+  and `Dom`.
 - Desktop Method H2 stays at or below 1.22× the Hero H1, preserving emphasis
   without overtaking the page title.
 - No page-level horizontal overflow.

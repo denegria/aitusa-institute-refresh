@@ -138,7 +138,8 @@ export function OfferingPathSection() {
 
 export function LocationsSection() {
   const mapped = locations.filter((location) => !["pending", "online"].includes(location.status));
-  const hours = mapped.find((location) => location.status === "active")?.hours || [];
+  const headquarters = mapped.find((location) => location.mapKey === "bound-brook");
+  const hours = headquarters?.hours || [];
 
   return (
     <section className="section section--white" id="sedes">
@@ -148,7 +149,12 @@ export function LocationsSection() {
           <h2 id="sedes-title">Sedes cerca de ti.</h2>
           <p>Revisa ubicaciones y horarios para elegir la alternativa más conveniente.</p>
         </div>
-        <LocationExplorer locations={mapped} hours={hours} whatsappHref={site.whatsappHref} />
+        <LocationExplorer
+          locations={mapped}
+          hours={hours}
+          hoursTitle="Bound Brook · Sede principal"
+          whatsappHref={site.whatsappHref}
+        />
       </div>
     </section>
   );

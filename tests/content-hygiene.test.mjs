@@ -17,9 +17,11 @@ describe("MIS-267 content hygiene", () => {
     assert.equal(JSON.stringify(site.forms).includes("Google Form"), false);
   });
 
-  it("keeps verified active locations populated with phone, WhatsApp, and class hours", async () => {
+  it("keeps active-location contact details and scopes verified hours to headquarters", async () => {
     const { locations, site } = await loadSiteData();
     const activeLocations = locations.filter((location) => location.status === "active");
+    const headquarters = activeLocations.find((location) => location.mapKey === "bound-brook");
+    const satelliteLocations = activeLocations.filter((location) => location.mapKey !== "bound-brook");
 
     assert.equal(activeLocations.length >= 3, true);
     for (const location of activeLocations) {
@@ -28,9 +30,14 @@ describe("MIS-267 content hygiene", () => {
       assert.equal(location.phoneHref, site.phoneHref);
       assert.equal(location.whatsapp, site.whatsapp);
       assert.equal(location.whatsappHref, site.whatsappHref);
-      assert.equal(location.hours.length, 2);
-      assert.equal(location.hours.flatMap((group) => group.slots).length, 4);
     }
+    assert.equal(headquarters.hoursLabel, "Horario de atención");
+    assert.equal(headquarters.hours.length, 2);
+    assert.equal(headquarters.hours.flatMap((group) => group.slots).length, 4);
+    assert.equal(
+      satelliteLocations.every((location) => !Object.hasOwn(location, "hours")),
+      true,
+    );
   });
 
   it("keeps North Plainfield pending until source facts are approved", async () => {

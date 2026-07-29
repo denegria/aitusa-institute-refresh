@@ -84,6 +84,8 @@ describe("homepage React integration", () => {
     assert.match(source, /<section className="location-hours-panel"/);
     assert.match(source, /<ScheduleGroup key=\{group\.label\} group=\{group\}/);
     assert.match(source, /data-schedule-slot/);
+    assert.match(sections, /hoursTitle="Bound Brook · Sede principal"/);
+    assert.match(locationExplorer, /<h3 id="location-hours-title">\{hoursTitle\}<\/h3>/);
     assert.doesNotMatch(source, /<details|<summary|location-hours-panel__toggle/);
     assert.match(sections, /!?\["pending", "online"\]\.includes\(location\.status\)/);
     assert.doesNotMatch(sections, /\{online \? <LocationRow/);

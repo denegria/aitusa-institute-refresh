@@ -93,7 +93,7 @@ function ScheduleGroup({ group }) {
   );
 }
 
-export function LocationExplorer({ locations, hours, whatsappHref }) {
+export function LocationExplorer({ locations, hours, hoursTitle, whatsappHref }) {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [railIndex, setRailIndex] = useState(0);
   const railRef = useRef(null);
@@ -224,14 +224,13 @@ export function LocationExplorer({ locations, hours, whatsappHref }) {
             <span className="location-hours-panel__heading">
               <span className="location-hours-panel__icon"><i data-lucide="clock-3" aria-hidden="true" /></span>
               <span>
-                <span className="eyebrow-chip">Horario de clases</span>
-                <h3 id="location-hours-title">Bound Brook · Plainfield · Piscataway</h3>
+                <span className="eyebrow-chip">Horario de atención</span>
+                <h3 id="location-hours-title">{hoursTitle}</h3>
               </span>
             </span>
           </div>
           <div className="location-hours-panel__content">
             <ul>{hours.map((group) => <ScheduleGroup key={group.label} group={group} />)}</ul>
-            <p className="location-hours-panel__note">Confirma disponibilidad antes de inscribirte.</p>
           </div>
         </section>
       </div>

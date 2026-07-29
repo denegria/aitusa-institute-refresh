@@ -877,19 +877,19 @@ const methodBlocks = [
   },
 ];
 
-const verifiedClassHours = [
+const verifiedHeadquartersHours = [
   {
-    label: "Lun–jue",
+    label: "Entre semana",
     slots: [
-      { label: "Mañana", times: "8:30 · 9:30 · 10:30 am" },
-      { label: "Noche", times: "6:20 · 7:30 · 8:40 pm" },
+      { label: "Lun–jue", times: "8:30 am–10 pm" },
+      { label: "Vie", times: "9:30 am–8 pm" },
     ],
   },
   {
     label: "Fin de semana",
     slots: [
-      { label: "Sáb", times: "10 am–1 pm · 3–5:30 pm" },
-      { label: "Dom", times: "10 am–12:30 pm" },
+      { label: "Sáb", times: "9:30 am–6 pm" },
+      { label: "Dom", times: "10 am–1 pm" },
     ],
   },
 ];
@@ -899,8 +899,6 @@ const centralLocationContact = {
   phoneHref: site.phoneHref,
   whatsapp: site.whatsapp,
   whatsappHref: site.whatsappHref,
-  hoursLabel: "Horarios de clase publicados",
-  hours: verifiedClassHours,
 };
 
 const locations = [
@@ -914,6 +912,8 @@ const locations = [
     highlight: "Recepción principal y coordinación administrativa.",
     cta: "Escribir sobre Bound Brook",
     ...centralLocationContact,
+    hoursLabel: "Horario de atención",
+    hours: verifiedHeadquartersHours,
   },
   {
     city: "Plainfield, New Jersey",
