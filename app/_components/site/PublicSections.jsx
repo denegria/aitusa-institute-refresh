@@ -70,7 +70,7 @@ export function MethodSection() {
   return (
     <section className="method-section" id="metodo" aria-labelledby="method-title">
       <div className="method-editorial">
-        <header className="method-editorial__intro">
+        <header className="method-editorial__intro section-heading section-heading--framed">
           <p className="method-kicker">{methodNarrative.eyebrow || "Método Graphic Concept"}</p>
           <h2 id="method-title">{methodNarrative.heading || ""}</h2>
           <p>{methodNarrative.introduction || ""}</p>

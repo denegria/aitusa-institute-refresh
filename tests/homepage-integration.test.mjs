@@ -111,4 +111,29 @@ describe("homepage React integration", () => {
     assert.match(styles, /\.site-footer\s*\{[\s\S]*background: #001a3d/);
     assert.match(styles, /Viewport rhythm: keep each homepage chapter within one comfortable screen/);
   });
+
+  it("shares the desktop chapter grid and exposes mobile lookup content without hidden rails", async () => {
+    const { sections, styles } = await readSources();
+
+    assert.match(
+      sections,
+      /method-editorial__intro section-heading section-heading--framed/,
+    );
+    assert.match(
+      styles,
+      /Homepage consistency pass:[\s\S]*\.home-page #metodo \.method-editorial,[\s\S]*\.home-page \.final-cta-layout,[\s\S]*\.home-page \+ \.site-footer \.site-footer__compact[\s\S]*1320px/,
+    );
+    assert.match(
+      styles,
+      /\.home-page #cursos \.offer-map\s*\{[\s\S]*overflow-x: visible;[\s\S]*scroll-snap-type: none/,
+    );
+    assert.match(
+      styles,
+      /\.home-page #cursos \.catalog-programs__links\s*\{[\s\S]*flex-wrap: wrap;[\s\S]*overflow-x: visible/,
+    );
+    assert.match(
+      styles,
+      /\.home-page #sedes \.location-compact-list\s*\{[\s\S]*display: grid;[\s\S]*overflow-x: visible;[\s\S]*scroll-snap-type: none/,
+    );
+  });
 });

@@ -6940,3 +6940,110 @@ textarea {
     padding-block: 35px;
   }
 }
+
+/* Homepage consistency pass: preserve each chapter's character while sharing
+   one content grid and avoiding hidden mobile lookup/comparison content. */
+.home-page #metodo .method-editorial__intro.section-heading--framed {
+  margin-bottom: 0;
+  padding-left: 18px;
+  border-left: 0;
+}
+
+@media (min-width: 1041px) {
+  .home-page #metodo .method-editorial,
+  .home-page .final-cta-layout,
+  .home-page + .site-footer .site-footer__compact {
+    width: min(clamp(1180px, 82.5vw, 1320px), calc(100% - 28px));
+  }
+}
+
+@media (min-width: 1041px) and (max-height: 820px) {
+  .home-page #sedes {
+    padding-block: 17px;
+  }
+}
+
+@media (min-width: 1041px) and (min-height: 821px) and (max-height: 880px) {
+  .home-page #sedes {
+    padding-block: 28px;
+  }
+}
+
+@media (max-width: 719px) {
+  .home-page #metodo .method-editorial__intro.section-heading--framed {
+    padding-top: 14px;
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .home-page #metodo .method-editorial__intro h2 {
+    font-size: clamp(1.95rem, 8.6vw, 2.1rem);
+  }
+
+  .home-page #metodo .method-editorial__intro > p:last-child {
+    font-size: 0.82rem;
+    line-height: 1.42;
+  }
+
+  .home-page #metodo .method-reasons h3 {
+    font-size: 0.86rem;
+  }
+
+  .home-page #metodo .method-reasons p {
+    font-size: 0.78rem;
+    line-height: 1.38;
+  }
+
+  .home-page #cursos .offer-map {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    overflow-x: visible;
+    padding-bottom: 0;
+    scroll-snap-type: none;
+  }
+
+  .home-page #cursos .offer-node {
+    flex: none;
+    gap: 12px;
+    min-height: 0;
+    padding: 16px;
+    scroll-snap-align: none;
+  }
+
+  .home-page #cursos .offer-node > div > p {
+    font-size: 0.9rem;
+    line-height: 1.48;
+  }
+
+  .home-page #cursos .catalog-programs__links {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    padding-bottom: 0;
+  }
+
+  .home-page #sedes .location-compact-list {
+    display: grid;
+    gap: 8px;
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+
+  .home-page #sedes .compact-location-row {
+    grid-template-areas: "number copy action";
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    flex: none;
+    gap: 10px;
+    align-items: center;
+    min-height: 80px;
+    padding: 10px;
+    scroll-snap-align: none;
+  }
+
+  .home-page #sedes .compact-location-row__action {
+    align-self: center;
+    justify-self: end;
+    min-height: 44px;
+    padding-top: 0;
+  }
+}

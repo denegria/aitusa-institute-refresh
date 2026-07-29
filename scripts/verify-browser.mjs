@@ -483,8 +483,13 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       });
     const stickyHeaderHeight = Math.round(document.querySelector('.site-header')?.getBoundingClientRect().height || 0);
     const availableSectionHeight = innerHeight - stickyHeaderHeight;
+    const sectionHeightLimit = innerWidth <= 719 ? innerHeight : availableSectionHeight;
+    const intentionallyScrollableMobileSections = new Set(['cursos', 'sedes']);
     const sectionRhythmIssues = sectionRhythm
-      .filter((section) => section.height > availableSectionHeight + 2)
+      .filter((section) => (
+        section.height > sectionHeightLimit + 2
+        && !(innerWidth <= 719 && intentionallyScrollableMobileSections.has(section.id))
+      ))
       .map((section) => ({
         type: 'section-exceeds-viewport',
         ...section,
@@ -714,6 +719,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         / (Math.min(foregroundLuminance, backgroundLuminance) + 0.05);
     };
     const paletteIssues = [];
+    const designConsistencyIssues = [];
     if (innerWidth <= 719) {
       [
         ['hero', '#inicio', 'rgb(255, 255, 255)'],
@@ -803,6 +809,51 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
           height: attributionHeight,
         });
       }
+
+      [
+        ['study-options', '#cursos .offer-map'],
+        ['supporting-programs', '#cursos .catalog-programs__links'],
+        ['locations', '#sedes .location-compact-list'],
+      ].forEach(([label, selector]) => {
+        const element = document.querySelector(selector);
+        if (!element || element.scrollWidth > element.clientWidth + 2) {
+          designConsistencyIssues.push({
+            type: 'mobile-hidden-horizontal-content',
+            label,
+            clientWidth: element?.clientWidth || 0,
+            scrollWidth: element?.scrollWidth || 0,
+          });
+        }
+      });
+
+      const methodHeading = document.querySelector('#metodo .method-editorial__intro h2');
+      const methodHeadingSize = parseFloat(methodHeading ? getComputedStyle(methodHeading).fontSize : '0');
+      if (!methodHeading || methodHeadingSize < 30) {
+        designConsistencyIssues.push({
+          type: 'mobile-method-heading-too-small',
+          fontSize: methodHeadingSize,
+        });
+      }
+    }
+
+    if (innerWidth >= 1041) {
+      const standardGrid = document.querySelector('#cursos .section-inner')?.getBoundingClientRect();
+      [
+        ['method', document.querySelector('#metodo .method-editorial')?.getBoundingClientRect()],
+        ['final-cta', document.querySelector('#contacto .final-cta-layout')?.getBoundingClientRect()],
+        ['footer', document.querySelector('.site-footer__compact')?.getBoundingClientRect()],
+      ].forEach(([label, grid]) => {
+        const leftDelta = standardGrid && grid ? Math.abs(grid.left - standardGrid.left) : Infinity;
+        const widthDelta = standardGrid && grid ? Math.abs(grid.width - standardGrid.width) : Infinity;
+        if (!standardGrid || !grid || leftDelta > 2 || widthDelta > 2) {
+          designConsistencyIssues.push({
+            type: 'desktop-chapter-grid-mismatch',
+            label,
+            leftDelta,
+            widthDelta,
+          });
+        }
+      });
     }
     [
       ['final-cta-copy', '.final-cta-copy .section-heading > p:last-child', finalCtaBackground],
@@ -862,6 +913,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       footerHeightIssues,
       closingSurfaceIssues,
       paletteIssues,
+      designConsistencyIssues,
       availableSectionHeight,
       pageHeight: document.documentElement.scrollHeight,
     };
@@ -933,6 +985,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     await sleep(120);
 
     await captureSection("#cursos", "courses");
+    await captureSection(".catalog-programs", "programs");
+    await captureSection("#sedes", "locations");
     await captureSection(".faq-section", "faq");
     await captureSection("footer.site-footer", "footer");
 
@@ -1458,6 +1512,7 @@ const blockingResults = results.filter((result) =>
   (result.footerHeightIssues && result.footerHeightIssues.length) ||
   (result.closingSurfaceIssues && result.closingSurfaceIssues.length) ||
   (result.paletteIssues && result.paletteIssues.length) ||
+  (result.designConsistencyIssues && result.designConsistencyIssues.length) ||
   (result.viewportIssues && result.viewportIssues.length) ||
   (result.methodPosterIssues && result.methodPosterIssues.length) ||
   (result.videoMetadataIssues && result.videoMetadataIssues.length) ||
