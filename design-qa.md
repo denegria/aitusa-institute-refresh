@@ -1,26 +1,22 @@
-# Design QA: Institutional Proof Band
+# Design QA: Compact Mobile Study Options
 
 ## Comparison target
 
-- Source concept: `screenshots/institutional-proof-reference.png`
-- Desktop implementation: `screenshots/institutional-proof-desktop-final.png`
-- Mobile implementation: `screenshots/institutional-proof-mobile-final.png`
-- Full-view comparison: `screenshots/institutional-proof-comparison-full.png`
-- Focused band comparison: `screenshots/institutional-proof-comparison-focused.png`
-- State: homepage at the top, navigation closed, Hero actions idle
+- Mobile baseline: `screenshots/mobile-study-options-reference.png`
+- Mobile implementation: `screenshots/mobile-study-options-final.png`
+- Desktop regression: `screenshots/mobile-study-options-desktop-final.png`
+- State: homepage at `#cursos`, navigation closed, actions idle
 
-The source concept is the selected navy direction. Alvaro's subsequent
-corrections are part of the visual truth: retain `Desde 2004`, remove its Hero
-duplication, reduce its scale, replace the redundant `20+ años` fact, add
-international reach, and fit the complete Hero ledger in the first viewport.
+The source of truth is the existing desktop study-options section and Alvaro's
+request to compress its mobile presentation. The mobile result must preserve
+all three formats and all five supporting-program links without a carousel,
+tabs, disclosure, ticker, or hidden horizontal content.
 
 ## Viewports
 
-- Source concept: 1487×1058
-- Primary desktop implementation: 1440×900
-- Desktop regressions: 1536×864, 1920×930, and 1920×1080
 - Primary mobile implementation: 390×844
 - Mobile regressions: 360×800 and 430×932
+- Desktop regression: 1440×900
 - Browser screenshots and DOM measurements used device-pixel ratio 1.
 
 ## Findings
@@ -29,90 +25,83 @@ No actionable P0, P1, or P2 findings remain.
 
 ### Fonts and typography
 
-- The implementation keeps the existing Plus Jakarta Sans system instead of
-  introducing the concept's unrelated display serif.
-- `Desde 2004`, `+1,000`, `4 sedes`, and `Alcance internacional` share one
-  restrained fact hierarchy. The international heading tightens only enough to
-  fit its longer phrase.
-- Supporting labels remain uppercase, legible, and subordinate. No text is
-  clipped, clamped, or truncated at any required viewport.
+- The existing Plus Jakarta Sans hierarchy is preserved.
+- Mobile uses a shorter introductory sentence and complete, format-specific
+  summaries; no summary is line-clamped, clipped, or replaced by an ambiguous
+  label.
+- `Programa principal` keeps Presencial visually primary without increasing
+  the section's visual noise.
 
 ### Spacing and layout rhythm
 
-- Desktop uses a 96px four-column ledger with fine dividers. At every required
-  desktop viewport, the Header, Hero main, and ledger end two pixels before the
-  viewport boundary.
-- The 1536×864 short-desktop pass confirms that the modality row ends inside the
-  Hero main rather than being covered by the ledger.
-- Mobile uses a static 2×2 ledger measuring approximately 108–112px. At 390px
-  and 430px it follows the photo normally; at 360px it overlaps 52px of the
-  photo's existing white fade so the complete ledger ends inside the first
-  screen.
-- The mobile solution has no carousel, ticker, auto-rotation, or hidden
-  horizontal content.
+- At 390×844, the section decreased from 1,102px to 708px, a reduction of
+  approximately 36%.
+- The complete section begins below the 72px sticky header and ends at 780px,
+  leaving the beginning of the Sedes chapter visible in the same viewport.
+- The three formats form a compact vertical decision ledger. Presencial is
+  107px high; Híbrido and Online are each 88px high.
+- The five supporting programs use a quiet two-column grid with 44px rows.
+- At 360×800 and 430×932, all content remains visible with no page-level
+  horizontal overflow.
 
 ### Colors and visual tokens
 
-- The ledger uses the homepage navy `#001a3d`, white type, muted-white labels,
-  and warm-gold dividers from the selected direction.
-- It introduces no gradient, glow, card shadow, added gold headline, or new
-  decorative system.
-- The transition into the warm Method chapter remains intentional on mobile and
-  begins below the complete Hero composition.
+- Presencial retains the existing navy primary treatment.
+- Híbrido and Online retain the white secondary treatment and existing border
+  tokens.
+- No new gradients, shadows, gold decoration, or competing card system was
+  introduced.
 
 ### Image quality and asset fidelity
 
-- The approved Hero photograph and its current crop are preserved.
-- No generated people, substitute photography, icons, or approximate assets
-  were introduced.
-- The 360px overlap covers only the photograph's white fade; it does not cover a
-  face, classroom subject, CTA, or meaningful image detail.
+- This section contains no photographic assets, and no image or icon asset was
+  added or substituted.
+- Existing Lucide arrow icons are preserved in the compact `Ver` actions.
 
 ### Copy and content
 
-- The Hero eyebrow now reads `Escuela de inglés en Nueva Jersey`; `Desde 2004`
-  appears once, in the proof ledger.
-- The four supplied proofs are `Desde 2004`, `+1,000 estudiantes`, `4 sedes`,
-  and `Alcance internacional`.
-- International reach is framed precisely as `EE. UU., Centroamérica y
-  Sudamérica`. No accreditation, country count, campus, or unsupported outcome
-  claim was added.
+- Presencial: `Práctica cara a cara con corrección inmediata en Nueva Jersey.`
+- Híbrido: `Combina clases presenciales y apoyo remoto.`
+- Online: `Estudia en vivo desde casa o desde otro país.`
+- The compact copy communicates the key distinction between the three formats
+  while the full desktop copy remains unchanged.
+- All five supporting programs remain exposed: Inglés para niños, GED,
+  Computación, Español para extranjeros, and Programas de apoyo.
 
 ### Interaction and accessibility
 
-- The proof ledger is semantic, static content inside an `aside` labelled
-  `Trayectoria de AIT USA Institute`.
-- All existing Hero links, modality links, header navigation, and mobile menu
-  behavior are preserved.
+- Each mobile format has a 62×44px action target; every supporting-program link
+  is at least 44px high.
+- Visible mobile CTA text is `Ver`, while the complete accessible label remains
+  format-specific through `aria-label`.
+- Link destinations are unchanged:
+  `/courses/#ingles-presencial`, `/courses/#ingles-hibrido`, and
+  `/courses/#ingles-online`.
 - Production-mode local browser verification showed no console errors.
-- DOM verification found four visible facts and no page-level horizontal
-  overflow at every required viewport.
 
 ## Comparison history
 
-### Pass 1: selected concept
+### Pass 1: mobile baseline
 
-- P1: `DESDE 2004` dominated the entire band and duplicated the Hero eyebrow.
-- P2: `20+ años` repeated the same longevity proof without adding information.
-- Direction change: normalize the four facts, remove the eyebrow duplication,
-  and add the supplied international reach.
+- P1: the section measured 1,102px at 390×844, or approximately 1.31
+  viewports.
+- P1: three full-size cards consumed 629px before the supporting programs.
+- Constraint: compression could not hide or auto-rotate any course choice.
 
-### Pass 2: responsive candidate
+### Pass 2: compact decision ledger
 
-- P1: the first 1536×864 candidate let the modality row extend 17px into the
-  ledger.
-- P1: the first 360×800 candidate left the second mobile proof row below the
-  first viewport.
-- Fix: tighten the short-desktop Hero's top budget and overlap the compact
-  mobile ledger only across the photograph's white fade.
+- The section measured 708px at 390×844.
+- All three formats, all five supporting programs, the complete heading, and
+  the start of the next chapter fit in one mobile viewport.
+- Regression checks at 360×800 and 430×932 found no clipped content, undersized
+  targets, or horizontal overflow.
 
-### Pass 3: final comparison
+### Pass 3: desktop regression
 
-- Evidence: `screenshots/institutional-proof-comparison-full.png` and
-  `screenshots/institutional-proof-comparison-focused.png`.
-- Result: the selected navy mood is preserved while the corrected content,
-  scale, first-viewport fit, and responsive behavior match the approved
-  direction.
+- The 1440×900 layout remained exactly three columns.
+- Section height remained 640.296875px; offer-map width and height remained
+  1188×237.140625px; each card remained 237.140625px high.
+- Desktop copy, support pills, and CTA treatments are unchanged.
 
 ## Validation
 

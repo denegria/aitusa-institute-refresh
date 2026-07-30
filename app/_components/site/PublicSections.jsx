@@ -118,7 +118,14 @@ export function OfferingPathSection() {
         <div className="section-heading section-heading--framed">
           <p className="section-kicker">Presencial, híbrido u online</p>
           <h2>¿Cómo quieres estudiar?</h2>
-          <p>Compara las clases presenciales, híbridas y online. Si buscas otra meta, también puedes explorar nuestros programas de apoyo.</p>
+          <p className="offer-path__intro">
+            <span className="offer-path__intro-full">
+              Compara las clases presenciales, híbridas y online. Si buscas otra meta, también puedes explorar nuestros programas de apoyo.
+            </span>
+            <span className="offer-path__intro-compact">
+              Compara presencial, híbrido y online; después explora otros programas.
+            </span>
+          </p>
         </div>
         <div className="offer-map" aria-label="Opciones principales de estudio">
           {productOfferings.slice(0, 3).map((item) => (
@@ -126,10 +133,15 @@ export function OfferingPathSection() {
               <div>
                 {item.emphasis === "primary" ? <span className="offer-node__status">Programa principal</span> : null}
                 <h3>{item.title}</h3>
-                <p>{item.summary}</p>
+                <p>
+                  <span className="offer-node__summary-full">{item.summary}</span>
+                  <span className="offer-node__summary-compact">{item.mobileSummary || item.summary}</span>
+                </p>
               </div>
-              <a className="offer-node__link" href={item.href}>
-                {item.cta}<i data-lucide="arrow-right" aria-hidden="true" />
+              <a className="offer-node__link" href={item.href} aria-label={item.cta}>
+                <span className="offer-node__link-full">{item.cta}</span>
+                <span className="offer-node__link-compact" aria-hidden="true">Ver</span>
+                <i data-lucide="arrow-right" aria-hidden="true" />
               </a>
             </article>
           ))}

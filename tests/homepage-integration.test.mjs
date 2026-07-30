@@ -31,6 +31,7 @@ describe("homepage React integration", () => {
   });
 
   it("keeps three primary modality choices and the approved support-program rail", async () => {
+    const { productOfferings } = await import("../src/content.js");
     const { sections } = await readSources();
     const start = sections.indexOf("const supportingPrograms");
     const end = sections.indexOf("export function LocationsSection");
@@ -47,6 +48,17 @@ describe("homepage React integration", () => {
     assert.match(source, /computacion-y-cursos-tecnicos/);
     assert.match(source, /\/courses\/espanol-extranjeros\//);
     assert.match(source, /apoyo-academico/);
+    assert.deepEqual(
+      productOfferings.slice(0, 3).map((offering) => offering.mobileSummary),
+      [
+        "Práctica cara a cara con corrección inmediata en Nueva Jersey.",
+        "Combina clases presenciales y apoyo remoto.",
+        "Estudia en vivo desde casa o desde otro país.",
+      ],
+    );
+    assert.match(source, /offer-node__summary-compact/);
+    assert.match(source, /offer-node__link-compact/);
+    assert.match(source, /aria-label=\{item\.cta\}/);
   });
 
   it("uses placement as the primary final conversion and callback as the sole secondary action", async () => {
@@ -162,6 +174,10 @@ describe("homepage React integration", () => {
     assert.match(
       styles,
       /\.home-page #cursos \.catalog-programs__links\s*\{[\s\S]*flex-wrap: wrap;[\s\S]*overflow-x: visible/,
+    );
+    assert.match(
+      styles,
+      /Compact mobile study decision ledger:[\s\S]*\.home-page #cursos \.offer-node\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\) auto;[\s\S]*\.home-page #cursos \.catalog-programs__links\s*\{[\s\S]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/,
     );
     assert.match(
       styles,

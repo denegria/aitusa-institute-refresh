@@ -1289,6 +1289,8 @@ const productOfferings = [
     audience: "Adultos y jóvenes que quieren practicar más de cerca",
     summary:
       "Practica cara a cara y recibe corrección inmediata en una sede de Nueva Jersey, con horarios publicados para sostener tu rutina.",
+    mobileSummary:
+      "Práctica cara a cara con corrección inmediata en Nueva Jersey.",
     details: [
       "Corrección en vivo y práctica constante.",
       "Sedes activas en Nueva Jersey más apoyo para elegir horario.",
@@ -1310,6 +1312,8 @@ const productOfferings = [
     audience: "Quienes necesitan flexibilidad sin perder estructura",
     summary:
       "Combina encuentros presenciales con apoyo remoto cuando tu semana cambia, sin perder práctica ni seguimiento.",
+    mobileSummary:
+      "Combina clases presenciales y apoyo remoto.",
     details: [
       "Alterna entre apoyo presencial y acompañamiento remoto.",
       "Mantiene seguimiento con un horario realista.",
@@ -1331,6 +1335,8 @@ const productOfferings = [
     audience: "Estudiantes en otros lugares o con agenda remota",
     summary:
       "Conéctate desde casa o desde otro país con práctica en vivo; coordinamos el horario según tu nivel y zona horaria.",
+    mobileSummary:
+      "Estudia en vivo desde casa o desde otro país.",
     details: [
       "Ideal para estudiantes fuera de Nueva Jersey.",
       "WhatsApp y orientación para elegir nivel y horario.",

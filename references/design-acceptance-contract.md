@@ -1,3 +1,83 @@
+# AIT USA Compact Mobile Study Options Contract
+
+## User workflow and problem
+
+Mobile visitors need to compare Presencial, Híbrido, and Online before choosing
+a route. The current section exposes everything correctly, but its 1,102px
+height turns a simple three-way decision into a 1.3-viewport card stack.
+
+## Chosen interaction model
+
+- Keep all three study formats visible in one static vertical decision list.
+- Convert each mobile card into a compact two-column row: format and concise
+  description at left, a 44px `Ver` action at right.
+- Preserve Presencial as the navy `Programa principal`; keep Híbrido and Online
+  quieter but equally reachable.
+- Use complete mobile-specific summaries instead of clipping or line-clamping
+  the desktop descriptions.
+- Present the five supporting programs as a fully visible two-column link list.
+  Do not add a carousel, swipe rail, disclosure, ticker, or hidden overflow.
+
+## Locked behavior and content
+
+- Preserve the three offerings, order, destinations, desktop descriptions,
+  desktop CTA labels, and the `Programa principal` hierarchy.
+- Preserve all five supporting-program destinations and labels.
+- Preserve the chapter title, kicker, mobile chapter accent, desktop section,
+  and adjacent homepage sections.
+- Every compact `Ver` action retains the complete existing CTA as its accessible
+  name.
+
+## Selected visual direction
+
+- Institutional decision ledger using the existing white, navy, warm-gold,
+  border, type, and 8px-radius system.
+- Compact rows, not miniature cards. No new icons, shadows, decorative
+  animation, gradients, or visual system.
+- Supporting programs become quiet text links separated by rules, subordinate
+  to the three primary formats.
+
+## Non-goals
+
+- No desktop redesign.
+- No route, navigation, course-content, placement-test, Study Buddy, CRM, or
+  data change.
+- No horizontal card rail, accordion, tab system, or course-page work in this
+  slice.
+
+## Viewports and invariants
+
+- Primary mobile viewport: 390×844 CSS pixels.
+- Regression mobile viewports: 360×800 and 430×932.
+- Desktop regression: 1440×900; rendered dimensions and content must remain
+  unchanged from the current staging baseline.
+- At 390×844, the complete section must fit below the 72px sticky header inside
+  one viewport: section height at or below 772px.
+- All three primary formats and all five supporting links remain visible without
+  interaction.
+- No summary clipping, line clamp, text overlap, nested scrollbar, or
+  page-level horizontal overflow.
+- Mobile link targets remain at least 44px high.
+- Content-growth assumption: exactly three primary formats and five supporting
+  programs for this homepage decision surface.
+
+## Required closeout evidence
+
+- Targeted homepage integration tests, full test suite, asset integrity,
+  production webpack build, audit, and `git diff --check`.
+- Browser screenshots and DOM measurements at 390×844, 360×800, 430×932, and
+  desktop 1440×900.
+- DOM evidence for section height, three visible format rows, five visible
+  supporting links, 44px targets, unchanged hrefs, and no horizontal overflow.
+- Protected live-staging smoke for the deployed commit with no console errors.
+
+This contract supersedes the prior homepage contract only for the mobile
+study-format card composition and supporting-program presentation. The prior
+no-hidden-content rule, Presencial hierarchy, content, routes, and all desktop
+behavior remain locked.
+
+---
+
 # AIT USA Institutional Proof Band Contract
 
 ## User problem
