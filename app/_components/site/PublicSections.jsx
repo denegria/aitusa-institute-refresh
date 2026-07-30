@@ -140,7 +140,6 @@ export function OfferingPathSection() {
               </div>
               <a className="offer-node__link" href={item.href} aria-label={item.cta}>
                 <span className="offer-node__link-full">{item.cta}</span>
-                <span className="offer-node__link-compact" aria-hidden="true">Ver</span>
                 <i data-lucide="arrow-right" aria-hidden="true" />
               </a>
             </article>

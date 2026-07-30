@@ -56,7 +56,7 @@ No actionable P0, P1, or P2 findings remain.
 
 - This section contains no photographic assets, and no image or icon asset was
   added or substituted.
-- Existing Lucide arrow icons are preserved in the compact `Ver` actions.
+- Existing Lucide arrow icons become the sole visible mobile action treatment.
 
 ### Copy and content
 
@@ -70,10 +70,10 @@ No actionable P0, P1, or P2 findings remain.
 
 ### Interaction and accessibility
 
-- Each mobile format has a 62×44px action target; every supporting-program link
+- Each mobile format has a 44×44px action target; every supporting-program link
   is at least 44px high.
-- Visible mobile CTA text is `Ver`, while the complete accessible label remains
-  format-specific through `aria-label`.
+- Mobile CTA text is removed visually, while the complete accessible label
+  remains format-specific through `aria-label`.
 - Link destinations are unchanged:
   `/courses/#ingles-presencial`, `/courses/#ingles-hibrido`, and
   `/courses/#ingles-online`.

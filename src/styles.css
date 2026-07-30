@@ -7985,8 +7985,7 @@ textarea {
    program visible while replacing the former full-card stack with scan-ready
    rows. Desktop retains the established editorial cards unchanged. */
 .offer-path__intro-compact,
-.offer-node__summary-compact,
-.offer-node__link-compact {
+.offer-node__summary-compact {
   display: none;
 }
 
@@ -8022,8 +8021,7 @@ textarea {
   }
 
   .home-page #cursos .offer-path__intro-compact,
-  .home-page #cursos .offer-node__summary-compact,
-  .home-page #cursos .offer-node__link-compact {
+  .home-page #cursos .offer-node__summary-compact {
     display: inline;
   }
 
@@ -8065,11 +8063,10 @@ textarea {
 
   .home-page #cursos .offer-node__link {
     justify-content: center;
-    width: auto;
-    min-width: 62px;
+    width: 44px;
+    min-width: 44px;
     min-height: 44px;
-    gap: 5px;
-    padding: 8px 9px;
+    padding: 8px;
     border: 1px solid rgba(0, 26, 61, 0.2);
     border-radius: 6px;
     background: rgba(0, 26, 61, 0.04);

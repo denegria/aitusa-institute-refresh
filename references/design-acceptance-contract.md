@@ -10,7 +10,7 @@ height turns a simple three-way decision into a 1.3-viewport card stack.
 
 - Keep all three study formats visible in one static vertical decision list.
 - Convert each mobile card into a compact two-column row: format and concise
-  description at left, a 44px `Ver` action at right.
+  description at left, a 44px arrow-only action at right.
 - Preserve Presencial as the navy `Programa principal`; keep Híbrido and Online
   quieter but equally reachable.
 - Use complete mobile-specific summaries instead of clipping or line-clamping
@@ -25,8 +25,8 @@ height turns a simple three-way decision into a 1.3-viewport card stack.
 - Preserve all five supporting-program destinations and labels.
 - Preserve the chapter title, kicker, mobile chapter accent, desktop section,
   and adjacent homepage sections.
-- Every compact `Ver` action retains the complete existing CTA as its accessible
-  name.
+- Every compact arrow-only action retains the complete existing CTA as its
+  accessible name.
 
 ## Selected visual direction
 

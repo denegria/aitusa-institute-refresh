@@ -57,7 +57,7 @@ describe("homepage React integration", () => {
       ],
     );
     assert.match(source, /offer-node__summary-compact/);
-    assert.match(source, /offer-node__link-compact/);
+    assert.doesNotMatch(source, /offer-node__link-compact/);
     assert.match(source, /aria-label=\{item\.cta\}/);
   });
 
