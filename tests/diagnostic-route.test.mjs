@@ -65,6 +65,39 @@ describe("MIS-337 diagnostic route degradation", () => {
     assert.equal(body.durable, false);
   });
 
+  it("returns a quiet no-resume result when storage is active but no cookie exists", async () => {
+    const previousDatabaseUrl = process.env.PORTAL_DATABASE_URL;
+    const previousResumeSecret = process.env.DIAGNOSTIC_RESUME_SECRET;
+    process.env.PORTAL_DATABASE_URL = "postgresql://unused.invalid/neondb";
+    process.env.DIAGNOSTIC_RESUME_SECRET =
+      "resume-secret-fixture-with-more-than-thirty-two-characters";
+
+    try {
+      const response = await resumeAttempt(
+        request("https://example.com/api/diagnostic/attempts/resume", {
+          method: "GET",
+        }),
+      );
+      const body = await response.json();
+
+      assert.equal(response.status, 200);
+      assert.equal(body.ok, true);
+      assert.equal(body.durable, false);
+      assert.equal(body.resumableAttempt, false);
+    } finally {
+      if (previousDatabaseUrl === undefined) {
+        delete process.env.PORTAL_DATABASE_URL;
+      } else {
+        process.env.PORTAL_DATABASE_URL = previousDatabaseUrl;
+      }
+      if (previousResumeSecret === undefined) {
+        delete process.env.DIAGNOSTIC_RESUME_SECRET;
+      } else {
+        process.env.DIAGNOSTIC_RESUME_SECRET = previousResumeSecret;
+      }
+    }
+  });
+
   it("protects the retention worker when no cron secret is configured", async () => {
     const response = await runRetention(
       request("https://example.com/api/cron/portal-retention"),

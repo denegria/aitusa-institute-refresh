@@ -24,7 +24,11 @@ export async function GET(request) {
   }
   const authorization = getResumeAuthorization(request);
   if (!authorization) {
-    return diagnosticJson({ ok: false, error: "attempt_not_found" }, { status: 404 });
+    return diagnosticJson({
+      ok: true,
+      durable: false,
+      resumableAttempt: false,
+    });
   }
   try {
     const snapshot = await getDiagnosticService().resumeAttempt({
