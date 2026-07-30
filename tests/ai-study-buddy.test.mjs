@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   AI_COST_CONTROLS,
+  AI_GUARDIAN_POLICY,
   AI_PROVIDER_GATE,
   AI_STUDY_BUDDY_USE_CASES,
   buildAiPracticeCrmSummaryPreview,
@@ -25,6 +26,18 @@ describe("MIS-275 AI study buddy contract", () => {
     assert.equal(AI_PROVIDER_GATE.serverProviderCallsAllowed, false);
     assert.equal(AI_PROVIDER_GATE.providerDecisionRequired, true);
     assert.equal(AI_COST_CONTROLS.hardStopUntilProviderApproval, true);
+  });
+
+  it("locks the acquisition trial and under-13 guardian boundary", () => {
+    assert.equal(AI_COST_CONTROLS.acquisitionTrialSessionLimitPerVerifiedEmail, 1);
+    assert.equal(AI_COST_CONTROLS.acquisitionTrialMaxLearnerTurns, 5);
+    assert.deepEqual(AI_COST_CONTROLS.acquisitionTrialEstimatedMinutes, {
+      min: 3,
+      max: 5,
+    });
+    assert.equal(AI_GUARDIAN_POLICY.guardianRequiredUnderAge, 13);
+    assert.equal(AI_GUARDIAN_POLICY.anonymousDiagnosticAllowed, true);
+    assert.equal(AI_GUARDIAN_POLICY.practiceAllowedWithoutGuardian, false);
   });
 
   it("blocks raw audio and transcript retention requests", () => {

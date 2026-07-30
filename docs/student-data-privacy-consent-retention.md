@@ -173,6 +173,9 @@ Default handling:
 - Guardian access must be explicit, verified, revocable, and scoped.
 - Do not infer guardian rights only from shared email, phone, address, or
   payment behavior.
+- Users under 13 may complete the public placement diagnostic anonymously, but
+  saving a result, creating an account, or starting AI practice requires a
+  verified guardian flow.
 - When a student reaches the relevant legal/adult threshold, consent and access
   should be reviewed before continuing guardian visibility.
 - If a student is under 13 or the product is used by children under 13, block

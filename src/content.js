@@ -3324,14 +3324,14 @@ const conversionCtas = {
 };
 
 const placementTest = {
-  eyebrow: "Evaluación inicial",
-  title: "Descubre tu punto de partida en inglés",
+  eyebrow: "AIT Placement Diagnostic",
+  title: "Descubre tu punto de partida sin registrarte",
   intro:
-    "Completa el cuestionario de nivel directamente aquí. Recibirás una recomendación inicial automática y un asesor debe confirmarla antes de tu inscripción final.",
+    "Una pregunta a la vez, con progreso claro y libertad para regresar o saltar. Primero recibes una estimación de nivel; después decides si quieres guardarla o hablar con un asesor.",
   privacyNote:
-    "Tus respuestas se usan para calcular una recomendación inicial y preparar el mensaje de WhatsApp que tú decides enviar. El teléfono es opcional y no te inscribe en mensajes promocionales.",
+    "No pedimos nombre, email ni teléfono para completar el examen o ver tu estimación inicial. Tus respuestas se conservan solo en esta pestaña mientras avanzas y no se envían al CRM.",
   crmNote:
-    "El resultado es una guía inicial. Un asesor confirma contigo el nivel, el horario y el siguiente paso antes de la inscripción.",
+    "El resultado es una estimación inicial de AIT. Un asesor confirma contigo el nivel, horario y siguiente paso antes de la inscripción.",
   steps: {
     student: "Tus datos",
     selfAssessment: "Cómo te sientes hoy",

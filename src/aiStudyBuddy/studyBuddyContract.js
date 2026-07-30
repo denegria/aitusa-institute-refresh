@@ -41,8 +41,22 @@ export const AI_PROVIDER_GATE = Object.freeze({
 export const AI_COST_CONTROLS = Object.freeze({
   dailySessionLimit: 2,
   maxTurnsPerSession: 8,
+  acquisitionTrialSessionLimitPerVerifiedEmail: 1,
+  acquisitionTrialMaxLearnerTurns: 5,
+  acquisitionTrialEstimatedMinutes: Object.freeze({
+    min: 3,
+    max: 5,
+  }),
   maxEstimatedCentsPerSession: 0,
   hardStopUntilProviderApproval: true,
+});
+
+export const AI_GUARDIAN_POLICY = Object.freeze({
+  guardianRequiredUnderAge: 13,
+  anonymousDiagnosticAllowed: true,
+  accountClaimAllowedWithoutGuardian: false,
+  practiceAllowedWithoutGuardian: false,
+  guardianVerificationRequired: true,
 });
 
 export const AI_ESCALATION_REASONS = Object.freeze([

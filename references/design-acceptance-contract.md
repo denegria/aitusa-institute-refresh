@@ -1,3 +1,89 @@
+# AIT USA Placement Diagnostic V2 — MIS-339
+
+## Problem
+
+- User/job: a prospective English student wants to discover the right AIT
+  starting level without surrendering contact information first.
+- Current friction: the route asks for contact data before value and exposes all
+  62 questions in one long form, with no question-level progress, time estimate,
+  skip review, or app-like momentum.
+- Desired outcome: an anonymous, focused, one-question diagnostic that feels
+  alive, preserves academic trust, and creates a natural post-result path toward
+  account claim, practice, and advisor contact.
+
+## Selected Direction
+
+- Interaction model: stable single-page application shell with intro, one
+  graded question at a time, skipped review, short reflection, goal/writing,
+  anonymous result, and later account claim.
+- Visual direction: restrained academic playfulness—navy/gold progress,
+  tactile answer cards, directional transitions, and quiet block checkpoints.
+- Why this direction: it reduces cognitive load and abandonment while making
+  progress legible without turning the assessment into a game or revealing
+  correctness.
+- Rejected alternatives: the current all-question wall; contact-first wizard;
+  mid-test correctness feedback; constant confetti; and early “qualified level”
+  claims that can become false after Back or academic review.
+
+## Locked Contract
+
+- Behavior/state: 62 graded questions; one active question; Back, Skip, answer
+  changes, review queue; no correctness feedback; self-assessment excluded from
+  academic scoring; initial result before contact; 30-day retake policy for the
+  final service.
+- Permissions/data boundaries: initial staging slice is anonymous and
+  session-only; no CRM/storage/provider write; raw answers, writing, audio, and
+  transcripts stay out of generic events/CRM.
+- Routes/actions: `/placement-test/` and `/api/placement-test`; API remains an
+  explicitly provisional, no-storage/no-CRM boundary until MIS-337.
+- Copy: use “AIT placement estimate,” advisor confirmation, “Explorando
+  preguntas de Nivel …,” and no CEFR/certification claim.
+- Guardian rule: users under 13 may take the anonymous diagnostic, but saving,
+  account creation, and Study Buddy require a verified guardian.
+- Study Buddy trial: one 3–5 minute, five-learner-turn guided voice conversation
+  per verified email; text fallback; no raw audio/transcript retention.
+- Explicit non-goals: final block thresholds, durable resume, auth/account
+  claim, CRM writes, external provider calls, production promotion.
+
+## Responsive Contract
+
+- Primary browser CSS viewports: 390×844 and 1440×900.
+- Regression CSS viewports: 360×800, 430×932, and 1920×1080.
+- DPR/zoom assumptions: CSS pixels at default zoom; DPR is not an acceptance
+  dimension.
+- Layout constraints: the active question, its answers, progress, and primary
+  navigation should fit without nested scrolling at the primary viewports when
+  answer copy is typical; long prompts may extend the document naturally.
+- Balance invariants: stable shell, no layout jump between questions, no page
+  horizontal overflow, and all action targets at least 44px.
+- Content growth: four answer choices is normal; the shell must tolerate modest
+  prompt/choice growth and 1–2 digit minute estimates.
+
+## Evidence
+
+- Render path/state: intro → forward answer → Back → Skip → review → reflection
+  → goal/writing → anonymous result.
+- Local browser proof: primary and regression viewports, keyboard navigation,
+  reduced motion, refresh/session resume, and no hidden inactive-question
+  accessibility leakage.
+- Live staging proof: canonical staging route and the exact accepted commit.
+- DOM measurements: one visible active question, no horizontal overflow,
+  progress values update, Back/Skip controls remain 44px or larger.
+- Screenshot budget: intro, representative question, skipped review, and result
+  at primary desktop/mobile only.
+- Console/runtime checks: no console errors, runtime exceptions, failed route
+  requests, or unexpected CRM/provider calls.
+
+## Closeout Questions
+
+1. Does the shipped workflow still use the selected one-question model?
+2. Did the contact-first or all-question wall return in another container?
+3. Are anonymous value, guardian, scoring, and provider boundaries preserved?
+4. Were 390×844 and 1440×900 exercised as real CSS viewports?
+5. Are academic-key and durable-service deviations explicitly named?
+
+---
+
 # AIT USA Flagship Course Detail Template Contract
 
 ## User workflow and problem

@@ -38,10 +38,13 @@ describe("MIS-265 placement test route", () => {
 
     assert.equal(response.status, 200);
     assert.equal(body.ok, true);
-    assert.equal(body.placementTest.contract.sourceKey, "aitusa-placement-test-v1");
+    assert.equal(body.placementTest.contract.sourceKey, "aitusa-placement-test-v2-preview");
     assert.equal(body.placementTest.quizQuestionCount, 62);
-    assert.equal(body.placementTest.source.gradingMode, "automatic_provisional");
+    assert.equal(body.placementTest.contract.anonymousResultEnabled, true);
+    assert.equal(body.placementTest.contract.guardianRequiredUnderAge, 13);
+    assert.equal(body.placementTest.source.gradingMode, "automatic_provisional_total");
     assert.equal(body.placementTest.source.answerKeyStatus, "pending_academic_review");
+    assert.equal(body.placementTest.source.finalScoringStatus, "blocked_pending_academic_rules");
     assert.equal(body.crmWrite, false);
   });
 
@@ -53,8 +56,9 @@ describe("MIS-265 placement test route", () => {
     assert.equal(body.ok, true);
     assert.equal(body.recommendation.key, "book-3-upper");
     assert.equal(body.scores.quizQuestionCount, 62);
-    assert.equal(body.scores.maxScore, 65);
+    assert.equal(body.scores.maxScore, 62);
     assert.equal(body.scores.answerKeyStatus, "pending_academic_review");
+    assert.equal(body.scores.selfAssessmentAffectsPlacement, false);
     assert.equal(body.crmPayloadPreview.crmWrite, false);
     assert.equal(body.crmSyncPreview.crmTimelinePreview.eventType, "placement_completed");
   });
@@ -65,8 +69,27 @@ describe("MIS-265 placement test route", () => {
 
     assert.equal(response.status, 422);
     assert.equal(body.ok, false);
-    assert.equal(body.errors.includes("student_required"), true);
+    assert.equal(body.errors.includes("quiz_answers_count_invalid"), true);
+    assert.equal(body.errors.includes("student_required"), false);
     assert.equal(body.crmWrite, false);
+  });
+
+  it("returns an anonymous result without handoff consent", async () => {
+    const response = await POST(request({
+      ...validBody,
+      attemptId: "attempt-route-fixture",
+      student: {},
+      consent: { advisorHandoff: false },
+      skippedQuestionIndexes: [60, 61],
+    }));
+    const body = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(body.ok, true);
+    assert.equal(body.attemptId, "attempt-route-fixture");
+    assert.equal(body.scores.skippedQuestionCount, 2);
+    assert.equal(body.crmPayloadPreview.consent.advisorHandoff, false);
+    assert.equal(body.storageEnabled, false);
   });
 
   it("rejects malformed request bodies without throwing", async () => {

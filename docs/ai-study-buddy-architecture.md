@@ -13,6 +13,11 @@ audio or transcripts, and does not write to AIT CRM.
 - Lesson review
 - Vocabulary quiz
 
+The launch acquisition reward is one guided conversation roleplay per verified
+email, targeting 3–5 minutes and no more than five learner turns. The flow uses
+push-to-talk/tap-to-record, one concise correction, one retry, and a short
+next-practice recommendation. A text fallback is required.
+
 ## Provider boundary
 
 The browser must not call an LLM provider directly. Portal UI should call a
@@ -33,6 +38,10 @@ calls are disabled until a provider/model decision is approved.
 Raw audio and raw transcripts remain blocked. The only CRM-safe default event is
 a practice started/completed summary with topic/use case, progress state, and
 whether escalation is needed.
+
+Users under 13 require a verified guardian before an account can be claimed or
+AI practice can begin. Anonymous diagnostic completion remains allowed because
+it does not require identity collection.
 
 ## Escalation
 

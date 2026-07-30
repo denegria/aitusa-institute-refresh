@@ -13,21 +13,21 @@ export default function PlacementTestPage() {
   return (
     <>
       <SiteHeader activePage="placement" />
-      <main id="main-content">
-        <section className="page-hero section" id="inicio">
+      <main className="placement-page" id="main-content">
+        <section className="page-hero placement-page__hero section" id="inicio">
           <div className="section-inner placement-hero">
             <div className="page-hero__copy">
               <p className="section-kicker">{placementTest.eyebrow || "Evaluación inicial"}</p>
               <h1>{placementTest.title || "Examen de ubicación"}</h1>
               <p>{placementTest.intro || ""}</p>
               <div className="notice-box">
-                <strong>Importante:</strong>
+                <strong>Primero recibes valor:</strong>
                 <span>{placementTest.privacyNote || ""}</span>
               </div>
             </div>
           </div>
         </section>
-        <section className="section section--white" id="placement-test">
+        <section className="section placement-page__app" id="placement-test">
           <PlacementExperience />
         </section>
       </main>

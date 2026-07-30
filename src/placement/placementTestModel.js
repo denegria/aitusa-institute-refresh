@@ -6,11 +6,17 @@ import {
 } from "../crm/eventContract.js";
 
 export const PLACEMENT_TEST_CONTRACT = Object.freeze({
-  sourceKey: "aitusa-placement-test-v1",
-  sourceName: "AIT USA Placement Test",
+  sourceKey: "aitusa-placement-test-v2-preview",
+  sourceName: "AIT USA Placement Diagnostic",
+  productContractVersion: "aitusa-placement-v2-draft-2026-07-30",
+  questionBankVersion: "legacy-62-pending-academic-review",
+  scoringContractVersion: "provisional-total-v1",
   crmWrite: false,
   storageEnabled: false,
+  anonymousResultEnabled: true,
+  durableResumeEnabled: false,
   advisorConfirmationRequired: true,
+  guardianRequiredUnderAge: 13,
   whatsappNumber: "+1 732-379-0593",
   whatsappHref: "https://wa.me/17323790593",
 });
@@ -24,6 +30,15 @@ export const PLACEMENT_SELF_ASSESSMENTS = Object.freeze([
 
 export const PLACEMENT_QUIZ_QUESTION_COUNT = 62;
 
+export const PLACEMENT_LEVEL_BLOCKS = Object.freeze([
+  Object.freeze({ key: "level-1", label: "Level 1", book: "Book 1", start: 0, count: 12 }),
+  Object.freeze({ key: "level-2", label: "Level 2", book: "Book 1", start: 12, count: 13 }),
+  Object.freeze({ key: "level-3", label: "Level 3", book: "Book 2", start: 25, count: 10 }),
+  Object.freeze({ key: "level-4", label: "Level 4", book: "Book 2", start: 35, count: 7 }),
+  Object.freeze({ key: "level-5", label: "Level 5", book: "Book 3", start: 42, count: 8 }),
+  Object.freeze({ key: "level-6", label: "Level 6", book: "Book 3", start: 50, count: 12 }),
+]);
+
 export const PLACEMENT_RECOMMENDATIONS = Object.freeze([
   Object.freeze({
     key: "foundation",
@@ -31,17 +46,17 @@ export const PLACEMENT_RECOMMENDATIONS = Object.freeze([
     max: 12,
     level: "Nivel inicial / Book 1 base",
     copy:
-      "Te conviene empezar con una ruta base enfocada en comprension, frases utiles y practica guiada.",
-    bestFit: "Ingles presencial o hibrido para construir confianza desde cero.",
+      "Te conviene empezar con una ruta base enfocada en comprensión, frases útiles y práctica guiada.",
+    bestFit: "Inglés presencial u online para construir confianza desde cero.",
   }),
   Object.freeze({
     key: "book-1-bridge",
     min: 13,
     max: 23,
-    level: "Book 1 alto / Basico funcional",
+    level: "Book 1 alto / Básico funcional",
     copy:
-      "Ya tienes algunas bases y puedes avanzar con correccion en vivo, estructura visual y practica semanal.",
-    bestFit: "Ingles presencial, hibrido u online segun tu agenda y ubicacion.",
+      "Ya tienes algunas bases y puedes avanzar con corrección en vivo, estructura visual y práctica semanal.",
+    bestFit: "Inglés presencial u online según tu agenda y ubicación.",
   }),
   Object.freeze({
     key: "book-2-entry",
@@ -49,9 +64,9 @@ export const PLACEMENT_RECOMMENDATIONS = Object.freeze([
     max: 34,
     level: "Book 2 inicial / Intermedio bajo",
     copy:
-      "Puedes trabajar estructuras de pasado, comparaciones y comunicacion cotidiana con mas continuidad.",
+      "Puedes trabajar estructuras de pasado, comparaciones y comunicación cotidiana con más continuidad.",
     bestFit:
-      "Ruta conversacional con confirmacion de nivel antes de cerrar horario o inscripcion.",
+      "Ruta conversacional con confirmación de nivel antes de cerrar horario o inscripción.",
   }),
   Object.freeze({
     key: "book-2-upper",
@@ -59,9 +74,9 @@ export const PLACEMENT_RECOMMENDATIONS = Object.freeze([
     max: 45,
     level: "Book 2 alto / Intermedio",
     copy:
-      "Tienes base para una clase con mas conversacion, correccion puntual y objetivos especificos.",
+      "Tienes base para una clase con más conversación, corrección puntual y objetivos específicos.",
     bestFit:
-      "Grupo intermedio presencial, hibrido u online segun disponibilidad y meta principal.",
+      "Grupo intermedio presencial u online según disponibilidad y meta principal.",
   }),
   Object.freeze({
     key: "book-3-entry",
@@ -69,9 +84,9 @@ export const PLACEMENT_RECOMMENDATIONS = Object.freeze([
     max: 56,
     level: "Book 3 inicial / Intermedio alto",
     copy:
-      "Puedes practicar estructuras mas avanzadas, fluidez, escritura corta y situaciones de trabajo o estudio.",
+      "Puedes practicar estructuras más avanzadas, fluidez, escritura corta y situaciones de trabajo o estudio.",
     bestFit:
-      "Ruta intermedia alta con practica oral y confirmacion academica antes de inscripcion final.",
+      "Ruta intermedia alta con práctica oral y confirmación académica antes de inscripción final.",
   }),
   Object.freeze({
     key: "book-3-upper",
@@ -79,13 +94,11 @@ export const PLACEMENT_RECOMMENDATIONS = Object.freeze([
     max: 65,
     level: "Book 3 alto / Avanzado orientativo",
     copy:
-      "Tu resultado sugiere una ruta avanzada o de objetivos especificos, sujeta a entrevista o revision de escritura.",
+      "Tu resultado sugiere una ruta avanzada o de objetivos específicos, sujeta a entrevista o revisión de escritura.",
     bestFit:
-      "Ruta conversacional, online o presencial, segun disponibilidad y meta principal.",
+      "Ruta conversacional, online o presencial, según disponibilidad y meta principal.",
   }),
 ]);
-
-const REQUIRED_STUDENT_FIELDS = ["name", "email", "city", "ageGroup"];
 
 export function getPlacementTestConfig() {
   return {
@@ -96,11 +109,14 @@ export function getPlacementTestConfig() {
       title: "PLACEMENT EXAM (EXAMEN DE NIVELACION) COMMUNICATIVE ENGLISH",
       legacyLevels: 6,
       freeWritingIncluded: true,
-      gradingMode: "automatic_provisional",
+      gradingMode: "automatic_provisional_total",
       answerKeyStatus: "pending_academic_review",
+      finalScoringModel: "highest_validated_level_block_passed",
+      finalScoringStatus: "blocked_pending_academic_rules",
       note:
-        "Las preguntas vienen del cuestionario legado. La calificacion automatica es orientativa hasta que AIT confirme la llave academica final.",
+        "Las preguntas vienen del cuestionario legado. La estimacion automatica es provisional hasta que AIT confirme la llave, los bloques y las reglas academicas finales.",
     },
+    levelBlocks: PLACEMENT_LEVEL_BLOCKS,
     recommendations: PLACEMENT_RECOMMENDATIONS,
     crmWrite: false,
   };
@@ -119,23 +135,24 @@ export function evaluatePlacementTestSubmission(input = {}) {
     };
   }
 
-  const submittedAt = input.submittedAt ?? new Date().toISOString();
-  const scores = calculatePlacementScore(input);
+  const normalizedInput = normalizePlacementInput(input);
+  const submittedAt = normalizedInput.submittedAt ?? new Date().toISOString();
+  const scores = calculatePlacementScore(normalizedInput);
   const recommendation = selectPlacementRecommendation(scores.totalScore);
   const advisorMessage = buildAdvisorHandoffMessage({
-    student: input.student,
-    goal: input.goal,
+    student: normalizedInput.student,
+    goal: normalizedInput.goal,
     recommendation,
     scores,
   });
   const crmPayloadPreview = buildPlacementCrmPayloadPreview({
-    input,
+    input: normalizedInput,
     recommendation,
     scores,
     submittedAt,
   });
   const crmSyncPreview = buildPlacementCrmSyncPreview({
-    input,
+    input: normalizedInput,
     recommendation,
     scores,
     submittedAt,
@@ -146,8 +163,15 @@ export function evaluatePlacementTestSubmission(input = {}) {
     status: 200,
     body: {
       ok: true,
+      attemptId: normalizedInput.attemptId || null,
       recommendation,
       scores,
+      resultStatus: {
+        advisorConfirmationRequired: true,
+        academicKeyStatus: "pending_academic_review",
+        finalScoringStatus: "blocked_pending_academic_rules",
+        certifiedAssessment: false,
+      },
       advisorHandoff: {
         channel: "whatsapp",
         label: "Enviar resultado por WhatsApp",
@@ -172,16 +196,41 @@ export function calculatePlacementScore(input) {
   const selfAssessmentAverage = Math.round(
     selfAssessmentScore / PLACEMENT_SELF_ASSESSMENTS.length,
   );
+  const skippedQuestionIndexes = new Set(input.skippedQuestionIndexes || []);
+  const blockScores = PLACEMENT_LEVEL_BLOCKS.map((block) => {
+    const answers = input.quizAnswers.slice(block.start, block.start + block.count);
+    const skippedCount = Array.from(
+      { length: block.count },
+      (_, localIndex) => block.start + localIndex,
+    ).filter((index) => skippedQuestionIndexes.has(index)).length;
+    return {
+      key: block.key,
+      label: block.label,
+      book: block.book,
+      correct: answers.reduce((total, value) => total + Number(value), 0),
+      answered: block.count - skippedCount,
+      skipped: skippedCount,
+      questionCount: block.count,
+      passStatus: "pending_academic_rules",
+    };
+  });
 
   return {
     quizScore,
     quizQuestionCount: PLACEMENT_QUIZ_QUESTION_COUNT,
+    answeredQuestionCount:
+      PLACEMENT_QUIZ_QUESTION_COUNT - skippedQuestionIndexes.size,
+    skippedQuestionCount: skippedQuestionIndexes.size,
+    blockScores,
     selfAssessmentScore,
     selfAssessmentAverage,
-    totalScore: quizScore + selfAssessmentAverage,
-    maxScore: PLACEMENT_QUIZ_QUESTION_COUNT + 3,
-    gradingMode: "automatic_provisional",
+    selfAssessmentAffectsPlacement: false,
+    totalScore: quizScore,
+    maxScore: PLACEMENT_QUIZ_QUESTION_COUNT,
+    gradingMode: "automatic_provisional_total",
     answerKeyStatus: "pending_academic_review",
+    finalScoringModel: "highest_validated_level_block_passed",
+    finalScoringStatus: "blocked_pending_academic_rules",
   };
 }
 
@@ -200,19 +249,20 @@ export function buildAdvisorHandoffMessage({
   recommendation,
   scores,
 }) {
-  return [
+  const message = [
     "Hola AIT USA, ya complete el examen de ubicacion.",
-    `Nombre: ${student.name}`,
-    `Ciudad/Pais: ${student.city}`,
-    `WhatsApp/telefono: ${student.phone || "No indicado"}`,
-    `Email: ${student.email}`,
-    `Grupo de edad: ${student.ageGroup}`,
+    student.name ? `Nombre: ${student.name}` : null,
+    student.city ? `Ciudad/Pais: ${student.city}` : null,
+    student.phone ? `WhatsApp/telefono: ${student.phone}` : null,
+    student.email ? `Email: ${student.email}` : null,
+    student.ageGroup ? `Grupo de edad: ${student.ageGroup}` : null,
     `Objetivo: ${goal}`,
     `Resultado sugerido: ${recommendation.level}`,
-    `Puntaje orientativo: ${scores.totalScore}`,
+    `Preguntas correctas: ${scores.quizScore} de ${scores.quizQuestionCount}`,
     `Detalle: ${recommendation.copy}`,
     "Quiero confirmar esta recomendacion con un asesor.",
-  ].join("\n");
+  ];
+  return message.filter(Boolean).join("\n");
 }
 
 export function buildPlacementCrmPayloadPreview({
@@ -229,26 +279,31 @@ export function buildPlacementCrmPayloadPreview({
     crmWrite: false,
     storageEnabled: false,
     contactFieldsProvided: {
-      name: Boolean(input.student.name),
-      phone: Boolean(input.student.phone),
-      email: Boolean(input.student.email),
-      city: Boolean(input.student.city),
-      ageGroup: Boolean(input.student.ageGroup),
+      name: Boolean(input.student?.name),
+      phone: Boolean(input.student?.phone),
+      email: Boolean(input.student?.email),
+      city: Boolean(input.student?.city),
+      ageGroup: Boolean(input.student?.ageGroup),
     },
     placement: {
       goal: input.goal,
       totalScore: scores.totalScore,
       quizScore: scores.quizScore,
       quizQuestionCount: scores.quizQuestionCount,
+      answeredQuestionCount: scores.answeredQuestionCount,
+      skippedQuestionCount: scores.skippedQuestionCount,
       selfAssessmentAverage: scores.selfAssessmentAverage,
+      selfAssessmentAffectsPlacement: false,
       recommendationKey: recommendation.key,
       recommendationLevel: recommendation.level,
       advisorConfirmationRequired: true,
       gradingMode: scores.gradingMode,
       answerKeyStatus: scores.answerKeyStatus,
+      finalScoringModel: scores.finalScoringModel,
+      finalScoringStatus: scores.finalScoringStatus,
     },
     consent: {
-      advisorHandoff: input.consent.advisorHandoff === true,
+      advisorHandoff: input.consent?.advisorHandoff === true,
       crmStorageApproved: false,
       marketingSmsOptIn: false,
       marketingSmsSource: "not_collected_on_placement_test",
@@ -288,6 +343,7 @@ export function buildPlacementCrmSyncPreview({
       goal: input.goal,
       gradingMode: scores.gradingMode,
       answerKeyStatus: scores.answerKeyStatus,
+      finalScoringStatus: scores.finalScoringStatus,
       contactFieldsProvided: crmPayloadPreview.contactFieldsProvided,
       advisorConfirmationRequired: true,
       crmStorageApproved: false,
@@ -315,21 +371,28 @@ export function validatePlacementInput(input = {}) {
 
   const errors = [];
 
-  if (!isRecord(input.student)) {
-    errors.push("student_required");
-  } else {
-    for (const field of REQUIRED_STUDENT_FIELDS) {
-      if (!isNonEmptyString(input.student[field])) {
-        errors.push(`student_${field}_required`);
+  if (input.student !== undefined && !isRecord(input.student)) {
+    errors.push("student_invalid");
+  } else if (isRecord(input.student)) {
+    for (const field of ["name", "phone", "email", "city", "ageGroup"]) {
+      if (
+        input.student[field] !== undefined &&
+        input.student[field] !== "" &&
+        !isNonEmptyString(input.student[field])
+      ) {
+        errors.push(`student_${field}_invalid`);
       }
     }
   }
 
-  if (!isRecord(input.selfAssessment)) {
-    errors.push("self_assessment_required");
-  } else {
+  if (input.selfAssessment !== undefined && !isRecord(input.selfAssessment)) {
+    errors.push("self_assessment_invalid");
+  } else if (isRecord(input.selfAssessment)) {
     for (const key of PLACEMENT_SELF_ASSESSMENTS) {
-      if (!isScoreValue(input.selfAssessment[key])) {
+      if (
+        input.selfAssessment[key] !== undefined &&
+        !isScoreValue(input.selfAssessment[key])
+      ) {
         errors.push(`self_assessment_${key}_invalid`);
       }
     }
@@ -351,8 +414,31 @@ export function validatePlacementInput(input = {}) {
     errors.push("goal_required");
   }
 
-  if (input.consent?.advisorHandoff !== true) {
-    errors.push("advisor_handoff_consent_required");
+  if (
+    input.attemptId !== undefined &&
+    (!isNonEmptyString(input.attemptId) || input.attemptId.length > 128)
+  ) {
+    errors.push("attempt_id_invalid");
+  }
+
+  if (input.skippedQuestionIndexes !== undefined) {
+    if (!Array.isArray(input.skippedQuestionIndexes)) {
+      errors.push("skipped_question_indexes_invalid");
+    } else {
+      const seen = new Set();
+      for (const index of input.skippedQuestionIndexes) {
+        if (
+          !Number.isInteger(index) ||
+          index < 0 ||
+          index >= PLACEMENT_QUIZ_QUESTION_COUNT ||
+          seen.has(index)
+        ) {
+          errors.push("skipped_question_indexes_invalid");
+          break;
+        }
+        seen.add(index);
+      }
+    }
   }
 
   if (
@@ -371,15 +457,31 @@ function createSubmissionFingerprint(input) {
   return createHash("sha256")
     .update(
       [
-        input.student?.name,
-        input.student?.phone,
+        input.attemptId,
         input.student?.email,
-        input.student?.city,
+        input.quizAnswers.join(""),
         input.goal,
       ].join("|"),
     )
     .digest("hex")
     .slice(0, 20);
+}
+
+function normalizePlacementInput(input) {
+  return {
+    ...input,
+    student: isRecord(input.student) ? input.student : {},
+    selfAssessment: Object.fromEntries(
+      PLACEMENT_SELF_ASSESSMENTS.map((key) => [
+        key,
+        Number(input.selfAssessment?.[key] || 0),
+      ]),
+    ),
+    skippedQuestionIndexes: Array.isArray(input.skippedQuestionIndexes)
+      ? input.skippedQuestionIndexes
+      : [],
+    consent: isRecord(input.consent) ? input.consent : {},
+  };
 }
 
 function isRecord(value) {
