@@ -6,6 +6,7 @@ import {
   selectPlacementRecommendation,
   validatePlacementInput,
 } from "../src/placement/placementTestModel.js";
+import { DIAGNOSTIC_QUESTION_BANK } from "../src/diagnostic/questionBank.server.js";
 
 const validSubmission = Object.freeze({
   student: Object.freeze({
@@ -21,10 +22,12 @@ const validSubmission = Object.freeze({
     reading: 1,
     writing: 1,
   }),
-  quizAnswers: Object.freeze([
-    ...Array(38).fill(1),
-    ...Array(24).fill(0),
-  ]),
+  selectedAnswers: Object.freeze(
+    DIAGNOSTIC_QUESTION_BANK.map((question, index) =>
+      index < 38 ? question.correctAnswer : question.options.find(
+        (option) => option !== question.correctAnswer,
+      )),
+  ),
   goal: "Trabajo y entrevistas",
   consent: Object.freeze({
     advisorHandoff: true,
@@ -36,21 +39,25 @@ describe("MIS-265 placement test model", () => {
   it("validates score and goal while allowing an anonymous result", () => {
     const validation = validatePlacementInput({
       selfAssessment: { speaking: 4 },
-      quizAnswers: [1],
+      selectedAnswers: ["invalid"],
       goal: "",
       consent: { advisorHandoff: false },
     });
 
     assert.equal(validation.ok, false);
     assert.equal(validation.errors.includes("self_assessment_speaking_invalid"), true);
-    assert.equal(validation.errors.includes("quiz_answers_count_invalid"), true);
+    assert.equal(validation.errors.includes("selected_answers_count_invalid"), true);
     assert.equal(validation.errors.includes("goal_required"), true);
     assert.equal(validation.errors.includes("student_required"), false);
     assert.equal(validation.errors.includes("advisor_handoff_consent_required"), false);
   });
 
   it("scores only graded answers and keeps self-assessment outside placement", () => {
-    const score = calculatePlacementScore(validSubmission);
+    const score = calculatePlacementScore({
+      ...validSubmission,
+      quizAnswers: [...Array(38).fill(1), ...Array(24).fill(0)],
+      skippedQuestionIndexes: [],
+    });
 
     assert.equal(score.quizScore, 38);
     assert.equal(score.quizQuestionCount, 62);
@@ -73,7 +80,7 @@ describe("MIS-265 placement test model", () => {
       attemptId: "attempt-fixture-001",
       student: {},
       consent: { advisorHandoff: false },
-      skippedQuestionIndexes: [61],
+      selectedAnswers: [...validSubmission.selectedAnswers.slice(0, 61), null],
     });
 
     assert.equal(response.status, 200);

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { placementTest, site } from "../../../src/content";
 
 const SESSION_KEY = "aitusa:placement-v2:session";
-const SESSION_VERSION = 1;
+const SESSION_VERSION = 2;
 const SECONDS_PER_GRADED_QUESTION = 11;
 
 function createAttemptId() {
@@ -14,8 +14,16 @@ function createAttemptId() {
   return `placement-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+function createRequestSecret() {
+  return `${createAttemptId()}${createAttemptId()}`;
+}
+
 function createEmptyAnswers(count) {
   return Array.from({ length: count }, () => null);
+}
+
+function questionKey(index) {
+  return `q-${String(index + 1).padStart(3, "0")}`;
 }
 
 function normalizeSnapshot(snapshot, questionCount) {
@@ -41,6 +49,47 @@ function normalizeSnapshot(snapshot, questionCount) {
       questionCount - 1,
     ),
   };
+}
+
+function buildServerResumeSnapshot(body, questionCount) {
+  if (body?.ok !== true || body?.durable !== true || !body.attempt) return null;
+  const answers = createEmptyAnswers(questionCount);
+  const skipped = [];
+  for (const answer of body.answers || []) {
+    const index = Number.parseInt(answer.questionKey?.slice(2), 10) - 1;
+    if (!Number.isInteger(index) || index < 0 || index >= questionCount) continue;
+    answers[index] = answer.answerState === "answered" ? answer.answerValue : null;
+    if (answer.answerState === "skipped") skipped.push(index);
+  }
+  const firstUnanswered = answers.findIndex(
+    (value, index) => value === null && !skipped.includes(index),
+  );
+  return {
+    version: SESSION_VERSION,
+    attemptId: body.attempt.id,
+    ageBand: "age_13_plus",
+    durable: true,
+    serverRevision: body.attempt.revision,
+    screen: body.result ? "result" : "question",
+    questionIndex: firstUnanswered >= 0 ? firstUnanswered : questionCount - 1,
+    answers,
+    skipped,
+    selfAssessment: {},
+    reflectionIndex: 0,
+    goal: body.goal || body.result?.crmPayloadPreview?.placement?.goal || "",
+    writingSample: "",
+    result: body.result || null,
+  };
+}
+
+function serverSnapshotMatchesLocal(serverSnapshot, localSnapshot) {
+  return (
+    serverSnapshot.answers.every(
+      (answer, index) => answer === localSnapshot.answers[index],
+    ) &&
+    serverSnapshot.skipped.length === localSnapshot.skipped.length &&
+    serverSnapshot.skipped.every((index) => localSnapshot.skipped.includes(index))
+  );
 }
 
 function getBookKey(levelIndex) {
@@ -101,7 +150,7 @@ function ProgressHeader({ question, questionIndex, questionCount }) {
   );
 }
 
-function IntroScreen({ resumeSnapshot, onStart, onResume }) {
+function IntroScreen({ busy, error, resumeSnapshot, onStart, onResume }) {
   return (
     <section className="diagnostic-intro" data-diagnostic-screen="intro">
       <div>
@@ -118,16 +167,41 @@ function IntroScreen({ resumeSnapshot, onStart, onResume }) {
             <button className="button button--primary" type="button" onClick={onResume}>
               Continuar donde quedé
             </button>
-            <button className="button button--ghost" type="button" onClick={onStart}>
+            <button
+              className="button button--ghost"
+              type="button"
+              onClick={() => onStart("age_13_plus")}
+            >
               Empezar de nuevo
             </button>
           </>
         ) : (
-          <button className="button button--primary" type="button" onClick={onStart}>
-            Comenzar mi examen
-          </button>
+          <>
+            <button
+              className="button button--primary"
+              disabled={busy}
+              type="button"
+              onClick={() => onStart("age_13_plus")}
+            >
+              {busy ? "Preparando…" : "Comenzar · 13 años o más"}
+            </button>
+            <button
+              className="button button--ghost"
+              disabled={busy}
+              type="button"
+              onClick={() => onStart("under_13")}
+            >
+              Es para un menor de 13
+            </button>
+          </>
         )}
       </div>
+      {error ? (
+        <div className="diagnostic-error" role="alert">
+          <strong>No pudimos activar el respaldo de siete días.</strong>
+          <span>{error}</span>
+        </div>
+      ) : null}
       <div className="diagnostic-intro__facts" aria-label="Detalles del examen">
         <article>
           <strong>10–15 min</strong>
@@ -149,6 +223,10 @@ function IntroScreen({ resumeSnapshot, onStart, onResume }) {
           nivel final antes de la inscripción.
         </p>
       </div>
+      <p className="diagnostic-level-note">
+        Para menores de 13 años, las respuestas permanecen solo en esta pestaña.
+        Guardar el resultado o practicar requerirá una cuenta verificada del tutor.
+      </p>
     </section>
   );
 }
@@ -353,7 +431,14 @@ function GoalScreen({
   );
 }
 
-function ResultScreen({ completedCount, goal, onRestart, result, skippedCount }) {
+function ResultScreen({
+  completedCount,
+  goal,
+  onRestart,
+  result,
+  skippedCount,
+  syncNotice,
+}) {
   const recommendation = result?.recommendation;
   const scores = result?.scores || {};
   if (!recommendation) return null;
@@ -392,6 +477,9 @@ function ResultScreen({ completedCount, goal, onRestart, result, skippedCount })
           AIT todavía está validando la llave académica y las reglas por nivel.
           Esta estimación es provisional y no representa una certificación CEFR.
         </p>
+        {syncNotice ? (
+          <p className="diagnostic-result__provisional">{syncNotice}</p>
+        ) : null}
       </div>
       <div className="diagnostic-unlock">
         <div>
@@ -443,6 +531,11 @@ export function PlacementExperience() {
   }, []);
 
   const advanceTimer = useRef(null);
+  const attemptIdRef = useRef("");
+  const durableRef = useRef(false);
+  const revisionRef = useRef(0);
+  const syncFailedRef = useRef(false);
+  const syncQueue = useRef(Promise.resolve());
   const [screen, setScreen] = useState("intro");
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState(() => createEmptyAnswers(flatQuestions.length));
@@ -452,26 +545,86 @@ export function PlacementExperience() {
   const [goal, setGoal] = useState("");
   const [writingSample, setWritingSample] = useState("");
   const [attemptId, setAttemptId] = useState("");
+  const [ageBand, setAgeBand] = useState("age_13_plus");
+  const [durable, setDurable] = useState(false);
+  const [serverRevision, setServerRevision] = useState(0);
   const [resumeSnapshot, setResumeSnapshot] = useState(null);
   const [reviewReturn, setReviewReturn] = useState(false);
   const [direction, setDirection] = useState("forward");
   const [pendingAdvance, setPendingAdvance] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [syncNotice, setSyncNotice] = useState("");
   const [result, setResult] = useState(null);
 
   useEffect(() => {
-    try {
-      const saved = normalizeSnapshot(
-        JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null"),
-        flatQuestions.length,
-      );
-      if (saved) setResumeSnapshot(saved);
-    } catch {
-      sessionStorage.removeItem(SESSION_KEY);
-    }
+    let cancelled = false;
+    const restore = async () => {
+      let saved = null;
+      try {
+        saved = normalizeSnapshot(
+          JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null"),
+          flatQuestions.length,
+        );
+      } catch {
+        sessionStorage.removeItem(SESSION_KEY);
+      }
+
+      if (saved && saved.durable !== true) {
+        if (!cancelled) setResumeSnapshot(saved);
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/diagnostic/attempts/resume", {
+          cache: "no-store",
+          credentials: "same-origin",
+        });
+        const body = response.ok ? await response.json() : null;
+        const serverSnapshot = buildServerResumeSnapshot(
+          body,
+          flatQuestions.length,
+        );
+        if (cancelled) return;
+        if (!saved) {
+          if (serverSnapshot) setResumeSnapshot(serverSnapshot);
+          return;
+        }
+        if (
+          serverSnapshot &&
+          (
+            serverSnapshot.result ||
+            serverSnapshotMatchesLocal(serverSnapshot, saved)
+          )
+        ) {
+          setResumeSnapshot(
+            serverSnapshot.result
+              ? serverSnapshot
+              : { ...saved, serverRevision: serverSnapshot.serverRevision },
+          );
+          return;
+        }
+        setResumeSnapshot({
+          ...saved,
+          durable: false,
+          syncNotice:
+            "Recuperamos tus respuestas de esta pestaña, pero continuaremos sin respaldo en línea para no perder ningún cambio.",
+        });
+      } catch {
+        if (!cancelled && saved) {
+          setResumeSnapshot({
+            ...saved,
+            durable: false,
+            syncNotice:
+              "Recuperamos tus respuestas de esta pestaña y continuaremos sin respaldo en línea.",
+          });
+        }
+      }
+    };
+    restore();
     return () => {
       if (advanceTimer.current) window.clearTimeout(advanceTimer.current);
+      cancelled = true;
     };
   }, [flatQuestions.length]);
 
@@ -480,6 +633,9 @@ export function PlacementExperience() {
     sessionStorage.setItem(SESSION_KEY, JSON.stringify({
       version: SESSION_VERSION,
       attemptId,
+      ageBand,
+      durable,
+      serverRevision,
       screen,
       questionIndex,
       answers,
@@ -488,17 +644,24 @@ export function PlacementExperience() {
       reflectionIndex,
       goal,
       writingSample,
+      syncNotice,
+      result,
     }));
   }, [
     answers,
+    ageBand,
     attemptId,
+    durable,
     goal,
     questionIndex,
     reflectionIndex,
     screen,
+    serverRevision,
     selfAssessment,
     skipped,
+    syncNotice,
     writingSample,
+    result,
   ]);
 
   useEffect(() => {
@@ -513,10 +676,47 @@ export function PlacementExperience() {
     return () => window.cancelAnimationFrame(frame);
   }, [screen]);
 
-  const beginNewAttempt = () => {
+  const beginNewAttempt = async (nextAgeBand) => {
     if (advanceTimer.current) window.clearTimeout(advanceTimer.current);
     sessionStorage.removeItem(SESSION_KEY);
-    setAttemptId(createAttemptId());
+    const requestId = createAttemptId();
+    const requestSecret = createRequestSecret();
+    let nextAttemptId = requestId;
+    let nextDurable = false;
+    let nextRevision = 0;
+    setBusy(true);
+    setError("");
+    setSyncNotice("");
+    setAgeBand(nextAgeBand);
+    if (nextAgeBand === "age_13_plus") {
+      try {
+        const response = await fetch("/api/diagnostic/attempts", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ requestId, requestSecret, ageBand: nextAgeBand }),
+        });
+        const body = await response.json();
+        if (!response.ok || body.ok !== true || body.durable !== true) {
+          throw new Error(body.error || "diagnostic_storage_unavailable");
+        }
+        nextAttemptId = body.attempt.id;
+        nextDurable = true;
+        nextRevision = body.attempt.revision;
+      } catch {
+        setSyncNotice(
+          "Puedes continuar de todos modos; el avance quedará guardado solo en esta pestaña.",
+        );
+      }
+    }
+    attemptIdRef.current = nextAttemptId;
+    durableRef.current = nextDurable;
+    revisionRef.current = nextRevision;
+    syncFailedRef.current = false;
+    syncQueue.current = Promise.resolve();
+    setAttemptId(nextAttemptId);
+    setDurable(nextDurable);
+    setServerRevision(nextRevision);
     setAnswers(createEmptyAnswers(flatQuestions.length));
     setSkipped([]);
     setSelfAssessment({});
@@ -529,11 +729,23 @@ export function PlacementExperience() {
     setResumeSnapshot(null);
     setDirection("forward");
     setScreen("question");
+    setBusy(false);
   };
 
   const resumeAttempt = () => {
     if (!resumeSnapshot) return;
-    setAttemptId(resumeSnapshot.attemptId || createAttemptId());
+    const nextAttemptId = resumeSnapshot.attemptId || createAttemptId();
+    const nextDurable = resumeSnapshot.durable === true;
+    const nextRevision = Number(resumeSnapshot.serverRevision || 0);
+    attemptIdRef.current = nextAttemptId;
+    durableRef.current = nextDurable;
+    revisionRef.current = nextRevision;
+    syncFailedRef.current = false;
+    syncQueue.current = Promise.resolve();
+    setAttemptId(nextAttemptId);
+    setAgeBand(resumeSnapshot.ageBand || "age_13_plus");
+    setDurable(nextDurable);
+    setServerRevision(nextRevision);
     setAnswers(resumeSnapshot.answers);
     setSkipped(resumeSnapshot.skipped);
     setSelfAssessment(resumeSnapshot.selfAssessment);
@@ -541,12 +753,52 @@ export function PlacementExperience() {
     setQuestionIndex(resumeSnapshot.questionIndex);
     setGoal(resumeSnapshot.goal || "");
     setWritingSample(resumeSnapshot.writingSample || "");
+    setSyncNotice(resumeSnapshot.syncNotice || "");
+    setResult(resumeSnapshot.result || null);
     setDirection("forward");
     setScreen(
-      ["question", "review", "reflection", "goal"].includes(resumeSnapshot.screen)
+      ["question", "review", "reflection", "goal", "result"].includes(resumeSnapshot.screen)
         ? resumeSnapshot.screen
         : "question",
     );
+  };
+
+  const queueAnswerMutation = (index, value) => {
+    if (!durableRef.current || syncFailedRef.current) return;
+    const mutationId = createAttemptId();
+    const currentAttemptId = attemptIdRef.current;
+    syncQueue.current = syncQueue.current
+      .then(async () => {
+        if (syncFailedRef.current) return;
+        const response = await fetch(
+          `/api/diagnostic/attempts/${encodeURIComponent(currentAttemptId)}`,
+          {
+            method: "PATCH",
+            credentials: "same-origin",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              mutationId,
+              expectedRevision: revisionRef.current,
+              questionKey: questionKey(index),
+              answerState: value === null ? "skipped" : "answered",
+              answerValue: value,
+            }),
+          },
+        );
+        const body = await response.json();
+        if (!response.ok || body.ok !== true) {
+          throw new Error(body.error || "diagnostic_answer_sync_failed");
+        }
+        revisionRef.current = body.revision;
+        setServerRevision(body.revision);
+      })
+      .catch(() => {
+        syncFailedRef.current = true;
+        setDurable(false);
+        setSyncNotice(
+          "Perdimos el respaldo en línea, pero tus respuestas siguen seguras en esta pestaña.",
+        );
+      });
   };
 
   const moveAfterQuiz = (nextSkipped) => {
@@ -561,6 +813,7 @@ export function PlacementExperience() {
     const nextSkipped = skipped.filter((index) => index !== questionIndex);
     setAnswers(nextAnswers);
     setSkipped(nextSkipped);
+    queueAnswerMutation(questionIndex, option);
     setPendingAdvance(true);
     setDirection("forward");
     advanceTimer.current = window.setTimeout(() => {
@@ -583,6 +836,7 @@ export function PlacementExperience() {
     const nextSkipped = [...new Set([...skipped, questionIndex])].sort((a, b) => a - b);
     setAnswers(nextAnswers);
     setSkipped(nextSkipped);
+    queueAnswerMutation(questionIndex, null);
     setDirection("forward");
     if (reviewReturn) {
       setReviewReturn(false);
@@ -648,8 +902,6 @@ export function PlacementExperience() {
     }
     setBusy(true);
     setError("");
-    const quizAnswers = flatQuestions.map((question, index) =>
-      answers[index] === question.answer ? 1 : 0);
     const payload = {
       attemptId,
       student: {},
@@ -659,22 +911,47 @@ export function PlacementExperience() {
           Number(selfAssessment[group.key] || 0),
         ]),
       ),
-      quizAnswers,
-      skippedQuestionIndexes: skipped,
+      selectedAnswers: answers,
       goal,
       writingSample,
       consent: { advisorHandoff: false },
-      submittedAt: new Date().toISOString(),
     };
 
     try {
-      const response = await fetch("/api/placement-test", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const body = await response.json();
-      if (!response.ok || body.ok !== true) throw new Error("placement_api_rejected");
+      await syncQueue.current;
+      let body;
+      if (durableRef.current && !syncFailedRef.current) {
+        const response = await fetch(
+          `/api/diagnostic/attempts/${encodeURIComponent(attemptIdRef.current)}/complete`,
+          {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              completionId: createAttemptId(),
+              expectedRevision: revisionRef.current,
+              selfAssessment: payload.selfAssessment,
+              goal,
+              writingSample,
+            }),
+          },
+        );
+        const completed = await response.json();
+        if (!response.ok || completed.ok !== true) {
+          throw new Error(completed.error || "diagnostic_completion_failed");
+        }
+        revisionRef.current = completed.attempt.revision;
+        setServerRevision(completed.attempt.revision);
+        body = completed.result;
+      } else {
+        const response = await fetch("/api/placement-test", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        body = await response.json();
+        if (!response.ok || body.ok !== true) throw new Error("placement_api_rejected");
+      }
       setResult(body);
       setScreen("result");
       sessionStorage.removeItem(SESSION_KEY);
@@ -686,8 +963,8 @@ export function PlacementExperience() {
           answeredQuestionCount: flatQuestions.length - skipped.length,
           skippedQuestionCount: skipped.length,
           crmWrite: false,
-          storageEnabled: false,
-          submittedAt: payload.submittedAt,
+          storageEnabled: durableRef.current && !syncFailedRef.current,
+          submittedAt: new Date().toISOString(),
         },
       }));
     } catch {
@@ -702,6 +979,9 @@ export function PlacementExperience() {
     setScreen("intro");
     setResult(null);
     setResumeSnapshot(null);
+    setDurable(false);
+    setSyncNotice("");
+    durableRef.current = false;
   };
 
   return (
@@ -712,6 +992,8 @@ export function PlacementExperience() {
       </div>
       {screen === "intro" ? (
         <IntroScreen
+          busy={busy}
+          error={error}
           onResume={resumeAttempt}
           onStart={beginNewAttempt}
           resumeSnapshot={resumeSnapshot}
@@ -769,6 +1051,7 @@ export function PlacementExperience() {
           onRestart={restart}
           result={result}
           skippedCount={skipped.length}
+          syncNotice={syncNotice}
         />
       ) : null}
     </div>

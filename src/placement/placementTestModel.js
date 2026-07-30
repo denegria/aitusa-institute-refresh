@@ -4,17 +4,26 @@ import {
   toCrmTimelineSummary,
   validateCrmEventEnvelope,
 } from "../crm/eventContract.js";
+import { DIAGNOSTIC_VERSIONS } from "../diagnostic/contract.js";
+import {
+  DIAGNOSTIC_QUESTION_BANK,
+  scoreSelectedAnswers,
+} from "../diagnostic/questionBank.server.js";
 
 export const PLACEMENT_TEST_CONTRACT = Object.freeze({
   sourceKey: "aitusa-placement-test-v2-preview",
   sourceName: "AIT USA Placement Diagnostic",
-  productContractVersion: "aitusa-placement-v2-draft-2026-07-30",
-  questionBankVersion: "legacy-62-pending-academic-review",
-  scoringContractVersion: "provisional-total-v1",
+  productContractVersion: DIAGNOSTIC_VERSIONS.productContract,
+  questionBankVersion: DIAGNOSTIC_VERSIONS.questionBank,
+  answerKeyVersion: DIAGNOSTIC_VERSIONS.answerKey,
+  levelMapVersion: DIAGNOSTIC_VERSIONS.levelMap,
+  scoringContractVersion: DIAGNOSTIC_VERSIONS.scoring,
+  resultCopyVersion: DIAGNOSTIC_VERSIONS.resultCopy,
   crmWrite: false,
-  storageEnabled: false,
+  storageEnabled: true,
   anonymousResultEnabled: true,
-  durableResumeEnabled: false,
+  durableResumeEnabled: true,
+  durableResumeEligibility: "age_13_plus_only",
   advisorConfirmationRequired: true,
   guardianRequiredUnderAge: 13,
   whatsappNumber: "+1 732-379-0593",
@@ -135,7 +144,22 @@ export function evaluatePlacementTestSubmission(input = {}) {
     };
   }
 
-  const normalizedInput = normalizePlacementInput(input);
+  const scoredAnswers = scoreSelectedAnswers(input.selectedAnswers);
+  if (!scoredAnswers.ok) {
+    return {
+      status: 422,
+      body: {
+        ok: false,
+        errors: [scoredAnswers.code],
+        crmWrite: false,
+      },
+    };
+  }
+  const normalizedInput = normalizePlacementInput({
+    ...input,
+    quizAnswers: scoredAnswers.quizAnswers,
+    skippedQuestionIndexes: scoredAnswers.skippedQuestionIndexes,
+  });
   const submittedAt = normalizedInput.submittedAt ?? new Date().toISOString();
   const scores = calculatePlacementScore(normalizedInput);
   const recommendation = selectPlacementRecommendation(scores.totalScore);
@@ -398,16 +422,26 @@ export function validatePlacementInput(input = {}) {
     }
   }
 
-  if (!Array.isArray(input.quizAnswers)) {
-    errors.push("quiz_answers_required");
-  } else if (input.quizAnswers.length !== PLACEMENT_QUIZ_QUESTION_COUNT) {
-    errors.push("quiz_answers_count_invalid");
+  if (!Array.isArray(input.selectedAnswers)) {
+    errors.push("selected_answers_required");
+  } else if (input.selectedAnswers.length !== PLACEMENT_QUIZ_QUESTION_COUNT) {
+    errors.push("selected_answers_count_invalid");
   } else {
-    input.quizAnswers.forEach((value, index) => {
-      if (!isQuizScoreValue(value)) {
-        errors.push(`quiz_answer_${index}_invalid`);
+    input.selectedAnswers.forEach((value, index) => {
+      if (
+        value !== null &&
+        (
+          typeof value !== "string" ||
+          !DIAGNOSTIC_QUESTION_BANK[index].options.includes(value)
+        )
+      ) {
+        errors.push(`selected_answer_${index}_invalid`);
       }
     });
+  }
+
+  if (input.quizAnswers !== undefined) {
+    errors.push("client_score_submission_forbidden");
   }
 
   if (!isNonEmptyString(input.goal)) {
@@ -495,9 +529,4 @@ function isNonEmptyString(value) {
 function isScoreValue(value) {
   const number = Number(value);
   return Number.isInteger(number) && number >= 0 && number <= 3;
-}
-
-function isQuizScoreValue(value) {
-  const number = Number(value);
-  return Number.isInteger(number) && number >= 0 && number <= 1;
 }

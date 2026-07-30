@@ -38,6 +38,7 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.match(component, /fetch\("\/api\/placement-test"/);
     assert.doesNotMatch(component, /buildFallbackResult/);
     assert.doesNotMatch(component, /placementTest\.recommendations\.find/);
+    assert.doesNotMatch(component, /question\.answer/);
   });
 
   it("exposes the guardian and Study Buddy trial decisions without enabling them", () => {

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { GET, POST } from "../app/api/placement-test/route.js";
+import { DIAGNOSTIC_QUESTION_BANK } from "../src/diagnostic/questionBank.server.js";
 
 function request(body) {
   return new Request("http://localhost/api/placement-test", {
@@ -23,7 +24,7 @@ const validBody = {
     reading: 2,
     writing: 2,
   },
-  quizAnswers: Array(62).fill(1),
+  selectedAnswers: DIAGNOSTIC_QUESTION_BANK.map((question) => question.correctAnswer),
   goal: "Escuela o universidad",
   consent: {
     advisorHandoff: true,
@@ -64,12 +65,12 @@ describe("MIS-265 placement test route", () => {
   });
 
   it("rejects incomplete submissions", async () => {
-    const response = await POST(request({ quizAnswers: [] }));
+    const response = await POST(request({ selectedAnswers: [] }));
     const body = await response.json();
 
     assert.equal(response.status, 422);
     assert.equal(body.ok, false);
-    assert.equal(body.errors.includes("quiz_answers_count_invalid"), true);
+    assert.equal(body.errors.includes("selected_answers_count_invalid"), true);
     assert.equal(body.errors.includes("student_required"), false);
     assert.equal(body.crmWrite, false);
   });
@@ -80,7 +81,11 @@ describe("MIS-265 placement test route", () => {
       attemptId: "attempt-route-fixture",
       student: {},
       consent: { advisorHandoff: false },
-      skippedQuestionIndexes: [60, 61],
+      selectedAnswers: [
+        ...validBody.selectedAnswers.slice(0, 60),
+        null,
+        null,
+      ],
     }));
     const body = await response.json();
 

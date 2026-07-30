@@ -92,14 +92,17 @@ Production launch cannot treat that preview as the final academic model.
 8. `account_claim` or `continue_without_account`
 9. `practice_unlock` after successful claim and applicable guardian gate
 
-The first staging implementation may use session-only browser resume while the
-server-owned anonymous-attempt service and retention policy remain blocked.
-It must not claim durable resume, account creation, or CRM delivery.
+Eligible users age 13+ use a server-owned anonymous attempt with a seven-day
+HttpOnly resume credential. When portal storage is unavailable, the interaction
+degrades to session-only browser recovery without blocking the result. Users
+under 13 always remain session-only until the guardian verification and consent
+mechanism is approved.
 
 ## Data and consent boundaries
 
 - Raw answers, writing samples, and Study Buddy transcripts do not go to CRM.
-- Initial staging delivery keeps CRM writes and storage disabled.
+- CRM writes remain disabled. Durable portal storage is limited to eligible
+  anonymous attempts and is isolated from CRM.
 - Contact, WhatsApp, SMS, AI practice, guardian access, audio recording, and
   transcript storage are separate consent concepts.
 - No checkbox is preselected and no consent is inferred from a phone number.
@@ -125,10 +128,9 @@ Approved event names for later server/analytics implementation:
 Do not include raw answers, writing text, audio, or transcripts in generic
 analytics or CRM event payloads.
 
-## Explicit non-goals for the first staging slice
+## Explicit non-goals for the MIS-337 staging slice
 
 - No final academic scoring rule.
-- No durable anonymous-attempt database.
 - No passwordless account or guardian verification backend.
 - No CRM write.
 - No external AI provider call.

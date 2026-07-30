@@ -22,6 +22,7 @@
     "test:learning": "node --test tests/learning-content.test.mjs tests/learning-route.test.mjs",
     "test:migration": "node --test tests/migration-route-parity.test.mjs",
     "test:placement": "node --test tests/placement-test.test.mjs tests/placement-test-route.test.mjs tests/placement-experience-v2.test.mjs",
+    "test:diagnostic-service": "node --test tests/diagnostic-service.test.mjs tests/diagnostic-service-contract.test.mjs tests/diagnostic-route.test.mjs",
     "test:privacy": "node --test tests/privacy-policy.test.mjs tests/privacy-route.test.mjs",
     "test:sms-compliance": "node --test tests/public-sms-compliance.test.mjs tests/lead-contact.test.mjs tests/lead-contact-route.test.mjs tests/placement-test.test.mjs tests/placement-test-route.test.mjs tests/migration-route-parity.test.mjs",
     "test:portal-auth": "node --test tests/portal-auth.test.mjs",
@@ -30,6 +31,8 @@
     "verify:browser": "node ./scripts/verify-browser.mjs"
   },
   "dependencies": {
+    "@neondatabase/serverless": "1.1.0",
+    "drizzle-orm": "0.45.2",
     "next": "16.2.12",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
