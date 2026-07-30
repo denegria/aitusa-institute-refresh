@@ -342,6 +342,175 @@ const programs = [
       ],
       note: "Los formatos y horarios pueden variar por sede. Confirma tu grupo antes de inscribirte.",
     },
+    editorial: {
+      version: "course-editorial-v1",
+      eyebrow: "Programa principal de inglés",
+      lead:
+        "Una ruta práctica para comprender, conversar y responder con más seguridad en el trabajo, los estudios, los trámites y la vida diaria.",
+      heroImage: site.images.adultEnglish,
+      heroImageAlt:
+        "Estudiante adulta practicando inglés con materiales digitales y un cuaderno.",
+      proofLedger: [
+        {
+          label: "Modalidades",
+          value: "Presencial · híbrido · online",
+        },
+        {
+          label: "Ruta académica",
+          value: "Básico · intermedio · avanzado",
+        },
+        {
+          label: "Práctica",
+          value: "Talleres y tutorías",
+        },
+        {
+          label: "Disponibilidad",
+          value: "Nueva Jersey + online",
+        },
+      ],
+      outcomes: [
+        {
+          number: "01",
+          title: "Comprender en contexto",
+          text:
+            "Reconoce estructuras y expresiones frecuentes sin depender de una traducción palabra por palabra.",
+        },
+        {
+          number: "02",
+          title: "Responder con seguridad",
+          text:
+            "Practica conversaciones útiles para el trabajo, la escuela, los servicios y situaciones cotidianas.",
+        },
+        {
+          number: "03",
+          title: "Sostener una rutina",
+          text:
+            "Avanza con corrección en clase, talleres y tutorías que ayudan a mantener continuidad.",
+        },
+      ],
+      pathway: [
+        {
+          stage: "Etapa 01",
+          title: "Básico",
+          text:
+            "Construye expresiones frecuentes, presente y la base visual para comprender sin traducir cada frase.",
+          focus: "Base funcional",
+        },
+        {
+          stage: "Etapa 02",
+          title: "Intermedio",
+          text:
+            "Integra pasado y futuro mientras amplías conversación, escucha y respuesta en situaciones reales.",
+          focus: "Mayor autonomía",
+        },
+        {
+          stage: "Etapa 03",
+          title: "Avanzado",
+          text:
+            "Profundiza conversación, lectura, escritura y comprensión con práctica guiada y docentes norteamericanos.",
+          focus: "Comunicación amplia",
+        },
+      ],
+      method: {
+        eyebrow: "Método Graphic Concept",
+        title: "Primero entiendes la estructura. Después la usas para hablar.",
+        text:
+          "Graphic Concept organiza tiempos, palabras y contexto de forma visual. La clase conecta esa estructura con conversación, repetición oral y corrección inmediata.",
+        image: site.images.routeConcept,
+        imageAlt:
+          "Instructora explicando una secuencia visual para comprender y practicar inglés.",
+        points: [
+          "Explicación visual antes de memorizar listas extensas.",
+          "Práctica oral con corrección durante la clase.",
+          "Talleres y tutorías para reforzar dudas y nivelarse.",
+        ],
+      },
+      schedule: [
+        {
+          label: "Mañanas",
+          times: ["8:30 am", "9:30 am", "10:30 am"],
+        },
+        {
+          label: "Noches",
+          times: ["6:20 pm", "7:30 pm", "8:40 pm"],
+        },
+        {
+          label: "Fin de semana",
+          times: ["Sábados y domingos según bloque disponible"],
+        },
+      ],
+      formats: [
+        {
+          icon: "building-2",
+          title: "Presencial",
+          text:
+            "Práctica cara a cara y corrección inmediata en una sede de Nueva Jersey.",
+        },
+        {
+          icon: "monitor-smartphone",
+          title: "Híbrido",
+          text:
+            "Combina encuentros presenciales con apoyo remoto cuando el grupo lo permite.",
+        },
+        {
+          icon: "laptop",
+          title: "Online",
+          text:
+            "Participa en vivo desde casa con horario confirmado según nivel y disponibilidad.",
+        },
+      ],
+      logisticsNote:
+        "La sede, modalidad y hora final dependen del grupo disponible. Un asesor confirma esas tres condiciones antes de la inscripción.",
+      story: {
+        eyebrow: "Historia AIT",
+        name: "Jessica",
+        role: "De estudiante a docente referente",
+        title: "Conocer el método también significa escuchar a quienes lo vivieron.",
+        text:
+          "Jessica empezó como estudiante de AiT y hoy es una de las docentes referentes del método. En esta conversación comparte más contexto sobre el ritmo de clase, la práctica y los detalles que ayudan a avanzar.",
+        video: site.images.jessicaInterviewVideo,
+        poster: site.images.jessicaInterviewVideoPoster,
+        width: 480,
+        height: 848,
+        duration: "2:52",
+        videoLabel: "Ver la conversación con Jessica",
+      },
+      faqs: [
+        {
+          question: "¿Necesito saber mi nivel antes de empezar?",
+          answer:
+            "No. El examen de ubicación ofrece una recomendación inicial y un asesor confirma contigo el punto de entrada antes de la inscripción.",
+        },
+        {
+          question: "¿Puedo estudiar presencial, híbrido u online?",
+          answer:
+            "El programa contempla las tres modalidades. La opción disponible se confirma según tu nivel, sede, horario y el grupo activo.",
+        },
+        {
+          question: "¿En qué sede se ofrece el programa?",
+          answer:
+            "AIT cuenta con atención en Nueva Jersey y opción online. La sede concreta del curso se confirma antes de inscribirte porque los grupos pueden variar.",
+        },
+        {
+          question: "¿Cuánto tarda completar la ruta?",
+          answer:
+            "No publicamos una duración única: depende de tu nivel inicial, frecuencia, práctica y continuidad. La evaluación inicial ayuda a definir una ruta realista.",
+        },
+        {
+          question: "¿Hay apoyo además de las clases?",
+          answer:
+            "El programa contempla talleres y tutorías para reforzar dudas, actualizarse y nivelarse. Confirma la disponibilidad correspondiente a tu grupo.",
+        },
+      ],
+      closing: {
+        eyebrow: "Tu punto de partida",
+        title: "No elijas un curso a ciegas.",
+        text:
+          "Descubre tu nivel inicial y llega a la conversación con admisiones con una recomendación más clara.",
+        primaryLabel: "Descubrir mi nivel",
+        advisorLabel: "¿Prefieres preguntar primero? Habla con admisiones",
+      },
+    },
   },
   {
     slug: "ingles-online-adultos",

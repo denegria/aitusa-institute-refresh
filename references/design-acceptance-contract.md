@@ -1,3 +1,107 @@
+# AIT USA Flagship Course Detail Template Contract
+
+## User workflow and problem
+
+A prospective adult English student arrives with one question: is this the
+right program for my level, schedule, and goal? The current canonical course
+route repeats the generic catalog, modality cards, filters, and unrelated
+program cards before exposing the selected course inside a disclosure. At
+1440×900 the selected detail begins 2,252px below the first viewport.
+
+## Chosen interaction model
+
+- Open directly on the selected program as an editorial academic page.
+- Establish one reusable, content-driven template with program data supplying
+  the hero, outcomes, levels, format/schedule facts, method proof, student story,
+  FAQ, and CTA copy.
+- Use the flagship `ingles-jovenes-adultos` program as the first complete
+  content model. Other course routes remain on the existing experience until
+  their editorial fields are reviewed and filled.
+- Make the placement test the single dominant action. Advisor/WhatsApp access
+  remains available as a quieter text link for questions.
+
+## Selected visual direction
+
+- Prestigious language-school editorial: generous white space, deep navy
+  academic bands, restrained warm-gold rules, large photography, and numbered
+  learning stages.
+- Use the existing AIT type, color, radius, and grid tokens. Avoid another card
+  system, decorative gradients, floating glass effects, excessive gold, or
+  ornamental animation.
+- Real-person video is framed as documentary proof, not a testimonial carousel.
+  Existing approved photography is temporary template media until the client
+  supplies the planned classroom/faculty shoot.
+
+## Locked behavior and content
+
+- Preserve the canonical route, metadata, Course schema, public header/footer,
+  placement-test destination, WhatsApp destination, and Spanish canonical
+  redirect.
+- Preserve verified program facts: audience, three formats, Basic/Intermediate/
+  Advanced pathway, current published schedule language, Graphic Concept
+  framing, tutor/workshop support, and the per-location availability caveat.
+- Do not introduce accreditation, guaranteed outcomes, guaranteed completion
+  time, guaranteed availability, tuition, enrollment dates, faculty
+  credentials, country counts, or undocumented claims.
+- The Jessica story may describe her documented path from student to teacher,
+  but must not fabricate a quote or academic outcome.
+
+## Non-goals
+
+- No redesign of the `/courses/` catalog in this slice.
+- No mirroring to the other eight course pages until this flagship template is
+  reviewed.
+- No placement-test redesign, CRM write, registration workflow, pricing,
+  checkout, CMS, faculty directory, or media-production work.
+- No production/main promotion.
+
+## Primary and regression viewports
+
+- Primary desktop: 1440×900 CSS pixels.
+- Desktop regressions: 1366×768 and 1920×1080.
+- Primary mobile: 390×844.
+- Mobile regressions: 360×800 and 430×932.
+- Device-pixel ratio 1 for acceptance evidence unless explicitly noted.
+
+## Layout and hierarchy invariants
+
+- At 1440×900, Header + complete Hero + academic proof ledger fit in the first
+  viewport.
+- The course title, audience/format signal, lead, and primary placement CTA
+  remain visible before the first desktop scroll.
+- On mobile, the title, lead, and primary CTA appear before the hero image; no
+  action is hidden behind a carousel, disclosure, or horizontal rail.
+- Each major chapter has one visual job and no nested horizontal scrolling.
+- Body copy stays within a readable measure; no clipped, clamped, or
+  overprinted text.
+- Interactive targets are at least 44px high, visible focus is preserved, and
+  native video/details controls remain keyboard accessible.
+- The page has one H1, ordered H2 chapters, semantic lists/definitions, and no
+  page-level horizontal overflow.
+
+## Content-growth assumptions
+
+- Three learning stages, three outcomes, three study-format facts, three
+  schedule groups, one story, and up to six course FAQs.
+- Template data must support later program-specific replacement without
+  component markup changes.
+- Missing editorial data must never render an empty chapter; non-flagship routes
+  retain the current fallback until complete data exists.
+
+## Required closeout evidence
+
+- Targeted course-route/content tests, full test suite, asset integrity,
+  production webpack build, npm audit, and `git diff --check`.
+- Local production-mode screenshots and DOM measurements at all primary and
+  regression viewports.
+- Live protected-staging smoke for the exact deployed commit at 1440×900 and
+  390×844, including canonical metadata/schema, CTA destinations, video/details
+  keyboard semantics, overflow, and console state.
+- Side-by-side evidence that the flagship route no longer repeats the catalog or
+  buries its selected content.
+
+---
+
 # AIT USA Compact Mobile Study Options Contract
 
 ## User workflow and problem

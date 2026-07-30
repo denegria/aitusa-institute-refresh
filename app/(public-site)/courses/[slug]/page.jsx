@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { CourseProgramPage } from "../../../_components/site/CourseProgramPage";
 import { CoursesPage, getCourseMetadata } from "../../../_components/site/CoursesPage";
 import { programs, site } from "../../../../src/content";
 
@@ -34,7 +35,7 @@ export default async function CourseDetailPage({ params }) {
   return (
     <>
       <script data-schema="course" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(courseSchema) }} />
-      <CoursesPage selectedSlug={slug} />
+      {program.editorial ? <CourseProgramPage program={program} /> : <CoursesPage selectedSlug={slug} />}
     </>
   );
 }

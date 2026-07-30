@@ -21,9 +21,34 @@ describe("MIS-264 native React course routes", () => {
     assert.match(route, /generateMetadata/);
     assert.match(route, /"@type": "Course"/);
     assert.match(route, /dangerouslySetInnerHTML/);
+    assert.match(route, /CourseProgramPage/);
+    assert.match(route, /program\.editorial/);
     assert.match(shell, /`\$\{program\.title\} \| Cursos AiT USA Institute`/);
     assert.match(shell, /canonical: `\/courses\/\$\{program\.slug\}\/`/);
     assert.equal(programs.length, 9);
+  });
+
+  it("uses the adult English route as the first reusable editorial course template", async () => {
+    const template = await readFile("app/_components/site/CourseProgramPage.jsx", "utf8");
+    const editorialPrograms = programs.filter((program) => program.editorial);
+    const adultEnglish = programs.find((program) => program.slug === "ingles-jovenes-adultos");
+
+    assert.deepEqual(editorialPrograms.map((program) => program.slug), ["ingles-jovenes-adultos"]);
+    assert.equal(adultEnglish.editorial.version, "course-editorial-v1");
+    assert.equal(adultEnglish.editorial.outcomes.length, 3);
+    assert.equal(adultEnglish.editorial.pathway.length, 3);
+    assert.equal(adultEnglish.editorial.formats.length, 3);
+    assert.equal(adultEnglish.editorial.schedule.length, 3);
+    assert.equal(adultEnglish.editorial.faqs.length, 5);
+    assert.match(template, /data-course-template/);
+    assert.match(template, /CourseOutcomes/);
+    assert.match(template, /CoursePathway/);
+    assert.match(template, /CourseMethod/);
+    assert.match(template, /CourseLogistics/);
+    assert.match(template, /CourseStory/);
+    assert.match(template, /CourseFaq/);
+    assert.match(template, /conversionCtas\.placement\.href/);
+    assert.match(template, /<video/);
   });
 
   it("keeps Spanish aliases canonical by redirecting to the English route family", async () => {
