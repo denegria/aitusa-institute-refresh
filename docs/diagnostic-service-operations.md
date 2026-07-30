@@ -58,11 +58,15 @@ Migration tooling is intentionally excluded from the application dependency
 tree because the current stable Drizzle CLI pulls a vulnerable legacy loader
 and does not yet recognize the patched runtime ORM release. The checked-in SQL,
 schema contract tests, and application build are the local source of truth.
-Database validation must run on Neon's temporary migration branch once the
-dedicated project is provisioned.
+Staging was activated on 2026-07-30 using the isolated Neon project
+`late-bar-02771888` (`AIT USA Student Portal`) and its `staging` branch
+`br-small-hill-awit1nbz`. The six diagnostic tables were verified empty after
+the migration. The project's default production branch was not modified.
 
-Applying the migration requires the reviewed staging database target and the
-normal migration-approval flow. Never point `PORTAL_DATABASE_URL` at AIT CRM.
+`PORTAL_DATABASE_URL`, `DIAGNOSTIC_RESUME_SECRET`, and `CRON_SECRET` are
+configured as sensitive Vercel Preview variables restricted to the Git branch
+`staging`. Production configuration remains a separate approval-gated step.
+Never point `PORTAL_DATABASE_URL` at AIT CRM.
 
 ## Failure behavior
 
