@@ -2,7 +2,54 @@ import Image from "next/image";
 import { conversionCtas, site } from "../../../src/content";
 import { SiteFooter, SiteHeader } from "./SiteChrome";
 
+const defaultSectionCopy = {
+  outcomes: {
+    eyebrow: "Resultados del aprendizaje",
+    title: "Lo que practicarás para usar el inglés con más confianza.",
+    text:
+      "El programa conecta comprensión, conversación y una rutina sostenible en vez de tratar cada habilidad por separado.",
+  },
+  pathway: {
+    eyebrow: "Ruta por niveles",
+    title: "Una progresión clara, desde la base hasta una comunicación más amplia.",
+    text:
+      "Tu punto de entrada se define con la evaluación inicial. No tienes que adivinar dónde comenzar.",
+    actionLabel: "Ver mi nivel",
+    actionHref: conversionCtas.placement.href,
+  },
+  logistics: {
+    eyebrow: "Formatos y horarios",
+    title: "Una ruta académica que también debe funcionar con tu semana.",
+    text:
+      "Compara cómo estudiar y revisa los bloques publicados. La combinación final se confirma según tu nivel y el grupo activo.",
+    scheduleLabel: "Bloques publicados",
+    actionLabel: "Confirmar sede y horario",
+  },
+  faq: {
+    eyebrow: "Antes de inscribirte",
+    title: "Respuestas claras para elegir con menos dudas.",
+    text:
+      "Si tu situación es distinta, admisiones puede confirmar el grupo, la sede y el siguiente paso.",
+  },
+};
+
+function externalLinkProps(link) {
+  return link?.external ? { target: "_blank", rel: "noreferrer" } : {};
+}
+
 function CourseHero({ program, editorial }) {
+  const primaryCta = {
+    label: editorial.closing.primaryLabel,
+    href: conversionCtas.placement.href,
+    ...editorial.primaryCta,
+  };
+  const advisorCta = {
+    label: "Hablar con admisiones",
+    href: conversionCtas.advisor.href,
+    external: true,
+    ...editorial.advisorCta,
+  };
+
   return (
     <section className="course-program-hero" aria-labelledby="course-program-title">
       <div className="section-inner course-program-hero__main">
@@ -16,22 +63,26 @@ function CourseHero({ program, editorial }) {
           <h1 id="course-program-title">{program.title}</h1>
           <p className="course-program-hero__lead">{editorial.lead}</p>
           <div className="course-program-hero__actions">
-            <a className="button button--primary" href={conversionCtas.placement.href}>
-              {editorial.closing.primaryLabel}
+            <a
+              className="button button--primary"
+              href={primaryCta.href}
+              {...externalLinkProps(primaryCta)}
+            >
+              {primaryCta.label}
               <i data-lucide="arrow-right" aria-hidden="true" />
             </a>
             <a
               className="course-program-text-link"
-              href={conversionCtas.advisor.href}
-              target="_blank"
-              rel="noreferrer"
+              href={advisorCta.href}
+              {...externalLinkProps(advisorCta)}
             >
-              Hablar con admisiones
+              {advisorCta.label}
               <i data-lucide="message-circle" aria-hidden="true" />
             </a>
           </div>
           <p className="course-program-hero__note">
-            Evaluación inicial sin compromiso. Tu grupo se confirma antes de la inscripción.
+            {editorial.heroNote ||
+              "Evaluación inicial sin compromiso. Tu grupo se confirma antes de la inscripción."}
           </p>
         </div>
         <figure className="course-program-hero__media">
@@ -63,17 +114,14 @@ function CourseHero({ program, editorial }) {
   );
 }
 
-function CourseOutcomes({ outcomes }) {
+function CourseOutcomes({ outcomes, copy = defaultSectionCopy.outcomes }) {
   return (
     <section className="course-program-section course-program-outcomes" aria-labelledby="course-outcomes-title">
       <div className="section-inner">
         <header className="course-program-heading section-heading--framed">
-          <p className="section-kicker">Resultados del aprendizaje</p>
-          <h2 id="course-outcomes-title">Lo que practicarás para usar el inglés con más confianza.</h2>
-          <p>
-            El programa conecta comprensión, conversación y una rutina sostenible en vez de
-            tratar cada habilidad por separado.
-          </p>
+          <p className="section-kicker">{copy.eyebrow}</p>
+          <h2 id="course-outcomes-title">{copy.title}</h2>
+          <p>{copy.text}</p>
         </header>
         <ol className="course-outcome-list">
           {outcomes.map((outcome) => (
@@ -89,30 +137,39 @@ function CourseOutcomes({ outcomes }) {
   );
 }
 
-function CoursePathway({ pathway }) {
+function CoursePathway({ pathway, copy = defaultSectionCopy.pathway }) {
   return (
-    <section className="course-program-section course-program-pathway" id="niveles" aria-labelledby="course-pathway-title">
+    <section
+      className="course-program-section course-program-pathway"
+      id={copy.id || "niveles"}
+      aria-labelledby="course-pathway-title"
+    >
       <div className="section-inner course-program-pathway__layout">
         <header className="course-program-heading">
-          <p className="section-kicker">Ruta por niveles</p>
-          <h2 id="course-pathway-title">Una progresión clara, desde la base hasta una comunicación más amplia.</h2>
-          <p>
-            Tu punto de entrada se define con la evaluación inicial. No tienes que adivinar
-            dónde comenzar.
-          </p>
-          <a className="course-program-text-link" href={conversionCtas.placement.href}>
-            Ver mi nivel
-            <i data-lucide="arrow-right" aria-hidden="true" />
-          </a>
+          <p className="section-kicker">{copy.eyebrow}</p>
+          <h2 id="course-pathway-title">{copy.title}</h2>
+          <p>{copy.text}</p>
+          {copy.actionLabel && copy.actionHref ? (
+            <a
+              className="course-program-text-link"
+              href={copy.actionHref}
+              {...externalLinkProps(copy)}
+            >
+              {copy.actionLabel}
+              <i data-lucide="arrow-right" aria-hidden="true" />
+            </a>
+          ) : null}
         </header>
         <ol className="course-pathway-list">
           {pathway.map((stage) => (
             <li key={stage.stage}>
               <div className="course-pathway-list__marker" aria-hidden="true">
-                <span>{stage.stage.replace("Etapa ", "")}</span>
+                <span>{stage.marker || stage.stage.replace(/^(Etapa|Área)\s+/, "")}</span>
               </div>
               <div>
-                <p className="course-pathway-list__eyebrow">{stage.stage} · {stage.focus}</p>
+                <p className="course-pathway-list__eyebrow">
+                  {stage.stage}{stage.focus ? ` · ${stage.focus}` : ""}
+                </p>
                 <h3>{stage.title}</h3>
                 <p>{stage.text}</p>
               </div>
@@ -136,7 +193,9 @@ function CourseMethod({ method }) {
             height={1024}
             sizes="(max-width: 820px) 100vw, 54vw"
           />
-          <figcaption>Graphic Concept · comprensión visual y práctica guiada</figcaption>
+          <figcaption>
+            {method.figcaption || "Graphic Concept · comprensión visual y práctica guiada"}
+          </figcaption>
         </figure>
         <div className="course-program-method__copy">
           <p className="section-kicker">{method.eyebrow}</p>
@@ -156,20 +215,20 @@ function CourseMethod({ method }) {
   );
 }
 
-function CourseLogistics({ editorial }) {
+function CourseLogistics({ editorial, copy = defaultSectionCopy.logistics }) {
   return (
     <section className="course-program-section course-program-logistics" id="horarios" aria-labelledby="course-logistics-title">
       <div className="section-inner">
         <header className="course-program-heading section-heading--framed">
-          <p className="section-kicker">Formatos y horarios</p>
-          <h2 id="course-logistics-title">Una ruta académica que también debe funcionar con tu semana.</h2>
-          <p>
-            Compara cómo estudiar y revisa los bloques publicados. La combinación final se
-            confirma según tu nivel y el grupo activo.
-          </p>
+          <p className="section-kicker">{copy.eyebrow}</p>
+          <h2 id="course-logistics-title">{copy.title}</h2>
+          <p>{copy.text}</p>
         </header>
         <div className="course-logistics-layout">
-          <div className="course-format-list" aria-label="Modalidades disponibles">
+          <div
+            className="course-format-list"
+            aria-label={copy.formatsLabel || "Modalidades disponibles"}
+          >
             {editorial.formats.map((format) => (
               <article key={format.title}>
                 <i data-lucide={format.icon} aria-hidden="true" />
@@ -181,7 +240,7 @@ function CourseLogistics({ editorial }) {
             ))}
           </div>
           <div className="course-schedule-panel">
-            <p className="course-schedule-panel__label">Bloques publicados</p>
+            <p className="course-schedule-panel__label">{copy.scheduleLabel}</p>
             <dl>
               {editorial.schedule.map((group) => (
                 <div key={group.label}>
@@ -197,7 +256,7 @@ function CourseLogistics({ editorial }) {
               target="_blank"
               rel="noreferrer"
             >
-              Confirmar sede y horario
+              {copy.actionLabel}
               <i data-lucide="arrow-right" aria-hidden="true" />
             </a>
           </div>
@@ -241,17 +300,14 @@ function CourseStory({ story }) {
   );
 }
 
-function CourseFaq({ faqs }) {
+function CourseFaq({ faqs, copy = defaultSectionCopy.faq }) {
   return (
     <section className="course-program-section course-program-faq" id="preguntas" aria-labelledby="course-faq-title">
       <div className="section-inner course-program-faq__layout">
         <header className="course-program-heading">
-          <p className="section-kicker">Antes de inscribirte</p>
-          <h2 id="course-faq-title">Respuestas claras para elegir con menos dudas.</h2>
-          <p>
-            Si tu situación es distinta, admisiones puede confirmar el grupo, la sede y el
-            siguiente paso.
-          </p>
+          <p className="section-kicker">{copy.eyebrow}</p>
+          <h2 id="course-faq-title">{copy.title}</h2>
+          <p>{copy.text}</p>
         </header>
         <div className="course-faq-list">
           {faqs.map((item) => (
@@ -270,6 +326,19 @@ function CourseFaq({ faqs }) {
 }
 
 function CourseClosing({ closing }) {
+  const primaryCta = {
+    label: closing.primaryLabel,
+    href: conversionCtas.placement.href,
+    external: false,
+    ...closing.primaryCta,
+  };
+  const advisorCta = {
+    label: closing.advisorLabel,
+    href: site.whatsappHref,
+    external: true,
+    ...closing.advisorCta,
+  };
+
   return (
     <section className="course-program-closing" aria-labelledby="course-closing-title">
       <div className="section-inner course-program-closing__layout">
@@ -279,17 +348,20 @@ function CourseClosing({ closing }) {
           <p>{closing.text}</p>
         </div>
         <div className="course-program-closing__actions">
-          <a className="button button--primary" href={conversionCtas.placement.href}>
-            {closing.primaryLabel}
+          <a
+            className="button button--primary"
+            href={primaryCta.href}
+            {...externalLinkProps(primaryCta)}
+          >
+            {primaryCta.label}
             <i data-lucide="arrow-right" aria-hidden="true" />
           </a>
           <a
             className="course-program-text-link"
-            href={site.whatsappHref}
-            target="_blank"
-            rel="noreferrer"
+            href={advisorCta.href}
+            {...externalLinkProps(advisorCta)}
           >
-            {closing.advisorLabel}
+            {advisorCta.label}
           </a>
         </div>
       </div>
@@ -310,12 +382,29 @@ export function CourseProgramPage({ program }) {
         id="main-content"
       >
         <CourseHero program={program} editorial={editorial} />
-        <CourseOutcomes outcomes={editorial.outcomes} />
-        <CoursePathway pathway={editorial.pathway} />
-        <CourseMethod method={editorial.method} />
-        <CourseLogistics editorial={editorial} />
-        <CourseStory story={editorial.story} />
-        <CourseFaq faqs={editorial.faqs} />
+        {editorial.outcomes?.length ? (
+          <CourseOutcomes
+            outcomes={editorial.outcomes}
+            copy={editorial.sectionCopy?.outcomes}
+          />
+        ) : null}
+        {editorial.pathway?.length ? (
+          <CoursePathway
+            pathway={editorial.pathway}
+            copy={editorial.sectionCopy?.pathway}
+          />
+        ) : null}
+        {editorial.method ? <CourseMethod method={editorial.method} /> : null}
+        {editorial.formats?.length && editorial.schedule?.length ? (
+          <CourseLogistics
+            editorial={editorial}
+            copy={editorial.sectionCopy?.logistics}
+          />
+        ) : null}
+        {editorial.story ? <CourseStory story={editorial.story} /> : null}
+        {editorial.faqs?.length ? (
+          <CourseFaq faqs={editorial.faqs} copy={editorial.sectionCopy?.faq} />
+        ) : null}
         <CourseClosing closing={editorial.closing} />
       </main>
       <SiteFooter />

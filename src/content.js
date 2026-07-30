@@ -571,6 +571,180 @@ const programs = [
       ],
       note: "Pregunta por tutorías, niveles, talleres y becas disponibles para tu grupo.",
     },
+    editorial: {
+      version: "course-editorial-v1",
+      eyebrow: "Inglés en vivo desde cualquier país",
+      lead:
+        "Una ruta 100% online para comprender, conversar y avanzar con un profesor en tiempo real, materiales visuales y acompañamiento remoto.",
+      heroImage: site.images.onlineEnglish,
+      heroImageAlt:
+        "Instructora con audífonos guiando una clase de inglés online en tiempo real.",
+      heroNote:
+        "La evaluación inicial orienta tu nivel. El grupo y la hora se confirman según tu país y zona horaria.",
+      proofLedger: [
+        {
+          label: "Modalidad",
+          value: "100% online y en vivo",
+        },
+        {
+          label: "Ruta académica",
+          value: "Básico · intermedio · avanzado",
+        },
+        {
+          label: "Participación",
+          value: "Profesor y compañeros",
+        },
+        {
+          label: "Acceso",
+          value: "Desde cualquier país",
+        },
+      ],
+      outcomes: [
+        {
+          number: "01",
+          title: "Comprender sin traducir cada frase",
+          text:
+            "Usa estructuras visuales para reconocer tiempos y expresiones antes de llevarlas a la conversación.",
+        },
+        {
+          number: "02",
+          title: "Practicar con una persona real",
+          text:
+            "Interactúa con tu profesor y otros estudiantes durante la sesión; las clases no son videos pregrabados.",
+        },
+        {
+          number: "03",
+          title: "Sostener el avance a distancia",
+          text:
+            "Combina clase en vivo, materiales visuales y orientación remota para mantener continuidad desde tu país.",
+        },
+      ],
+      pathway: [
+        {
+          stage: "Etapa 01",
+          title: "Básico",
+          text:
+            "Construye expresiones frecuentes, presente y la base visual para comprender sin traducir cada palabra, con apoyo bilingüe.",
+          focus: "Base funcional",
+        },
+        {
+          stage: "Etapa 02",
+          title: "Intermedio",
+          text:
+            "Integra pasado y futuro mientras amplías conversación, escucha y respuesta en situaciones cotidianas.",
+          focus: "Mayor autonomía",
+        },
+        {
+          stage: "Etapa 03",
+          title: "Avanzado",
+          text:
+            "Refuerza conversación, lectura, escritura y comprensión con práctica guiada en inglés.",
+          focus: "Comunicación amplia",
+        },
+      ],
+      method: {
+        eyebrow: "Método Graphic Concept",
+        title: "La pantalla no reemplaza la interacción: la organiza.",
+        text:
+          "Graphic Concept presenta tiempos, palabras y contexto de forma visual. El profesor conecta esa estructura con práctica oral y corrección durante la sesión.",
+        image: site.images.routeConcept,
+        imageAlt:
+          "Instructora explicando una secuencia visual usada durante una clase de inglés online.",
+        points: [
+          "Explicación visual antes de memorizar listas extensas.",
+          "Clases en tiempo real con un profesor y participación del grupo.",
+          "Docentes bilingües en la base y transición progresiva a práctica en inglés.",
+          "Tutoría remota para reforzar dudas, sujeta a disponibilidad del grupo.",
+        ],
+      },
+      schedule: [
+        {
+          label: "Lun–jue · mañanas",
+          times: ["9:30–10:30 am", "10:30–11:30 am"],
+        },
+        {
+          label: "Lun–jue · noches",
+          times: ["6:20–7:30 pm", "7:30–8:40 pm", "8:40–9:50 pm"],
+        },
+        {
+          label: "Sábados",
+          times: ["10:00 am–1:00 pm", "2:00–5:00 pm"],
+        },
+      ],
+      formats: [
+        {
+          icon: "video",
+          title: "Clase en vivo",
+          text:
+            "Participas con un profesor y otros compañeros; la sesión es interactiva y no pregrabada.",
+        },
+        {
+          icon: "globe-2",
+          title: "Desde tu país",
+          text:
+            "Conéctate desde fuera de Estados Unidos y confirma el bloque correspondiente a tu zona horaria.",
+        },
+        {
+          icon: "headphones",
+          title: "Equipo flexible",
+          text:
+            "Puedes usar laptop, desktop, tableta o teléfono con internet estable, audífonos y micrófono.",
+        },
+      ],
+      logisticsNote:
+        "Los horarios se publican en hora de Nueva Jersey. Admisiones confirma la conversión a tu zona horaria, el nivel y el grupo activo antes de la inscripción.",
+      sectionCopy: {
+        logistics: {
+          eyebrow: "Experiencia online y horarios",
+          title: "Una clase remota debe sentirse presente, no grabada.",
+          text:
+            "Revisa cómo participar y los bloques publicados. Tu horario final depende del nivel, el grupo activo y tu zona horaria.",
+          formatsLabel: "Claves de la experiencia online",
+          scheduleLabel: "Hora de Nueva Jersey",
+          actionLabel: "Confirmar mi zona horaria",
+        },
+      },
+      faqs: [
+        {
+          question: "¿Las clases son grabadas?",
+          answer:
+            "No. Son sesiones en tiempo real con un profesor y otros estudiantes, para que puedas interactuar, practicar y recibir corrección.",
+        },
+        {
+          question: "¿Puedo estudiar desde cualquier país?",
+          answer:
+            "Sí. Este programa está dirigido a jóvenes y adultos fuera de Estados Unidos. Admisiones confirma la disponibilidad y convierte el horario publicado a tu zona.",
+        },
+        {
+          question: "¿Qué equipo necesito?",
+          answer:
+            "Puedes participar desde laptop, desktop, tableta o teléfono con conexión estable. Audífonos y micrófono ayudan a escuchar y hablar con claridad.",
+        },
+        {
+          question: "¿Necesito saber mi nivel antes de empezar?",
+          answer:
+            "No. El examen de ubicación ofrece una recomendación inicial y un asesor confirma contigo el punto de entrada.",
+        },
+        {
+          question: "¿Qué niveles ofrece la ruta?",
+          answer:
+            "La ruta publicada contempla básico, intermedio y avanzado. El nivel inicial depende de tu evaluación y de la conversación con admisiones.",
+        },
+        {
+          question: "¿Puedo cambiar de horario?",
+          answer:
+            "Puedes solicitar otro bloque, pero el cambio depende del cupo, tu nivel y el grupo activo. Confírmalo antes de reorganizar tu asistencia.",
+        },
+      ],
+      closing: {
+        eyebrow: "Tu aula puede estar donde estés",
+        title: "Primero ubica tu nivel. Después confirma la hora correcta.",
+        text:
+          "Llega a admisiones con una recomendación inicial y tu zona horaria para elegir un grupo online con menos dudas.",
+        primaryLabel: "Descubrir mi nivel",
+        advisorLabel: "¿Prefieres preguntar primero? Habla con admisiones",
+      },
+    },
   },
   {
     slug: "ingles-ninos",
@@ -707,6 +881,242 @@ const programs = [
         "Sábados: 2:00 pm a 4:00 pm o 4:00 pm a 6:00 pm.",
       ],
       note: "Confirma el bloque disponible y tu punto de inicio antes de inscribirte.",
+    },
+    editorial: {
+      version: "course-editorial-v1",
+      eyebrow: "Preparación académica para el GED",
+      lead:
+        "Una ruta presencial y guiada para preparar las cuatro áreas del examen GED y entender el proceso antes de registrarte para la evaluación oficial.",
+      heroImage: site.images.ged,
+      heroImageAlt:
+        "Materiales de preparación GED con cuaderno, calculadora y útiles de estudio.",
+      heroNote:
+        "AIT ofrece preparación académica. El examen y el diploma oficial se gestionan por las vías autorizadas de GED y Nueva Jersey.",
+      primaryCta: {
+        label: "Consultar preparación GED",
+        href: `${site.whatsappHref}?text=${encodeURIComponent(
+          "Hola AIT USA, quiero información sobre la preparación para el GED, mi punto de inicio y los horarios disponibles.",
+        )}`,
+        external: true,
+      },
+      advisorCta: {
+        label: "Ver otras formas de contacto",
+        href: site.legalLinks.contact,
+        external: false,
+      },
+      proofLedger: [
+        {
+          label: "Objetivo",
+          value: "Preparación para el GED",
+        },
+        {
+          label: "Evaluación oficial",
+          value: "4 áreas académicas",
+        },
+        {
+          label: "Ritmo publicado",
+          value: "2 clases por semana",
+        },
+        {
+          label: "Bloques publicados",
+          value: "Sábados",
+        },
+      ],
+      outcomes: [
+        {
+          number: "01",
+          title: "Entender tu punto de partida",
+          text:
+            "Identifica las áreas que necesitan más refuerzo antes de organizar una rutina de preparación.",
+        },
+        {
+          number: "02",
+          title: "Practicar las cuatro materias",
+          text:
+            "Trabaja razonamiento matemático, artes del lenguaje, ciencias y estudios sociales con guía académica.",
+        },
+        {
+          number: "03",
+          title: "Llegar con un proceso claro",
+          text:
+            "Distingue la preparación de AIT del registro y la evaluación oficial para evitar promesas o pasos confusos.",
+        },
+      ],
+      pathway: [
+        {
+          stage: "Área 01",
+          marker: "01",
+          title: "Razonamiento matemático",
+          text:
+            "Refuerza matemáticas básicas, geometría, álgebra, gráficas y funciones incluidas en la evaluación oficial.",
+          focus: "Números y resolución",
+        },
+        {
+          stage: "Área 02",
+          marker: "02",
+          title: "Artes del lenguaje",
+          text:
+            "Practica comprensión de lectura, argumentos, gramática y respuesta escrita para la sección de lenguaje.",
+          focus: "Lectura y escritura",
+        },
+        {
+          stage: "Área 03",
+          marker: "03",
+          title: "Ciencias",
+          text:
+            "Trabaja lectura científica, interpretación de experimentos y uso de números, tablas y gráficos.",
+          focus: "Análisis e interpretación",
+        },
+        {
+          stage: "Área 04",
+          marker: "04",
+          title: "Estudios sociales",
+          text:
+            "Practica lectura de contexto, análisis de hechos y argumentos históricos, y comprensión de datos y gráficas.",
+          focus: "Contexto y evidencia",
+        },
+      ],
+      method: {
+        eyebrow: "Preparación guiada",
+        title: "Refuerza por áreas antes de reservar el examen oficial.",
+        text:
+          "La preparación organiza el trabajo académico y el seguimiento. El ritmo real depende de tu base, asistencia y práctica; la duración publicada es una estimación.",
+        image: site.images.math,
+        imageAlt:
+          "Tutora guiando ejercicios académicos con calculadora, cuaderno y material de práctica.",
+        figcaption: "Preparación GED · práctica y seguimiento académico",
+        points: [
+          "Orientación inicial para entender el proceso y el punto de arranque.",
+          "Ruta alrededor de las cuatro áreas que componen el examen GED actual.",
+          "Dos clases de una hora por semana según la información publicada por AIT.",
+          "Duración estimada de seis meses, sin garantía de fecha de aprobación.",
+        ],
+      },
+      schedule: [
+        {
+          label: "Sábado · bloque 1",
+          times: ["9:00–11:00 am"],
+        },
+        {
+          label: "Sábado · bloque 2",
+          times: ["11:00 am–1:00 pm"],
+        },
+        {
+          label: "Sábado · bloque 3",
+          times: ["2:00–4:00 pm"],
+        },
+        {
+          label: "Sábado · bloque 4",
+          times: ["4:00–6:00 pm"],
+        },
+      ],
+      formats: [
+        {
+          icon: "book-open-check",
+          title: "Preparación presencial",
+          text:
+            "AIT publica el programa como preparación presencial; confirma la sede correspondiente al grupo activo.",
+        },
+        {
+          icon: "calendar-days",
+          title: "Rutina semanal",
+          text:
+            "La información publicada contempla dos clases de una hora por semana y bloques de atención los sábados.",
+        },
+        {
+          icon: "badge-check",
+          title: "Examen oficial separado",
+          text:
+            "Prepararte con AIT no sustituye el registro, la elegibilidad ni la evaluación administrada por las vías oficiales.",
+        },
+      ],
+      logisticsNote:
+        "Los bloques son los publicados por AIT y pueden cambiar según sede, cupo y grupo. Confirma disponibilidad antes de organizar tu semana.",
+      sectionCopy: {
+        outcomes: {
+          eyebrow: "Una meta, sin atajos confusos",
+          title: "Prepararte mejor empieza por separar estudio, examen y diploma.",
+          text:
+            "AIT acompaña la preparación académica. La aprobación depende de cumplir los requisitos y puntajes del examen oficial.",
+        },
+        pathway: {
+          id: "areas",
+          eyebrow: "Cuatro áreas del examen",
+          title: "Una preparación completa necesita cubrir más que matemáticas.",
+          text:
+            "El GED actual se divide en cuatro evaluaciones. Tu punto de partida ayuda a decidir dónde concentrar más práctica.",
+          actionLabel: "Consultar mi punto de inicio",
+          actionHref: `${site.whatsappHref}?text=${encodeURIComponent(
+            "Hola AIT USA, quiero orientación sobre mi punto de inicio para la preparación GED.",
+          )}`,
+          external: true,
+        },
+        logistics: {
+          eyebrow: "Modalidad y horarios",
+          title: "Confirma el bloque antes de planificar tu preparación.",
+          text:
+            "Estos son los horarios publicados por AIT. La sede, el cupo y la organización del grupo se confirman con admisiones.",
+          formatsLabel: "Claves de la preparación GED",
+          scheduleLabel: "Bloques publicados",
+          actionLabel: "Confirmar sede y bloque",
+        },
+        faq: {
+          eyebrow: "Antes de empezar",
+          title: "Lo que AIT prepara y lo que debes gestionar oficialmente.",
+          text:
+            "La preparación académica es una parte del proceso. Elegibilidad, registro, examen y diploma siguen las reglas oficiales de GED y Nueva Jersey.",
+        },
+      },
+      faqs: [
+        {
+          question: "¿AIT entrega el diploma GED?",
+          answer:
+            "No presentamos a AIT como emisor del diploma. AIT ofrece preparación académica; el examen y el diploma estatal se gestionan mediante las vías oficiales autorizadas.",
+        },
+        {
+          question: "¿Cuántas áreas tiene el examen?",
+          answer:
+            "El GED actual tiene cuatro: razonamiento matemático, artes del lenguaje, ciencias y estudios sociales. Cada área se evalúa por separado.",
+        },
+        {
+          question: "¿Cuánto dura la preparación?",
+          answer:
+            "AIT publica una duración estimada de seis meses. No es una garantía: el tiempo real depende de tu base académica, asistencia, práctica y resultados.",
+        },
+        {
+          question: "¿Cuántas clases hay por semana?",
+          answer:
+            "La información publicada por AIT indica dos clases de una hora por semana. Admisiones confirma cómo se organiza ese ritmo dentro del bloque disponible.",
+        },
+        {
+          question: "¿Cuáles son los requisitos para presentar el examen en Nueva Jersey?",
+          answer:
+            "Nueva Jersey aplica requisitos de edad, residencia, situación escolar e identificación. Los casos de 16 o 17 años requieren consentimiento adicional. Confirma tu elegibilidad en GED.com o con un centro autorizado antes de registrarte.",
+        },
+        {
+          question: "¿La inscripción al curso incluye el examen oficial?",
+          answer:
+            "No lo asumimos. La preparación, el registro oficial y las tarifas del examen son pasos distintos; admisiones puede explicar únicamente qué incluye el programa de AIT.",
+        },
+      ],
+      closing: {
+        eyebrow: "Tu siguiente paso",
+        title: "Empieza con una orientación, no con una promesa.",
+        text:
+          "Confirma tu punto de inicio, la sede y el bloque disponible. Después verifica por separado los requisitos del examen oficial.",
+        primaryLabel: "Consultar preparación GED",
+        primaryCta: {
+          href: `${site.whatsappHref}?text=${encodeURIComponent(
+            "Hola AIT USA, quiero información sobre la preparación para el GED, mi punto de inicio y los horarios disponibles.",
+          )}`,
+          external: true,
+        },
+        advisorLabel: "Ver otras formas de contacto",
+        advisorCta: {
+          href: site.legalLinks.contact,
+          external: false,
+        },
+      },
     },
   },
   {

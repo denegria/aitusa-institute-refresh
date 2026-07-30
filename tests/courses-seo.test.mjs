@@ -28,12 +28,18 @@ describe("MIS-264 native React course routes", () => {
     assert.equal(programs.length, 9);
   });
 
-  it("uses the adult English route as the first reusable editorial course template", async () => {
+  it("uses one reusable editorial template for the flagship and two stress-test programs", async () => {
     const template = await readFile("app/_components/site/CourseProgramPage.jsx", "utf8");
     const editorialPrograms = programs.filter((program) => program.editorial);
     const adultEnglish = programs.find((program) => program.slug === "ingles-jovenes-adultos");
+    const onlineEnglish = programs.find((program) => program.slug === "ingles-online-adultos");
+    const ged = programs.find((program) => program.slug === "ged");
 
-    assert.deepEqual(editorialPrograms.map((program) => program.slug), ["ingles-jovenes-adultos"]);
+    assert.deepEqual(
+      editorialPrograms.map((program) => program.slug),
+      ["ingles-jovenes-adultos", "ingles-online-adultos", "ged"],
+    );
+    assert.ok(editorialPrograms.every((program) => program.editorial.version === "course-editorial-v1"));
     assert.equal(adultEnglish.editorial.version, "course-editorial-v1");
     assert.equal(adultEnglish.editorial.outcomes.length, 3);
     assert.equal(adultEnglish.editorial.pathway.length, 3);
@@ -58,6 +64,32 @@ describe("MIS-264 native React course routes", () => {
       adultEnglish.editorial.formats.find((format) => format.title === "Online").text,
       /tiempo real.*no pregrabadas/,
     );
+    assert.equal(onlineEnglish.editorial.pathway.length, 3);
+    assert.equal(onlineEnglish.editorial.formats.length, 3);
+    assert.equal(onlineEnglish.editorial.schedule.length, 3);
+    assert.equal(onlineEnglish.editorial.faqs.length, 6);
+    assert.match(
+      onlineEnglish.editorial.formats.find((format) => format.title === "Clase en vivo").text,
+      /no pregrabada/,
+    );
+    assert.deepEqual(onlineEnglish.editorial.schedule[1], {
+      label: "Lun–jue · noches",
+      times: ["6:20–7:30 pm", "7:30–8:40 pm", "8:40–9:50 pm"],
+    });
+    assert.equal(onlineEnglish.editorial.story, undefined);
+
+    assert.equal(ged.editorial.pathway.length, 4);
+    assert.deepEqual(
+      ged.editorial.pathway.map((area) => area.title),
+      ["Razonamiento matemático", "Artes del lenguaje", "Ciencias", "Estudios sociales"],
+    );
+    assert.equal(ged.editorial.schedule.length, 4);
+    assert.equal(ged.editorial.faqs.length, 6);
+    assert.equal(ged.editorial.story, undefined);
+    assert.equal(ged.editorial.primaryCta.external, true);
+    assert.match(ged.editorial.primaryCta.href, /^https:\/\/wa\.me\//);
+    assert.doesNotMatch(ged.editorial.closing.text, /garant/i);
+
     assert.match(template, /data-course-template/);
     assert.match(template, /CourseOutcomes/);
     assert.match(template, /CoursePathway/);
@@ -66,6 +98,9 @@ describe("MIS-264 native React course routes", () => {
     assert.match(template, /CourseStory/);
     assert.match(template, /CourseFaq/);
     assert.match(template, /conversionCtas\.placement\.href/);
+    assert.match(template, /editorial\.sectionCopy/);
+    assert.match(template, /editorial\.story \?/);
+    assert.match(template, /editorial\.primaryCta/);
     assert.match(template, /<video/);
   });
 

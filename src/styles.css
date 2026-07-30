@@ -5476,7 +5476,7 @@ textarea {
   gap: clamp(44px, 6vw, 96px);
   align-items: center;
   min-height: 586px;
-  padding-block: clamp(36px, 4.2vw, 60px);
+  padding-block: clamp(32px, 3.8vw, 56px);
 }
 
 .course-program-hero__copy {

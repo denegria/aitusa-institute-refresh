@@ -102,6 +102,66 @@ program cards before exposing the selected course inside a disclosure. At
 
 ---
 
+# AIT USA Course Template Stress-Test Contract
+
+## User workflow and problem
+
+The approved adult-English page proves the editorial direction for one language
+program, but it does not yet prove that the shared template can represent both a
+second delivery model and a structurally different academic program. Duplicating
+the markup route-by-route would make later approval changes expensive; forcing
+every program into language levels would make the content inaccurate.
+
+## Chosen interaction model
+
+- Keep one shared `course-editorial-v1` renderer.
+- Add reviewed content for `ingles-online-adultos` and `ged`.
+- Let program data override chapter copy, pathway labels, method framing, hero
+  note, and the primary action without branching on a slug in the component.
+- Keep the placement test dominant for English. Use admissions as the primary
+  action for GED because the English placement test is not its entry workflow.
+- Allow documentary proof to be omitted when no program-relevant story exists;
+  do not reuse an unrelated testimonial simply to fill the template.
+
+## Locked facts and claims
+
+- English Online is for young people and adults outside the United States, uses
+  live teacher-led classes that are not prerecorded, and follows Basic,
+  Intermediate, and Advanced levels.
+- The published online schedule contains duplicate conflicting evening blocks;
+  use the cleaner 70-minute evening sequence already verified for the flagship
+  page and qualify all availability by active group and time zone.
+- GED is preparation for the New Jersey high-school-equivalency pathway, not the
+  diploma issuer or official testing center.
+- The current GED assessment has four subject tests. AIT's live product listing
+  publishes an estimated six-month preparation period, two one-hour classes per
+  week, and four Saturday blocks; present the duration as an estimate, never a
+  guarantee.
+- Do not publish GED pricing, guaranteed passing, guaranteed completion,
+  official-test-center status, or automatic eligibility.
+
+## Responsive and content invariants
+
+- Retain the flagship viewports and first-screen Hero/ledger contract.
+- Support three language stages or four GED subject areas without fixed-height
+  clipping or horizontal rails.
+- Every rendered chapter must have program-relevant copy; optional chapters must
+  disappear cleanly.
+- Maintain one H1, ordered H2 chapters, 44px action targets, canonical metadata,
+  Course schema, and no page-level overflow.
+
+## Evidence required
+
+- Targeted course content/route tests for all three editorial programs.
+- Full test suite, asset integrity, production webpack build, npm audit, and
+  `git diff --check`.
+- Local production-mode browser evidence for both new routes at 1440×900 and
+  390×844, plus overflow/console/CTA/FAQ checks.
+- Live canonical staging smoke for the exact deployed commit. Production remains
+  out of scope.
+
+---
+
 # AIT USA Compact Mobile Study Options Contract
 
 ## User workflow and problem

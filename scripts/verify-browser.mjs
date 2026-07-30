@@ -1751,6 +1751,155 @@ const verifyPublicShellRoute = async ({
   return { name, screenshot: screenshotPath, ...result };
 };
 
+const verifyEditorialCourseRoute = async ({
+  name,
+  route,
+  expectedHeading,
+  expectedPathwayCount,
+  expectedPrimaryHref,
+  expectStory,
+  width,
+  height,
+  mobile,
+}) => {
+  console.log(`Checking ${name}...`);
+  await send("Emulation.setDeviceMetricsOverride", {
+    width,
+    height,
+    deviceScaleFactor: mobile ? 2 : 1,
+    mobile,
+  });
+
+  const loaded = waitForLoad();
+  const routeUrl = new URL(route, appUrl).toString();
+  const nav = await send("Page.navigate", { url: routeUrl }, 30000);
+  if (nav.errorText && nav.errorText !== "net::ERR_ABORTED") {
+    throw new Error(`${name} navigation failed: ${nav.errorText}`);
+  }
+  await loaded;
+  await waitForSelector('[data-course-template="course-editorial-v1"]');
+  await sleep(400);
+
+  await evaluate(`(async () => {
+    const images = [...document.images];
+    await Promise.all(images.map((img) => new Promise((resolve) => {
+      img.loading = 'eager';
+      if (img.complete && img.naturalWidth > 0) {
+        resolve();
+        return;
+      }
+      const done = () => resolve();
+      img.addEventListener('load', done, { once: true });
+      img.addEventListener('error', done, { once: true });
+      img.src = img.currentSrc || img.src;
+      setTimeout(done, 2500);
+    })));
+    const firstFaq = document.querySelector('.course-faq-list details');
+    firstFaq?.querySelector('summary')?.click();
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  })()`);
+
+  await stabilizeViewport();
+  const shot = await captureViewport(name);
+  const screenshot = path.join(screenshotsDir, `${name}.png`);
+  await writeFile(screenshot, Buffer.from(shot.data, "base64"));
+
+  const result = await evaluate(`(() => {
+    const images = [...document.images];
+    const primary = document.querySelector('.course-program-hero__actions .button--primary');
+    const heroImage = document.querySelector('.course-program-hero__media');
+    const heroActions = document.querySelector('.course-program-hero__actions');
+    const ledger = document.querySelector('.course-program-ledger');
+    const courseSchema = document.querySelector('script[data-schema="course"]')?.textContent || '{}';
+    let parsedCourse = {};
+    try {
+      parsedCourse = JSON.parse(courseSchema);
+    } catch {}
+    const localOverflowing = [...document.querySelectorAll('body *')]
+      .filter((el) => el.scrollWidth > el.clientWidth + 2 && getComputedStyle(el).overflowX === 'visible')
+      .slice(0, 12)
+      .map((el) => ({
+        tag: el.tagName.toLowerCase(),
+        id: el.id || null,
+        className: typeof el.className === 'string' ? el.className : null,
+        text: (el.innerText || el.alt || '').trim().slice(0, 90),
+        scrollWidth: el.scrollWidth,
+        clientWidth: el.clientWidth,
+      }));
+    const smallTargets = [...document.querySelectorAll('a, button, summary')]
+      .filter((el) => {
+        const rect = el.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0 && rect.height < 44;
+      })
+      .slice(0, 12)
+      .map((el) => ({
+        tag: el.tagName.toLowerCase(),
+        text: (el.innerText || el.getAttribute('aria-label') || '').trim().slice(0, 80),
+        width: Math.round(el.getBoundingClientRect().width),
+        height: Math.round(el.getBoundingClientRect().height),
+      }));
+    const pageScrollWidth = document.documentElement.scrollWidth;
+    const pageClientWidth = document.documentElement.clientWidth;
+    return {
+      location: location.href,
+      title: document.title,
+      heading: document.querySelector('#main-content h1')?.innerText || '',
+      canonical: document.querySelector('link[rel="canonical"]')?.href || '',
+      courseSchemaName: parsedCourse.name || '',
+      template: document.querySelector('[data-course-template]')?.dataset.courseTemplate || '',
+      pathwayCount: document.querySelectorAll('.course-pathway-list > li').length,
+      outcomesCount: document.querySelectorAll('.course-outcome-list > li').length,
+      formatsCount: document.querySelectorAll('.course-format-list > article').length,
+      scheduleCount: document.querySelectorAll('.course-schedule-panel dl > div').length,
+      storyCount: document.querySelectorAll('.course-program-story').length,
+      faqCount: document.querySelectorAll('.course-faq-list details').length,
+      firstFaqOpen: document.querySelector('.course-faq-list details')?.open || false,
+      primaryHref: primary?.href || '',
+      primaryTarget: primary?.target || '',
+      heroLedgerBottom: Math.round(ledger?.getBoundingClientRect().bottom || 0),
+      mobileCtaBeforeImage: !heroActions || !heroImage
+        ? false
+        : heroActions.getBoundingClientRect().bottom <= heroImage.getBoundingClientRect().top,
+      pageScrollWidth,
+      pageClientWidth,
+      missingImages: images
+        .filter((img) => !img.complete || img.naturalWidth === 0)
+        .map((img) => img.currentSrc || img.src),
+      overflowing: pageScrollWidth > pageClientWidth + 2 ? localOverflowing : [],
+      localOverflowing,
+      smallTargets,
+    };
+  })()`);
+
+  const issues = [];
+  if (result.heading !== expectedHeading) issues.push(`heading=${JSON.stringify(result.heading)}`);
+  if (result.template !== "course-editorial-v1") issues.push(`template=${result.template}`);
+  if (result.pathwayCount !== expectedPathwayCount) issues.push(`pathwayCount=${result.pathwayCount}`);
+  if (result.outcomesCount !== 3) issues.push(`outcomesCount=${result.outcomesCount}`);
+  if (result.formatsCount !== 3) issues.push(`formatsCount=${result.formatsCount}`);
+  if (result.faqCount !== 6 || !result.firstFaqOpen) {
+    issues.push(`faq=${result.faqCount}/${result.firstFaqOpen}`);
+  }
+  if (!result.primaryHref.includes(expectedPrimaryHref)) issues.push(`primaryHref=${result.primaryHref}`);
+  if (result.storyCount !== (expectStory ? 1 : 0)) issues.push(`storyCount=${result.storyCount}`);
+  if (!result.canonical.endsWith(route)) issues.push(`canonical=${result.canonical}`);
+  if (result.courseSchemaName !== expectedHeading) issues.push(`schema=${result.courseSchemaName}`);
+  if (result.pageScrollWidth > result.pageClientWidth + 2) {
+    issues.push(`pageOverflow=${result.pageScrollWidth}/${result.pageClientWidth}`);
+  }
+  if (result.missingImages.length) issues.push(`missingImages=${result.missingImages.length}`);
+  if (result.smallTargets.length) issues.push(`smallTargets=${result.smallTargets.length}`);
+  if (mobile && !result.mobileCtaBeforeImage) issues.push("mobileCtaAfterImage");
+  if (!mobile && height === 900 && result.heroLedgerBottom > height) {
+    issues.push(`heroLedgerBottom=${result.heroLedgerBottom}`);
+  }
+  if (issues.length) {
+    throw new Error(`${name} failed: ${issues.join(", ")} ${JSON.stringify(result)}`);
+  }
+
+  return { name, width, height, mobile, screenshot, ...result };
+};
+
 const results = [];
 const heroOnly = process.env.VERIFY_HERO_ONLY === "1";
 const skipHero = process.env.VERIFY_SKIP_HERO === "1";
@@ -1758,12 +1907,56 @@ const auditOnly = process.env.VERIFY_AUDIT_ONLY === "1";
 const mobileOnly = process.env.VERIFY_MOBILE_ONLY === "1";
 const desktopOnly = process.env.VERIFY_DESKTOP_ONLY === "1";
 const routesOnly = process.env.VERIFY_ROUTES_ONLY === "1";
+const editorialCoursesOnly = process.env.VERIFY_EDITORIAL_COURSES_ONLY === "1";
 try {
-  if (!auditOnly && !skipHero && !mobileOnly && !desktopOnly && !routesOnly) {
+  if (!auditOnly && !skipHero && !mobileOnly && !desktopOnly && !routesOnly && !editorialCoursesOnly) {
     results.push(await verifyHeroViewport({ name: "hero-reference-1904x950", width: 1904, height: 950 }));
     results.push(await verifyHeroViewport({ name: "hero-short-1867x847", width: 1867, height: 847 }));
   }
-  if (routesOnly) {
+  if (editorialCoursesOnly) {
+    const editorialRoutes = [
+      {
+        route: "/courses/ingles-jovenes-adultos/",
+        expectedHeading: "Inglés para jóvenes y adultos",
+        expectedPathwayCount: 3,
+        expectedPrimaryHref: "/placement-test/",
+        expectStory: true,
+        slug: "flagship",
+      },
+      {
+        route: "/courses/ingles-online-adultos/",
+        expectedHeading: "Inglés online para jóvenes y adultos",
+        expectedPathwayCount: 3,
+        expectedPrimaryHref: "/placement-test/",
+        expectStory: false,
+        slug: "online",
+      },
+      {
+        route: "/courses/ged/",
+        expectedHeading: "GED",
+        expectedPathwayCount: 4,
+        expectedPrimaryHref: "wa.me/17323790593",
+        expectStory: false,
+        slug: "ged",
+      },
+    ];
+    for (const course of editorialRoutes) {
+      results.push(await verifyEditorialCourseRoute({
+        ...course,
+        name: `course-${course.slug}-desktop-1440x900`,
+        width: 1440,
+        height: 900,
+        mobile: false,
+      }));
+      results.push(await verifyEditorialCourseRoute({
+        ...course,
+        name: `course-${course.slug}-mobile-390x844`,
+        width: 390,
+        height: 844,
+        mobile: true,
+      }));
+    }
+  } else if (routesOnly) {
     results.push(await verifyCourseRoute());
     results.push(await verifyPlacementRoute());
     results.push(await verifyPublicShellRoute({
