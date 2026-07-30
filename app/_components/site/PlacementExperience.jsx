@@ -431,8 +431,326 @@ function GoalScreen({
   );
 }
 
+function getClaimAttribution() {
+  if (typeof window === "undefined") return {};
+  const params = new URLSearchParams(window.location.search);
+  return {
+    utmSource: params.get("utm_source") || "",
+    utmMedium: params.get("utm_medium") || "",
+    utmCampaign: params.get("utm_campaign") || "",
+    utmContent: params.get("utm_content") || "",
+    utmTerm: params.get("utm_term") || "",
+    landingPath: `${window.location.pathname}${window.location.search}`,
+  };
+}
+
+function claimErrorMessage(code) {
+  return {
+    passwordless_claim_unavailable:
+      "El acceso sin contraseña todavía no está configurado. Tu resultado sigue visible y no se perdió.",
+    magic_auth_rate_limited:
+      "Ya enviamos varios códigos. Espera un minuto antes de solicitar otro.",
+    magic_auth_code_invalid:
+      "Ese código no es válido o ya venció. Revisa el email e inténtalo de nuevo.",
+    claim_challenge_expired:
+      "El código venció. Solicita uno nuevo para guardar tu resultado.",
+    portal_identity_conflict:
+      "Ese email ya está vinculado a otra identidad. Un asesor deberá ayudarte a resolverlo sin duplicar cuentas.",
+    claim_finalize_pending:
+      "Tu email quedó verificado, pero todavía no pudimos guardar el resultado. Intenta completar el guardado otra vez.",
+  }[code] || "No pudimos completar este paso. Tu resultado sigue visible; inténtalo de nuevo.";
+}
+
+function ResultClaimPanel({ ageBand, attemptId, enabled }) {
+  const [step, setStep] = useState("offer");
+  const [firstName, setFirstName] = useState("");
+  const [email, setEmail] = useState("");
+  const [advisorContactRequested, setAdvisorContactRequested] = useState(false);
+  const [code, setCode] = useState("");
+  const [claimId, setClaimId] = useState("");
+  const [challengeId, setChallengeId] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [receipt, setReceipt] = useState(null);
+
+  if (ageBand === "under_13") {
+    return (
+      <div className="diagnostic-unlock diagnostic-unlock--guardian">
+        <div>
+          <p className="section-kicker">Cuenta de tutor requerida</p>
+          <h3>El resultado permanece solo en esta sesión</h3>
+          <p>
+            Para menores de 13 años, el guardado y Study Buddy se habilitarán
+            únicamente mediante una cuenta verificada del padre, madre o tutor.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const requestCode = async (event) => {
+    event.preventDefault();
+    if (!enabled || busy) return;
+    setBusy(true);
+    setError("");
+    const nextClaimId = createAttemptId();
+    try {
+      const tokenResponse = await fetch(
+        `/api/diagnostic/attempts/${encodeURIComponent(attemptId)}/claim-token`,
+        {
+          method: "POST",
+          credentials: "same-origin",
+        },
+      );
+      const tokenBody = await tokenResponse.json();
+      if (!tokenResponse.ok || tokenBody.ok !== true) {
+        throw new Error(tokenBody.error || "claim_token_unavailable");
+      }
+      const response = await fetch("/api/portal/result-claim/code", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          attemptId,
+          claimId: nextClaimId,
+          claimToken: tokenBody.claimToken,
+          firstName,
+          email,
+          advisorContactRequested,
+          attribution: getClaimAttribution(),
+        }),
+      });
+      const body = await response.json();
+      if (!response.ok || body.ok !== true) {
+        throw new Error(body.error || "magic_auth_delivery_failed");
+      }
+      setClaimId(nextClaimId);
+      setChallengeId(body.challengeId);
+      setStep("code");
+    } catch (requestError) {
+      setError(claimErrorMessage(requestError.message));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const verifyCode = async (event) => {
+    event.preventDefault();
+    if (busy) return;
+    setBusy(true);
+    setError("");
+    try {
+      let response = await fetch("/api/portal/result-claim/verify", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ challengeId, claimId, code }),
+      });
+      let body = await response.json();
+      if (body.error === "claim_finalize_pending" && body.retryable === true) {
+        response = await fetch("/api/portal/result-claim/finalize", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ challengeId, claimId }),
+        });
+        body = await response.json();
+      }
+      if (!response.ok || body.ok !== true) {
+        throw new Error(body.error || "portal_claim_failed");
+      }
+      setReceipt(body);
+      setStep("success");
+      window.dispatchEvent(
+        new CustomEvent("aitusa:placement-claimed", {
+          detail: {
+            accountCreated: true,
+            advisorContactRequested,
+            crmQueued: body.crmQueued === true,
+            resultStatus: body.result?.status,
+          },
+        }),
+      );
+    } catch (verifyError) {
+      setError(claimErrorMessage(verifyError.message));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="diagnostic-unlock">
+      {step === "offer" ? (
+        <>
+          <div>
+            <p className="section-kicker">Tu siguiente paso</p>
+            <h3>Guarda tu resultado y practica 3–5 minutos</h3>
+            <p>
+              Crea acceso sin contraseña con nombre y email. Después podrás
+              abrir tu plan y la práctica guiada de cinco turnos.
+            </p>
+          </div>
+          <span>Sin contraseña · 1 práctica gratis</span>
+          <div className="diagnostic-claim-actions">
+            <button
+              className="button button--gold"
+              disabled={!enabled}
+              type="button"
+              onClick={() => setStep("details")}
+            >
+              Guardar mi resultado
+            </button>
+            {!enabled ? (
+              <small>
+                El guardado requiere el respaldo seguro del intento. Tu resultado
+                sigue disponible en esta página.
+              </small>
+            ) : (
+              <button
+                className="diagnostic-unlock__later"
+                type="button"
+                onClick={() => setStep("declined")}
+              >
+                Ahora no
+              </button>
+            )}
+          </div>
+        </>
+      ) : null}
+      {step === "declined" ? (
+        <div>
+          <p className="section-kicker">Sin presión</p>
+          <h3>Tu resultado sigue visible</h3>
+          <p>Puedes revisar cursos o hablar con un asesor sin crear una cuenta.</p>
+          <button
+            className="diagnostic-unlock__later"
+            type="button"
+            onClick={() => setStep("offer")}
+          >
+            Quiero guardarlo
+          </button>
+        </div>
+      ) : null}
+      {step === "details" ? (
+        <form className="diagnostic-claim-form" onSubmit={requestCode}>
+          <div>
+            <p className="section-kicker">Acceso sin contraseña</p>
+            <h3>¿Dónde enviamos tu código?</h3>
+          </div>
+          <label>
+            Nombre
+            <input
+              autoComplete="given-name"
+              maxLength={80}
+              required
+              type="text"
+              value={firstName}
+              onChange={(event) => setFirstName(event.target.value)}
+            />
+          </label>
+          <label>
+            Email
+            <input
+              autoComplete="email"
+              maxLength={254}
+              required
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </label>
+          <label className="diagnostic-claim-check">
+            <input
+              checked={advisorContactRequested}
+              type="checkbox"
+              onChange={(event) => setAdvisorContactRequested(event.target.checked)}
+            />
+            <span>
+              Quiero que un asesor me contacte por email sobre mi resultado y
+              próximos pasos.
+            </span>
+          </label>
+          <small>
+            Al continuar, aceptas los{" "}
+            <a href="/terms-and-conditions/" target="_blank">Términos</a> y la{" "}
+            <a href="/privacy-policy/" target="_blank">Política de Privacidad</a>.
+            El contacto con un asesor es opcional.
+          </small>
+          {error ? <p className="diagnostic-claim-error" role="alert">{error}</p> : null}
+          <div className="diagnostic-claim-form__actions">
+            <button className="button button--gold" disabled={busy} type="submit">
+              {busy ? "Enviando…" : "Enviar código"}
+            </button>
+            <button
+              className="diagnostic-unlock__later"
+              disabled={busy}
+              type="button"
+              onClick={() => setStep("offer")}
+            >
+              Volver
+            </button>
+          </div>
+        </form>
+      ) : null}
+      {step === "code" ? (
+        <form className="diagnostic-claim-form" onSubmit={verifyCode}>
+          <div>
+            <p className="section-kicker">Revisa tu email</p>
+            <h3>Escribe el código de 6 dígitos</h3>
+            <p>Lo enviamos a {email}. Vence en 10 minutos.</p>
+          </div>
+          <label>
+            Código
+            <input
+              autoComplete="one-time-code"
+              inputMode="numeric"
+              maxLength={6}
+              minLength={6}
+              pattern="[0-9]{6}"
+              required
+              type="text"
+              value={code}
+              onChange={(event) => setCode(event.target.value.replace(/\D/g, ""))}
+            />
+          </label>
+          {error ? <p className="diagnostic-claim-error" role="alert">{error}</p> : null}
+          <div className="diagnostic-claim-form__actions">
+            <button className="button button--gold" disabled={busy} type="submit">
+              {busy ? "Verificando…" : "Verificar y guardar"}
+            </button>
+            <button
+              className="diagnostic-unlock__later"
+              disabled={busy}
+              type="button"
+              onClick={() => setStep("details")}
+            >
+              Cambiar email
+            </button>
+          </div>
+        </form>
+      ) : null}
+      {step === "success" ? (
+        <div className="diagnostic-claim-success" role="status">
+          <p className="section-kicker">Resultado guardado</p>
+          <h3>Tu cuenta ya está lista, {receipt?.account?.firstName}</h3>
+          <p>
+            Tu email quedó verificado y tu resultado está vinculado de forma
+            segura. No necesitas crear una contraseña.
+          </p>
+          <a className="button button--gold" href={receipt?.portalHref || "/portal/"}>
+            Abrir mi portal
+          </a>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function ResultScreen({
+  ageBand,
+  attemptId,
   completedCount,
+  durable,
   goal,
   onRestart,
   result,
@@ -481,22 +799,11 @@ function ResultScreen({
           <p className="diagnostic-result__provisional">{syncNotice}</p>
         ) : null}
       </div>
-      <div className="diagnostic-unlock">
-        <div>
-          <p className="section-kicker">Siguiente entrega</p>
-          <h3>Guarda tu resultado y practica 3–5 minutos</h3>
-          <p>
-            El flujo final pedirá solo nombre y email, verificará un código en
-            la misma página y desbloqueará una conversación guiada de cinco
-            turnos.
-          </p>
-        </div>
-        <span>Sin contraseña · 1 práctica gratis</span>
-        <small>
-          Menores de 13 años necesitarán una cuenta creada y verificada por su
-          padre, madre o tutor.
-        </small>
-      </div>
+      <ResultClaimPanel
+        ageBand={ageBand}
+        attemptId={attemptId}
+        enabled={durable && Boolean(attemptId)}
+      />
       <div className="diagnostic-result__actions">
         <a
           className="button button--primary"
@@ -1046,7 +1353,10 @@ export function PlacementExperience() {
       ) : null}
       {screen === "result" ? (
         <ResultScreen
+          ageBand={ageBand}
+          attemptId={attemptId}
           completedCount={flatQuestions.length - skipped.length}
+          durable={durable}
           goal={goal}
           onRestart={restart}
           result={result}

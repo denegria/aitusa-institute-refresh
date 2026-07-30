@@ -41,11 +41,13 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.doesNotMatch(component, /question\.answer/);
   });
 
-  it("exposes the guardian and Study Buddy trial decisions without enabling them", () => {
+  it("exposes the guardian boundary and passwordless Study Buddy conversion", () => {
     assert.match(component, /practica 3–5 minutos/);
     assert.match(component, /cinco\s+turnos/);
-    assert.match(component, /Menores de 13 años/);
-    assert.match(component, /Siguiente entrega/);
+    assert.match(component, /Para menores de 13 años/);
+    assert.match(component, /api\/portal\/result-claim\/code/);
+    assert.match(component, /Ahora no/);
+    assert.match(component, /Tu resultado sigue visible/);
   });
 
   it("includes directional motion and a reduced-motion override", () => {

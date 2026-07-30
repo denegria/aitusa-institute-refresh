@@ -298,6 +298,7 @@ export function createDiagnosticService({
       return {
         eligible: true,
         attemptId,
+        claimId: claim.id,
         expiresAt: claim.expiresAt,
       };
     },

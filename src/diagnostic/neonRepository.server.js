@@ -398,6 +398,25 @@ export function createNeonDiagnosticRepository(database) {
           )
           returning id
         ),
+        expired_auth_challenge_candidates as (
+          select id
+          from portal_auth_challenges
+          where (
+              status in ('pending', 'verified', 'expired', 'cancelled')
+              and expires_at <= ${now.toISOString()}::timestamptz
+            )
+            or (
+              status = 'consumed'
+              and consumed_at <= ${now.toISOString()}::timestamptz - interval '1 day'
+            )
+          order by expires_at
+          limit ${limit}
+        ),
+        deleted_auth_challenges as (
+          delete from portal_auth_challenges
+          where id in (select id from expired_auth_challenge_candidates)
+          returning id
+        ),
         raw_candidates as (
           select id
           from diagnostic_attempts
@@ -436,12 +455,14 @@ export function createNeonDiagnosticRepository(database) {
         )
         select
           (select count(*)::int from expired_claims) as expired_claims,
+          (select count(*)::int from deleted_auth_challenges) as purged_auth_challenges,
           (select count(distinct attempt_id)::int from deleted_answers) as purged_raw_answer_sets,
           (select count(*)::int from deleted_attempts) as purged_attempts
       `);
       const row = rows(result)[0] || {};
       return {
         expiredClaims: Number(row.expired_claims || 0),
+        purgedAuthChallenges: Number(row.purged_auth_challenges || 0),
         purgedRawAnswerSets: Number(row.purged_raw_answer_sets || 0),
         purgedAttempts: Number(row.purged_attempts || 0),
       };
