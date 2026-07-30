@@ -39,7 +39,25 @@ describe("MIS-264 native React course routes", () => {
     assert.equal(adultEnglish.editorial.pathway.length, 3);
     assert.equal(adultEnglish.editorial.formats.length, 3);
     assert.equal(adultEnglish.editorial.schedule.length, 3);
-    assert.equal(adultEnglish.editorial.faqs.length, 5);
+    assert.equal(adultEnglish.editorial.faqs.length, 6);
+    assert.deepEqual(adultEnglish.editorial.schedule, [
+      {
+        label: "Lun–jue · mañanas",
+        times: ["9:30–10:30 am", "10:30–11:30 am"],
+      },
+      {
+        label: "Lun–jue · noches",
+        times: ["6:20–7:30 pm", "7:30–8:40 pm", "8:40–9:50 pm"],
+      },
+      {
+        label: "Sábados",
+        times: ["10:00 am–1:00 pm", "2:00–5:00 pm"],
+      },
+    ]);
+    assert.match(
+      adultEnglish.editorial.formats.find((format) => format.title === "Online").text,
+      /tiempo real.*no pregrabadas/,
+    );
     assert.match(template, /data-course-template/);
     assert.match(template, /CourseOutcomes/);
     assert.match(template, /CoursePathway/);

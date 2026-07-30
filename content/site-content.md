@@ -32,10 +32,28 @@ Captured on 2026-05-16 from the public Wix site.
 
 ## Schedules
 
-- Mornings: 8:30 am to 9:30 am, 9:30 am to 10:30 am, 10:30 am to 11:30 am.
-- Nights: 6:20 pm to 7:30 pm, 7:30 pm to 8:40 pm, 8:40 pm to 9:50 pm.
-- Saturdays: 10:00 am to 1:00 pm, 3:00 pm to 5:30 pm.
-- Sundays: 10:00 am to 12:30 pm.
+- Monday to Thursday mornings: 9:30 am to 10:30 am and 10:30 am to 11:30 am.
+- Monday to Thursday evenings: 6:20 pm to 7:30 pm, 7:30 pm to 8:40 pm, and 8:40 pm to 9:50 pm.
+- Saturdays: 10:00 am to 1:00 pm and 2:00 pm to 5:00 pm.
+
+These flagship English blocks were reverified on 2026-07-30 against the public
+`Inglés Presencial` course page. Older source routes also exposed an 8:30 am
+block and Sunday availability; the refresh does not present those as current
+flagship-course facts without client confirmation.
+
+The public youth/adult English pages also state:
+
+- Classes use small groups.
+- Online classes happen in real time with a teacher and are not prerecorded.
+- Basic-level teachers are bilingual, followed by a transition to teachers who
+  conduct practice in English.
+- Students may request schedule changes. The refresh qualifies this with
+  availability rather than promising an unrestricted change.
+
+The public site still advertises an intermediate-level target in about 10
+months and merit scholarships for top students. Both remain excluded from the
+refresh course template pending confirmation of the current academic and
+eligibility terms.
 
 The kids page also listed:
 

@@ -336,9 +336,9 @@ const programs = [
         },
       ],
       schedule: [
-        "Mañanas: 8:30 am, 9:30 am y 10:30 am.",
-        "Noches: 6:20 pm, 7:30 pm y 8:40 pm.",
-        "Sábados y domingos disponibles según bloque.",
+        "Lunes a jueves por la mañana: 9:30 am–10:30 am y 10:30 am–11:30 am.",
+        "Lunes a jueves por la noche: 6:20 pm–7:30 pm, 7:30 pm–8:40 pm y 8:40 pm–9:50 pm.",
+        "Sábados: 10:00 am–1:00 pm y 2:00 pm–5:00 pm.",
       ],
       note: "Los formatos y horarios pueden variar por sede. Confirma tu grupo antes de inscribirte.",
     },
@@ -364,8 +364,8 @@ const programs = [
           value: "Talleres y tutorías",
         },
         {
-          label: "Disponibilidad",
-          value: "Nueva Jersey + online",
+          label: "Experiencia",
+          value: "Grupos pequeños",
         },
       ],
       outcomes: [
@@ -393,7 +393,7 @@ const programs = [
           stage: "Etapa 01",
           title: "Básico",
           text:
-            "Construye expresiones frecuentes, presente y la base visual para comprender sin traducir cada frase.",
+            "Construye expresiones frecuentes, presente y la base visual para comprender sin traducir cada frase, con apoyo de docentes bilingües.",
           focus: "Base funcional",
         },
         {
@@ -422,21 +422,22 @@ const programs = [
         points: [
           "Explicación visual antes de memorizar listas extensas.",
           "Práctica oral con corrección durante la clase.",
+          "Docentes bilingües en los niveles básicos y transición progresiva a docentes estadounidenses.",
           "Talleres y tutorías para reforzar dudas y nivelarse.",
         ],
       },
       schedule: [
         {
-          label: "Mañanas",
-          times: ["8:30 am", "9:30 am", "10:30 am"],
+          label: "Lun–jue · mañanas",
+          times: ["9:30–10:30 am", "10:30–11:30 am"],
         },
         {
-          label: "Noches",
-          times: ["6:20 pm", "7:30 pm", "8:40 pm"],
+          label: "Lun–jue · noches",
+          times: ["6:20–7:30 pm", "7:30–8:40 pm", "8:40–9:50 pm"],
         },
         {
-          label: "Fin de semana",
-          times: ["Sábados y domingos según bloque disponible"],
+          label: "Sábados",
+          times: ["10:00 am–1:00 pm", "2:00–5:00 pm"],
         },
       ],
       formats: [
@@ -456,11 +457,11 @@ const programs = [
           icon: "laptop",
           title: "Online",
           text:
-            "Participa en vivo desde casa con horario confirmado según nivel y disponibilidad.",
+            "Participa en tiempo real con un profesor: las clases son interactivas y no pregrabadas.",
         },
       ],
       logisticsNote:
-        "La sede, modalidad y hora final dependen del grupo disponible. Un asesor confirma esas tres condiciones antes de la inscripción.",
+        "Puedes solicitar otro bloque cuando lo necesites, sujeto a cupo. Un asesor confirma sede, modalidad y horario antes de la inscripción.",
       story: {
         eyebrow: "Historia AIT",
         name: "Jessica",
@@ -500,6 +501,11 @@ const programs = [
           question: "¿Hay apoyo además de las clases?",
           answer:
             "El programa contempla talleres y tutorías para reforzar dudas, actualizarse y nivelarse. Confirma la disponibilidad correspondiente a tu grupo.",
+        },
+        {
+          question: "¿Las clases online son grabadas?",
+          answer:
+            "No. Son clases en tiempo real con un profesor, para que puedas interactuar, practicar y recibir corrección durante la sesión.",
         },
       ],
       closing: {
