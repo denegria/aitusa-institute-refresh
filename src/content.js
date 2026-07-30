@@ -287,6 +287,11 @@ const courseGuides = [
   },
 ];
 
+const admissionsCourseHref = (course) =>
+  `${site.whatsappHref}?text=${encodeURIComponent(
+    `Hola AIT USA, quiero información sobre ${course}, mi punto de inicio y los horarios disponibles.`,
+  )}`;
+
 const programs = [
   {
     slug: "ingles-jovenes-adultos",
@@ -792,6 +797,224 @@ const programs = [
       ],
       note: "El nivel y el horario recomendado se confirman con la familia antes de la inscripción.",
     },
+    editorial: {
+      version: "course-editorial-v1",
+      eyebrow: "Inglés online para niños de 8 a 13 años",
+      lead:
+        "Clases en vivo con apoyo visual, práctica guiada y seguimiento para que cada familia entienda el punto de inicio y el avance.",
+      heroImage: site.images.kidsEnglish,
+      heroImageAlt:
+        "Instructora guiando a una niña durante una clase de inglés online con apoyo visual.",
+      heroNote:
+        "La familia confirma edad, nivel y horario con admisiones antes de la inscripción.",
+      primaryCta: {
+        label: "Consultar el programa infantil",
+        href: admissionsCourseHref("el programa de inglés online para niños"),
+        external: true,
+      },
+      advisorCta: {
+        label: "Ver otras formas de contacto",
+        href: site.legalLinks.contact,
+        external: false,
+      },
+      proofLedger: [
+        {
+          label: "Edades",
+          value: "8 a 13 años",
+        },
+        {
+          label: "Modalidad",
+          value: "100% online",
+        },
+        {
+          label: "Método",
+          value: "Graphic Concept",
+        },
+        {
+          label: "Seguimiento",
+          value: "Familia informada",
+        },
+      ],
+      outcomes: [
+        {
+          number: "01",
+          title: "Comprender con apoyo visual",
+          text:
+            "Relaciona tiempos, palabras y situaciones con una estructura gráfica antes de depender de traducciones.",
+        },
+        {
+          number: "02",
+          title: "Practicar de forma guiada",
+          text:
+            "Trabaja presente, pasado y futuro con actividades acordes a la edad y corrección durante la clase.",
+        },
+        {
+          number: "03",
+          title: "Compartir el avance",
+          text:
+            "Padres o tutores reciben información sobre el progreso para acompañar la continuidad fuera de clase.",
+        },
+      ],
+      pathway: [
+        {
+          stage: "Paso 01",
+          marker: "01",
+          title: "Ubicar edad y nivel",
+          text:
+            "Admisiones revisa la edad, la experiencia previa y el horario de la familia para orientar el grupo inicial.",
+          focus: "Punto de partida",
+        },
+        {
+          stage: "Paso 02",
+          marker: "02",
+          title: "Construir una base visual",
+          text:
+            "La clase conecta vocabulario y estructuras con apoyos gráficos para comprender antes de responder.",
+          focus: "Comprensión",
+        },
+        {
+          stage: "Paso 03",
+          marker: "03",
+          title: "Practicar y dar seguimiento",
+          text:
+            "La práctica oral y los informes a la familia ayudan a sostener una rutina y observar el avance.",
+          focus: "Continuidad",
+        },
+      ],
+      method: {
+        eyebrow: "Graphic Concept para niños",
+        title: "Una estructura visual convierte la pantalla en una clase activa.",
+        text:
+          "AIT presenta Graphic Concept como una forma de visualizar la relación entre tiempos y palabras. La guía del docente convierte esa estructura en práctica, no en contenido pregrabado.",
+        image: site.images.routeConcept,
+        imageAlt:
+          "Instructora explicando una secuencia visual para practicar estructuras de inglés.",
+        figcaption: "Graphic Concept · apoyo visual y práctica guiada",
+        points: [
+          "Docentes bilingües apoyan los niveles básicos.",
+          "La transición incorpora práctica cada vez más amplia en inglés.",
+          "Las actividades se organizan para niños de 8 a 13 años.",
+          "Padres o tutores reciben información sobre el avance.",
+        ],
+      },
+      schedule: [
+        {
+          label: "Lun–jue · mañanas",
+          times: ["9:30–10:30 am", "10:30–11:30 am"],
+        },
+        {
+          label: "Lun–jue · tardes/noches",
+          times: ["6:30–7:30 pm", "7:30–8:30 pm", "8:30–9:30 pm"],
+        },
+        {
+          label: "Sábados",
+          times: ["10:00 am–1:00 pm", "2:00–5:00 pm"],
+        },
+      ],
+      formats: [
+        {
+          icon: "monitor-smartphone",
+          title: "Clase online en vivo",
+          text:
+            "El estudiante participa a distancia con guía docente y práctica durante la sesión.",
+        },
+        {
+          icon: "book-open-check",
+          title: "Ruta apropiada para la edad",
+          text:
+            "El grupo inicial se orienta según la edad y la experiencia previa del niño o la niña.",
+        },
+        {
+          icon: "calendar-days",
+          title: "Seguimiento familiar",
+          text:
+            "La familia recibe información del avance y confirma cualquier ajuste de grupo con admisiones.",
+        },
+      ],
+      logisticsNote:
+        "Estos son los bloques publicados por AIT. La zona horaria, el cupo y cualquier cambio dependen del grupo activo y deben confirmarse con la familia.",
+      sectionCopy: {
+        outcomes: {
+          eyebrow: "Aprendizaje acompañado",
+          title: "El niño practica; la familia entiende cómo va avanzando.",
+          text:
+            "La experiencia combina comprensión visual, uso guiado del idioma y comunicación con padres o tutores.",
+        },
+        pathway: {
+          id: "ruta-infantil",
+          eyebrow: "Ruta de inicio",
+          title: "Edad, nivel y horario se coordinan antes de comenzar.",
+          text:
+            "No usamos el examen de adultos como entrada automática. Admisiones orienta a la familia según el caso.",
+          actionLabel: "Consultar el punto de inicio",
+          actionHref: admissionsCourseHref("el punto de inicio del programa de inglés para niños"),
+          external: true,
+        },
+        logistics: {
+          eyebrow: "Clase y horarios",
+          title: "Un bloque útil es el que funciona para el niño y su familia.",
+          text:
+            "Revisa los horarios publicados y confirma la zona horaria y el grupo vigente antes de organizar la semana.",
+          formatsLabel: "Claves del programa infantil",
+          scheduleLabel: "Bloques publicados",
+          actionLabel: "Confirmar grupo y horario",
+        },
+        faq: {
+          eyebrow: "Antes de inscribir",
+          title: "Respuestas para decidir en familia.",
+          text:
+            "Admisiones puede confirmar edad, nivel, tecnología necesaria, zona horaria y cupo del grupo.",
+        },
+      },
+      faqs: [
+        {
+          question: "¿Para qué edades es el programa?",
+          answer:
+            "La página actual de AIT publica el programa para niños de 8 a 13 años. Confirma con admisiones si la edad está cerca del límite.",
+        },
+        {
+          question: "¿Las clases son online?",
+          answer:
+            "Sí. AIT presenta esta ruta como clases online. La familia debe confirmar el grupo activo y la zona horaria antes de inscribirse.",
+        },
+        {
+          question: "¿Cómo se define el nivel inicial?",
+          answer:
+            "Admisiones revisa la edad, la experiencia previa y el horario de la familia para orientar el punto de inicio. No asumimos que el examen de adultos sea la entrada adecuada.",
+        },
+        {
+          question: "¿La familia recibe información del progreso?",
+          answer:
+            "AIT indica que padres o tutores son informados sobre los avances de sus hijos. La frecuencia y el formato concreto se confirman con el grupo.",
+        },
+        {
+          question: "¿Puede cambiarse de horario?",
+          answer:
+            "AIT permite solicitar cambios, pero no garantizamos disponibilidad automática. Todo cambio depende del nivel, la zona horaria y el cupo del grupo activo.",
+        },
+        {
+          question: "¿Cuánto tarda en llegar a un nivel intermedio?",
+          answer:
+            "No publicamos una garantía de duración. El avance depende del punto de inicio, la asistencia, la práctica y la continuidad de cada estudiante.",
+        },
+      ],
+      closing: {
+        eyebrow: "El siguiente paso es familiar",
+        title: "Confirma edad, nivel y horario antes de elegir un grupo.",
+        text:
+          "Comparte con admisiones la edad del estudiante, su experiencia previa y la zona horaria para recibir una orientación más útil.",
+        primaryLabel: "Consultar el programa infantil",
+        primaryCta: {
+          href: admissionsCourseHref("el programa de inglés online para niños"),
+          external: true,
+        },
+        advisorLabel: "Ver otras formas de contacto",
+        advisorCta: {
+          href: site.legalLinks.contact,
+          external: false,
+        },
+      },
+    },
   },
   {
     slug: "espanol-extranjeros",
@@ -834,6 +1057,216 @@ const programs = [
       ],
       schedule: ["Horario online a confirmar por WhatsApp según país y disponibilidad."],
       note: "Confirma el grupo disponible y la zona horaria antes de inscribirte.",
+    },
+    editorial: {
+      version: "course-editorial-v1",
+      eyebrow: "Español conversacional online",
+      lead:
+        "Una ruta para practicar español útil en situaciones de estudio, trabajo y vida diaria con acompañamiento remoto.",
+      heroImage: site.images.spanish,
+      heroImageAlt:
+        "Persona adulta practicando conversación durante una clase de idioma online.",
+      heroNote:
+        "El grupo, el nivel inicial y la zona horaria se confirman con admisiones.",
+      primaryCta: {
+        label: "Consultar español online",
+        href: admissionsCourseHref("el curso online de español para extranjeros"),
+        external: true,
+      },
+      advisorCta: {
+        label: "Ver otras formas de contacto",
+        href: site.legalLinks.contact,
+        external: false,
+      },
+      proofLedger: [
+        {
+          label: "Modalidad",
+          value: "Online",
+        },
+        {
+          label: "Enfoque",
+          value: "Conversación útil",
+        },
+        {
+          label: "Contextos",
+          value: "Estudio · trabajo · vida diaria",
+        },
+        {
+          label: "Horario",
+          value: "Según país y grupo",
+        },
+      ],
+      outcomes: [
+        {
+          number: "01",
+          title: "Entender situaciones comunes",
+          text:
+            "Trabaja vocabulario y expresiones que aparecen en conversaciones de estudio, trabajo y vida diaria.",
+        },
+        {
+          number: "02",
+          title: "Responder con más recursos",
+          text:
+            "Practica cómo formular preguntas, explicar necesidades y sostener intercambios breves con guía.",
+        },
+        {
+          number: "03",
+          title: "Mantener continuidad",
+          text:
+            "Coordina una rutina online acorde con tu país, disponibilidad y punto de partida.",
+        },
+      ],
+      pathway: [
+        {
+          stage: "Paso 01",
+          marker: "01",
+          title: "Definir tu punto de partida",
+          text:
+            "Comparte con admisiones tu experiencia previa, tu objetivo principal y la zona horaria desde la que estudiarás.",
+          focus: "Orientación",
+        },
+        {
+          stage: "Paso 02",
+          marker: "02",
+          title: "Construir recursos útiles",
+          text:
+            "Amplía vocabulario, comprensión y estructuras alrededor de situaciones que necesitas resolver.",
+          focus: "Base práctica",
+        },
+        {
+          stage: "Paso 03",
+          marker: "03",
+          title: "Llevarlo a conversación",
+          text:
+            "Usa lo aprendido en actividades guiadas para ganar precisión y responder con menos pausa.",
+          focus: "Uso real",
+        },
+      ],
+      method: {
+        eyebrow: "Práctica conversacional",
+        title: "Aprender una lengua también significa usarla con un propósito.",
+        text:
+          "La ruta se organiza alrededor de comprensión, vocabulario y práctica para situaciones reales. El grupo y el nivel determinan el ritmo concreto.",
+        image: site.images.spanish,
+        imageAlt:
+          "Persona adulta participando en una práctica conversacional de idioma.",
+        figcaption: "Español online · comprensión y conversación guiada",
+        points: [
+          "Situaciones relacionadas con estudio, trabajo y vida diaria.",
+          "Actividades guiadas para ampliar vocabulario.",
+          "Práctica de preguntas, respuestas y expresiones frecuentes.",
+          "Seguimiento remoto para coordinar continuidad y dudas.",
+        ],
+      },
+      schedule: [
+        {
+          label: "Grupo online",
+          times: ["Horario por confirmar según país y disponibilidad"],
+        },
+      ],
+      formats: [
+        {
+          icon: "monitor-smartphone",
+          title: "Participación online",
+          text:
+            "Estudia a distancia y confirma la plataforma y los requisitos técnicos con el grupo activo.",
+        },
+        {
+          icon: "book-open-check",
+          title: "Punto de partida",
+          text:
+            "La experiencia previa y la meta del estudiante orientan el contenido inicial.",
+        },
+        {
+          icon: "calendar-days",
+          title: "Zona horaria",
+          text:
+            "El horario se coordina según el país del estudiante y la disponibilidad vigente.",
+        },
+      ],
+      logisticsNote:
+        "AIT no muestra actualmente un bloque público detallado para esta ruta. Admisiones debe confirmar nivel, zona horaria, plataforma y disponibilidad antes de la inscripción.",
+      sectionCopy: {
+        outcomes: {
+          eyebrow: "Comunicación útil",
+          title: "Practica el español que necesitas usar fuera de clase.",
+          text:
+            "La ruta prioriza comprensión y respuesta en contextos cotidianos, académicos y laborales.",
+        },
+        pathway: {
+          id: "ruta-espanol",
+          eyebrow: "Ruta de aprendizaje",
+          title: "Tu objetivo y experiencia previa definen dónde empezar.",
+          text:
+            "No publicamos una duración ni un nivel final garantizados. El punto de partida se confirma antes de comenzar.",
+          actionLabel: "Consultar mi punto de partida",
+          actionHref: admissionsCourseHref("mi punto de partida para español online"),
+          external: true,
+        },
+        logistics: {
+          eyebrow: "Modalidad y coordinación",
+          title: "Confirma el horario en tu zona antes de organizar la semana.",
+          text:
+            "AIT identifica la ruta como online, pero la disponibilidad concreta debe validarse con admisiones.",
+          formatsLabel: "Claves de la modalidad online",
+          scheduleLabel: "Disponibilidad",
+          actionLabel: "Confirmar horario online",
+        },
+        faq: {
+          eyebrow: "Antes de empezar",
+          title: "Lo que conviene confirmar para una ruta online.",
+          text:
+            "Una conversación breve con admisiones aclara nivel, meta, horario y tecnología necesaria.",
+        },
+      },
+      faqs: [
+        {
+          question: "¿El curso es online?",
+          answer:
+            "Sí. AIT presenta Español para extranjeros como una ruta online. La plataforma y el grupo activo se confirman con admisiones.",
+        },
+        {
+          question: "¿Necesito saber español antes de empezar?",
+          answer:
+            "No publicamos un requisito único. Comparte tu experiencia previa para que admisiones pueda orientar el punto de entrada.",
+        },
+        {
+          question: "¿Qué tipo de español se practica?",
+          answer:
+            "La descripción disponible prioriza conversación útil para estudio, trabajo y vida diaria. El contenido concreto depende del nivel del grupo.",
+        },
+        {
+          question: "¿Hay un horario fijo?",
+          answer:
+            "No mostramos un bloque público confirmado. El horario se coordina según el país, la zona horaria y la disponibilidad vigente.",
+        },
+        {
+          question: "¿Cuánto dura el curso?",
+          answer:
+            "No publicamos una duración garantizada. El tiempo depende del punto de inicio, la frecuencia, la práctica y la meta del estudiante.",
+        },
+        {
+          question: "¿Cómo sé si el grupo es adecuado para mí?",
+          answer:
+            "Indica tu nivel aproximado, país, zona horaria y objetivo principal. Admisiones puede confirmar si hay un grupo que encaje.",
+        },
+      ],
+      closing: {
+        eyebrow: "Tu objetivo marca la ruta",
+        title: "Cuéntanos dónde estás y para qué quieres usar el español.",
+        text:
+          "Con tu experiencia previa, objetivo y zona horaria, admisiones puede darte una orientación más concreta.",
+        primaryLabel: "Consultar español online",
+        primaryCta: {
+          href: admissionsCourseHref("el curso online de español para extranjeros"),
+          external: true,
+        },
+        advisorLabel: "Ver otras formas de contacto",
+        advisorCta: {
+          href: site.legalLinks.contact,
+          external: false,
+        },
+      },
     },
   },
   {
@@ -1161,6 +1594,216 @@ const programs = [
       schedule: ["Horario presencial u online a confirmar según materia, nivel y disponibilidad."],
       note: "La materia, el nivel y el horario se confirman antes de empezar.",
     },
+    editorial: {
+      version: "course-editorial-v1",
+      eyebrow: "Apoyo focalizado en matemáticas",
+      lead:
+        "Tutorías para estudiantes de secundaria o universidad que necesitan aclarar un bloqueo, recuperar base y organizar la siguiente práctica.",
+      heroImage: site.images.math,
+      heroImageAlt:
+        "Tutora guiando ejercicios de matemáticas con calculadora, cuaderno y material de práctica.",
+      heroNote:
+        "La materia, el nivel, la modalidad y el horario se confirman antes de comenzar.",
+      primaryCta: {
+        label: "Consultar una tutoría",
+        href: admissionsCourseHref("las tutorías en matemáticas"),
+        external: true,
+      },
+      advisorCta: {
+        label: "Ver otras formas de contacto",
+        href: site.legalLinks.contact,
+        external: false,
+      },
+      proofLedger: [
+        {
+          label: "Nivel",
+          value: "Secundaria · universidad",
+        },
+        {
+          label: "Modalidad",
+          value: "Presencial u online",
+        },
+        {
+          label: "Enfoque",
+          value: "Bloqueos concretos",
+        },
+        {
+          label: "Horario",
+          value: "Coordinado por caso",
+        },
+      ],
+      outcomes: [
+        {
+          number: "01",
+          title: "Identificar el bloqueo",
+          text:
+            "Delimita el tema, procedimiento o requisito previo que está frenando el avance.",
+        },
+        {
+          number: "02",
+          title: "Reconstruir el proceso",
+          text:
+            "Repasa la base necesaria y resuelve ejercicios con explicación guiada, paso a paso.",
+        },
+        {
+          number: "03",
+          title: "Practicar con dirección",
+          text:
+            "Sale de la sesión con ejercicios o próximos pasos alineados con la materia y el objetivo inmediato.",
+        },
+      ],
+      pathway: [
+        {
+          stage: "Paso 01",
+          marker: "01",
+          title: "Compartir materia y nivel",
+          text:
+            "Indica el curso, el tema actual y si existe una fecha próxima de examen o entrega.",
+          focus: "Contexto",
+        },
+        {
+          stage: "Paso 02",
+          marker: "02",
+          title: "Revisar la base necesaria",
+          text:
+            "La tutoría ubica errores, conocimientos previos y procedimientos que necesitan refuerzo.",
+          focus: "Nivelación",
+        },
+        {
+          stage: "Paso 03",
+          marker: "03",
+          title: "Aplicar y verificar",
+          text:
+            "El estudiante practica problemas relacionados y confirma qué puede resolver con mayor autonomía.",
+          focus: "Práctica",
+        },
+      ],
+      method: {
+        eyebrow: "Tutoría por objetivo",
+        title: "Primero se delimita el problema; después se practica lo que lo desbloquea.",
+        text:
+          "Una tutoría útil no intenta cubrir toda la materia a la vez. Se concentra en el tema actual, la base que falta y los próximos ejercicios.",
+        image: site.images.math,
+        imageAlt:
+          "Sesión de tutoría matemática con ejercicios escritos y calculadora.",
+        figcaption: "Tutoría matemática · explicación, práctica y verificación",
+        points: [
+          "Contexto del curso y tema antes de la sesión.",
+          "Explicación guiada del procedimiento que causa dificultad.",
+          "Ejercicios relacionados para comprobar comprensión.",
+          "Siguiente práctica acordada según la necesidad del estudiante.",
+        ],
+      },
+      schedule: [
+        {
+          label: "Tutoría",
+          times: ["Horario por confirmar según materia, nivel y disponibilidad"],
+        },
+      ],
+      formats: [
+        {
+          icon: "building-2",
+          title: "Opción presencial",
+          text:
+            "La sede y la disponibilidad se confirman según el tema y el tutor correspondiente.",
+        },
+        {
+          icon: "monitor-smartphone",
+          title: "Opción online",
+          text:
+            "La modalidad remota se coordina cuando el tema, el material y la disponibilidad lo permiten.",
+        },
+        {
+          icon: "calendar-days",
+          title: "Sesión coordinada",
+          text:
+            "No se asume un bloque fijo: materia, nivel y horario se validan antes de empezar.",
+        },
+      ],
+      logisticsNote:
+        "AIT no publica un horario único para todas las tutorías. Comparte la materia, el nivel y la fecha objetivo para confirmar tutor y modalidad.",
+      sectionCopy: {
+        outcomes: {
+          eyebrow: "Refuerzo con foco",
+          title: "Menos repaso genérico; más claridad sobre el tema que te detiene.",
+          text:
+            "La tutoría organiza diagnóstico, explicación y práctica alrededor de una necesidad académica concreta.",
+        },
+        pathway: {
+          id: "proceso-tutoria",
+          eyebrow: "Cómo se coordina",
+          title: "Llegar con contexto permite aprovechar mejor la sesión.",
+          text:
+            "Comparte el curso, el tema, el material y cualquier fecha importante antes de confirmar.",
+          actionLabel: "Explicar lo que necesito",
+          actionHref: admissionsCourseHref("una tutoría de matemáticas para mi materia y nivel"),
+          external: true,
+        },
+        logistics: {
+          eyebrow: "Modalidad y horario",
+          title: "El formato depende de la materia, el tutor y la disponibilidad.",
+          text:
+            "Presencial u online se confirma caso por caso; no publicamos disponibilidad automática.",
+          formatsLabel: "Opciones de coordinación",
+          scheduleLabel: "Horario",
+          actionLabel: "Confirmar tutoría disponible",
+        },
+        faq: {
+          eyebrow: "Antes de reservar",
+          title: "La información que ayuda a coordinar una tutoría útil.",
+          text:
+            "Materia, nivel, tema y fecha objetivo permiten confirmar si AIT puede atender el caso.",
+        },
+      },
+      faqs: [
+        {
+          question: "¿Para qué niveles hay tutorías?",
+          answer:
+            "AIT presenta tutorías para secundaria y universidad. La materia y el tema concreto deben confirmarse antes de reservar.",
+        },
+        {
+          question: "¿Pueden ser presenciales u online?",
+          answer:
+            "La ruta contempla ambas opciones, sujetas al tema, al tutor disponible y a la coordinación previa.",
+        },
+        {
+          question: "¿Debo enviar el material antes?",
+          answer:
+            "Es recomendable compartir el tema, ejercicios, guía o capítulo antes de la sesión para que admisiones pueda orientar mejor la tutoría.",
+        },
+        {
+          question: "¿Hay un horario fijo?",
+          answer:
+            "No se publica un bloque único. El horario se confirma según materia, nivel, modalidad y disponibilidad.",
+        },
+        {
+          question: "¿La tutoría garantiza mejorar una nota?",
+          answer:
+            "No. La tutoría ofrece explicación y práctica; el resultado depende de la base, el trabajo del estudiante, la asistencia y los criterios de su curso.",
+        },
+        {
+          question: "¿Puede ayudar antes de un examen?",
+          answer:
+            "Puede orientarse a un examen si existe disponibilidad y si se comparte el material con tiempo. No se garantiza cubrir todo el temario en una sola sesión.",
+        },
+      ],
+      closing: {
+        eyebrow: "Trae el problema concreto",
+        title: "Materia, tema y fecha: esos tres datos aceleran la orientación.",
+        text:
+          "Comparte lo que estás estudiando y dónde aparece la dificultad para confirmar modalidad, tutor y horario.",
+        primaryLabel: "Consultar una tutoría",
+        primaryCta: {
+          href: admissionsCourseHref("las tutorías en matemáticas"),
+          external: true,
+        },
+        advisorLabel: "Ver otras formas de contacto",
+        advisorCta: {
+          href: site.legalLinks.contact,
+          external: false,
+        },
+      },
+    },
   },
   {
     slug: "computacion-basica",
@@ -1207,6 +1850,224 @@ const programs = [
         "Noches: lunes y miércoles 6:00 pm a 7:00 pm.",
       ],
       note: "Preguntar por otros horarios disponibles.",
+    },
+    editorial: {
+      version: "course-editorial-v1",
+      eyebrow: "Independencia digital desde la base",
+      lead:
+        "Un curso práctico para principiantes que quieren usar internet, archivos, programas y funciones cotidianas de la computadora con más seguridad.",
+      heroImage: site.images.computing,
+      heroImageAlt:
+        "Instructora guiando una clase de computación básica con distintos dispositivos.",
+      heroNote:
+        "El sistema operativo, el nivel inicial y el bloque vigente se confirman antes de comenzar.",
+      primaryCta: {
+        label: "Consultar computación básica",
+        href: admissionsCourseHref("el curso de computación básica"),
+        external: true,
+      },
+      advisorCta: {
+        label: "Ver otras formas de contacto",
+        href: site.legalLinks.contact,
+        external: false,
+      },
+      proofLedger: [
+        {
+          label: "Nivel",
+          value: "Principiantes",
+        },
+        {
+          label: "Uso",
+          value: "Internet · archivos · programas",
+        },
+        {
+          label: "Sistemas",
+          value: "Windows o Mac",
+        },
+        {
+          label: "Enfoque",
+          value: "Tareas cotidianas",
+        },
+      ],
+      outcomes: [
+        {
+          number: "01",
+          title: "Navegar con más criterio",
+          text:
+            "Practica búsquedas, correo, direcciones, formularios y otras tareas frecuentes de internet.",
+        },
+        {
+          number: "02",
+          title: "Organizar archivos y programas",
+          text:
+            "Aprende operaciones básicas para guardar, encontrar, instalar, desinstalar y mantener orden.",
+        },
+        {
+          number: "03",
+          title: "Resolver tareas cotidianas",
+          text:
+            "Aplica la base digital a comunicación, estudio, trabajo, pagos y gestiones personales.",
+        },
+      ],
+      pathway: [
+        {
+          stage: "Módulo 01",
+          marker: "01",
+          title: "Equipo y entorno",
+          text:
+            "Reconoce funciones esenciales del sistema, contraseñas, ventanas, carpetas y programas.",
+          focus: "Base del sistema",
+        },
+        {
+          stage: "Módulo 02",
+          marker: "02",
+          title: "Internet y comunicación",
+          text:
+            "Practica navegación, búsquedas, correo, fotos y comunicación con atención a hábitos seguros.",
+          focus: "Uso online",
+        },
+        {
+          stage: "Módulo 03",
+          marker: "03",
+          title: "Archivos y mantenimiento",
+          text:
+            "Organiza documentos y revisa acciones preventivas básicas para cuidar el equipo.",
+          focus: "Continuidad",
+        },
+      ],
+      method: {
+        eyebrow: "Aprender haciendo",
+        title: "Cada función se entiende mejor cuando resuelve una tarea real.",
+        text:
+          "La ruta conecta explicaciones básicas con acciones cotidianas: buscar, escribir, guardar, compartir, instalar y mantener orden.",
+        image: site.images.computing,
+        imageAlt:
+          "Dispositivos digitales usados para practicar tareas básicas de computación.",
+        figcaption: "Computación básica · práctica para tareas cotidianas",
+        points: [
+          "Operaciones esenciales en Windows o Mac según el grupo.",
+          "Internet, correo, búsqueda y comunicación.",
+          "Archivos, fotos, contraseñas y programas.",
+          "Hábitos preventivos básicos para el equipo.",
+        ],
+      },
+      schedule: [
+        {
+          label: "Lun y mié · mañana",
+          times: ["10:00–11:00 am"],
+        },
+        {
+          label: "Lun y mié · noche",
+          times: ["6:00–7:00 pm"],
+        },
+        {
+          label: "Sábados",
+          times: ["2:00–4:00 pm"],
+        },
+      ],
+      formats: [
+        {
+          icon: "book-open-check",
+          title: "Desde cero",
+          text:
+            "La ruta está pensada para personas que necesitan construir una base funcional.",
+        },
+        {
+          icon: "laptop",
+          title: "Windows o Mac",
+          text:
+            "Confirma el sistema y el equipo que usarás para orientar la práctica del grupo.",
+        },
+        {
+          icon: "calendar-days",
+          title: "Bloques publicados",
+          text:
+            "AIT publica opciones de mañana, noche y sábado, sujetas a grupo y cupo.",
+        },
+      ],
+      logisticsNote:
+        "Los bloques provienen de la información publicada por AIT y pueden cambiar. Confirma sistema, sede o modalidad, cupo y horario antes de inscribirte.",
+      sectionCopy: {
+        outcomes: {
+          eyebrow: "Habilidades funcionales",
+          title: "La meta es depender menos de otra persona para tareas digitales básicas.",
+          text:
+            "Navegación, archivos y programas se practican alrededor de acciones que aparecen en la vida diaria.",
+        },
+        pathway: {
+          id: "modulos-computacion-basica",
+          eyebrow: "Ruta de práctica",
+          title: "Primero entiende el equipo; después amplía lo que puedes hacer con él.",
+          text:
+            "El contenido concreto se ajusta al sistema operativo y al punto de partida del grupo.",
+          actionLabel: "Consultar mi punto de inicio",
+          actionHref: admissionsCourseHref("mi punto de inicio para computación básica"),
+          external: true,
+        },
+        logistics: {
+          eyebrow: "Equipo y horarios",
+          title: "Confirma qué llevar y qué bloque sigue activo.",
+          text:
+            "La práctica depende del sistema operativo, el equipo disponible y la organización del grupo.",
+          formatsLabel: "Claves del curso",
+          scheduleLabel: "Bloques publicados",
+          actionLabel: "Confirmar equipo y horario",
+        },
+        faq: {
+          eyebrow: "Antes de comenzar",
+          title: "Respuestas para quien está empezando desde cero.",
+          text:
+            "Admisiones puede confirmar equipo, sistema, sede o modalidad, horario y punto de inicio.",
+        },
+      },
+      faqs: [
+        {
+          question: "¿Necesito experiencia previa?",
+          answer:
+            "No se publica un requisito previo. El curso está descrito para principiantes, pero conviene explicar qué tareas ya puedes hacer.",
+        },
+        {
+          question: "¿Se trabaja con Windows o Mac?",
+          answer:
+            "La información de AIT menciona ambos sistemas. Confirma cuál corresponde al grupo y qué equipo debes llevar o usar.",
+        },
+        {
+          question: "¿Qué temas incluye?",
+          answer:
+            "La ruta publicada incluye internet, comunicación, archivos, contraseñas, instalación y desinstalación de programas, y mantenimiento preventivo básico.",
+        },
+        {
+          question: "¿Los horarios publicados están garantizados?",
+          answer:
+            "No. Son bloques de referencia y dependen del grupo activo, la sede o modalidad y el cupo disponible.",
+        },
+        {
+          question: "¿Este curso incluye Word, Excel y PowerPoint?",
+          answer:
+            "La ruta básica construye la base digital. Para herramientas de oficina existe un programa separado; admisiones puede orientar cuál conviene primero.",
+        },
+        {
+          question: "¿Debo tener mi propia computadora?",
+          answer:
+            "No asumimos un requisito único. Confirma con admisiones si necesitas llevar equipo y qué sistema operativo usará el grupo.",
+        },
+      ],
+      closing: {
+        eyebrow: "Empieza por lo que necesitas resolver",
+        title: "Cuéntanos qué equipo usas y qué tarea quieres dominar primero.",
+        text:
+          "Esa información ayuda a confirmar el grupo, el bloque y si computación básica es la ruta correcta.",
+        primaryLabel: "Consultar computación básica",
+        primaryCta: {
+          href: admissionsCourseHref("el curso de computación básica"),
+          external: true,
+        },
+        advisorLabel: "Ver otras formas de contacto",
+        advisorCta: {
+          href: site.legalLinks.contact,
+          external: false,
+        },
+      },
     },
   },
   {
@@ -1263,6 +2124,224 @@ const programs = [
       ],
       note: "Preguntar por otros horarios disponibles.",
     },
+    editorial: {
+      version: "course-editorial-v1",
+      eyebrow: "Herramientas para oficina y estudio",
+      lead:
+        "Una ruta práctica por Word, Excel y PowerPoint para crear documentos, organizar información y presentar ideas con más claridad.",
+      heroImage: site.images.office,
+      heroImageAlt:
+        "Persona trabajando en una computadora con herramientas de productividad de oficina.",
+      heroNote:
+        "El módulo, el nivel inicial, el software y el horario vigente se confirman con admisiones.",
+      primaryCta: {
+        label: "Consultar computación para oficina",
+        href: admissionsCourseHref("el curso de computación para oficina"),
+        external: true,
+      },
+      advisorCta: {
+        label: "Ver otras formas de contacto",
+        href: site.legalLinks.contact,
+        external: false,
+      },
+      proofLedger: [
+        {
+          label: "Herramientas",
+          value: "Word · Excel · PowerPoint",
+        },
+        {
+          label: "Uso",
+          value: "Trabajo · estudio · administración",
+        },
+        {
+          label: "Enfoque",
+          value: "Proyectos prácticos",
+        },
+        {
+          label: "Entrada",
+          value: "Según base digital",
+        },
+      ],
+      outcomes: [
+        {
+          number: "01",
+          title: "Crear documentos útiles",
+          text:
+            "Practica cartas, informes, estimados, recibos, avisos y otros formatos frecuentes en Word.",
+        },
+        {
+          number: "02",
+          title: "Organizar y analizar datos",
+          text:
+            "Trabaja formatos, tablas, operaciones, bases de datos y gráficos dentro de Excel.",
+        },
+        {
+          number: "03",
+          title: "Presentar una idea",
+          text:
+            "Combina texto e imágenes en PowerPoint para explicar, capacitar o presentar un proyecto.",
+        },
+      ],
+      pathway: [
+        {
+          stage: "Módulo 01",
+          marker: "W",
+          title: "Microsoft Word",
+          text:
+            "Crea y da formato a cartas, informes, recibos, memos, hojas de vida, flyers y otros documentos.",
+          focus: "Documentos",
+        },
+        {
+          stage: "Módulo 02",
+          marker: "X",
+          title: "Microsoft Excel",
+          text:
+            "Organiza datos, aplica operaciones y convierte información en tablas y gráficos comprensibles.",
+          focus: "Datos",
+        },
+        {
+          stage: "Módulo 03",
+          marker: "P",
+          title: "Microsoft PowerPoint",
+          text:
+            "Construye presentaciones con texto, imágenes y una secuencia clara para comunicar proyectos.",
+          focus: "Presentaciones",
+        },
+      ],
+      method: {
+        eyebrow: "Productividad aplicada",
+        title: "No se trata de memorizar menús; se trata de completar un trabajo real.",
+        text:
+          "Cada módulo conecta funciones del software con documentos, hojas de cálculo o presentaciones que aparecen en oficina, estudio y administración.",
+        image: site.images.office,
+        imageAlt:
+          "Espacio de trabajo digital con aplicaciones de oficina en una computadora.",
+        figcaption: "Computación para oficina · documentos, datos y presentaciones",
+        points: [
+          "Ejercicios alrededor de tareas reales.",
+          "Documentos y formatos que pueden reutilizarse.",
+          "Datos, operaciones y gráficos en Excel.",
+          "Presentaciones con una secuencia visual clara.",
+        ],
+      },
+      schedule: [
+        {
+          label: "Mar y jue · mañana",
+          times: ["10:00–11:00 am"],
+        },
+        {
+          label: "Mar y jue · noche",
+          times: ["6:00–7:00 pm"],
+        },
+        {
+          label: "Sábados",
+          times: ["4:00–6:00 pm"],
+        },
+      ],
+      formats: [
+        {
+          icon: "book-open-check",
+          title: "Ruta por módulos",
+          text:
+            "Word, Excel y PowerPoint tienen objetivos distintos y pueden requerir ritmos diferentes.",
+        },
+        {
+          icon: "laptop",
+          title: "Práctica en software",
+          text:
+            "Confirma la versión, el equipo y cualquier requisito antes de iniciar el módulo.",
+        },
+        {
+          icon: "calendar-days",
+          title: "Bloques publicados",
+          text:
+            "AIT publica opciones de mañana, noche y sábado, sujetas a grupo y cupo.",
+        },
+      ],
+      logisticsNote:
+        "AIT publica estimaciones de cuatro semanas para Word y PowerPoint y ocho para Excel. Son referencias, no garantías; confirma módulo, versión, grupo y horario vigente.",
+      sectionCopy: {
+        outcomes: {
+          eyebrow: "Trabajo visible",
+          title: "Cada herramienta debe terminar en algo que puedas usar.",
+          text:
+            "La ruta convierte funciones de oficina en documentos, análisis y presentaciones concretas.",
+        },
+        pathway: {
+          id: "modulos-oficina",
+          eyebrow: "Tres módulos",
+          title: "Documentos, datos y presentaciones requieren habilidades distintas.",
+          text:
+            "Admisiones puede orientar si conviene comenzar con computación básica o entrar directamente a un módulo de oficina.",
+          actionLabel: "Consultar el módulo adecuado",
+          actionHref: admissionsCourseHref("el módulo adecuado de computación para oficina"),
+          external: true,
+        },
+        logistics: {
+          eyebrow: "Software y horarios",
+          title: "Confirma el módulo activo antes de organizar tu calendario.",
+          text:
+            "Los bloques y duraciones publicados son referencias; la oferta concreta depende de grupo, cupo y software.",
+          formatsLabel: "Claves de la ruta de oficina",
+          scheduleLabel: "Bloques publicados",
+          actionLabel: "Confirmar módulo y horario",
+        },
+        faq: {
+          eyebrow: "Antes de inscribirte",
+          title: "Lo que conviene saber sobre módulos, software y duración.",
+          text:
+            "Admisiones puede confirmar el punto de entrada, la versión del software, el equipo y el bloque vigente.",
+        },
+      },
+      faqs: [
+        {
+          question: "¿Qué programas se trabajan?",
+          answer:
+            "La ruta publicada incluye Microsoft Word, Excel y PowerPoint. Confirma qué módulo está activo y la versión de software correspondiente.",
+        },
+        {
+          question: "¿Debo empezar por Word?",
+          answer:
+            "No se publica una secuencia obligatoria. Tu base digital y la disponibilidad del módulo ayudan a decidir el punto de entrada.",
+        },
+        {
+          question: "¿Cuánto dura cada módulo?",
+          answer:
+            "AIT publica estimaciones de cuatro semanas para Word, ocho para Excel y cuatro para PowerPoint. No son garantías y deben confirmarse con el grupo vigente.",
+        },
+        {
+          question: "¿Qué se practica en Excel?",
+          answer:
+            "La descripción incluye formatos, datos, gráficos y operaciones matemáticas aplicadas a situaciones de oficina.",
+        },
+        {
+          question: "¿Los horarios publicados están garantizados?",
+          answer:
+            "No. Son bloques de referencia y dependen del módulo activo, el grupo, el cupo y la modalidad disponible.",
+        },
+        {
+          question: "¿Necesito computadora propia o Microsoft Office instalado?",
+          answer:
+            "No asumimos un requisito único. Confirma con admisiones qué equipo, cuenta o versión de software necesitarás.",
+        },
+      ],
+      closing: {
+        eyebrow: "Elige por el trabajo que necesitas hacer",
+        title: "Documento, hoja de cálculo o presentación: empieza por tu objetivo.",
+        text:
+          "Comparte tu nivel y la herramienta que necesitas para confirmar el módulo, el software y el horario correcto.",
+        primaryLabel: "Consultar computación para oficina",
+        primaryCta: {
+          href: admissionsCourseHref("el curso de computación para oficina"),
+          external: true,
+        },
+        advisorLabel: "Ver otras formas de contacto",
+        advisorCta: {
+          href: site.legalLinks.contact,
+          external: false,
+        },
+      },
+    },
   },
   {
     slug: "reparacion-computadoras",
@@ -1308,6 +2387,224 @@ const programs = [
         "Preguntar por otros horarios disponibles.",
       ],
       note: "La disponibilidad de esta ruta técnica puede variar. Confirma grupo y modalidad con un asesor.",
+    },
+    editorial: {
+      version: "course-editorial-v1",
+      eyebrow: "Introducción al soporte técnico",
+      lead:
+        "Una ruta práctica para comenzar a entender diagnóstico, mantenimiento y reparación básica de laptops y computadoras de escritorio.",
+      heroImage: site.images.repair,
+      heroImageAlt:
+        "Técnico revisando una computadora portátil con herramientas y componentes visibles.",
+      heroNote:
+        "El nivel, la modalidad, el equipo de práctica y el grupo activo se confirman antes de comenzar.",
+      primaryCta: {
+        label: "Consultar reparación de computadoras",
+        href: admissionsCourseHref("el curso de reparación de computadoras"),
+        external: true,
+      },
+      advisorCta: {
+        label: "Ver otras formas de contacto",
+        href: site.legalLinks.contact,
+        external: false,
+      },
+      proofLedger: [
+        {
+          label: "Nivel",
+          value: "Introductorio",
+        },
+        {
+          label: "Equipos",
+          value: "Laptop · desktop",
+        },
+        {
+          label: "Enfoque",
+          value: "Diagnóstico · mantenimiento",
+        },
+        {
+          label: "Grupo",
+          value: "Disponibilidad variable",
+        },
+      ],
+      outcomes: [
+        {
+          number: "01",
+          title: "Observar antes de intervenir",
+          text:
+            "Aprende a recopilar síntomas y revisar causas probables antes de cambiar piezas o software.",
+        },
+        {
+          number: "02",
+          title: "Aplicar mantenimiento básico",
+          text:
+            "Practica acciones preventivas y procedimientos introductorios para cuidar laptops y desktops.",
+        },
+        {
+          number: "03",
+          title: "Entender el siguiente nivel",
+          text:
+            "Distingue lo que puede resolverse con una base inicial de lo que requiere formación o soporte especializado.",
+        },
+      ],
+      pathway: [
+        {
+          stage: "Módulo 01",
+          marker: "01",
+          title: "Componentes y síntomas",
+          text:
+            "Reconoce partes básicas del equipo y organiza la información necesaria para describir una falla.",
+          focus: "Observación",
+        },
+        {
+          stage: "Módulo 02",
+          marker: "02",
+          title: "Diagnóstico inicial",
+          text:
+            "Relaciona síntomas con revisiones básicas de hardware, sistema y mantenimiento.",
+          focus: "Proceso",
+        },
+        {
+          stage: "Módulo 03",
+          marker: "03",
+          title: "Mantenimiento y reparación básica",
+          text:
+            "Aplica procedimientos introductorios con cuidado y reconoce cuándo escalar un problema.",
+          focus: "Práctica",
+        },
+      ],
+      method: {
+        eyebrow: "Proceso técnico",
+        title: "Diagnosticar bien evita convertir una falla pequeña en un problema mayor.",
+        text:
+          "La ruta organiza observación, hipótesis, revisión y práctica básica. No sustituye certificaciones ni promete dominio de todos los equipos.",
+        image: site.images.repair,
+        imageAlt:
+          "Computadora portátil abierta durante una revisión técnica introductoria.",
+        figcaption: "Reparación de computadoras · diagnóstico y mantenimiento básico",
+        points: [
+          "Reconocimiento inicial de componentes y síntomas.",
+          "Proceso básico para revisar fallas frecuentes.",
+          "Mantenimiento preventivo de laptops y desktops.",
+          "Criterio para identificar cuándo se necesita soporte especializado.",
+        ],
+      },
+      schedule: [
+        {
+          label: "Viernes · mañana",
+          times: ["10:00 am–12:30 pm"],
+        },
+        {
+          label: "Viernes · noche",
+          times: ["6:00–8:30 pm"],
+        },
+        {
+          label: "Sábados",
+          times: ["10:00 am–12:30 pm"],
+        },
+      ],
+      formats: [
+        {
+          icon: "book-open-check",
+          title: "Base introductoria",
+          text:
+            "El programa se presenta como una entrada al diagnóstico, mantenimiento y reparación básica.",
+        },
+        {
+          icon: "laptop",
+          title: "Laptop y desktop",
+          text:
+            "Confirma qué equipos y herramientas se usarán en el grupo antes de comenzar.",
+        },
+        {
+          icon: "calendar-days",
+          title: "Ruta técnica por confirmar",
+          text:
+            "AIT publica bloques de viernes y sábado, pero la disponibilidad puede variar.",
+        },
+      ],
+      logisticsNote:
+        "Los bloques publicados son referencias históricas de AIT y pueden no estar activos. Confirma modalidad, herramientas, equipo de práctica, cupo y horario antes de inscribirte.",
+      sectionCopy: {
+        outcomes: {
+          eyebrow: "Pensamiento técnico básico",
+          title: "La reparación empieza con un proceso, no con una pieza al azar.",
+          text:
+            "La ruta introduce observación, diagnóstico y mantenimiento para problemas frecuentes.",
+        },
+        pathway: {
+          id: "ruta-reparacion",
+          eyebrow: "Ruta introductoria",
+          title: "Componentes, diagnóstico y práctica forman una misma secuencia.",
+          text:
+            "No prometemos reparar cualquier marca o modelo ni sustituir una certificación profesional.",
+          actionLabel: "Consultar mi punto de entrada",
+          actionHref: admissionsCourseHref("mi punto de entrada al curso de reparación de computadoras"),
+          external: true,
+        },
+        logistics: {
+          eyebrow: "Equipo y horarios",
+          title: "Confirma que el grupo y las herramientas estén disponibles.",
+          text:
+            "Esta ruta técnica puede variar más que un curso regular; valida modalidad, equipo de práctica y bloque vigente.",
+          formatsLabel: "Claves de la ruta técnica",
+          scheduleLabel: "Bloques publicados",
+          actionLabel: "Confirmar grupo técnico",
+        },
+        faq: {
+          eyebrow: "Antes de comenzar",
+          title: "Límites claros para una ruta técnica introductoria.",
+          text:
+            "Admisiones puede confirmar nivel, modalidad, herramientas, equipo, horario y alcance del grupo activo.",
+        },
+      },
+      faqs: [
+        {
+          question: "¿El curso es para principiantes?",
+          answer:
+            "La descripción disponible lo presenta como una ruta introductoria. Comparte tu experiencia previa para confirmar si el grupo es adecuado.",
+        },
+        {
+          question: "¿Se trabajan laptops y computadoras de escritorio?",
+          answer:
+            "Sí, la información de AIT menciona ambos tipos de equipo. El hardware concreto de práctica debe confirmarse con el grupo.",
+        },
+        {
+          question: "¿Aprenderé a reparar cualquier marca o modelo?",
+          answer:
+            "No hacemos esa promesa. El curso ofrece una base de diagnóstico, mantenimiento y reparación; cada equipo y falla puede requerir procedimientos o formación especializados.",
+        },
+        {
+          question: "¿Incluye certificación o garantía de empleo?",
+          answer:
+            "No publicamos certificación ni garantía de empleo. Confirma con admisiones cualquier documento de participación que corresponda al grupo.",
+        },
+        {
+          question: "¿Los horarios publicados están activos?",
+          answer:
+            "No se garantizan. Son bloques publicados por AIT y deben validarse porque la disponibilidad de esta ruta técnica puede cambiar.",
+        },
+        {
+          question: "¿Necesito llevar herramientas o una computadora?",
+          answer:
+            "No asumimos un requisito único. Confirma qué equipo, herramientas y medidas de seguridad exige el grupo antes de comenzar.",
+        },
+      ],
+      closing: {
+        eyebrow: "Primero confirma el grupo técnico",
+        title: "Nivel, equipo y herramientas deben estar claros antes de inscribirte.",
+        text:
+          "Comparte tu experiencia y el tipo de computadora que te interesa para validar el punto de entrada y la disponibilidad.",
+        primaryLabel: "Consultar reparación de computadoras",
+        primaryCta: {
+          href: admissionsCourseHref("el curso de reparación de computadoras"),
+          external: true,
+        },
+        advisorLabel: "Ver otras formas de contacto",
+        advisorCta: {
+          href: site.legalLinks.contact,
+          external: false,
+        },
+      },
     },
   },
 ];

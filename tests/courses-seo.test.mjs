@@ -28,18 +28,41 @@ describe("MIS-264 native React course routes", () => {
     assert.equal(programs.length, 9);
   });
 
-  it("uses one reusable editorial template for the flagship and two stress-test programs", async () => {
+  it("uses one reusable editorial template for all nine programs", async () => {
     const template = await readFile("app/_components/site/CourseProgramPage.jsx", "utf8");
     const editorialPrograms = programs.filter((program) => program.editorial);
     const adultEnglish = programs.find((program) => program.slug === "ingles-jovenes-adultos");
     const onlineEnglish = programs.find((program) => program.slug === "ingles-online-adultos");
+    const kidsEnglish = programs.find((program) => program.slug === "ingles-ninos");
+    const spanish = programs.find((program) => program.slug === "espanol-extranjeros");
     const ged = programs.find((program) => program.slug === "ged");
+    const math = programs.find((program) => program.slug === "tutorias-matematicas");
+    const basicComputing = programs.find((program) => program.slug === "computacion-basica");
+    const officeComputing = programs.find((program) => program.slug === "computacion-oficina");
+    const repair = programs.find((program) => program.slug === "reparacion-computadoras");
 
     assert.deepEqual(
       editorialPrograms.map((program) => program.slug),
-      ["ingles-jovenes-adultos", "ingles-online-adultos", "ged"],
+      [
+        "ingles-jovenes-adultos",
+        "ingles-online-adultos",
+        "ingles-ninos",
+        "espanol-extranjeros",
+        "ged",
+        "tutorias-matematicas",
+        "computacion-basica",
+        "computacion-oficina",
+        "reparacion-computadoras",
+      ],
     );
     assert.ok(editorialPrograms.every((program) => program.editorial.version === "course-editorial-v1"));
+    assert.ok(editorialPrograms.every((program) => program.editorial.proofLedger.length === 4));
+    assert.ok(editorialPrograms.every((program) => program.editorial.outcomes.length === 3));
+    assert.ok(editorialPrograms.every((program) => program.editorial.pathway.length >= 3));
+    assert.ok(editorialPrograms.every((program) => program.editorial.formats.length === 3));
+    assert.ok(editorialPrograms.every((program) => program.editorial.schedule.length >= 1));
+    assert.ok(editorialPrograms.every((program) => program.editorial.faqs.length === 6));
+    assert.ok(editorialPrograms.every((program) => program.editorial.closing));
     assert.equal(adultEnglish.editorial.version, "course-editorial-v1");
     assert.equal(adultEnglish.editorial.outcomes.length, 3);
     assert.equal(adultEnglish.editorial.pathway.length, 3);
@@ -78,6 +101,17 @@ describe("MIS-264 native React course routes", () => {
     });
     assert.equal(onlineEnglish.editorial.story, undefined);
 
+    assert.equal(kidsEnglish.editorial.pathway.length, 3);
+    assert.match(kidsEnglish.editorial.eyebrow, /8 a 13/);
+    assert.match(kidsEnglish.editorial.heroNote, /familia/);
+    assert.equal(kidsEnglish.editorial.primaryCta.external, true);
+    assert.doesNotMatch(kidsEnglish.editorial.closing.text, /10 meses/i);
+
+    assert.equal(spanish.editorial.schedule.length, 1);
+    assert.match(spanish.editorial.schedule[0].times[0], /por confirmar/i);
+    assert.equal(spanish.editorial.primaryCta.external, true);
+    assert.doesNotMatch(spanish.editorial.lead, /Colombia|Perú/i);
+
     assert.equal(ged.editorial.pathway.length, 4);
     assert.deepEqual(
       ged.editorial.pathway.map((area) => area.title),
@@ -89,6 +123,27 @@ describe("MIS-264 native React course routes", () => {
     assert.equal(ged.editorial.primaryCta.external, true);
     assert.match(ged.editorial.primaryCta.href, /^https:\/\/wa\.me\//);
     assert.doesNotMatch(ged.editorial.closing.text, /garant/i);
+
+    assert.equal(math.editorial.primaryCta.external, true);
+    assert.match(math.editorial.heroNote, /materia.*nivel.*modalidad.*horario/i);
+    assert.doesNotMatch(math.editorial.closing.text, /garant/i);
+
+    assert.deepEqual(
+      basicComputing.editorial.pathway.map((module) => module.title),
+      ["Equipo y entorno", "Internet y comunicación", "Archivos y mantenimiento"],
+    );
+    assert.equal(basicComputing.editorial.primaryCta.external, true);
+
+    assert.deepEqual(
+      officeComputing.editorial.pathway.map((module) => module.title),
+      ["Microsoft Word", "Microsoft Excel", "Microsoft PowerPoint"],
+    );
+    assert.match(officeComputing.editorial.logisticsNote, /referencias, no garantías/i);
+    assert.equal(officeComputing.editorial.primaryCta.external, true);
+
+    assert.equal(repair.editorial.primaryCta.external, true);
+    assert.match(repair.editorial.sectionCopy.pathway.text, /No prometemos reparar cualquier marca o modelo/);
+    assert.doesNotMatch(repair.editorial.closing.text, /certificaci[oó]n|empleo/i);
 
     assert.match(template, /data-course-template/);
     assert.match(template, /CourseOutcomes/);

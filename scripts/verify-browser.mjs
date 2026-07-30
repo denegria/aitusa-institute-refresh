@@ -27,6 +27,7 @@ await mkdir(screenshotsDir, { recursive: true });
 await rm(profileDir, { recursive: true, force: true });
 
 const appUrl = process.env.VERIFY_BASE_URL || "http://127.0.0.1:4173/";
+const skipScreenshots = process.env.VERIFY_SKIP_SCREENSHOTS === "1";
 
 const getOpenPort = async () => {
   const probe = createServer();
@@ -1756,7 +1757,9 @@ const verifyEditorialCourseRoute = async ({
   route,
   expectedHeading,
   expectedPathwayCount,
+  expectedScheduleCount,
   expectedPrimaryHref,
+  expectedPrimaryExternal,
   expectStory,
   width,
   height,
@@ -1800,9 +1803,12 @@ const verifyEditorialCourseRoute = async ({
   })()`);
 
   await stabilizeViewport();
-  const shot = await captureViewport(name);
-  const screenshot = path.join(screenshotsDir, `${name}.png`);
-  await writeFile(screenshot, Buffer.from(shot.data, "base64"));
+  let screenshot = null;
+  if (!skipScreenshots) {
+    const shot = await captureViewport(name);
+    screenshot = path.join(screenshotsDir, `${name}.png`);
+    await writeFile(screenshot, Buffer.from(shot.data, "base64"));
+  }
 
   const result = await evaluate(`(() => {
     const images = [...document.images];
@@ -1877,10 +1883,17 @@ const verifyEditorialCourseRoute = async ({
   if (result.pathwayCount !== expectedPathwayCount) issues.push(`pathwayCount=${result.pathwayCount}`);
   if (result.outcomesCount !== 3) issues.push(`outcomesCount=${result.outcomesCount}`);
   if (result.formatsCount !== 3) issues.push(`formatsCount=${result.formatsCount}`);
+  if (result.scheduleCount !== expectedScheduleCount) issues.push(`scheduleCount=${result.scheduleCount}`);
   if (result.faqCount !== 6 || !result.firstFaqOpen) {
     issues.push(`faq=${result.faqCount}/${result.firstFaqOpen}`);
   }
   if (!result.primaryHref.includes(expectedPrimaryHref)) issues.push(`primaryHref=${result.primaryHref}`);
+  if (expectedPrimaryExternal && result.primaryTarget !== "_blank") {
+    issues.push(`primaryTarget=${JSON.stringify(result.primaryTarget)}`);
+  }
+  if (!expectedPrimaryExternal && result.primaryTarget) {
+    issues.push(`primaryTarget=${JSON.stringify(result.primaryTarget)}`);
+  }
   if (result.storyCount !== (expectStory ? 1 : 0)) issues.push(`storyCount=${result.storyCount}`);
   if (!result.canonical.endsWith(route)) issues.push(`canonical=${result.canonical}`);
   if (result.courseSchemaName !== expectedHeading) issues.push(`schema=${result.courseSchemaName}`);
@@ -1908,18 +1921,87 @@ const mobileOnly = process.env.VERIFY_MOBILE_ONLY === "1";
 const desktopOnly = process.env.VERIFY_DESKTOP_ONLY === "1";
 const routesOnly = process.env.VERIFY_ROUTES_ONLY === "1";
 const editorialCoursesOnly = process.env.VERIFY_EDITORIAL_COURSES_ONLY === "1";
+const editorialRegressionOnly = process.env.VERIFY_EDITORIAL_REGRESSION_ONLY === "1";
 try {
-  if (!auditOnly && !skipHero && !mobileOnly && !desktopOnly && !routesOnly && !editorialCoursesOnly) {
+  if (
+    !auditOnly &&
+    !skipHero &&
+    !mobileOnly &&
+    !desktopOnly &&
+    !routesOnly &&
+    !editorialCoursesOnly &&
+    !editorialRegressionOnly
+  ) {
     results.push(await verifyHeroViewport({ name: "hero-reference-1904x950", width: 1904, height: 950 }));
     results.push(await verifyHeroViewport({ name: "hero-short-1867x847", width: 1867, height: 847 }));
   }
-  if (editorialCoursesOnly) {
+  if (editorialRegressionOnly) {
+    const regressionRoutes = [
+      {
+        name: "course-kids-regression-1366x768",
+        route: "/courses/ingles-ninos/",
+        expectedHeading: "Inglés para niños",
+        expectedPathwayCount: 3,
+        expectedScheduleCount: 3,
+        expectedPrimaryHref: "wa.me/17323790593",
+        expectedPrimaryExternal: true,
+        expectStory: false,
+        width: 1366,
+        height: 768,
+        mobile: false,
+      },
+      {
+        name: "course-office-regression-1920x1080",
+        route: "/courses/computacion-oficina/",
+        expectedHeading: "Computación para oficina",
+        expectedPathwayCount: 3,
+        expectedScheduleCount: 3,
+        expectedPrimaryHref: "wa.me/17323790593",
+        expectedPrimaryExternal: true,
+        expectStory: false,
+        width: 1920,
+        height: 1080,
+        mobile: false,
+      },
+      {
+        name: "course-office-regression-360x800",
+        route: "/courses/computacion-oficina/",
+        expectedHeading: "Computación para oficina",
+        expectedPathwayCount: 3,
+        expectedScheduleCount: 3,
+        expectedPrimaryHref: "wa.me/17323790593",
+        expectedPrimaryExternal: true,
+        expectStory: false,
+        width: 360,
+        height: 800,
+        mobile: true,
+      },
+      {
+        name: "course-repair-regression-430x932",
+        route: "/courses/reparacion-computadoras/",
+        expectedHeading: "Reparación de computadoras",
+        expectedPathwayCount: 3,
+        expectedScheduleCount: 3,
+        expectedPrimaryHref: "wa.me/17323790593",
+        expectedPrimaryExternal: true,
+        expectStory: false,
+        width: 430,
+        height: 932,
+        mobile: true,
+      },
+    ];
+    for (const course of regressionRoutes) {
+      results.push(await verifyEditorialCourseRoute(course));
+    }
+  } else if (editorialCoursesOnly) {
     const editorialRoutes = [
       {
         route: "/courses/ingles-jovenes-adultos/",
         expectedHeading: "Inglés para jóvenes y adultos",
         expectedPathwayCount: 3,
+        expectedScheduleCount: 3,
         expectedPrimaryHref: "/placement-test/",
+        expectedPrimaryExternal: false,
         expectStory: true,
         slug: "flagship",
       },
@@ -1927,17 +2009,81 @@ try {
         route: "/courses/ingles-online-adultos/",
         expectedHeading: "Inglés online para jóvenes y adultos",
         expectedPathwayCount: 3,
+        expectedScheduleCount: 3,
         expectedPrimaryHref: "/placement-test/",
+        expectedPrimaryExternal: false,
         expectStory: false,
         slug: "online",
+      },
+      {
+        route: "/courses/ingles-ninos/",
+        expectedHeading: "Inglés para niños",
+        expectedPathwayCount: 3,
+        expectedScheduleCount: 3,
+        expectedPrimaryHref: "wa.me/17323790593",
+        expectedPrimaryExternal: true,
+        expectStory: false,
+        slug: "kids",
+      },
+      {
+        route: "/courses/espanol-extranjeros/",
+        expectedHeading: "Español para extranjeros",
+        expectedPathwayCount: 3,
+        expectedScheduleCount: 1,
+        expectedPrimaryHref: "wa.me/17323790593",
+        expectedPrimaryExternal: true,
+        expectStory: false,
+        slug: "spanish",
       },
       {
         route: "/courses/ged/",
         expectedHeading: "GED",
         expectedPathwayCount: 4,
+        expectedScheduleCount: 4,
         expectedPrimaryHref: "wa.me/17323790593",
+        expectedPrimaryExternal: true,
         expectStory: false,
         slug: "ged",
+      },
+      {
+        route: "/courses/tutorias-matematicas/",
+        expectedHeading: "Tutorías en matemáticas",
+        expectedPathwayCount: 3,
+        expectedScheduleCount: 1,
+        expectedPrimaryHref: "wa.me/17323790593",
+        expectedPrimaryExternal: true,
+        expectStory: false,
+        slug: "math",
+      },
+      {
+        route: "/courses/computacion-basica/",
+        expectedHeading: "Computación básica",
+        expectedPathwayCount: 3,
+        expectedScheduleCount: 3,
+        expectedPrimaryHref: "wa.me/17323790593",
+        expectedPrimaryExternal: true,
+        expectStory: false,
+        slug: "basic-computing",
+      },
+      {
+        route: "/courses/computacion-oficina/",
+        expectedHeading: "Computación para oficina",
+        expectedPathwayCount: 3,
+        expectedScheduleCount: 3,
+        expectedPrimaryHref: "wa.me/17323790593",
+        expectedPrimaryExternal: true,
+        expectStory: false,
+        slug: "office",
+      },
+      {
+        route: "/courses/reparacion-computadoras/",
+        expectedHeading: "Reparación de computadoras",
+        expectedPathwayCount: 3,
+        expectedScheduleCount: 3,
+        expectedPrimaryHref: "wa.me/17323790593",
+        expectedPrimaryExternal: true,
+        expectStory: false,
+        slug: "repair",
       },
     ];
     for (const course of editorialRoutes) {

@@ -162,6 +162,79 @@ every program into language levels would make the content inaccurate.
 
 ---
 
+# AIT USA Course Detail Bulk-Rollout Contract
+
+## User workflow and problem
+
+Six remaining canonical course routes still fall back to the generic catalog
+experience. A visitor selecting children’s English, Spanish, math tutoring, or a
+technology course should land directly on the chosen program and understand its
+goal, learning path, published schedule context, and next admissions step.
+
+## Chosen interaction model
+
+- Reuse the accepted `course-editorial-v1` renderer for all nine programs.
+- Keep route markup shared; each program supplies reviewed editorial data.
+- Use admissions as the dominant action for children’s English, Spanish, math,
+  computing, office, and repair because the adult English placement test is not
+  their documented entry workflow.
+- Let learning stages represent age-appropriate progression, tutoring workflow,
+  software modules, or technical practice rather than forcing every route into
+  language levels.
+- Omit documentary proof when no program-relevant story exists.
+
+## Locked facts, claims, and boundaries
+
+- Children’s English remains online for ages 8–13, uses Graphic Concept,
+  bilingual-to-English instruction, family progress reporting, and the currently
+  published weekday/Saturday blocks. Do not promise the published ten-month
+  target or automatic schedule changes.
+- Spanish remains an online conversational program. Do not publish instructor
+  nationality, duration, proficiency guarantees, or a fixed schedule without
+  current client confirmation.
+- Math tutoring remains support for secondary and university students, with
+  subject, level, mode, and schedule confirmed before starting. Do not promise
+  grade improvement or exam outcomes.
+- Basic computing may cover internet, files, operating-system basics, security,
+  and everyday digital tasks. Office computing may cover Word, Excel, and
+  PowerPoint. Published schedules and module durations are presented as
+  references that admissions must confirm.
+- Computer repair remains an introductory diagnosis, maintenance, and repair
+  route. Do not promise mastery of every brand/model, certification, employment,
+  networking coverage, or a guaranteed timetable.
+- Preserve canonical metadata, Course schema, header/footer, Spanish redirect,
+  WhatsApp/contact destinations, and all existing safety/consent boundaries.
+- No pricing, checkout, CRM write, registration workflow, accreditation claim,
+  guaranteed outcome, guaranteed duration, guaranteed availability, or
+  production/main promotion.
+
+## Responsive and content invariants
+
+- Preserve the accepted desktop 1440×900 and mobile 390×844 primary viewports,
+  plus 1366×768, 1920×1080, 360×800, and 430×932 regressions.
+- Header + complete Hero + proof ledger fit inside the first 1440×900 viewport.
+- Mobile title, lead, and primary action remain above the hero image.
+- Support two or three program stages without fixed-height clipping or horizontal
+  rails.
+- Every chapter has program-relevant copy; no unrelated English placement or
+  testimonial content appears.
+- Maintain one H1, ordered H2 chapters, 44px action targets, no page-level
+  overflow, and clean canonical/schema output.
+
+## Required closeout evidence
+
+- Targeted route/content tests covering all nine editorial programs.
+- Full test suite, asset integrity, production webpack build, npm audit, and
+  `git diff --check`.
+- Local production-mode QA for all six new routes at 1440×900 and 390×844, plus
+  flagship regression and targeted narrow/wide viewport checks.
+- Verify CTA destinations, FAQ interaction, loaded images, first-screen
+  Hero/ledger fit, minimum action size, horizontal overflow, and console state.
+- Live canonical staging smoke for the exact deployed commit. Production remains
+  out of scope and client visual review remains the next gate.
+
+---
+
 # AIT USA Compact Mobile Study Options Contract
 
 ## User workflow and problem
