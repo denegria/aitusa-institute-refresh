@@ -1,5 +1,6 @@
 import {
   conversionCtas,
+  institutionalProof,
   locations,
   methodNarrative,
   painHero,
@@ -63,6 +64,16 @@ export function HeroSection() {
           />
         </figure>
       </div>
+      <aside className="hero__institutional-band" aria-label="Trayectoria de AIT USA Institute">
+        <div className="hero__institutional-inner">
+          {institutionalProof.map((proof) => (
+            <article className="hero__institutional-fact" key={proof.value}>
+              <strong>{proof.value}</strong>
+              <span>{proof.label}</span>
+            </article>
+          ))}
+        </div>
+      </aside>
     </section>
   );
 }

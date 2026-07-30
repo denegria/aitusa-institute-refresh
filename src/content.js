@@ -1200,7 +1200,7 @@ const faqs = [
 ];
 
 const painHero = {
-  eyebrow: "Escuela de inglés en Nueva Jersey · Desde 2004",
+  eyebrow: "Escuela de inglés en Nueva Jersey",
   headline: "Comprende el inglés. Exprésate con confianza.",
   headlineLead: "Comprende el inglés.",
   headlineEmphasis: "Exprésate con confianza.",
@@ -1221,6 +1221,25 @@ const painHero = {
     tertiary: "Ver cursos detallados",
   },
 };
+
+const institutionalProof = [
+  {
+    value: "Desde 2004",
+    label: "Educación en Nueva Jersey",
+  },
+  {
+    value: "+1,000",
+    label: "Estudiantes guiados",
+  },
+  {
+    value: "4 sedes",
+    label: "En Nueva Jersey",
+  },
+  {
+    value: "Alcance internacional",
+    label: "EE. UU., Centroamérica y Sudamérica",
+  },
+];
 
 const methodNarrative = {
   eyebrow: "Método Graphic Concept",
@@ -1673,6 +1692,7 @@ export const siteData = {
   conversionCtas,
   placementTest,
   heroProof,
+  institutionalProof,
   heroVideoHighlights,
   heroHighlights,
   heroQuickCapture,
@@ -1718,6 +1738,7 @@ export {
   heroHighlights,
   heroPoints,
   heroProof,
+  institutionalProof,
   heroQuickCapture,
   heroSignal,
   heroStartPath,

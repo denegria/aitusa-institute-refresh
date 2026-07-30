@@ -118,6 +118,21 @@ describe("homepage React integration", () => {
     assert.ok(hero.indexOf("hero__objections") < hero.indexOf("hero__conversion"));
   });
 
+  it("keeps the institutional proof band factual, visible, and non-duplicative", async () => {
+    const { institutionalProof, painHero } = await import("../src/content.js");
+    const { sections } = await readSources();
+
+    assert.equal(painHero.eyebrow, "Escuela de inglés en Nueva Jersey");
+    assert.equal(institutionalProof.length, 4);
+    assert.deepEqual(
+      institutionalProof.map((proof) => proof.value),
+      ["Desde 2004", "+1,000", "4 sedes", "Alcance internacional"],
+    );
+    assert.match(institutionalProof.at(-1).label, /EE\. UU\., Centroamérica y Sudamérica/);
+    assert.match(sections, /className="hero__institutional-band"/);
+    assert.match(sections, /institutionalProof\.map/);
+  });
+
   it("preserves the accepted responsive and semantic visual rules", async () => {
     const { styles } = await readSources();
     assert.match(styles, /\.hero__kicker\s*\{[\s\S]*color: #8a6412/);

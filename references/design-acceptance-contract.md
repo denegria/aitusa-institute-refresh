@@ -1,3 +1,67 @@
+# AIT USA Institutional Proof Band Contract
+
+## User problem
+
+The homepage hero is visually polished, but it reaches the next chapter without
+establishing the institute's longevity, scale, physical presence, or wider
+student reach. The proof needs to feel academic and prestigious without
+duplicating the Hero eyebrow or forcing the Hero below the first desktop
+viewport.
+
+## Chosen interaction model
+
+- Place one restrained navy institutional ledger directly after the Hero image
+  and copy, inside the Hero section.
+- Give all four facts equal editorial weight: `Desde 2004`, `+1,000
+  estudiantes`, `4 sedes`, and `Alcance internacional`.
+- Move `Desde 2004` out of the Hero eyebrow so it appears only once.
+- Use a four-column desktop ledger with fine gold dividers and a compact 2×2
+  mobile ledger with no carousel, ticker, animation, or hidden content.
+- Preserve the existing Hero CTAs, modalities, approved photography, and all
+  following homepage chapters.
+
+## Locked direction and content
+
+- Navy ground, warm gold accents, white type, square geometry, and restrained
+  separators from the selected proof-band concept.
+- Keep `Desde 2004` materially smaller than the rejected oversized concept and
+  at the same hierarchy as the other three facts.
+- The international fact must read `EE. UU., Centroamérica y Sudamérica`; do
+  not imply countries, campuses, accreditations, or student counts that have not
+  been supplied.
+- The Hero eyebrow becomes `Escuela de inglés en Nueva Jersey`.
+- No added gold headline, decorative icon set, card shadows, gradients, or
+  serif typeface.
+
+## Viewports and invariants
+
+- Primary: 1440×900 desktop and 390×844 mobile CSS viewports.
+- Regression: 1536×864, 1920×930, 1920×1080, 360×800, and 430×932.
+- At desktop widths of 1041px and above, header + Hero main + proof band must
+  equal at most `100svh`; the Method chapter may not enter the first viewport.
+- The desktop proof band remains a single four-column row with no clipping or
+  page-level horizontal overflow.
+- On mobile, all four facts remain simultaneously discoverable in a static 2×2
+  ledger. No horizontal scrolling or auto-rotation.
+- Mobile proof height is compact enough to preserve the Hero's visual momentum;
+  labels may tighten, but no fact may be hidden.
+- Text remains readable at 360px without truncation, overlap, or line clamping.
+
+## Required closeout evidence
+
+- Targeted institutional-proof tests, full test suite, asset integrity,
+  production webpack build, and `git diff --check`.
+- Browser screenshots at the primary and regression viewports.
+- DOM measurements confirming desktop first-viewport fit, a four-column desktop
+  band, a 2×2 mobile band, four visible facts, and no horizontal overflow.
+- Live protected-staging smoke with no runtime or console errors.
+
+This contract supersedes the prior contract only for the Hero eyebrow, Hero
+height budget, and the addition of the institutional proof band. All other
+homepage consistency decisions remain locked.
+
+---
+
 # AIT USA Homepage Design Consistency Contract
 
 ## User problem

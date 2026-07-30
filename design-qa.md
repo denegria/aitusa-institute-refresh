@@ -1,102 +1,127 @@
-# Design QA: Prueba Real Editorial Gallery
+# Design QA: Institutional Proof Band
 
-## Comparison Target
+## Comparison target
 
-- Source visual truth: `screenshots/prueba-real-reference.png`
-- Desktop implementation: `screenshots/prueba-real-desktop-final.png`
-- Mobile implementation: `screenshots/prueba-real-mobile-final.png`
-- Full-view comparison: `screenshots/prueba-real-comparison-full.png`
-- Focused content comparison: `screenshots/prueba-real-comparison-focused.png`
-- State: homepage, first testimonial selected, videos paused with sound available
+- Source concept: `screenshots/institutional-proof-reference.png`
+- Desktop implementation: `screenshots/institutional-proof-desktop-final.png`
+- Mobile implementation: `screenshots/institutional-proof-mobile-final.png`
+- Full-view comparison: `screenshots/institutional-proof-comparison-full.png`
+- Focused band comparison: `screenshots/institutional-proof-comparison-focused.png`
+- State: homepage at the top, navigation closed, Hero actions idle
 
-The prior approved-hero QA report is preserved at
-`docs/design/approved-concept-1-hero-design-qa.md`.
+The source concept is the selected navy direction. Alvaro's subsequent
+corrections are part of the visual truth: retain `Desde 2004`, remove its Hero
+duplication, reduce its scale, replace the redundant `20+ años` fact, add
+international reach, and fit the complete Hero ledger in the first viewport.
 
 ## Viewports
 
-- Source concept: 1586 x 992
-- Desktop comparison: 1280 x 800
-- Short desktop validation: 1280 x 720
-- Mobile validation: 390 x 844
+- Source concept: 1487×1058
+- Primary desktop implementation: 1440×900
+- Desktop regressions: 1536×864, 1920×930, and 1920×1080
+- Primary mobile implementation: 390×844
+- Mobile regressions: 360×800 and 430×932
+- Browser screenshots and DOM measurements used device-pixel ratio 1.
 
 ## Findings
 
 No actionable P0, P1, or P2 findings remain.
 
-### Fonts And Typography
+### Fonts and typography
 
-- Plus Jakarta Sans is retained from the current AIT public-site system.
-- The headline, kicker, labels, and factual descriptions preserve the source
-  hierarchy without negative letter spacing, clipping, or truncation.
-- The headline wraps responsively. Short desktop viewports use a tighter scale
-  so the complete section remains visible with the fixed header.
+- The implementation keeps the existing Plus Jakarta Sans system instead of
+  introducing the concept's unrelated display serif.
+- `Desde 2004`, `+1,000`, `4 sedes`, and `Alcance internacional` share one
+  restrained fact hierarchy. The international heading tightens only enough to
+  fit its longer phrase.
+- Supporting labels remain uppercase, legible, and subordinate. No text is
+  clipped, clamped, or truncated at any required viewport.
 
-### Spacing And Layout Rhythm
+### Spacing and layout rhythm
 
-- Desktop preserves the source composition: one portrait featured video at
-  left, a dominant heading at right, and four compact video selectors below.
-- The 1280 x 720 section measures 566px high and leaves the next section visible.
-- Mobile reorders the experience to heading, featured video, selectors, and
-  proof note. It has no horizontal overflow.
-- Radii, separators, and shadows remain restrained and match the approved
-  institute direction.
+- Desktop uses a 96px four-column ledger with fine dividers. At every required
+  desktop viewport, the Header, Hero main, and ledger end two pixels before the
+  viewport boundary.
+- The 1536×864 short-desktop pass confirms that the modality row ends inside the
+  Hero main rather than being covered by the ledger.
+- Mobile uses a static 2×2 ledger measuring approximately 108–112px. At 390px
+  and 430px it follows the photo normally; at 360px it overlaps 52px of the
+  photo's existing white fade so the complete ledger ends inside the first
+  screen.
+- The mobile solution has no carousel, ticker, auto-rotation, or hidden
+  horizontal content.
 
-### Colors And Visual Tokens
+### Colors and visual tokens
 
-- Warm paper `#fbfaf7`, navy `#001a3d`, and muted gold `#c4932d` align with the
-  approved hero and method-section palette.
-- The selected state uses gold consistently through the number, play control,
-  and underline. Inactive options remain navy and neutral.
-- Text and control contrast remain legible on both the paper and media surfaces.
+- The ledger uses the homepage navy `#001a3d`, white type, muted-white labels,
+  and warm-gold dividers from the selected direction.
+- It introduces no gradient, glow, card shadow, added gold headline, or new
+  decorative system.
+- The transition into the warm Method chapter remains intentional on mobile and
+  begins below the complete Hero composition.
 
-### Image Quality And Asset Fidelity
+### Image quality and asset fidelity
 
-- All four existing staging poster and MP4 assets are used directly.
-- The active video uses `object-fit: contain`, preserving the complete portrait,
-  square, and landscape frames without stretching.
-- Selector thumbnails also use `contain`; no replacement photography,
-  generated people, or approximate assets were introduced.
+- The approved Hero photograph and its current crop are preserved.
+- No generated people, substitute photography, icons, or approximate assets
+  were introduced.
+- The 360px overlap covers only the photograph's white fade; it does not cover a
+  face, classroom subject, CTA, or meaningful image detail.
 
-### Copy And Content
+### Copy and content
 
-- The approved headline is unchanged.
-- The supporting sentence is concise and makes no invented outcome claim.
-- Published durations come from the current content data: Jessica `2:52`,
-  international `0:46`, Eric `0:42`, and Leila `1:06`.
-- The concept's nonfunctional “more testimonials” link was replaced with a
-  factual four-video proof note.
+- The Hero eyebrow now reads `Escuela de inglés en Nueva Jersey`; `Desde 2004`
+  appears once, in the proof ledger.
+- The four supplied proofs are `Desde 2004`, `+1,000 estudiantes`, `4 sedes`,
+  and `Alcance internacional`.
+- International reach is framed precisely as `EE. UU., Centroamérica y
+  Sudamérica`. No accreditation, country count, campus, or unsupported outcome
+  claim was added.
 
-### Interaction And Accessibility
+### Interaction and accessibility
 
-- The selector is an ARIA tab interface with associated tab panels.
-- Click, ArrowLeft, ArrowRight, Home, and End selection paths are implemented.
-- Switching videos pauses the previously selected video and never autoplays.
-- Videos are not muted by default and retain native controls.
-- Desktop browser console showed no errors or warnings.
+- The proof ledger is semantic, static content inside an `aside` labelled
+  `Trayectoria de AIT USA Institute`.
+- All existing Hero links, modality links, header navigation, and mobile menu
+  behavior are preserved.
+- Production-mode local browser verification showed no console errors.
+- DOM verification found four visible facts and no page-level horizontal
+  overflow at every required viewport.
 
-## Comparison History
+## Comparison history
 
-### Pass 1
+### Pass 1: selected concept
 
-- P2: the first desktop implementation measured 766px high at 1280 x 720,
-  cutting off the proof note and conflicting with the project's desktop-section
-  viewport rule.
-- Fix: added a short-desktop treatment with tighter vertical padding, compact
-  selector proportions, and responsive title sizing.
+- P1: `DESDE 2004` dominated the entire band and duplicated the Hero eyebrow.
+- P2: `20+ años` repeated the same longevity proof without adding information.
+- Direction change: normalize the four facts, remove the eyebrow duplication,
+  and add the supplied international reach.
 
-### Pass 2
+### Pass 2: responsive candidate
 
-- Evidence: `screenshots/prueba-real-desktop-final.png` and
-  `screenshots/prueba-real-comparison-full.png`.
-- Result: the complete section fits below the fixed header, all selectors remain
-  readable and clickable, the next section is visible, and no P0/P1/P2 mismatch
-  remains.
+- P1: the first 1536×864 candidate let the modality row extend 17px into the
+  ledger.
+- P1: the first 360×800 candidate left the second mobile proof row below the
+  first viewport.
+- Fix: tighten the short-desktop Hero's top budget and overlap the compact
+  mobile ledger only across the photograph's white fade.
 
-## Follow-up Polish
+### Pass 3: final comparison
 
-- P3: the selected concept is drawn at a taller 1586 x 992 viewport, so its
-  featured video is intentionally larger than the short-desktop implementation.
-  Taller production viewports retain the more spacious 4:5 selector treatment.
+- Evidence: `screenshots/institutional-proof-comparison-full.png` and
+  `screenshots/institutional-proof-comparison-focused.png`.
+- Result: the selected navy mood is preserved while the corrected content,
+  scale, first-viewport fit, and responsive behavior match the approved
+  direction.
+
+## Validation
+
+- `node --test tests/*.test.mjs`: 123 passed.
+- `npm run check:assets`: 28 references, 0 missing, 0 orphaned.
+- `npm run build -- --webpack`: passed; 34 static pages generated.
+- `npm audit --audit-level=high`: 0 vulnerabilities.
+- `git diff --check`: passed.
+- Lint: unavailable; this repository has no lint script.
 
 ## Final Result
 
