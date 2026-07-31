@@ -39,7 +39,9 @@ CREATE TABLE "ai_practice_sessions" (
   CONSTRAINT "ai_practice_sessions_state_check" CHECK ("state" in ('reserved', 'active', 'completed', 'expired', 'escalated')),
   CONSTRAINT "ai_practice_sessions_turn_check" CHECK ("turn_count" >= 0 and "turn_count" <= 5),
   CONSTRAINT "ai_practice_sessions_retry_check" CHECK ("retry_count" >= 0 and "retry_count" <= 5),
-  CONSTRAINT "ai_practice_sessions_usage_check" CHECK ("input_units" >= 0 and "output_units" >= 0 and "charged_micro_usd" >= 0)
+  CONSTRAINT "ai_practice_sessions_usage_check" CHECK ("input_units" >= 0 and "output_units" >= 0 and "charged_micro_usd" >= 0),
+  CONSTRAINT "ai_practice_sessions_expiry_check" CHECK ("expires_at" > "created_at"),
+  CONSTRAINT "ai_practice_sessions_completion_check" CHECK (("state" in ('completed', 'expired', 'escalated') and "completed_at" is not null) or ("state" in ('reserved', 'active') and "completed_at" is null))
 );
 --> statement-breakpoint
 CREATE INDEX "ai_practice_sessions_account_state_idx" ON "ai_practice_sessions" USING btree ("account_id", "state", "expires_at");
@@ -59,10 +61,12 @@ CREATE TABLE "ai_practice_turn_operations" (
   "completed_at" timestamp with time zone,
   CONSTRAINT "ai_practice_turn_operations_state_check" CHECK ("state" in ('claimed', 'completed', 'failed', 'ambiguous')),
   CONSTRAINT "ai_practice_turn_operations_turn_check" CHECK ("learner_turn" between 1 and 5 and "retry_attempt" between 0 and 1),
-  CONSTRAINT "ai_practice_turn_operations_usage_check" CHECK ("input_units" >= 0 and "output_units" >= 0 and "charged_micro_usd" >= 0)
+  CONSTRAINT "ai_practice_turn_operations_usage_check" CHECK ("input_units" >= 0 and "output_units" >= 0 and "charged_micro_usd" >= 0),
+  CONSTRAINT "ai_practice_turn_operations_client_check" CHECK (char_length("client_operation_id") between 8 and 80),
+  CONSTRAINT "ai_practice_turn_operations_terminal_check" CHECK (("state" = 'claimed' and "completed_at" is null) or ("state" in ('completed', 'failed', 'ambiguous') and "completed_at" is not null))
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX "ai_practice_turn_operations_client_uidx" ON "ai_practice_turn_operations" USING btree ("client_operation_id");
+CREATE UNIQUE INDEX "ai_practice_turn_operations_client_uidx" ON "ai_practice_turn_operations" USING btree ("session_id", "client_operation_id");
 --> statement-breakpoint
 CREATE UNIQUE INDEX "ai_practice_turn_operations_turn_uidx" ON "ai_practice_turn_operations" USING btree ("session_id", "learner_turn", "retry_attempt");
 --> statement-breakpoint
@@ -78,7 +82,9 @@ CREATE TABLE "ai_practice_budget_reservations" (
   "created_at" timestamp with time zone DEFAULT now() NOT NULL,
   "released_at" timestamp with time zone,
   CONSTRAINT "ai_practice_budget_reservations_state_check" CHECK ("state" in ('reserved', 'reconciled', 'released')),
-  CONSTRAINT "ai_practice_budget_reservations_amount_check" CHECK ("reserved_micro_usd" >= 0 and "charged_micro_usd" >= 0 and "released_micro_usd" >= 0 and "charged_micro_usd" + "released_micro_usd" <= "reserved_micro_usd")
+  CONSTRAINT "ai_practice_budget_reservations_amount_check" CHECK ("reserved_micro_usd" > 0 and "charged_micro_usd" >= 0 and "released_micro_usd" >= 0 and "charged_micro_usd" + "released_micro_usd" <= "reserved_micro_usd"),
+  CONSTRAINT "ai_practice_budget_reservations_day_check" CHECK ("utc_day" ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'),
+  CONSTRAINT "ai_practice_budget_reservations_release_check" CHECK (("state" = 'reserved' and "released_at" is null) or ("state" in ('reconciled', 'released') and "released_at" is not null))
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX "ai_practice_budget_reservations_session_uidx" ON "ai_practice_budget_reservations" USING btree ("session_id");
@@ -93,7 +99,8 @@ CREATE TABLE "ai_practice_account_day_budgets" (
   "released_micro_usd" integer DEFAULT 0 NOT NULL,
   "updated_at" timestamp with time zone DEFAULT now() NOT NULL,
   CONSTRAINT "ai_practice_account_day_budgets_pkey" PRIMARY KEY ("account_id", "utc_day"),
-  CONSTRAINT "ai_practice_account_day_budgets_amount_check" CHECK ("reserved_micro_usd" >= 0 and "charged_micro_usd" >= 0 and "released_micro_usd" >= 0)
+  CONSTRAINT "ai_practice_account_day_budgets_amount_check" CHECK ("reserved_micro_usd" >= 0 and "charged_micro_usd" >= 0 and "released_micro_usd" >= 0 and "charged_micro_usd" + "released_micro_usd" <= "reserved_micro_usd"),
+  CONSTRAINT "ai_practice_account_day_budgets_day_check" CHECK ("utc_day" ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
 );
 --> statement-breakpoint
 CREATE TABLE "ai_provider_circuit_state" (
@@ -103,5 +110,6 @@ CREATE TABLE "ai_provider_circuit_state" (
   "open_until" timestamp with time zone,
   "updated_at" timestamp with time zone DEFAULT now() NOT NULL,
   CONSTRAINT "ai_provider_circuit_state_check" CHECK ("state" in ('closed', 'open', 'half_open')),
-  CONSTRAINT "ai_provider_circuit_failure_check" CHECK ("failure_count" >= 0)
+  CONSTRAINT "ai_provider_circuit_failure_check" CHECK ("failure_count" >= 0),
+  CONSTRAINT "ai_provider_circuit_open_check" CHECK (("state" = 'open' and "open_until" is not null) or ("state" <> 'open'))
 );

@@ -176,6 +176,60 @@ export function createNeonPortalAuthRepository(database) {
       return toBoolean(rows(result)[0]?.has_active_account);
     },
 
+    async getAuthorizedStudyBuddyContext(identity) {
+      const result = await database.execute(sql`
+        with matching_accounts as (
+          select id, status, account_type
+          from portal_accounts
+          where workos_user_id = ${identity.providerUserId}
+            and lower(primary_email) = ${identity.email.trim().toLowerCase()}
+            and status = 'active'
+          order by id
+          limit 2
+        ),
+        single_account as (
+          select * from matching_accounts
+          where (select count(*) from matching_accounts) = 1
+        )
+        select
+          account.id as account_id,
+          account.status as account_status,
+          account.account_type,
+          result.id as result_id,
+          result.result_status,
+          result.recommended_level_key,
+          result.recommended_level_label
+        from single_account account
+        left join lateral (
+          select result.*
+          from diagnostic_attempts attempt
+          join diagnostic_results result on result.attempt_id = attempt.id
+          where attempt.claimed_account_id = account.id
+            and attempt.status = 'claimed'
+          order by attempt.claimed_at desc nulls last, result.created_at desc
+          limit 1
+        ) result on true
+        limit 1
+      `);
+      const row = rows(result)[0];
+      if (!row) return null;
+      return {
+        snapshot: {
+          state: "authenticated",
+          account: { status: row.account_status, accountType: row.account_type },
+          result: row.result_id
+            ? {
+                status: row.result_status,
+                recommendedLevelKey: row.recommended_level_key,
+                recommendedLevelLabel: row.recommended_level_label,
+              }
+            : null,
+          practice: { eligible: false, reason: "feature_not_approved" },
+        },
+        ownership: { accountId: row.account_id, resultId: row.result_id },
+      };
+    },
+
     async getActivePortalSnapshot(identity) {
       const result = await database.execute(sql`
         with matching_accounts as (

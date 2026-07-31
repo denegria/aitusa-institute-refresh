@@ -1,4 +1,5 @@
 import { safePracticeResult } from "./studyBuddyContract.js";
+import { PortalClaimError } from "../portalClaim/errors.js";
 
 export class StudyBuddyError extends Error {
   constructor(code, status = 400) {
@@ -10,6 +11,20 @@ export class StudyBuddyError extends Error {
 }
 
 export function toSafeStudyBuddyError(error) {
-  if (error instanceof StudyBuddyError) return safePracticeResult(error.code);
-  return safePracticeResult("provider_unavailable");
+  if (error instanceof StudyBuddyError) {
+    return { body: safePracticeResult(error.code), status: safeStatus(error.status) };
+  }
+  if (error instanceof PortalClaimError) {
+    if (error.code === "portal_session_expired") {
+      return { body: safePracticeResult("expired_session"), status: 401 };
+    }
+    if (["portal_session_required", "portal_session_invalid"].includes(error.code)) {
+      return { body: safePracticeResult("unauthenticated"), status: 401 };
+    }
+  }
+  return { body: safePracticeResult("provider_unavailable"), status: 503 };
+}
+
+function safeStatus(status) {
+  return [400, 401, 403, 404, 409, 413, 429, 503].includes(status) ? status : 503;
 }

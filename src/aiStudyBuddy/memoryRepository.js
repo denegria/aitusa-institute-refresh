@@ -6,68 +6,169 @@ export function createMemoryStudyBuddyRepository({ now = () => new Date(), creat
   const operations = new Map();
   const dayBudgets = new Map();
   let circuitOpenUntil = null;
+
+  const operationKey = (sessionId, operationId) => `${sessionId}:${operationId}`;
+  const attemptKey = (sessionId, learnerTurn, retryAttempt) => `${sessionId}:${learnerTurn}:${retryAttempt}`;
+  const isCircuitOpen = (at) => circuitOpenUntil && circuitOpenUntil > at;
+
+  function copySession(session) {
+    return session ? { ...session } : session;
+  }
+
+  function releaseReservation(session, at) {
+    if (session.reservationReleased) return;
+    const unused = Math.max(0, session.reservedMicroUsd - session.usedMicroUsd);
+    session.releasedMicroUsd = unused;
+    session.pendingMicroUsd = 0;
+    session.reservationReleased = true;
+    const day = dayBudgets.get(session.dayKey);
+    if (day) day.releasedMicroUsd = Math.min(day.reservedMicroUsd, day.releasedMicroUsd + unused);
+    session.updatedAt = at;
+  }
+
+  function expireIfNeeded(session, at) {
+    if (session.state === "active" && session.expiresAt <= at) {
+      session.state = "expired";
+      session.completedAt = at;
+      entitlements.set(session.entitlementKey, "available");
+      releaseReservation(session, at);
+    }
+  }
+
+  function requireOwnedSession(sessionId, accountId, at = now()) {
+    const session = sessions.get(sessionId);
+    if (!session || session.accountId !== accountId) throw new StudyBuddyError("foreign_session", 404);
+    expireIfNeeded(session, at);
+    return session;
+  }
+
   return {
-    async reserveStart({ accountId, emailHash, plan, limits }) {
-      if (circuitOpenUntil && circuitOpenUntil > now()) throw new StudyBuddyError("circuit_open", 503);
-      const existing = [...sessions.values()].find((item) => item.accountId === accountId && item.state === "active");
-      if (existing) return { session: { ...existing }, replayed: true };
-      if (entitlements.get(emailHash) === "consumed" || entitlements.get(emailHash) === "reserved") throw new StudyBuddyError("trial_consumed", 409);
-      const dayKey = `${accountId}:${now().toISOString().slice(0, 10)}`;
-      const current = dayBudgets.get(dayKey) || 0;
-      if (current + limits.maxSessionMicroUsd > limits.maxDayMicroUsd) throw new StudyBuddyError("daily_limit_reached", 429);
-      const session = { id: createId(), accountId, requestAccountId: accountId, emailHash, scenario: plan.scenario, useCase: plan.useCase, planVersion: plan.version, state: "active", turnCount: 0, retries: new Map(), reservedMicroUsd: limits.maxSessionMicroUsd, usedMicroUsd: 0, createdAt: now(), expiresAt: new Date(now().getTime() + limits.sessionMinutes * 60000), completedAt: null };
-      entitlements.set(emailHash, "reserved");
-      dayBudgets.set(dayKey, current + limits.maxSessionMicroUsd);
+    async reserveStart({ accountId, resultId, verifiedEmailHmac, hashVersion, plan, limits }) {
+      const at = now();
+      if (isCircuitOpen(at)) throw new StudyBuddyError("circuit_open", 503);
+      if (!Number.isSafeInteger(limits.maxSessionMicroUsd) || limits.maxSessionMicroUsd <= 0 || !Number.isSafeInteger(limits.maxDayMicroUsd) || limits.maxDayMicroUsd < limits.maxSessionMicroUsd) {
+        throw new StudyBuddyError("provider_disabled", 503);
+      }
+      for (const item of sessions.values()) expireIfNeeded(item, at);
+      const existing = [...sessions.values()].find((item) => item.accountId === accountId && item.resultId === resultId && item.state === "active");
+      if (existing) return { session: copySession(existing), replayed: true };
+      const entitlementKey = `${hashVersion}:${verifiedEmailHmac}`;
+      if (["consumed", "reserved"].includes(entitlements.get(entitlementKey))) throw new StudyBuddyError("trial_consumed", 409);
+      const dayKey = `${accountId}:${at.toISOString().slice(0, 10)}`;
+      const day = dayBudgets.get(dayKey) || { reservedMicroUsd: 0, chargedMicroUsd: 0, releasedMicroUsd: 0 };
+      const committed = day.reservedMicroUsd - day.releasedMicroUsd;
+      if (committed + limits.maxSessionMicroUsd > limits.maxDayMicroUsd) throw new StudyBuddyError("daily_limit_reached", 429);
+      const session = {
+        id: createId(), accountId, resultId, entitlementKey,
+        scenario: plan.scenario, useCase: plan.useCase, planVersion: plan.version,
+        state: "active", turnCount: 0, retryCount: 0, lastLearnerTurn: 0,
+        reservedMicroUsd: limits.maxSessionMicroUsd, pendingMicroUsd: 0,
+        usedMicroUsd: 0, releasedMicroUsd: 0, reservationReleased: false,
+        dayKey, createdAt: at, updatedAt: at,
+        expiresAt: new Date(at.getTime() + limits.sessionMinutes * 60_000), completedAt: null,
+      };
+      entitlements.set(entitlementKey, "reserved");
+      day.reservedMicroUsd += limits.maxSessionMicroUsd;
+      dayBudgets.set(dayKey, day);
       sessions.set(session.id, session);
-      return { session: { ...session }, replayed: false };
+      return { session: copySession(session), replayed: false };
     },
+
     async claimTurn({ sessionId, accountId, learnerTurn, retryAttempt, operationId, at }) {
-      const session = sessions.get(sessionId);
-      if (!session || session.accountId !== accountId) throw new StudyBuddyError("foreign_session", 404);
-      const prior = operations.get(operationId);
-      if (prior) return { ...prior, replayed: true };
-      if (session.expiresAt <= at || session.state !== "active") throw new StudyBuddyError("session_expired", 409);
-      if (learnerTurn !== session.turnCount + 1 || retryAttempt > 1 || retryAttempt < 0) throw new StudyBuddyError(retryAttempt > 1 ? "retry_limit_reached" : "invalid_request", 409);
-      const retryKey = `${learnerTurn}:${retryAttempt}`;
-      if (operations.has(`${sessionId}:${retryKey}`)) throw new StudyBuddyError("operation_replayed", 409);
-      const claim = { session: { ...session }, sessionId, learnerTurn, retryAttempt, operationId, replayed: false };
-      operations.set(operationId, claim);
-      operations.set(`${sessionId}:${retryKey}`, claim);
-      return claim;
+      const session = requireOwnedSession(sessionId, accountId, at);
+      const scopedKey = operationKey(sessionId, operationId);
+      const prior = operations.get(scopedKey);
+      if (prior) {
+        if (prior.accountId !== accountId) throw new StudyBuddyError("foreign_session", 404);
+        return { ...prior, session: copySession(session), replayed: true };
+      }
+      if (isCircuitOpen(at)) throw new StudyBuddyError("circuit_open", 503);
+      if (session.state !== "active") throw new StudyBuddyError("session_expired", 409);
+      if (!Number.isInteger(retryAttempt) || ![0, 1].includes(retryAttempt)) throw new StudyBuddyError("invalid_request", 400);
+      const expectedTurn = retryAttempt === 0 ? session.turnCount + 1 : session.lastLearnerTurn;
+      const base = operations.get(attemptKey(sessionId, expectedTurn, 0));
+      if (retryAttempt === 1 && !base) throw new StudyBuddyError("retry_limit_reached", 409);
+      if (!Number.isInteger(learnerTurn) || learnerTurn !== expectedTurn || learnerTurn < 1 || learnerTurn > 5) throw new StudyBuddyError("invalid_request", 400);
+      const attempt = attemptKey(sessionId, learnerTurn, retryAttempt);
+      if (operations.has(attempt)) throw new StudyBuddyError("operation_replayed", 409);
+      const remaining = session.reservedMicroUsd - session.usedMicroUsd - session.pendingMicroUsd;
+      if (remaining <= 0) throw new StudyBuddyError("session_limit_reached", 429);
+      const claim = {
+        sessionId, accountId, learnerTurn, retryAttempt, operationId,
+        state: "claimed", reservedMicroUsd: remaining, replayed: false,
+        createdAt: at, completedAt: null,
+      };
+      session.pendingMicroUsd += remaining;
+      session.lastLearnerTurn = learnerTurn;
+      if (retryAttempt === 1) session.retryCount += 1;
+      operations.set(scopedKey, claim);
+      operations.set(attempt, claim);
+      return { ...claim, session: copySession(session) };
     },
-    async completeTurn({ sessionId, operationId, outcomeCode, focusCode, usage, at }) {
-      const claim = operations.get(operationId);
-      const session = sessions.get(sessionId);
-      if (!claim || !session) throw new StudyBuddyError("invalid_request");
-      if (claim.completed) return { session: { ...session }, replayed: true };
-      claim.completed = true;
-      session.turnCount += 1;
+
+    async completeTurn({ sessionId, accountId, operationId, outcomeCode, focusCode, usage, at }) {
+      const session = requireOwnedSession(sessionId, accountId, at);
+      const claim = operations.get(operationKey(sessionId, operationId));
+      if (!claim || claim.sessionId !== sessionId || claim.accountId !== accountId) throw new StudyBuddyError("foreign_session", 404);
+      if (claim.state !== "claimed") return { session: copySession(session), operation: { ...claim }, replayed: true };
+      const charged = usage.microUsd;
+      if (!Number.isSafeInteger(charged) || charged < 0 || charged > claim.reservedMicroUsd) throw new StudyBuddyError("provider_unavailable", 503);
+      session.pendingMicroUsd = Math.max(0, session.pendingMicroUsd - claim.reservedMicroUsd);
+      session.usedMicroUsd = Math.min(session.reservedMicroUsd, session.usedMicroUsd + charged);
+      const day = dayBudgets.get(session.dayKey);
+      day.chargedMicroUsd = Math.min(day.reservedMicroUsd, day.chargedMicroUsd + charged);
+      claim.state = "completed";
+      claim.safeOutcomeCode = outcomeCode;
+      claim.inputUnits = usage.inputUnits;
+      claim.outputUnits = usage.outputUnits;
+      claim.chargedMicroUsd = charged;
+      claim.completedAt = at;
+      const base = operations.get(attemptKey(sessionId, claim.learnerTurn, 0));
+      if (claim.retryAttempt === 0 || base?.state !== "completed") session.turnCount += 1;
       session.lastOutcomeCode = outcomeCode;
       session.focusCode = focusCode;
-      session.usedMicroUsd += Math.max(0, Math.min(Number(usage?.microUsd) || 0, session.reservedMicroUsd));
+      session.updatedAt = at;
       if (session.turnCount >= 5 || outcomeCode === "escalated") {
         session.state = outcomeCode === "escalated" ? "escalated" : "completed";
         session.completedAt = at;
-        entitlements.set(session.emailHash, session.state === "completed" ? "consumed" : "available");
+        entitlements.set(session.entitlementKey, session.state === "completed" ? "consumed" : "available");
+        releaseReservation(session, at);
       }
-      return { session: { ...session }, replayed: false };
+      return { session: copySession(session), operation: { ...claim }, replayed: false };
     },
+
+    async failTurn({ sessionId, accountId, operationId, ambiguous = true, at }) {
+      const session = requireOwnedSession(sessionId, accountId, at);
+      const claim = operations.get(operationKey(sessionId, operationId));
+      if (!claim || claim.sessionId !== sessionId || claim.accountId !== accountId) throw new StudyBuddyError("foreign_session", 404);
+      if (claim.state !== "claimed") return { session: copySession(session), operation: { ...claim }, replayed: true };
+      session.pendingMicroUsd = Math.max(0, session.pendingMicroUsd - claim.reservedMicroUsd);
+      claim.state = ambiguous ? "ambiguous" : "failed";
+      claim.completedAt = at;
+      session.updatedAt = at;
+      return { session: copySession(session), operation: { ...claim }, replayed: false };
+    },
+
     async reapExpired(at = now()) {
       let count = 0;
       for (const session of sessions.values()) {
-        if (session.state === "active" && session.expiresAt <= at) {
-          session.state = "expired";
-          entitlements.set(session.emailHash, "available");
-          count += 1;
-        }
+        const prior = session.state;
+        expireIfNeeded(session, at);
+        if (prior === "active" && session.state === "expired") count += 1;
       }
       return count;
     },
     async setCircuitOpen(until) { circuitOpenUntil = until; },
-    async getSession(sessionId, accountId) {
-      const session = sessions.get(sessionId);
-      if (!session || session.accountId !== accountId) throw new StudyBuddyError("foreign_session", 404);
-      return { ...session };
+    async getSession(sessionId, accountId) { return copySession(requireOwnedSession(sessionId, accountId)); },
+    async getOperation(sessionId, operationId, accountId) {
+      requireOwnedSession(sessionId, accountId);
+      const operation = operations.get(operationKey(sessionId, operationId));
+      if (!operation || operation.accountId !== accountId) throw new StudyBuddyError("foreign_session", 404);
+      return { ...operation };
+    },
+    async getBudget(accountId, at = now()) {
+      const value = dayBudgets.get(`${accountId}:${at.toISOString().slice(0, 10)}`);
+      return value ? { ...value } : null;
     },
   };
 }

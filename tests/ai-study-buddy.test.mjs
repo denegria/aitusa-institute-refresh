@@ -9,6 +9,8 @@ import {
 } from "../src/aiStudyBuddy/studyBuddyContract.js";
 import { evaluateStudyBuddyEligibility } from "../src/aiStudyBuddy/policy.server.js";
 import { getStudyBuddyConfig, assertLiveProviderConstructionAllowed } from "../src/aiStudyBuddy/config.server.js";
+import { createPortalAuthService } from "../src/portalAuth/service.js";
+import { validateAuthorizedStudyBuddyContext } from "../src/aiStudyBuddy/authorizedContext.server.js";
 
 const snapshot = {
   state: "authenticated",
@@ -41,6 +43,31 @@ describe("MIS-340 Study Buddy public contract", () => {
 
   it("cannot construct a live provider in tests or without all server gates", () => {
     assert.equal(getStudyBuddyConfig({}).enabled, false);
-    assert.throws(() => assertLiveProviderConstructionAllowed({ NODE_ENV: "test", STUDY_BUDDY_EXECUTION_ENABLED: "true", STUDY_BUDDY_PROVIDER_APPROVED: "true", STUDY_BUDDY_GUARDIAN_SOURCE_APPROVED: "true", STUDY_BUDDY_MAX_SESSION_MICRO_USD: "10" }), /disabled/);
+    const gates = { STUDY_BUDDY_EXECUTION_ENABLED: "true", STUDY_BUDDY_PROVIDER_APPROVED: "true", STUDY_BUDDY_GUARDIAN_SOURCE_APPROVED: "true" };
+    for (const budgets of [
+      { STUDY_BUDDY_MAX_SESSION_MICRO_USD: "0", STUDY_BUDDY_MAX_DAY_MICRO_USD: "10" },
+      { STUDY_BUDDY_MAX_SESSION_MICRO_USD: "1.5", STUDY_BUDDY_MAX_DAY_MICRO_USD: "10" },
+      { STUDY_BUDDY_MAX_SESSION_MICRO_USD: "10", STUDY_BUDDY_MAX_DAY_MICRO_USD: "9" },
+      { STUDY_BUDDY_MAX_SESSION_MICRO_USD: "10", STUDY_BUDDY_MAX_DAY_MICRO_USD: "" },
+    ]) assert.equal(getStudyBuddyConfig({ ...gates, ...budgets }).enabled, false);
+    const enabled = getStudyBuddyConfig({ ...gates, STUDY_BUDDY_MAX_SESSION_MICRO_USD: "10", STUDY_BUDDY_MAX_DAY_MICRO_USD: "20" });
+    assert.equal(enabled.enabled, true);
+    assert.equal(enabled.limits.maxDayMicroUsd, 20);
+    assert.throws(() => assertLiveProviderConstructionAllowed({ NODE_ENV: "test", ...gates, STUDY_BUDDY_MAX_SESSION_MICRO_USD: "10", STUDY_BUDDY_MAX_DAY_MICRO_USD: "20" }), /disabled/);
+  });
+
+  it("derives a private versioned email HMAC and ownership from the sealed identity", async () => {
+    const accountId = "00000000-0000-4000-8000-000000000001";
+    const resultId = "10000000-0000-4000-8000-000000000001";
+    const service = createPortalAuthService({
+      hashSecret: "study-buddy-test-hash-secret-32-bytes-long",
+      authProvider: { async authenticateSession(value) { assert.equal(value, "sealed-session"); return { providerUserId: "workos-user", email: "Student@Example.com", emailVerified: true }; } },
+      repository: { async getAuthorizedStudyBuddyContext(identity) { assert.equal(identity.email, "student@example.com"); return { snapshot: { state: "authenticated", account: { status: "active" }, result: { recommendedLevelKey: "basic" }, practice: { guardianVerified: false } }, ownership: { accountId, resultId } }; } },
+    });
+    const context = validateAuthorizedStudyBuddyContext(await service.resolveAuthorizedStudyBuddyContext("sealed-session"));
+    assert.equal(context.ownership.verifiedEmailHmac.length, 64);
+    assert.equal(context.ownership.hashVersion, "hmac-sha256-v1");
+    assert.equal(JSON.stringify(context.snapshot).match(/accountId|resultId|hmac|email/i), null);
+    assert.throws(() => validateAuthorizedStudyBuddyContext({ ...context, ownership: { ...context.ownership, verifiedEmailHmac: null } }), /unauthenticated/);
   });
 });

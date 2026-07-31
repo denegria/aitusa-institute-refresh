@@ -22,6 +22,13 @@
       "when": 1785456000000,
       "tag": "0002_portal_auth_security",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1785495600000,
+      "tag": "0003_study_buddy_runtime",
+      "breakpoints": true
     }
   ]
 }

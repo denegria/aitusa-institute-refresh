@@ -1,6 +1,7 @@
-import { resolveAuthenticatedPortalSnapshot } from "../portalAuth/sessionResolver.server.js";
+import { resolveAuthorizedStudyBuddyContext } from "../portalAuth/sessionResolver.server.js";
 import { toSafeStudyBuddyError } from "./errors.js";
-import { enforceSameOrigin } from "./requestValidation.server.js";
+import { assertEmptyStartBody, enforceSameOrigin, parseBoundedJson } from "./requestValidation.server.js";
+import { publicSnapshotFromAuthorizedContext, validateAuthorizedStudyBuddyContext } from "./authorizedContext.server.js";
 import { toPracticeEligibilityDto, safePracticeResult } from "./studyBuddyContract.js";
 
 const NO_STORE = Object.freeze({ "cache-control": "private, no-store" });
@@ -9,42 +10,43 @@ function response(body, status = 200) {
   return Response.json(body, { status, headers: NO_STORE });
 }
 
-export function createStudyBuddyRouteHandler({ resolveSnapshot = resolveAuthenticatedPortalSnapshot, service = null, hashEmail = () => null } = {}) {
+export function createStudyBuddyRouteHandler({ resolveContext = resolveAuthorizedStudyBuddyContext, service = null, configuredOrigin = null } = {}) {
   return {
     async get(request) {
       try {
-        const snapshot = await resolveSnapshot(request);
+        const context = validateAuthorizedStudyBuddyContext(await resolveContext(request));
+        const snapshot = publicSnapshotFromAuthorizedContext(context);
         if (!service) return response(toPracticeEligibilityDto(safePracticeResult("provider_disabled")));
         return response(toPracticeEligibilityDto(await service.eligibility(snapshot)));
       } catch (error) {
         const safe = toSafeStudyBuddyError(error);
-        const status = safe.code === "unauthenticated" ? 401 : 503;
-        return response(toPracticeEligibilityDto(safe), status);
+        return response(toPracticeEligibilityDto(safe.body), safe.status);
       }
     },
     async start(request) {
       try {
-        enforceSameOrigin(request);
-        const snapshot = await resolveSnapshot(request);
+        enforceSameOrigin(request, configuredOrigin);
+        await assertEmptyStartBody(request);
+        const context = validateAuthorizedStudyBuddyContext(await resolveContext(request));
         if (!service) return response(safePracticeResult("provider_disabled"), 503);
-        const result = await service.start({ snapshot, emailHash: hashEmail(snapshot) });
+        const result = await service.start({ context });
         return response(result.session ? { ok: true, session: toSafeSessionDto(result.session), replayed: result.replayed } : result, result.session ? 201 : 409);
       } catch (error) {
         const safe = toSafeStudyBuddyError(error);
-        return response(safe, safe.code === "unauthenticated" ? 401 : 409);
+        return response(safe.body, safe.status);
       }
     },
     async turn(request, sessionId) {
       try {
-        enforceSameOrigin(request);
-        const payload = await request.json();
-        const snapshot = await resolveSnapshot(request);
+        enforceSameOrigin(request, configuredOrigin);
+        const payload = await parseBoundedJson(request);
+        const context = validateAuthorizedStudyBuddyContext(await resolveContext(request));
         if (!service) return response(safePracticeResult("provider_disabled"), 503);
-        const result = await service.turn({ snapshot, sessionId, payload });
+        const result = await service.turn({ context, sessionId, payload });
         return response(toSafeTurnDto(result), result.ok ? 200 : 409);
       } catch (error) {
         const safe = toSafeStudyBuddyError(error);
-        return response(safe, safe.code === "provider_unavailable" ? 503 : 409);
+        return response(safe.body, safe.status);
       }
     },
   };

@@ -243,6 +243,39 @@ export function createPortalAuthService({
       return snapshot;
     },
 
+    async resolveAuthorizedStudyBuddyContext(sessionData) {
+      if (!sessionData) {
+        throw new PortalClaimError("portal_session_required", 401);
+      }
+      let identity;
+      try {
+        identity = await authProvider.authenticateSession(sessionData);
+      } catch (error) {
+        if (error instanceof PortalClaimError && error.code === "identity_provider_unavailable") {
+          throw error;
+        }
+        throw new PortalClaimError("portal_session_invalid", 401);
+      }
+      if (!isVerifiedIdentity(identity)) {
+        throw new PortalClaimError("portal_session_invalid", 401);
+      }
+      const normalizedIdentity = toPortalIdentity(identity);
+      const identifiers = hashIdentifiers({ email: normalizedIdentity.email });
+      const context = await repository.getAuthorizedStudyBuddyContext?.(normalizedIdentity);
+      if (!context?.snapshot || !context?.ownership?.accountId) {
+        throw new PortalClaimError("portal_session_invalid", 401);
+      }
+      return {
+        snapshot: context.snapshot,
+        ownership: {
+          accountId: context.ownership.accountId,
+          resultId: context.ownership.resultId,
+          verifiedEmailHmac: identifiers.emailKeyHash,
+          hashVersion: identifiers.keyVersion,
+        },
+      };
+    },
+
     async revokeSession(sessionData, requestMetadata = {}) {
       let email = "unknown";
       let outcome = sessionData ? "revoke_failed" : "no_session";

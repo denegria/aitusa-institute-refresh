@@ -7,8 +7,8 @@ export function createFakeStudyBuddyProvider({ response = null, error = null } =
       return response ?? {
         outcomeCode: "success",
         focusCode: "meaning_acknowledged",
-        usage: { inputUnits: input.length, outputUnits: 1, microUsd: 0 },
-        feedback: "safe_fixture_feedback",
+        usage: { inputUnits: input.kind === "text" ? input.value.length : input.bytes, outputUnits: 1, microUsd: 0 },
+        feedback: "meaning_acknowledged",
         planVersion: plan.version,
       };
     },

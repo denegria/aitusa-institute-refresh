@@ -388,6 +388,7 @@ export const aiPracticeEntitlements = pgTable(
     uniqueIndex("ai_practice_entitlements_email_hash_uidx").on(table.verifiedEmailHmac, table.hashVersion),
     check("ai_practice_entitlements_state_check", sql`${table.state} in ('available', 'reserved', 'consumed')`),
     check("ai_practice_entitlements_hmac_check", sql`char_length(${table.verifiedEmailHmac}) = 64`),
+    check("ai_practice_entitlements_hash_version_check", sql`char_length(${table.hashVersion}) > 0`),
   ],
 );
 
@@ -409,6 +410,10 @@ export const aiPracticeSessions = pgTable(
     index("ai_practice_sessions_account_state_idx").on(table.accountId, table.state, table.expiresAt),
     check("ai_practice_sessions_state_check", sql`${table.state} in ('reserved', 'active', 'completed', 'expired', 'escalated')`),
     check("ai_practice_sessions_turn_check", sql`${table.turnCount} >= 0 and ${table.turnCount} <= 5`),
+    check("ai_practice_sessions_retry_check", sql`${table.retryCount} >= 0 and ${table.retryCount} <= 5`),
+    check("ai_practice_sessions_usage_check", sql`${table.inputUnits} >= 0 and ${table.outputUnits} >= 0 and ${table.chargedMicroUsd} >= 0`),
+    check("ai_practice_sessions_expiry_check", sql`${table.expiresAt} > ${table.createdAt}`),
+    check("ai_practice_sessions_completion_check", sql`(${table.state} in ('completed', 'expired', 'escalated') and ${table.completedAt} is not null) or (${table.state} in ('reserved', 'active') and ${table.completedAt} is null)`),
   ],
 );
 
@@ -418,24 +423,24 @@ export const aiPracticeTurnOperations = pgTable(
     id: uuid("id").primaryKey(), sessionId: uuid("session_id").notNull().references(() => aiPracticeSessions.id, { onDelete: "cascade" }), clientOperationId: text("client_operation_id").notNull(), learnerTurn: integer("learner_turn").notNull(), retryAttempt: integer("retry_attempt").notNull(), state: text("state").notNull().default("claimed"), safeOutcomeCode: text("safe_outcome_code"), inputUnits: integer("input_units").notNull().default(0), outputUnits: integer("output_units").notNull().default(0), chargedMicroUsd: integer("charged_micro_usd").notNull().default(0), createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(), completedAt: timestamp("completed_at", { withTimezone: true }),
   },
   (table) => [
-    uniqueIndex("ai_practice_turn_operations_client_uidx").on(table.clientOperationId), uniqueIndex("ai_practice_turn_operations_turn_uidx").on(table.sessionId, table.learnerTurn, table.retryAttempt), check("ai_practice_turn_operations_state_check", sql`${table.state} in ('claimed', 'completed', 'failed', 'ambiguous')`), check("ai_practice_turn_operations_turn_check", sql`${table.learnerTurn} between 1 and 5 and ${table.retryAttempt} between 0 and 1`),
+    uniqueIndex("ai_practice_turn_operations_client_uidx").on(table.sessionId, table.clientOperationId), uniqueIndex("ai_practice_turn_operations_turn_uidx").on(table.sessionId, table.learnerTurn, table.retryAttempt), check("ai_practice_turn_operations_state_check", sql`${table.state} in ('claimed', 'completed', 'failed', 'ambiguous')`), check("ai_practice_turn_operations_turn_check", sql`${table.learnerTurn} between 1 and 5 and ${table.retryAttempt} between 0 and 1`), check("ai_practice_turn_operations_usage_check", sql`${table.inputUnits} >= 0 and ${table.outputUnits} >= 0 and ${table.chargedMicroUsd} >= 0`), check("ai_practice_turn_operations_client_check", sql`char_length(${table.clientOperationId}) between 8 and 80`), check("ai_practice_turn_operations_terminal_check", sql`(${table.state} = 'claimed' and ${table.completedAt} is null) or (${table.state} in ('completed', 'failed', 'ambiguous') and ${table.completedAt} is not null)`),
   ],
 );
 
 export const aiPracticeBudgetReservations = pgTable(
   "ai_practice_budget_reservations",
   { id: uuid("id").primaryKey(), sessionId: uuid("session_id").notNull().references(() => aiPracticeSessions.id, { onDelete: "cascade" }), accountId: uuid("account_id").notNull().references(() => portalAccounts.id, { onDelete: "cascade" }), utcDay: text("utc_day").notNull(), state: text("state").notNull().default("reserved"), reservedMicroUsd: integer("reserved_micro_usd").notNull(), chargedMicroUsd: integer("charged_micro_usd").notNull().default(0), releasedMicroUsd: integer("released_micro_usd").notNull().default(0), createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(), releasedAt: timestamp("released_at", { withTimezone: true }) },
-  (table) => [uniqueIndex("ai_practice_budget_reservations_session_uidx").on(table.sessionId), index("ai_practice_budget_reservations_day_idx").on(table.accountId, table.utcDay), check("ai_practice_budget_reservations_state_check", sql`${table.state} in ('reserved', 'reconciled', 'released')`)],
+  (table) => [uniqueIndex("ai_practice_budget_reservations_session_uidx").on(table.sessionId), index("ai_practice_budget_reservations_day_idx").on(table.accountId, table.utcDay), check("ai_practice_budget_reservations_state_check", sql`${table.state} in ('reserved', 'reconciled', 'released')`), check("ai_practice_budget_reservations_amount_check", sql`${table.reservedMicroUsd} > 0 and ${table.chargedMicroUsd} >= 0 and ${table.releasedMicroUsd} >= 0 and ${table.chargedMicroUsd} + ${table.releasedMicroUsd} <= ${table.reservedMicroUsd}`), check("ai_practice_budget_reservations_day_check", sql`${table.utcDay} ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'`), check("ai_practice_budget_reservations_release_check", sql`(${table.state} = 'reserved' and ${table.releasedAt} is null) or (${table.state} in ('reconciled', 'released') and ${table.releasedAt} is not null)`)],
 );
 
 export const aiPracticeAccountDayBudgets = pgTable(
   "ai_practice_account_day_budgets",
   { accountId: uuid("account_id").notNull().references(() => portalAccounts.id, { onDelete: "cascade" }), utcDay: text("utc_day").notNull(), reservedMicroUsd: integer("reserved_micro_usd").notNull().default(0), chargedMicroUsd: integer("charged_micro_usd").notNull().default(0), releasedMicroUsd: integer("released_micro_usd").notNull().default(0), updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow() },
-  (table) => [primaryKey({ columns: [table.accountId, table.utcDay] }), check("ai_practice_account_day_budgets_amount_check", sql`${table.reservedMicroUsd} >= 0 and ${table.chargedMicroUsd} >= 0 and ${table.releasedMicroUsd} >= 0`)],
+  (table) => [primaryKey({ columns: [table.accountId, table.utcDay] }), check("ai_practice_account_day_budgets_amount_check", sql`${table.reservedMicroUsd} >= 0 and ${table.chargedMicroUsd} >= 0 and ${table.releasedMicroUsd} >= 0 and ${table.chargedMicroUsd} + ${table.releasedMicroUsd} <= ${table.reservedMicroUsd}`), check("ai_practice_account_day_budgets_day_check", sql`${table.utcDay} ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'`)],
 );
 
 export const aiProviderCircuitState = pgTable(
   "ai_provider_circuit_state",
   { capability: text("capability").primaryKey(), failureCount: integer("failure_count").notNull().default(0), state: text("state").notNull().default("closed"), openUntil: timestamp("open_until", { withTimezone: true }), updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow() },
-  (table) => [check("ai_provider_circuit_state_check", sql`${table.state} in ('closed', 'open', 'half_open')`), check("ai_provider_circuit_failure_check", sql`${table.failureCount} >= 0`)],
+  (table) => [check("ai_provider_circuit_state_check", sql`${table.state} in ('closed', 'open', 'half_open')`), check("ai_provider_circuit_failure_check", sql`${table.failureCount} >= 0`), check("ai_provider_circuit_open_check", sql`(${table.state} = 'open' and ${table.openUntil} is not null) or (${table.state} <> 'open')`)],
 );
