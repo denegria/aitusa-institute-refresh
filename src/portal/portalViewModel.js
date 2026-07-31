@@ -265,13 +265,30 @@ function practiceDeniedState(reason) {
 
 function normalizeAdvisor(advisor) {
   const requested = advisor?.requested === true;
+  const deliveryStatus = advisor?.deliveryStatus || (requested ? "pending" : "not_requested");
+  if (!requested) {
+    return {
+      requested: false,
+      deliveryStatus,
+      label: "Hablar con un asesor",
+      summary: "Aclara horarios, modalidad y el nivel recomendado antes de inscribirte.",
+    };
+  }
+  const acknowledged = deliveryStatus === "delivered";
+  const needsAttention = deliveryStatus === "needs_attention" || deliveryStatus === "not_queued";
   return {
-    requested,
-    deliveryStatus: advisor?.deliveryStatus || (requested ? "pending" : "not_requested"),
-    label: requested ? "Solicitud enviada" : "Hablar con un asesor",
-    summary: requested
-      ? "Tu solicitud está registrada. Un asesor confirmará el nivel final contigo."
-      : "Aclara horarios, modalidad y el nivel recomendado antes de inscribirte.",
+    requested: true,
+    deliveryStatus,
+    label: acknowledged
+      ? "Solicitud confirmada"
+      : needsAttention
+        ? "Solicitud pendiente de revisión"
+        : "Solicitud pendiente de confirmación",
+    summary: acknowledged
+      ? "Un asesor recibió tu solicitud y confirmará el nivel final contigo."
+      : needsAttention
+        ? "Tu resultado sigue guardado. Vuelve a intentarlo más tarde o contacta soporte."
+        : "Tu resultado sigue guardado. Estamos confirmando tu solicitud con un asesor.",
   };
 }
 

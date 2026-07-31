@@ -258,19 +258,24 @@ export function createNeonPortalClaimRepository(database) {
             )
             select
               ${outboxId}::uuid,
-              'placement_result_claimed',
-              'placement-result-claimed:' || e.claim_id,
+              'advisor_handoff_requested',
+              'aitusa:advisor-handoff:' || e.claim_id,
               e.claim_id,
               jsonb_build_object(
-                'schemaVersion', 'placement-result-claimed-v1',
-                'source', 'placement_diagnostic_v2',
-                'firstName', e.first_name,
-                'email', e.email,
-                'goal', e.goal,
-                'consent', jsonb_build_object(
-                  'advisorContactEmail', true,
-                  'policyVersion', e.privacy_policy_version
+                'schemaVersion', 'aitusa-crm-event-v1',
+                'eventId', 'advisor-handoff:' || e.claim_id,
+                'eventType', 'advisor_handoff_requested',
+                'idempotencyKey', 'aitusa:advisor-handoff:' || e.claim_id,
+                'correlationId', e.claim_id,
+                'occurredAt', ${nowIso}::timestamptz,
+                'source', jsonb_build_object(
+                  'product', 'aitusa_refresh',
+                  'surface', 'portal',
+                  'path', '/portal/result-claim',
+                  'version', 'mis-343-v1'
                 ),
+                'contact', jsonb_build_object('firstName', e.first_name, 'email', e.email),
+                'consent', jsonb_build_object('email', true, 'advisorContactEmail', true, 'policyVersion', e.privacy_policy_version),
                 'placement', jsonb_build_object(
                   'resultId', e.result_id,
                   'resultStatus', e.result_status,
@@ -279,14 +284,8 @@ export function createNeonPortalClaimRepository(database) {
                   'answeredQuestionCount', e.answered_question_count,
                   'skippedQuestionCount', e.skipped_question_count,
                   'advisorConfirmationRequired', e.advisor_confirmation_required = 1,
-                  'productContractVersion', e.product_contract_version,
-                  'questionBankVersion', e.question_bank_version,
-                  'answerKeyVersion', e.answer_key_version,
-                  'levelMapVersion', e.level_map_version,
-                  'scoringContractVersion', e.scoring_contract_version,
-                  'resultCopyVersion', e.result_copy_version
-                ),
-                'attribution', e.attribution
+                  'scoringContractVersion', e.scoring_contract_version
+                )
               ),
               'pending',
               0,
@@ -369,7 +368,7 @@ export function createNeonPortalClaimRepository(database) {
           exists(
             select 1
             from crm_outbox o
-            where o.idempotency_key = 'placement-result-claimed:' || ch.claim_id
+            where o.idempotency_key = 'aitusa:advisor-handoff:' || ch.claim_id
           ) as crm_queued
         from portal_auth_challenges ch
         join result_claims rc on rc.id = ch.result_claim_id

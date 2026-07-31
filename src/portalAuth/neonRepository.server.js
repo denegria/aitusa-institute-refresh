@@ -355,7 +355,7 @@ export function createNeonPortalAuthRepository(database) {
             outbox.delivered_at
           from crm_outbox outbox
           where outbox.correlation_id = latest.claim_id
-            and outbox.event_type = 'placement_result_claimed'
+            and outbox.event_type = 'advisor_handoff_requested'
           order by outbox.created_at desc
           limit 1
         ) delivery on true

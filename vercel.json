@@ -4,6 +4,10 @@
     {
       "path": "/api/cron/portal-retention",
       "schedule": "15 5 * * *"
+    },
+    {
+      "path": "/api/cron/crm-outbox",
+      "schedule": "*/10 * * * *"
     }
   ]
 }
