@@ -8,7 +8,7 @@ import {
   toPracticeEligibilityDto,
 } from "../src/aiStudyBuddy/studyBuddyContract.js";
 import { evaluateStudyBuddyEligibility } from "../src/aiStudyBuddy/policy.server.js";
-import { getStudyBuddyConfig, assertLiveProviderConstructionAllowed } from "../src/aiStudyBuddy/config.server.js";
+import { getStudyBuddyConfig, assertFakeProviderConstructionAllowed, assertLiveProviderConstructionAllowed } from "../src/aiStudyBuddy/config.server.js";
 import { createPortalAuthService } from "../src/portalAuth/service.js";
 import { validateAuthorizedStudyBuddyContext } from "../src/aiStudyBuddy/authorizedContext.server.js";
 
@@ -41,9 +41,9 @@ describe("MIS-340 Study Buddy public contract", () => {
     assert.equal(JSON.stringify(dto).match(/account|email|providerId|model|prompt|cost/i), null);
   });
 
-  it("cannot construct a live provider in tests or without all server gates", () => {
+  it("constructs only the fake provider in non-production and defers live providers to MIS-345", () => {
     assert.equal(getStudyBuddyConfig({}).enabled, false);
-    const gates = { STUDY_BUDDY_EXECUTION_ENABLED: "true", STUDY_BUDDY_PROVIDER_APPROVED: "true", STUDY_BUDDY_GUARDIAN_SOURCE_APPROVED: "true" };
+    const gates = { NODE_ENV: "test", STUDY_BUDDY_EXECUTION_ENABLED: "true", STUDY_BUDDY_FAKE_PROVIDER_ENABLED: "true" };
     for (const budgets of [
       { STUDY_BUDDY_MAX_SESSION_MICRO_USD: "0", STUDY_BUDDY_MAX_DAY_MICRO_USD: "10" },
       { STUDY_BUDDY_MAX_SESSION_MICRO_USD: "1.5", STUDY_BUDDY_MAX_DAY_MICRO_USD: "10" },
@@ -52,8 +52,12 @@ describe("MIS-340 Study Buddy public contract", () => {
     ]) assert.equal(getStudyBuddyConfig({ ...gates, ...budgets }).enabled, false);
     const enabled = getStudyBuddyConfig({ ...gates, STUDY_BUDDY_MAX_SESSION_MICRO_USD: "10", STUDY_BUDDY_MAX_DAY_MICRO_USD: "20" });
     assert.equal(enabled.enabled, true);
+    assert.equal(enabled.providerMode, "fake");
+    assert.equal(enabled.providerProfile, "fake-v1");
     assert.equal(enabled.limits.maxDayMicroUsd, 20);
-    assert.throws(() => assertLiveProviderConstructionAllowed({ NODE_ENV: "test", ...gates, STUDY_BUDDY_MAX_SESSION_MICRO_USD: "10", STUDY_BUDDY_MAX_DAY_MICRO_USD: "20" }), /disabled/);
+    assert.equal(assertFakeProviderConstructionAllowed({ ...gates, STUDY_BUDDY_MAX_SESSION_MICRO_USD: "10", STUDY_BUDDY_MAX_DAY_MICRO_USD: "20" }).providerMode, "fake");
+    assert.throws(() => assertFakeProviderConstructionAllowed({ ...gates, VERCEL_ENV: "production", STUDY_BUDDY_MAX_SESSION_MICRO_USD: "10", STUDY_BUDDY_MAX_DAY_MICRO_USD: "20" }), /disabled/);
+    assert.throws(() => assertLiveProviderConstructionAllowed(enabled), /MIS-345|mis_345/i);
   });
 
   it("derives a private versioned email HMAC and ownership from the sealed identity", async () => {

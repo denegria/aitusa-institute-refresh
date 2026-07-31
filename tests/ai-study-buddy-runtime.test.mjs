@@ -259,5 +259,8 @@ describe("MIS-340 deterministic runtime mechanics", () => {
     }
     assert.match(migration, /entitlement_uidx[^;]+\("entitlement_id"\)/);
     assert.match(migration, /deadline_exceeded/);
+    assert.match(migration, /provider_profile/);
+    assert.doesNotMatch(migration, /openai\//i);
+    assert.doesNotMatch(schema, /openai\//i);
   });
 });

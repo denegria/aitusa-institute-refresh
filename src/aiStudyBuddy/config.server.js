@@ -1,8 +1,4 @@
-const LOCKED_MODELS = Object.freeze({
-  transcription: "openai/gpt-4o-mini-transcribe",
-  teaching: "openai/gpt-5.4-mini",
-  speech: "openai/tts-1",
-});
+export const STUDY_BUDDY_FAKE_PROFILE = "fake-v1";
 
 export const STUDY_BUDDY_LIMITS = Object.freeze({
   version: "mis-340-limits-v1",
@@ -23,19 +19,23 @@ export const STUDY_BUDDY_LIMITS = Object.freeze({
 
 export function getStudyBuddyConfig(environment = process.env) {
   const executionEnabled = environment.STUDY_BUDDY_EXECUTION_ENABLED === "true";
-  const providerApproved = environment.STUDY_BUDDY_PROVIDER_APPROVED === "true";
-  const guardianSourceApproved = environment.STUDY_BUDDY_GUARDIAN_SOURCE_APPROVED === "true";
+  const fakeProviderRequested = environment.STUDY_BUDDY_FAKE_PROVIDER_ENABLED === "true";
+  const fakeProviderAllowed =
+    environment.VERCEL_ENV === "preview" ||
+    environment.NODE_ENV === "development" ||
+    environment.NODE_ENV === "test";
   const sessionBudget = positiveInteger(environment.STUDY_BUDDY_MAX_SESSION_MICRO_USD);
   const dailyBudget = positiveInteger(environment.STUDY_BUDDY_MAX_DAY_MICRO_USD);
   const validBudgets = sessionBudget !== null && dailyBudget !== null && dailyBudget >= sessionBudget;
   const enabled =
     executionEnabled &&
-    providerApproved &&
-    guardianSourceApproved &&
+    fakeProviderRequested &&
+    fakeProviderAllowed &&
     validBudgets;
   return Object.freeze({
     enabled,
-    models: LOCKED_MODELS,
+    providerMode: enabled ? "fake" : "disabled",
+    providerProfile: STUDY_BUDDY_FAKE_PROFILE,
     limits: {
       ...STUDY_BUDDY_LIMITS,
       maxSessionMicroUsd: enabled ? sessionBudget : 0,
@@ -51,9 +51,14 @@ function positiveInteger(value) {
 }
 
 export function assertLiveProviderConstructionAllowed(environment = process.env) {
+  void environment;
+  throw new Error("study_buddy_live_provider_deferred_to_mis_345");
+}
+
+export function assertFakeProviderConstructionAllowed(environment = process.env) {
   const config = getStudyBuddyConfig(environment);
-  if (environment.NODE_ENV === "test" || environment.CI || !config.enabled) {
-    throw new Error("study_buddy_live_provider_disabled");
+  if (!config.enabled || config.providerMode !== "fake" || environment.VERCEL_ENV === "production") {
+    throw new Error("study_buddy_fake_provider_disabled");
   }
   return config;
 }

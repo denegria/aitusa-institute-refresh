@@ -25,6 +25,8 @@ export function createStudyBuddyService({ repository, provider, config = getStud
         verifiedEmailHmac: ownership.verifiedEmailHmac,
         hashVersion: ownership.hashVersion,
         plan,
+        providerProfile: config.providerProfile,
+        policyVersion: "mis-340-policy-v1",
         limits: config.limits,
       });
     },

@@ -3,6 +3,7 @@ import { toSafeStudyBuddyError } from "./errors.js";
 import { assertEmptyStartBody, enforceSameOrigin, parseBoundedJson, validateSessionId } from "./requestValidation.server.js";
 import { publicSnapshotFromAuthorizedContext, validateAuthorizedStudyBuddyContext } from "./authorizedContext.server.js";
 import { toPracticeEligibilityDto, safePracticeResult } from "./studyBuddyContract.js";
+import { getStudyBuddyRuntime } from "./runtime.server.js";
 
 const NO_STORE = Object.freeze({ "cache-control": "private, no-store" });
 
@@ -10,7 +11,7 @@ function response(body, status = 200) {
   return Response.json(body, { status, headers: NO_STORE });
 }
 
-export function createStudyBuddyRouteHandler({ resolveContext = resolveAuthorizedStudyBuddyContext, service = null, configuredOrigin = null } = {}) {
+export function createStudyBuddyRouteHandler({ resolveContext = resolveAuthorizedStudyBuddyContext, service = getStudyBuddyRuntime().service, configuredOrigin = null } = {}) {
   return {
     async get(request) {
       try {

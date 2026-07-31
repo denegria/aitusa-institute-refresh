@@ -1,7 +1,30 @@
-import { getStudyBuddyConfig } from "./config.server.js";
+import { getPortalSqlClient, isPortalDatabaseConfigured } from "../diagnostic/db.server.js";
+import { assertFakeProviderConstructionAllowed, getStudyBuddyConfig } from "./config.server.js";
+import { createFakeStudyBuddyProvider } from "./fakeStudyBuddyProvider.js";
+import { createNeonStudyBuddyRepository } from "./neonRepository.server.js";
+import { createStudyBuddyService } from "./service.js";
 
-export function getStudyBuddyRuntime() {
-  // Runtime execution intentionally has no provider/repository constructor.
-  // Tests inject both capabilities; deployed routes stay fail-closed.
-  return { config: getStudyBuddyConfig(), service: null };
+let cachedRuntime = null;
+
+export function getStudyBuddyRuntime(environment = process.env) {
+  if (environment === process.env && cachedRuntime) return cachedRuntime;
+  const config = getStudyBuddyConfig(environment);
+  if (!config.enabled || !isPortalDatabaseConfigured()) {
+    return { config, service: null };
+  }
+  assertFakeProviderConstructionAllowed(environment);
+  const runtime = {
+    config,
+    service: createStudyBuddyService({
+      repository: createNeonStudyBuddyRepository({
+        client: getPortalSqlClient(),
+        circuitFailureThreshold: config.limits.circuitFailureThreshold,
+        circuitOpenMs: config.limits.circuitOpenMs,
+      }),
+      provider: createFakeStudyBuddyProvider(),
+      config,
+    }),
+  };
+  if (environment === process.env) cachedRuntime = runtime;
+  return runtime;
 }

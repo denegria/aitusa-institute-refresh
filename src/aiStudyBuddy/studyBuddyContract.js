@@ -10,7 +10,8 @@ export const AI_STUDY_BUDDY_USE_CASES = Object.freeze({
 export const AI_PROVIDER_GATE = Object.freeze({
   browserProviderCallsAllowed: false,
   serverProviderCallsAllowed: false,
-  providerDecisionRequired: true,
+  providerDecisionDeferredTo: "MIS-345",
+  deterministicFakeAllowedInStaging: true,
   rawAudioStorageAllowed: false,
   rawTranscriptStorageAllowed: false,
 });
@@ -20,7 +21,7 @@ export const AI_COST_CONTROLS = Object.freeze({
   maxRetriesPerTurn: 1,
   acquisitionTrialSessionLimitPerVerifiedEmail: 1,
   maxEstimatedCentsPerSession: 0,
-  hardStopUntilProviderApproval: true,
+  hardStopForRealProviders: true,
 });
 
 export const AI_GUARDIAN_POLICY = Object.freeze({
