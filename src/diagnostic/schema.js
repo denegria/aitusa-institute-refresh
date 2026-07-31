@@ -17,6 +17,11 @@ import {
   DIAGNOSTIC_STATUSES,
   RESULT_STATUSES,
 } from "./contract.js";
+import {
+  PORTAL_AUTH_DECISIONS,
+  PORTAL_AUTH_EVENT_TYPES,
+  PORTAL_AUTH_OUTCOMES,
+} from "../portalAuth/contract.js";
 
 const statusList = (values) => sql.raw(values.map((value) => `'${value}'`).join(", "));
 
@@ -47,6 +52,60 @@ export const portalAccounts = pgTable(
     check(
       "portal_accounts_type_check",
       sql`${table.accountType} in ('adult_student', 'guardian')`,
+    ),
+  ],
+);
+
+export const portalAuthEvents = pgTable(
+  "portal_auth_events",
+  {
+    id: uuid("id").primaryKey(),
+    eventType: text("event_type").notNull(),
+    keyVersion: text("key_version").notNull(),
+    emailKeyHash: text("email_key_hash").notNull(),
+    ipKeyHash: text("ip_key_hash").notNull(),
+    decision: text("decision").notNull(),
+    outcome: text("outcome").notNull().default("pending"),
+    occurredAt: timestamp("occurred_at", { withTimezone: true }).notNull(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  },
+  (table) => [
+    index("portal_auth_events_email_window_idx").on(
+      table.eventType,
+      table.keyVersion,
+      table.emailKeyHash,
+      table.occurredAt,
+    ),
+    index("portal_auth_events_ip_window_idx").on(
+      table.eventType,
+      table.keyVersion,
+      table.ipKeyHash,
+      table.occurredAt,
+    ),
+    index("portal_auth_events_expiry_idx").on(table.expiresAt),
+    check(
+      "portal_auth_events_type_check",
+      sql`${table.eventType} in (${statusList(PORTAL_AUTH_EVENT_TYPES)})`,
+    ),
+    check(
+      "portal_auth_events_decision_check",
+      sql`${table.decision} in (${statusList(PORTAL_AUTH_DECISIONS)})`,
+    ),
+    check(
+      "portal_auth_events_outcome_check",
+      sql`${table.outcome} in (${statusList(PORTAL_AUTH_OUTCOMES)})`,
+    ),
+    check(
+      "portal_auth_events_email_hash_check",
+      sql`char_length(${table.emailKeyHash}) = 64`,
+    ),
+    check(
+      "portal_auth_events_ip_hash_check",
+      sql`char_length(${table.ipKeyHash}) = 64`,
+    ),
+    check(
+      "portal_auth_events_retention_check",
+      sql`${table.expiresAt} > ${table.occurredAt} and ${table.expiresAt} <= ${table.occurredAt} + interval '8 days'`,
     ),
   ],
 );

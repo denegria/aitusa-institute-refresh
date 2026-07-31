@@ -9,6 +9,13 @@ import {
 import { POST as postEvent } from "../app/api/portal/events/route.js";
 import { GET as getLearning } from "../app/api/portal/learning/route.js";
 import { GET as getPrivacy } from "../app/api/portal/privacy/route.js";
+import { POST as requestPortalCode } from "../app/api/portal/auth/code/route.js";
+import { POST as verifyPortalCode } from "../app/api/portal/auth/verify/route.js";
+import { POST as signOutPortal } from "../app/api/portal/sign-out/route.js";
+import {
+  config as portalProxyConfig,
+  proxy as portalProxy,
+} from "../proxy.js";
 import {
   getPortalPrototypeAvailability,
   getPortalPrototypeGateResponse,
@@ -84,6 +91,27 @@ describe("portal prototype production gate", () => {
     assert.equal(await response.text(), "Not Found");
   });
 
+  it("blocks portal pages at the request boundary in production", async () => {
+    assert.deepEqual(portalProxyConfig.matcher, [
+      "/portal/:path*",
+      "/api/portal/:path*",
+    ]);
+
+    await withVercelEnvironment(
+      {
+        VERCEL: "1",
+        VERCEL_ENV: "production",
+        VERCEL_TARGET_ENV: "production",
+      },
+      async () => {
+        const response = portalProxy();
+        assert.equal(response.status, 404);
+        assert.equal(response.headers.get("cache-control"), "private, no-store");
+        assert.equal(await response.text(), "Not Found");
+      },
+    );
+  });
+
   it("blocks every portal API handler before fixture evaluation in production", async () => {
     const handlers = [
       () => getAiStudyBuddy(jsonRequest("/api/portal/ai-study-buddy")),
@@ -93,6 +121,9 @@ describe("portal prototype production gate", () => {
       () => postEvent(jsonRequest("/api/portal/events", "POST")),
       () => getLearning(jsonRequest("/api/portal/learning")),
       () => getPrivacy(jsonRequest("/api/portal/privacy")),
+      () => requestPortalCode(jsonRequest("/api/portal/auth/code", "POST")),
+      () => verifyPortalCode(jsonRequest("/api/portal/auth/verify", "POST")),
+      () => signOutPortal(jsonRequest("/api/portal/sign-out", "POST")),
     ];
 
     await withVercelEnvironment(

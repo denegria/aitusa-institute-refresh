@@ -15,6 +15,13 @@
       "when": 1785445550000,
       "tag": "0001_result_claim_accounts",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1785456000000,
+      "tag": "0002_portal_auth_security",
+      "breakpoints": true
     }
   ]
 }

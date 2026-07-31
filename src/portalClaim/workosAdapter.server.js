@@ -6,11 +6,12 @@ export function createWorkOSAuthProvider({
   apiKey,
   clientId,
   cookiePassword,
+  workosClient,
 }) {
   if (!apiKey || !clientId || !cookiePassword || cookiePassword.length < 32) {
     throw new Error("workos_auth_configuration_invalid");
   }
-  const workos = new WorkOS(apiKey, { clientId });
+  const workos = workosClient || new WorkOS(apiKey, { clientId });
 
   return {
     async sendCode({ email, ipAddress, userAgent }) {
@@ -76,6 +77,7 @@ export function createWorkOSAuthProvider({
           });
         if (
           response.authenticated !== true ||
+          !response.sessionId ||
           !response.user?.id ||
           !response.user.email ||
           response.user.emailVerified !== true
@@ -86,10 +88,28 @@ export function createWorkOSAuthProvider({
           providerUserId: response.user.id,
           email: response.user.email.trim().toLowerCase(),
           emailVerified: true,
+          sessionId: response.sessionId,
         };
       } catch (error) {
         if (error instanceof PortalClaimError) throw error;
+        if (isIdentityProviderUnavailable(error)) {
+          throw new PortalClaimError("identity_provider_unavailable", 503);
+        }
         throw new PortalClaimError("portal_session_invalid", 401);
+      }
+    },
+
+    async revokeSession(sessionId) {
+      if (typeof sessionId !== "string" || !sessionId) {
+        throw new PortalClaimError("portal_session_invalid", 401);
+      }
+      try {
+        await workos.userManagement.revokeSession({ sessionId });
+      } catch (error) {
+        if (isIdentityProviderUnavailable(error)) {
+          throw new PortalClaimError("identity_provider_unavailable", 503);
+        }
+        throw new PortalClaimError("portal_session_revoke_failed", 502);
       }
     },
   };
@@ -100,13 +120,54 @@ function mapWorkOSError(error, fallbackCode) {
   if (status === 429) {
     return new PortalClaimError("magic_auth_rate_limited", 429);
   }
-  if (status >= 500) {
+  if (isIdentityProviderUnavailable(error)) {
     return new PortalClaimError("identity_provider_unavailable", 503);
   }
   if (fallbackCode === "magic_auth_code_invalid") {
     return new PortalClaimError(fallbackCode, 422);
   }
   return new PortalClaimError(fallbackCode, 503);
+}
+
+function isIdentityProviderUnavailable(error, seen = new Set()) {
+  if (!error || typeof error !== "object" || seen.has(error)) return false;
+  seen.add(error);
+
+  const status = Number(error.status ?? error.statusCode ?? 0);
+  if (status === 429 || status >= 500) return true;
+
+  const code = typeof error.code === "string" ? error.code.toUpperCase() : "";
+  if (
+    [
+      "ECONNABORTED",
+      "ECONNREFUSED",
+      "ECONNRESET",
+      "EAI_AGAIN",
+      "ENETUNREACH",
+      "ENOTFOUND",
+      "ETIMEDOUT",
+      "ERR_JWKS_TIMEOUT",
+    ].includes(code)
+  ) {
+    return true;
+  }
+
+  if (["ABORTERROR", "TIMEOUTERROR", "JWKSTIMEOUT"].includes(
+    String(error.name || "").toUpperCase(),
+  )) {
+    return true;
+  }
+
+  const message = String(error.message || "").toLowerCase();
+  if (
+    message.includes("fetch failed") ||
+    message.includes("expected 200 ok from the json web key set") ||
+    message.includes("jwks request timed out")
+  ) {
+    return true;
+  }
+
+  return isIdentityProviderUnavailable(error.cause, seen);
 }
 
 function toIso(value) {

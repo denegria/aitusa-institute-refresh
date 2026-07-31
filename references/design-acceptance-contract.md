@@ -646,3 +646,214 @@ slightly, but it is not designed as an unbounded course catalog.
   horizontal page overflow.
 - Protected production smoke after the exact staging-approved commit reaches
   `main`.
+
+---
+
+# AIT USA Portal V1 + Study Buddy Launch Contract — MIS-341/MIS-340/MIS-342
+
+## Product promise
+
+The Portal answers one question first: “What should I do next?” A newly claimed
+student sees the saved placement estimate, the recommended next action, and one
+useful practice activity without navigating a student-management system.
+
+Study Buddy is a guided 3–5 minute English practice session, not a general AI
+chatbot. It should feel responsive, encouraging, and game-like while preserving
+adult dignity, academic uncertainty, privacy, and hard cost limits.
+
+## Research-backed learning loop
+
+The launch session follows one authored state machine:
+
+1. Choose one practical scenario and understand its communicative goal.
+2. Hear and read one short model plus up to two useful phrases.
+3. Complete two guided learner turns with optional hints.
+4. Complete up to three progressively freer turns.
+5. Receive at most one high-value correction after each turn.
+6. Retry once immediately or continue without penalty.
+7. Finish with one demonstrated success, one improvement focus, and one next
+   practice recommendation.
+
+This preserves the strongest shared patterns found in Duolingo, Babbel, Busuu,
+Memrise, and ELSA: short practical goals, learning by doing, level-matched
+scaffolding, focused feedback, immediate retrieval/retry, and mastery-oriented
+completion. It deliberately excludes punitive hearts, public rankings, streak
+loss, fake urgency, opaque pronunciation scores, and open-ended prompt boxes.
+
+## Portal information architecture
+
+- Desktop: left navigation rail.
+- Mobile: fixed five-item bottom navigation respecting safe-area insets.
+- Navigation order: `Inicio`, `Mis cursos`, `Asistencia`, `Estudiar`, `Cuenta`.
+- `Inicio` order:
+  1. urgent verification/support blocker, if any;
+  2. saved placement estimate and advisor-confirmation language;
+  3. recommended course or enrollment action;
+  4. one eligible Study Buddy practice;
+  5. recent practice summary/history;
+  6. persistent advisor/support path.
+- Launch data may be empty or pending; the UI must explain that state and offer
+  a next action rather than fabricating enrollment, attendance, payment,
+  teacher, or schedule data.
+
+## Authentication and authorization
+
+- `/portal` is protected by the sealed WorkOS session cookie.
+- The server resolves the WorkOS identity to one active `portal_accounts`
+  record and builds a safe browser model.
+- The browser never supplies authoritative account IDs, WorkOS subjects, CRM
+  contact references, roles, guardian scope, provider/model selection, limits,
+  timestamps, or costs.
+- Unauthenticated and expired sessions receive a clear passwordless sign-in
+  path. Authorization mismatch fails closed with advisor support.
+- Under-13 accounts remain closed until verified guardian linkage and consent
+  exist.
+- Fixture identities, query-string identity switching, prototype labels, and
+  browser-owned actor references are prohibited on the launch path.
+
+## Study Buddy provider and privacy boundary
+
+- Voice model: bounded push-to-talk turns, not an always-open microphone.
+- Server pipeline:
+  1. transient audio upload with strict type/size/duration limits;
+  2. ephemeral transcription;
+  3. structured teaching response from a server-owned prompt;
+  4. short generated model speech;
+  5. atomic summary/usage update.
+- Initial models route through Vercel AI Gateway:
+  - transcription: `openai/gpt-4o-mini-transcribe`;
+  - teaching response: `openai/gpt-5.4-mini`;
+  - speech: `openai/tts-1`.
+- Models and prompts are replaceable server configuration, never browser input.
+- Text fallback follows the same teaching state machine.
+- Raw audio, learner transcript, generated transcript, prompts, and
+  conversations are never persisted, logged, analyzed, or sent to CRM.
+- Persist only authorized summary state: scenario, use case, turn count,
+  completion, one safe success/focus code, limit/escalation state, provider
+  usage/cost counters, policy/model version, and timestamps.
+- No provider call occurs before verified account, age/guardian, consent,
+  eligibility, and atomic budget reservation succeed.
+
+## Cost, abuse, and reliability limits
+
+- Acquisition entitlement: one completed trial per verified email/account.
+- Session: five learner turns, one retry per turn, 3–5 minute target.
+- Audio: explicit start/stop, short per-turn duration ceiling, bounded request
+  size, and no background capture.
+- Server enforces per-account/session/day reservations, idempotency, timeouts,
+  and an absolute session cost ceiling.
+- A provider timeout or outage preserves account/result/history integrity and
+  offers a text/canned recovery path; the UI never leaves a permanent spinner.
+- Prompt injection cannot change scenario, level, policy, provider, cost, or
+  persistence boundaries.
+- Safety concern or repeated confusion ends cleanly with an advisor/teacher
+  escalation option.
+
+## Interaction and visual direction
+
+- AIT identity remains authoritative: deep navy, warm gold, white surfaces,
+  existing display typography, generous space, and restrained borders.
+- The playful layer comes from progression and feedback, not mascots or
+  borrowed Duolingo assets:
+  - scenario “mission” card and goal badge;
+  - stable five-step progress path;
+  - responsive recording pulse and waveform;
+  - tactile answer/retry controls;
+  - focused feedback reveal;
+  - small checkpoint acknowledgements;
+  - satisfying completion bloom and mastery recap.
+- Motion: directional 240–280ms transitions, no layout jumps, instant
+  reduced-motion alternative.
+- Sound: opt-in only. No autoplay, background music, failure sounds, or reward
+  sound required to understand state.
+- Feedback copy preserves confidence:
+  - first acknowledge meaning or effort;
+  - identify one improvement only;
+  - provide a short model;
+  - invite one retry;
+  - never mark intelligible speech as a failed turn.
+
+## Required states
+
+Portal:
+
+- loading, empty, pending-link, blocked, error, offline/degraded,
+  unauthorized, expired session, authenticated without a claimed result, and
+  authenticated with a saved provisional result.
+
+Study Buddy:
+
+- ready, microphone request, recording, processing, feedback, retry,
+  continuing, completed, text fallback, microphone denied/unsupported, network
+  interruption, provider unavailable, trial consumed, daily/session limit,
+  guardian required, no eligible practice, and escalation.
+
+Every blocked/unavailable state must say what happened and what the learner can
+do next. “Unavailable” must never look like “broken.”
+
+## Responsive and accessibility contract
+
+- Primary CSS viewports: 390×844 and 1440×900.
+- Regressions: 360×800, 430×932, and 1366×768.
+- Mobile stays one column with the primary action visible early; bottom
+  navigation never overlaps content.
+- Desktop keeps the active practice in a readable centered column; secondary
+  context may occupy a small rail but never competes with the turn.
+- No page-level horizontal overflow or nested conversation scrolling.
+- Interactive targets are at least 44×44px.
+- Real links/buttons, visible focus, `aria-current`, and live announcements for
+  recording, processing, feedback, errors, and completion.
+- Recording has explicit keyboard-operable start and stop controls plus an
+  equally complete text alternative.
+- Motion, color, and sound are never the sole carriers of meaning.
+- Only the active prompt/feedback state remains in the accessibility tree.
+
+## CRM boundary
+
+- The browser never writes generic CRM envelopes.
+- The site server enqueues fixed, authenticated, summary-only events with
+  deterministic idempotency:
+  - result claimed;
+  - portal account activated;
+  - advisor handoff requested;
+  - AI practice started;
+  - AI practice completed;
+  - AI practice escalation or limit reached, if approved.
+- CRM payloads may contain only server-resolved contact/account linkage,
+  placement summary/version, approved goal/course/scenario identifiers,
+  completion status, safe aggregate practice summary, explicit channel consent,
+  source attribution, and correlation/idempotency IDs.
+- Raw answers, writing, audio, transcripts, prompts, generated responses,
+  provider IDs/secrets, and detailed usage are forbidden.
+- CRM failure never blocks the result, account, or practice completion.
+
+## Explicit non-goals
+
+- No full LMS/student administration, billing, attendance truth, certificates,
+  teacher console, open-ended AI chat, persistent conversation memory, social
+  leaderboard, streak system, lives/hearts, marketplace, or production
+  promotion.
+- No final academic level claim until the AIT answer key and block thresholds
+  are approved.
+- No CEFR equivalence or AI-generated diagnostic certainty.
+
+## Required acceptance evidence
+
+- Contract and state-machine tests with fake providers; no external AI call in
+  CI.
+- Auth, authorization, guardian, limit, idempotency, prompt-injection,
+  provider-failure, CRM-failure, and privacy tests.
+- Migration tested on a disposable Neon branch before staging application.
+- Local production build, full targeted suites, asset integrity, dependency
+  audit, and `git diff --check`.
+- Live protected-staging proof for the exact accepted commit:
+  authenticated claim → Portal → voice and text practice → completion/history →
+  optional advisor handoff.
+- Browser proof at all named viewports, keyboard/reduced-motion/mic-denied
+  paths, no console/runtime errors, no overflow, and no secret/sensitive payload
+  exposure.
+- Neon proof of summary-only persistence and usage accounting.
+- CRM staging proof with synthetic data, safe database fingerprint, correct
+  task/notification, idempotent retry, and no raw answers/transcripts.
+- Independent Sentry QA and Titan security review before MIS-344 can pass.
+- Production promotion remains a separate explicit approval.

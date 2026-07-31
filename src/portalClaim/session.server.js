@@ -33,3 +33,18 @@ export function serializePortalSessionCookie(
   if (secure) parts.push("Secure");
   return parts.join("; ");
 }
+
+export function serializeExpiredPortalSessionCookie(
+  { secure = process.env.NODE_ENV === "production" } = {},
+) {
+  const parts = [
+    `${PORTAL_SESSION_COOKIE_NAME}=`,
+    "Path=/",
+    "Max-Age=0",
+    "Expires=Thu, 01 Jan 1970 00:00:00 GMT",
+    "HttpOnly",
+    "SameSite=Lax",
+  ];
+  if (secure) parts.push("Secure");
+  return parts.join("; ");
+}

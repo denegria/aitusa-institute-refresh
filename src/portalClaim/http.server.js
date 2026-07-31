@@ -33,12 +33,13 @@ export function getRequestMetadata(request) {
 }
 
 export async function parsePortalClaimJson(request) {
+  const maxBytes = 16_384;
   const contentLength = Number(request.headers.get("content-length") || 0);
-  if (contentLength > 16_384) {
+  if (contentLength > maxBytes) {
     throw new PortalClaimError("request_body_too_large", 413);
   }
   try {
-    const value = await request.json();
+    const value = JSON.parse(await readBoundedBody(request, maxBytes));
     if (!value || typeof value !== "object" || Array.isArray(value)) {
       throw new PortalClaimError("request_body_invalid", 400);
     }
@@ -47,4 +48,26 @@ export async function parsePortalClaimJson(request) {
     if (error instanceof PortalClaimError) throw error;
     throw new PortalClaimError("request_body_invalid", 400);
   }
+}
+
+async function readBoundedBody(request, maxBytes) {
+  if (!request.body) return "";
+
+  const reader = request.body.getReader();
+  const decoder = new TextDecoder();
+  let totalBytes = 0;
+  let value = "";
+
+  while (true) {
+    const chunk = await reader.read();
+    if (chunk.done) break;
+    totalBytes += chunk.value.byteLength;
+    if (totalBytes > maxBytes) {
+      await reader.cancel().catch(() => {});
+      throw new PortalClaimError("request_body_too_large", 413);
+    }
+    value += decoder.decode(chunk.value, { stream: true });
+  }
+
+  return value + decoder.decode();
 }

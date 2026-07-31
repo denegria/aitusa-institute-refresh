@@ -28,10 +28,10 @@
     "test:diagnostic-service": "node --test tests/diagnostic-service.test.mjs tests/diagnostic-service-contract.test.mjs tests/diagnostic-route.test.mjs",
     "test:privacy": "node --test tests/privacy-policy.test.mjs tests/privacy-route.test.mjs",
     "test:sms-compliance": "node --test tests/public-sms-compliance.test.mjs tests/lead-contact.test.mjs tests/lead-contact-route.test.mjs tests/placement-test.test.mjs tests/placement-test-route.test.mjs tests/migration-route-parity.test.mjs",
-    "test:portal-auth": "node --test tests/portal-auth.test.mjs",
+    "test:portal-auth": "node --test tests/portal-auth.test.mjs tests/portal-auth-service.test.mjs tests/portal-auth-route.test.mjs",
     "test:portal-result-claim": "node --test tests/portal-result-claim.test.mjs tests/portal-result-claim-contract.test.mjs",
     "test:portal-availability": "node --test tests/portal-availability.test.mjs",
-    "test:portal-shell": "node --test tests/portal-shell.test.mjs",
+    "test:portal-shell": "node --test tests/portal-shell.test.mjs tests/portal-view-model.test.mjs",
     "verify:browser": "node ./scripts/verify-browser.mjs"
   },
   "dependencies": {
