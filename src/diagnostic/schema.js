@@ -408,10 +408,20 @@ export const aiPracticeSessions = pgTable(
   },
   (table) => [
     index("ai_practice_sessions_account_state_idx").on(table.accountId, table.state, table.expiresAt),
+    uniqueIndex("ai_practice_sessions_entitlement_uidx").on(table.entitlementId),
     check("ai_practice_sessions_state_check", sql`${table.state} in ('reserved', 'active', 'completed', 'expired', 'escalated')`),
     check("ai_practice_sessions_turn_check", sql`${table.turnCount} >= 0 and ${table.turnCount} <= 5`),
     check("ai_practice_sessions_retry_check", sql`${table.retryCount} >= 0 and ${table.retryCount} <= 5`),
     check("ai_practice_sessions_usage_check", sql`${table.inputUnits} >= 0 and ${table.outputUnits} >= 0 and ${table.chargedMicroUsd} >= 0`),
+    check("ai_practice_sessions_scenario_check", sql`${table.scenario} in ('daily_routine', 'workplace_exchange', 'guided_discussion')`),
+    check("ai_practice_sessions_use_case_check", sql`${table.useCase} in ('lesson_review', 'conversation_roleplay')`),
+    check("ai_practice_sessions_plan_check", sql`${table.planVersion} = 'mis-340-plan-v1'`),
+    check("ai_practice_sessions_success_check", sql`${table.safeSuccessCode} is null or ${table.safeSuccessCode} = 'success'`),
+    check("ai_practice_sessions_focus_check", sql`${table.safeFocusCode} is null or ${table.safeFocusCode} in ('meaning_acknowledged', 'focus_pronunciation', 'focus_grammar', 'escalation_needed')`),
+    check("ai_practice_sessions_limit_code_check", sql`${table.limitCode} is null or ${table.limitCode} in ('session_limit_reached', 'daily_limit_reached', 'retry_limit_reached')`),
+    check("ai_practice_sessions_escalation_code_check", sql`${table.escalationCode} is null or ${table.escalationCode} = 'provider_escalated'`),
+    check("ai_practice_sessions_model_check", sql`${table.modelVersion} = 'openai/gpt-5.4-mini'`),
+    check("ai_practice_sessions_policy_check", sql`${table.policyVersion} = 'mis-340-policy-v1'`),
     check("ai_practice_sessions_expiry_check", sql`${table.expiresAt} > ${table.createdAt}`),
     check("ai_practice_sessions_completion_check", sql`(${table.state} in ('completed', 'expired', 'escalated') and ${table.completedAt} is not null) or (${table.state} in ('reserved', 'active') and ${table.completedAt} is null)`),
   ],
@@ -423,7 +433,7 @@ export const aiPracticeTurnOperations = pgTable(
     id: uuid("id").primaryKey(), sessionId: uuid("session_id").notNull().references(() => aiPracticeSessions.id, { onDelete: "cascade" }), clientOperationId: text("client_operation_id").notNull(), learnerTurn: integer("learner_turn").notNull(), retryAttempt: integer("retry_attempt").notNull(), state: text("state").notNull().default("claimed"), safeOutcomeCode: text("safe_outcome_code"), inputUnits: integer("input_units").notNull().default(0), outputUnits: integer("output_units").notNull().default(0), chargedMicroUsd: integer("charged_micro_usd").notNull().default(0), createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(), completedAt: timestamp("completed_at", { withTimezone: true }),
   },
   (table) => [
-    uniqueIndex("ai_practice_turn_operations_client_uidx").on(table.sessionId, table.clientOperationId), uniqueIndex("ai_practice_turn_operations_turn_uidx").on(table.sessionId, table.learnerTurn, table.retryAttempt), check("ai_practice_turn_operations_state_check", sql`${table.state} in ('claimed', 'completed', 'failed', 'ambiguous')`), check("ai_practice_turn_operations_turn_check", sql`${table.learnerTurn} between 1 and 5 and ${table.retryAttempt} between 0 and 1`), check("ai_practice_turn_operations_usage_check", sql`${table.inputUnits} >= 0 and ${table.outputUnits} >= 0 and ${table.chargedMicroUsd} >= 0`), check("ai_practice_turn_operations_client_check", sql`char_length(${table.clientOperationId}) between 8 and 80`), check("ai_practice_turn_operations_terminal_check", sql`(${table.state} = 'claimed' and ${table.completedAt} is null) or (${table.state} in ('completed', 'failed', 'ambiguous') and ${table.completedAt} is not null)`),
+    uniqueIndex("ai_practice_turn_operations_client_uidx").on(table.sessionId, table.clientOperationId), uniqueIndex("ai_practice_turn_operations_turn_uidx").on(table.sessionId, table.learnerTurn, table.retryAttempt), check("ai_practice_turn_operations_state_check", sql`${table.state} in ('claimed', 'completed', 'failed', 'ambiguous')`), check("ai_practice_turn_operations_turn_check", sql`${table.learnerTurn} between 1 and 5 and ${table.retryAttempt} between 0 and 1`), check("ai_practice_turn_operations_usage_check", sql`${table.inputUnits} >= 0 and ${table.outputUnits} >= 0 and ${table.chargedMicroUsd} >= 0`), check("ai_practice_turn_operations_outcome_check", sql`${table.safeOutcomeCode} is null or ${table.safeOutcomeCode} in ('success', 'escalated', 'deadline_exceeded')`), check("ai_practice_turn_operations_client_check", sql`char_length(${table.clientOperationId}) between 8 and 80`), check("ai_practice_turn_operations_terminal_check", sql`(${table.state} = 'claimed' and ${table.completedAt} is null) or (${table.state} in ('completed', 'failed', 'ambiguous') and ${table.completedAt} is not null)`),
   ],
 );
 

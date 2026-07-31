@@ -15,10 +15,8 @@ export function toSafeStudyBuddyError(error) {
     return { body: safePracticeResult(error.code), status: safeStatus(error.status) };
   }
   if (error instanceof PortalClaimError) {
-    if (error.code === "portal_session_expired") {
-      return { body: safePracticeResult("expired_session"), status: 401 };
-    }
-    if (["portal_session_required", "portal_session_invalid"].includes(error.code)) {
+    // WorkOS exposes no trustworthy invalid-vs-expired detail here.
+    if (["portal_session_required", "portal_session_invalid", "portal_session_expired"].includes(error.code)) {
       return { body: safePracticeResult("unauthenticated"), status: 401 };
     }
   }

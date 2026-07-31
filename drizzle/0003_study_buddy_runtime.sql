@@ -40,11 +40,22 @@ CREATE TABLE "ai_practice_sessions" (
   CONSTRAINT "ai_practice_sessions_turn_check" CHECK ("turn_count" >= 0 and "turn_count" <= 5),
   CONSTRAINT "ai_practice_sessions_retry_check" CHECK ("retry_count" >= 0 and "retry_count" <= 5),
   CONSTRAINT "ai_practice_sessions_usage_check" CHECK ("input_units" >= 0 and "output_units" >= 0 and "charged_micro_usd" >= 0),
+  CONSTRAINT "ai_practice_sessions_scenario_check" CHECK ("scenario" in ('daily_routine', 'workplace_exchange', 'guided_discussion')),
+  CONSTRAINT "ai_practice_sessions_use_case_check" CHECK ("use_case" in ('lesson_review', 'conversation_roleplay')),
+  CONSTRAINT "ai_practice_sessions_plan_check" CHECK ("plan_version" = 'mis-340-plan-v1'),
+  CONSTRAINT "ai_practice_sessions_success_check" CHECK ("safe_success_code" is null or "safe_success_code" = 'success'),
+  CONSTRAINT "ai_practice_sessions_focus_check" CHECK ("safe_focus_code" is null or "safe_focus_code" in ('meaning_acknowledged', 'focus_pronunciation', 'focus_grammar', 'escalation_needed')),
+  CONSTRAINT "ai_practice_sessions_limit_code_check" CHECK ("limit_code" is null or "limit_code" in ('session_limit_reached', 'daily_limit_reached', 'retry_limit_reached')),
+  CONSTRAINT "ai_practice_sessions_escalation_code_check" CHECK ("escalation_code" is null or "escalation_code" = 'provider_escalated'),
+  CONSTRAINT "ai_practice_sessions_model_check" CHECK ("model_version" = 'openai/gpt-5.4-mini'),
+  CONSTRAINT "ai_practice_sessions_policy_check" CHECK ("policy_version" = 'mis-340-policy-v1'),
   CONSTRAINT "ai_practice_sessions_expiry_check" CHECK ("expires_at" > "created_at"),
   CONSTRAINT "ai_practice_sessions_completion_check" CHECK (("state" in ('completed', 'expired', 'escalated') and "completed_at" is not null) or ("state" in ('reserved', 'active') and "completed_at" is null))
 );
 --> statement-breakpoint
 CREATE INDEX "ai_practice_sessions_account_state_idx" ON "ai_practice_sessions" USING btree ("account_id", "state", "expires_at");
+--> statement-breakpoint
+CREATE UNIQUE INDEX "ai_practice_sessions_entitlement_uidx" ON "ai_practice_sessions" USING btree ("entitlement_id");
 --> statement-breakpoint
 CREATE TABLE "ai_practice_turn_operations" (
   "id" uuid PRIMARY KEY NOT NULL,
@@ -62,6 +73,7 @@ CREATE TABLE "ai_practice_turn_operations" (
   CONSTRAINT "ai_practice_turn_operations_state_check" CHECK ("state" in ('claimed', 'completed', 'failed', 'ambiguous')),
   CONSTRAINT "ai_practice_turn_operations_turn_check" CHECK ("learner_turn" between 1 and 5 and "retry_attempt" between 0 and 1),
   CONSTRAINT "ai_practice_turn_operations_usage_check" CHECK ("input_units" >= 0 and "output_units" >= 0 and "charged_micro_usd" >= 0),
+  CONSTRAINT "ai_practice_turn_operations_outcome_check" CHECK ("safe_outcome_code" is null or "safe_outcome_code" in ('success', 'escalated', 'deadline_exceeded')),
   CONSTRAINT "ai_practice_turn_operations_client_check" CHECK (char_length("client_operation_id") between 8 and 80),
   CONSTRAINT "ai_practice_turn_operations_terminal_check" CHECK (("state" = 'claimed' and "completed_at" is null) or ("state" in ('completed', 'failed', 'ambiguous') and "completed_at" is not null))
 );

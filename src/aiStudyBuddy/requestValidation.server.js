@@ -72,3 +72,8 @@ export function enforceSameOrigin(request, configuredOrigin = null) {
     throw new StudyBuddyError("invalid_origin", 403);
   }
 }
+
+export function validateSessionId(value) {
+  if (typeof value !== "string" || !/^[a-zA-Z0-9-]{1,128}$/.test(value)) throw new StudyBuddyError("invalid_request", 400);
+  return value;
+}

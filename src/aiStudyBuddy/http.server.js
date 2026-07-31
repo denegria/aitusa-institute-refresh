@@ -1,6 +1,6 @@
 import { resolveAuthorizedStudyBuddyContext } from "../portalAuth/sessionResolver.server.js";
 import { toSafeStudyBuddyError } from "./errors.js";
-import { assertEmptyStartBody, enforceSameOrigin, parseBoundedJson } from "./requestValidation.server.js";
+import { assertEmptyStartBody, enforceSameOrigin, parseBoundedJson, validateSessionId } from "./requestValidation.server.js";
 import { publicSnapshotFromAuthorizedContext, validateAuthorizedStudyBuddyContext } from "./authorizedContext.server.js";
 import { toPracticeEligibilityDto, safePracticeResult } from "./studyBuddyContract.js";
 
@@ -38,6 +38,7 @@ export function createStudyBuddyRouteHandler({ resolveContext = resolveAuthorize
     },
     async turn(request, sessionId) {
       try {
+        validateSessionId(sessionId);
         enforceSameOrigin(request, configuredOrigin);
         const payload = await parseBoundedJson(request);
         const context = validateAuthorizedStudyBuddyContext(await resolveContext(request));

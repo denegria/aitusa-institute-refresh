@@ -1,28 +1,26 @@
 import { StudyBuddyError } from "./errors.js";
 
-export function createMemoryStudyBuddyRepository({ now = () => new Date(), createId = (() => { let n = 0; return () => `study-${++n}`; })() } = {}) {
+export function createMemoryStudyBuddyRepository({ now = () => new Date(), createId = (() => { let n = 0; return () => `study-${++n}`; })(), circuitFailureThreshold = 3, circuitOpenMs = 60_000 } = {}) {
   const entitlements = new Map();
   const sessions = new Map();
   const operations = new Map();
   const dayBudgets = new Map();
-  let circuitOpenUntil = null;
+  const circuit = { state: "closed", failureCount: 0, openUntil: null, probeInFlight: false };
 
   const operationKey = (sessionId, operationId) => `${sessionId}:${operationId}`;
   const attemptKey = (sessionId, learnerTurn, retryAttempt) => `${sessionId}:${learnerTurn}:${retryAttempt}`;
-  const isCircuitOpen = (at) => circuitOpenUntil && circuitOpenUntil > at;
+  const isCircuitOpen = (at) => circuit.state === "open" && circuit.openUntil > at;
 
   function copySession(session) {
     return session ? { ...session } : session;
   }
 
-  function releaseReservation(session, at) {
-    if (session.reservationReleased) return;
-    const unused = Math.max(0, session.reservedMicroUsd - session.usedMicroUsd);
+  function reconcileReservation(session, at) {
+    const unused = Math.max(0, session.reservedMicroUsd - session.usedMicroUsd - session.pendingMicroUsd);
+    const delta = unused - session.releasedMicroUsd;
     session.releasedMicroUsd = unused;
-    session.pendingMicroUsd = 0;
-    session.reservationReleased = true;
     const day = dayBudgets.get(session.dayKey);
-    if (day) day.releasedMicroUsd = Math.min(day.reservedMicroUsd, day.releasedMicroUsd + unused);
+    if (day) day.releasedMicroUsd = Math.max(0, Math.min(day.reservedMicroUsd - day.chargedMicroUsd, day.releasedMicroUsd + delta));
     session.updatedAt = at;
   }
 
@@ -30,8 +28,9 @@ export function createMemoryStudyBuddyRepository({ now = () => new Date(), creat
     if (session.state === "active" && session.expiresAt <= at) {
       session.state = "expired";
       session.completedAt = at;
-      entitlements.set(session.entitlementKey, "available");
-      releaseReservation(session, at);
+      // A persisted acquisition-trial session is unique to its entitlement.
+      entitlements.set(session.entitlementKey, "consumed");
+      reconcileReservation(session, at);
     }
   }
 
@@ -63,7 +62,7 @@ export function createMemoryStudyBuddyRepository({ now = () => new Date(), creat
         scenario: plan.scenario, useCase: plan.useCase, planVersion: plan.version,
         state: "active", turnCount: 0, retryCount: 0, lastLearnerTurn: 0,
         reservedMicroUsd: limits.maxSessionMicroUsd, pendingMicroUsd: 0,
-        usedMicroUsd: 0, releasedMicroUsd: 0, reservationReleased: false,
+        usedMicroUsd: 0, releasedMicroUsd: 0, providerStarted: false,
         dayKey, createdAt: at, updatedAt: at,
         expiresAt: new Date(at.getTime() + limits.sessionMinutes * 60_000), completedAt: null,
       };
@@ -82,7 +81,12 @@ export function createMemoryStudyBuddyRepository({ now = () => new Date(), creat
         if (prior.accountId !== accountId) throw new StudyBuddyError("foreign_session", 404);
         return { ...prior, session: copySession(session), replayed: true };
       }
-      if (isCircuitOpen(at)) throw new StudyBuddyError("circuit_open", 503);
+      if (circuit.state === "open" && circuit.openUntil <= at) {
+        circuit.state = "half_open";
+        circuit.probeInFlight = false;
+      }
+      if (isCircuitOpen(at) || (circuit.state === "half_open" && circuit.probeInFlight)) throw new StudyBuddyError("circuit_open", 503);
+      if (circuit.state === "half_open") circuit.probeInFlight = true;
       if (session.state !== "active") throw new StudyBuddyError("session_expired", 409);
       if (!Number.isInteger(retryAttempt) || ![0, 1].includes(retryAttempt)) throw new StudyBuddyError("invalid_request", 400);
       const expectedTurn = retryAttempt === 0 ? session.turnCount + 1 : session.lastLearnerTurn;
@@ -99,6 +103,7 @@ export function createMemoryStudyBuddyRepository({ now = () => new Date(), creat
         createdAt: at, completedAt: null,
       };
       session.pendingMicroUsd += remaining;
+      session.providerStarted = true;
       session.lastLearnerTurn = learnerTurn;
       if (retryAttempt === 1) session.retryCount += 1;
       operations.set(scopedKey, claim);
@@ -117,6 +122,16 @@ export function createMemoryStudyBuddyRepository({ now = () => new Date(), creat
       session.usedMicroUsd = Math.min(session.reservedMicroUsd, session.usedMicroUsd + charged);
       const day = dayBudgets.get(session.dayKey);
       day.chargedMicroUsd = Math.min(day.reservedMicroUsd, day.chargedMicroUsd + charged);
+      if (session.state === "expired") {
+        claim.state = "failed";
+        claim.safeOutcomeCode = "deadline_exceeded";
+        claim.inputUnits = usage.inputUnits;
+        claim.outputUnits = usage.outputUnits;
+        claim.chargedMicroUsd = charged;
+        claim.completedAt = at;
+        reconcileReservation(session, at);
+        return { session: copySession(session), operation: { ...claim }, replayed: false, terminalCode: "session_expired" };
+      }
       claim.state = "completed";
       claim.safeOutcomeCode = outcomeCode;
       claim.inputUnits = usage.inputUnits;
@@ -131,8 +146,8 @@ export function createMemoryStudyBuddyRepository({ now = () => new Date(), creat
       if (session.turnCount >= 5 || outcomeCode === "escalated") {
         session.state = outcomeCode === "escalated" ? "escalated" : "completed";
         session.completedAt = at;
-        entitlements.set(session.entitlementKey, session.state === "completed" ? "consumed" : "available");
-        releaseReservation(session, at);
+        entitlements.set(session.entitlementKey, "consumed");
+        reconcileReservation(session, at);
       }
       return { session: copySession(session), operation: { ...claim }, replayed: false };
     },
@@ -142,11 +157,35 @@ export function createMemoryStudyBuddyRepository({ now = () => new Date(), creat
       const claim = operations.get(operationKey(sessionId, operationId));
       if (!claim || claim.sessionId !== sessionId || claim.accountId !== accountId) throw new StudyBuddyError("foreign_session", 404);
       if (claim.state !== "claimed") return { session: copySession(session), operation: { ...claim }, replayed: true };
-      session.pendingMicroUsd = Math.max(0, session.pendingMicroUsd - claim.reservedMicroUsd);
       claim.state = ambiguous ? "ambiguous" : "failed";
       claim.completedAt = at;
       session.updatedAt = at;
+      if (!ambiguous) {
+        session.pendingMicroUsd = Math.max(0, session.pendingMicroUsd - claim.reservedMicroUsd);
+        reconcileReservation(session, at);
+      }
       return { session: copySession(session), operation: { ...claim }, replayed: false };
+    },
+
+    async reconcileLateTurn({ sessionId, accountId, operationId, usage, at }) {
+      const session = requireOwnedSession(sessionId, accountId, at);
+      const claim = operations.get(operationKey(sessionId, operationId));
+      if (!claim || claim.sessionId !== sessionId || claim.accountId !== accountId) throw new StudyBuddyError("foreign_session", 404);
+      if (claim.state !== "ambiguous") return { session: copySession(session), operation: { ...claim }, replayed: true };
+      const charged = usage.microUsd;
+      if (!Number.isSafeInteger(charged) || charged < 0 || charged > claim.reservedMicroUsd) throw new StudyBuddyError("provider_unavailable", 503);
+      session.pendingMicroUsd = Math.max(0, session.pendingMicroUsd - claim.reservedMicroUsd);
+      session.usedMicroUsd = Math.min(session.reservedMicroUsd, session.usedMicroUsd + charged);
+      const day = dayBudgets.get(session.dayKey);
+      day.chargedMicroUsd = Math.min(day.reservedMicroUsd, day.chargedMicroUsd + charged);
+      claim.state = "failed";
+      claim.safeOutcomeCode = "deadline_exceeded";
+      claim.inputUnits = usage.inputUnits;
+      claim.outputUnits = usage.outputUnits;
+      claim.chargedMicroUsd = charged;
+      claim.completedAt = at;
+      if (session.state === "expired") reconcileReservation(session, at);
+      return { session: copySession(session), operation: { ...claim }, replayed: false, terminalCode: session.state === "expired" ? "session_expired" : "provider_unavailable" };
     },
 
     async reapExpired(at = now()) {
@@ -158,7 +197,24 @@ export function createMemoryStudyBuddyRepository({ now = () => new Date(), creat
       }
       return count;
     },
-    async setCircuitOpen(until) { circuitOpenUntil = until; },
+    async recordProviderFailure(at = now()) {
+      circuit.failureCount += 1;
+      circuit.probeInFlight = false;
+      if (circuit.state === "half_open" || circuit.failureCount >= circuitFailureThreshold) {
+        circuit.state = "open";
+        circuit.openUntil = new Date(at.getTime() + circuitOpenMs);
+      }
+      return { ...circuit };
+    },
+    async recordProviderSuccess() {
+      circuit.state = "closed";
+      circuit.failureCount = 0;
+      circuit.openUntil = null;
+      circuit.probeInFlight = false;
+      return { ...circuit };
+    },
+    async setCircuitOpen(until) { circuit.state = "open"; circuit.openUntil = until; circuit.probeInFlight = false; },
+    async getCircuit() { return { ...circuit }; },
     async getSession(sessionId, accountId) { return copySession(requireOwnedSession(sessionId, accountId)); },
     async getOperation(sessionId, operationId, accountId) {
       requireOwnedSession(sessionId, accountId);

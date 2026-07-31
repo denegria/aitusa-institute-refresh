@@ -14,6 +14,9 @@ export const STUDY_BUDDY_LIMITS = Object.freeze({
   maxAudioSeconds: 20,
   maxAudioTypeCharacters: 64,
   maxJsonBodyBytes: 16_384,
+  providerDeadlineMs: 10_000,
+  circuitFailureThreshold: 3,
+  circuitOpenMs: 60_000,
   maxSessionMicroUsd: 0,
   maxDayMicroUsd: 0,
 });

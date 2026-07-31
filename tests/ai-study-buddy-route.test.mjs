@@ -7,6 +7,7 @@ import { createMemoryStudyBuddyRepository } from "../src/aiStudyBuddy/memoryRepo
 import { createFakeStudyBuddyProvider } from "../src/aiStudyBuddy/fakeStudyBuddyProvider.js";
 import { PortalClaimError } from "../src/portalClaim/errors.js";
 import { StudyBuddyError } from "../src/aiStudyBuddy/errors.js";
+import { POST as postTurnRoute } from "../app/api/portal/ai-study-buddy/sessions/[sessionId]/turns/route.js";
 
 const config = Object.freeze({ enabled: true, limits: { maxSessionMicroUsd: 5, maxDayMicroUsd: 10, sessionMinutes: 5 } });
 const context = (account = "00000000-0000-4000-8000-000000000001", result = "00000000-0000-4000-8000-000000000011", hash = "a") => Object.freeze({
@@ -53,16 +54,22 @@ describe("MIS-340 Study Buddy route contracts", () => {
   });
 
   it("maps Portal session errors and preserves safe Study Buddy statuses", async () => {
-    for (const [code, expectedCode] of [["portal_session_required", "unauthenticated"], ["portal_session_invalid", "unauthenticated"], ["portal_session_expired", "expired_session"]]) {
+    for (const code of ["portal_session_required", "portal_session_invalid", "portal_session_expired"]) {
       const route = createStudyBuddyRouteHandler({ resolveContext: async () => { throw new PortalClaimError(code, 401); } });
       const response = await route.get(new Request("https://portal.example/api"));
       assert.equal(response.status, 401);
-      assert.equal((await response.json()).code, expectedCode);
+      assert.equal((await response.json()).code, "unauthenticated");
     }
     for (const status of [403, 404, 429, 503]) {
       const route = createStudyBuddyRouteHandler({ resolveContext: async () => context(), service: { async eligibility() { throw new StudyBuddyError("provider_unavailable", status); } } });
       assert.equal((await route.get(new Request("https://portal.example/api"))).status, status);
     }
+  });
+
+  it("awaits Next 16 promised params and validates the actual exported route session id", async () => {
+    const response = await postTurnRoute(mutation("https://portal.example/turn", { operationId: "operation-1", retryAttempt: 0, text: "hello" }), { params: Promise.resolve({ sessionId: "not/valid" }) });
+    assert.equal(response.status, 400);
+    assert.equal((await response.json()).code, "invalid_request");
   });
 
   it("returns the explicit missing-result state without manufacturing ownership", async () => {

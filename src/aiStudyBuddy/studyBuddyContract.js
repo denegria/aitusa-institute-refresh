@@ -31,7 +31,6 @@ export const AI_GUARDIAN_POLICY = Object.freeze({
 
 export const STUDY_BUDDY_CODES = Object.freeze([
   "authenticated",
-  "expired_session",
   "unauthenticated",
   "account_blocked",
   "missing_result",
@@ -48,13 +47,14 @@ export const STUDY_BUDDY_CODES = Object.freeze([
   "request_too_large",
   "invalid_origin",
   "operation_replayed",
+  "operation_completed",
   "retry_limit_reached",
   "completed",
+  "escalated",
 ]);
 
 export const SAFE_NEXT_ACTIONS = Object.freeze({
   unauthenticated: "sign_in",
-  expired_session: "sign_in",
   account_blocked: "contact_support",
   missing_result: "complete_placement",
   guardian_unresolved: "contact_support",
@@ -69,14 +69,17 @@ export const SAFE_NEXT_ACTIONS = Object.freeze({
   invalid_request: "retry",
   request_too_large: "retry",
   invalid_origin: "retry",
+  operation_replayed: "retry",
+  operation_completed: "continue",
   retry_limit_reached: "continue",
   completed: "view_summary",
+  escalated: "contact_support",
 });
 
 export function safePracticeResult(code, extra = {}) {
   const safeCode = STUDY_BUDDY_CODES.includes(code) ? code : "provider_unavailable";
   return {
-    ok: safeCode === "authenticated" || safeCode === "completed",
+    ok: ["authenticated", "completed", "escalated", "operation_completed"].includes(safeCode),
     code: safeCode,
     nextAction: SAFE_NEXT_ACTIONS[safeCode] ?? "contact_support",
     ...extra,

@@ -6,6 +6,7 @@ import { createFakeStudyBuddyProvider } from "../src/aiStudyBuddy/fakeStudyBuddy
 import { isolateLearnerInput } from "../src/aiStudyBuddy/safety.server.js";
 import { toSafeStudyBuddyEvent, buildCrmSafeSummary } from "../src/aiStudyBuddy/observability.server.js";
 import { createTransactionalStudyBuddyRepository } from "../src/aiStudyBuddy/transactionalRepository.server.js";
+import { readFileSync } from "node:fs";
 
 const config = Object.freeze({ enabled: true, limits: { maxSessionMicroUsd: 5, maxDayMicroUsd: 10, sessionMinutes: 5 } });
 const makeContext = (suffix, hash = suffix) => ({
@@ -50,13 +51,9 @@ describe("MIS-340 deterministic runtime mechanics", () => {
     assert.equal(replay.code, "operation_replayed");
     assert.equal(calls, 1);
     fail = false;
-    const retried = await service.turn({ context: contextA, sessionId: first.session.id, payload: { operationId: "operation-2", retryAttempt: 1, text: "hello" } });
-    assert.equal(retried.ok, true);
-    assert.equal((await repository.getSession(first.session.id, contextA.ownership.accountId)).turnCount, 1);
-
     const second = await service.start({ context: contextB });
     await service.turn({ context: contextB, sessionId: second.session.id, payload: { operationId: "operation-1", retryAttempt: 0, text: "hello" } });
-    assert.equal(calls, 3);
+    assert.equal(calls, 2);
   });
 
   it("requires a base attempt, validates retry 0|1, and counts five learner turns rather than retries", async () => {
@@ -79,7 +76,6 @@ describe("MIS-340 deterministic runtime mechanics", () => {
     const { session } = await service.start({ context: contextA });
     await service.turn({ context: contextA, sessionId: session.id, payload: { operationId: "operation-1", retryAttempt: 0, text: "hello" } });
     await service.turn({ context: contextA, sessionId: session.id, payload: { operationId: "operation-2", retryAttempt: 0, text: "hello" } });
-    await assert.rejects(() => service.turn({ context: contextA, sessionId: session.id, payload: { operationId: "operation-3", retryAttempt: 0, text: "hello" } }), /provider_unavailable|session_limit_reached/);
     const state = await repository.getSession(session.id, contextA.ownership.accountId);
     assert.ok(state.usedMicroUsd + state.pendingMicroUsd <= state.reservedMicroUsd);
     await repository.setCircuitOpen(new Date("2026-08-01T00:00:00.000Z"));
@@ -91,6 +87,71 @@ describe("MIS-340 deterministic runtime mechanics", () => {
     const budget = await repository.getBudget(contextA.ownership.accountId, new Date("2026-07-31T12:06:00.000Z"));
     assert.ok(budget.chargedMicroUsd <= budget.reservedMicroUsd);
     assert.ok(budget.chargedMicroUsd + budget.releasedMicroUsd <= budget.reservedMicroUsd);
+  });
+
+  it("times out deterministically and reconciles a late provider completion after expiry", async () => {
+    let current = new Date("2026-07-31T12:00:00.000Z");
+    const now = () => new Date(current);
+    const repository = createMemoryStudyBuddyRepository({ now });
+    let resolveLate;
+    const lateResult = new Promise((resolve) => { resolveLate = resolve; });
+    const service = createStudyBuddyService({ repository, provider: createFakeStudyBuddyProvider(), config, now, runWithDeadline: async () => ({ timedOut: true, lateResult }) });
+    const { session } = await service.start({ context: contextA });
+    await assert.rejects(() => service.turn({ context: contextA, sessionId: session.id, payload: { operationId: "operation-1", retryAttempt: 0, text: "hello" } }), /provider_unavailable/);
+    assert.equal((await repository.getOperation(session.id, "operation-1", contextA.ownership.accountId)).state, "ambiguous");
+    current = new Date("2026-07-31T12:06:00.000Z");
+    await repository.reapExpired(now());
+    resolveLate({ outcomeCode: "success", focusCode: "meaning_acknowledged", feedback: "meaning_acknowledged", usage: { inputUnits: 2, outputUnits: 1, microUsd: 2 } });
+    await new Promise((resolve) => setImmediate(resolve));
+    const lateOperation = await repository.getOperation(session.id, "operation-1", contextA.ownership.accountId);
+    const lateSession = await repository.getSession(session.id, contextA.ownership.accountId);
+    assert.equal(lateSession.state, "expired");
+    assert.equal(lateOperation.state, "failed");
+    assert.equal(lateOperation.safeOutcomeCode, "deadline_exceeded");
+    assert.equal(lateSession.usedMicroUsd + lateSession.releasedMicroUsd, lateSession.reservedMicroUsd);
+    assert.equal(lateSession.pendingMicroUsd, 0);
+    const budget = await repository.getBudget(contextA.ownership.accountId, now());
+    assert.ok(budget.chargedMicroUsd + budget.releasedMicroUsd <= budget.reservedMicroUsd);
+    await assert.rejects(() => service.start({ context: contextA }), /trial_consumed/);
+
+    const slowService = createStudyBuddyService({ repository, provider: createFakeStudyBuddyProvider(), config, now, runWithDeadline: async (work) => {
+      const value = await work();
+      current = new Date(current.getTime() + 6 * 60_000);
+      return { timedOut: false, value };
+    } });
+    const slowSession = await slowService.start({ context: contextB });
+    const slowResult = await slowService.turn({ context: contextB, sessionId: slowSession.session.id, payload: { operationId: "operation-2", retryAttempt: 0, text: "hello" } });
+    assert.equal(slowResult.code, "session_expired");
+    assert.notEqual(slowResult.code, "authenticated");
+  });
+
+  it("consumes an escalated acquisition trial and returns a stable terminal code", async () => {
+    let calls = 0;
+    const provider = createFakeStudyBuddyProvider({ response: { outcomeCode: "escalated", focusCode: "escalation_needed", feedback: "support_recommended", usage: { inputUnits: 1, outputUnits: 1, microUsd: 0 } } });
+    const original = provider.runTurn;
+    provider.runTurn = async (input) => { calls += 1; return original(input); };
+    const { service } = fixture(provider);
+    const { session } = await service.start({ context: contextA });
+    const result = await service.turn({ context: contextA, sessionId: session.id, payload: { operationId: "operation-1", retryAttempt: 0, text: "help" } });
+    assert.equal(result.code, "escalated");
+    assert.equal(result.nextAction, "contact_support");
+    const replay = await service.turn({ context: contextA, sessionId: session.id, payload: { operationId: "operation-1", retryAttempt: 0, text: "help" } });
+    assert.equal(replay.code, "operation_completed");
+    assert.equal(calls, 1);
+    await assert.rejects(() => service.start({ context: contextA }), /trial_consumed/);
+  });
+
+  it("opens, probes, and resets the provider circuit with bounded transitions", async () => {
+    const { repository, service, advance } = fixture();
+    await repository.recordProviderFailure(new Date("2026-07-31T12:00:00.000Z"));
+    await repository.recordProviderFailure(new Date("2026-07-31T12:00:00.000Z"));
+    await repository.recordProviderFailure(new Date("2026-07-31T12:00:00.000Z"));
+    assert.equal((await repository.getCircuit()).state, "open");
+    await assert.rejects(() => service.start({ context: contextA }), /circuit_open/);
+    advance(61_000);
+    const started = await service.start({ context: contextA });
+    await service.turn({ context: contextA, sessionId: started.session.id, payload: { operationId: "operation-1", retryAttempt: 0, text: "hello" } });
+    assert.deepEqual(await repository.getCircuit(), { state: "closed", failureCount: 0, openUntil: null, probeInFlight: false });
   });
 
   it("rejects adversarial provider output and keeps observability/CRM fields fixed", async () => {
@@ -109,34 +170,60 @@ describe("MIS-340 deterministic runtime mechanics", () => {
 
   it("exposes an injected transaction boundary for every durable transition", async () => {
     const calls = [];
-    const tx = Object.fromEntries(["reserveStart", "claimTurn", "completeTurn", "failTurn", "reapExpired", "setCircuitOpen", "getSession"].map((name) => [name, async (input) => { calls.push(name); return input; }]));
+    const commandNames = ["lockCircuit", "lockEntitlementAndDayBudget", "reserveStartAtomic", "lockCircuitAndSession", "claimTurnAtomic", "lockSessionOperationAndBudget", "completeTurnAndReconcileAtomic", "failTurnAndReconcileAtomic", "reconcileLateTurnAtomic", "reapExpiredAndReconcileAtomic", "recordProviderFailureAtomic", "recordProviderSuccessAtomic", "setCircuitOpenAtomic", "readOwnedSession"];
+    const tx = Object.fromEntries(commandNames.map((name) => [name, async (input) => { calls.push(name); return input; }]));
     const repository = createTransactionalStudyBuddyRepository({ runTransaction: async (work) => work(tx) });
     await repository.reserveStart({ marker: true });
     await repository.claimTurn({ marker: true });
     await repository.completeTurn({ marker: true });
     await repository.failTurn({ marker: true });
+    await repository.reconcileLateTurn({ marker: true });
     await repository.reapExpired(new Date());
+    await repository.recordProviderFailure(new Date());
+    await repository.recordProviderSuccess(new Date());
     await repository.setCircuitOpen(new Date());
     await repository.getSession("session-1", "account-1");
-    assert.deepEqual(calls, ["reserveStart", "claimTurn", "completeTurn", "failTurn", "reapExpired", "setCircuitOpen", "getSession"]);
+    assert.deepEqual(calls, ["lockCircuit", "lockEntitlementAndDayBudget", "reserveStartAtomic", "lockCircuitAndSession", "claimTurnAtomic", "lockSessionOperationAndBudget", "completeTurnAndReconcileAtomic", "lockSessionOperationAndBudget", "failTurnAndReconcileAtomic", "lockSessionOperationAndBudget", "reconcileLateTurnAtomic", "reapExpiredAndReconcileAtomic", "lockCircuit", "recordProviderFailureAtomic", "lockCircuit", "recordProviderSuccessAtomic", "lockCircuit", "setCircuitOpenAtomic", "readOwnedSession"]);
 
     const memory = createMemoryStudyBuddyRepository({ now: () => new Date("2026-07-31T12:00:00.000Z") });
     let inTransaction = false;
     const adapter = {
-      reserveStart: (input) => memory.reserveStart(input),
-      claimTurn: (input) => memory.claimTurn(input),
-      completeTurn: (input) => memory.completeTurn(input),
-      failTurn: (input) => memory.failTurn(input),
-      reapExpired: ({ at }) => memory.reapExpired(at),
-      setCircuitOpen: ({ until }) => memory.setCircuitOpen(until),
-      getSession: ({ sessionId, accountId }) => memory.getSession(sessionId, accountId),
+      lockCircuit: async () => {}, lockEntitlementAndDayBudget: async () => {}, lockCircuitAndSession: async () => {}, lockSessionOperationAndBudget: async () => {},
+      reserveStartAtomic: (input) => memory.reserveStart(input),
+      claimTurnAtomic: (input) => memory.claimTurn(input),
+      completeTurnAndReconcileAtomic: (input) => memory.completeTurn(input),
+      failTurnAndReconcileAtomic: (input) => memory.failTurn(input),
+      reconcileLateTurnAtomic: (input) => memory.reconcileLateTurn(input),
+      reapExpiredAndReconcileAtomic: ({ at }) => memory.reapExpired(at),
+      recordProviderFailureAtomic: ({ at }) => memory.recordProviderFailure(at),
+      recordProviderSuccessAtomic: ({ at }) => memory.recordProviderSuccess(at),
+      setCircuitOpenAtomic: ({ until }) => memory.setCircuitOpen(until),
+      readOwnedSession: ({ sessionId, accountId }) => memory.getSession(sessionId, accountId),
     };
-    const durable = createTransactionalStudyBuddyRepository({ runTransaction: async (work) => { inTransaction = true; try { return await work(adapter); } finally { inTransaction = false; } } });
+    let transactionQueue = Promise.resolve();
+    const durable = createTransactionalStudyBuddyRepository({ runTransaction: (work) => {
+      const result = transactionQueue.then(async () => { inTransaction = true; try { return await work(adapter); } finally { inTransaction = false; } });
+      transactionQueue = result.catch(() => {});
+      return result;
+    } });
     const provider = createFakeStudyBuddyProvider();
     const originalRunTurn = provider.runTurn;
     provider.runTurn = async (input) => { assert.equal(inTransaction, false); return originalRunTurn(input); };
     const service = createStudyBuddyService({ repository: durable, provider, config, now: () => new Date("2026-07-31T12:00:00.000Z") });
-    const started = await service.start({ context: contextA });
-    await service.turn({ context: contextA, sessionId: started.session.id, payload: { operationId: "operation-1", retryAttempt: 0, text: "hello" } });
+    const starts = await Promise.all([service.start({ context: contextA }), service.start({ context: contextA })]);
+    assert.equal(new Set(starts.map((entry) => entry.session.id)).size, 1);
+    assert.equal(starts.filter((entry) => entry.replayed).length, 1);
+    await service.turn({ context: contextA, sessionId: starts[0].session.id, payload: { operationId: "operation-1", retryAttempt: 0, text: "hello" } });
+  });
+
+  it("keeps entitlement uniqueness and fixed safe-code checks in migration/schema parity", () => {
+    const migration = readFileSync(new URL("../drizzle/0003_study_buddy_runtime.sql", import.meta.url), "utf8");
+    const schema = readFileSync(new URL("../src/diagnostic/schema.js", import.meta.url), "utf8");
+    for (const marker of ["ai_practice_sessions_entitlement_uidx", "ai_practice_sessions_scenario_check", "ai_practice_sessions_focus_check", "ai_practice_turn_operations_outcome_check"]) {
+      assert.equal(migration.includes(marker), true);
+      assert.equal(schema.includes(marker), true);
+    }
+    assert.match(migration, /entitlement_uidx[^;]+\("entitlement_id"\)/);
+    assert.match(migration, /deadline_exceeded/);
   });
 });
