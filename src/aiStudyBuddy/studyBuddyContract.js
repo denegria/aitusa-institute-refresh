@@ -1,32 +1,10 @@
-import { buildCrmEventResponse, toCrmTimelineSummary, validateCrmEventEnvelope } from "../crm/eventContract.js";
-import { evaluatePrivacyGate } from "../privacy/privacyPolicy.js";
-import {
-  canAccessArea,
-  canViewStudentReference,
-  resolvePortalSession,
-} from "../portal/authBoundary.js";
+export const STUDY_BUDDY_CONTRACT_VERSION = "mis-340-v1";
 
 export const AI_STUDY_BUDDY_USE_CASES = Object.freeze({
-  pronunciation_drill: Object.freeze({
-    label: "Pronunciation drill",
-    mode: "speech_practice",
-    escalationThreshold: "repeated_mispronunciation",
-  }),
-  conversation_roleplay: Object.freeze({
-    label: "Conversation roleplay",
-    mode: "conversation",
-    escalationThreshold: "student_confused",
-  }),
-  lesson_review: Object.freeze({
-    label: "Lesson review",
-    mode: "lesson_support",
-    escalationThreshold: "low_score",
-  }),
-  vocabulary_quiz: Object.freeze({
-    label: "Vocabulary quiz",
-    mode: "quiz",
-    escalationThreshold: "low_score",
-  }),
+  pronunciation_drill: Object.freeze({ label: "Pronunciation drill" }),
+  conversation_roleplay: Object.freeze({ label: "Conversation roleplay" }),
+  lesson_review: Object.freeze({ label: "Lesson review" }),
+  vocabulary_quiz: Object.freeze({ label: "Vocabulary quiz" }),
 });
 
 export const AI_PROVIDER_GATE = Object.freeze({
@@ -35,171 +13,80 @@ export const AI_PROVIDER_GATE = Object.freeze({
   providerDecisionRequired: true,
   rawAudioStorageAllowed: false,
   rawTranscriptStorageAllowed: false,
-  backendBoundary: "/api/portal/ai-study-buddy",
 });
 
 export const AI_COST_CONTROLS = Object.freeze({
-  dailySessionLimit: 2,
-  maxTurnsPerSession: 8,
+  maxTurnsPerSession: 5,
+  maxRetriesPerTurn: 1,
   acquisitionTrialSessionLimitPerVerifiedEmail: 1,
-  acquisitionTrialMaxLearnerTurns: 5,
-  acquisitionTrialEstimatedMinutes: Object.freeze({
-    min: 3,
-    max: 5,
-  }),
   maxEstimatedCentsPerSession: 0,
   hardStopUntilProviderApproval: true,
 });
 
 export const AI_GUARDIAN_POLICY = Object.freeze({
   guardianRequiredUnderAge: 13,
-  anonymousDiagnosticAllowed: true,
-  accountClaimAllowedWithoutGuardian: false,
   practiceAllowedWithoutGuardian: false,
   guardianVerificationRequired: true,
 });
 
-export const AI_ESCALATION_REASONS = Object.freeze([
-  "low_score",
-  "repeated_mispronunciation",
-  "student_confused",
-  "safety_concern",
-  "teacher_requested",
+export const STUDY_BUDDY_CODES = Object.freeze([
+  "authenticated",
+  "expired_session",
+  "unauthenticated",
+  "account_blocked",
+  "missing_result",
+  "guardian_unresolved",
+  "trial_consumed",
+  "session_limit_reached",
+  "daily_limit_reached",
+  "provider_disabled",
+  "provider_unavailable",
+  "circuit_open",
+  "session_expired",
+  "foreign_session",
+  "invalid_request",
+  "invalid_origin",
+  "operation_replayed",
+  "retry_limit_reached",
+  "completed",
 ]);
 
-export function evaluateAiPracticeRequest({
-  useCase,
-  actor = {},
-  consent = {},
-  requestedRetention = {},
-}) {
-  if (!AI_STUDY_BUDDY_USE_CASES[useCase]) {
-    return denied("unsupported_use_case");
-  }
+export const SAFE_NEXT_ACTIONS = Object.freeze({
+  unauthenticated: "sign_in",
+  expired_session: "sign_in",
+  account_blocked: "contact_support",
+  missing_result: "complete_placement",
+  guardian_unresolved: "contact_support",
+  trial_consumed: "view_portal",
+  session_limit_reached: "try_later",
+  daily_limit_reached: "try_tomorrow",
+  provider_disabled: "try_later",
+  provider_unavailable: "try_later",
+  circuit_open: "try_later",
+  session_expired: "start_new_session",
+  foreign_session: "contact_support",
+  invalid_request: "retry",
+  invalid_origin: "retry",
+  retry_limit_reached: "continue",
+  completed: "view_summary",
+});
 
-  const summaryGate = evaluatePrivacyGate({
-    category: "ai_practice_summary",
-    actor,
-    consent,
-  });
-  if (!summaryGate.allowed) return denied(summaryGate.reason);
-
-  if (requestedRetention.rawAudio === true) {
-    return denied("raw_audio_storage_not_approved");
-  }
-
-  if (requestedRetention.rawTranscript === true) {
-    return denied("raw_transcript_storage_not_approved");
-  }
-
-  if (AI_PROVIDER_GATE.providerDecisionRequired) {
-    return denied("provider_decision_required");
-  }
-
+export function safePracticeResult(code, extra = {}) {
+  const safeCode = STUDY_BUDDY_CODES.includes(code) ? code : "provider_unavailable";
   return {
-    allowed: true,
-    useCase: AI_STUDY_BUDDY_USE_CASES[useCase],
+    ok: safeCode === "authenticated" || safeCode === "completed",
+    code: safeCode,
+    nextAction: SAFE_NEXT_ACTIONS[safeCode] ?? "contact_support",
+    ...extra,
   };
 }
 
-export function getAiStudyBuddyPlan({
-  accountKey = "studentActive",
-  studentCrmContactRef = "crm_contact_fixture_student_001",
-  useCase = "lesson_review",
-} = {}) {
-  const session = resolvePortalSession(accountKey);
-  const areaAccess = canAccessArea(session, "ai_practice");
-  const studentAccess = canViewStudentReference(session, studentCrmContactRef);
-  const requestGate = evaluateAiPracticeRequest({
-    useCase,
-    actor: { ageGroup: "adult" },
-    consent: { basis: "explicit", guardianApproval: true },
-  });
-
-  const available =
-    areaAccess.allowed === true &&
-    studentAccess.allowed === true &&
-    requestGate.allowed === true;
-
+export function toPracticeEligibilityDto(result) {
   return {
-    ok: true,
-    practiceAvailable: available,
-    blockedReasons: [
-      areaAccess.allowed ? null : areaAccess.reason,
-      studentAccess.allowed ? null : studentAccess.reason,
-      requestGate.allowed ? null : requestGate.reason,
-    ].filter(Boolean),
-    selectedUseCase: AI_STUDY_BUDDY_USE_CASES[useCase] ?? null,
-    providerGate: AI_PROVIDER_GATE,
-    costControls: AI_COST_CONTROLS,
-    escalationReasons: AI_ESCALATION_REASONS,
-    crmSummaryPreview: buildAiPracticeCrmSummaryPreview({
-      session,
-      studentCrmContactRef,
-      useCase,
-      progressState: "started",
-    }),
-    rawAudioStorage: false,
-    rawTranscriptStorage: false,
-  };
-}
-
-export function buildAiPracticeCrmSummaryPreview({
-  session,
-  studentCrmContactRef,
-  useCase,
-  progressState = "started",
-}) {
-  if (session.state !== "authenticated") {
-    return {
-      accepted: false,
-      reason: session.reason ?? "not_authenticated",
-      crmWrite: false,
-    };
-  }
-
-  const eventType =
-    progressState === "completed" ? "ai_practice_completed" : "ai_practice_started";
-  const envelope = {
-    type: eventType,
-    idempotencyKey: `ai:${studentCrmContactRef}:${useCase}:${progressState}:fixture`,
-    occurredAt: "2026-07-09T00:00:00.000Z",
-    actor: {
-      crmContactRef: studentCrmContactRef,
-      portalAccountId: session.account.portalAccountId,
-      role: session.account.roles[0],
-    },
-    source: {
-      surface: "portal",
-      path: "/portal/ai-study-buddy",
-    },
-    consent: {
-      basis: "explicit",
-      policyVersion: "fixture-v1",
-    },
-    payload: {
-      summary: `${AI_STUDY_BUDDY_USE_CASES[useCase]?.label ?? useCase} ${progressState}`,
-      useCase,
-      progressState,
-      escalationNeeded: false,
-      rawAudioStored: false,
-      rawTranscriptStored: false,
-    },
-  };
-
-  const response = buildCrmEventResponse(envelope);
-  if (!response.body.accepted) return response.body;
-
-  const validation = validateCrmEventEnvelope(envelope);
-  return {
-    ...response.body,
-    crmTimelinePreview: toCrmTimelineSummary(validation.event),
-  };
-}
-
-function denied(reason) {
-  return {
-    allowed: false,
-    reason,
+    ok: result.ok,
+    code: result.code,
+    nextAction: result.nextAction,
+    practiceAvailable: result.code === "authenticated",
+    contractVersion: STUDY_BUDDY_CONTRACT_VERSION,
   };
 }

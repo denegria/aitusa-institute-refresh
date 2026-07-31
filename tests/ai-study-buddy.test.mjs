@@ -5,100 +5,42 @@ import {
   AI_GUARDIAN_POLICY,
   AI_PROVIDER_GATE,
   AI_STUDY_BUDDY_USE_CASES,
-  buildAiPracticeCrmSummaryPreview,
-  evaluateAiPracticeRequest,
-  getAiStudyBuddyPlan,
+  toPracticeEligibilityDto,
 } from "../src/aiStudyBuddy/studyBuddyContract.js";
-import { resolvePortalSession } from "../src/portal/authBoundary.js";
+import { evaluateStudyBuddyEligibility } from "../src/aiStudyBuddy/policy.server.js";
+import { getStudyBuddyConfig, assertLiveProviderConstructionAllowed } from "../src/aiStudyBuddy/config.server.js";
 
-describe("MIS-275 AI study buddy contract", () => {
-  it("defines the MVP use cases", () => {
-    assert.deepEqual(Object.keys(AI_STUDY_BUDDY_USE_CASES), [
-      "pronunciation_drill",
-      "conversation_roleplay",
-      "lesson_review",
-      "vocabulary_quiz",
-    ]);
-  });
+const snapshot = {
+  state: "authenticated",
+  account: { id: "account-1", status: "active" },
+  result: { recommendedLevelKey: "basic" },
+  practice: { guardianVerified: true },
+};
 
-  it("keeps browser and server provider calls disabled until approval", () => {
+describe("MIS-340 Study Buddy public contract", () => {
+  it("locks server provider use, five turns, one retry, and guardian policy", () => {
+    assert.deepEqual(Object.keys(AI_STUDY_BUDDY_USE_CASES), ["pronunciation_drill", "conversation_roleplay", "lesson_review", "vocabulary_quiz"]);
     assert.equal(AI_PROVIDER_GATE.browserProviderCallsAllowed, false);
     assert.equal(AI_PROVIDER_GATE.serverProviderCallsAllowed, false);
-    assert.equal(AI_PROVIDER_GATE.providerDecisionRequired, true);
-    assert.equal(AI_COST_CONTROLS.hardStopUntilProviderApproval, true);
-  });
-
-  it("locks the acquisition trial and under-13 guardian boundary", () => {
-    assert.equal(AI_COST_CONTROLS.acquisitionTrialSessionLimitPerVerifiedEmail, 1);
-    assert.equal(AI_COST_CONTROLS.acquisitionTrialMaxLearnerTurns, 5);
-    assert.deepEqual(AI_COST_CONTROLS.acquisitionTrialEstimatedMinutes, {
-      min: 3,
-      max: 5,
-    });
-    assert.equal(AI_GUARDIAN_POLICY.guardianRequiredUnderAge, 13);
-    assert.equal(AI_GUARDIAN_POLICY.anonymousDiagnosticAllowed, true);
+    assert.equal(AI_COST_CONTROLS.maxTurnsPerSession, 5);
+    assert.equal(AI_COST_CONTROLS.maxRetriesPerTurn, 1);
     assert.equal(AI_GUARDIAN_POLICY.practiceAllowedWithoutGuardian, false);
   });
 
-  it("blocks raw audio and transcript retention requests", () => {
-    assert.equal(
-      evaluateAiPracticeRequest({
-        useCase: "pronunciation_drill",
-        actor: { ageGroup: "adult" },
-        consent: { basis: "explicit" },
-        requestedRetention: { rawAudio: true },
-      }).reason,
-      "raw_audio_storage_not_approved",
-    );
-    assert.equal(
-      evaluateAiPracticeRequest({
-        useCase: "conversation_roleplay",
-        actor: { ageGroup: "adult" },
-        consent: { basis: "explicit" },
-        requestedRetention: { rawTranscript: true },
-      }).reason,
-      "raw_transcript_storage_not_approved",
-    );
+  it("fails closed for guardian-unresolved, missing-result, and provider-disabled snapshots", () => {
+    assert.equal(evaluateStudyBuddyEligibility({ ...snapshot, practice: {} }).code, "guardian_unresolved");
+    assert.equal(evaluateStudyBuddyEligibility({ ...snapshot, result: null }).code, "missing_result");
+    assert.equal(evaluateStudyBuddyEligibility(snapshot).code, "provider_disabled");
   });
 
-  it("still blocks safe summary practice until provider decision is approved", () => {
-    const result = evaluateAiPracticeRequest({
-      useCase: "lesson_review",
-      actor: { ageGroup: "adult" },
-      consent: { basis: "explicit" },
-    });
-
-    assert.equal(result.allowed, false);
-    assert.equal(result.reason, "provider_decision_required");
+  it("emits a restricted eligibility DTO", () => {
+    const dto = toPracticeEligibilityDto(evaluateStudyBuddyEligibility(snapshot));
+    assert.deepEqual(Object.keys(dto).sort(), ["code", "contractVersion", "nextAction", "ok", "practiceAvailable"]);
+    assert.equal(JSON.stringify(dto).match(/account|email|providerId|model|prompt|cost/i), null);
   });
 
-  it("returns a safe plan with blocked reasons instead of launching AI practice", () => {
-    const plan = getAiStudyBuddyPlan({
-      accountKey: "guardianActive",
-      studentCrmContactRef: "crm_contact_fixture_minor_001",
-      useCase: "lesson_review",
-    });
-
-    assert.equal(plan.practiceAvailable, false);
-    assert.equal(plan.blockedReasons.includes("feature_not_approved"), true);
-    assert.equal(plan.blockedReasons.includes("provider_decision_required"), true);
-    assert.equal(plan.rawAudioStorage, false);
-    assert.equal(plan.rawTranscriptStorage, false);
-  });
-
-  it("builds CRM-safe AI practice summary events without raw audio or transcript", () => {
-    const session = resolvePortalSession("guardianActive");
-    const preview = buildAiPracticeCrmSummaryPreview({
-      session,
-      studentCrmContactRef: "crm_contact_fixture_minor_001",
-      useCase: "vocabulary_quiz",
-      progressState: "completed",
-    });
-
-    assert.equal(preview.accepted, true);
-    assert.equal(preview.delivery.crmWrite, false);
-    assert.equal(preview.crmTimelinePreview.eventType, "ai_practice_completed");
-    assert.equal(preview.event.payload.rawAudioStored, false);
-    assert.equal(preview.event.payload.rawTranscriptStored, false);
+  it("cannot construct a live provider in tests or without all server gates", () => {
+    assert.equal(getStudyBuddyConfig({}).enabled, false);
+    assert.throws(() => assertLiveProviderConstructionAllowed({ NODE_ENV: "test", STUDY_BUDDY_EXECUTION_ENABLED: "true", STUDY_BUDDY_PROVIDER_APPROVED: "true", STUDY_BUDDY_GUARDIAN_SOURCE_APPROVED: "true", STUDY_BUDDY_MAX_SESSION_MICRO_USD: "10" }), /disabled/);
   });
 });
