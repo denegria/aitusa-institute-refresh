@@ -2,7 +2,9 @@ import { sql } from 'drizzle-orm';
 
 export {
   CRM_OUTBOX_MAX_ATTEMPTS,
+  CRM_OUTBOX_LEASE_MS,
   CRM_OUTBOX_SCHEMA_VERSION,
+  CRM_TRANSPORT_TIMEOUT_MS,
   createAitCrmTransport,
   createCrmOutboxDispatcher,
   nextCrmOutboxAttemptAt,
@@ -12,19 +14,20 @@ export {
 export function createNeonCrmOutboxRepository(database) {
   if (!database) throw new Error('portal_database_required');
   return {
-    async claimNext({ now }) {
+    async claimNext({ now, leaseUntil }) {
       const result = await database.execute(sql`
         with candidate as (
           select id
           from crm_outbox
-          where status in ('pending', 'retry_wait')
-            and next_attempt_at <= ${now.toISOString()}::timestamptz
+          where (status in ('pending', 'retry_wait') and next_attempt_at <= ${now.toISOString()}::timestamptz)
+             or (status = 'delivering' and next_attempt_at <= ${now.toISOString()}::timestamptz)
           order by next_attempt_at asc, created_at asc
           limit 1
           for update skip locked
         )
         update crm_outbox outbox
-        set status = 'delivering', attempt_count = outbox.attempt_count + 1
+        set status = 'delivering', attempt_count = outbox.attempt_count + 1,
+            next_attempt_at = ${leaseUntil.toISOString()}::timestamptz
         from candidate
         where outbox.id = candidate.id
         returning outbox.id, outbox.payload, outbox.attempt_count
@@ -43,7 +46,7 @@ export function createNeonCrmOutboxRepository(database) {
       await database.execute(sql`
         update crm_outbox
         set status = ${status}, safe_error_code = ${safeErrorCode},
-          next_attempt_at = coalesce(${nextAttemptAt?.toISOString() ?? null}::timestamptz, next_attempt_at)
+          next_attempt_at = coalesce(${nextAttemptAt?.toISOString() ?? null}::timestamptz, now())
         where id = ${id}::uuid and status = 'delivering'
       `);
     },

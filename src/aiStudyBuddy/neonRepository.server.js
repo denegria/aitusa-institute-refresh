@@ -39,6 +39,7 @@ export function createNeonStudyBuddyRepository({
     const sessionId = createId();
     const entitlementId = createId();
     const reservationId = createId();
+    const outboxId = createId();
     const expiresAt = new Date(at.getTime() + limits.sessionMinutes * 60_000);
     const results = await locked(
       [`study-buddy:entitlement:${hashVersion}:${verifiedEmailHmac}`, `study-buddy:budget:${accountId}:${utcDay}`],
@@ -113,6 +114,21 @@ export function createNeonStudyBuddyRepository({
             ${limits.maxSessionMicroUsd}, 0, 0, ${at.toISOString()}::timestamptz
           from session_write s
           returning *
+        ),
+        outbox_write as (
+          insert into crm_outbox (id, event_type, idempotency_key, correlation_id, payload, status, attempt_count, next_attempt_at, created_at)
+          select ${outboxId}::uuid, 'ai_practice_started', 'aitusa:ai-practice-started:' || s.id::text, s.result_id::text,
+            jsonb_build_object(
+              'schemaVersion', 'aitusa-crm-event-v1', 'eventId', 'aitusa:ai-practice-started:' || s.id::text,
+              'eventType', 'ai_practice_started', 'idempotencyKey', 'aitusa:ai-practice-started:' || s.id::text,
+              'correlationId', s.result_id::text, 'occurredAt', ${at.toISOString()}::timestamptz,
+              'source', jsonb_build_object('product', 'aitusa_refresh', 'surface', 'portal', 'path', '/portal/study', 'version', 'mis-343-v1'),
+              'contact', jsonb_build_object('firstName', account.first_name, 'email', account.primary_email),
+              'practice', jsonb_build_object('sessionId', s.id::text, 'state', s.state, 'scenario', s.scenario, 'useCase', s.use_case, 'turnCount', s.turn_count, 'planVersion', s.plan_version)
+            ), 'pending', 0, ${at.toISOString()}::timestamptz, ${at.toISOString()}::timestamptz
+          from session_write s join portal_accounts account on account.id = s.account_id
+          on conflict (idempotency_key) do nothing
+          returning id
         ),
         selected as (
           select e.*, true as replayed from existing e
@@ -268,6 +284,7 @@ export function createNeonStudyBuddyRepository({
 
   async function completeTurn({ sessionId, accountId, operationId, outcomeCode, focusCode, usage, at }) {
     validateUsage(usage);
+    const outboxId = createId();
     const results = await locked([`study-buddy:session:${sessionId}`], (tx) => [tx`
       with session_row as (
         select s.*, r.reserved_micro_usd, r.charged_micro_usd as budget_charged_micro_usd,
@@ -347,6 +364,25 @@ export function createNeonStudyBuddyRepository({
         update ai_practice_entitlements e set state = 'consumed', updated_at = ${at.toISOString()}::timestamptz
         from session_update su where e.id = su.entitlement_id and su.state in ('completed', 'expired', 'escalated')
         returning e.id
+      ),
+      outbox_write as (
+        insert into crm_outbox (id, event_type, idempotency_key, correlation_id, payload, status, attempt_count, next_attempt_at, created_at)
+        select ${outboxId}::uuid,
+          case when su.state = 'escalated' then 'ai_practice_escalated' when su.state = 'expired' then 'ai_practice_limit_reached' else 'ai_practice_completed' end,
+          'aitusa:ai-practice-terminal:' || su.id::text || ':' || su.state, su.result_id::text,
+          jsonb_build_object(
+            'schemaVersion', 'aitusa-crm-event-v1', 'eventId', 'aitusa:ai-practice-terminal:' || su.id::text || ':' || su.state,
+            'eventType', case when su.state = 'escalated' then 'ai_practice_escalated' when su.state = 'expired' then 'ai_practice_limit_reached' else 'ai_practice_completed' end,
+            'idempotencyKey', 'aitusa:ai-practice-terminal:' || su.id::text || ':' || su.state,
+            'correlationId', su.result_id::text, 'occurredAt', ${at.toISOString()}::timestamptz,
+            'source', jsonb_build_object('product', 'aitusa_refresh', 'surface', 'portal', 'path', '/portal/study', 'version', 'mis-343-v1'),
+            'contact', jsonb_build_object('firstName', account.first_name, 'email', account.primary_email),
+            'practice', jsonb_strip_nulls(jsonb_build_object('sessionId', su.id::text, 'state', su.state, 'scenario', su.scenario, 'useCase', su.use_case, 'focusCode', su.safe_focus_code, 'outcomeCode', ou.safe_outcome_code, 'limitCode', su.limit_code, 'turnCount', su.turn_count, 'planVersion', su.plan_version))
+          ), 'pending', 0, ${at.toISOString()}::timestamptz, ${at.toISOString()}::timestamptz
+        from session_update su cross join operation_update ou join portal_accounts account on account.id = su.account_id
+        where su.state in ('completed', 'escalated', 'expired')
+        on conflict (idempotency_key) do nothing
+        returning id
       )
       select su.*, bu.reserved_micro_usd, bu.charged_micro_usd as budget_charged_micro_usd,
         bu.released_micro_usd, 0::integer as pending_micro_usd,

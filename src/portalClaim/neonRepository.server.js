@@ -61,7 +61,7 @@ export function createNeonPortalClaimRepository(database) {
       accountId,
       consentAccountId,
       consentAdvisorId,
-      outboxId,
+      outboxIds,
       now,
       rawAnswersPurgeAt,
     }) {
@@ -85,6 +85,8 @@ export function createNeonPortalClaimRepository(database) {
               r.level_map_version,
               r.scoring_contract_version,
               r.result_copy_version,
+              a.started_at,
+              a.completed_at,
               c.goal
             from portal_auth_challenges ch
             join result_claims rc
@@ -257,17 +259,17 @@ export function createNeonPortalClaimRepository(database) {
               created_at
             )
             select
-              ${outboxId}::uuid,
-              'advisor_handoff_requested',
-              'aitusa:advisor-handoff:' || e.claim_id,
+              events.id,
+              events.event_type,
+              events.idempotency_key,
               e.claim_id,
               jsonb_build_object(
                 'schemaVersion', 'aitusa-crm-event-v1',
-                'eventId', 'advisor-handoff:' || e.claim_id,
-                'eventType', 'advisor_handoff_requested',
-                'idempotencyKey', 'aitusa:advisor-handoff:' || e.claim_id,
+                'eventId', events.idempotency_key,
+                'eventType', events.event_type,
+                'idempotencyKey', events.idempotency_key,
                 'correlationId', e.claim_id,
-                'occurredAt', ${nowIso}::timestamptz,
+                'occurredAt', events.occurred_at,
                 'source', jsonb_build_object(
                   'product', 'aitusa_refresh',
                   'surface', 'portal',
@@ -275,7 +277,7 @@ export function createNeonPortalClaimRepository(database) {
                   'version', 'mis-343-v1'
                 ),
                 'contact', jsonb_build_object('firstName', e.first_name, 'email', e.email),
-                'consent', jsonb_build_object('email', true, 'advisorContactEmail', true, 'policyVersion', e.privacy_policy_version),
+                'consent', jsonb_build_object('advisorContactEmail', e.advisor_contact_requested, 'policyVersion', e.privacy_policy_version),
                 'placement', jsonb_build_object(
                   'resultId', e.result_id,
                   'resultStatus', e.result_status,
@@ -293,7 +295,19 @@ export function createNeonPortalClaimRepository(database) {
               ${nowIso}::timestamptz
             from eligible e
             join attempt_update au on au.id = e.attempt_id
-            where e.advisor_contact_requested = true
+            cross join lateral (
+              select ${outboxIds.placementStarted}::uuid as id, 'placement_started'::text as event_type,
+                'aitusa:placement-started:' || e.attempt_id::text as idempotency_key, e.started_at as occurred_at
+              union all select ${outboxIds.placementCompleted}::uuid, 'placement_completed',
+                'aitusa:placement-completed:' || e.attempt_id::text, e.completed_at
+              union all select ${outboxIds.resultClaimed}::uuid, 'result_claimed',
+                'aitusa:result-claimed:' || e.claim_id, ${nowIso}::timestamptz
+              union all select ${outboxIds.portalAccountActivated}::uuid, 'portal_account_activated',
+                'aitusa:portal-account-activated:' || au.account_id::text, ${nowIso}::timestamptz
+              union all select ${outboxIds.advisorHandoff}::uuid, 'advisor_handoff_requested',
+                'aitusa:advisor-handoff:' || e.claim_id, ${nowIso}::timestamptz
+                where e.advisor_contact_requested = true
+            ) events
             on conflict (idempotency_key) do nothing
             returning id
           )

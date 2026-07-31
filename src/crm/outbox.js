@@ -1,5 +1,7 @@
 export const CRM_OUTBOX_MAX_ATTEMPTS = 4;
 export const CRM_OUTBOX_SCHEMA_VERSION = 'aitusa-crm-event-v1';
+export const CRM_OUTBOX_LEASE_MS = 2 * 60_000;
+export const CRM_TRANSPORT_TIMEOUT_MS = 8_000;
 
 const RETRY_DELAYS_MS = [60_000, 5 * 60_000, 15 * 60_000, 60 * 60_000];
 
@@ -15,17 +17,32 @@ export function safeCrmDeliveryError(error) {
   return 'crm_transport_failed';
 }
 
-export function createAitCrmTransport({ url, secret, fetchImpl = fetch }) {
+export function createAitCrmTransport({ url, secret, fetchImpl = fetch, timeoutMs = CRM_TRANSPORT_TIMEOUT_MS }) {
   if (!url || !secret) throw new Error('crm_transport_not_configured');
+  if (!Number.isInteger(timeoutMs) || timeoutMs < 100 || timeoutMs > 60_000) throw new Error('crm_transport_timeout_invalid');
   return {
     async deliver(payload) {
-      const response = await fetchImpl(url, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', 'x-ait-webhook-secret': secret },
-        body: JSON.stringify(payload),
-      });
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      let response;
+      try {
+        response = await fetchImpl(url, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', 'x-ait-webhook-secret': secret },
+          body: JSON.stringify(payload),
+          signal: controller.signal,
+        });
+      } finally {
+        clearTimeout(timer);
+      }
       if (!response.ok) {
         const error = new Error('crm_delivery_failed');
+        error.status = response.status;
+        throw error;
+      }
+      const acknowledgement = await response.json().catch(() => null);
+      if (acknowledgement?.acknowledged !== true) {
+        const error = new Error('crm_acknowledgement_invalid');
         error.status = response.status;
         throw error;
       }
@@ -42,7 +59,8 @@ export function createCrmOutboxDispatcher({ repository, transport, now = () => n
       const result = { delivered: 0, retried: 0, deadLettered: 0 };
       const boundedLimit = Math.max(1, Math.min(Number(limit) || 20, 50));
       for (let index = 0; index < boundedLimit; index += 1) {
-        const item = await repository.claimNext({ now: now() });
+        const claimedAt = now();
+        const item = await repository.claimNext({ now: claimedAt, leaseUntil: new Date(claimedAt.getTime() + CRM_OUTBOX_LEASE_MS) });
         if (!item) break;
         try {
           await transport.deliver(item.payload);

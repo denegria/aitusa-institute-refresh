@@ -118,7 +118,13 @@ export function createPortalClaimService({
         accountId: createId(),
         consentAccountId: createId(),
         consentAdvisorId: createId(),
-        outboxId: createId(),
+        outboxIds: {
+          placementStarted: createId(),
+          placementCompleted: createId(),
+          resultClaimed: createId(),
+          portalAccountActivated: createId(),
+          advisorHandoff: createId(),
+        },
         now: currentTime,
         rawAnswersPurgeAt: addDays(currentTime, 30),
       });
