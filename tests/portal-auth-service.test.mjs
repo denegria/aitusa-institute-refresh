@@ -370,6 +370,22 @@ describe("MIS-341 authenticated portal service", () => {
       advisor_consent_occurred_at: "2026-07-30T19:05:00.000Z",
       outbox_status: "delivered",
       outbox_delivered_at: "2026-07-30T19:06:00.000Z",
+      recent_practice: [
+        {
+          scenario: "workplace_exchange",
+          state: "completed",
+          turnCount: 5,
+          successCode: "success",
+          focusCode: "focus_grammar",
+          completedAt: "2026-07-31T16:00:00.000Z",
+          transcript: "must-not-leak",
+        },
+        {
+          scenario: "raw learner input",
+          state: "completed",
+          completedAt: "2026-07-31T15:00:00.000Z",
+        },
+      ],
       workos_user_id: "must-not-leak",
       correlation_id: "must-not-leak",
       crm_payload: { mustNotLeak: true },
@@ -380,6 +396,15 @@ describe("MIS-341 authenticated portal service", () => {
     assert.equal(snapshot.result.goal, "Trabajo");
     assert.equal(snapshot.advisor.deliveryStatus, "delivered");
     assert.equal(snapshot.practice.reason, "feature_not_approved");
+    assert.deepEqual(snapshot.recentPractice, [
+      {
+        scenarioLabel: "Pedir ayuda en el trabajo",
+        completedAt: "2026-07-31T16:00:00.000Z",
+        successLabel: "Completaste la conversación",
+        focusLabel: "Próximo enfoque: precisión gramatical",
+      },
+    ]);
+    assert.equal(serialized.includes("must-not-leak"), false);
     for (const forbidden of [
       "account_id",
       "portalAccountId",

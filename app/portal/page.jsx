@@ -10,6 +10,9 @@ import {
   createPortalAccessViewModel,
 } from "../../src/portal/portalViewModel.js";
 import { resolveAuthenticatedPortalSnapshot } from "../../src/portalAuth/sessionResolver.server.js";
+import { getStudyBuddyRuntime } from "../../src/aiStudyBuddy/runtime.server.js";
+import { safePracticeResult } from "../../src/aiStudyBuddy/studyBuddyContract.js";
+import { toPortalPracticeState } from "../../src/aiStudyBuddy/practiceExperience.js";
 
 export const dynamic = "force-dynamic";
 
@@ -29,7 +32,14 @@ export default async function PortalPage({ searchParams }) {
     const snapshot = await resolveAuthenticatedPortalSnapshot(
       await portalRequest(),
     );
-    const model = createAuthenticatedPortalViewModel(snapshot, {
+    const studyBuddyRuntime = getStudyBuddyRuntime();
+    const eligibility = studyBuddyRuntime.service
+      ? await studyBuddyRuntime.service.eligibility(snapshot)
+      : safePracticeResult("provider_disabled");
+    const model = createAuthenticatedPortalViewModel({
+      ...snapshot,
+      practice: toPortalPracticeState(eligibility, snapshot.result),
+    }, {
       welcome: params?.welcome === "1" && Boolean(snapshot.result),
     });
     return <PortalDashboard model={model} />;

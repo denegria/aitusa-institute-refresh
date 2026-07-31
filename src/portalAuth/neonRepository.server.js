@@ -280,7 +280,8 @@ export function createNeonPortalAuthRepository(database) {
           advisor_consent.policy_version as advisor_consent_policy_version,
           advisor_consent.occurred_at as advisor_consent_occurred_at,
           delivery.status as outbox_status,
-          delivery.delivered_at as outbox_delivered_at
+          delivery.delivered_at as outbox_delivered_at,
+          practice_history.items as recent_practice
         from single_account account
         left join lateral (
           select
@@ -358,6 +359,35 @@ export function createNeonPortalAuthRepository(database) {
           order by outbox.created_at desc
           limit 1
         ) delivery on true
+        left join lateral (
+          select coalesce(
+            jsonb_agg(
+              jsonb_build_object(
+                'scenario', practice.scenario,
+                'state', practice.state,
+                'turnCount', practice.turn_count,
+                'successCode', practice.safe_success_code,
+                'focusCode', practice.safe_focus_code,
+                'completedAt', practice.completed_at
+              ) order by practice.completed_at desc
+            ),
+            '[]'::jsonb
+          ) as items
+          from (
+            select
+              session.scenario,
+              session.state,
+              session.turn_count,
+              session.safe_success_code,
+              session.safe_focus_code,
+              session.completed_at
+            from ai_practice_sessions session
+            where session.account_id = account.id
+              and session.state in ('completed', 'escalated')
+            order by session.completed_at desc
+            limit 3
+          ) practice
+        ) practice_history on true
         limit 1
       `);
 
@@ -427,7 +457,49 @@ export function toSafePortalSnapshot(row) {
       eligible: false,
       reason: "feature_not_approved",
     },
+    recentPractice: normalizeRecentPractice(row.recent_practice),
   };
+}
+
+const PRACTICE_SCENARIO_LABELS = Object.freeze({
+  daily_routine: "Mi rutina diaria",
+  workplace_exchange: "Pedir ayuda en el trabajo",
+  guided_discussion: "Expresar una opinión",
+});
+
+const PRACTICE_FOCUS_LABELS = Object.freeze({
+  meaning_acknowledged: "Mensaje claro",
+  focus_pronunciation: "Próximo enfoque: pronunciación",
+  focus_grammar: "Próximo enfoque: precisión gramatical",
+  escalation_needed: "Apoyo recomendado",
+});
+
+function normalizeRecentPractice(value) {
+  let entries = value;
+  if (typeof entries === "string") {
+    try {
+      entries = JSON.parse(entries);
+    } catch {
+      return [];
+    }
+  }
+  if (!Array.isArray(entries)) return [];
+  return entries
+    .filter((item) =>
+      item &&
+      PRACTICE_SCENARIO_LABELS[item.scenario] &&
+      ["completed", "escalated"].includes(item.state),
+    )
+    .slice(0, 3)
+    .map((item) => ({
+      scenarioLabel: PRACTICE_SCENARIO_LABELS[item.scenario],
+      completedAt: toIso(item.completedAt),
+      successLabel:
+        item.state === "completed"
+          ? "Completaste la conversación"
+          : "La práctica terminó con apoyo recomendado",
+      focusLabel: PRACTICE_FOCUS_LABELS[item.focusCode] || "",
+    }));
 }
 
 function consentSnapshot(policyVersion, decision, occurredAt) {
