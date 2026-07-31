@@ -81,12 +81,6 @@ export function createMemoryStudyBuddyRepository({ now = () => new Date(), creat
         if (prior.accountId !== accountId) throw new StudyBuddyError("foreign_session", 404);
         return { ...prior, session: copySession(session), replayed: true };
       }
-      if (circuit.state === "open" && circuit.openUntil <= at) {
-        circuit.state = "half_open";
-        circuit.probeInFlight = false;
-      }
-      if (isCircuitOpen(at) || (circuit.state === "half_open" && circuit.probeInFlight)) throw new StudyBuddyError("circuit_open", 503);
-      if (circuit.state === "half_open") circuit.probeInFlight = true;
       if (session.state !== "active") throw new StudyBuddyError("session_expired", 409);
       if (!Number.isInteger(retryAttempt) || ![0, 1].includes(retryAttempt)) throw new StudyBuddyError("invalid_request", 400);
       const expectedTurn = retryAttempt === 0 ? session.turnCount + 1 : session.lastLearnerTurn;
@@ -97,6 +91,13 @@ export function createMemoryStudyBuddyRepository({ now = () => new Date(), creat
       if (operations.has(attempt)) throw new StudyBuddyError("operation_replayed", 409);
       const remaining = session.reservedMicroUsd - session.usedMicroUsd - session.pendingMicroUsd;
       if (remaining <= 0) throw new StudyBuddyError("session_limit_reached", 429);
+      // Acquire the half-open probe only after every non-provider check passes.
+      if (circuit.state === "open" && circuit.openUntil <= at) {
+        circuit.state = "half_open";
+        circuit.probeInFlight = false;
+      }
+      if (isCircuitOpen(at) || (circuit.state === "half_open" && circuit.probeInFlight)) throw new StudyBuddyError("circuit_open", 503);
+      if (circuit.state === "half_open") circuit.probeInFlight = true;
       const claim = {
         sessionId, accountId, learnerTurn, retryAttempt, operationId,
         state: "claimed", reservedMicroUsd: remaining, replayed: false,

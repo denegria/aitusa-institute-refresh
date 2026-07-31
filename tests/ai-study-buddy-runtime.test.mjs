@@ -136,7 +136,8 @@ describe("MIS-340 deterministic runtime mechanics", () => {
     assert.equal(result.code, "escalated");
     assert.equal(result.nextAction, "contact_support");
     const replay = await service.turn({ context: contextA, sessionId: session.id, payload: { operationId: "operation-1", retryAttempt: 0, text: "help" } });
-    assert.equal(replay.code, "operation_completed");
+    assert.equal(replay.code, "escalated");
+    assert.equal(replay.nextAction, "contact_support");
     assert.equal(calls, 1);
     await assert.rejects(() => service.start({ context: contextA }), /trial_consumed/);
   });
@@ -150,8 +151,41 @@ describe("MIS-340 deterministic runtime mechanics", () => {
     await assert.rejects(() => service.start({ context: contextA }), /circuit_open/);
     advance(61_000);
     const started = await service.start({ context: contextA });
+    await assert.rejects(() => service.turn({ context: contextA, sessionId: started.session.id, payload: { operationId: "operation-bad", retryAttempt: 1, text: "hello" } }), /retry_limit_reached/);
+    assert.deepEqual(await repository.getCircuit(), { state: "open", failureCount: 3, openUntil: new Date("2026-07-31T12:01:00.000Z"), probeInFlight: false });
     await service.turn({ context: contextA, sessionId: started.session.id, payload: { operationId: "operation-1", retryAttempt: 0, text: "hello" } });
     assert.deepEqual(await repository.getCircuit(), { state: "closed", failureCount: 0, openUntil: null, probeInFlight: false });
+  });
+
+  it("preserves active, completed, and expired session state on completed-operation replay", async () => {
+    let completedCalls = 0;
+    const completedProvider = createFakeStudyBuddyProvider();
+    const completedRun = completedProvider.runTurn;
+    completedProvider.runTurn = async (input) => { completedCalls += 1; return completedRun(input); };
+    const completedFixture = fixture(completedProvider);
+    const completedStart = await completedFixture.service.start({ context: contextA });
+    await completedFixture.service.turn({ context: contextA, sessionId: completedStart.session.id, payload: { operationId: "operation-1", retryAttempt: 0, text: "hello" } });
+    const activeReplay = await completedFixture.service.turn({ context: contextA, sessionId: completedStart.session.id, payload: { operationId: "operation-1", retryAttempt: 0, text: "hello" } });
+    assert.equal(activeReplay.code, "operation_completed");
+    assert.equal(activeReplay.nextAction, "continue");
+    for (let index = 2; index <= 5; index += 1) await completedFixture.service.turn({ context: contextA, sessionId: completedStart.session.id, payload: { operationId: `operation-${index}`, retryAttempt: 0, text: "hello" } });
+    const completedReplay = await completedFixture.service.turn({ context: contextA, sessionId: completedStart.session.id, payload: { operationId: "operation-5", retryAttempt: 0, text: "hello" } });
+    assert.equal(completedReplay.code, "completed");
+    assert.equal(completedReplay.nextAction, "view_summary");
+    assert.equal(completedCalls, 5);
+
+    let expiredCalls = 0;
+    const expiredProvider = createFakeStudyBuddyProvider();
+    const expiredRun = expiredProvider.runTurn;
+    expiredProvider.runTurn = async (input) => { expiredCalls += 1; return expiredRun(input); };
+    const expiredFixture = fixture(expiredProvider);
+    const expiredStart = await expiredFixture.service.start({ context: contextB });
+    await expiredFixture.service.turn({ context: contextB, sessionId: expiredStart.session.id, payload: { operationId: "operation-1", retryAttempt: 0, text: "hello" } });
+    expiredFixture.advance(6 * 60_000);
+    const expiredReplay = await expiredFixture.service.turn({ context: contextB, sessionId: expiredStart.session.id, payload: { operationId: "operation-1", retryAttempt: 0, text: "hello" } });
+    assert.equal(expiredReplay.code, "session_expired");
+    assert.equal(expiredReplay.nextAction, "start_new_session");
+    assert.equal(expiredCalls, 1);
   });
 
   it("rejects adversarial provider output and keeps observability/CRM fields fixed", async () => {

@@ -39,7 +39,10 @@ export function createStudyBuddyService({ repository, provider, config = getStud
       const learnerTurn = input.retryAttempt === 1 ? session.lastLearnerTurn : session.turnCount + 1;
       const claim = await repository.claimTurn({ sessionId, accountId: ownership.accountId, learnerTurn, retryAttempt: input.retryAttempt, operationId: input.operationId, at: now() });
       if (claim.replayed) {
-        const code = claim.state === "completed" ? "operation_completed" : "operation_replayed";
+        const terminalReplayCodes = { escalated: "escalated", completed: "completed", expired: "session_expired" };
+        const code = claim.state === "completed"
+          ? terminalReplayCodes[claim.session.state] ?? "operation_completed"
+          : "operation_replayed";
         return safePracticeResult(code, { session: claim.session });
       }
       let providerResult;
