@@ -1,10 +1,10 @@
-import { diagnosticJson } from '../../../../../src/diagnostic/http.server.js';
-import { getPortalDatabase, isPortalDatabaseConfigured } from '../../../../../src/diagnostic/db.server.js';
+import { diagnosticJson } from '../../../../src/diagnostic/http.server.js';
+import { getPortalDatabase, isPortalDatabaseConfigured } from '../../../../src/diagnostic/db.server.js';
 import {
   createAitCrmTransport,
   createCrmOutboxDispatcher,
   createNeonCrmOutboxRepository,
-} from '../../../../../src/crm/outbox.server.js';
+} from '../../../../src/crm/outbox.server.js';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
