@@ -50,12 +50,19 @@ test('backoff is bounded and deterministic', () => {
 
 test('transport uses an AbortController deadline and requires an affirmative CRM acknowledgement', async () => {
   let signal;
+  let deliveredHeaders;
   const transport = createAitCrmTransport({
-    url: 'https://crm.example.test/events', secret: 'fixture-secret', timeoutMs: 100,
-    fetchImpl: async (_url, init) => { signal = init.signal; return { ok: true, status: 201, json: async () => ({ acknowledged: true }) }; },
+    url: 'https://crm.example.test/events', secret: 'fixture-secret', protectionBypassSecret: 'fixture-bypass', timeoutMs: 100,
+    fetchImpl: async (_url, init) => {
+      signal = init.signal;
+      deliveredHeaders = init.headers;
+      return { ok: true, status: 201, json: async () => ({ acknowledged: true }) };
+    },
   });
   await transport.deliver({ schemaVersion: 'aitusa-crm-event-v1' });
   assert.equal(signal instanceof AbortSignal, true);
+  assert.equal(deliveredHeaders['x-ait-webhook-secret'], 'fixture-secret');
+  assert.equal(deliveredHeaders['x-vercel-protection-bypass'], 'fixture-bypass');
   await new Promise((resolve) => setTimeout(resolve, 120));
   assert.equal(signal.aborted, false, 'successful body parsing clears the deadline timer');
   const noAck = createAitCrmTransport({ url: 'https://crm.example.test/events', secret: 'fixture-secret', fetchImpl: async () => ({ ok: true, status: 201, json: async () => ({ ok: true }) }) });
@@ -78,6 +85,20 @@ test('transport uses an AbortController deadline and requires an affirmative CRM
   });
   await assert.rejects(() => stalledBody.deliver({}), (error) => error?.name === 'AbortError');
   assert.equal(bodySignal.aborted, true, 'deadline remains active through acknowledgement body parsing');
+});
+
+test('transport omits the optional Vercel bypass header when the CRM target is not deployment-protected', async () => {
+  let deliveredHeaders;
+  const transport = createAitCrmTransport({
+    url: 'https://crm.example.test/events',
+    secret: 'fixture-secret',
+    fetchImpl: async (_url, init) => {
+      deliveredHeaders = init.headers;
+      return { ok: true, status: 201, json: async () => ({ acknowledged: true }) };
+    },
+  });
+  await transport.deliver({ schemaVersion: 'aitusa-crm-event-v1' });
+  assert.equal(deliveredHeaders['x-vercel-protection-bypass'], undefined);
 });
 
 test('post-ack local-mark ambiguity remains recoverable through the durable lease and idempotent replay', async () => {

@@ -29,6 +29,7 @@ async function handle(request) {
     transport: createAitCrmTransport({
       url: process.env.AIT_CRM_WEBSITE_LEADS_URL,
       secret: process.env.AIT_CRM_WEBSITE_LEADS_SECRET,
+      protectionBypassSecret: process.env.AIT_CRM_VERCEL_PROTECTION_BYPASS,
     }),
   });
   const counts = await dispatcher.dispatchDue();

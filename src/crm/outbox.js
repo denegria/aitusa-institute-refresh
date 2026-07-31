@@ -17,7 +17,13 @@ export function safeCrmDeliveryError(error) {
   return 'crm_transport_failed';
 }
 
-export function createAitCrmTransport({ url, secret, fetchImpl = fetch, timeoutMs = CRM_TRANSPORT_TIMEOUT_MS }) {
+export function createAitCrmTransport({
+  url,
+  secret,
+  protectionBypassSecret,
+  fetchImpl = fetch,
+  timeoutMs = CRM_TRANSPORT_TIMEOUT_MS,
+}) {
   if (!url || !secret) throw new Error('crm_transport_not_configured');
   if (!Number.isInteger(timeoutMs) || timeoutMs < 100 || timeoutMs > 60_000) throw new Error('crm_transport_timeout_invalid');
   return {
@@ -25,9 +31,16 @@ export function createAitCrmTransport({ url, secret, fetchImpl = fetch, timeoutM
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), timeoutMs);
       try {
+        const headers = {
+          'content-type': 'application/json',
+          'x-ait-webhook-secret': secret,
+        };
+        if (protectionBypassSecret) {
+          headers['x-vercel-protection-bypass'] = protectionBypassSecret;
+        }
         const response = await fetchImpl(url, {
           method: 'POST',
-          headers: { 'content-type': 'application/json', 'x-ait-webhook-secret': secret },
+          headers,
           body: JSON.stringify(payload),
           signal: controller.signal,
         });
