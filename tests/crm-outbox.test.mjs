@@ -56,6 +56,8 @@ test('transport uses an AbortController deadline and requires an affirmative CRM
   });
   await transport.deliver({ schemaVersion: 'aitusa-crm-event-v1' });
   assert.equal(signal instanceof AbortSignal, true);
+  await new Promise((resolve) => setTimeout(resolve, 120));
+  assert.equal(signal.aborted, false, 'successful body parsing clears the deadline timer');
   const noAck = createAitCrmTransport({ url: 'https://crm.example.test/events', secret: 'fixture-secret', fetchImpl: async () => ({ ok: true, status: 201, json: async () => ({ ok: true }) }) });
   await assert.rejects(() => noAck.deliver({}), /crm_acknowledgement_invalid/);
   const timedOut = createAitCrmTransport({
@@ -63,6 +65,19 @@ test('transport uses an AbortController deadline and requires an affirmative CRM
     fetchImpl: (_url, init) => new Promise((_resolve, reject) => init.signal.addEventListener('abort', () => { const error = new Error('aborted'); error.name = 'AbortError'; reject(error); })),
   });
   await assert.rejects(() => timedOut.deliver({}), (error) => error?.name === 'AbortError');
+  let bodySignal;
+  const stalledBody = createAitCrmTransport({
+    url: 'https://crm.example.test/events', secret: 'fixture-secret', timeoutMs: 100,
+    fetchImpl: async (_url, init) => ({
+      ok: true, status: 201,
+      json: () => new Promise((_resolve, reject) => {
+        bodySignal = init.signal;
+        init.signal.addEventListener('abort', () => { const error = new Error('body aborted'); error.name = 'AbortError'; reject(error); });
+      }),
+    }),
+  });
+  await assert.rejects(() => stalledBody.deliver({}), (error) => error?.name === 'AbortError');
+  assert.equal(bodySignal.aborted, true, 'deadline remains active through acknowledgement body parsing');
 });
 
 test('post-ack local-mark ambiguity remains recoverable through the durable lease and idempotent replay', async () => {
@@ -103,4 +118,22 @@ test('claim and practice authoritative transitions enqueue the complete safe lau
   for (const type of ['ai_practice_started', 'ai_practice_completed', 'ai_practice_escalated', 'ai_practice_limit_reached']) assert.match(practiceRepository, new RegExp(`'${type}'`));
   assert.doesNotMatch(claimRepository, /'email', true/);
   assert.match(practiceRepository, /insert into crm_outbox/);
+});
+
+test('every authoritative SQL expiry transition atomically writes the same idempotent limit terminal event', async () => {
+  const source = await readFile(new URL('../src/aiStudyBuddy/neonRepository.server.js', import.meta.url), 'utf8');
+  const expiryPaths = [
+    ['completeTurn', 'async function failTurn'],
+    ['reconcileLateTurn', 'async function reapExpired'],
+    ['reapExpired', 'async function recordProviderFailure'],
+    ['expireOwnedSession', 'async function diagnoseClaimFailure'],
+  ];
+  for (const [start, end] of expiryPaths) {
+    const section = source.slice(source.indexOf(`async function ${start}`), source.indexOf(end));
+    assert.match(section, /state = 'expired'|s\.state = 'expired'/, start);
+    assert.match(section, /insert into crm_outbox/, start);
+    assert.match(section, /'ai_practice_limit_reached'/, start);
+    assert.match(section, start === 'completeTurn' ? /aitusa:ai-practice-terminal:/ : /aitusa:ai-practice-terminal:.*:expired/, start);
+    assert.match(section, /on conflict \(idempotency_key\) do nothing/, start);
+  }
 });

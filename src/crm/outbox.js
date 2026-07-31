@@ -24,29 +24,30 @@ export function createAitCrmTransport({ url, secret, fetchImpl = fetch, timeoutM
     async deliver(payload) {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), timeoutMs);
-      let response;
       try {
-        response = await fetchImpl(url, {
+        const response = await fetchImpl(url, {
           method: 'POST',
           headers: { 'content-type': 'application/json', 'x-ait-webhook-secret': secret },
           body: JSON.stringify(payload),
           signal: controller.signal,
         });
+        if (!response.ok) {
+          const error = new Error('crm_delivery_failed');
+          error.status = response.status;
+          throw error;
+        }
+        // Keep the deadline through body consumption: an OK header without an
+        // acknowledgement body is still an ambiguous delivery, not success.
+        const acknowledgement = await response.json();
+        if (acknowledgement?.acknowledged !== true) {
+          const error = new Error('crm_acknowledgement_invalid');
+          error.status = response.status;
+          throw error;
+        }
+        return { acknowledged: true };
       } finally {
         clearTimeout(timer);
       }
-      if (!response.ok) {
-        const error = new Error('crm_delivery_failed');
-        error.status = response.status;
-        throw error;
-      }
-      const acknowledgement = await response.json().catch(() => null);
-      if (acknowledgement?.acknowledged !== true) {
-        const error = new Error('crm_acknowledgement_invalid');
-        error.status = response.status;
-        throw error;
-      }
-      return { acknowledged: true };
     },
   };
 }

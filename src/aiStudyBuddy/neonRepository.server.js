@@ -377,7 +377,7 @@ export function createNeonStudyBuddyRepository({
             'correlationId', su.result_id::text, 'occurredAt', ${at.toISOString()}::timestamptz,
             'source', jsonb_build_object('product', 'aitusa_refresh', 'surface', 'portal', 'path', '/portal/study', 'version', 'mis-343-v1'),
             'contact', jsonb_build_object('firstName', account.first_name, 'email', account.primary_email),
-            'practice', jsonb_strip_nulls(jsonb_build_object('sessionId', su.id::text, 'state', su.state, 'scenario', su.scenario, 'useCase', su.use_case, 'focusCode', su.safe_focus_code, 'outcomeCode', ou.safe_outcome_code, 'limitCode', su.limit_code, 'turnCount', su.turn_count, 'planVersion', su.plan_version))
+            'practice', jsonb_strip_nulls(jsonb_build_object('sessionId', su.id::text, 'state', su.state, 'scenario', su.scenario, 'useCase', su.use_case, 'focusCode', su.safe_focus_code, 'outcomeCode', ou.safe_outcome_code, 'limitCode', case when su.state = 'expired' then 'session_limit_reached' else su.limit_code end, 'turnCount', su.turn_count, 'planVersion', su.plan_version))
           ), 'pending', 0, ${at.toISOString()}::timestamptz, ${at.toISOString()}::timestamptz
         from session_update su cross join operation_update ou join portal_accounts account on account.id = su.account_id
         where su.state in ('completed', 'escalated', 'expired')
@@ -480,6 +480,23 @@ export function createNeonStudyBuddyRepository({
       entitlement_update as (
         update ai_practice_entitlements e set state = 'consumed', updated_at = ${at.toISOString()}::timestamptz
         from session_update s where e.id = s.entitlement_id and s.state = 'expired' returning e.id
+      ),
+      outbox_write as (
+        insert into crm_outbox (id, event_type, idempotency_key, correlation_id, payload, status, attempt_count, next_attempt_at, created_at)
+        select md5('aitusa:ai-practice-terminal:' || s.id::text || ':expired')::uuid,
+          'ai_practice_limit_reached', 'aitusa:ai-practice-terminal:' || s.id::text || ':expired', s.result_id::text,
+          jsonb_build_object(
+            'schemaVersion', 'aitusa-crm-event-v1', 'eventId', 'aitusa:ai-practice-terminal:' || s.id::text || ':expired',
+            'eventType', 'ai_practice_limit_reached', 'idempotencyKey', 'aitusa:ai-practice-terminal:' || s.id::text || ':expired',
+            'correlationId', s.result_id::text, 'occurredAt', ${at.toISOString()}::timestamptz,
+            'source', jsonb_build_object('product', 'aitusa_refresh', 'surface', 'portal', 'path', '/portal/study', 'version', 'mis-343-v1'),
+            'contact', jsonb_build_object('firstName', account.first_name, 'email', account.primary_email),
+            'practice', jsonb_build_object('sessionId', s.id::text, 'state', s.state, 'scenario', s.scenario, 'useCase', s.use_case, 'limitCode', 'session_limit_reached', 'turnCount', s.turn_count, 'planVersion', s.plan_version)
+          ), 'pending', 0, ${at.toISOString()}::timestamptz, ${at.toISOString()}::timestamptz
+        from session_update s join portal_accounts account on account.id = s.account_id
+        where s.state = 'expired'
+        on conflict (idempotency_key) do nothing
+        returning id
       )
       select s.*, b.reserved_micro_usd, b.charged_micro_usd as budget_charged_micro_usd,
         b.released_micro_usd, 0::integer as pending_micro_usd,
@@ -509,7 +526,7 @@ export function createNeonStudyBuddyRepository({
       session_update as (
         update ai_practice_sessions s set state = 'expired', completed_at = ${at.toISOString()}::timestamptz,
           updated_at = ${at.toISOString()}::timestamptz
-        from candidates c where s.id = c.session_id returning s.id
+        from candidates c where s.id = c.session_id returning s.*
       ),
       budget_update as (
         update ai_practice_budget_reservations r set state = 'released',
@@ -528,6 +545,22 @@ export function createNeonStudyBuddyRepository({
         update ai_practice_account_day_budgets d set released_micro_usd = d.released_micro_usd + x.release_delta,
           updated_at = ${at.toISOString()}::timestamptz
         from day_deltas x where d.account_id = x.account_id and d.utc_day = x.utc_day returning d.account_id
+      ),
+      outbox_write as (
+        insert into crm_outbox (id, event_type, idempotency_key, correlation_id, payload, status, attempt_count, next_attempt_at, created_at)
+        select md5('aitusa:ai-practice-terminal:' || s.id::text || ':expired')::uuid,
+          'ai_practice_limit_reached', 'aitusa:ai-practice-terminal:' || s.id::text || ':expired', s.result_id::text,
+          jsonb_build_object(
+            'schemaVersion', 'aitusa-crm-event-v1', 'eventId', 'aitusa:ai-practice-terminal:' || s.id::text || ':expired',
+            'eventType', 'ai_practice_limit_reached', 'idempotencyKey', 'aitusa:ai-practice-terminal:' || s.id::text || ':expired',
+            'correlationId', s.result_id::text, 'occurredAt', ${at.toISOString()}::timestamptz,
+            'source', jsonb_build_object('product', 'aitusa_refresh', 'surface', 'portal', 'path', '/portal/study', 'version', 'mis-343-v1'),
+            'contact', jsonb_build_object('firstName', account.first_name, 'email', account.primary_email),
+            'practice', jsonb_build_object('sessionId', s.id::text, 'state', s.state, 'scenario', s.scenario, 'useCase', s.use_case, 'limitCode', 'session_limit_reached', 'turnCount', s.turn_count, 'planVersion', s.plan_version)
+          ), 'pending', 0, ${at.toISOString()}::timestamptz, ${at.toISOString()}::timestamptz
+        from session_update s join portal_accounts account on account.id = s.account_id
+        on conflict (idempotency_key) do nothing
+        returning id
       )
       select count(*)::integer as count from session_update
     `]);
@@ -609,7 +642,7 @@ export function createNeonStudyBuddyRepository({
       ),
       session_update as (
         update ai_practice_sessions s set state = 'expired', completed_at = ${at.toISOString()}::timestamptz,
-          updated_at = ${at.toISOString()}::timestamptz from candidate c where s.id = c.session_id returning s.id
+          updated_at = ${at.toISOString()}::timestamptz from candidate c where s.id = c.session_id returning s.*
       ),
       budget_update as (
         update ai_practice_budget_reservations r set state = 'released',
@@ -624,6 +657,22 @@ export function createNeonStudyBuddyRepository({
         update ai_practice_account_day_budgets d set released_micro_usd = d.released_micro_usd + c.release_delta,
           updated_at = ${at.toISOString()}::timestamptz from candidate c
         where d.account_id = c.account_id and d.utc_day = c.utc_day returning d.account_id
+      ),
+      outbox_write as (
+        insert into crm_outbox (id, event_type, idempotency_key, correlation_id, payload, status, attempt_count, next_attempt_at, created_at)
+        select md5('aitusa:ai-practice-terminal:' || s.id::text || ':expired')::uuid,
+          'ai_practice_limit_reached', 'aitusa:ai-practice-terminal:' || s.id::text || ':expired', s.result_id::text,
+          jsonb_build_object(
+            'schemaVersion', 'aitusa-crm-event-v1', 'eventId', 'aitusa:ai-practice-terminal:' || s.id::text || ':expired',
+            'eventType', 'ai_practice_limit_reached', 'idempotencyKey', 'aitusa:ai-practice-terminal:' || s.id::text || ':expired',
+            'correlationId', s.result_id::text, 'occurredAt', ${at.toISOString()}::timestamptz,
+            'source', jsonb_build_object('product', 'aitusa_refresh', 'surface', 'portal', 'path', '/portal/study', 'version', 'mis-343-v1'),
+            'contact', jsonb_build_object('firstName', account.first_name, 'email', account.primary_email),
+            'practice', jsonb_build_object('sessionId', s.id::text, 'state', s.state, 'scenario', s.scenario, 'useCase', s.use_case, 'limitCode', 'session_limit_reached', 'turnCount', s.turn_count, 'planVersion', s.plan_version)
+          ), 'pending', 0, ${at.toISOString()}::timestamptz, ${at.toISOString()}::timestamptz
+        from session_update s join portal_accounts account on account.id = s.account_id
+        on conflict (idempotency_key) do nothing
+        returning id
       )
       select count(*)::integer as count from session_update
     `]);
