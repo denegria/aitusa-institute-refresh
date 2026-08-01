@@ -12,6 +12,14 @@ import {
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+export function shouldClearResumeCookie(errorCode) {
+  return [
+    "attempt_expired",
+    "attempt_not_found",
+    "attempt_resume_unauthorized",
+  ].includes(errorCode);
+}
+
 export async function GET(request) {
   if (!isDiagnosticServiceConfigured()) {
     return diagnosticJson(
@@ -37,8 +45,7 @@ export async function GET(request) {
     });
     return diagnosticJson({ ok: true, durable: true, ...snapshot });
   } catch (error) {
-    const expired = ["attempt_expired", "attempt_resume_unauthorized"].includes(error.code);
-    if (!expired) return diagnosticFailure(error);
+    if (!shouldClearResumeCookie(error.code)) return diagnosticFailure(error);
     const failure = diagnosticFailure(error);
     failure.headers.append("set-cookie", buildExpiredResumeCookie());
     return failure;

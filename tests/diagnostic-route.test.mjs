@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { POST as startAttempt } from "../app/api/diagnostic/attempts/route.js";
-import { GET as resumeAttempt } from "../app/api/diagnostic/attempts/resume/route.js";
+import {
+  GET as resumeAttempt,
+  shouldClearResumeCookie,
+} from "../app/api/diagnostic/attempts/resume/route.js";
 import { POST as runRetention } from "../app/api/cron/portal-retention/route.js";
 
 function request(url, { body, headers = {}, method = "POST" } = {}) {
@@ -96,6 +99,13 @@ describe("MIS-337 diagnostic route degradation", () => {
         process.env.DIAGNOSTIC_RESUME_SECRET = previousResumeSecret;
       }
     }
+  });
+
+  it("expires stale resume cookies when the referenced attempt no longer exists", () => {
+    assert.equal(shouldClearResumeCookie("attempt_not_found"), true);
+    assert.equal(shouldClearResumeCookie("attempt_expired"), true);
+    assert.equal(shouldClearResumeCookie("attempt_resume_unauthorized"), true);
+    assert.equal(shouldClearResumeCookie("diagnostic_backend_unavailable"), false);
   });
 
   it("protects the retention worker when no cron secret is configured", async () => {
