@@ -1599,45 +1599,52 @@ const verifyPlacementRoute = async () => {
     location: location.href,
     title: document.title,
     h1: document.querySelector('h1')?.innerText || '',
-    levelGroups: document.querySelectorAll('.quiz-level').length,
-    quizCards: document.querySelectorAll('.quiz-card').length,
-    hasWritingPrompt: Boolean(document.querySelector('[name="writingSample"]')),
+    introVisible: Boolean(document.querySelector('[data-diagnostic-screen="intro"]')),
+    oneQuestionShell: document.querySelectorAll('[data-diagnostic-screen="question"]').length === 0,
+    hasContactFields: Boolean(document.querySelector('[name="name"], [name="email"], [name="phone"]')),
     externalGoogleRefs: document.body.innerHTML.includes('docs.google.com') || document.body.innerText.includes('Google Form'),
   }))()`);
 
-  await evaluate(`(async () => {
-    const nextFrame = () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-    const form = document.querySelector('[data-placement-form]');
-    form.querySelector('[name="name"]').value = 'Maria Lopez';
-    form.querySelector('[name="phone"]').value = '+17325550123';
-    form.querySelector('[name="email"]').value = 'maria@example.com';
-    form.querySelector('[name="city"]').value = 'Bound Brook';
-    form.querySelector('[name="ageGroup"]').value = 'Adulto';
-    ['speaking', 'listening', 'reading', 'writing'].forEach((name) => {
-      form.querySelector(\`input[name="\${name}"][value="2"]\`).checked = true;
-    });
-    form.querySelector('[data-placement-next]').click();
-    await nextFrame();
-    form.querySelector('[data-placement-next]').click();
-    await nextFrame();
-    [...form.querySelectorAll('.quiz-card')].forEach((card) => {
-      const correct = [...card.querySelectorAll('input')].find((input) => input.value === '1');
-      (correct || card.querySelector('input')).checked = true;
-    });
-    form.querySelector('[data-placement-next]').click();
-    await nextFrame();
-    form.querySelector('[name="writingSample"]').value = 'Bill is stronger than Jack. Jack is thinner than Bill. Both men are different.';
-    form.querySelector('input[name="goal"]').checked = true;
-    form.querySelector('[data-placement-next]').click();
-    await nextFrame();
-  })()`);
+  await evaluate(`document.querySelector('[data-diagnostic-screen="intro"] .button--primary').click()`);
+  await waitForSelector('[data-diagnostic-screen="question"]');
 
-  await waitForSelector("[data-placement-result] h3");
+  let q37HasThrough = false;
+  for (let questionNumber = 1; questionNumber <= 62; questionNumber += 1) {
+    const question = await evaluate(`(() => {
+      const screen = document.querySelector('[data-diagnostic-screen="question"]');
+      const current = Number(screen?.querySelector('[role="progressbar"]')?.getAttribute('aria-valuenow'));
+      const buttons = [...(screen?.querySelectorAll('.diagnostic-answer') || [])];
+      if (current !== ${questionNumber} || !buttons.length) return { current, clicked: false, q37HasThrough: false };
+      const hasThrough = current === 37 && buttons.some((button) => button.innerText.includes('through'));
+      buttons.at(-1).click();
+      return { current, clicked: true, q37HasThrough: hasThrough };
+    })()`);
+    if (!question.clicked) {
+      throw new Error(`Placement question ${questionNumber} was not ready: ${JSON.stringify(question)}`);
+    }
+    if (question.q37HasThrough) q37HasThrough = true;
+    await sleep(280);
+  }
+
+  for (let reflection = 0; reflection < 4; reflection += 1) {
+    await waitForSelector('[data-diagnostic-screen="reflection"]');
+    await evaluate(`document.querySelector('[data-diagnostic-screen="reflection"] .diagnostic-answer').click()`);
+    await sleep(100);
+  }
+
+  await waitForSelector('[data-diagnostic-screen="goal"]');
+  await evaluate(`document.querySelector('[data-diagnostic-screen="goal"] input[name="goal"]').click()`);
+  await sleep(100);
+  await evaluate(`document.querySelector('[data-diagnostic-screen="goal"] .button--primary').click()`);
+  await waitForSelector('[data-diagnostic-screen="result"]', 15000);
+  const flow = { q37HasThrough };
+
+  await waitForSelector("[data-diagnostic-screen=\"result\"] h2");
   await sleep(500);
 
   await stabilizeViewport();
   await evaluate(`(() => {
-    const result = document.querySelector('[data-placement-result]');
+    const result = document.querySelector('[data-diagnostic-screen="result"]');
     const y = result.getBoundingClientRect().top + window.scrollY - 160;
     window.scrollTo({ top: y, behavior: 'instant' });
   })()`);
@@ -1657,17 +1664,35 @@ const verifyPlacementRoute = async () => {
         text: (el.innerText || el.alt || '').trim().slice(0, 90),
         scrollWidth: el.scrollWidth,
         clientWidth: el.clientWidth,
-      }));
+    }));
     return {
-      resultHeading: document.querySelector('[data-placement-result] h3')?.innerText || '',
-      resultText: document.querySelector('[data-placement-result]')?.innerText || '',
-      whatsappHref: document.querySelector('[data-placement-whatsapp]')?.href || '',
-      actionsVisible: !document.querySelector('[data-placement-actions]')?.hidden,
+      resultHeading: document.querySelector('[data-diagnostic-screen="result"] h2')?.innerText || '',
+      resultText: document.querySelector('[data-diagnostic-screen="result"]')?.innerText || '',
+      whatsappHref: document.querySelector('[data-diagnostic-screen="result"] a[href*="wa.me"]')?.href || '',
+      actionsVisible: Boolean(document.querySelector('[data-diagnostic-screen="result"] .diagnostic-result__actions')),
       overflowing,
     };
   })()`);
 
-  return { ...initial, screenshot, ...result };
+  const issues = [];
+  if (!initial.introVisible || !initial.oneQuestionShell || initial.hasContactFields) {
+    issues.push('anonymousIntro');
+  }
+  if (initial.externalGoogleRefs) issues.push('externalGoogleRefs');
+  if (!flow.q37HasThrough) issues.push('q37MissingThrough');
+  if (!result.resultHeading.includes('Nivel 1')) issues.push(`resultHeading=${result.resultHeading}`);
+  if (!result.resultText.includes('bloques consecutivos aprobados por AIT')) {
+    issues.push('approvedScoringCopyMissing');
+  }
+  if (!result.actionsVisible || !result.whatsappHref.includes('wa.me/17323790593')) {
+    issues.push('advisorActionMissing');
+  }
+  if (result.overflowing.length) issues.push(`overflow=${result.overflowing.length}`);
+  if (issues.length) {
+    throw new Error(`placement route failed: ${issues.join(', ')} ${JSON.stringify({ initial, flow, result })}`);
+  }
+
+  return { ...initial, ...flow, screenshot, ...result };
 };
 
 const verifyPublicShellRoute = async ({
@@ -1920,6 +1945,7 @@ const auditOnly = process.env.VERIFY_AUDIT_ONLY === "1";
 const mobileOnly = process.env.VERIFY_MOBILE_ONLY === "1";
 const desktopOnly = process.env.VERIFY_DESKTOP_ONLY === "1";
 const routesOnly = process.env.VERIFY_ROUTES_ONLY === "1";
+const placementOnly = process.env.VERIFY_PLACEMENT_ONLY === "1";
 const editorialCoursesOnly = process.env.VERIFY_EDITORIAL_COURSES_ONLY === "1";
 const editorialRegressionOnly = process.env.VERIFY_EDITORIAL_REGRESSION_ONLY === "1";
 try {
@@ -1929,13 +1955,16 @@ try {
     !mobileOnly &&
     !desktopOnly &&
     !routesOnly &&
+    !placementOnly &&
     !editorialCoursesOnly &&
     !editorialRegressionOnly
   ) {
     results.push(await verifyHeroViewport({ name: "hero-reference-1904x950", width: 1904, height: 950 }));
     results.push(await verifyHeroViewport({ name: "hero-short-1867x847", width: 1867, height: 847 }));
   }
-  if (editorialRegressionOnly) {
+  if (placementOnly) {
+    results.push(await verifyPlacementRoute());
+  } else if (editorialRegressionOnly) {
     const regressionRoutes = [
       {
         name: "course-kids-regression-1366x768",

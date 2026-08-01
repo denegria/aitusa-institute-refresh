@@ -1,7 +1,7 @@
 # AIT USA Placement Diagnostic V2 Contract
 
-Status: product direction approved; academic scoring approval pending  
-Contract version: `aitusa-placement-v2-draft-2026-07-30`  
+Status: product direction and academic scoring approved
+Contract version: `aitusa-placement-v2-approved-2026-08-01`
 Linear: MIS-335, MIS-336, MIS-337, MIS-338, MIS-339, MIS-340
 
 ## Product outcome
@@ -52,19 +52,24 @@ Final placement must be based on the highest validated academic level block the
 learner passes. Total correct answers may be displayed as diagnostic context,
 but total-correct scoring and self-assessment must not define the final level.
 
-The following remain blocked on AIT academic approval:
+Approved academic rules:
 
-- final answer key;
-- question-to-level mapping confirmation;
-- pass threshold for each level block;
-- stopping/continuation rules, if any;
-- borderline/advisor-review policy;
-- public level names and result copy;
-- any CEFR equivalence claim.
-
-Until that approval lands, staging may show only the existing explicitly
-provisional recommendation with `answerKeyStatus=pending_academic_review`.
-Production launch cannot treat that preview as the final academic model.
+- The client-supplied 62-answer key is authoritative, with the grammatically
+  correct `had already begun` retained for Q51 and `through` added to Q37.
+- The six source blocks remain Q1–12, Q13–25, Q26–35, Q36–42, Q43–50, and
+  Q51–62.
+- A block is passed at 70%, rounded up: 9/12, 10/13, 7/10, 5/7, 6/8, and 9/12.
+- Blocks must be passed consecutively. Passing a block demonstrates mastery of
+  that level and recommends entry into the next level; failing an earlier block
+  prevents a later isolated pass from advancing placement.
+- Exactly one question below the current block threshold is `borderline` and
+  requires advisor review.
+- Passing every block caps the automatic recommendation at Level 6 and requires
+  advanced advisor review.
+- Self-assessment and the free-writing comparison do not add automatic points.
+  Writing is advisor-only evidence for borderline and advanced confirmation.
+- Results remain placement recommendations rather than CEFR certifications, and
+  advisor confirmation remains required before enrollment.
 
 ## Study Buddy acquisition reward
 

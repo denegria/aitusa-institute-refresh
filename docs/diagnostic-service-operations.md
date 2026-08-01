@@ -95,5 +95,6 @@ AIT CRM.
 - A stale revision returns `attempt_revision_conflict`; it never overwrites.
 - A replayed mutation/completion returns its original revision/result.
 - Invalid or expired resume/claim credentials fail closed.
-- The academic result stays `provisional` until AIT supplies the validated
-  answer key, block mapping, and thresholds.
+- The server uses the AIT-approved answer key and consecutive 70% block-mastery
+  contract. Results persist as `validated`, `borderline`, or `advisor_review`;
+  advisor confirmation remains required before enrollment.

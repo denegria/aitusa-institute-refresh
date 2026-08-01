@@ -44,25 +44,20 @@ The model now supports the source-backed on-page placement questionnaire:
 - Six legacy source levels from the original placement exam.
 - 62 grammar questions, each scored `0..1`.
 - Four self-assessment answers, each scored `0..3`.
-- One free-writing prompt. The writing prompt does not change the automatic
-  score in this version; it gives the advisor context for final level
-  confirmation.
-- Total score is quiz sum plus rounded self-assessment average.
+- One free-writing prompt. Writing is advisor-only evidence and never changes
+  the automatic score.
+- Self-assessment remains outside automatic placement.
+- Each level block passes at 70%, rounded up to 9/12, 10/13, 7/10, 5/7, 6/8,
+  and 9/12.
+- Blocks must pass consecutively. The next class after the highest consecutive
+  mastered block is recommended; a later isolated pass cannot leapfrog an
+  earlier failure.
+- Exactly one question below the active threshold is flagged for advisor review.
+- Passing all six blocks recommends Level 6 and requires advanced review.
 
-Current recommendations:
-
-- `0..12`: `Nivel inicial / Book 1 base`
-- `13..23`: `Book 1 alto / Basico funcional`
-- `24..34`: `Book 2 inicial / Intermedio bajo`
-- `35..45`: `Book 2 alto / Intermedio`
-- `46..56`: `Book 3 inicial / Intermedio alto`
-- `57..65`: `Book 3 alto / Avanzado orientativo`
-
-All recommendation copy is explicitly orientative. The answer key is marked
-`pending_academic_review`, and the automatic grading mode is
-`automatic_provisional` until AIT confirms the academic source of truth. Advisor
-confirmation remains required before enrollment, schedule, or final level
-placement.
+All recommendation copy remains orientative. The client answer key and block
+model are approved under `automatic_consecutive_block_mastery`. Advisor
+confirmation remains required before enrollment, schedule, or final placement.
 
 ## MIS-299 On-Page Questionnaire
 

@@ -39,7 +39,7 @@ describe("MIS-337 diagnostic data and browser contract", () => {
     assert.match(component, /selectedAnswers: answers/);
   });
 
-  it("records every version required to reproduce a provisional result", () => {
+  it("records every version required to reproduce an approved academic result", () => {
     assert.deepEqual(Object.keys(DIAGNOSTIC_VERSIONS).sort(), [
       "answerKey",
       "levelMap",
@@ -58,6 +58,8 @@ describe("MIS-337 diagnostic data and browser contract", () => {
     ]) {
       assert.match(schema, new RegExp(column));
     }
+    assert.match(DIAGNOSTIC_VERSIONS.answerKey, /approved-2026-08-01/);
+    assert.equal(DIAGNOSTIC_VERSIONS.scoring, "consecutive-block-mastery-v1");
   });
 
   it("separates raw answers and context from immutable result summaries", () => {

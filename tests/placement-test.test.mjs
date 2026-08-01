@@ -3,6 +3,7 @@ import { describe, it } from "node:test";
 import {
   calculatePlacementScore,
   evaluatePlacementTestSubmission,
+  PLACEMENT_LEVEL_BLOCKS,
   selectPlacementRecommendation,
   validatePlacementInput,
 } from "../src/placement/placementTestModel.js";
@@ -35,6 +36,14 @@ const validSubmission = Object.freeze({
   submittedAt: "2026-07-09T14:30:00.000Z",
 });
 
+function quizAnswersForBlockScores(correctCounts) {
+  return PLACEMENT_LEVEL_BLOCKS.flatMap((block, blockIndex) =>
+    Array.from(
+      { length: block.count },
+      (_, questionIndex) => Number(questionIndex < correctCounts[blockIndex]),
+    ));
+}
+
 describe("MIS-265 placement test model", () => {
   it("validates score and goal while allowing an anonymous result", () => {
     const validation = validatePlacementInput({
@@ -52,7 +61,7 @@ describe("MIS-265 placement test model", () => {
     assert.equal(validation.errors.includes("advisor_handoff_consent_required"), false);
   });
 
-  it("scores only graded answers and keeps self-assessment outside placement", () => {
+  it("uses consecutive 70% block mastery and keeps self-assessment outside placement", () => {
     const score = calculatePlacementScore({
       ...validSubmission,
       quizAnswers: [...Array(38).fill(1), ...Array(24).fill(0)],
@@ -66,12 +75,93 @@ describe("MIS-265 placement test model", () => {
     assert.equal(score.selfAssessmentAffectsPlacement, false);
     assert.equal(score.totalScore, 38);
     assert.equal(score.maxScore, 62);
-    assert.equal(score.gradingMode, "automatic_provisional_total");
-    assert.equal(score.answerKeyStatus, "pending_academic_review");
-    assert.equal(score.finalScoringModel, "highest_validated_level_block_passed");
-    assert.equal(score.finalScoringStatus, "blocked_pending_academic_rules");
+    assert.equal(score.gradingMode, "automatic_consecutive_block_mastery");
+    assert.equal(score.answerKeyStatus, "approved");
+    assert.equal(score.finalScoringModel, "next_level_after_consecutive_block_mastery");
+    assert.equal(score.finalScoringStatus, "validated");
     assert.equal(score.blockScores.length, 6);
-    assert.equal(selectPlacementRecommendation(score.totalScore).key, "book-2-upper");
+    assert.deepEqual(score.blockScores.map((block) => block.passCount), [9, 10, 7, 5, 6, 9]);
+    assert.equal(score.consecutivePassedBlockCount, 3);
+    assert.equal(score.highestValidatedBlockKey, "level-3");
+    assert.equal(selectPlacementRecommendation(score).key, "book-2-upper");
+    assert.equal(score.writingAffectsPlacement, false);
+    assert.equal(score.writingReviewMode, "advisor_only");
+  });
+
+  it("places into the next class after the highest consecutive block passed", () => {
+    const score = calculatePlacementScore({
+      ...validSubmission,
+      quizAnswers: quizAnswersForBlockScores([9, 8, 10, 7, 8, 12]),
+      skippedQuestionIndexes: [],
+    });
+
+    assert.equal(score.blockScores[0].passStatus, "passed");
+    assert.equal(score.blockScores[1].passStatus, "not_passed");
+    assert.equal(score.blockScores[2].passStatus, "passed");
+    assert.equal(score.blockScores[2].countsTowardPlacement, false);
+    assert.equal(score.consecutivePassedBlockCount, 1);
+    assert.equal(score.highestValidatedBlockKey, "level-1");
+    assert.equal(selectPlacementRecommendation(score).level, "Nivel 2 / Book 1 alto");
+  });
+
+  it("flags exactly one question below a block threshold for advisor review", () => {
+    const score = calculatePlacementScore({
+      ...validSubmission,
+      quizAnswers: quizAnswersForBlockScores([9, 9, 10, 7, 8, 12]),
+      skippedQuestionIndexes: [],
+    });
+
+    assert.equal(score.blockScores[1].passCount, 10);
+    assert.equal(score.blockScores[1].borderlineCount, 9);
+    assert.equal(score.blockScores[1].passStatus, "borderline");
+    assert.equal(score.consecutivePassedBlockCount, 1);
+    assert.equal(score.borderlineReviewRequired, true);
+    assert.equal(score.advisorReviewRequired, true);
+    assert.equal(score.finalScoringStatus, "borderline");
+    assert.equal(selectPlacementRecommendation(score).level, "Nivel 2 / Book 1 alto");
+
+    const response = evaluatePlacementTestSubmission({
+      ...validSubmission,
+      selectedAnswers: PLACEMENT_LEVEL_BLOCKS.flatMap((block, blockIndex) =>
+        DIAGNOSTIC_QUESTION_BANK
+          .slice(block.start, block.start + block.count)
+          .map((question, questionIndex) =>
+            questionIndex < [9, 9, 10, 7, 8, 12][blockIndex]
+              ? question.correctAnswer
+              : question.options.find((option) => option !== question.correctAnswer)),
+      ),
+    });
+    assert.match(response.body.advisorHandoff.message, /a una respuesta del siguiente nivel/i);
+  });
+
+  it("caps an all-block pass at Level 6 and requires advanced advisor review", () => {
+    const score = calculatePlacementScore({
+      ...validSubmission,
+      quizAnswers: quizAnswersForBlockScores([12, 13, 10, 7, 8, 12]),
+      skippedQuestionIndexes: [],
+    });
+
+    assert.equal(score.consecutivePassedBlockCount, 6);
+    assert.equal(score.placementReason, "advanced_cap_reached");
+    assert.equal(score.finalScoringStatus, "advisor_review");
+    assert.equal(score.advisorReviewRequired, true);
+    assert.equal(selectPlacementRecommendation(score).level, "Nivel 6 / Book 3 alto");
+  });
+
+  it("uses the normalized client answer-key decisions without exposing the key publicly", () => {
+    const expected = new Map([
+      [37, "through"],
+      [50, "flown"],
+      [51, "had already begun"],
+      [52, "to bite"],
+      [58, "have given"],
+    ]);
+
+    for (const [questionNumber, correctAnswer] of expected) {
+      const question = DIAGNOSTIC_QUESTION_BANK[questionNumber - 1];
+      assert.equal(question.correctAnswer, correctAnswer);
+      assert.equal(question.options.includes(correctAnswer), true);
+    }
   });
 
   it("returns a useful anonymous result before contact capture", () => {
@@ -113,8 +203,9 @@ describe("MIS-265 placement test model", () => {
     assert.equal(response.body.crmPayloadPreview.crmWrite, false);
     assert.equal(response.body.crmPayloadPreview.storageEnabled, false);
     assert.equal(response.body.crmPayloadPreview.placement.quizQuestionCount, 62);
-    assert.equal(response.body.crmPayloadPreview.placement.gradingMode, "automatic_provisional_total");
-    assert.equal(response.body.crmPayloadPreview.placement.answerKeyStatus, "pending_academic_review");
+    assert.equal(response.body.crmPayloadPreview.placement.gradingMode, "automatic_consecutive_block_mastery");
+    assert.equal(response.body.crmPayloadPreview.placement.answerKeyStatus, "approved");
+    assert.equal(response.body.crmPayloadPreview.placement.consecutivePassedBlockCount, 3);
     assert.deepEqual(response.body.crmPayloadPreview.contactFieldsProvided, {
       name: true,
       phone: true,
@@ -131,8 +222,9 @@ describe("MIS-265 placement test model", () => {
     assert.equal(response.body.crmSyncPreview.accepted, true);
     assert.equal(response.body.crmSyncPreview.delivery.crmWrite, false);
     assert.equal(payload.sourceKey, "aitusa-placement-test-v2-preview");
-    assert.equal(payload.gradingMode, "automatic_provisional_total");
-    assert.equal(payload.answerKeyStatus, "pending_academic_review");
+    assert.equal(payload.gradingMode, "automatic_consecutive_block_mastery");
+    assert.equal(payload.answerKeyStatus, "approved");
+    assert.equal(payload.writingReviewMode, "advisor_only");
     assert.equal(JSON.stringify(payload).includes("+17325550123"), false);
     assert.equal(JSON.stringify(payload).includes("student@example.com"), false);
   });

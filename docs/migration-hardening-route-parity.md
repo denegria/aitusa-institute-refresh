@@ -31,7 +31,8 @@ homepage design changes or treating the site as launch-ready.
 - Final production-domain cutover and rollback plan remain launch QA work.
 - Homepage conversion polish remains blocked on design/client feedback.
 - North Plainfield publication status remains client-confirmation gated.
-- Placement answer key remains `pending_academic_review`.
+- Placement answer key and consecutive block-scoring contract were approved on
+  2026-08-01; advisor confirmation still gates final enrollment placement.
 - CRM writes/storage, payment capture, auth provider wiring, and production
   portal data remain disabled until separately approved.
 

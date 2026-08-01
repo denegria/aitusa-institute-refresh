@@ -31,8 +31,8 @@ Placement route:
 - `sourcePath`: `/placement-test`
 - current response includes `crmWrite: false`
 - current response includes `storageEnabled: false`
-- answer key status remains `pending_academic_review`
-- grading mode remains `automatic_provisional`
+- answer key status is `approved`
+- grading mode is `automatic_consecutive_block_mastery`
 
 Shared event contract:
 

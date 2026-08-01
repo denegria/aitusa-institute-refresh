@@ -787,14 +787,29 @@ function ResultScreen({
         <h3>Qué significa</h3>
         <p><strong>Ruta sugerida:</strong> {recommendation.bestFit}</p>
         <p><strong>Tu objetivo:</strong> {goal}</p>
+        {scores.borderlineReviewRequired ? (
+          <p>
+            <strong>Revisión recomendada:</strong> quedaste a una respuesta del
+            siguiente nivel. El asesor puede usar tu escritura y contexto para
+            confirmar si avanzas.
+          </p>
+        ) : null}
         <p>
           <strong>Confirmación académica:</strong> un asesor revisa esta
           estimación contigo antes de definir nivel, horario e inscripción.
         </p>
-        <p className="diagnostic-result__provisional">
-          AIT todavía está validando la llave académica y las reglas por nivel.
-          Esta estimación es provisional y no representa una certificación CEFR.
-        </p>
+        {scores.answerKeyStatus === "approved" ? (
+          <p className="diagnostic-result__provisional">
+            La recomendación usa bloques consecutivos aprobados por AIT. Un
+            resultado limítrofe o de Nivel 6 se revisa con la escritura y el
+            contexto del estudiante; no representa una certificación CEFR.
+          </p>
+        ) : (
+          <p className="diagnostic-result__provisional">
+            Este resultado usa la regla académica disponible cuando completaste
+            el examen. Un asesor confirma tu nivel antes de la inscripción.
+          </p>
+        )}
         {syncNotice ? (
           <p className="diagnostic-result__provisional">{syncNotice}</p>
         ) : null}

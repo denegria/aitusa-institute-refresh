@@ -255,7 +255,7 @@ export function createDiagnosticService({
           id: createId(),
           attemptId,
           ...DIAGNOSTIC_VERSIONS,
-          resultStatus: "provisional",
+          resultStatus: evaluated.body.scores.finalScoringStatus,
           recommendedLevelKey: evaluated.body.recommendation.key,
           recommendedLevelLabel: evaluated.body.recommendation.level,
           quizScore: evaluated.body.scores.quizScore,

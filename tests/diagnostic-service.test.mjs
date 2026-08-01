@@ -130,8 +130,8 @@ describe("MIS-337 versioned diagnostic service", () => {
     );
   });
 
-  it("calculates the provisional result on the server and completes idempotently", async () => {
-    const { service } = fixture();
+  it("calculates the approved block result on the server and completes idempotently", async () => {
+    const { repository, service } = fixture();
     const started = await service.startAttempt({
       requestId: "request-complete-001",
       requestSecret,
@@ -159,6 +159,8 @@ describe("MIS-337 versioned diagnostic service", () => {
     assert.equal(first.result.scores.selfAssessmentAffectsPlacement, false);
     assert.equal(first.result.storageEnabled, true);
     assert.equal(first.result.resultStatus.certifiedAssessment, false);
+    assert.equal(first.result.scores.finalScoringStatus, "advisor_review");
+    assert.equal([...repository._inspect().results.values()][0].resultStatus, "advisor_review");
     assert.equal(first.attempt.status, "completed");
     assert.equal(replay.replayed, true);
     assert.equal(replay.result.scores.quizScore, 62);

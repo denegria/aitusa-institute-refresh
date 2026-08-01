@@ -38,40 +38,50 @@ export const PLACEMENT_SELF_ASSESSMENTS = Object.freeze([
 ]);
 
 export const PLACEMENT_QUIZ_QUESTION_COUNT = 62;
+export const PLACEMENT_BLOCK_PASS_RATE = 0.7;
+export const PLACEMENT_WRITING_REVIEW_MODE = "advisor_only";
 
 export const PLACEMENT_LEVEL_BLOCKS = Object.freeze([
-  Object.freeze({ key: "level-1", label: "Level 1", book: "Book 1", start: 0, count: 12 }),
-  Object.freeze({ key: "level-2", label: "Level 2", book: "Book 1", start: 12, count: 13 }),
-  Object.freeze({ key: "level-3", label: "Level 3", book: "Book 2", start: 25, count: 10 }),
-  Object.freeze({ key: "level-4", label: "Level 4", book: "Book 2", start: 35, count: 7 }),
-  Object.freeze({ key: "level-5", label: "Level 5", book: "Book 3", start: 42, count: 8 }),
-  Object.freeze({ key: "level-6", label: "Level 6", book: "Book 3", start: 50, count: 12 }),
+  Object.freeze({ key: "level-1", label: "Level 1", book: "Book 1", start: 0, count: 12, passCount: 9 }),
+  Object.freeze({ key: "level-2", label: "Level 2", book: "Book 1", start: 12, count: 13, passCount: 10 }),
+  Object.freeze({ key: "level-3", label: "Level 3", book: "Book 2", start: 25, count: 10, passCount: 7 }),
+  Object.freeze({ key: "level-4", label: "Level 4", book: "Book 2", start: 35, count: 7, passCount: 5 }),
+  Object.freeze({ key: "level-5", label: "Level 5", book: "Book 3", start: 42, count: 8, passCount: 6 }),
+  Object.freeze({ key: "level-6", label: "Level 6", book: "Book 3", start: 50, count: 12, passCount: 9 }),
 ]);
+
+let expectedBlockStart = 0;
+for (const block of PLACEMENT_LEVEL_BLOCKS) {
+  if (
+    block.start !== expectedBlockStart ||
+    block.passCount !== Math.ceil(block.count * PLACEMENT_BLOCK_PASS_RATE)
+  ) {
+    throw new Error(`placement_level_block_contract_invalid:${block.key}`);
+  }
+  expectedBlockStart += block.count;
+}
+if (expectedBlockStart !== PLACEMENT_QUIZ_QUESTION_COUNT) {
+  throw new Error("placement_level_block_coverage_invalid");
+}
 
 export const PLACEMENT_RECOMMENDATIONS = Object.freeze([
   Object.freeze({
     key: "foundation",
-    min: 0,
-    max: 12,
-    level: "Nivel inicial / Book 1 base",
+    level: "Nivel 1 / Book 1 base",
     copy:
       "Te conviene empezar con una ruta base enfocada en comprensión, frases útiles y práctica guiada.",
     bestFit: "Inglés presencial u online para construir confianza desde cero.",
   }),
   Object.freeze({
     key: "book-1-bridge",
-    min: 13,
-    max: 23,
-    level: "Book 1 alto / Básico funcional",
+    level: "Nivel 2 / Book 1 alto",
     copy:
       "Ya tienes algunas bases y puedes avanzar con corrección en vivo, estructura visual y práctica semanal.",
     bestFit: "Inglés presencial u online según tu agenda y ubicación.",
   }),
   Object.freeze({
     key: "book-2-entry",
-    min: 24,
-    max: 34,
-    level: "Book 2 inicial / Intermedio bajo",
+    level: "Nivel 3 / Book 2 inicial",
     copy:
       "Puedes trabajar estructuras de pasado, comparaciones y comunicación cotidiana con más continuidad.",
     bestFit:
@@ -79,9 +89,7 @@ export const PLACEMENT_RECOMMENDATIONS = Object.freeze([
   }),
   Object.freeze({
     key: "book-2-upper",
-    min: 35,
-    max: 45,
-    level: "Book 2 alto / Intermedio",
+    level: "Nivel 4 / Book 2 alto",
     copy:
       "Tienes base para una clase con más conversación, corrección puntual y objetivos específicos.",
     bestFit:
@@ -89,9 +97,7 @@ export const PLACEMENT_RECOMMENDATIONS = Object.freeze([
   }),
   Object.freeze({
     key: "book-3-entry",
-    min: 46,
-    max: 56,
-    level: "Book 3 inicial / Intermedio alto",
+    level: "Nivel 5 / Book 3 inicial",
     copy:
       "Puedes practicar estructuras más avanzadas, fluidez, escritura corta y situaciones de trabajo o estudio.",
     bestFit:
@@ -99,9 +105,7 @@ export const PLACEMENT_RECOMMENDATIONS = Object.freeze([
   }),
   Object.freeze({
     key: "book-3-upper",
-    min: 57,
-    max: 65,
-    level: "Book 3 alto / Avanzado orientativo",
+    level: "Nivel 6 / Book 3 alto",
     copy:
       "Tu resultado sugiere una ruta avanzada o de objetivos específicos, sujeta a entrevista o revisión de escritura.",
     bestFit:
@@ -118,12 +122,15 @@ export function getPlacementTestConfig() {
       title: "PLACEMENT EXAM (EXAMEN DE NIVELACION) COMMUNICATIVE ENGLISH",
       legacyLevels: 6,
       freeWritingIncluded: true,
-      gradingMode: "automatic_provisional_total",
-      answerKeyStatus: "pending_academic_review",
-      finalScoringModel: "highest_validated_level_block_passed",
-      finalScoringStatus: "blocked_pending_academic_rules",
+      gradingMode: "automatic_consecutive_block_mastery",
+      answerKeyStatus: "approved",
+      finalScoringModel: "next_level_after_consecutive_block_mastery",
+      finalScoringStatus: "approved",
+      blockPassRate: PLACEMENT_BLOCK_PASS_RATE,
+      borderlineRule: "one_question_below_pass_count",
+      writingReviewMode: PLACEMENT_WRITING_REVIEW_MODE,
       note:
-        "Las preguntas vienen del cuestionario legado. La estimacion automatica es provisional hasta que AIT confirme la llave, los bloques y las reglas academicas finales.",
+        "AIT aprobó la llave de respuestas, los seis bloques y la regla de dominio consecutivo. La recomendación sigue requiriendo confirmación de un asesor antes de la inscripción.",
     },
     levelBlocks: PLACEMENT_LEVEL_BLOCKS,
     recommendations: PLACEMENT_RECOMMENDATIONS,
@@ -162,7 +169,7 @@ export function evaluatePlacementTestSubmission(input = {}) {
   });
   const submittedAt = normalizedInput.submittedAt ?? new Date().toISOString();
   const scores = calculatePlacementScore(normalizedInput);
-  const recommendation = selectPlacementRecommendation(scores.totalScore);
+  const recommendation = selectPlacementRecommendation(scores);
   const advisorMessage = buildAdvisorHandoffMessage({
     student: normalizedInput.student,
     goal: normalizedInput.goal,
@@ -192,8 +199,10 @@ export function evaluatePlacementTestSubmission(input = {}) {
       scores,
       resultStatus: {
         advisorConfirmationRequired: true,
-        academicKeyStatus: "pending_academic_review",
-        finalScoringStatus: "blocked_pending_academic_rules",
+        academicKeyStatus: scores.answerKeyStatus,
+        finalScoringStatus: scores.finalScoringStatus,
+        borderlineReviewRequired: scores.borderlineReviewRequired,
+        writingReviewMode: scores.writingReviewMode,
         certifiedAssessment: false,
       },
       advisorHandoff: {
@@ -221,23 +230,51 @@ export function calculatePlacementScore(input) {
     selfAssessmentScore / PLACEMENT_SELF_ASSESSMENTS.length,
   );
   const skippedQuestionIndexes = new Set(input.skippedQuestionIndexes || []);
-  const blockScores = PLACEMENT_LEVEL_BLOCKS.map((block) => {
+  const rawBlockScores = PLACEMENT_LEVEL_BLOCKS.map((block) => {
     const answers = input.quizAnswers.slice(block.start, block.start + block.count);
     const skippedCount = Array.from(
       { length: block.count },
       (_, localIndex) => block.start + localIndex,
     ).filter((index) => skippedQuestionIndexes.has(index)).length;
+    const correct = answers.reduce((total, value) => total + Number(value), 0);
+    const borderlineCount = block.passCount - 1;
     return {
       key: block.key,
       label: block.label,
       book: block.book,
-      correct: answers.reduce((total, value) => total + Number(value), 0),
+      correct,
       answered: block.count - skippedCount,
       skipped: skippedCount,
       questionCount: block.count,
-      passStatus: "pending_academic_rules",
+      passRate: PLACEMENT_BLOCK_PASS_RATE,
+      passCount: block.passCount,
+      borderlineCount,
+      passStatus:
+        correct >= block.passCount
+          ? "passed"
+          : correct === borderlineCount
+            ? "borderline"
+            : "not_passed",
     };
   });
+  let consecutivePassedBlockCount = 0;
+  while (
+    consecutivePassedBlockCount < rawBlockScores.length &&
+    rawBlockScores[consecutivePassedBlockCount].passStatus === "passed"
+  ) {
+    consecutivePassedBlockCount += 1;
+  }
+  const firstUnvalidatedBlock = rawBlockScores[consecutivePassedBlockCount] || null;
+  const allBlocksPassed = consecutivePassedBlockCount === rawBlockScores.length;
+  const borderlineReviewRequired = firstUnvalidatedBlock?.passStatus === "borderline";
+  const recommendedPlacementIndex = Math.min(
+    consecutivePassedBlockCount,
+    PLACEMENT_RECOMMENDATIONS.length - 1,
+  );
+  const blockScores = rawBlockScores.map((blockScore, index) => ({
+    ...blockScore,
+    countsTowardPlacement: index < consecutivePassedBlockCount,
+  }));
 
   return {
     quizScore,
@@ -246,25 +283,40 @@ export function calculatePlacementScore(input) {
       PLACEMENT_QUIZ_QUESTION_COUNT - skippedQuestionIndexes.size,
     skippedQuestionCount: skippedQuestionIndexes.size,
     blockScores,
+    consecutivePassedBlockCount,
+    highestValidatedBlockKey:
+      consecutivePassedBlockCount > 0
+        ? PLACEMENT_LEVEL_BLOCKS[consecutivePassedBlockCount - 1].key
+        : null,
+    recommendedPlacementIndex,
+    placementReason: allBlocksPassed
+      ? "advanced_cap_reached"
+      : consecutivePassedBlockCount === 0
+        ? "foundation_required"
+        : "next_level_after_mastery",
+    borderlineReviewRequired,
+    advisorReviewRequired: borderlineReviewRequired || allBlocksPassed,
     selfAssessmentScore,
     selfAssessmentAverage,
     selfAssessmentAffectsPlacement: false,
     totalScore: quizScore,
     maxScore: PLACEMENT_QUIZ_QUESTION_COUNT,
-    gradingMode: "automatic_provisional_total",
-    answerKeyStatus: "pending_academic_review",
-    finalScoringModel: "highest_validated_level_block_passed",
-    finalScoringStatus: "blocked_pending_academic_rules",
+    gradingMode: "automatic_consecutive_block_mastery",
+    answerKeyStatus: "approved",
+    finalScoringModel: "next_level_after_consecutive_block_mastery",
+    finalScoringStatus: allBlocksPassed
+      ? "advisor_review"
+      : borderlineReviewRequired
+        ? "borderline"
+        : "validated",
+    writingAffectsPlacement: false,
+    writingReviewMode: PLACEMENT_WRITING_REVIEW_MODE,
   };
 }
 
-export function selectPlacementRecommendation(totalScore) {
-  return (
-    PLACEMENT_RECOMMENDATIONS.find(
-      (recommendation) =>
-        totalScore >= recommendation.min && totalScore <= recommendation.max,
-    ) ?? PLACEMENT_RECOMMENDATIONS[0]
-  );
+export function selectPlacementRecommendation(scores) {
+  return PLACEMENT_RECOMMENDATIONS[scores?.recommendedPlacementIndex]
+    ?? PLACEMENT_RECOMMENDATIONS[0];
 }
 
 export function buildAdvisorHandoffMessage({
@@ -283,6 +335,13 @@ export function buildAdvisorHandoffMessage({
     `Objetivo: ${goal}`,
     `Resultado sugerido: ${recommendation.level}`,
     `Preguntas correctas: ${scores.quizScore} de ${scores.quizQuestionCount}`,
+    `Bloques consecutivos aprobados: ${scores.consecutivePassedBlockCount} de ${PLACEMENT_LEVEL_BLOCKS.length}`,
+    scores.borderlineReviewRequired
+      ? "Revision academica: quedo a una respuesta del siguiente nivel."
+      : null,
+    scores.finalScoringStatus === "advisor_review"
+      ? "Revision academica: completo todos los bloques; confirmar ubicacion avanzada."
+      : null,
     `Detalle: ${recommendation.copy}`,
     "Quiero confirmar esta recomendacion con un asesor.",
   ];
@@ -325,6 +384,10 @@ export function buildPlacementCrmPayloadPreview({
       answerKeyStatus: scores.answerKeyStatus,
       finalScoringModel: scores.finalScoringModel,
       finalScoringStatus: scores.finalScoringStatus,
+      consecutivePassedBlockCount: scores.consecutivePassedBlockCount,
+      highestValidatedBlockKey: scores.highestValidatedBlockKey,
+      borderlineReviewRequired: scores.borderlineReviewRequired,
+      writingReviewMode: scores.writingReviewMode,
     },
     consent: {
       advisorHandoff: input.consent?.advisorHandoff === true,
@@ -368,6 +431,10 @@ export function buildPlacementCrmSyncPreview({
       gradingMode: scores.gradingMode,
       answerKeyStatus: scores.answerKeyStatus,
       finalScoringStatus: scores.finalScoringStatus,
+      consecutivePassedBlockCount: scores.consecutivePassedBlockCount,
+      highestValidatedBlockKey: scores.highestValidatedBlockKey,
+      borderlineReviewRequired: scores.borderlineReviewRequired,
+      writingReviewMode: scores.writingReviewMode,
       contactFieldsProvided: crmPayloadPreview.contactFieldsProvided,
       advisorConfirmationRequired: true,
       crmStorageApproved: false,

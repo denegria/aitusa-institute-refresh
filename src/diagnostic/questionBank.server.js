@@ -38,7 +38,7 @@ const CORRECT_ANSWERS = Object.freeze([
   "should",
   "might",
   "Could",
-  "at",
+  "through",
   "fewer",
   "must",
   "any",
@@ -51,15 +51,15 @@ const CORRECT_ANSWERS = Object.freeze([
   "Either",
   "ever seen",
   "worn",
-  "flying",
+  "flown",
   "had already begun",
-  "biting",
+  "to bite",
   "Swimming",
   "about moving",
   "throw them out",
   "got over it",
   "avoids driving",
-  "had given",
+  "have given",
   "would go",
   "would have said",
   "should have",
@@ -77,6 +77,13 @@ const publicQuestions = placementTest.questions.flatMap((level, levelIndex) =>
 
 if (publicQuestions.length !== CORRECT_ANSWERS.length) {
   throw new Error("diagnostic_question_bank_answer_count_mismatch");
+}
+
+const invalidAnswerIndex = publicQuestions.findIndex(
+  (question, index) => !question.options.includes(CORRECT_ANSWERS[index]),
+);
+if (invalidAnswerIndex !== -1) {
+  throw new Error(`diagnostic_question_bank_answer_option_mismatch:${invalidAnswerIndex + 1}`);
 }
 
 export const DIAGNOSTIC_QUESTION_BANK = Object.freeze(

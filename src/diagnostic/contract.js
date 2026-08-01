@@ -1,10 +1,10 @@
 export const DIAGNOSTIC_VERSIONS = Object.freeze({
-  productContract: "aitusa-placement-v2-draft-2026-07-30",
-  questionBank: "legacy-62-pending-academic-review",
-  answerKey: "legacy-key-v1-pending-academic-review",
-  levelMap: "legacy-six-blocks-v1-pending-academic-review",
-  scoring: "provisional-total-v1",
-  resultCopy: "placement-result-es-v1",
+  productContract: "aitusa-placement-v2-approved-2026-08-01",
+  questionBank: "legacy-62-approved-2026-08-01",
+  answerKey: "client-key-v1-approved-2026-08-01",
+  levelMap: "legacy-six-blocks-v1-approved-2026-08-01",
+  scoring: "consecutive-block-mastery-v1",
+  resultCopy: "placement-result-es-v2",
 });
 
 export const DIAGNOSTIC_RETENTION = Object.freeze({

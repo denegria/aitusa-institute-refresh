@@ -43,9 +43,15 @@ describe("MIS-265 placement test route", () => {
     assert.equal(body.placementTest.quizQuestionCount, 62);
     assert.equal(body.placementTest.contract.anonymousResultEnabled, true);
     assert.equal(body.placementTest.contract.guardianRequiredUnderAge, 13);
-    assert.equal(body.placementTest.source.gradingMode, "automatic_provisional_total");
-    assert.equal(body.placementTest.source.answerKeyStatus, "pending_academic_review");
-    assert.equal(body.placementTest.source.finalScoringStatus, "blocked_pending_academic_rules");
+    assert.equal(body.placementTest.source.gradingMode, "automatic_consecutive_block_mastery");
+    assert.equal(body.placementTest.source.answerKeyStatus, "approved");
+    assert.equal(body.placementTest.source.finalScoringStatus, "approved");
+    assert.equal(body.placementTest.source.blockPassRate, 0.7);
+    assert.equal(body.placementTest.source.borderlineRule, "one_question_below_pass_count");
+    assert.deepEqual(
+      body.placementTest.levelBlocks.map((block) => block.passCount),
+      [9, 10, 7, 5, 6, 9],
+    );
     assert.equal(body.crmWrite, false);
   });
 
@@ -58,7 +64,9 @@ describe("MIS-265 placement test route", () => {
     assert.equal(body.recommendation.key, "book-3-upper");
     assert.equal(body.scores.quizQuestionCount, 62);
     assert.equal(body.scores.maxScore, 62);
-    assert.equal(body.scores.answerKeyStatus, "pending_academic_review");
+    assert.equal(body.scores.answerKeyStatus, "approved");
+    assert.equal(body.scores.finalScoringStatus, "advisor_review");
+    assert.equal(body.scores.consecutivePassedBlockCount, 6);
     assert.equal(body.scores.selfAssessmentAffectsPlacement, false);
     assert.equal(body.crmPayloadPreview.crmWrite, false);
     assert.equal(body.crmSyncPreview.crmTimelinePreview.eventType, "placement_completed");

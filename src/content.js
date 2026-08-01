@@ -3358,8 +3358,8 @@ const placementTest = {
     ],
     questionCount: 62,
     legacyLevels: 6,
-    gradingMode: "automatic_provisional",
-    answerKeyStatus: "pending_academic_review",
+    gradingMode: "automatic_consecutive_block_mastery",
+    answerKeyStatus: "approved",
     note:
       "La versión refresh debe presentar y calificar el cuestionario en sitio, sin incrustar ni enlazar servicios externos.",
   },
@@ -3459,7 +3459,7 @@ const placementTest = {
       level: "Level 4 (Book 2)",
       items: [
         { prompt: "36. When you were a child, ____ you speak Russian?", options: ["Could", "Can", "Should", "I Don't Know"] },
-        { prompt: "37. I was jogging ______ the park when I slipped and fell.", options: ["at", "on", "up", "I Don't Know"] },
+        { prompt: "37. I was jogging ______ the park when I slipped and fell.", options: ["at", "on", "through", "I Don't Know"] },
         { prompt: "38. You must eat less bread and ____ cookies.", options: ["less", "fewer", "too less", "I Don't Know"] },
         { prompt: "39. I ________ lose some weight.", options: ["must to", "have", "must", "I Don't Know"] },
         { prompt: "40. Do you have _____ money?", options: ["no", "any", "none", "I Don't Know"] },
@@ -3516,54 +3516,42 @@ const placementTest = {
   recommendations: [
     {
       key: "foundation",
-      min: 0,
-      max: 12,
-      level: "Nivel inicial / Book 1 base",
+      level: "Nivel 1 / Book 1 base",
       recommendation:
         "Te conviene empezar con una ruta base enfocada en comprensión, frases útiles y práctica guiada.",
       bestFit: "Inglés presencial o híbrido para construir confianza desde cero.",
     },
     {
       key: "book-1-bridge",
-      min: 13,
-      max: 23,
-      level: "Book 1 alto / Básico funcional",
+      level: "Nivel 2 / Book 1 alto",
       recommendation:
         "Ya tienes algunas bases y puedes avanzar con corrección en vivo, estructura visual y práctica semanal.",
       bestFit: "Inglés presencial, híbrido u online según tu agenda y ubicación.",
     },
     {
       key: "book-2-entry",
-      min: 24,
-      max: 34,
-      level: "Book 2 inicial / Intermedio bajo",
+      level: "Nivel 3 / Book 2 inicial",
       recommendation:
         "Puedes trabajar estructuras de pasado, comparaciones y comunicación cotidiana con más continuidad.",
       bestFit: "Ruta conversacional con confirmación de nivel antes de cerrar horario o inscripción.",
     },
     {
       key: "book-2-upper",
-      min: 35,
-      max: 45,
-      level: "Book 2 alto / Intermedio",
+      level: "Nivel 4 / Book 2 alto",
       recommendation:
         "Tienes base para una clase con más conversación, corrección puntual y objetivos específicos.",
       bestFit: "Grupo intermedio presencial, híbrido u online según disponibilidad y meta principal.",
     },
     {
       key: "book-3-entry",
-      min: 46,
-      max: 56,
-      level: "Book 3 inicial / Intermedio alto",
+      level: "Nivel 5 / Book 3 inicial",
       recommendation:
         "Puedes practicar estructuras más avanzadas, fluidez, escritura corta y situaciones de trabajo o estudio.",
       bestFit: "Ruta intermedia alta con práctica oral y confirmación académica antes de inscripción final.",
     },
     {
       key: "book-3-upper",
-      min: 57,
-      max: 65,
-      level: "Book 3 alto / Avanzado orientativo",
+      level: "Nivel 6 / Book 3 alto",
       recommendation:
         "Tu resultado sugiere una ruta avanzada o de objetivos específicos, sujeta a entrevista o revisión de escritura.",
       bestFit: "Ruta conversacional, online o presencial, según disponibilidad y meta principal.",
