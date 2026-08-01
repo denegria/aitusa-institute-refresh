@@ -395,6 +395,33 @@ export function createNeonPortalAuthRepository(database) {
       const row = rows(result)[0];
       return row ? toSafePortalSnapshot(row) : null;
     },
+
+    async getActiveFunnelCorrelationForIdentity(identity) {
+      const result = await database.execute(sql`
+        with matching_accounts as (
+          select id
+          from portal_accounts
+          where workos_user_id = ${identity.providerUserId}
+            and lower(primary_email) = ${identity.email.trim().toLowerCase()}
+            and status = 'active'
+          order by id
+          limit 2
+        ),
+        single_account as (
+          select * from matching_accounts
+          where (select count(*) from matching_accounts) = 1
+        )
+        select attempt.id as funnel_correlation_id
+        from single_account account
+        join diagnostic_attempts attempt
+          on attempt.claimed_account_id = account.id
+         and attempt.status = 'claimed'
+        join diagnostic_results result on result.attempt_id = attempt.id
+        order by attempt.claimed_at desc nulls last, result.created_at desc
+        limit 1
+      `);
+      return rows(result)[0]?.funnel_correlation_id ?? null;
+    },
   };
 }
 

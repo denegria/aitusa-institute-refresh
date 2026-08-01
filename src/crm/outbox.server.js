@@ -1,4 +1,5 @@
 import { sql } from 'drizzle-orm';
+import { toClaimedCrmOutboxItem } from './outbox.js';
 
 export {
   CRM_OUTBOX_MAX_ATTEMPTS,
@@ -17,11 +18,27 @@ export function createNeonCrmOutboxRepository(database) {
     async claimNext({ now, leaseUntil }) {
       const result = await database.execute(sql`
         with candidate as (
-          select id
-          from crm_outbox
-          where (status in ('pending', 'retry_wait') and next_attempt_at <= ${now.toISOString()}::timestamptz)
-             or (status = 'delivering' and next_attempt_at <= ${now.toISOString()}::timestamptz)
-          order by next_attempt_at asc, created_at asc
+          select
+            outbox.id,
+            coalesce(
+              (
+                select attempt.id::text
+                from diagnostic_results result
+                join diagnostic_attempts attempt on attempt.id = result.attempt_id
+                where result.id::text = outbox.correlation_id
+                limit 1
+              ),
+              (
+                select challenge.attempt_id::text
+                from portal_auth_challenges challenge
+                where challenge.claim_id = outbox.correlation_id
+                limit 1
+              )
+            ) as funnel_correlation_id
+          from crm_outbox outbox
+          where (outbox.status in ('pending', 'retry_wait') and outbox.next_attempt_at <= ${now.toISOString()}::timestamptz)
+             or (outbox.status = 'delivering' and outbox.next_attempt_at <= ${now.toISOString()}::timestamptz)
+          order by outbox.next_attempt_at asc, outbox.created_at asc
           limit 1
           for update skip locked
         )
@@ -30,10 +47,11 @@ export function createNeonCrmOutboxRepository(database) {
             next_attempt_at = ${leaseUntil.toISOString()}::timestamptz
         from candidate
         where outbox.id = candidate.id
-        returning outbox.id, outbox.payload, outbox.correlation_id, outbox.attempt_count
+        returning outbox.id, outbox.payload, outbox.correlation_id, outbox.attempt_count,
+          candidate.funnel_correlation_id
       `);
       const row = rows(result)[0];
-      return row ? { id: row.id, payload: row.payload, correlationId: row.correlation_id, attemptCount: Number(row.attempt_count) } : null;
+      return toClaimedCrmOutboxItem(row);
     },
     async markDelivered({ id, deliveredAt }) {
       await database.execute(sql`

@@ -26,19 +26,22 @@ CREATE TABLE "funnel_event_ledger" (
   CONSTRAINT "funnel_event_ledger_source_check" CHECK ("source" in ('diagnostic', 'portal_auth', 'portal_claim', 'practice', 'crm_outbox')),
   CONSTRAINT "funnel_event_ledger_outcome_check" CHECK ("safe_outcome_code" is null or "safe_outcome_code" in ('started', 'completed', 'saved', 'success', 'invalid', 'provider_unavailable', 'backend_unavailable', 'rate_limited', 'escalated', 'session_limit_reached', 'daily_limit_reached', 'retry_limit_reached', 'session_expired', 'crm_unavailable', 'crm_rejected', 'crm_timeout', 'crm_transport_failed')),
   CONSTRAINT "funnel_event_ledger_duration_check" CHECK ("duration_bucket" is null or "duration_bucket" in ('lt_1s', '1_5s', '5_30s', '30_120s', '120s_plus')),
-  CONSTRAINT "funnel_event_ledger_opaque_check" CHECK (char_length("idempotency_key") between 8 and 128 and char_length("correlation_id") between 8 and 128),
+  CONSTRAINT "funnel_event_ledger_opaque_check" CHECK (
+    "idempotency_key" ~ '^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$' and
+    "correlation_id" ~ '^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$'
+  ),
   CONSTRAINT "funnel_event_ledger_bounded_text_check" CHECK (
-    ("utm_source" is null or char_length("utm_source") between 1 and 64) and
-    ("utm_medium" is null or char_length("utm_medium") between 1 and 64) and
-    ("utm_campaign" is null or char_length("utm_campaign") between 1 and 64) and
-    ("utm_term" is null or char_length("utm_term") between 1 and 64) and
-    ("utm_content" is null or char_length("utm_content") between 1 and 64) and
-    ("product_contract_version" is null or char_length("product_contract_version") between 1 and 80) and
-    ("question_bank_version" is null or char_length("question_bank_version") between 1 and 80) and
-    ("answer_key_version" is null or char_length("answer_key_version") between 1 and 80) and
-    ("level_map_version" is null or char_length("level_map_version") between 1 and 80) and
-    ("scoring_contract_version" is null or char_length("scoring_contract_version") between 1 and 80) and
-    ("result_copy_version" is null or char_length("result_copy_version") between 1 and 80)
+    ("utm_source" is null or "utm_source" ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$') and
+    ("utm_medium" is null or "utm_medium" ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$') and
+    ("utm_campaign" is null or "utm_campaign" ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$') and
+    ("utm_term" is null or "utm_term" ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$') and
+    ("utm_content" is null or "utm_content" ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$') and
+    ("product_contract_version" is null or "product_contract_version" ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$') and
+    ("question_bank_version" is null or "question_bank_version" ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$') and
+    ("answer_key_version" is null or "answer_key_version" ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$') and
+    ("level_map_version" is null or "level_map_version" ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$') and
+    ("scoring_contract_version" is null or "scoring_contract_version" ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$') and
+    ("result_copy_version" is null or "result_copy_version" ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$')
   ),
   CONSTRAINT "funnel_event_ledger_retention_check" CHECK ("expires_at" > "occurred_at" and "expires_at" <= "occurred_at" + interval '31 days')
 );

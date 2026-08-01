@@ -189,6 +189,13 @@ export function createDiagnosticService({
       const snapshot = await repository.getAttemptSnapshot(attemptId);
       if (!snapshot) throw new DiagnosticDomainError("attempt_not_found", 404);
       if (snapshot.attempt.completionId === completionId && snapshot.result) {
+        await emitCompletionLedger(ledger, {
+          attempt: snapshot.attempt,
+          attemptId,
+          completionId,
+          occurredAt: snapshot.attempt.completedAt ?? now(),
+          includeRequested: true,
+        });
         return {
           attempt: toSafeAttempt(snapshot.attempt),
           result: snapshot.result.response,
@@ -261,16 +268,7 @@ export function createDiagnosticService({
         },
         now: currentTime,
       });
-      await emitLedger(ledger, {
-        eventName: "diagnostic_completed", idempotencyKey: ledgerKey("diagnostic-completed", attemptId, completionId),
-        correlationId: attemptId, source: "diagnostic", safeOutcomeCode: "completed",
-        occurredAt: currentTime.toISOString(), durationBucket: funnelDurationBucket(attempt.startedAt, currentTime), ...diagnosticVersions(attempt),
-      });
-      await emitLedger(ledger, {
-        eventName: "result_save_completed", idempotencyKey: ledgerKey("result-save-completed", attemptId, completionId),
-        correlationId: attemptId, source: "diagnostic", safeOutcomeCode: "saved",
-        occurredAt: currentTime.toISOString(), ...diagnosticVersions(attempt),
-      });
+      await emitCompletionLedger(ledger, { attempt, attemptId, completionId, occurredAt: currentTime });
       return {
         attempt: toSafeAttempt(persisted.attempt),
         result: persisted.result.response,
@@ -338,6 +336,27 @@ export function createDiagnosticService({
 async function emitLedger(ledger, event) {
   if (!ledger) return;
   try { await ledger.emit(event); } catch { /* Funnel telemetry is query-neutral. */ }
+}
+
+async function emitCompletionLedger(ledger, { attempt, attemptId, completionId, occurredAt, includeRequested = false }) {
+  const completedAt = new Date(occurredAt);
+  if (includeRequested) {
+    await emitLedger(ledger, {
+      eventName: "result_save_requested", idempotencyKey: ledgerKey("result-save-requested", attemptId, completionId),
+      correlationId: attemptId, source: "diagnostic", safeOutcomeCode: "started",
+      occurredAt: completedAt.toISOString(), ...diagnosticVersions(attempt),
+    });
+  }
+  await emitLedger(ledger, {
+    eventName: "diagnostic_completed", idempotencyKey: ledgerKey("diagnostic-completed", attemptId, completionId),
+    correlationId: attemptId, source: "diagnostic", safeOutcomeCode: "completed",
+    occurredAt: completedAt.toISOString(), durationBucket: funnelDurationBucket(attempt.startedAt, completedAt), ...diagnosticVersions(attempt),
+  });
+  await emitLedger(ledger, {
+    eventName: "result_save_completed", idempotencyKey: ledgerKey("result-save-completed", attemptId, completionId),
+    correlationId: attemptId, source: "diagnostic", safeOutcomeCode: "saved",
+    occurredAt: completedAt.toISOString(), ...diagnosticVersions(attempt),
+  });
 }
 
 function diagnosticVersions(attempt) {

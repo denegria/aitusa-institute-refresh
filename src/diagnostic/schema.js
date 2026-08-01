@@ -407,19 +407,19 @@ export const funnelEventLedger = pgTable(
     check("funnel_event_ledger_source_check", sql`${table.source} in (${statusList(FUNNEL_SOURCES)})`),
     check("funnel_event_ledger_outcome_check", sql`${table.safeOutcomeCode} is null or ${table.safeOutcomeCode} in (${statusList(FUNNEL_SAFE_OUTCOME_CODES)})`),
     check("funnel_event_ledger_duration_check", sql`${table.durationBucket} is null or ${table.durationBucket} in (${statusList(FUNNEL_DURATION_BUCKETS)})`),
-    check("funnel_event_ledger_opaque_check", sql`char_length(${table.idempotencyKey}) between 8 and 128 and char_length(${table.correlationId}) between 8 and 128`),
+    check("funnel_event_ledger_opaque_check", sql`${table.idempotencyKey} ~ '^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$' and ${table.correlationId} ~ '^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$'`),
     check("funnel_event_ledger_bounded_text_check", sql`
-      (${table.utmSource} is null or char_length(${table.utmSource}) between 1 and 64) and
-      (${table.utmMedium} is null or char_length(${table.utmMedium}) between 1 and 64) and
-      (${table.utmCampaign} is null or char_length(${table.utmCampaign}) between 1 and 64) and
-      (${table.utmTerm} is null or char_length(${table.utmTerm}) between 1 and 64) and
-      (${table.utmContent} is null or char_length(${table.utmContent}) between 1 and 64) and
-      (${table.productContractVersion} is null or char_length(${table.productContractVersion}) between 1 and 80) and
-      (${table.questionBankVersion} is null or char_length(${table.questionBankVersion}) between 1 and 80) and
-      (${table.answerKeyVersion} is null or char_length(${table.answerKeyVersion}) between 1 and 80) and
-      (${table.levelMapVersion} is null or char_length(${table.levelMapVersion}) between 1 and 80) and
-      (${table.scoringContractVersion} is null or char_length(${table.scoringContractVersion}) between 1 and 80) and
-      (${table.resultCopyVersion} is null or char_length(${table.resultCopyVersion}) between 1 and 80)`),
+      (${table.utmSource} is null or ${table.utmSource} ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$') and
+      (${table.utmMedium} is null or ${table.utmMedium} ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$') and
+      (${table.utmCampaign} is null or ${table.utmCampaign} ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$') and
+      (${table.utmTerm} is null or ${table.utmTerm} ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$') and
+      (${table.utmContent} is null or ${table.utmContent} ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$') and
+      (${table.productContractVersion} is null or ${table.productContractVersion} ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$') and
+      (${table.questionBankVersion} is null or ${table.questionBankVersion} ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$') and
+      (${table.answerKeyVersion} is null or ${table.answerKeyVersion} ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$') and
+      (${table.levelMapVersion} is null or ${table.levelMapVersion} ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$') and
+      (${table.scoringContractVersion} is null or ${table.scoringContractVersion} ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$') and
+      (${table.resultCopyVersion} is null or ${table.resultCopyVersion} ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$')`),
     check("funnel_event_ledger_retention_check", sql`${table.expiresAt} > ${table.occurredAt} and ${table.expiresAt} <= ${table.occurredAt} + interval '31 days'`),
   ],
 );

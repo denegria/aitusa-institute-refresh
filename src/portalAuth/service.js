@@ -160,6 +160,7 @@ export function createPortalAuthService({
 
       let verified;
       let outcome = "backend_error";
+      let funnelCorrelationId = null;
 
       try {
         try {
@@ -204,6 +205,13 @@ export function createPortalAuthService({
         }
 
         outcome = "success";
+        try {
+          funnelCorrelationId = await repository.getActiveFunnelCorrelationForIdentity?.(
+            toPortalIdentity(verified.identity),
+          ) ?? null;
+        } catch {
+          // Portal authentication is authoritative; a telemetry lookup must not change it.
+        }
         return {
           sessionData: verified.sessionData,
           snapshot,
@@ -213,7 +221,8 @@ export function createPortalAuthService({
         if (reservation?.id) await emitLedger(ledger, {
           eventName: outcome === "success" ? "portal_auth_success" : "portal_auth_failure",
           idempotencyKey: `portal-auth-verify:${reservation.id}`,
-          correlationId: reservation.id, source: "portal_auth",
+          correlationId: outcome === "success" ? funnelCorrelationId ?? reservation.id : reservation.id,
+          source: "portal_auth",
           safeOutcomeCode: toFunnelAuthOutcome(outcome), occurredAt: now().toISOString(),
         });
       }

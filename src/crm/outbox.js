@@ -17,6 +17,17 @@ export function safeCrmDeliveryError(error) {
   return 'crm_transport_failed';
 }
 
+export function toClaimedCrmOutboxItem(row) {
+  if (!row) return null;
+  return {
+    id: row.id,
+    payload: row.payload,
+    correlationId: row.correlation_id,
+    funnelCorrelationId: row.funnel_correlation_id ?? null,
+    attemptCount: Number(row.attempt_count),
+  };
+}
+
 export function createAitCrmTransport({
   url,
   secret,
@@ -100,11 +111,11 @@ export function createCrmOutboxDispatcher({ repository, transport, now = () => n
 }
 
 async function emitCrmLedger(ledger, eventName, item, safeOutcomeCode, occurredAt) {
-  if (!ledger || !item.correlationId) return;
+  if (!ledger || !item.funnelCorrelationId) return;
   try {
     await ledger.emit({
       eventName, idempotencyKey: `${eventName}:${item.id}:${item.attemptCount}`,
-      correlationId: item.correlationId, source: "crm_outbox", safeOutcomeCode,
+      correlationId: item.funnelCorrelationId, source: "crm_outbox", safeOutcomeCode,
       occurredAt: occurredAt.toISOString(),
     });
   } catch { /* Delivery state is authoritative; the ledger remains query-neutral. */ }

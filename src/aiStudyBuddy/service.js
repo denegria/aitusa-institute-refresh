@@ -43,6 +43,7 @@ export function createStudyBuddyService({ repository, provider, config = getStud
       const learnerTurn = input.retryAttempt === 1 ? session.lastLearnerTurn : session.turnCount + 1;
       const claim = await repository.claimTurn({ sessionId, accountId: ownership.accountId, learnerTurn, retryAttempt: input.retryAttempt, operationId: input.operationId, at: now() });
       if (claim.replayed) {
+        await emitReplayedPracticeTerminal(ledger, context.ownership.funnelCorrelationId ?? claim.session.resultId, claim.session, now());
         const terminalReplayCodes = { escalated: "escalated", completed: "completed", expired: "session_expired" };
         const code = claim.state === "completed"
           ? terminalReplayCodes[claim.session.state] ?? "operation_completed"
@@ -93,6 +94,16 @@ export function createStudyBuddyService({ repository, provider, config = getStud
 async function emitPractice(ledger, eventName, correlationId, suffix, safeOutcomeCode, occurredAt) {
   if (!ledger || !correlationId) return;
   try { await ledger.emit({ eventName, idempotencyKey: `${eventName}:${suffix}`, correlationId, source: "practice", safeOutcomeCode, occurredAt: occurredAt.toISOString() }); } catch { /* Practice result remains independent of telemetry. */ }
+}
+
+async function emitReplayedPracticeTerminal(ledger, correlationId, session, occurredAt) {
+  const terminal = {
+    completed: ["practice_completed", "completed"],
+    escalated: ["practice_escalated", "escalated"],
+    expired: ["practice_limit", "session_expired"],
+  }[session?.state];
+  if (!terminal) return;
+  await emitPractice(ledger, terminal[0], correlationId, `${session.id}:${session.state}`, terminal[1], occurredAt);
 }
 
 async function defaultRunWithDeadline(work, deadlineMs) {
