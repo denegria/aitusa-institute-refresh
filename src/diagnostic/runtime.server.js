@@ -1,6 +1,7 @@
 import { getPortalDatabase, isPortalDatabaseConfigured } from "./db.server.js";
 import { createNeonDiagnosticRepository } from "./neonRepository.server.js";
 import { createDiagnosticService } from "./service.js";
+import { getFunnelLedgerService } from "../observability/runtime.server.js";
 
 let cachedService = null;
 
@@ -19,6 +20,7 @@ export function getDiagnosticService() {
   cachedService = createDiagnosticService({
     repository: createNeonDiagnosticRepository(getPortalDatabase()),
     resumeSecret: process.env.DIAGNOSTIC_RESUME_SECRET,
+    ledger: getFunnelLedgerService(),
   });
   return cachedService;
 }

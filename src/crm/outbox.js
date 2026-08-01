@@ -65,7 +65,7 @@ export function createAitCrmTransport({
   };
 }
 
-export function createCrmOutboxDispatcher({ repository, transport, now = () => new Date() }) {
+export function createCrmOutboxDispatcher({ repository, transport, now = () => new Date(), ledger = null }) {
   if (!repository) throw new Error('crm_outbox_repository_required');
   if (!transport) throw new Error('crm_outbox_transport_required');
   return {
@@ -79,6 +79,7 @@ export function createCrmOutboxDispatcher({ repository, transport, now = () => n
         try {
           await transport.deliver(item.payload);
           await repository.markDelivered({ id: item.id, deliveredAt: now() });
+          await emitCrmLedger(ledger, "crm_delivery", item, "success", now());
           result.delivered += 1;
         } catch (error) {
           const deadLetter = item.attemptCount >= CRM_OUTBOX_MAX_ATTEMPTS;
@@ -90,9 +91,21 @@ export function createCrmOutboxDispatcher({ repository, transport, now = () => n
           });
           if (deadLetter) result.deadLettered += 1;
           else result.retried += 1;
+          await emitCrmLedger(ledger, deadLetter ? "crm_dead_letter" : "crm_retry", item, safeCrmDeliveryError(error), now());
         }
       }
       return result;
     },
   };
+}
+
+async function emitCrmLedger(ledger, eventName, item, safeOutcomeCode, occurredAt) {
+  if (!ledger || !item.correlationId) return;
+  try {
+    await ledger.emit({
+      eventName, idempotencyKey: `${eventName}:${item.id}:${item.attemptCount}`,
+      correlationId: item.correlationId, source: "crm_outbox", safeOutcomeCode,
+      occurredAt: occurredAt.toISOString(),
+    });
+  } catch { /* Delivery state is authoritative; the ledger remains query-neutral. */ }
 }

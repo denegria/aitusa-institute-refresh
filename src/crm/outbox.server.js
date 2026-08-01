@@ -30,10 +30,10 @@ export function createNeonCrmOutboxRepository(database) {
             next_attempt_at = ${leaseUntil.toISOString()}::timestamptz
         from candidate
         where outbox.id = candidate.id
-        returning outbox.id, outbox.payload, outbox.attempt_count
+        returning outbox.id, outbox.payload, outbox.correlation_id, outbox.attempt_count
       `);
       const row = rows(result)[0];
-      return row ? { id: row.id, payload: row.payload, attemptCount: Number(row.attempt_count) } : null;
+      return row ? { id: row.id, payload: row.payload, correlationId: row.correlation_id, attemptCount: Number(row.attempt_count) } : null;
     },
     async markDelivered({ id, deliveredAt }) {
       await database.execute(sql`

@@ -196,12 +196,13 @@ export function createNeonPortalAuthRepository(database) {
           account.status as account_status,
           account.account_type,
           result.id as result_id,
+          result.funnel_correlation_id,
           result.result_status,
           result.recommended_level_key,
           result.recommended_level_label
         from single_account account
         left join lateral (
-          select result.*
+          select result.*, attempt.id as funnel_correlation_id
           from diagnostic_attempts attempt
           join diagnostic_results result on result.attempt_id = attempt.id
           where attempt.claimed_account_id = account.id
@@ -226,7 +227,7 @@ export function createNeonPortalAuthRepository(database) {
             : null,
           practice: { eligible: false, reason: "feature_not_approved" },
         },
-        ownership: { accountId: row.account_id, resultId: row.result_id },
+        ownership: { accountId: row.account_id, resultId: row.result_id, funnelCorrelationId: row.funnel_correlation_id },
       };
     },
 

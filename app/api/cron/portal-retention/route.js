@@ -6,6 +6,7 @@ import {
   getDiagnosticService,
   isDiagnosticServiceConfigured,
 } from "../../../../src/diagnostic/runtime.server.js";
+import { getFunnelLedgerService } from "../../../../src/observability/runtime.server.js";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -23,8 +24,11 @@ async function handleRetention(request) {
     );
   }
   try {
-    const counts = await getDiagnosticService().runRetention();
-    return diagnosticJson({ ok: true, ...counts });
+    const [diagnostic, funnel] = await Promise.all([
+      getDiagnosticService().runRetention(),
+      getFunnelLedgerService()?.runRetention() ?? Promise.resolve({ deleted: 0, limit: 0 }),
+    ]);
+    return diagnosticJson({ ok: true, diagnostic, funnel });
   } catch (error) {
     return diagnosticFailure(error);
   }

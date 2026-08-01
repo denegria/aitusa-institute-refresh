@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import {
   evaluatePlacementTestSubmission,
 } from "../placement/placementTestModel.js";
@@ -19,6 +19,7 @@ import {
   DIAGNOSTIC_QUESTION_BANK,
   validateSelectedAnswer,
 } from "./questionBank.server.js";
+import { funnelDurationBucket } from "../observability/funnelContract.js";
 
 const MAX_REQUEST_ID_LENGTH = 128;
 const MAX_REQUEST_SECRET_LENGTH = 256;
@@ -32,6 +33,7 @@ export function createDiagnosticService({
   now = () => new Date(),
   createId = () => randomUUID(),
   createToken = createClaimToken,
+  ledger = null,
 }) {
   if (!repository) throw new Error("diagnostic_repository_required");
 
@@ -106,6 +108,11 @@ export function createDiagnosticService({
         claimedChildProfileId: null,
       };
       const created = await repository.createAttempt(input);
+      await emitLedger(ledger, {
+        eventName: "diagnostic_started", idempotencyKey: `diagnostic-started:${created.attempt.id}`,
+        correlationId: created.attempt.id, source: "diagnostic", safeOutcomeCode: "started",
+        occurredAt: created.attempt.startedAt, ...diagnosticVersions(created.attempt),
+      });
       const resumeCredential = createResumeCredential(
         resumeSecret,
         created.attempt.id,
@@ -216,6 +223,11 @@ export function createDiagnosticService({
       }
 
       const currentTime = now();
+      await emitLedger(ledger, {
+        eventName: "result_save_requested", idempotencyKey: ledgerKey("result-save-requested", attemptId, completionId),
+        correlationId: attemptId, source: "diagnostic", safeOutcomeCode: "started",
+        occurredAt: currentTime.toISOString(), ...diagnosticVersions(attempt),
+      });
       const durableResponse = {
         ...evaluated.body,
         storageEnabled: true,
@@ -248,6 +260,16 @@ export function createDiagnosticService({
           response: durableResponse,
         },
         now: currentTime,
+      });
+      await emitLedger(ledger, {
+        eventName: "diagnostic_completed", idempotencyKey: ledgerKey("diagnostic-completed", attemptId, completionId),
+        correlationId: attemptId, source: "diagnostic", safeOutcomeCode: "completed",
+        occurredAt: currentTime.toISOString(), durationBucket: funnelDurationBucket(attempt.startedAt, currentTime), ...diagnosticVersions(attempt),
+      });
+      await emitLedger(ledger, {
+        eventName: "result_save_completed", idempotencyKey: ledgerKey("result-save-completed", attemptId, completionId),
+        correlationId: attemptId, source: "diagnostic", safeOutcomeCode: "saved",
+        occurredAt: currentTime.toISOString(), ...diagnosticVersions(attempt),
       });
       return {
         attempt: toSafeAttempt(persisted.attempt),
@@ -311,6 +333,26 @@ export function createDiagnosticService({
       return repository.purgeExpired({ now: now(), limit: boundedLimit });
     },
   };
+}
+
+async function emitLedger(ledger, event) {
+  if (!ledger) return;
+  try { await ledger.emit(event); } catch { /* Funnel telemetry is query-neutral. */ }
+}
+
+function diagnosticVersions(attempt) {
+  return {
+    productContractVersion: attempt.productContractVersion,
+    questionBankVersion: attempt.questionBankVersion,
+    answerKeyVersion: attempt.answerKeyVersion,
+    levelMapVersion: attempt.levelMapVersion,
+    scoringContractVersion: attempt.scoringContractVersion,
+    resultCopyVersion: attempt.resultCopyVersion,
+  };
+}
+
+function ledgerKey(...parts) {
+  return `funnel-${createHash("sha256").update(parts.join(":"), "utf8").digest("hex")}`;
 }
 
 function assertVersions(attempt) {

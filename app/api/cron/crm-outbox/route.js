@@ -5,6 +5,7 @@ import {
   createCrmOutboxDispatcher,
   createNeonCrmOutboxRepository,
 } from '../../../../src/crm/outbox.server.js';
+import { getFunnelLedgerService } from '../../../../src/observability/runtime.server.js';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -31,6 +32,7 @@ async function handle(request) {
       secret: process.env.AIT_CRM_WEBSITE_LEADS_SECRET,
       protectionBypassSecret: process.env.AIT_CRM_VERCEL_PROTECTION_BYPASS,
     }),
+    ledger: getFunnelLedgerService(),
   });
   const counts = await dispatcher.dispatchDue();
   return diagnosticJson({ ok: true, ...counts });

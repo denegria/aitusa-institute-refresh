@@ -7,7 +7,7 @@ import { isolateLearnerInput, validateProviderResult } from "./safety.server.js"
 import { safePracticeResult } from "./studyBuddyContract.js";
 import { validateAuthorizedStudyBuddyContext } from "./authorizedContext.server.js";
 
-export function createStudyBuddyService({ repository, provider, config = getStudyBuddyConfig(), now = () => new Date(), runWithDeadline = defaultRunWithDeadline }) {
+export function createStudyBuddyService({ repository, provider, config = getStudyBuddyConfig(), now = () => new Date(), runWithDeadline = defaultRunWithDeadline, ledger = null }) {
   if (!repository) throw new Error("study_buddy_repository_required");
   return {
     async eligibility(snapshot) {
@@ -19,7 +19,7 @@ export function createStudyBuddyService({ repository, provider, config = getStud
       const eligibility = await this.eligibility(snapshot);
       if (!eligibility.ok) return eligibility;
       const plan = resolvePracticePlan(snapshot.result);
-      return repository.reserveStart({
+      const started = await repository.reserveStart({
         accountId: ownership.accountId,
         resultId: ownership.resultId,
         verifiedEmailHmac: ownership.verifiedEmailHmac,
@@ -29,6 +29,8 @@ export function createStudyBuddyService({ repository, provider, config = getStud
         policyVersion: "mis-340-policy-v1",
         limits: config.limits,
       });
+      if (started.session) await emitPractice(ledger, "practice_started", context.ownership.funnelCorrelationId ?? started.session.resultId, started.session.id, "started", now());
+      return started;
     },
     async turn({ context, sessionId, payload }) {
       validateAuthorizedStudyBuddyContext(context);
@@ -75,11 +77,22 @@ export function createStudyBuddyService({ repository, provider, config = getStud
       }
       const completed = await repository.completeTurn({ sessionId, accountId: ownership.accountId, operationId: input.operationId, outcomeCode: providerResult.outcomeCode, focusCode: providerResult.focusCode, usage: providerResult.usage, at: now() });
       await repository.recordProviderSuccess(now());
-      if (completed.terminalCode) return safePracticeResult(completed.terminalCode, { session: completed.session });
+      if (completed.terminalCode) {
+        await emitPractice(ledger, "practice_limit", context.ownership.funnelCorrelationId ?? completed.session.resultId, `${completed.session.id}:${completed.session.state}`, completed.terminalCode, now());
+        return safePracticeResult(completed.terminalCode, { session: completed.session });
+      }
+      if (completed.session.state === "completed" || completed.session.state === "escalated") {
+        await emitPractice(ledger, completed.session.state === "completed" ? "practice_completed" : "practice_escalated", context.ownership.funnelCorrelationId ?? completed.session.resultId, `${completed.session.id}:${completed.session.state}`, completed.session.state === "completed" ? "completed" : "escalated", now());
+      }
       const code = completed.session.state === "completed" ? "completed" : completed.session.state === "escalated" ? "escalated" : "authenticated";
       return safePracticeResult(code, { session: completed.session, feedback: providerResult.feedback });
     },
   };
+}
+
+async function emitPractice(ledger, eventName, correlationId, suffix, safeOutcomeCode, occurredAt) {
+  if (!ledger || !correlationId) return;
+  try { await ledger.emit({ eventName, idempotencyKey: `${eventName}:${suffix}`, correlationId, source: "practice", safeOutcomeCode, occurredAt: occurredAt.toISOString() }); } catch { /* Practice result remains independent of telemetry. */ }
 }
 
 async function defaultRunWithDeadline(work, deadlineMs) {

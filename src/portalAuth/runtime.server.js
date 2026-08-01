@@ -5,6 +5,7 @@ import {
 import { createWorkOSAuthProvider } from "../portalClaim/workosAdapter.server.js";
 import { createNeonPortalAuthRepository } from "./neonRepository.server.js";
 import { createPortalAuthService } from "./service.js";
+import { getFunnelLedgerService } from "../observability/runtime.server.js";
 
 let cachedService = null;
 
@@ -32,6 +33,7 @@ export function getPortalAuthService() {
       cookiePassword: process.env.WORKOS_COOKIE_PASSWORD,
     }),
     hashSecret: process.env.PORTAL_AUTH_HASH_SECRET,
+    ledger: getFunnelLedgerService(),
   });
   return cachedService;
 }

@@ -3,6 +3,7 @@ import { assertFakeProviderConstructionAllowed, getStudyBuddyConfig } from "./co
 import { createFakeStudyBuddyProvider } from "./fakeStudyBuddyProvider.js";
 import { createNeonStudyBuddyRepository } from "./neonRepository.server.js";
 import { createStudyBuddyService } from "./service.js";
+import { getFunnelLedgerService } from "../observability/runtime.server.js";
 
 let cachedRuntime = null;
 
@@ -23,6 +24,7 @@ export function getStudyBuddyRuntime(environment = process.env) {
       }),
       provider: createFakeStudyBuddyProvider(),
       config,
+      ledger: getFunnelLedgerService(),
     }),
   };
   if (environment === process.env) cachedRuntime = runtime;

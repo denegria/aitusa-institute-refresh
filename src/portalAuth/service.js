@@ -28,6 +28,7 @@ export function createPortalAuthService({
   sleep = (milliseconds) =>
     new Promise((resolve) => setTimeout(resolve, milliseconds)),
   security = PORTAL_AUTH_SECURITY,
+  ledger = null,
 }) {
   if (!repository) throw new Error("portal_auth_repository_required");
   if (!authProvider) throw new Error("portal_auth_provider_required");
@@ -209,6 +210,12 @@ export function createPortalAuthService({
         };
       } finally {
         await completeAttempt(reservation, outcome);
+        if (reservation?.id) await emitLedger(ledger, {
+          eventName: outcome === "success" ? "portal_auth_success" : "portal_auth_failure",
+          idempotencyKey: `portal-auth-verify:${reservation.id}`,
+          correlationId: reservation.id, source: "portal_auth",
+          safeOutcomeCode: toFunnelAuthOutcome(outcome), occurredAt: now().toISOString(),
+        });
       }
     },
 
@@ -270,6 +277,7 @@ export function createPortalAuthService({
         ownership: {
           accountId: context.ownership.accountId,
           resultId: context.ownership.resultId,
+          funnelCorrelationId: context.ownership.funnelCorrelationId,
           verifiedEmailHmac: identifiers.emailKeyHash,
           hashVersion: identifiers.keyVersion,
         },
@@ -307,6 +315,16 @@ export function createPortalAuthService({
       }
     },
   };
+}
+
+async function emitLedger(ledger, event) {
+  if (!ledger) return;
+  try { await ledger.emit(event); } catch { /* Auth must not disclose ledger availability. */ }
+}
+
+function toFunnelAuthOutcome(outcome) {
+  if (["invalid", "rate_limited", "provider_unavailable"].includes(outcome)) return outcome;
+  return outcome === "success" ? "success" : "backend_unavailable";
 }
 
 function publicVerificationError(error) {

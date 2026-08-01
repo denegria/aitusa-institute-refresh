@@ -22,6 +22,13 @@ import {
   PORTAL_AUTH_EVENT_TYPES,
   PORTAL_AUTH_OUTCOMES,
 } from "../portalAuth/contract.js";
+import {
+  FUNNEL_DURATION_BUCKETS,
+  FUNNEL_EVENT_NAMES,
+  FUNNEL_EVENT_VERSION,
+  FUNNEL_SAFE_OUTCOME_CODES,
+  FUNNEL_SOURCES,
+} from "../observability/funnelContract.js";
 
 const statusList = (values) => sql.raw(values.map((value) => `'${value}'`).join(", "));
 
@@ -371,6 +378,49 @@ export const crmOutbox = pgTable(
       sql`${table.status} in ('pending', 'delivering', 'delivered', 'retry_wait', 'dead_letter')`,
     ),
     check("crm_outbox_attempt_count_check", sql`${table.attemptCount} >= 0`),
+  ],
+);
+
+export const funnelEventLedger = pgTable(
+  "funnel_event_ledger",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    eventName: text("event_name").notNull(),
+    eventVersion: integer("event_version").notNull().default(FUNNEL_EVENT_VERSION),
+    idempotencyKey: text("idempotency_key").notNull(),
+    correlationId: text("correlation_id").notNull(),
+    source: text("source").notNull(),
+    utmSource: text("utm_source"), utmMedium: text("utm_medium"), utmCampaign: text("utm_campaign"), utmTerm: text("utm_term"), utmContent: text("utm_content"),
+    productContractVersion: text("product_contract_version"), questionBankVersion: text("question_bank_version"), answerKeyVersion: text("answer_key_version"),
+    levelMapVersion: text("level_map_version"), scoringContractVersion: text("scoring_contract_version"), resultCopyVersion: text("result_copy_version"),
+    safeOutcomeCode: text("safe_outcome_code"), durationBucket: text("duration_bucket"),
+    occurredAt: timestamp("occurred_at", { withTimezone: true }).notNull(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("funnel_event_ledger_idempotency_uidx").on(table.idempotencyKey),
+    index("funnel_event_ledger_retention_idx").on(table.expiresAt),
+    index("funnel_event_ledger_correlation_idx").on(table.correlationId, table.occurredAt),
+    check("funnel_event_ledger_name_check", sql`${table.eventName} in (${statusList(FUNNEL_EVENT_NAMES)})`),
+    check("funnel_event_ledger_version_check", sql`${table.eventVersion} = ${FUNNEL_EVENT_VERSION}`),
+    check("funnel_event_ledger_source_check", sql`${table.source} in (${statusList(FUNNEL_SOURCES)})`),
+    check("funnel_event_ledger_outcome_check", sql`${table.safeOutcomeCode} is null or ${table.safeOutcomeCode} in (${statusList(FUNNEL_SAFE_OUTCOME_CODES)})`),
+    check("funnel_event_ledger_duration_check", sql`${table.durationBucket} is null or ${table.durationBucket} in (${statusList(FUNNEL_DURATION_BUCKETS)})`),
+    check("funnel_event_ledger_opaque_check", sql`char_length(${table.idempotencyKey}) between 8 and 128 and char_length(${table.correlationId}) between 8 and 128`),
+    check("funnel_event_ledger_bounded_text_check", sql`
+      (${table.utmSource} is null or char_length(${table.utmSource}) between 1 and 64) and
+      (${table.utmMedium} is null or char_length(${table.utmMedium}) between 1 and 64) and
+      (${table.utmCampaign} is null or char_length(${table.utmCampaign}) between 1 and 64) and
+      (${table.utmTerm} is null or char_length(${table.utmTerm}) between 1 and 64) and
+      (${table.utmContent} is null or char_length(${table.utmContent}) between 1 and 64) and
+      (${table.productContractVersion} is null or char_length(${table.productContractVersion}) between 1 and 80) and
+      (${table.questionBankVersion} is null or char_length(${table.questionBankVersion}) between 1 and 80) and
+      (${table.answerKeyVersion} is null or char_length(${table.answerKeyVersion}) between 1 and 80) and
+      (${table.levelMapVersion} is null or char_length(${table.levelMapVersion}) between 1 and 80) and
+      (${table.scoringContractVersion} is null or char_length(${table.scoringContractVersion}) between 1 and 80) and
+      (${table.resultCopyVersion} is null or char_length(${table.resultCopyVersion}) between 1 and 80)`),
+    check("funnel_event_ledger_retention_check", sql`${table.expiresAt} > ${table.occurredAt} and ${table.expiresAt} <= ${table.occurredAt} + interval '31 days'`),
   ],
 );
 

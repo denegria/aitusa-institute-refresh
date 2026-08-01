@@ -20,6 +20,7 @@ export function validateAuthorizedStudyBuddyContext(context) {
     !HMAC_PATTERN.test(ownership.verifiedEmailHmac) ||
     typeof ownership.hashVersion !== "string" ||
     !VERSION_PATTERN.test(ownership.hashVersion)
+    || (ownership.funnelCorrelationId !== undefined && (typeof ownership.funnelCorrelationId !== "string" || !ID_PATTERN.test(ownership.funnelCorrelationId)))
   ) {
     throw new StudyBuddyError("unauthenticated", 401);
   }
