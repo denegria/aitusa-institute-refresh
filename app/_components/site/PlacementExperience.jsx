@@ -224,8 +224,9 @@ function IntroScreen({ busy, error, resumeSnapshot, onStart, onResume }) {
         </p>
       </div>
       <p className="diagnostic-level-note">
-        Para menores de 13 años, las respuestas permanecen solo en esta pestaña.
-        Guardar el resultado o practicar requerirá una cuenta verificada del tutor.
+        Un menor de 13 puede completar el examen y ver el resultado sin crear una
+        cuenta. Sus respuestas permanecen solo en esta pestaña; guardar, entrar al
+        Portal o practicar requiere autorización de un tutor con email verificado.
       </p>
     </section>
   );
@@ -480,8 +481,14 @@ function ResultClaimPanel({ ageBand, attemptId, enabled }) {
           <p className="section-kicker">Cuenta de tutor requerida</p>
           <h3>El resultado permanece solo en esta sesión</h3>
           <p>
-            Para menores de 13 años, el guardado y Study Buddy se habilitarán
-            únicamente mediante una cuenta verificada del padre, madre o tutor.
+            No hace falta una cuenta para ver este resultado. Para guardarlo, entrar
+            al Portal o usar Study Buddy, un padre, madre o tutor deberá verificar su
+            propio email, confirmar que está autorizado y aceptar cada permiso
+            opcional por separado.
+          </p>
+          <p>
+            El permiso para Study Buddy, el contacto con un asesor y los mensajes
+            promocionales no se incluyen automáticamente.
           </p>
         </div>
       </div>

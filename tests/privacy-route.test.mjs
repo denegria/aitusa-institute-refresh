@@ -13,6 +13,8 @@ describe("MIS-279 privacy route handler", () => {
     assert.equal(body.ok, true);
     assert.equal(body.durableConsentStorage, false);
     assert.equal(body.policy.account.privacyGateSatisfied, true);
+    assert.equal(body.policy.guardianPolicy.minimumSelfServiceAge, 13);
+    assert.equal(body.policy.guardianPolicy.anonymousDiagnosticAllowed, true);
     assert.equal("providerSubject" in body.policy.account, false);
   });
 });

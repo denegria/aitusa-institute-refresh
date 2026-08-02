@@ -1,4 +1,15 @@
 import { resolvePortalSession } from "../portal/authBoundary.js";
+import {
+  GUARDIAN_CONSENT_POLICY,
+  GUARDIAN_CONSENT_POLICY_VERSION,
+} from "./guardianConsentPolicy.js";
+
+export {
+  GUARDIAN_CONSENT_POLICY,
+  GUARDIAN_CONSENT_POLICY_VERSION,
+  GUARDIAN_DIRECT_NOTICE,
+  evaluateGuardianAccess,
+} from "./guardianConsentPolicy.js";
 
 export const SENSITIVE_DATA_FIELD_NAMES = Object.freeze([
   "audio",
@@ -23,7 +34,7 @@ export const PRIVACY_DATA_CATEGORIES = Object.freeze({
     storageAllowed: true,
     retentionClass: "account_lifecycle_plus_2y",
     deletionPolicy: "delete_or_deidentify_on_verified_request",
-    guardianConsentRequiredForMinors: false,
+    guardianConsentRequiredForUnder13: false,
     adminAuditRequired: true,
   }),
   attendance_record: Object.freeze({
@@ -32,7 +43,7 @@ export const PRIVACY_DATA_CATEGORIES = Object.freeze({
     storageAllowed: true,
     retentionClass: "student_record_7y",
     deletionPolicy: "review_before_delete_academic_record",
-    guardianConsentRequiredForMinors: false,
+    guardianConsentRequiredForUnder13: false,
     adminAuditRequired: true,
   }),
   lesson_progress_summary: Object.freeze({
@@ -41,7 +52,7 @@ export const PRIVACY_DATA_CATEGORIES = Object.freeze({
     storageAllowed: true,
     retentionClass: "student_record_3y",
     deletionPolicy: "delete_or_deidentify_on_verified_request",
-    guardianConsentRequiredForMinors: false,
+    guardianConsentRequiredForUnder13: false,
     adminAuditRequired: true,
   }),
   ai_practice_summary: Object.freeze({
@@ -50,25 +61,25 @@ export const PRIVACY_DATA_CATEGORIES = Object.freeze({
     storageAllowed: true,
     retentionClass: "learning_support_1y",
     deletionPolicy: "delete_on_verified_request",
-    guardianConsentRequiredForMinors: true,
+    guardianConsentRequiredForUnder13: true,
     adminAuditRequired: true,
   }),
   ai_audio_raw: Object.freeze({
     label: "Raw AI practice audio",
     requiredConsentBasis: "explicit",
     storageAllowed: false,
-    retentionClass: "blocked_until_mis279_storage_approval",
+    retentionClass: "zero_retention_no_store",
     deletionPolicy: "do_not_store",
-    guardianConsentRequiredForMinors: true,
+    guardianConsentRequiredForUnder13: true,
     adminAuditRequired: true,
   }),
   ai_transcript_raw: Object.freeze({
     label: "Raw AI practice transcript",
     requiredConsentBasis: "explicit",
     storageAllowed: false,
-    retentionClass: "blocked_until_mis279_storage_approval",
+    retentionClass: "zero_retention_no_store",
     deletionPolicy: "do_not_store",
-    guardianConsentRequiredForMinors: true,
+    guardianConsentRequiredForUnder13: true,
     adminAuditRequired: true,
   }),
   payment_ledger_summary: Object.freeze({
@@ -77,7 +88,7 @@ export const PRIVACY_DATA_CATEGORIES = Object.freeze({
     storageAllowed: true,
     retentionClass: "financial_record_7y",
     deletionPolicy: "retain_as_required_for_ledger_and_tax",
-    guardianConsentRequiredForMinors: true,
+    guardianConsentRequiredForUnder13: true,
     adminAuditRequired: true,
   }),
   payment_sensitive_payload: Object.freeze({
@@ -86,7 +97,7 @@ export const PRIVACY_DATA_CATEGORIES = Object.freeze({
     storageAllowed: false,
     retentionClass: "blocked_provider_owned_only",
     deletionPolicy: "do_not_store",
-    guardianConsentRequiredForMinors: true,
+    guardianConsentRequiredForUnder13: true,
     adminAuditRequired: true,
   }),
 });
@@ -115,8 +126,8 @@ export function evaluatePrivacyGate({
   }
 
   if (
-    actor.ageGroup === "minor" &&
-    policy.guardianConsentRequiredForMinors &&
+    (actor.ageBand === "under_13" || actor.ageGroup === "under_13") &&
+    policy.guardianConsentRequiredForUnder13 &&
     consent.guardianApproval !== true
   ) {
     return denied("guardian_consent_required", policy);
@@ -150,6 +161,13 @@ export function getPrivacyPolicyStatus(accountKey = "studentActive") {
         }
       : null,
     sessionState: session.state,
+    guardianPolicy: {
+      version: GUARDIAN_CONSENT_POLICY_VERSION,
+      minimumSelfServiceAge: GUARDIAN_CONSENT_POLICY.minimumSelfServiceAge,
+      anonymousDiagnosticAllowed: GUARDIAN_CONSENT_POLICY.anonymousDiagnosticAllowed,
+      guardianVerificationMethod: GUARDIAN_CONSENT_POLICY.guardianVerificationMethod,
+      aiPracticeConsentSeparate: GUARDIAN_CONSENT_POLICY.aiPracticeConsentSeparate,
+    },
     categories: PRIVACY_DATA_CATEGORY_NAMES.map((category) => {
       const policy = PRIVACY_DATA_CATEGORIES[category];
       return {
@@ -158,7 +176,7 @@ export function getPrivacyPolicyStatus(accountKey = "studentActive") {
         storageAllowed: policy.storageAllowed,
         retentionClass: policy.retentionClass,
         deletionPolicy: policy.deletionPolicy,
-        guardianConsentRequiredForMinors: policy.guardianConsentRequiredForMinors,
+        guardianConsentRequiredForUnder13: policy.guardianConsentRequiredForUnder13,
         adminAuditRequired: policy.adminAuditRequired,
       };
     }),

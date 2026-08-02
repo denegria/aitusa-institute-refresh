@@ -4,6 +4,7 @@ import { describe, it } from "node:test";
 import {
   CONTACT_PERMISSION_COPY_ES,
   PRIVACY_POLICY_VERSION,
+  PRIVACY_EFFECTIVE_DATE_ISO,
   SMS_CONSENT_COPY_ES,
   SMS_DISCLOSURE_ES,
   SMS_DISCLOSURE_VERSION,
@@ -21,6 +22,7 @@ describe("MIS-327 public legal and SMS compliance", () => {
     const text = policyText(privacyPolicy);
 
     assert.equal(privacyPolicy.version, PRIVACY_POLICY_VERSION);
+    assert.equal(privacyPolicy.effectiveDateIso, PRIVACY_EFFECTIVE_DATE_ISO);
     assert.match(text, /AIT USA Institute/);
     assert.match(text, /Arrieta Institute LLC/);
     assert.match(text, /No vendemos, alquilamos, compartimos ni transferimos/);
@@ -49,6 +51,16 @@ describe("MIS-327 public legal and SMS compliance", () => {
     assert.match(SMS_DISCLOSURE_ES, /STOP/);
     assert.match(SMS_DISCLOSURE_ES, /HELP/);
     assert.match(SMS_DISCLOSURE_VERSION, /^aitusa-sms-consent-/);
+  });
+
+  it("publishes the permissive under-13 diagnostic boundary without bundling permissions", () => {
+    const text = policyText(privacyPolicy);
+
+    assert.match(text, /menor de 13 años puede completar el examen/);
+    assert.match(text, /respuestas permanecen solo en la sesión/);
+    assert.match(text, /email verificado/);
+    assert.match(text, /práctica con IA.*contacto con un asesor.*mensajes de texto promocionales/s);
+    assert.match(text, /decisiones separadas/);
   });
 
   it("renders the canonical form with optional phone and an unchecked SMS checkbox", async () => {

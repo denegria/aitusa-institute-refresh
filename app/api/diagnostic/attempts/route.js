@@ -9,6 +9,7 @@ import {
   getDiagnosticService,
   isDiagnosticServiceConfigured,
 } from "../../../../src/diagnostic/runtime.server.js";
+import { evaluateGuardianAccess } from "../../../../src/privacy/guardianConsentPolicy.js";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,12 +18,17 @@ export async function POST(request) {
   try {
     assertSameOrigin(request);
     const body = await request.json().catch(() => ({}));
-    if (body.ageBand === "under_13") {
+    const guardianAccess = evaluateGuardianAccess({
+      ageBand: body.ageBand,
+      action: "take_diagnostic",
+    });
+    if (guardianAccess.retention === "session_only") {
       return diagnosticJson({
         ok: true,
         durable: false,
         guardianRequired: true,
-        retention: "session_only",
+        retention: guardianAccess.retention,
+        identityCollectionAllowed: guardianAccess.identityCollectionAllowed,
       });
     }
     if (!isDiagnosticServiceConfigured()) {

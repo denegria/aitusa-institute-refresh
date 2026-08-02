@@ -1,6 +1,8 @@
 export const LEGAL_EFFECTIVE_DATE_ISO = "2026-07-17";
 export const LEGAL_EFFECTIVE_DATE_ES = "17 de julio de 2026";
-export const PRIVACY_POLICY_VERSION = "aitusa-privacy-2026-07-17-v1";
+export const PRIVACY_EFFECTIVE_DATE_ISO = "2026-08-02";
+export const PRIVACY_EFFECTIVE_DATE_ES = "2 de agosto de 2026";
+export const PRIVACY_POLICY_VERSION = "aitusa-privacy-2026-08-02-v2";
 export const TERMS_VERSION = "aitusa-terms-2026-07-17-v1";
 export const SMS_DISCLOSURE_VERSION = "aitusa-sms-consent-2026-07-17-v1";
 
@@ -25,6 +27,8 @@ export const privacyPolicy = Object.freeze({
   summary:
     "Esta política explica qué información recopila AIT USA Institute, por qué la usa, con quién puede compartirla para operar sus servicios y qué opciones tienes. Nuestro compromiso más importante para el programa de mensajes es simple: no vendemos ni compartimos tus datos de suscripción SMS para marketing de terceros.",
   version: PRIVACY_POLICY_VERSION,
+  effectiveDateIso: PRIVACY_EFFECTIVE_DATE_ISO,
+  effectiveDateEs: PRIVACY_EFFECTIVE_DATE_ES,
   sections: Object.freeze([
     Object.freeze({
       id: "alcance",
@@ -118,7 +122,9 @@ export const privacyPolicy = Object.freeze({
       id: "menores",
       title: "11. Menores de edad",
       paragraphs: Object.freeze([
-        "Algunos programas pueden atender a menores. Un padre, tutor o adulto autorizado debe proporcionar la información y los consentimientos requeridos en nombre del menor. No buscamos conscientemente consentimiento de marketing directamente de menores en contra de la ley. Si crees que recibimos información de un menor sin autorización adecuada, contáctanos.",
+        "Un menor de 13 años puede completar el examen de ubicación y ver el resultado sin registrarse. Antes de esa autorización no solicitamos identidad del menor y sus respuestas permanecen solo en la sesión del navegador.",
+        "Guardar el resultado, crear acceso al Portal o usar funciones de práctica requiere una cuenta del padre, madre o tutor, control del email verificado, una declaración de autorización y el aviso de privacidad correspondiente. Solicitamos solo el nombre y la banda de edad necesarios para vincular el perfil infantil; no exigimos la fecha de nacimiento para este flujo.",
+        "El permiso para práctica con IA, el contacto con un asesor y los mensajes de texto promocionales son decisiones separadas. El tutor puede revisar, retirar su autorización, desvincular el perfil o solicitar la eliminación conforme a esta política. No buscamos conscientemente consentimiento de marketing directamente de menores.",
       ]),
     }),
     Object.freeze({

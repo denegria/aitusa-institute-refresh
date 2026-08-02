@@ -53,6 +53,7 @@ describe("MIS-337 diagnostic route degradation", () => {
     assert.equal(body.durable, false);
     assert.equal(body.guardianRequired, true);
     assert.equal(body.retention, "session_only");
+    assert.equal(body.identityCollectionAllowed, false);
   });
 
   it("returns a quiet no-resume result when storage is unavailable", async () => {

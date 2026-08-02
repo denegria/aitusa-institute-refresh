@@ -13,7 +13,7 @@ export function LegalPage({ policy }) {
           <h1>{policy.title}</h1>
           <p className={styles.legalSummary}>{policy.summary}</p>
           <div className={styles.policyMeta}>
-            <span>Vigente desde: {LEGAL_EFFECTIVE_DATE_ES}</span>
+            <span>Vigente desde: {policy.effectiveDateEs || LEGAL_EFFECTIVE_DATE_ES}</span>
             <span>Versión: {policy.version}</span>
           </div>
         </header>
