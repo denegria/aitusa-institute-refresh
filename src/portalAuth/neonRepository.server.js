@@ -282,6 +282,12 @@ export function createNeonPortalAuthRepository(database) {
           advisor_consent.occurred_at as advisor_consent_occurred_at,
           delivery.status as outbox_status,
           delivery.delivered_at as outbox_delivered_at,
+          guardian_child.child_profile_id,
+          guardian_child.child_first_name,
+          guardian_child.child_status,
+          guardian_child.receipt_code,
+          guardian_child.guardian_policy_version,
+          guardian_child.guardian_permissions,
           practice_history.items as recent_practice
         from single_account account
         left join lateral (
@@ -305,18 +311,31 @@ export function createNeonPortalAuthRepository(database) {
           join diagnostic_results result on result.attempt_id = attempt.id
           left join diagnostic_contexts context
             on context.attempt_id = attempt.id
-          join lateral (
-            select
-              challenge.claim_id,
-              challenge.advisor_contact_requested
-            from result_claims result_claim
-            join portal_auth_challenges challenge
-              on challenge.result_claim_id = result_claim.id
-             and challenge.status = 'consumed'
-            where result_claim.attempt_id = attempt.id
-              and result_claim.claimed_account_id = account.id
-              and result_claim.status = 'consumed'
-            order by challenge.consumed_at desc nulls last
+          left join lateral (
+            select source.claim_id, source.advisor_contact_requested
+            from (
+              select challenge.claim_id, challenge.advisor_contact_requested,
+                challenge.consumed_at, 0 as source_order
+              from result_claims result_claim
+              join portal_auth_challenges challenge
+                on challenge.result_claim_id = result_claim.id
+               and challenge.status = 'consumed'
+              where result_claim.attempt_id = attempt.id
+                and result_claim.claimed_account_id = account.id
+                and result_claim.status = 'consumed'
+              union all
+              select challenge.request_id,
+                coalesce((receipt.permissions->>'advisorContactApproved')::boolean, false),
+                challenge.consumed_at, 1 as source_order
+              from guardian_consent_receipts receipt
+              join guardian_consent_challenges challenge
+                on challenge.id = receipt.challenge_id
+               and challenge.status = 'consumed'
+              where receipt.guardian_account_id = account.id
+                and receipt.child_profile_id = attempt.claimed_child_profile_id
+                and receipt.status in ('active', 'deletion_requested')
+            ) source
+            order by source.source_order, source.consumed_at desc nulls last
             limit 1
           ) claimed on true
           where attempt.claimed_account_id = account.id
@@ -334,7 +353,7 @@ export function createNeonPortalAuthRepository(database) {
             consent.occurred_at
           from consent_records consent
           where consent.account_id = account.id
-            and consent.purpose = 'portal_account_creation'
+            and consent.purpose in ('portal_account_creation', 'guardian_account_and_result')
           order by consent.occurred_at desc
           limit 1
         ) account_consent on true
@@ -360,6 +379,22 @@ export function createNeonPortalAuthRepository(database) {
           order by outbox.created_at desc
           limit 1
         ) delivery on true
+        left join lateral (
+          select child.id as child_profile_id, child.first_name as child_first_name,
+            child.status as child_status, receipt.receipt_code,
+            receipt.policy_version as guardian_policy_version,
+            receipt.permissions as guardian_permissions
+          from guardian_child_links link
+          join child_profiles child on child.id = link.child_profile_id
+          join guardian_consent_receipts receipt
+            on receipt.child_profile_id = child.id
+           and receipt.guardian_account_id = account.id
+          where link.guardian_account_id = account.id
+            and link.status = 'active'
+            and child.status in ('active', 'deletion_requested')
+          order by link.linked_at desc
+          limit 1
+        ) guardian_child on true
         left join lateral (
           select coalesce(
             jsonb_agg(
@@ -486,6 +521,16 @@ export function toSafePortalSnapshot(row) {
       reason: "feature_not_approved",
     },
     recentPractice: normalizeRecentPractice(row.recent_practice),
+    guardianChild: row.child_profile_id
+      ? {
+          id: row.child_profile_id,
+          firstName: row.child_first_name,
+          status: row.child_status,
+          receiptCode: row.receipt_code,
+          policyVersion: row.guardian_policy_version,
+          permissions: normalizeJsonObject(row.guardian_permissions),
+        }
+      : null,
   };
 }
 
@@ -528,6 +573,19 @@ function normalizeRecentPractice(value) {
           : "La práctica terminó con apoyo recomendado",
       focusLabel: PRACTICE_FOCUS_LABELS[item.focusCode] || "",
     }));
+}
+
+function normalizeJsonObject(value) {
+  if (value && typeof value === "object" && !Array.isArray(value)) return value;
+  if (typeof value === "string") {
+    try {
+      const parsed = JSON.parse(value);
+      return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+    } catch {
+      return {};
+    }
+  }
+  return {};
 }
 
 function consentSnapshot(policyVersion, decision, occurredAt) {

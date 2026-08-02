@@ -76,6 +76,36 @@ describe("MIS-341 authenticated portal view model", () => {
     assert.match(provider.practice.summary, /no necesitas repetir/i);
   });
 
+  it("exposes only the linked child's minimal profile, receipt, and separate permissions", () => {
+    const model = createAuthenticatedPortalViewModel({
+      ...snapshot,
+      account: { ...snapshot.account, accountType: "guardian" },
+      guardianChild: {
+        id: "00000000-0000-4000-8000-000000000099",
+        firstName: "Luis",
+        status: "active",
+        receiptCode: "AIT-G-fixture",
+        policyVersion: "guardian-v1",
+        permissions: { aiPracticeApproved: true, advisorContactApproved: false },
+        dateOfBirth: "must-not-pass",
+        childEmail: "must-not-pass",
+      },
+    });
+    assert.deepEqual(model.guardianChild, {
+      id: "00000000-0000-4000-8000-000000000099",
+      firstName: "Luis",
+      status: "active",
+      receiptCode: "AIT-G-fixture",
+      policyVersion: "guardian-v1",
+      permissions: {
+        aiPracticeApproved: true,
+        advisorContactApproved: false,
+        marketingSmsOptIn: false,
+      },
+    });
+    assert.equal(JSON.stringify(model.guardianChild).includes("must-not-pass"), false);
+  });
+
   it("unlocks the bounded five-turn practice action from server eligibility", () => {
     const model = createAuthenticatedPortalViewModel({
       ...snapshot,

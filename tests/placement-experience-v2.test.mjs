@@ -45,8 +45,10 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.match(component, /practica 3–5 minutos/);
     assert.match(component, /cinco\s+turnos/);
     assert.match(component, /Un menor de 13 puede completar el examen/);
-    assert.match(component, /No hace falta una cuenta para ver este resultado/);
-    assert.match(component, /cada permiso\s+opcional por separado/);
+    assert.match(component, /No hace falta una cuenta para verlo/);
+    assert.match(component, /Este permiso es opcional/);
+    assert.match(component, /api\/portal\/guardian-onboarding\/code/);
+    assert.match(component, /No pedimos fecha de nacimiento/);
     assert.match(component, /api\/portal\/result-claim\/code/);
     assert.match(component, /Ahora no/);
     assert.match(component, /Tu resultado sigue visible/);

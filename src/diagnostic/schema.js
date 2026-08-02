@@ -351,6 +351,97 @@ export const consentRecords = pgTable(
   ],
 );
 
+export const guardianConsentChallenges = pgTable(
+  "guardian_consent_challenges",
+  {
+    id: uuid("id").primaryKey(),
+    requestId: text("request_id").notNull(),
+    status: text("status").notNull().default("pending"),
+    guardianFirstName: text("guardian_first_name").notNull(),
+    guardianEmail: text("guardian_email").notNull(),
+    providerChallengeId: text("provider_challenge_id").notNull(),
+    providerUserId: text("provider_user_id"),
+    guardianAttested: boolean("guardian_attested").notNull(),
+    noticeAccepted: boolean("notice_accepted").notNull(),
+    aiPracticeApproved: boolean("ai_practice_approved").notNull().default(false),
+    advisorContactApproved: boolean("advisor_contact_approved").notNull().default(false),
+    policyVersion: text("policy_version").notNull(),
+    noticeHash: text("notice_hash").notNull(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    verifiedAt: timestamp("verified_at", { withTimezone: true }),
+    consumedAt: timestamp("consumed_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("guardian_consent_challenges_request_uidx").on(table.requestId),
+    uniqueIndex("guardian_consent_challenges_provider_uidx").on(table.providerChallengeId),
+    index("guardian_consent_challenges_expiry_idx").on(table.expiresAt, table.status),
+    check("guardian_consent_challenges_status_check", sql`${table.status} in ('pending', 'verified', 'consumed', 'expired', 'cancelled')`),
+    check("guardian_consent_challenges_attestation_check", sql`${table.guardianAttested} = true and ${table.noticeAccepted} = true`),
+  ],
+);
+
+export const childProfiles = pgTable(
+  "child_profiles",
+  {
+    id: uuid("id").primaryKey(),
+    firstName: text("first_name").notNull(),
+    ageBand: text("age_band").notNull(),
+    status: text("status").notNull().default("active"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
+  },
+  (table) => [
+    check("child_profiles_age_band_check", sql`${table.ageBand} = 'under_13'`),
+    check("child_profiles_status_check", sql`${table.status} in ('active', 'unlinked', 'deletion_requested', 'deleted')`),
+  ],
+);
+
+export const guardianChildLinks = pgTable(
+  "guardian_child_links",
+  {
+    id: uuid("id").primaryKey(),
+    guardianAccountId: uuid("guardian_account_id").notNull().references(() => portalAccounts.id, { onDelete: "cascade" }),
+    childProfileId: uuid("child_profile_id").notNull().references(() => childProfiles.id, { onDelete: "cascade" }),
+    status: text("status").notNull().default("active"),
+    linkedAt: timestamp("linked_at", { withTimezone: true }).notNull(),
+    revokedAt: timestamp("revoked_at", { withTimezone: true }),
+  },
+  (table) => [
+    uniqueIndex("guardian_child_links_child_uidx").on(table.childProfileId),
+    index("guardian_child_links_guardian_idx").on(table.guardianAccountId, table.status),
+    check("guardian_child_links_status_check", sql`${table.status} in ('active', 'revoked')`),
+  ],
+);
+
+export const guardianConsentReceipts = pgTable(
+  "guardian_consent_receipts",
+  {
+    id: uuid("id").primaryKey(),
+    challengeId: uuid("challenge_id").notNull().references(() => guardianConsentChallenges.id, { onDelete: "restrict" }),
+    guardianAccountId: uuid("guardian_account_id").notNull().references(() => portalAccounts.id, { onDelete: "restrict" }),
+    childProfileId: uuid("child_profile_id").notNull().references(() => childProfiles.id, { onDelete: "restrict" }),
+    receiptCode: text("receipt_code").notNull(),
+    status: text("status").notNull().default("active"),
+    policyVersion: text("policy_version").notNull(),
+    noticeHash: text("notice_hash").notNull(),
+    verificationMethod: text("verification_method").notNull(),
+    permissions: jsonb("permissions").notNull(),
+    capturedAt: timestamp("captured_at", { withTimezone: true }).notNull(),
+    withdrawnAt: timestamp("withdrawn_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("guardian_consent_receipts_challenge_uidx").on(table.challengeId),
+    uniqueIndex("guardian_consent_receipts_code_uidx").on(table.receiptCode),
+    index("guardian_consent_receipts_guardian_idx").on(table.guardianAccountId, table.capturedAt),
+    check("guardian_consent_receipts_status_check", sql`${table.status} in ('active', 'withdrawn', 'deletion_requested')`),
+    check("guardian_consent_receipts_method_check", sql`${table.verificationMethod} = 'verified_email_plus_attestation'`),
+  ],
+);
+
 export const crmOutbox = pgTable(
   "crm_outbox",
   {

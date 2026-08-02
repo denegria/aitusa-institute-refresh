@@ -459,10 +459,213 @@ function claimErrorMessage(code) {
       "Ese email ya está vinculado a otra identidad. Un asesor deberá ayudarte a resolverlo sin duplicar cuentas.",
     claim_finalize_pending:
       "Tu email quedó verificado, pero todavía no pudimos guardar el resultado. Intenta completar el guardado otra vez.",
+    guardian_onboarding_unavailable:
+      "El guardado para tutores todavía no está activado. El resultado sigue visible en esta pestaña.",
+    guardian_attestation_required:
+      "El adulto debe confirmar que es el padre, madre o tutor autorizado.",
+    guardian_notice_acceptance_required:
+      "Revisa y acepta el aviso directo antes de continuar.",
+    guardian_challenge_expired:
+      "El código venció. Solicita uno nuevo para continuar.",
+    guardian_email_verification_required:
+      "Primero verifica el email del adulto.",
   }[code] || "No pudimos completar este paso. Tu resultado sigue visible; inténtalo de nuevo.";
 }
 
-function ResultClaimPanel({ ageBand, attemptId, enabled }) {
+function GuardianClaimPanel({ submission }) {
+  const [step, setStep] = useState("offer");
+  const [requestId, setRequestId] = useState("");
+  const [challengeId, setChallengeId] = useState("");
+  const [guardianFirstName, setGuardianFirstName] = useState("");
+  const [guardianEmail, setGuardianEmail] = useState("");
+  const [guardianAttested, setGuardianAttested] = useState(false);
+  const [noticeAccepted, setNoticeAccepted] = useState(false);
+  const [aiPracticeApproved, setAiPracticeApproved] = useState(false);
+  const [advisorContactApproved, setAdvisorContactApproved] = useState(false);
+  const [code, setCode] = useState("");
+  const [childFirstName, setChildFirstName] = useState("");
+  const [receipt, setReceipt] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  const requestCode = async (event) => {
+    event.preventDefault();
+    if (busy) return;
+    const nextRequestId = createAttemptId();
+    setBusy(true);
+    setError("");
+    try {
+      const response = await fetch("/api/portal/guardian-onboarding/code", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          requestId: nextRequestId,
+          guardianFirstName,
+          guardianEmail,
+          guardianAttested,
+          noticeAccepted,
+          aiPracticeApproved,
+          advisorContactApproved,
+        }),
+      });
+      const body = await response.json();
+      if (!response.ok || body.ok !== true) throw new Error(body.error || "guardian_onboarding_unavailable");
+      setRequestId(nextRequestId);
+      setChallengeId(body.challengeId);
+      setStep("code");
+    } catch (requestError) {
+      setError(claimErrorMessage(requestError.message));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const verifyCode = async (event) => {
+    event.preventDefault();
+    if (busy) return;
+    setBusy(true);
+    setError("");
+    try {
+      const response = await fetch("/api/portal/guardian-onboarding/verify", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ challengeId, requestId, code }),
+      });
+      const body = await response.json();
+      if (!response.ok || body.ok !== true) throw new Error(body.error || "magic_auth_code_invalid");
+      setStep("child");
+    } catch (verifyError) {
+      setError(claimErrorMessage(verifyError.message));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const saveChild = async (event) => {
+    event.preventDefault();
+    if (busy) return;
+    setBusy(true);
+    setError("");
+    try {
+      const response = await fetch("/api/portal/guardian-onboarding/finalize", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ challengeId, requestId, childFirstName, submission }),
+      });
+      const body = await response.json();
+      if (!response.ok || body.ok !== true) throw new Error(body.error || "guardian_finalize_conflict");
+      setReceipt(body);
+      setStep("success");
+    } catch (saveError) {
+      setError(claimErrorMessage(saveError.message));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="diagnostic-unlock diagnostic-unlock--guardian">
+      {step === "offer" ? (
+        <>
+          <div>
+            <p className="section-kicker">Cuenta de tutor requerida</p>
+            <h3>El resultado permanece solo en esta sesión</h3>
+            <p>
+              No hace falta una cuenta para verlo. Un padre, madre o tutor puede
+              guardar el resultado en su propia cuenta con un email verificado.
+            </p>
+          </div>
+          <div className="diagnostic-claim-actions">
+            <button className="button button--gold" type="button" onClick={() => setStep("details")}>
+              Guardar como tutor
+            </button>
+          </div>
+        </>
+      ) : null}
+      {step === "details" ? (
+        <form className="diagnostic-claim-form" onSubmit={requestCode}>
+          <div>
+            <p className="section-kicker">Aviso directo al adulto</p>
+            <h3>Verifica tu email antes de crear el perfil</h3>
+            <p>
+              AIT guardará el resultado en tu cuenta y creará un perfil vinculado
+              con solo el nombre del menor y la banda “menor de 13”. No pedimos fecha
+              de nacimiento ni email del menor.
+            </p>
+          </div>
+          <label>Tu nombre<input autoComplete="given-name" maxLength={80} required type="text" value={guardianFirstName} onChange={(event) => setGuardianFirstName(event.target.value)} /></label>
+          <label>Tu email<input autoComplete="email" maxLength={254} required type="email" value={guardianEmail} onChange={(event) => setGuardianEmail(event.target.value)} /></label>
+          <label className="diagnostic-claim-check">
+            <input checked={guardianAttested} required type="checkbox" onChange={(event) => setGuardianAttested(event.target.checked)} />
+            <span>Confirmo que soy el padre, madre o tutor autorizado para dar este consentimiento.</span>
+          </label>
+          <label className="diagnostic-claim-check">
+            <input checked={noticeAccepted} required type="checkbox" onChange={(event) => setNoticeAccepted(event.target.checked)} />
+            <span>Leí el aviso y autorizo crear la cuenta del adulto, el perfil mínimo y guardar este resultado.</span>
+          </label>
+          <label className="diagnostic-claim-check">
+            <input checked={aiPracticeApproved} type="checkbox" onChange={(event) => setAiPracticeApproved(event.target.checked)} />
+            <span>También autorizo el acceso futuro a Study Buddy. Este permiso es opcional.</span>
+          </label>
+          <label className="diagnostic-claim-check">
+            <input checked={advisorContactApproved} type="checkbox" onChange={(event) => setAdvisorContactApproved(event.target.checked)} />
+            <span>También autorizo solicitar contacto de un asesor por email desde el Portal. Este permiso es opcional.</span>
+          </label>
+          <small>
+            Recibirás un comprobante en el Portal con controles para retirar el
+            consentimiento, desvincular el perfil o solicitar la eliminación.
+          </small>
+          {error ? <p className="diagnostic-claim-error" role="alert">{error}</p> : null}
+          <div className="diagnostic-claim-form__actions">
+            <button className="button button--gold" disabled={busy} type="submit">{busy ? "Enviando…" : "Enviar código al tutor"}</button>
+            <button className="diagnostic-unlock__later" disabled={busy} type="button" onClick={() => setStep("offer")}>Ahora no</button>
+          </div>
+        </form>
+      ) : null}
+      {step === "code" ? (
+        <form className="diagnostic-claim-form" onSubmit={verifyCode}>
+          <div><p className="section-kicker">Email del tutor</p><h3>Escribe el código de 6 dígitos</h3><p>Lo enviamos a {guardianEmail}.</p></div>
+          <label>Código<input autoComplete="one-time-code" inputMode="numeric" maxLength={6} minLength={6} pattern="[0-9]{6}" required type="text" value={code} onChange={(event) => setCode(event.target.value.replace(/\D/g, ""))} /></label>
+          {error ? <p className="diagnostic-claim-error" role="alert">{error}</p> : null}
+          <div className="diagnostic-claim-form__actions">
+            <button className="button button--gold" disabled={busy} type="submit">{busy ? "Verificando…" : "Verificar email"}</button>
+            <button className="diagnostic-unlock__later" disabled={busy} type="button" onClick={() => setStep("details")}>Cambiar email</button>
+          </div>
+        </form>
+      ) : null}
+      {step === "child" ? (
+        <form className="diagnostic-claim-form" onSubmit={saveChild}>
+          <div><p className="section-kicker">Email verificado</p><h3>Crea el perfil mínimo del menor</h3><p>Ahora sí podemos transferir el resultado de esta sesión.</p></div>
+          <label>Nombre del menor<input autoComplete="off" maxLength={80} required type="text" value={childFirstName} onChange={(event) => setChildFirstName(event.target.value)} /></label>
+          <small>No pedimos fecha de nacimiento, email, teléfono ni dirección del menor.</small>
+          {error ? <p className="diagnostic-claim-error" role="alert">{error}</p> : null}
+          <div className="diagnostic-claim-form__actions">
+            <button className="button button--gold" disabled={busy} type="submit">{busy ? "Guardando…" : "Guardar resultado"}</button>
+          </div>
+        </form>
+      ) : null}
+      {step === "success" ? (
+        <div className="diagnostic-claim-success" role="status">
+          <p className="section-kicker">Autorización guardada</p>
+          <h3>El perfil de {receipt?.child?.firstName} está vinculado</h3>
+          <p>Comprobante: {receipt?.consent?.receiptCode}. Los permisos opcionales permanecen separados.</p>
+          <a className="button button--gold" href={receipt?.portalHref || "/portal/"}>Abrir el Portal del tutor</a>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function ResultClaimPanel({ ageBand, attemptId, enabled, submission }) {
+  return ageBand === "under_13"
+    ? <GuardianClaimPanel submission={submission} />
+    : <AdultResultClaimPanel attemptId={attemptId} enabled={enabled} />;
+}
+
+function AdultResultClaimPanel({ attemptId, enabled }) {
   const [step, setStep] = useState("offer");
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
@@ -473,27 +676,6 @@ function ResultClaimPanel({ ageBand, attemptId, enabled }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [receipt, setReceipt] = useState(null);
-
-  if (ageBand === "under_13") {
-    return (
-      <div className="diagnostic-unlock diagnostic-unlock--guardian">
-        <div>
-          <p className="section-kicker">Cuenta de tutor requerida</p>
-          <h3>El resultado permanece solo en esta sesión</h3>
-          <p>
-            No hace falta una cuenta para ver este resultado. Para guardarlo, entrar
-            al Portal o usar Study Buddy, un padre, madre o tutor deberá verificar su
-            propio email, confirmar que está autorizado y aceptar cada permiso
-            opcional por separado.
-          </p>
-          <p>
-            El permiso para Study Buddy, el contacto con un asesor y los mensajes
-            promocionales no se incluyen automáticamente.
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   const requestCode = async (event) => {
     event.preventDefault();
@@ -762,6 +944,7 @@ function ResultScreen({
   onRestart,
   result,
   skippedCount,
+  submission,
   syncNotice,
 }) {
   const recommendation = result?.recommendation;
@@ -824,7 +1007,8 @@ function ResultScreen({
       <ResultClaimPanel
         ageBand={ageBand}
         attemptId={attemptId}
-        enabled={durable && Boolean(attemptId)}
+        enabled={ageBand === "under_13" ? Boolean(submission) : durable && Boolean(attemptId)}
+        submission={submission}
       />
       <div className="diagnostic-result__actions">
         <a
@@ -1383,6 +1567,7 @@ export function PlacementExperience() {
           onRestart={restart}
           result={result}
           skippedCount={skipped.length}
+          submission={{ selectedAnswers: answers, selfAssessment, goal, writingSample }}
           syncNotice={syncNotice}
         />
       ) : null}

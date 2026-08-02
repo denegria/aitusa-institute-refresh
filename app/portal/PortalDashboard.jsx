@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { site } from "../../src/content.js";
+import { GuardianPrivacyControls } from "./GuardianPrivacyControls.jsx";
 
 export function PortalDashboard({ model }) {
   const advisorHref = `${site.whatsappHref}?text=${encodeURIComponent(
@@ -277,6 +278,17 @@ export function PortalDashboard({ model }) {
               </button>
             </form>
           </section>
+
+          {model.guardianChild ? (
+            <section className="portal-account-panel" id="privacidad-tutor" aria-labelledby="portal-guardian-title">
+              <div>
+                <p className="portal-eyebrow">Privacidad del menor</p>
+                <h2 id="portal-guardian-title">Autorización y perfil vinculado</h2>
+                <p>Estos controles solo están disponibles para el adulto con el email verificado.</p>
+              </div>
+              <GuardianPrivacyControls child={model.guardianChild} />
+            </section>
+          ) : null}
 
           <footer className="portal-footer">
             <span>AIT USA Institute</span>

@@ -33,6 +33,7 @@
     "test:portal-result-claim": "node --test tests/portal-result-claim.test.mjs tests/portal-result-claim-contract.test.mjs",
     "test:portal-availability": "node --test tests/portal-availability.test.mjs",
     "test:portal-shell": "node --test tests/portal-shell.test.mjs tests/portal-view-model.test.mjs",
+    "test:guardian-onboarding": "node --test tests/guardian-onboarding.test.mjs tests/guardian-onboarding-route.test.mjs",
     "verify:browser": "node ./scripts/verify-browser.mjs"
   },
   "dependencies": {

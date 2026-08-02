@@ -56,6 +56,25 @@ export function createAuthenticatedPortalViewModel(snapshot, { welcome = false }
     recentPractice: Array.isArray(snapshot.recentPractice)
       ? snapshot.recentPractice.map(normalizePracticeSummary).slice(0, 3)
       : [],
+    guardianChild: normalizeGuardianChild(snapshot.guardianChild),
+  };
+}
+
+function normalizeGuardianChild(child) {
+  if (!child?.id || !child.firstName) return null;
+  return {
+    id: String(child.id),
+    firstName: cleanText(child.firstName, "Menor vinculado"),
+    status: ["active", "deletion_requested"].includes(child.status)
+      ? child.status
+      : "active",
+    receiptCode: cleanText(child.receiptCode, ""),
+    policyVersion: cleanText(child.policyVersion, ""),
+    permissions: {
+      aiPracticeApproved: child.permissions?.aiPracticeApproved === true,
+      advisorContactApproved: child.permissions?.advisorContactApproved === true,
+      marketingSmsOptIn: false,
+    },
   };
 }
 

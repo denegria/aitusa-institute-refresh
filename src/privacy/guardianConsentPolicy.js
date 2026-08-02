@@ -32,6 +32,9 @@ export const GUARDIAN_DIRECT_NOTICE = Object.freeze({
     "El adulto recibirá una confirmación con instrucciones para revisar, retirar la autorización, desvincular el perfil o solicitar la eliminación de los datos.",
 });
 
+export const GUARDIAN_DIRECT_NOTICE_HASH =
+  "363f2646e03334eca52e821133cb5d05297f8abd97b10b5b7dc09767f6cc5fcd";
+
 const UNDER_13_SESSION_ACTIONS = new Set([
   "take_diagnostic",
   "view_result",
