@@ -1,6 +1,8 @@
 import { timingSafeEqual } from "node:crypto";
 import { WorkOS } from "@workos-inc/node";
 import { getPortalSqlClient } from "../../../../../src/diagnostic/db.server.js";
+import { dispatchCrmOutboxBestEffort } from "../../../../../src/crm/runtime.server.js";
+import { getFunnelOperatorService } from "../../../../../src/observability/operatorRuntime.server.js";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,6 +19,16 @@ export async function POST(request) {
   }
 
   const body = await request.json().catch(() => ({}));
+  if (body.action === "dispatch") {
+    return Response.json(await dispatchCrmOutboxBestEffort({ limit: 20 }), {
+      headers: { "cache-control": "no-store" },
+    });
+  }
+  if (body.action === "health") {
+    return Response.json(await getFunnelOperatorService().getHealth({ hours: 24 }), {
+      headers: { "cache-control": "no-store" },
+    });
+  }
   if (!/^[0-9a-f-]{36}$/i.test(body.claimId || "")) {
     return Response.json({ ok: false, error: "claim_id_invalid" }, { status: 422 });
   }
