@@ -1,9 +1,19 @@
 .page {
+  --study-navy-950: #071733;
+  --study-navy-900: #0b2149;
+  --study-blue: #2c5cff;
+  --study-gold: #f2bd4d;
+  --study-gold-soft: #fff4d6;
+  --study-ink: #12213d;
+  --study-muted: #66728a;
+  --study-line: #dfe5ef;
+  --study-canvas: #f4f7fb;
   min-height: 100dvh;
-  color: #10233f;
+  color: var(--study-ink);
   background:
-    radial-gradient(circle at 80% 5%, rgba(201, 157, 61, 0.2), transparent 28rem),
-    linear-gradient(145deg, #f8f4eb 0%, #f3f7f8 55%, #edf2f4 100%);
+    radial-gradient(circle at 78% 4%, rgba(44, 92, 255, 0.11), transparent 28rem),
+    var(--study-canvas);
+  font-family: "Plus Jakarta Sans", "Segoe UI Variable Text", "Segoe UI", sans-serif;
 }
 
 .skipLink {
@@ -15,7 +25,7 @@
   padding: 0.75rem 1rem;
   border-radius: 999px;
   color: #fff;
-  background: #10233f;
+  background: var(--study-navy-950);
 }
 
 .skipLink:focus { transform: none; }
@@ -27,8 +37,8 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 0 4vw;
-  border-bottom: 1px solid rgba(16, 35, 63, 0.12);
-  background: rgba(255, 255, 255, 0.78);
+  border-bottom: 1px solid rgba(211, 220, 234, 0.82);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
 }
 
@@ -40,28 +50,40 @@
   text-decoration: none;
 }
 
-.brand span {
-  display: grid;
+.brandMark {
   width: 42px;
   height: 42px;
-  place-items: center;
   border-radius: 50%;
-  color: #10233f;
-  background: #d6aa4f;
-  font: 800 0.78rem/1 system-ui, sans-serif;
-  letter-spacing: 0.08em;
+  object-fit: contain;
 }
 
-.brand strong { font: 700 1rem/1.2 system-ui, sans-serif; }
+.brandCopy {
+  display: grid;
+  gap: 1px;
+}
+
+.brand strong {
+  color: var(--study-navy-950);
+  font-size: 0.94rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+
+.brand small {
+  color: var(--study-muted);
+  font-size: 0.7rem;
+  line-height: 1.2;
+}
 
 .sessionMeta { display: flex; gap: 0.5rem; }
 .sessionMeta span,
 .phrases span {
   padding: 0.5rem 0.7rem;
-  border: 1px solid rgba(16, 35, 63, 0.12);
+  border: 1px solid var(--study-line);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.7);
-  font: 700 0.72rem/1 system-ui, sans-serif;
+  background: rgba(255, 255, 255, 0.86);
+  font: 700 0.72rem/1 "Plus Jakarta Sans", sans-serif;
 }
 
 .announcement {
@@ -88,8 +110,8 @@
 .context { padding: 0.75rem 0; }
 .backLink,
 .textButton {
-  color: #24466e;
-  font: 700 0.86rem/1.2 system-ui, sans-serif;
+  color: var(--study-blue);
+  font: 700 0.86rem/1.2 "Plus Jakarta Sans", sans-serif;
   text-underline-offset: 0.2em;
 }
 
@@ -97,8 +119,8 @@
 .card h1,
 .card h2 {
   margin: 0.55rem 0 0.8rem;
-  font-family: Georgia, "Times New Roman", serif;
-  font-weight: 500;
+  font-family: "Plus Jakarta Sans", "Segoe UI Variable Display", sans-serif;
+  font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.03;
 }
@@ -110,14 +132,14 @@
 .card > p,
 .turnHeading p,
 .voiceChoice p {
-  color: #52657b;
-  font: 400 1rem/1.65 system-ui, sans-serif;
+  color: var(--study-muted);
+  font: 400 1rem/1.65 "Plus Jakarta Sans", sans-serif;
 }
 
 .eyebrow {
   margin: 0;
-  color: #8c671d !important;
-  font: 800 0.72rem/1.2 system-ui, sans-serif !important;
+  color: var(--study-blue) !important;
+  font: 800 0.72rem/1.2 "Plus Jakarta Sans", sans-serif !important;
   letter-spacing: 0.13em;
   text-transform: uppercase;
 }
@@ -130,30 +152,30 @@
 
 .contextFacts div {
   padding: 0.9rem 0;
-  border-top: 1px solid rgba(16, 35, 63, 0.12);
+  border-top: 1px solid var(--study-line);
 }
 
-.contextFacts dt { color: #738195; font: 700 0.68rem/1 system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.1em; }
-.contextFacts dd { margin: 0.35rem 0 0; font: 700 0.92rem/1.35 system-ui, sans-serif; }
+.contextFacts dt { color: var(--study-muted); font: 700 0.68rem/1 "Plus Jakarta Sans", sans-serif; text-transform: uppercase; letter-spacing: 0.1em; }
+.contextFacts dd { margin: 0.35rem 0 0; font: 700 0.92rem/1.35 "Plus Jakarta Sans", sans-serif; }
 
 .privacyNote {
   padding: 1rem;
   border-radius: 18px;
   color: #e9f1f7;
-  background: #10233f;
+  background: var(--study-navy-950);
 }
-.privacyNote strong { font: 700 0.88rem/1.2 system-ui, sans-serif; }
-.privacyNote p { margin: 0.45rem 0 0; color: #c6d4df; font: 400 0.78rem/1.5 system-ui, sans-serif; }
+.privacyNote strong { font: 700 0.88rem/1.2 "Plus Jakarta Sans", sans-serif; }
+.privacyNote p { margin: 0.45rem 0 0; color: #c6d4df; font: 400 0.78rem/1.5 "Plus Jakarta Sans", sans-serif; }
 
 .stage { min-width: 0; }
 .card {
   position: relative;
   overflow: hidden;
   padding: clamp(1.4rem, 4vw, 3.75rem);
-  border: 1px solid rgba(16, 35, 63, 0.1);
-  border-radius: clamp(24px, 3vw, 38px);
+  border: 1px solid var(--study-line);
+  border-radius: clamp(22px, 2vw, 28px);
   background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 28px 70px rgba(31, 53, 77, 0.12);
+  box-shadow: 0 22px 60px rgba(12, 32, 68, 0.1);
 }
 
 .modelCard,
@@ -162,17 +184,17 @@
 .nextMission {
   margin: 1.5rem 0;
   padding: 1.1rem 1.2rem;
-  border-left: 3px solid #d6aa4f;
+  border-left: 3px solid var(--study-gold);
   border-radius: 0 16px 16px 0;
-  background: #f7f2e6;
+  background: var(--study-gold-soft);
 }
 .modelCard span,
 .hint span,
 .correction span,
-.nextMission span { display: block; color: #8c671d; font: 800 0.68rem/1 system-ui, sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
+.nextMission span { display: block; color: #8a6310; font: 800 0.68rem/1 "Plus Jakarta Sans", sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
 .modelCard p,
 .hint p,
-.correction p { margin: 0.5rem 0 0; font: 600 1.05rem/1.5 system-ui, sans-serif; }
+.correction p { margin: 0.5rem 0 0; font: 600 1.05rem/1.5 "Plus Jakarta Sans", sans-serif; }
 
 .phrases { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 .disclosure { margin: 1.5rem 0 !important; font-size: 0.82rem !important; }
@@ -189,11 +211,11 @@
   border: 1px solid transparent;
   border-radius: 999px;
   cursor: pointer;
-  font: 800 0.86rem/1 system-ui, sans-serif;
+  font: 800 0.86rem/1 "Plus Jakarta Sans", sans-serif;
   text-decoration: none;
 }
-.primaryButton { color: #10233f; background: #d6aa4f; }
-.secondaryButton { color: #10233f; border-color: rgba(16, 35, 63, 0.2); background: #fff; }
+.primaryButton { color: var(--study-navy-950); background: var(--study-gold); }
+.secondaryButton { color: var(--study-navy-950); border-color: var(--study-line); background: #fff; }
 .primaryButton:disabled,
 .secondaryButton:disabled { cursor: not-allowed; opacity: 0.48; }
 .primaryButton:focus-visible,
@@ -215,31 +237,31 @@
 .progress li::before { content: ""; position: absolute; z-index: 0; width: 100%; height: 2px; background: #dbe2e8; }
 .progress li:first-child::before { width: 50%; right: 0; }
 .progress li:last-child::before { width: 50%; left: 0; }
-.progress span { position: relative; z-index: 1; display: grid; width: 32px; height: 32px; place-items: center; border: 2px solid #dbe2e8; border-radius: 50%; color: #748397; background: #fff; font: 800 0.72rem/1 system-ui, sans-serif; }
-.progress .current span { border-color: #d6aa4f; color: #10233f; box-shadow: 0 0 0 6px rgba(214, 170, 79, 0.17); }
-.progress .complete span { border-color: #24466e; color: #fff; background: #24466e; }
+.progress span { position: relative; z-index: 1; display: grid; width: 32px; height: 32px; place-items: center; border: 2px solid #dbe2e8; border-radius: 50%; color: #748397; background: #fff; font: 800 0.72rem/1 "Plus Jakarta Sans", sans-serif; }
+.progress .current span { border-color: var(--study-gold); color: var(--study-navy-950); box-shadow: 0 0 0 6px rgba(242, 189, 77, 0.17); }
+.progress .complete span { border-color: var(--study-blue); color: #fff; background: var(--study-blue); }
 
 .turnHeading { margin-bottom: 1.25rem; }
-.answerForm label { display: block; margin-bottom: 0.55rem; font: 800 0.76rem/1.2 system-ui, sans-serif; }
-.answerForm textarea { box-sizing: border-box; width: 100%; min-height: 112px; resize: vertical; padding: 1rem; border: 1px solid #bdc9d3; border-radius: 16px; color: #10233f; background: #fff; font: 500 1rem/1.5 system-ui, sans-serif; }
+.answerForm label { display: block; margin-bottom: 0.55rem; font: 800 0.76rem/1.2 "Plus Jakarta Sans", sans-serif; }
+.answerForm textarea { box-sizing: border-box; width: 100%; min-height: 112px; resize: vertical; padding: 1rem; border: 1px solid #bdc9d3; border-radius: 16px; color: var(--study-ink); background: #fff; font: 500 1rem/1.5 "Plus Jakarta Sans", sans-serif; }
 .answerForm textarea:focus { outline: 3px solid rgba(214, 170, 79, 0.38); border-color: #a77d25; }
 .answerActions,
 .feedbackActions { display: flex; justify-content: space-between; gap: 0.75rem; margin-top: 1rem; }
 
 .voiceChoice { display: grid; gap: 0.75rem; }
-.micButton { color: #fff; background: #10233f; }
+.micButton { color: #fff; background: var(--study-navy-950); }
 .recording { display: grid; justify-items: center; gap: 1rem; padding: 2rem 0; text-align: center; }
 .pulse { width: 68px; height: 68px; border: 2px solid #fff; border-radius: 50%; background: #d35845; box-shadow: 0 0 0 0 rgba(211, 88, 69, 0.45); animation: pulse 1.6s infinite; }
 .stopButton { color: #fff; background: #a5382a; }
 
-.feedbackCard { background: linear-gradient(150deg, #fff 0%, #fbf4df 100%); }
-.completionCard { text-align: center; background: linear-gradient(150deg, #fff 0%, #f7edcf 100%); }
-.completionMark { width: 76px; height: 76px; display: grid; place-items: center; margin: 0 auto 1.25rem; border-radius: 50%; color: #10233f; background: #d6aa4f; font: 800 2rem/1 system-ui, sans-serif; box-shadow: 0 0 0 14px rgba(214, 170, 79, 0.16); }
+.feedbackCard { background: linear-gradient(150deg, #fff 0%, #f7f9ff 100%); }
+.completionCard { text-align: center; background: linear-gradient(150deg, #fff 0%, #fff7df 100%); }
+.completionMark { width: 76px; height: 76px; display: grid; place-items: center; margin: 0 auto 1.25rem; border-radius: 50%; color: var(--study-navy-950); background: var(--study-gold); font: 800 2rem/1 "Plus Jakarta Sans", sans-serif; box-shadow: 0 0 0 14px rgba(242, 189, 77, 0.16); }
 .nextMission { text-align: left; }
-.nextMission strong { display: block; margin-top: 0.5rem; font: 700 1rem/1.4 system-ui, sans-serif; }
+.nextMission strong { display: block; margin-top: 0.5rem; font: 700 1rem/1.4 "Plus Jakarta Sans", sans-serif; }
 
 .recoveryCard .primaryButton { margin: 1rem 1rem 0 0; }
-.statusCompact { min-height: 130px; display: flex; align-items: center; justify-content: center; gap: 0.8rem; color: #52657b; font: 700 0.9rem/1.4 system-ui, sans-serif; }
+.statusCompact { min-height: 130px; display: flex; align-items: center; justify-content: center; gap: 0.8rem; color: var(--study-muted); font: 700 0.9rem/1.4 "Plus Jakarta Sans", sans-serif; }
 .spinner { width: 22px; height: 22px; border: 3px solid #dbe2e8; border-top-color: #a77d25; border-radius: 50%; animation: spin 0.8s linear infinite; }
 
 @keyframes spin { to { transform: rotate(360deg); } }

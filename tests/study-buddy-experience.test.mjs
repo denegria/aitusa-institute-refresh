@@ -98,4 +98,22 @@ describe("MIS-342 personalized Study Buddy experience", () => {
     assert.match(source, /chunksRef\.current = \[\]/);
     assert.match(source, /track\.stop\(\)/);
   });
+
+  it("uses the approved AIT identity instead of a separate Study Buddy brand", () => {
+    const source = readFileSync(
+      new URL("../app/portal/study/StudyBuddyExperience.jsx", import.meta.url),
+      "utf8",
+    );
+    const styles = readFileSync(
+      new URL("../app/portal/study/StudyBuddyExperience.module.css", import.meta.url),
+      "utf8",
+    );
+
+    assert.match(source, /076-solo-logo-4-x-4-clases1\.png/);
+    assert.match(source, /<strong>AIT USA<\/strong>/);
+    assert.match(source, /<small>Study Buddy<\/small>/);
+    assert.match(styles, /Plus Jakarta Sans/);
+    assert.match(styles, /--study-blue: #2c5cff/);
+    assert.doesNotMatch(styles, /Georgia|Times New Roman/);
+  });
 });

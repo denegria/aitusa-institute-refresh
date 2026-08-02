@@ -905,3 +905,44 @@ do next. “Unavailable” must never look like “broken.”
   route at desktop/mobile widths.
 - Verify the link destination, keyboard focus, menu coexistence, no horizontal
   overflow, and no console errors.
+
+---
+
+# AIT USA Student-Surface Brand Consistency — MIS-350
+
+## Audit verdict and hierarchy
+
+- The client-approved homepage is the visual source of truth: real AIT mark,
+  Plus Jakarta Sans, deep navy, electric blue, restrained gold, white surfaces,
+  and compact rounded controls.
+- Placement and the authenticated Portal already follow that system and must
+  keep their current product hierarchy and behavior.
+- Study Buddy is the only material mismatch: its placeholder `AIT` badge,
+  beige editorial canvas, and serif display type make it read like a separate
+  product.
+
+## Chosen correction
+
+- Replace the placeholder badge with the real AIT mark and the same two-line
+  brand lockup used by Portal: `AIT USA` with `Study Buddy` as the product label.
+- Bring Study Buddy onto the Portal/public-site navy, blue, gold, canvas,
+  typography, radius, border, shadow, and focus systems without changing the
+  authored five-turn practice interaction.
+- Preserve gold for guided-practice emphasis while blue remains the shared
+  navigation and state accent.
+
+## Locked behavior and non-goals
+
+- No changes to placement scoring, account/auth, guardian consent, Study Buddy
+  limits, privacy rules, provider boundaries, API calls, prompts, feedback,
+  persistence, or CRM delivery.
+- No homepage changes and no production promotion.
+- Preserve responsive content order, all accessible names, keyboard focus,
+  reduced-motion behavior, and 44-pixel minimum actions.
+
+## Required evidence
+
+- Screenshot comparison at 1440×900 and 390×844 for homepage, placement,
+  Portal sign-in, authenticated Portal, and Study Buddy.
+- Full tests/build/assets/audit, no horizontal overflow, and no browser console
+  errors on the final staging commit.

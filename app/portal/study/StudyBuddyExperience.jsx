@@ -214,8 +214,17 @@ export function StudyBuddyExperience({ account, model }) {
       <a className={styles.skipLink} href="#practice-main">Saltar a la práctica</a>
       <header className={styles.topbar}>
         <a className={styles.brand} href="/portal/" aria-label="Volver al portal de AIT USA">
-          <span aria-hidden="true">AIT</span>
-          <strong>Study Buddy</strong>
+          <img
+            className={styles.brandMark}
+            src="/assets/wix/076-solo-logo-4-x-4-clases1.png"
+            alt=""
+            width="42"
+            height="42"
+          />
+          <span className={styles.brandCopy}>
+            <strong>AIT USA</strong>
+            <small>Study Buddy</small>
+          </span>
         </a>
         <div className={styles.sessionMeta}>
           <span>3–5 min</span>
