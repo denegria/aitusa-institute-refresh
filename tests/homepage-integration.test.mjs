@@ -120,8 +120,14 @@ describe("homepage React integration", () => {
     assert.match(chrome, /className="student-portal-entry"/);
     assert.match(chrome, /href="\/portal\/sign-in\/"/);
     assert.match(chrome, /Portal de estudiantes: iniciar sesión/);
-    assert.match(styles, /\.student-portal-entry\s*\{[\s\S]*min-width: 44px;[\s\S]*min-height: 44px;/);
-    assert.match(styles, /@media \(max-width: 760px\)[\s\S]*\.student-portal-entry__label/);
+    assert.match(chrome, /title="Portal de estudiantes"/);
+    assert.doesNotMatch(chrome, /student-portal-entry__label/);
+    assert.match(styles, /\.student-portal-entry\s*\{[\s\S]*width: 44px;[\s\S]*min-width: 44px;[\s\S]*min-height: 44px;/);
+  });
+
+  it("keeps the placement entry viewport focused on the diagnostic", async () => {
+    const placement = await readFile("app/(public-site)/placement-test/page.jsx", "utf8");
+    assert.doesNotMatch(placement, /Primero recibes valor|privacyNote|notice-box/);
   });
 
   it("keeps the approved hero hierarchy and two primary actions", async () => {

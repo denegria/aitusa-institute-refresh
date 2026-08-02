@@ -2757,18 +2757,6 @@ textarea {
   max-width: 760px;
 }
 
-.placement-page__hero .notice-box {
-  align-items: flex-start;
-  max-width: 780px;
-  margin-top: 22px;
-  color: var(--blue-deep);
-  line-height: 1.5;
-}
-
-.placement-page__hero .notice-box strong {
-  flex: 0 0 auto;
-}
-
 .placement-page__app {
   min-height: 720px;
   padding-block: 24px 90px;
@@ -3612,14 +3600,7 @@ textarea {
     width: min(100% - 24px, 920px);
   }
 
-  .placement-page__hero .notice-box {
-    display: grid;
-    gap: 5px;
-    font-size: 0.84rem;
-  }
-
-  .placement-page__hero .page-hero__copy > p:not(.section-kicker),
-  .placement-page__hero .notice-box {
+  .placement-page__hero .page-hero__copy > p:not(.section-kicker) {
     display: none;
   }
 
@@ -6463,13 +6444,13 @@ textarea {
 /* MIS-349: quiet, persistent returning-student utility. */
 .student-portal-entry {
   display: inline-flex;
+  width: 44px;
   min-width: 44px;
   min-height: 44px;
   flex: 0 0 auto;
-  gap: 7px;
   align-items: center;
   justify-content: center;
-  padding: 8px 10px;
+  padding: 0;
   border: 1px solid rgba(0, 26, 61, 0.16);
   border-radius: 999px;
   background: #ffffff;
@@ -6515,25 +6496,6 @@ textarea {
 
   .header-cta {
     grid-column: 4;
-  }
-}
-
-@media (max-width: 760px) {
-  .student-portal-entry {
-    width: 44px;
-    padding-inline: 0;
-  }
-
-  .student-portal-entry__label {
-    position: absolute;
-    overflow: hidden;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    border: 0;
-    margin: -1px;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
   }
 }
 

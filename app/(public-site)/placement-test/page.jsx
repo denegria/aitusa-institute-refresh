@@ -20,10 +20,6 @@ export default function PlacementTestPage() {
               <p className="section-kicker">{placementTest.eyebrow || "Evaluación inicial"}</p>
               <h1>{placementTest.title || "Examen de ubicación"}</h1>
               <p>{placementTest.intro || ""}</p>
-              <div className="notice-box">
-                <strong>Primero recibes valor:</strong>
-                <span>{placementTest.privacyNote || ""}</span>
-              </div>
             </div>
           </div>
         </section>

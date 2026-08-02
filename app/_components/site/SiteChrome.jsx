@@ -107,9 +107,9 @@ export function SiteHeader({ activePage = "home" }) {
           className="student-portal-entry"
           href="/portal/sign-in/"
           aria-label="Portal de estudiantes: iniciar sesión"
+          title="Portal de estudiantes"
         >
           <i data-lucide="user-round" aria-hidden="true" />
-          <span className="student-portal-entry__label">Portal</span>
         </a>
         <a className="header-cta" href={site.phoneHref}>
           <i data-lucide="phone" aria-hidden="true" />

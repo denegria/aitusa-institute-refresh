@@ -968,3 +968,37 @@ do next. “Unavailable” must never look like “broken.”
   regression viewports, including focus/reduced motion, overflow, and console.
 - Exact staging commit/deployment evidence plus MIS-344 integrated staging
   regression before Human Review.
+
+---
+
+# AIT USA Human-Review Cleanup — 2026-08-02
+
+## Problem and chosen interaction model
+
+- Human review found the persistent desktop `Portal` label visually heavier
+  than needed beside the existing account icon, and found the placement-page
+  privacy disclosure occupying too much of the first desktop viewport.
+- Use the account icon alone on every public-page header while preserving its
+  44×44 target, explicit accessible name, native tooltip, focus ring, and
+  passwordless sign-in destination.
+- Remove the placement hero disclosure block so the diagnostic itself returns
+  to the first viewport. Preserve the concise placement promise and all actual
+  privacy, guardian, retention, CRM, and account behavior.
+
+## Locked behavior and non-goals
+
+- No changes to navigation, authentication, placement scoring, data handling,
+  guardian policy, WorkOS, CRM, Portal, or Study Buddy behavior.
+- No cross-surface color redesign in this patch; that direction will be chosen
+  with Alvaro separately.
+- No general Portal or Study Buddy UI redesign and no production promotion.
+
+## Responsive invariants and evidence
+
+- Primary CSS viewports: 390×844 and 1366×768; regression: 360×800, 760×844,
+  1040×900, and 1440×900.
+- Header utilities must not wrap or overflow, and the icon-only Portal target
+  remains visible and keyboard accessible at every breakpoint.
+- Placement content must start materially higher with no empty disclosure gap.
+- Required evidence: targeted contract tests, full suite/build/assets/audit,
+  responsive rendered checks, exact staging commit/deployment, and Linear note.
