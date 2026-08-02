@@ -1,3 +1,5 @@
+import { after } from "next/server.js";
+import { dispatchCrmOutboxBestEffort } from "../../../../../src/crm/runtime.server.js";
 import {
   assertPortalSameOrigin,
   parsePortalClaimJson,
@@ -30,6 +32,7 @@ export async function POST(request) {
       await parsePortalClaimJson(request),
       identity,
     );
+    if (process.env.VERCEL) after(() => dispatchCrmOutboxBestEffort());
     return portalClaimJson({ ok: true, claimed: true, ...claimed });
   } catch (error) {
     return portalClaimFailure(error);

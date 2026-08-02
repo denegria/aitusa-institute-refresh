@@ -2,6 +2,10 @@
   "buildCommand": "npm run build",
   "crons": [
     {
+      "path": "/api/cron/crm-outbox",
+      "schedule": "0 5 * * *"
+    },
+    {
       "path": "/api/cron/portal-retention",
       "schedule": "15 5 * * *"
     }
