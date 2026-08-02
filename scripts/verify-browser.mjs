@@ -1579,7 +1579,7 @@ const verifyPlacementRoute = async () => {
   console.log("Checking placement-route...");
   await send("Emulation.setDeviceMetricsOverride", {
     width: 390,
-    height: 1200,
+    height: 844,
     deviceScaleFactor: 2,
     mobile: true,
   });
@@ -1605,6 +1605,7 @@ const verifyPlacementRoute = async () => {
     externalGoogleRefs: document.body.innerHTML.includes('docs.google.com') || document.body.innerText.includes('Google Form'),
   }))()`);
 
+  await sleep(1200);
   await evaluate(`document.querySelector('[data-diagnostic-screen="intro"] .button--primary').click()`);
   await waitForSelector('[data-diagnostic-screen="question"]');
 
@@ -1645,7 +1646,8 @@ const verifyPlacementRoute = async () => {
   await stabilizeViewport();
   await evaluate(`(() => {
     const result = document.querySelector('[data-diagnostic-screen="result"]');
-    const y = result.getBoundingClientRect().top + window.scrollY - 160;
+    const focus = result.querySelector('.diagnostic-unlock') || result;
+    const y = focus.getBoundingClientRect().top + window.scrollY - 72;
     window.scrollTo({ top: y, behavior: 'instant' });
   })()`);
   await sleep(250);
@@ -1669,7 +1671,9 @@ const verifyPlacementRoute = async () => {
       resultHeading: document.querySelector('[data-diagnostic-screen="result"] h2')?.innerText || '',
       resultText: document.querySelector('[data-diagnostic-screen="result"]')?.innerText || '',
       whatsappHref: document.querySelector('[data-diagnostic-screen="result"] a[href*="wa.me"]')?.href || '',
-      actionsVisible: Boolean(document.querySelector('[data-diagnostic-screen="result"] .diagnostic-result__actions')),
+      supportVisible: Boolean(document.querySelector('[data-diagnostic-screen="result"] .diagnostic-result__support')),
+      dominantActions: document.querySelectorAll('[data-diagnostic-screen="result"] .diagnostic-unlock .button--gold').length,
+      supportLinks: document.querySelectorAll('[data-diagnostic-screen="result"] .diagnostic-result__support-link').length,
       overflowing,
     };
   })()`);
@@ -1684,7 +1688,12 @@ const verifyPlacementRoute = async () => {
   if (!result.resultText.includes('bloques consecutivos aprobados por AIT')) {
     issues.push('approvedScoringCopyMissing');
   }
-  if (!result.actionsVisible || !result.whatsappHref.includes('wa.me/17323790593')) {
+  if (
+    !result.supportVisible
+    || result.dominantActions !== 1
+    || result.supportLinks !== 2
+    || !result.whatsappHref.includes('wa.me/17323790593')
+  ) {
     issues.push('advisorActionMissing');
   }
   if (result.overflowing.length) issues.push(`overflow=${result.overflowing.length}`);

@@ -7,9 +7,9 @@ const ERROR_COPY = Object.freeze({
   magic_auth_code_invalid: "Ese código no es válido o ya venció. Solicita uno nuevo.",
   magic_auth_rate_limited: "Espera un momento antes de solicitar otro código.",
   portal_account_not_found:
-    "No encontramos una cuenta guardada con ese email. Puedes hacer el examen para crearla.",
+    "No pudimos completar el acceso. Revisa el email o comienza con el examen de ubicación.",
   portal_account_unavailable:
-    "Tu cuenta necesita revisión. Un asesor puede ayudarte a recuperar el acceso.",
+    "No pudimos completar el acceso. Revisa el email o solicita ayuda a un asesor.",
   portal_sign_in_invalid:
     "Ese código no es válido, ya venció o no corresponde a una cuenta activa.",
   passwordless_sign_in_unavailable:
@@ -116,11 +116,11 @@ export function SignInExperience() {
         </div>
         <p className="portal-eyebrow">Acceso sin contraseña</p>
         <h1 id="portal-signin-title">
-          {step === "email" ? "Vuelve a tu ruta" : "Revisa tu email"}
+          {step === "email" ? "Entra a tu Portal" : "Revisa tu email"}
         </h1>
         <p>
           {step === "email"
-            ? "Usa el mismo email con el que guardaste tu resultado. Si coincide con una cuenta activa, recibirás un código de seis dígitos."
+            ? "Este acceso es para estudiantes que ya guardaron un resultado. Usa el mismo email y, si corresponde a una cuenta activa, recibirás un código de seis dígitos."
             : `Si ${maskEmail(email)} corresponde a una cuenta activa, recibirás un código que vence en 10 minutos.`}
         </p>
 
@@ -213,9 +213,17 @@ export function SignInExperience() {
             segura que el navegador no comparte con scripts.
           </p>
         </div>
-        <a className="portal-text-link" href="/placement-test/">
-          Todavía no guardé un resultado
-        </a>
+        {step === "email" ? (
+          <div className="portal-signin__new-student">
+            <div>
+              <strong>¿Primera vez aquí?</strong>
+              <span>Haz el examen, conoce tu nivel y guarda el resultado para crear tu acceso.</span>
+            </div>
+            <a className="portal-button portal-button--quiet" href="/placement-test/">
+              Comenzar examen
+            </a>
+          </div>
+        ) : null}
       </section>
     </main>
   );

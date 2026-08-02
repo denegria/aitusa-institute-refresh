@@ -908,41 +908,63 @@ do next. “Unavailable” must never look like “broken.”
 
 ---
 
-# AIT USA Student-Surface Brand Consistency — MIS-350
+# AIT USA Student-Surface Brand Consistency Rework — MIS-350
 
-## Audit verdict and hierarchy
+## Problem and chosen interaction model
 
-- The client-approved homepage is the visual source of truth: real AIT mark,
-  Plus Jakarta Sans, deep navy, electric blue, restrained gold, white surfaces,
-  and compact rounded controls.
-- Placement and the authenticated Portal already follow that system and must
-  keep their current product hierarchy and behavior.
-- Study Buddy is the only material mismatch: its placeholder `AIT` badge,
-  beige editorial canvas, and serif display type make it read like a separate
-  product.
+- A student moving from placement result to account claim sees roughly five
+  peer actions, so the correct next step is visually ambiguous.
+- Portal sign-in accepts an email before clearly explaining that it is for
+  existing saved-result accounts, while its generic success response can make a
+  new learner think an email was sent.
+- Portal and Study Buddy still read as a cold SaaS blue/white product beside
+  the approved homepage's trustworthy navy/gold editorial identity.
+- Keep the result-first diagnostic and in-place passwordless claim. Make
+  `Guardar mi resultado` the only dominant action; keep defer, advisor, courses,
+  and restart as reachable text-level pathways rather than stacked peer CTAs.
+- Keep sign-in email-first and generic after submission. Explain the existing
+  account boundary before submission and give new learners a clear placement
+  path without revealing whether any email/account exists.
+- Preserve the Portal dashboard IA and authored five-turn Study Buddy flow.
 
-## Chosen correction
+## Selected visual direction
 
-- Replace the placeholder badge with the real AIT mark and the same two-line
-  brand lockup used by Portal: `AIT USA` with `Study Buddy` as the product label.
-- Bring Study Buddy onto the Portal/public-site navy, blue, gold, canvas,
-  typography, radius, border, shadow, and focus systems without changing the
-  authored five-turn practice interaction.
-- Preserve gold for guided-practice emphasis while blue remains the shared
-  navigation and state accent.
+- The client-approved homepage remains the source of truth.
+- Navy owns structure, gold owns emphasis and state, and warm cream/white
+  surfaces own reading areas.
+- Product surfaces may remain denser than marketing pages, but bright electric
+  SaaS blue and cold blue-white canvas treatments are no longer the dominant
+  identity.
 
 ## Locked behavior and non-goals
 
-- No changes to placement scoring, account/auth, guardian consent, Study Buddy
-  limits, privacy rules, provider boundaries, API calls, prompts, feedback,
-  persistence, or CRM delivery.
-- No homepage changes and no production promotion.
-- Preserve responsive content order, all accessible names, keyboard focus,
-  reduced-motion behavior, and 44-pixel minimum actions.
+- No changes to placement scoring, answer handling, persistence, guardian
+  onboarding, WorkOS calls, account eligibility, CRM delivery, Study Buddy
+  provider/runtime behavior, trial limits, or privacy rules.
+- Unknown-account requests remain indistinguishable from known-account code
+  requests.
+- Preserve loading, disabled, error, recovery, guardian, provider-disabled, and
+  authenticated states.
+- No homepage change, auth rewrite, provider activation, schema/migration
+  change, CRM payload change, new analytics, or production promotion.
+
+## Responsive and hierarchy invariants
+
+- Primary CSS viewports: 390×844 and 1366×768.
+- Regression CSS viewports: 360×800, 430×932, 768×1024, and 1440×900.
+- One dominant result action; secondary pathways remain reachable without a
+  vertical wall of peer buttons.
+- Button-like controls remain at least 44 CSS pixels.
+- No horizontal overflow, clipped copy, hidden default-state CTA, or hover-only
+  affordance.
+- Portal navigation, dashboard order, and Study Buddy turn progression remain
+  unchanged.
 
 ## Required evidence
 
-- Screenshot comparison at 1440×900 and 390×844 for homepage, placement,
-  Portal sign-in, authenticated Portal, and Study Buddy.
-- Full tests/build/assets/audit, no horizontal overflow, and no browser console
-  errors on the final staging commit.
+- Targeted placement, claim, Portal auth/shell, and Study Buddy tests.
+- Full suite, asset check, dependency audit, and webpack production build.
+- Rendered result, sign-in, Portal, and Study Buddy checks at primary and
+  regression viewports, including focus/reduced motion, overflow, and console.
+- Exact staging commit/deployment evidence plus MIS-344 integrated staging
+  regression before Human Review.

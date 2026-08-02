@@ -63,6 +63,14 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.match(component, /className="button button--gold"[\s\S]*Guardar mi resultado/);
   });
 
+  it("keeps one dominant result action and demotes the remaining pathways", () => {
+    assert.match(component, /className="diagnostic-result__support"/);
+    assert.match(component, /className="diagnostic-result__support-link"[\s\S]*Confirmar con un asesor/);
+    assert.match(component, /className="diagnostic-result__support-link" href="\/courses\/"/);
+    assert.doesNotMatch(component, /diagnostic-result__actions/);
+    assert.match(styles, /\.diagnostic-result__support \{[\s\S]*grid-template-columns: auto minmax\(0, 1fr\) auto;/);
+  });
+
   it("includes directional motion and a reduced-motion override", () => {
     assert.match(styles, /@keyframes diagnostic-card-forward/);
     assert.match(styles, /@keyframes diagnostic-card-back/);

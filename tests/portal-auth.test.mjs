@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 import {
   canAccessArea,
@@ -116,5 +117,23 @@ describe("MIS-271 portal auth boundary prototype", () => {
       allowed: false,
       reason: "feature_not_approved",
     });
+  });
+
+  it("explains the existing-account boundary without weakening enumeration safety", () => {
+    const source = readFileSync(
+      new URL("../app/portal/sign-in/SignInExperience.jsx", import.meta.url),
+      "utf8",
+    );
+    const styles = readFileSync(
+      new URL("../src/portal/portalShell.css", import.meta.url),
+      "utf8",
+    );
+
+    assert.match(source, /Este acceso es para estudiantes que ya guardaron un resultado/);
+    assert.match(source, /Comenzar examen/);
+    assert.match(source, /si corresponde a una cuenta activa/i);
+    assert.doesNotMatch(source, /No encontramos una cuenta guardada con ese email/);
+    assert.match(styles, /--portal-blue: #9a6c11/);
+    assert.match(styles, /--portal-canvas: #faf8f4/);
   });
 });

@@ -1010,18 +1010,21 @@ function ResultScreen({
         enabled={ageBand === "under_13" ? Boolean(submission) : durable && Boolean(attemptId)}
         submission={submission}
       />
-      <div className="diagnostic-result__actions">
-        <a
-          className="button button--primary"
-          href={result.advisorHandoff?.href || site.whatsappHref}
-          rel="noreferrer"
-          target="_blank"
-        >
-          Confirmar con un asesor
-        </a>
-        <a className="button button--ghost" href="/courses/">
-          Ver cursos
-        </a>
+      <div className="diagnostic-result__support" aria-label="Otras formas de continuar">
+        <p>¿Prefieres decidir con ayuda?</p>
+        <div className="diagnostic-result__support-links">
+          <a
+            className="diagnostic-result__support-link"
+            href={result.advisorHandoff?.href || site.whatsappHref}
+            rel="noreferrer"
+            target="_blank"
+          >
+            Confirmar con un asesor
+          </a>
+          <a className="diagnostic-result__support-link" href="/courses/">
+            Ver cursos
+          </a>
+        </div>
         <button className="diagnostic-text-action" type="button" onClick={onRestart}>
           Volver a empezar
         </button>
