@@ -25,7 +25,7 @@ export async function POST(request) {
   const rows = await sql`
     select provider_challenge_id, email
     from portal_auth_challenges
-    where claim_id = ${body.claimId}::uuid
+    where claim_id = ${body.claimId}
     limit 1
   `;
   const challenge = rows[0];
