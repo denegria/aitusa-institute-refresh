@@ -75,4 +75,3 @@ Use the smallest reversible control first:
 Production promotion must list the exact Refresh and CRM commits, migrations,
 branch-scoped environment changes, smoke checks, rollback commits, and named
 approver.
-
