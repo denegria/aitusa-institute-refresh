@@ -29,6 +29,27 @@ export async function POST(request) {
       headers: { "cache-control": "no-store" },
     });
   }
+  if (body.action === "delete-user") {
+    const sql = getPortalSqlClient();
+    const rows = await sql`
+      select workos_user_id
+      from portal_accounts
+      where primary_email = ${QA_EMAIL}
+      limit 1
+    `;
+    if (!rows[0]?.workos_user_id) {
+      return Response.json({ ok: true, deleted: false }, {
+        headers: { "cache-control": "no-store" },
+      });
+    }
+    const workos = new WorkOS(process.env.WORKOS_API_KEY, {
+      clientId: process.env.WORKOS_CLIENT_ID,
+    });
+    await workos.userManagement.deleteUser(rows[0].workos_user_id);
+    return Response.json({ ok: true, deleted: true }, {
+      headers: { "cache-control": "no-store" },
+    });
+  }
   if (!/^[0-9a-f-]{36}$/i.test(body.claimId || "")) {
     return Response.json({ ok: false, error: "claim_id_invalid" }, { status: 422 });
   }
