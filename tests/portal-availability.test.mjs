@@ -31,6 +31,7 @@ function jsonRequest(path, method = "GET") {
 
 async function withVercelEnvironment(environment, callback) {
   const previous = {
+    PORTAL_PRODUCTION_ENABLED: process.env.PORTAL_PRODUCTION_ENABLED,
     VERCEL: process.env.VERCEL,
     VERCEL_ENV: process.env.VERCEL_ENV,
     VERCEL_TARGET_ENV: process.env.VERCEL_TARGET_ENV,
@@ -78,6 +79,25 @@ describe("portal prototype production gate", () => {
       false,
     );
     assert.equal(getPortalPrototypeAvailability({ VERCEL: "1" }).available, false);
+  });
+
+  it("allows production only through an exact explicit activation flag", () => {
+    assert.deepEqual(
+      getPortalPrototypeAvailability({
+        VERCEL: "1",
+        VERCEL_ENV: "production",
+        PORTAL_PRODUCTION_ENABLED: "true",
+      }),
+      { available: true, reason: "production_enabled" },
+    );
+    assert.equal(
+      getPortalPrototypeAvailability({
+        VERCEL: "1",
+        VERCEL_ENV: "production",
+        PORTAL_PRODUCTION_ENABLED: "TRUE",
+      }).available,
+      false,
+    );
   });
 
   it("returns a non-cacheable 404 without exposing fixture details", async () => {

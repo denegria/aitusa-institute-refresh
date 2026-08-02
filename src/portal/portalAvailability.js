@@ -15,9 +15,13 @@ export function getPortalPrototypeAvailability(environment = process.env) {
     vercelTargetEnvironment === PRODUCTION_ENVIRONMENT;
 
   if (isProduction) {
+    const productionEnabled =
+      environment?.PORTAL_PRODUCTION_ENABLED === "true";
     return {
-      available: false,
-      reason: "production_disabled",
+      available: productionEnabled,
+      reason: productionEnabled
+        ? "production_enabled"
+        : "production_disabled",
     };
   }
 

@@ -87,7 +87,10 @@ configured as sensitive Vercel Preview variables restricted to the Git branch
 `staging`. MIS-341 additionally requires a branch-scoped
 `PORTAL_AUTH_HASH_SECRET` before staging deployment. Production configuration
 remains a separate approval-gated step. Never point `PORTAL_DATABASE_URL` at
-AIT CRM.
+the staging branch for production or at AIT CRM.
+`PORTAL_PRODUCTION_ENABLED=true` is the final application gate and must remain
+absent or false until the production database migration, WorkOS configuration,
+guardian settings, and rollback checks are approved.
 
 ## Failure behavior
 
