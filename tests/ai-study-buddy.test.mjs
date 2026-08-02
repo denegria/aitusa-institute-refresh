@@ -14,7 +14,7 @@ import { validateAuthorizedStudyBuddyContext } from "../src/aiStudyBuddy/authori
 
 const snapshot = {
   state: "authenticated",
-  account: { id: "account-1", status: "active" },
+  account: { id: "account-1", status: "active", accountType: "guardian" },
   result: { recommendedLevelKey: "basic" },
   practice: { guardianVerified: true },
 };
@@ -33,6 +33,18 @@ describe("MIS-340 Study Buddy public contract", () => {
     assert.equal(evaluateStudyBuddyEligibility({ ...snapshot, practice: {} }).code, "guardian_unresolved");
     assert.equal(evaluateStudyBuddyEligibility({ ...snapshot, result: null }).code, "missing_result");
     assert.equal(evaluateStudyBuddyEligibility(snapshot).code, "provider_disabled");
+  });
+
+  it("does not apply the under-13 guardian gate to an adult student", () => {
+    const adult = {
+      ...snapshot,
+      account: { ...snapshot.account, accountType: "adult_student" },
+      practice: {},
+    };
+    assert.equal(
+      evaluateStudyBuddyEligibility(adult, { providerEnabled: true }).code,
+      "authenticated",
+    );
   });
 
   it("emits a restricted eligibility DTO", () => {
