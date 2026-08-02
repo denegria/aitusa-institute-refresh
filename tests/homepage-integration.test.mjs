@@ -115,6 +115,15 @@ describe("homepage React integration", () => {
     assert.match(chrome, /event\.key === "Escape"/);
   });
 
+  it("offers a discreet global returning-student path without changing account rules", async () => {
+    const { chrome, styles } = await readSources();
+    assert.match(chrome, /className="student-portal-entry"/);
+    assert.match(chrome, /href="\/portal\/sign-in\/"/);
+    assert.match(chrome, /Portal de estudiantes: iniciar sesión/);
+    assert.match(styles, /\.student-portal-entry\s*\{[\s\S]*min-width: 44px;[\s\S]*min-height: 44px;/);
+    assert.match(styles, /@media \(max-width: 760px\)[\s\S]*\.student-portal-entry__label/);
+  });
+
   it("keeps the approved hero hierarchy and two primary actions", async () => {
     const { sections } = await readSources();
     const hero = sections.slice(

@@ -103,6 +103,14 @@ export function SiteHeader({ activePage = "home" }) {
             );
           })}
         </nav>
+        <a
+          className="student-portal-entry"
+          href="/portal/sign-in/"
+          aria-label="Portal de estudiantes: iniciar sesión"
+        >
+          <i data-lucide="user-round" aria-hidden="true" />
+          <span className="student-portal-entry__label">Portal</span>
+        </a>
         <a className="header-cta" href={site.phoneHref}>
           <i data-lucide="phone" aria-hidden="true" />
           Llámanos

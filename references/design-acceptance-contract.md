@@ -857,3 +857,51 @@ do next. “Unavailable” must never look like “broken.”
   task/notification, idempotent retry, and no raw answers/transcripts.
 - Independent Sentry QA and Titan security review before MIS-344 can pass.
 - Production promotion remains a separate explicit approval.
+
+---
+
+# AIT USA Global Student Portal Entry — MIS-349
+
+## User workflow and problem
+
+- A returning student or placement-test account holder must be able to reach
+  Portal sign-in from every public page without hunting through the footer or
+  repeating the placement flow.
+- The entry is a returning-student utility, not a new acquisition CTA; it must
+  not compete with the approved phone and placement actions.
+
+## Chosen interaction model and visual direction
+
+- Add one persistent, compact `Portal` utility link to the shared public
+  header, using a restrained account icon and the existing navy/gold system.
+- Keep it visible at desktop and mobile widths. On mobile it sits with the
+  menu/phone utilities instead of becoming a large navigation row.
+- The destination is the existing passwordless `/portal/sign-in/` route.
+
+## Locked behavior, permissions, and non-goals
+
+- Preserve the approved homepage structure, section navigation, call CTA,
+  menu behavior, header height, sticky behavior, and all auth/guardian rules.
+- The link is available on every route using `SiteHeader`; it never implies
+  that anonymous test takers already have an account.
+- Non-goals: no auth rewrite, account creation changes, Portal redesign,
+  Study Buddy activation, modal sign-in, homepage re-polish, or production
+  promotion.
+
+## Responsive contract
+
+- Primary viewports: 1440×900 and 390×844 CSS pixels.
+- Regressions: 1040×900, 760×844, 360×800, and 1920×1080.
+- Header utilities must not wrap, overlap, or cause horizontal overflow.
+- All utility targets remain at least 44×44 CSS pixels with visible keyboard
+  focus and an explicit accessible name.
+- At desktop the utility may show icon + `Portal`; at narrow widths the compact
+  treatment may reduce typography but must remain legible and discoverable.
+
+## Required evidence
+
+- Targeted shared-header contract test plus the full suite/build/assets/audit.
+- Live staging proof on homepage, course catalog, placement, and a course detail
+  route at desktop/mobile widths.
+- Verify the link destination, keyboard focus, menu coexistence, no horizontal
+  overflow, and no console errors.
