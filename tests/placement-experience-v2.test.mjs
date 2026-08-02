@@ -54,6 +54,15 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.match(component, /Tu resultado sigue visible/);
   });
 
+  it("keeps the result save CTA visible and readable across interaction states", () => {
+    assert.match(styles, /\.diagnostic-unlock \.button--gold \{[\s\S]*border-color: var\(--accent\);[\s\S]*background: var\(--accent\);[\s\S]*color: var\(--blue-deep\);[\s\S]*\}/);
+    assert.match(styles, /\.diagnostic-unlock \.button--gold:hover \{/);
+    assert.match(styles, /\.diagnostic-unlock \.button--gold:focus-visible \{/);
+    assert.match(styles, /\.diagnostic-unlock \.button--gold:active \{/);
+    assert.match(styles, /\.diagnostic-unlock \.button--gold:disabled \{[\s\S]*opacity: 0\.5;/);
+    assert.match(component, /className="button button--gold"[\s\S]*Guardar mi resultado/);
+  });
+
   it("includes directional motion and a reduced-motion override", () => {
     assert.match(styles, /@keyframes diagnostic-card-forward/);
     assert.match(styles, /@keyframes diagnostic-card-back/);

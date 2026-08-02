@@ -3399,14 +3399,26 @@ textarea {
 
 .diagnostic-unlock .button--gold {
   min-height: 44px;
-  border-color: var(--gold);
-  background: var(--gold);
+  border-color: var(--accent);
+  background: var(--accent);
   color: var(--blue-deep);
 }
 
 .diagnostic-unlock .button--gold:hover {
   border-color: #ffd76f;
   background: #ffd76f;
+  color: var(--blue-deep);
+}
+
+.diagnostic-unlock .button--gold:focus-visible {
+  border-color: #ffd76f;
+  background: #ffd76f;
+  color: var(--blue-deep);
+}
+
+.diagnostic-unlock .button--gold:active {
+  border-color: #e5a91f;
+  background: #e5a91f;
   color: var(--blue-deep);
 }
 
