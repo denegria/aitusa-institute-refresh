@@ -29,6 +29,17 @@ export async function POST(request) {
       headers: { "cache-control": "no-store" },
     });
   }
+  if (body.action === "sign-in-code") {
+    const workos = new WorkOS(process.env.WORKOS_API_KEY, {
+      clientId: process.env.WORKOS_CLIENT_ID,
+    });
+    const magicAuth = await workos.userManagement.createMagicAuth({
+      email: QA_EMAIL,
+    });
+    return Response.json({ ok: true, code: magicAuth.code }, {
+      headers: { "cache-control": "no-store" },
+    });
+  }
   if (body.action === "delete-user") {
     const sql = getPortalSqlClient();
     const rows = await sql`
