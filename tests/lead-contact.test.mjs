@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
+  buildLeadCrmDeliveryEvent,
   buildLeadAdvisorHandoffMessage,
   evaluateLeadContactSubmission,
   validateLeadContactInput,
@@ -8,6 +9,8 @@ import {
 import { SMS_DISCLOSURE_VERSION } from "../src/legal/publicLegalContent.js";
 
 const validSubmission = Object.freeze({
+  formType: "contact_form",
+  submissionId: "fixture-contact-0001",
   lead: Object.freeze({
     name: "Fixture Lead",
     phone: "+17325550123",
@@ -68,7 +71,7 @@ describe("MIS-266 lead contact model", () => {
     assert.match(message, /Origen: \/contactanos/);
   });
 
-  it("returns CRM-safe previews while keeping writes and storage disabled", () => {
+  it("returns CRM-safe previews for the durable contact intake contract", () => {
     const response = evaluateLeadContactSubmission(validSubmission);
 
     assert.equal(response.status, 200);
@@ -81,6 +84,32 @@ describe("MIS-266 lead contact model", () => {
     assert.equal(response.body.crmPayloadPreview.storageEnabled, false);
     assert.equal(response.body.crmSyncPreview.event.type, "lead_form_submitted");
     assert.equal(response.body.crmSyncPreview.delivery.crmWrite, false);
+  });
+
+  it("builds distinct durable CRM events for the full contact and callback forms", () => {
+    const contact = buildLeadCrmDeliveryEvent({
+      input: validSubmission,
+      sourcePath: "/contactanos",
+      submittedAt: validSubmission.submittedAt,
+    });
+    const callback = buildLeadCrmDeliveryEvent({
+      input: {
+        ...validSubmission,
+        formType: "callback_request",
+        submissionId: "fixture-callback-0001",
+        consent: { contactPermission: true, marketingSmsOptIn: false, marketingSmsEvidence: null },
+      },
+      sourcePath: "/#contacto",
+      submittedAt: validSubmission.submittedAt,
+    });
+
+    assert.equal(contact.eventType, "contact_form_submitted");
+    assert.equal(contact.consent.sms, false);
+    assert.equal(contact.lead.ageGroup, validSubmission.lead.ageGroup);
+    assert.equal(contact.lead.message, validSubmission.lead.message);
+    assert.equal(callback.eventType, "callback_requested");
+    assert.equal(Object.hasOwn(callback.consent, "sms"), false);
+    assert.match(callback.idempotencyKey, /fixture-callback-0001/);
   });
 
   it("keeps raw phone, email, and message text out of the CRM event payload", () => {

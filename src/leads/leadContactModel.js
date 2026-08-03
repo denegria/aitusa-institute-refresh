@@ -18,8 +18,8 @@ export const LEAD_CONTACT_CONTRACT = Object.freeze({
   sourceName: "AIT USA Website Lead Form",
   sourcePathDefault: "/contactanos",
   crmDestination: "ait_crm",
-  crmWrite: false,
-  storageEnabled: false,
+  crmWrite: true,
+  storageEnabled: true,
   wixFormsTarget: false,
   whatsappFallback: true,
   advisorConfirmationRequired: true,
@@ -30,6 +30,18 @@ export const LEAD_CONTACT_CONTRACT = Object.freeze({
   termsVersion: TERMS_VERSION,
   smsDisclosureVersion: SMS_DISCLOSURE_VERSION,
 });
+
+export const LEAD_FORM_TYPES = Object.freeze({
+  CONTACT: "contact_form",
+  CALLBACK: "callback_request",
+});
+
+const LEAD_FORM_EVENT_TYPES = Object.freeze({
+  [LEAD_FORM_TYPES.CONTACT]: "contact_form_submitted",
+  [LEAD_FORM_TYPES.CALLBACK]: "callback_requested",
+});
+
+const SUBMISSION_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{11,159}$/;
 
 export const LEAD_REQUIRED_FIELDS = Object.freeze(["name", "interest"]);
 
@@ -68,19 +80,19 @@ export function getLeadContactConfig() {
       marketingSmsDisclosure: SMS_DISCLOSURE_ES,
       marketingSmsDisclosureVersion: SMS_DISCLOSURE_VERSION,
       crmStorage:
-        "AIT USA podra guardar mi solicitud en AIT CRM cuando el contrato de captura sea aprobado.",
+        "AIT USA guardará esta solicitud en AIT CRM para que un asesor pueda darle seguimiento.",
     },
     successState: {
-      label: "Solicitud preparada",
+      label: "Solicitud recibida",
       copy:
-        "Recibimos la informacion necesaria para preparar el seguimiento. En esta version no se guarda en CRM; puedes enviar el resumen por WhatsApp.",
+        "Guardamos tu solicitud para que un asesor pueda darle seguimiento. También puedes continuar por WhatsApp.",
     },
     errorState: {
       label: "Revisa la informacion",
       copy:
         "Falta informacion requerida o la solicitud parece automatizada. Corrige los datos antes de continuar.",
     },
-    crmWrite: false,
+    crmWrite: true,
   };
 }
 
@@ -151,6 +163,14 @@ export function validateLeadContactInput(input = {}) {
 
   const errors = [];
 
+  if (!Object.values(LEAD_FORM_TYPES).includes(input.formType)) {
+    errors.push("form_type_invalid");
+  }
+
+  if (!SUBMISSION_ID_PATTERN.test(input.submissionId ?? "")) {
+    errors.push("submission_id_invalid");
+  }
+
   if (!isRecord(input.lead)) {
     errors.push("lead_required");
   } else {
@@ -176,6 +196,10 @@ export function validateLeadContactInput(input = {}) {
 
     if (isNonEmptyString(input.lead.message) && input.lead.message.length > 800) {
       errors.push("lead_message_too_long");
+    }
+
+    if (!isNonEmptyString(input.lead.phone) && !isNonEmptyString(input.lead.email)) {
+      errors.push("lead_contact_method_required");
     }
   }
 
@@ -332,6 +356,53 @@ export function buildLeadCrmSyncPreview({
   };
 }
 
+export function buildLeadCrmDeliveryEvent({ input, sourcePath, submittedAt }) {
+  const eventType = LEAD_FORM_EVENT_TYPES[input.formType];
+  const idempotencyKey = `aitusa:${eventType}:${input.submissionId}`;
+  const lead = input.lead;
+  const marketingSmsOptIn = input.consent.marketingSmsOptIn === true;
+  const smsEvidence = marketingSmsOptIn ? input.consent.marketingSmsEvidence : null;
+
+  const eventSourcePath = sourcePath.split(/[?#]/)[0] || "/";
+
+  return compactObject({
+    schemaVersion: "aitusa-crm-event-v1",
+    eventId: idempotencyKey,
+    eventType,
+    idempotencyKey,
+    correlationId: `aitusa-lead:${input.submissionId}`,
+    occurredAt: submittedAt,
+    source: {
+      product: "aitusa_refresh",
+      surface: "public_site",
+      path: eventSourcePath,
+      version: "mis-221-v2",
+    },
+    contact: compactObject({
+      firstName: lead.name,
+      email: lead.email || undefined,
+      phone: lead.phone || undefined,
+    }),
+    consent: compactObject({
+      advisorContact: true,
+      sms: input.formType === LEAD_FORM_TYPES.CONTACT ? marketingSmsOptIn : undefined,
+      policyVersion: PRIVACY_POLICY_VERSION,
+      smsDisclosureVersion: smsEvidence?.disclosureVersion,
+      consentedAt: smsEvidence?.consentedAt,
+    }),
+    lead: compactObject({
+      formType: input.formType,
+      interest: lead.interest,
+      preferredMode: lead.preferredMode || undefined,
+      preferredSchedule: lead.preferredSchedule || undefined,
+      location: lead.city || undefined,
+      ageGroup: lead.ageGroup || undefined,
+      message: lead.message || undefined,
+    }),
+    utm: input.source?.campaign ? { campaign: input.source.campaign } : undefined,
+  });
+}
+
 export function createSubmissionFingerprint(input) {
   const stable = [
     input.lead?.name,
@@ -422,6 +493,12 @@ function normalizeSourcePath(path) {
 
 function isRecord(value) {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function compactObject(value) {
+  return Object.fromEntries(
+    Object.entries(value).filter(([, entry]) => entry !== undefined && entry !== null && entry !== ""),
+  );
 }
 
 function isNonEmptyString(value) {

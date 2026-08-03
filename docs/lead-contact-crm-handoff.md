@@ -6,39 +6,47 @@ The repo-backed refresh should treat AIT CRM as the future operational
 destination for public lead/contact submissions. WhatsApp remains the immediate
 advisor handoff path. Wix Forms is not the target for this refresh lane.
 
-This slice does not enable CRM writes. It adds a route and model contract so the
-future form integration has a stable validation, consent, spam, source
-attribution, and CRM preview boundary before any durable lead capture is turned
-on.
+MIS-221 enables durable CRM delivery for both public lead surfaces:
+
+- the full contact form emits `contact_form_submitted`;
+- the request-a-call dialog emits `callback_requested`.
+
+Both paths validate first, then atomically enqueue an idempotent event in the
+Portal database's existing CRM outbox before returning success. The existing
+dispatcher delivers the event to AIT CRM. WhatsApp remains an optional fallback
+and immediate advisor handoff, not the system of record.
 
 ## Runtime Boundary
 
 - Model: `src/leads/leadContactModel.js`
+- Service: `src/leads/service.server.js`
+- Repository: `src/leads/neonRepository.server.js`
 - Route: `app/api/leads/contact/route.js`
 - Tests: `tests/lead-contact.test.mjs`,
   `tests/lead-contact-route.test.mjs`
 
 `GET /api/leads/contact` returns contract metadata.
 
-`POST /api/leads/contact` validates a lead/contact submission, prepares a
-WhatsApp advisor handoff, and returns a CRM event/payload preview.
+`POST /api/leads/contact` validates a lead/contact submission, enqueues its CRM
+event, prepares a WhatsApp advisor handoff, and returns 201. An idempotent replay
+returns 202. Storage or queue failure returns 503; the UI must not claim success.
 
 ## Current Guardrails
 
-- `crmWrite: false`
-- `storageEnabled: false`
-- no durable lead/contact storage
-- no live AIT CRM call
+- durable Portal CRM outbox storage
+- idempotent submission IDs generated in the browser and enforced server-side
+- fail-closed success semantics when the outbox is unavailable
+- bounded outbox retries and dead-letter behavior through the shared dispatcher
 - no Wix Forms post
-- no email, SMS, WhatsApp, or provider send
-- no homepage visual/content change
+- no automatic email, SMS, WhatsApp, or provider send from the public form
+- separate SMS permission on the full form; callback requests do not imply SMS
 
 ## Required Public Form Fields
 
 - `name`
-- `phone`
 - `interest`
 - `consent.contactPermission: true`
+- one of `phone` or `email`
 
 Optional fields:
 
@@ -70,7 +78,7 @@ Contact permission:
 
 CRM storage notice:
 
-> AIT USA podra guardar mi solicitud en AIT CRM cuando el contrato de captura sea aprobado.
+> AIT USA guardará esta solicitud en AIT CRM para que un asesor pueda darle seguimiento.
 
 SMS marketing opt-in stays separate from contact permission. This route accepts
 `marketingSmsOptIn`, but it does not treat that as approval for SMS sending.
@@ -86,8 +94,8 @@ The contract blocks obvious automated submissions through:
 - email format validation;
 - max free-text message length of 800 characters.
 
-Incomplete user submissions return 422. Spam-signal submissions return 400. Both
-paths keep `crmWrite: false` and `storageEnabled: false`.
+Incomplete user submissions return 422. Spam-signal submissions return 400.
+Neither path enqueues an event.
 
 ## CRM Preview
 
@@ -96,28 +104,26 @@ Source metadata:
 - `sourceKey`: `aitusa-website-lead-v1`
 - `sourceName`: `AIT USA Website Lead Form`
 - default `sourcePath`: `/#contacto`
-- event type: `lead_form_submitted`
+- event types: `contact_form_submitted` and `callback_requested`
 
-Future CRM payload should include:
+The delivery event includes:
 
 - contact name, phone, email, city, and age group;
 - interest, preferred mode, preferred schedule, and optional message;
 - source path, referrer, and campaign;
 - contact permission and separate SMS opt-in state;
-- idempotency key based on source, safe contact fingerprint, and submission date.
+- a stable form submission ID and event-specific idempotency key.
 
-The CRM event preview intentionally excludes raw phone, email, and free-text
-message content from the event payload. It includes presence booleans and message
-length so reporting can work without leaking sensitive contact details into
-generic event payloads.
+The generic analytics preview still excludes raw phone, email, and message text.
+The private CRM outbox event includes only the contact and follow-up fields that
+AIT CRM needs. It excludes placement answers, writing samples, audio, and
+transcripts.
 
-## Future Enablement Gate
+## Production Enablement Gate
 
-Before changing `crmWrite` to true:
-
-1. Approve exact AIT CRM website-lead endpoint and auth contract.
-2. Approve final public form consent/preference copy.
-3. Add bot protection appropriate for the live form surface.
-4. Define CRM duplicate matching and advisor task creation rules.
-5. Add retry/dead-letter behavior for failed CRM posts.
-6. Rebuild or wire the actual public contact form to this route.
+1. Prove both form types against the AIT USA and AIT CRM staging deployments.
+2. Confirm one contact, lead, activity, advisor task, and notification per form.
+3. Replay each submission ID and prove no duplicate CRM artifacts.
+4. Confirm the Portal outbox has no stale or dead-letter test delivery.
+5. Complete the branded-domain privacy/Terms/10DLC consistency review.
+6. Obtain explicit production promotion approval for the form feature.

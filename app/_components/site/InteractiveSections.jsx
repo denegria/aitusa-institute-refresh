@@ -251,6 +251,7 @@ export function CallbackDialog() {
   const dialogRef = useRef(null);
   const triggerRef = useRef(null);
   const startedAt = useRef(new Date().toISOString());
+  const submissionId = useRef(globalThis.crypto?.randomUUID?.() || `callback-${Date.now()}`);
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState(null);
 
@@ -297,6 +298,8 @@ export function CallbackDialog() {
     ].filter(Boolean).join("\n");
     const fallbackUrl = `${site.whatsappHref}?text=${encodeURIComponent(message)}`;
     const payload = {
+      formType: "callback_request",
+      submissionId: submissionId.current,
       lead: {
         name,
         phone,
@@ -331,8 +334,9 @@ export function CallbackDialog() {
       });
       const body = await response.json();
       if (!response.ok || !body.ok) throw new Error("invalid_submission");
+      submissionId.current = globalThis.crypto?.randomUUID?.() || `callback-${Date.now()}`;
       setStatus({
-        text: "Tu información no se guardó todavía. Tú decides si deseas enviarla. ",
+        text: "Recibimos tu solicitud de llamada. Un asesor podrá darle seguimiento. ",
         href: body.advisorHandoff.href,
         label: "Abrir WhatsApp",
       });

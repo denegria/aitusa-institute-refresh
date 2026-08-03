@@ -22,7 +22,9 @@ const interests = [
 
 export function ContactForm() {
   const startedAt = useRef(new Date().toISOString());
+  const submissionId = useRef(globalThis.crypto?.randomUUID?.() || `contact-${Date.now()}`);
   const phoneRef = useRef(null);
+  const emailRef = useRef(null);
   const [status, setStatus] = useState({ state: "idle", message: "", href: "" });
 
   async function handleSubmit(event) {
@@ -30,7 +32,16 @@ export function ContactForm() {
     const form = event.currentTarget;
     const data = new FormData(form);
     const phone = String(data.get("phone") || "").trim();
+    const email = String(data.get("email") || "").trim();
     const marketingSmsOptIn = data.get("smsConsent") === "yes";
+
+    if (!phone && !email) {
+      const input = form.elements.namedItem("email");
+      input?.setCustomValidity("Ingresa un teléfono o un correo electrónico para que podamos contactarte.");
+      input?.reportValidity();
+      input?.focus();
+      return;
+    }
 
     if (marketingSmsOptIn && !phone) {
       const phoneInput = form.elements.namedItem("phone");
@@ -44,10 +55,12 @@ export function ContactForm() {
 
     const submittedAt = new Date().toISOString();
     const payload = {
+      formType: "contact_form",
+      submissionId: submissionId.current,
       lead: {
         name: String(data.get("name") || "").trim(),
         phone,
-        email: String(data.get("email") || "").trim(),
+        email,
         city: String(data.get("city") || "").trim(),
         interest: String(data.get("interest") || "").trim(),
         preferredMode: String(data.get("preferredMode") || "").trim(),
@@ -84,10 +97,12 @@ export function ContactForm() {
       const body = await response.json();
       if (!response.ok || !body.ok) throw new Error("invalid_submission");
 
+      submissionId.current = globalThis.crypto?.randomUUID?.() || `contact-${Date.now()}`;
+
       setStatus({
         state: "ready",
         message:
-          "Tu información no se guardó todavía. Abre WhatsApp para decidir si deseas enviarla a un asesor.",
+          "Recibimos tu solicitud. Un asesor podrá darle seguimiento; también puedes continuar por WhatsApp.",
         href: body.advisorHandoff.href,
       });
     } catch {
@@ -109,7 +124,16 @@ export function ContactForm() {
         </label>
         <label>
           Correo electrónico
-          <input name="email" type="email" autoComplete="email" />
+          <input
+            ref={emailRef}
+            name="email"
+            type="email"
+            autoComplete="email"
+            onInput={(event) => {
+              event.currentTarget.setCustomValidity("");
+              phoneRef.current?.setCustomValidity("");
+            }}
+          />
         </label>
         <label>
           Teléfono móvil <span className={styles.optional}>(opcional)</span>
@@ -119,7 +143,10 @@ export function ContactForm() {
             type="tel"
             inputMode="tel"
             autoComplete="tel"
-            onInput={(event) => event.currentTarget.setCustomValidity("")}
+            onInput={(event) => {
+              event.currentTarget.setCustomValidity("");
+              emailRef.current?.setCustomValidity("");
+            }}
           />
           <small>No recibirás SMS promocionales salvo que marques la casilla separada.</small>
         </label>

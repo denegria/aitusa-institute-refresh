@@ -22,7 +22,7 @@
     "test:content-hygiene": "node --test tests/content-hygiene.test.mjs",
     "test:courses-seo": "node --test tests/courses-seo.test.mjs",
     "test:crm-events": "node --test tests/crm-events.test.mjs tests/crm-event-route.test.mjs",
-    "test:lead-contact": "node --test tests/lead-contact.test.mjs tests/lead-contact-route.test.mjs",
+    "test:lead-contact": "node --test tests/lead-contact.test.mjs tests/lead-contact-route.test.mjs tests/lead-contact-service.test.mjs",
     "test:learning": "node --test tests/learning-content.test.mjs tests/learning-route.test.mjs",
     "test:migration": "node --test tests/migration-route-parity.test.mjs",
     "test:placement": "node --test tests/placement-test.test.mjs tests/placement-test-route.test.mjs tests/placement-experience-v2.test.mjs",

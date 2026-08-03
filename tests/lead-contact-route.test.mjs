@@ -10,6 +10,8 @@ function request(body) {
 }
 
 const validBody = {
+  formType: "contact_form",
+  submissionId: "fixture-contact-route-0001",
   lead: {
     name: "Fixture Lead",
     phone: "+17325550123",
@@ -33,8 +35,8 @@ const validBody = {
   submittedAt: "2026-07-09T14:40:10.000Z",
 };
 
-describe("MIS-266 lead contact route", () => {
-  it("returns route config without enabling CRM writes", async () => {
+describe("MIS-221 lead contact route", () => {
+  it("returns the enabled durable CRM queue contract", async () => {
     const response = await GET();
     const body = await response.json();
 
@@ -43,17 +45,16 @@ describe("MIS-266 lead contact route", () => {
     assert.equal(body.leadContact.contract.sourceKey, "aitusa-website-lead-v1");
     assert.equal(body.leadContact.requiredFields.includes("phone"), false);
     assert.match(body.leadContact.consentCopy.marketingSmsDisclosure, /STOP/);
-    assert.equal(body.crmWrite, false);
+    assert.equal(body.crmWrite, true);
   });
 
-  it("returns advisor handoff and CRM preview for a valid lead submission", async () => {
+  it("fails closed when durable CRM queue storage is unavailable", async () => {
     const response = await POST(request(validBody));
     const body = await response.json();
 
-    assert.equal(response.status, 200);
-    assert.equal(body.ok, true);
-    assert.equal(body.crmPayloadPreview.crmWrite, false);
-    assert.equal(body.crmSyncPreview.crmTimelinePreview.eventType, "lead_form_submitted");
+    assert.equal(response.status, 503);
+    assert.equal(body.ok, false);
+    assert.equal(body.errors.includes("crm_delivery_unavailable"), true);
     assert.equal(body.storageEnabled, false);
   });
 
@@ -103,7 +104,7 @@ describe("MIS-266 lead contact route", () => {
     assert.equal(body.storageEnabled, false);
   });
 
-  it("accepts an unchecked SMS box without requiring a phone", async () => {
+  it("accepts email as the contact method when SMS is unchecked", async () => {
     const response = await POST(
       request({
         ...validBody,
@@ -112,8 +113,7 @@ describe("MIS-266 lead contact route", () => {
     );
     const body = await response.json();
 
-    assert.equal(response.status, 200);
-    assert.equal(body.crmPayloadPreview.contactFieldsProvided.phone, false);
-    assert.equal(body.crmPayloadPreview.consent.marketingSmsOptIn, false);
+    assert.equal(response.status, 503);
+    assert.equal(body.errors.includes("crm_delivery_unavailable"), true);
   });
 });
