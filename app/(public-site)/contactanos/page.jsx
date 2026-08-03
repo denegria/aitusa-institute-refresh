@@ -24,7 +24,7 @@ export default function ContactPage() {
             </p>
             <ul className={styles.trustList}>
               <li>El formulario funciona aunque no aceptes mensajes SMS.</li>
-              <li>No guardamos esta solicitud en AIT CRM mientras el gate de producción siga deshabilitado.</li>
+              <li>Guardamos tu solicitud de forma segura para que un asesor pueda darle seguimiento.</li>
               <li>Tú decides si abres y envías la conversación preparada por WhatsApp.</li>
             </ul>
           </section>

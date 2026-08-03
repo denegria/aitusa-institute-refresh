@@ -79,6 +79,14 @@ describe("MIS-327 public legal and SMS compliance", () => {
     assert.match(source, /href="\/terms-and-conditions"/);
   });
 
+  it("describes durable advisor follow-up without exposing an internal rollout gate", async () => {
+    const source = await readFile("app/(public-site)/contactanos/page.jsx", "utf8");
+
+    assert.match(source, /Guardamos tu solicitud de forma segura/);
+    assert.match(source, /asesor pueda darle seguimiento/);
+    assert.doesNotMatch(source, /gate de producción|no guardamos esta solicitud/i);
+  });
+
   it("marks the placement phone as optional and not an SMS opt-in source", async () => {
     const content = await readFile("src/content.js", "utf8");
     const model = await readFile("src/placement/placementTestModel.js", "utf8");
