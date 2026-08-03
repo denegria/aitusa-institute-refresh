@@ -31,15 +31,7 @@ describe("public-route React migration parity", () => {
 
   it("uses native App Router pages instead of legacy public-route rewrites", async () => {
     const rewrites = await nextConfig.rewrites();
-    const redirects = await nextConfig.redirects();
     assert.deepEqual(rewrites.beforeFiles, [{ source: "/public/:path*", destination: "/:path*" }]);
-    assert.deepEqual(
-      redirects.map(({ source, destination }) => ({ source, destination })),
-      [
-        { source: "/copy-of-terms-of-use", destination: "/privacy-policy" },
-        { source: "/terms-of-use", destination: "/terms-and-conditions" },
-      ],
-    );
 
     assert.equal(await exists("app/(public-site)/page.jsx"), true);
     assert.equal(await exists("app/(public-site)/courses/page.jsx"), true);

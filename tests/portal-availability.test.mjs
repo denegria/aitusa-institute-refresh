@@ -113,8 +113,7 @@ describe("portal prototype production gate", () => {
 
   it("blocks portal pages at the request boundary in production", async () => {
     assert.deepEqual(portalProxyConfig.matcher, [
-      "/portal/:path*",
-      "/api/portal/:path*",
+      "/((?!_next/static|_next/image|favicon.ico).*)",
     ]);
 
     await withVercelEnvironment(
