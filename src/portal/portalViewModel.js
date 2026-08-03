@@ -2,17 +2,17 @@ const COURSE_BY_LEVEL = Object.freeze({
   basic: Object.freeze({
     eyebrow: "Inglés básico",
     title: "Construye una base para conversaciones reales",
-    href: "/courses/ingles-jovenes-adultos/",
+    href: "/cursos/ingles-jovenes-adultos/",
   }),
   intermediate: Object.freeze({
     eyebrow: "Inglés intermedio",
     title: "Gana fluidez y confianza al comunicarte",
-    href: "/courses/ingles-jovenes-adultos/",
+    href: "/cursos/ingles-jovenes-adultos/",
   }),
   advanced: Object.freeze({
     eyebrow: "Inglés avanzado",
     title: "Refina precisión, naturalidad y comprensión",
-    href: "/courses/ingles-jovenes-adultos/",
+    href: "/cursos/ingles-jovenes-adultos/",
   }),
 });
 

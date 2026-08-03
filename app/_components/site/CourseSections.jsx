@@ -47,7 +47,7 @@ export function OfferingsSection() {
           {productOfferings.map((item) => <OfferingCard item={item} key={item.key} />)}
         </div>
         <div className="catalog-links">
-          <a className="button button--primary" href="/courses/">Ver cursos detallados</a>
+          <a className="button button--primary" href="/cursos/">Ver cursos detallados</a>
           <a className="button button--ghost" href="/placement-test/">Hacer examen de ubicación</a>
         </div>
       </div>
@@ -68,7 +68,7 @@ function ProgramCard({ program }) {
           <div><dt>Audiencia</dt><dd>{program.audience}</dd></div>
         </dl>
         <div className="button-row">
-          <a className="button button--primary" href={`/courses/${program.slug}/`} data-course-detail-link={program.slug}>Abrir ficha completa</a>
+          <a className="button button--primary" href={`/cursos/${program.slug}/`} data-course-detail-link={program.slug}>Abrir ficha completa</a>
           <a className="button button--ghost" href="/placement-test/">Ver mi nivel</a>
         </div>
       </div>

@@ -43,11 +43,11 @@ export function getCourseMetadata(slug) {
   return {
     title: `${program.title} | Cursos AiT USA Institute`,
     description: `${program.title}. ${program.summary}`,
-    alternates: { canonical: `/courses/${program.slug}/` },
+    alternates: { canonical: `/cursos/${program.slug}/` },
     openGraph: {
       title: `${program.title} | Cursos AiT USA Institute`,
       description: program.summary,
-      url: `/courses/${program.slug}/`,
+      url: `/cursos/${program.slug}/`,
       images: [{ url: program.image, alt: program.imageAlt }],
     },
   };

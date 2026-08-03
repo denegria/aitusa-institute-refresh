@@ -16,15 +16,16 @@ describe("public-route React migration parity", () => {
     assert.match(robots, /Allow: \//);
     assert.match(robots, /Sitemap: https:\/\/www\.aitusainstitute\.com\/sitemap\.xml/);
     assert.match(sitemap, /<loc>https:\/\/www\.aitusainstitute\.com\/<\/loc>/);
-    assert.match(sitemap, /<loc>https:\/\/www\.aitusainstitute\.com\/courses\/<\/loc>/);
+    assert.match(sitemap, /<loc>https:\/\/www\.aitusainstitute\.com\/cursos\/<\/loc>/);
     assert.match(sitemap, /<loc>https:\/\/www\.aitusainstitute\.com\/placement-test\/<\/loc>/);
     assert.match(sitemap, /<loc>https:\/\/www\.aitusainstitute\.com\/contactanos<\/loc>/);
     assert.match(sitemap, /<loc>https:\/\/www\.aitusainstitute\.com\/privacy-policy<\/loc>/);
     assert.match(sitemap, /<loc>https:\/\/www\.aitusainstitute\.com\/terms-and-conditions<\/loc>/);
     assert.doesNotMatch(sitemap, /\/portal\/|\/api\//);
     for (const program of programs) {
-      assert.match(sitemap, new RegExp(`<loc>https://www\\.aitusainstitute\\.com/courses/${program.slug}/</loc>`));
+      assert.match(sitemap, new RegExp(`<loc>https://www\\.aitusainstitute\\.com/cursos/${program.slug}/</loc>`));
     }
+    assert.doesNotMatch(sitemap, /\/courses\//);
     assert.match(manifest, /AiT USA Institute/);
   });
 
@@ -43,6 +44,7 @@ describe("public-route React migration parity", () => {
     assert.equal(await exists("app/(public-site)/page.jsx"), true);
     assert.equal(await exists("app/(public-site)/courses/page.jsx"), true);
     assert.equal(await exists("app/(public-site)/courses/[slug]/page.jsx"), true);
+    assert.equal(await exists("app/(public-site)/cursos/page.jsx"), true);
     assert.equal(await exists("app/(public-site)/cursos/[slug]/page.jsx"), true);
     assert.equal(await exists("app/(public-site)/placement-test/page.jsx"), true);
     assert.equal(await exists("app/(public-site)/contactanos/page.jsx"), true);

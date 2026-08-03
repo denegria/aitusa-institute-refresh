@@ -1,11 +1,41 @@
-import { permanentRedirect } from "next/navigation";
-import { programs } from "../../../../src/content";
+import { notFound } from "next/navigation";
+import { CourseProgramPage } from "../../../_components/site/CourseProgramPage";
+import { CoursesPage, getCourseMetadata } from "../../../_components/site/CoursesPage";
+import { programs, site } from "../../../../src/content";
 
 export function generateStaticParams() {
   return programs.map((program) => ({ slug: program.slug }));
 }
 
-export default async function SpanishCourseAlias({ params }) {
+export async function generateMetadata({ params }) {
   const { slug } = await params;
-  permanentRedirect(`/courses/${slug}/`);
+  return getCourseMetadata(slug) || {};
+}
+
+export default async function CourseDetailPage({ params }) {
+  const { slug } = await params;
+  const program = programs.find((item) => item.slug === slug);
+  if (!program) notFound();
+
+  const courseSchema = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: program.title,
+    description: program.summary,
+    provider: {
+      "@type": "EducationalOrganization",
+      name: site.name,
+      url: site.canonical,
+    },
+    courseMode: program.mode,
+    educationalCredentialAwarded: "Recomendación académica inicial",
+    url: new URL(`/cursos/${program.slug}/`, site.canonical).toString(),
+  };
+
+  return (
+    <>
+      <script data-schema="course" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(courseSchema) }} />
+      {program.editorial ? <CourseProgramPage program={program} /> : <CoursesPage selectedSlug={slug} />}
+    </>
+  );
 }

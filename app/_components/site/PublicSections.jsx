@@ -49,9 +49,9 @@ export function HeroSection() {
             </div>
           </div>
           <nav className="hero__modalities" aria-label="Formatos de clase">
-            <a href="/courses/#ingles-presencial"><i data-lucide="users-round" aria-hidden="true" /><span>Presencial</span></a>
-            <a href="/courses/#ingles-online"><i data-lucide="laptop" aria-hidden="true" /><span>Online</span></a>
-            <a href="/courses/#ingles-hibrido"><i data-lucide="monitor-smartphone" aria-hidden="true" /><span>Híbrido</span></a>
+            <a href="/cursos/#ingles-presencial"><i data-lucide="users-round" aria-hidden="true" /><span>Presencial</span></a>
+            <a href="/cursos/#ingles-online"><i data-lucide="laptop" aria-hidden="true" /><span>Online</span></a>
+            <a href="/cursos/#ingles-hibrido"><i data-lucide="monitor-smartphone" aria-hidden="true" /><span>Híbrido</span></a>
           </nav>
         </div>
         <figure className="hero__visual">
@@ -104,11 +104,11 @@ export function MethodSection() {
 }
 
 const supportingPrograms = [
-  { label: "Inglés para niños", href: "/courses/ingles-ninos/" },
-  { label: "GED", href: "/courses/ged/" },
-  { label: "Computación", href: "/courses/#computacion-y-cursos-tecnicos" },
-  { label: "Español para extranjeros", href: "/courses/espanol-extranjeros/" },
-  { label: "Programas de apoyo", href: "/courses/#apoyo-academico" },
+  { label: "Inglés para niños", href: "/cursos/ingles-ninos/" },
+  { label: "GED", href: "/cursos/ged/" },
+  { label: "Computación", href: "/cursos/#computacion-y-cursos-tecnicos" },
+  { label: "Español para extranjeros", href: "/cursos/espanol-extranjeros/" },
+  { label: "Programas de apoyo", href: "/cursos/#apoyo-academico" },
 ];
 
 export function OfferingPathSection() {

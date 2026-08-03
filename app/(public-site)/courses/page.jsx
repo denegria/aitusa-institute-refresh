@@ -1,12 +1,5 @@
-import { CoursesPage } from "../../_components/site/CoursesPage";
+import { permanentRedirect } from "next/navigation";
 
-export const metadata = {
-  title: "Cursos AiT USA Institute | Catálogo detallado",
-  description:
-    "Explora el catálogo detallado de inglés, GED, computación y programas de apoyo de AiT USA Institute.",
-  alternates: { canonical: "/courses/" },
-};
-
-export default function CourseCatalogPage() {
-  return <CoursesPage />;
+export default function EnglishCourseCatalogAlias() {
+  permanentRedirect("/cursos/");
 }

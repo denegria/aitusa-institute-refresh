@@ -5,15 +5,15 @@ import { programs } from "../src/content.js";
 
 describe("MIS-264 native React course routes", () => {
   it("defines catalog metadata and a native App Router page", async () => {
-    const source = await readFile("app/(public-site)/courses/page.jsx", "utf8");
+    const source = await readFile("app/(public-site)/cursos/page.jsx", "utf8");
     assert.match(source, /Cursos AiT USA Institute \| Catálogo detallado/);
-    assert.match(source, /canonical: "\/courses\/"/);
+    assert.match(source, /canonical: "\/cursos\/"/);
     assert.match(source, /Explora el catálogo detallado de inglés, GED, computación/);
     assert.match(source, /<CoursesPage/);
   });
 
   it("statically generates every course with route-specific metadata and schema", async () => {
-    const route = await readFile("app/(public-site)/courses/[slug]/page.jsx", "utf8");
+    const route = await readFile("app/(public-site)/cursos/[slug]/page.jsx", "utf8");
     const shell = await readFile("app/_components/site/CoursesPage.jsx", "utf8");
 
     assert.match(route, /generateStaticParams/);
@@ -24,7 +24,7 @@ describe("MIS-264 native React course routes", () => {
     assert.match(route, /CourseProgramPage/);
     assert.match(route, /program\.editorial/);
     assert.match(shell, /`\$\{program\.title\} \| Cursos AiT USA Institute`/);
-    assert.match(shell, /canonical: `\/courses\/\$\{program\.slug\}\/`/);
+    assert.match(shell, /canonical: `\/cursos\/\$\{program\.slug\}\/`/);
     assert.equal(programs.length, 9);
   });
 
@@ -159,9 +159,11 @@ describe("MIS-264 native React course routes", () => {
     assert.match(template, /<video/);
   });
 
-  it("keeps Spanish aliases canonical by redirecting to the English route family", async () => {
-    const alias = await readFile("app/(public-site)/cursos/[slug]/page.jsx", "utf8");
-    assert.match(alias, /permanentRedirect/);
-    assert.match(alias, /`\/courses\/\$\{slug\}\/`/);
+  it("keeps English aliases working by redirecting to the Spanish route family", async () => {
+    const catalogAlias = await readFile("app/(public-site)/courses/page.jsx", "utf8");
+    const detailAlias = await readFile("app/(public-site)/courses/[slug]/page.jsx", "utf8");
+    assert.match(catalogAlias, /permanentRedirect\("\/cursos\/"\)/);
+    assert.match(detailAlias, /permanentRedirect/);
+    assert.match(detailAlias, /`\/cursos\/\$\{slug\}\/`/);
   });
 });

@@ -1977,7 +1977,7 @@ try {
     const regressionRoutes = [
       {
         name: "course-kids-regression-1366x768",
-        route: "/courses/ingles-ninos/",
+        route: "/cursos/ingles-ninos/",
         expectedHeading: "Inglés para niños",
         expectedPathwayCount: 3,
         expectedScheduleCount: 3,
@@ -1990,7 +1990,7 @@ try {
       },
       {
         name: "course-office-regression-1920x1080",
-        route: "/courses/computacion-oficina/",
+        route: "/cursos/computacion-oficina/",
         expectedHeading: "Computación para oficina",
         expectedPathwayCount: 3,
         expectedScheduleCount: 3,
@@ -2003,7 +2003,7 @@ try {
       },
       {
         name: "course-office-regression-360x800",
-        route: "/courses/computacion-oficina/",
+        route: "/cursos/computacion-oficina/",
         expectedHeading: "Computación para oficina",
         expectedPathwayCount: 3,
         expectedScheduleCount: 3,
@@ -2016,7 +2016,7 @@ try {
       },
       {
         name: "course-repair-regression-430x932",
-        route: "/courses/reparacion-computadoras/",
+        route: "/cursos/reparacion-computadoras/",
         expectedHeading: "Reparación de computadoras",
         expectedPathwayCount: 3,
         expectedScheduleCount: 3,
@@ -2034,7 +2034,7 @@ try {
   } else if (editorialCoursesOnly) {
     const editorialRoutes = [
       {
-        route: "/courses/ingles-jovenes-adultos/",
+        route: "/cursos/ingles-jovenes-adultos/",
         expectedHeading: "Inglés para jóvenes y adultos",
         expectedPathwayCount: 3,
         expectedScheduleCount: 3,
@@ -2044,7 +2044,7 @@ try {
         slug: "flagship",
       },
       {
-        route: "/courses/ingles-online-adultos/",
+        route: "/cursos/ingles-online-adultos/",
         expectedHeading: "Inglés online para jóvenes y adultos",
         expectedPathwayCount: 3,
         expectedScheduleCount: 3,
@@ -2054,7 +2054,7 @@ try {
         slug: "online",
       },
       {
-        route: "/courses/ingles-ninos/",
+        route: "/cursos/ingles-ninos/",
         expectedHeading: "Inglés para niños",
         expectedPathwayCount: 3,
         expectedScheduleCount: 3,
@@ -2064,7 +2064,7 @@ try {
         slug: "kids",
       },
       {
-        route: "/courses/espanol-extranjeros/",
+        route: "/cursos/espanol-extranjeros/",
         expectedHeading: "Español para extranjeros",
         expectedPathwayCount: 3,
         expectedScheduleCount: 1,
@@ -2074,7 +2074,7 @@ try {
         slug: "spanish",
       },
       {
-        route: "/courses/ged/",
+        route: "/cursos/ged/",
         expectedHeading: "GED",
         expectedPathwayCount: 4,
         expectedScheduleCount: 4,
@@ -2084,7 +2084,7 @@ try {
         slug: "ged",
       },
       {
-        route: "/courses/tutorias-matematicas/",
+        route: "/cursos/tutorias-matematicas/",
         expectedHeading: "Tutorías en matemáticas",
         expectedPathwayCount: 3,
         expectedScheduleCount: 1,
@@ -2094,7 +2094,7 @@ try {
         slug: "math",
       },
       {
-        route: "/courses/computacion-basica/",
+        route: "/cursos/computacion-basica/",
         expectedHeading: "Computación básica",
         expectedPathwayCount: 3,
         expectedScheduleCount: 3,
@@ -2104,7 +2104,7 @@ try {
         slug: "basic-computing",
       },
       {
-        route: "/courses/computacion-oficina/",
+        route: "/cursos/computacion-oficina/",
         expectedHeading: "Computación para oficina",
         expectedPathwayCount: 3,
         expectedScheduleCount: 3,
@@ -2114,7 +2114,7 @@ try {
         slug: "office",
       },
       {
-        route: "/courses/reparacion-computadoras/",
+        route: "/cursos/reparacion-computadoras/",
         expectedHeading: "Reparación de computadoras",
         expectedPathwayCount: 3,
         expectedScheduleCount: 3,

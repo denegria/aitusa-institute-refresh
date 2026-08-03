@@ -6,7 +6,7 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.aitusainstitute.com/courses/</loc>
+    <loc>https://www.aitusainstitute.com/cursos/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -31,47 +31,47 @@
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://www.aitusainstitute.com/courses/ingles-jovenes-adultos/</loc>
+    <loc>https://www.aitusainstitute.com/cursos/ingles-jovenes-adultos/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.aitusainstitute.com/courses/ingles-online-adultos/</loc>
+    <loc>https://www.aitusainstitute.com/cursos/ingles-online-adultos/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.aitusainstitute.com/courses/ingles-ninos/</loc>
+    <loc>https://www.aitusainstitute.com/cursos/ingles-ninos/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.aitusainstitute.com/courses/espanol-extranjeros/</loc>
+    <loc>https://www.aitusainstitute.com/cursos/espanol-extranjeros/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.aitusainstitute.com/courses/ged/</loc>
+    <loc>https://www.aitusainstitute.com/cursos/ged/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.aitusainstitute.com/courses/tutorias-matematicas/</loc>
+    <loc>https://www.aitusainstitute.com/cursos/tutorias-matematicas/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.aitusainstitute.com/courses/computacion-basica/</loc>
+    <loc>https://www.aitusainstitute.com/cursos/computacion-basica/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.aitusainstitute.com/courses/computacion-oficina/</loc>
+    <loc>https://www.aitusainstitute.com/cursos/computacion-oficina/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.aitusainstitute.com/courses/reparacion-computadoras/</loc>
+    <loc>https://www.aitusainstitute.com/cursos/reparacion-computadoras/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

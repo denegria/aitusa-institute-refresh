@@ -1021,7 +1021,7 @@ function ResultScreen({
           >
             Confirmar con un asesor
           </a>
-          <a className="diagnostic-result__support-link" href="/courses/">
+          <a className="diagnostic-result__support-link" href="/cursos/">
             Ver cursos
           </a>
         </div>

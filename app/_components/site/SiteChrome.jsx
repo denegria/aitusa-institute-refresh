@@ -145,7 +145,7 @@ export function SiteFooter() {
           <div className="site-footer__group">
             <p className="site-footer__group-label" id="footer-nav-label">Explora</p>
             <nav className="site-footer__nav" aria-labelledby="footer-nav-label">
-              <a href="/courses/"><span>Cursos</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
+              <a href="/cursos/"><span>Cursos</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
               <a href="/placement-test/"><span>Examen de nivel</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
               <a href={site.legalLinks.contact}><span>Contacto</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
             </nav>

@@ -55,7 +55,7 @@ function CourseHero({ program, editorial }) {
       <div className="section-inner course-program-hero__main">
         <div className="course-program-hero__copy">
           <nav className="course-breadcrumb" aria-label="Ruta de navegación">
-            <a href="/courses/">Cursos</a>
+            <a href="/cursos/">Cursos</a>
             <i data-lucide="chevron-right" aria-hidden="true" />
             <span aria-current="page">{program.title}</span>
           </nav>

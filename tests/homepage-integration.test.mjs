@@ -43,10 +43,10 @@ describe("homepage React integration", () => {
     assert.match(source, /Programa principal/);
     assert.match(source, /catalog-programs/);
     assert.match(source, /Inglés para niños/);
-    assert.match(source, /\/courses\/ingles-ninos\//);
-    assert.match(source, /\/courses\/ged\//);
+    assert.match(source, /\/cursos\/ingles-ninos\//);
+    assert.match(source, /\/cursos\/ged\//);
     assert.match(source, /computacion-y-cursos-tecnicos/);
-    assert.match(source, /\/courses\/espanol-extranjeros\//);
+    assert.match(source, /\/cursos\/espanol-extranjeros\//);
     assert.match(source, /apoyo-academico/);
     assert.deepEqual(
       productOfferings.slice(0, 3).map((offering) => offering.mobileSummary),
