@@ -1002,3 +1002,63 @@ do next. “Unavailable” must never look like “broken.”
 - Placement content must start materially higher with no empty disclosure gap.
 - Required evidence: targeted contract tests, full suite/build/assets/audit,
   responsive rendered checks, exact staging commit/deployment, and Linear note.
+
+---
+
+# AIT USA Student Journey Institutional Palette — 2026-08-03
+
+## User goal and chosen direction
+
+- Make placement, result claim/account creation, Portal sign-in/dashboard, and
+  Study Buddy feel like one trusted educational institution instead of adjacent
+  SaaS products.
+- Use the client-selected navy/gold reference as the product frame and the
+  lighter reference only for dense reading, form, result, and exercise areas.
+- Keep the existing journey and information architecture intact; this is a
+  visual-system implementation, not a workflow redesign.
+
+## Locked visual system
+
+- Structural navy: `#001a3d` for page canvas, navigation, mission framing, and
+  authenticated product shells.
+- Action gold: `#c4932d` for primary actions, progress, active states, and
+  important icons; gold is not body-copy color.
+- Warm surfaces: `#f7f2e8`, `#fffdf9`, and white for forms, results, lessons,
+  tables, and longer reading.
+- Text: `#0f172a` primary ink and `#475569` muted copy on light surfaces.
+- Avoid electric blue, cold-gray product canvases, decorative blue gradients,
+  blanket dark-mode reading areas, and low-contrast gold text.
+
+## Locked behavior and non-goals
+
+- Preserve placement scoring, answer state, result claim, guardian rules,
+  WorkOS enumeration protection, session behavior, Portal IA, Study Buddy turn
+  order, privacy boundaries, provider state, and CRM delivery.
+- Preserve loading, focus, disabled, error, success, recovery, guardian, and
+  provider-disabled states.
+- No homepage redesign, copy rewrite, auth rewrite, data/schema migration,
+  provider activation, CRM payload change, or production promotion.
+
+## Responsive and accessibility contract
+
+- Primary CSS viewports: 390×844 and 1366×768.
+- Regression CSS viewports: 360×800, 430×932, 768×1024, and 1440×900.
+- Navy remains the structural frame while warm content surfaces preserve
+  reading comfort; mobile Portal navigation remains navy with gold active state.
+- No horizontal overflow, clipped copy, hover-only action, or target smaller
+  than 44 CSS pixels.
+- Visible keyboard focus, reduced-motion behavior, semantic errors/success, and
+  contrast-safe text must survive the palette change.
+
+## Required evidence
+
+- Targeted placement, claim/auth, Portal shell, and Study Buddy tests.
+- Full suite, asset check, dependency audit, webpack production build, and
+  `git diff --check`.
+- Rendered placement, sign-in, authenticated Portal, and Study Buddy evidence at
+  primary viewports plus responsive regression, overflow, and console checks.
+- Reference and implementation screenshots must be judged together; because
+  the supplied images are mood references rather than matching layouts, the QA
+  comparison evaluates palette hierarchy and surface balance, not pixel cloning.
+- Exact staging commit/deployment and Linear evidence. Production stays out of
+  scope until explicit approval.

@@ -133,7 +133,10 @@ describe("MIS-271 portal auth boundary prototype", () => {
     assert.match(source, /Comenzar examen/);
     assert.match(source, /si corresponde a una cuenta activa/i);
     assert.doesNotMatch(source, /No encontramos una cuenta guardada con ese email/);
-    assert.match(styles, /--portal-blue: #9a6c11/);
-    assert.match(styles, /--portal-canvas: #faf8f4/);
+    assert.match(styles, /--portal-navy-950: #001a3d/);
+    assert.match(styles, /--portal-blue: #8a6412/);
+    assert.match(styles, /--portal-gold: #c4932d/);
+    assert.match(styles, /--portal-canvas: #f7f2e8/);
+    assert.doesNotMatch(styles, /#1748bd|rgba\(60, 103, 255|rgba\(74, 114, 255/);
   });
 });

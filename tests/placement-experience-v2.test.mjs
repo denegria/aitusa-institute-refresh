@@ -71,6 +71,13 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.match(styles, /\.diagnostic-result__support \{[\s\S]*grid-template-columns: auto minmax\(0, 1fr\) auto;/);
   });
 
+  it("uses the institutional navy, gold, and warm-surface system", () => {
+    assert.match(styles, /\.placement-page \{[\s\S]*--blue-deep: #001a3d;[\s\S]*--gold: #c4932d;[\s\S]*background: #001a3d;/);
+    assert.match(styles, /\.placement-page__hero \{[\s\S]*background: #f7f2e8;/);
+    assert.match(styles, /\.diagnostic-shell \{[\s\S]*background: #fffdf9;/);
+    assert.match(styles, /\.diagnostic-progress__track span \{[\s\S]*background: var\(--gold\);/);
+  });
+
   it("includes directional motion and a reduced-motion override", () => {
     assert.match(styles, /@keyframes diagnostic-card-forward/);
     assert.match(styles, /@keyframes diagnostic-card-back/);

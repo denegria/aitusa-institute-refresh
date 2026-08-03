@@ -113,9 +113,12 @@ describe("MIS-342 personalized Study Buddy experience", () => {
     assert.match(source, /<strong>AIT USA<\/strong>/);
     assert.match(source, /<small>Study Buddy<\/small>/);
     assert.match(styles, /Plus Jakarta Sans/);
-    assert.match(styles, /--study-blue: #9a6c11/);
-    assert.match(styles, /--study-canvas: #faf8f4/);
+    assert.match(styles, /--study-navy-950: #001a3d/);
+    assert.match(styles, /--study-blue: #8a6412/);
+    assert.match(styles, /--study-gold: #c4932d/);
+    assert.match(styles, /--study-canvas: #f7f2e8/);
     assert.doesNotMatch(styles, /#2c5cff/);
+    assert.doesNotMatch(styles, /#1748bd|rgba\(60, 103, 255|rgba\(74, 114, 255/);
     assert.doesNotMatch(styles, /Georgia|Times New Roman/);
   });
 });

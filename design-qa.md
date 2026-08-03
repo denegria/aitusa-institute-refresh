@@ -131,3 +131,65 @@ No actionable P0, P1, or P2 findings remain.
 ## Final Result
 
 passed
+
+---
+
+# Design QA — AIT USA institutional student journey palette
+
+## Source and implementation evidence
+
+- Primary navy/gold mood reference:
+  `/root/.openclaw/giuseppe-workspace/media/inbound/openclaw-staged-0ce06af3-eeb9-488f-9159-09e9690acc73/6703a29d-fb3e-4252-990c-d837d89eed69.jpg`
+- Light reading-surface reference:
+  `/root/.openclaw/giuseppe-workspace/media/inbound/openclaw-staged-0ce06af3-eeb9-488f-9159-09e9690acc73/88d4541b-2a7a-438d-9371-f2c99c44397c.jpg`
+- Combined same-input comparison:
+  `/tmp/aitusa-design-qa.t5vLYB/comparison.png` at 1440×1600 physical pixels.
+- Implementation screenshots:
+  - `/tmp/aitusa-design-qa.t5vLYB/placement-desktop-final.png` — 1366×768, placement intro.
+  - `/tmp/aitusa-design-qa.t5vLYB/placement-mobile-final.png` — 390×844, placement intro.
+  - `/tmp/aitusa-design-qa.t5vLYB/signin-desktop.png` — 1366×768, email-first sign-in.
+  - `/tmp/aitusa-design-qa.t5vLYB/signin-mobile.png` — 390×844, email-first sign-in.
+  - `/tmp/aitusa-design-qa.t5vLYB/portal-desktop.png` — 1366×768, authenticated dashboard fixture.
+  - `/tmp/aitusa-design-qa.t5vLYB/portal-mobile.png` — 390×844, authenticated dashboard fixture.
+  - `/tmp/aitusa-design-qa.t5vLYB/study-desktop.png` — 1366×768, ready Study Buddy fixture.
+  - `/tmp/aitusa-design-qa.t5vLYB/study-mobile.png` — 390×844, ready Study Buddy fixture.
+
+The supplied screenshots are mood references, not matching page layouts. The
+comparison therefore evaluates palette hierarchy, frame/surface balance,
+action emphasis, and institutional tone rather than pixel-level cloning.
+
+## Comparison and fix history
+
+1. Initial implementation established navy structural frames, warm reading
+   surfaces, and gold active/action states across all four surfaces.
+2. First rendered comparison found one P1 mismatch: the placement intro still
+   inherited the global electric-blue primary button and cool-blue eyebrow pill.
+3. The placement scope now explicitly uses `#c4932d` for primary actions,
+   `#f7f2e8` for the eyebrow surface, and dark navy text. The final screenshot
+   confirms the mismatch is removed.
+4. Portal desktop/mobile navigation uses navy structure and gold active state;
+   sign-in uses a warm elevated form; Study Buddy keeps its warm exercise area
+   inside a navy mission frame.
+
+## Responsive, interaction, and runtime checks
+
+- CSS viewports checked: 390×844, 768×1024, 1366×768, and 1440×900.
+- Placement, sign-in, Portal, and Study Buddy showed no horizontal overflow at
+  any checked viewport.
+- Primary control minimum heights were 49px, 46px, 44px, and 48px respectively.
+- Each route completed loading with its expected heading.
+- No browser console errors, runtime exceptions, or HTTP responses at 400+
+  occurred during the checked states.
+- Reduced-motion and visible-focus rules remain present; scoring, authentication,
+  guardian, provider, and persistence behavior were not changed.
+
+## Severity review
+
+- P0: none.
+- P1: none remaining.
+- P2: none remaining.
+- P3: none recorded for this bounded palette slice.
+
+## Final result
+
+passed

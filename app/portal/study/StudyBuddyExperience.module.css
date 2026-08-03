@@ -1,18 +1,16 @@
 .page {
-  --study-navy-950: #071733;
-  --study-navy-900: #0b2149;
-  --study-blue: #9a6c11;
-  --study-gold: #f2bd4d;
-  --study-gold-soft: #fff4d6;
-  --study-ink: #12213d;
-  --study-muted: #626875;
-  --study-line: #ded7ca;
-  --study-canvas: #faf8f4;
+  --study-navy-950: #001a3d;
+  --study-navy-900: #062a55;
+  --study-blue: #8a6412;
+  --study-gold: #c4932d;
+  --study-gold-soft: #f7f2e8;
+  --study-ink: #0f172a;
+  --study-muted: #475569;
+  --study-line: #d9d1c3;
+  --study-canvas: #f7f2e8;
   min-height: 100dvh;
   color: var(--study-ink);
-  background:
-    radial-gradient(circle at 78% 4%, rgba(181, 125, 23, 0.12), transparent 28rem),
-    var(--study-canvas);
+  background: var(--study-navy-950);
   font-family: "Plus Jakarta Sans", "Segoe UI Variable Text", "Segoe UI", sans-serif;
 }
 
@@ -37,8 +35,8 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 0 4vw;
-  border-bottom: 1px solid rgba(242, 189, 77, 0.42);
-  background: rgba(7, 23, 51, 0.97);
+  border-bottom: 1px solid rgba(196, 147, 45, 0.46);
+  background: rgba(0, 26, 61, 0.98);
   backdrop-filter: blur(16px);
 }
 
@@ -86,6 +84,12 @@
   font: 700 0.72rem/1 "Plus Jakarta Sans", sans-serif;
 }
 
+.sessionMeta span {
+  border-color: rgba(196, 147, 45, 0.35);
+  color: #f7f2e8;
+  background: rgba(255, 253, 249, 0.08);
+}
+
 .announcement {
   position: absolute;
   width: 1px;
@@ -110,7 +114,7 @@
 .context { padding: 0.75rem 0; }
 .backLink,
 .textButton {
-  color: var(--study-blue);
+  color: var(--study-gold);
   font: 700 0.86rem/1.2 "Plus Jakarta Sans", sans-serif;
   text-underline-offset: 0.2em;
 }
@@ -125,7 +129,7 @@
   line-height: 1.03;
 }
 
-.context h1 { font-size: clamp(2rem, 4vw, 3.35rem); }
+.context h1 { color: #fffdf9; font-size: clamp(2rem, 4vw, 3.35rem); }
 .card h1,
 .card h2 { font-size: clamp(2rem, 5vw, 3.7rem); }
 .context > p,
@@ -136,9 +140,11 @@
   font: 400 1rem/1.65 "Plus Jakarta Sans", sans-serif;
 }
 
+.context > p { color: rgba(247, 242, 232, 0.76); }
+
 .eyebrow {
   margin: 0;
-  color: var(--study-blue) !important;
+  color: var(--study-gold) !important;
   font: 800 0.72rem/1.2 "Plus Jakarta Sans", sans-serif !important;
   letter-spacing: 0.13em;
   text-transform: uppercase;
@@ -152,17 +158,18 @@
 
 .contextFacts div {
   padding: 0.9rem 0;
-  border-top: 1px solid var(--study-line);
+  border-top: 1px solid rgba(247, 242, 232, 0.2);
 }
 
-.contextFacts dt { color: var(--study-muted); font: 700 0.68rem/1 "Plus Jakarta Sans", sans-serif; text-transform: uppercase; letter-spacing: 0.1em; }
-.contextFacts dd { margin: 0.35rem 0 0; font: 700 0.92rem/1.35 "Plus Jakarta Sans", sans-serif; }
+.contextFacts dt { color: rgba(247, 242, 232, 0.62); font: 700 0.68rem/1 "Plus Jakarta Sans", sans-serif; text-transform: uppercase; letter-spacing: 0.1em; }
+.contextFacts dd { margin: 0.35rem 0 0; color: #fffdf9; font: 700 0.92rem/1.35 "Plus Jakarta Sans", sans-serif; }
 
 .privacyNote {
   padding: 1rem;
   border-radius: 18px;
   color: #e9f1f7;
-  background: var(--study-navy-950);
+  border: 1px solid rgba(196, 147, 45, 0.28);
+  background: rgba(255, 253, 249, 0.07);
 }
 .privacyNote strong { font: 700 0.88rem/1.2 "Plus Jakarta Sans", sans-serif; }
 .privacyNote p { margin: 0.45rem 0 0; color: #c6d4df; font: 400 0.78rem/1.5 "Plus Jakarta Sans", sans-serif; }
@@ -174,7 +181,7 @@
   padding: clamp(1.4rem, 4vw, 3.75rem);
   border: 1px solid var(--study-line);
   border-radius: clamp(22px, 2vw, 28px);
-  background: rgba(255, 253, 249, 0.96);
+  background: #fffdf9;
   box-shadow: 0 22px 60px rgba(12, 32, 68, 0.1);
 }
 
@@ -238,7 +245,7 @@
 .progress li:first-child::before { width: 50%; right: 0; }
 .progress li:last-child::before { width: 50%; left: 0; }
 .progress span { position: relative; z-index: 1; display: grid; width: 32px; height: 32px; place-items: center; border: 2px solid #dbe2e8; border-radius: 50%; color: #748397; background: #fff; font: 800 0.72rem/1 "Plus Jakarta Sans", sans-serif; }
-.progress .current span { border-color: var(--study-gold); color: var(--study-navy-950); box-shadow: 0 0 0 6px rgba(242, 189, 77, 0.17); }
+.progress .current span { border-color: var(--study-gold); color: var(--study-navy-950); box-shadow: 0 0 0 6px rgba(196, 147, 45, 0.17); }
 .progress .complete span { border-color: var(--study-navy-900); color: #fff; background: var(--study-navy-900); }
 
 .turnHeading { margin-bottom: 1.25rem; }
@@ -254,9 +261,9 @@
 .pulse { width: 68px; height: 68px; border: 2px solid #fff; border-radius: 50%; background: #d35845; box-shadow: 0 0 0 0 rgba(211, 88, 69, 0.45); animation: pulse 1.6s infinite; }
 .stopButton { color: #fff; background: #a5382a; }
 
-.feedbackCard { background: linear-gradient(150deg, #fff 0%, #f7f9ff 100%); }
-.completionCard { text-align: center; background: linear-gradient(150deg, #fff 0%, #fff7df 100%); }
-.completionMark { width: 76px; height: 76px; display: grid; place-items: center; margin: 0 auto 1.25rem; border-radius: 50%; color: var(--study-navy-950); background: var(--study-gold); font: 800 2rem/1 "Plus Jakarta Sans", sans-serif; box-shadow: 0 0 0 14px rgba(242, 189, 77, 0.16); }
+.feedbackCard { background: #fffdf9; }
+.completionCard { text-align: center; background: #fffaf0; }
+.completionMark { width: 76px; height: 76px; display: grid; place-items: center; margin: 0 auto 1.25rem; border-radius: 50%; color: var(--study-navy-950); background: var(--study-gold); font: 800 2rem/1 "Plus Jakarta Sans", sans-serif; box-shadow: 0 0 0 14px rgba(196, 147, 45, 0.16); }
 .nextMission { text-align: left; }
 .nextMission strong { display: block; margin-top: 0.5rem; font: 700 1rem/1.4 "Plus Jakarta Sans", sans-serif; }
 
