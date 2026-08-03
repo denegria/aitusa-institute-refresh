@@ -132,6 +132,11 @@ describe("MIS-271 portal auth boundary prototype", () => {
     assert.match(source, /Este acceso es para estudiantes que ya guardaron un resultado/);
     assert.match(source, /Comenzar examen/);
     assert.match(source, /si corresponde a una cuenta activa/i);
+    assert.match(source, /Recibirás un código seguro por email/);
+    assert.match(source, /href="\/contactanos"/);
+    assert.match(source, /href="\/privacy-policy"/);
+    assert.match(source, /href="\/terms-and-conditions"/);
+    assert.doesNotMatch(source, /cookie segura|navegador no comparte con scripts/i);
     assert.doesNotMatch(source, /No encontramos una cuenta guardada con ese email/);
     assert.match(styles, /--portal-navy-950: #001a3d/);
     assert.match(styles, /--portal-blue: #8a6412/);

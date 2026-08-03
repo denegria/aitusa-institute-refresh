@@ -208,10 +208,7 @@ export function SignInExperience() {
 
         <div className="portal-signin__trust">
           <span aria-hidden="true">✓</span>
-          <p>
-            No necesitas crear una contraseña. Tu sesión se protege con una cookie
-            segura que el navegador no comparte con scripts.
-          </p>
+          <p>Recibirás un código seguro por email. No necesitas recordar una contraseña.</p>
         </div>
         {step === "email" ? (
           <div className="portal-signin__new-student">
@@ -224,6 +221,11 @@ export function SignInExperience() {
             </a>
           </div>
         ) : null}
+        <nav className="portal-signin__footer" aria-label="Ayuda y documentos legales">
+          <a href="/contactanos">Ayuda</a>
+          <a href="/privacy-policy">Privacidad</a>
+          <a href="/terms-and-conditions">Términos</a>
+        </nav>
       </section>
     </main>
   );

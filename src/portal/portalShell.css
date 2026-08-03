@@ -1482,6 +1482,33 @@
   white-space: nowrap;
 }
 
+.portal-signin__footer {
+  align-items: center;
+  border-top: 1px solid rgba(0, 26, 61, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  justify-content: center;
+  margin-top: 18px;
+  padding-top: 16px;
+}
+
+.portal-signin__footer a {
+  color: var(--portal-muted);
+  font-size: 10px;
+  font-weight: 750;
+  min-height: 44px;
+  padding: 14px 2px;
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 26, 61, 0.24);
+  text-underline-offset: 3px;
+}
+
+.portal-signin__footer a:hover {
+  color: var(--portal-navy-950);
+  text-decoration-color: var(--portal-gold);
+}
+
 @keyframes portal-wave {
   0%,
   100% {
