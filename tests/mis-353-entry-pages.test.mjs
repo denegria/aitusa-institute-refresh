@@ -54,6 +54,18 @@ describe("MIS-353 focused entry surfaces", () => {
     assert.match(placementStyles, /\.placement-utility \{/);
     assert.match(placementStyles, /\.placement-dialog__panel \{/);
     assert.match(placementStyles, /max-height: min\(86svh, 620px\);/);
+    assert.match(placementStyles, /\.diagnostic-shell \{[\s\S]*overflow: visible;/);
+    assert.match(placementStyles, /\.section\.placement-page__app \{[\s\S]*padding-block: 12px 8px;/);
+    assert.match(placementStyles, /\.diagnostic-shell \{[\s\S]*min-height: 0;/);
     assert.match(portalStyles, /grid-template-rows: 68px minmax\(0, 1fr\);/);
+    assert.match(
+      portalStyles,
+      /\.portal-access__header \{[\s\S]*justify-self: stretch;[\s\S]*min-height: 68px;/,
+    );
+    assert.doesNotMatch(
+      portalStyles,
+      /\.portal-access__header \{[\s\S]*position: absolute;/,
+    );
+    assert.match(portalStyles, /grid-template-rows: 64px minmax\(0, 1fr\);/);
   });
 });

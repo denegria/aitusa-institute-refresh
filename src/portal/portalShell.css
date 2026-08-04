@@ -1248,12 +1248,11 @@
   border-bottom: 1px solid rgba(0, 26, 61, 0.12);
   display: flex;
   justify-content: space-between;
-  left: 0;
+  justify-self: stretch;
+  margin-inline: -18px;
   padding: 0 clamp(18px, 5vw, 56px);
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 68px;
+  min-height: 68px;
+  width: calc(100% + 36px);
 }
 
 .portal-access__brand {
@@ -1835,12 +1834,15 @@
 
   .portal-access {
     align-items: stretch;
+    grid-template-rows: 64px minmax(0, 1fr);
     padding: 0 12px 12px;
   }
 
   .portal-access__header {
-    height: 64px;
+    margin-inline: -12px;
+    min-height: 64px;
     padding-inline: 16px;
+    width: calc(100% + 24px);
   }
 
   .portal-access__card {

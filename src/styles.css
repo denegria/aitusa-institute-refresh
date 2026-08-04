@@ -2790,7 +2790,7 @@ textarea {
   display: grid;
   width: min(1040px, calc(100% - 32px));
   min-height: 620px;
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid rgba(196, 147, 45, 0.34);
   border-radius: 22px;
   background: #fffdf9;
@@ -3758,24 +3758,20 @@ textarea {
     line-height: 1.04;
   }
 
-  .placement-page__app {
+  .section.placement-page__app {
     min-height: 0;
-    padding-block: 18px 54px;
-  }
-
-  .placement-page__app {
-    padding-bottom: 10px;
+    padding-block: 12px 8px;
   }
 
   .diagnostic-shell {
     width: min(100% - 20px, 1040px);
-    min-height: 650px;
+    min-height: 0;
     border-radius: 16px;
   }
 
   .diagnostic-shell__brand {
-    top: 20px;
-    left: 20px;
+    top: 12px;
+    left: 16px;
   }
 
   .diagnostic-intro,
@@ -3785,11 +3781,12 @@ textarea {
   .diagnostic-goal,
   .diagnostic-result {
     width: calc(100% - 32px);
-    padding-block: 72px 30px;
+    padding-block: 42px 16px;
   }
 
   .diagnostic-intro {
-    gap: 22px;
+    gap: 14px;
+    padding-top: 42px;
   }
 
   .diagnostic-age-link {
