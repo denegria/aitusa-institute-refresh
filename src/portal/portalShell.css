@@ -1557,6 +1557,34 @@
   text-decoration-color: var(--portal-gold);
 }
 
+@media (min-width: 521px) and (max-height: 820px) {
+  .portal-access__card {
+    padding: 24px 32px;
+  }
+
+  .portal-signin__progress {
+    margin-bottom: 16px;
+  }
+
+  .portal-access__card > p:not(.portal-eyebrow) {
+    margin: 12px 0 16px;
+  }
+
+  .portal-signin__trust,
+  .portal-signin__new-student {
+    margin-top: 12px;
+  }
+
+  .portal-signin__new-student {
+    padding: 12px;
+  }
+
+  .portal-signin__footer {
+    margin-top: 12px;
+    padding-top: 10px;
+  }
+}
+
 @keyframes portal-wave {
   0%,
   100% {
@@ -1862,6 +1890,31 @@
 
   .portal-signin__new-student .portal-button {
     width: 100%;
+  }
+}
+
+@media (max-width: 520px) and (max-height: 820px) {
+  .portal-access__card {
+    padding-block: 18px;
+  }
+
+  .portal-signin__progress {
+    margin-bottom: 16px;
+  }
+
+  .portal-access__card > p:not(.portal-eyebrow) {
+    margin: 12px 0 16px;
+  }
+
+  .portal-signin__trust,
+  .portal-signin__new-student {
+    margin-top: 12px;
+    padding: 10px;
+  }
+
+  .portal-signin__footer {
+    margin-top: 12px;
+    padding-top: 10px;
   }
 }
 

@@ -73,5 +73,7 @@ describe("MIS-353 focused entry surfaces", () => {
       /\.portal-access__header \{[\s\S]*position: absolute;/,
     );
     assert.match(portalStyles, /grid-template-rows: 64px minmax\(0, 1fr\);/);
+    assert.match(portalStyles, /@media \(min-width: 521px\) and \(max-height: 820px\)/);
+    assert.match(portalStyles, /@media \(max-width: 520px\) and \(max-height: 820px\)/);
   });
 });
