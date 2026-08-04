@@ -150,12 +150,82 @@ function ProgressHeader({ question, questionIndex, questionCount }) {
   );
 }
 
+function Under13Dialog({ onContinue, onClose, triggerRef }) {
+  const dialogRef = useRef(null);
+  const continueRef = useRef(null);
+
+  useEffect(() => {
+    const previousFocus = document.activeElement;
+    continueRef.current?.focus();
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      if (triggerRef.current) triggerRef.current.focus();
+      else if (previousFocus instanceof HTMLElement) previousFocus.focus();
+    };
+  }, [onClose, triggerRef]);
+
+  return (
+    <div className="placement-dialog" role="presentation">
+      <button
+        className="placement-dialog__backdrop"
+        type="button"
+        aria-label="Cerrar información para menores de 13"
+        onClick={onClose}
+      />
+      <section
+        aria-describedby="under13-description"
+        aria-labelledby="under13-title"
+        aria-modal="true"
+        className="placement-dialog__panel"
+        ref={dialogRef}
+        role="dialog"
+        tabIndex={-1}
+      >
+        <button
+          className="placement-dialog__close"
+          type="button"
+          aria-label="Cerrar"
+          onClick={onClose}
+        >
+          ×
+        </button>
+        <p className="eyebrow-chip">Información importante</p>
+        <h2 id="under13-title">¿El estudiante es menor de 13?</h2>
+        <p id="under13-description">
+          Puede completar el examen y ver su resultado. Para guardarlo o entrar
+          al Portal se necesita un tutor con email verificado.
+        </p>
+        <div className="placement-dialog__actions">
+          <button
+            className="button button--primary"
+            ref={continueRef}
+            type="button"
+            onClick={() => onContinue("under_13")}
+          >
+            Continuar como menor de 13
+          </button>
+          <button className="button button--ghost" type="button" onClick={onClose}>
+            Volver
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function IntroScreen({ busy, error, resumeSnapshot, onStart, onResume }) {
+  const [under13Open, setUnder13Open] = useState(false);
+  const under13TriggerRef = useRef(null);
+
   return (
     <section className="diagnostic-intro" data-diagnostic-screen="intro">
       <div>
-        <p className="eyebrow-chip">Tu resultado antes de tus datos</p>
-        <h2>Encuentra tu punto de partida</h2>
+        <p className="eyebrow-chip">Evaluación inicial</p>
+        <h2>Descubre tu punto de partida</h2>
         <p className="diagnostic-lead">
           Responde 62 preguntas, una a la vez. Puedes regresar, cambiar una
           respuesta o saltar lo que no sepas.
@@ -183,15 +253,16 @@ function IntroScreen({ busy, error, resumeSnapshot, onStart, onResume }) {
               type="button"
               onClick={() => onStart("age_13_plus")}
             >
-              {busy ? "Preparando…" : "Comenzar · 13 años o más"}
+              {busy ? "Preparando…" : "Comenzar examen"}
             </button>
             <button
-              className="button button--ghost"
+              className="diagnostic-age-link"
               disabled={busy}
+              ref={under13TriggerRef}
               type="button"
-              onClick={() => onStart("under_13")}
+              onClick={() => setUnder13Open(true)}
             >
-              Es para un menor de 13
+              ¿El estudiante es menor de 13?
             </button>
           </>
         )}
@@ -223,11 +294,16 @@ function IntroScreen({ busy, error, resumeSnapshot, onStart, onResume }) {
           nivel final antes de la inscripción.
         </p>
       </div>
-      <p className="diagnostic-level-note">
-        Un menor de 13 puede completar el examen y ver el resultado sin crear una
-        cuenta. Sus respuestas permanecen solo en esta pestaña; guardar, entrar al
-        Portal o practicar requiere autorización de un tutor con email verificado.
-      </p>
+      {under13Open ? (
+        <Under13Dialog
+          onClose={() => setUnder13Open(false)}
+          onContinue={(ageBand) => {
+            setUnder13Open(false);
+            onStart(ageBand);
+          }}
+          triggerRef={under13TriggerRef}
+        />
+      ) : null}
     </section>
   );
 }

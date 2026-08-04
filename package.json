@@ -25,7 +25,7 @@
     "test:lead-contact": "node --test tests/lead-contact.test.mjs tests/lead-contact-route.test.mjs tests/lead-contact-service.test.mjs",
     "test:learning": "node --test tests/learning-content.test.mjs tests/learning-route.test.mjs",
     "test:migration": "node --test tests/migration-route-parity.test.mjs",
-    "test:placement": "node --test tests/placement-test.test.mjs tests/placement-test-route.test.mjs tests/placement-experience-v2.test.mjs",
+    "test:placement": "node --test tests/placement-test.test.mjs tests/placement-test-route.test.mjs tests/placement-experience-v2.test.mjs tests/mis-353-entry-pages.test.mjs",
     "test:diagnostic-service": "node --test tests/diagnostic-service.test.mjs tests/diagnostic-service-contract.test.mjs tests/diagnostic-route.test.mjs",
     "test:privacy": "node --test tests/privacy-policy.test.mjs tests/privacy-route.test.mjs",
     "test:sms-compliance": "node --test tests/public-sms-compliance.test.mjs tests/lead-contact.test.mjs tests/lead-contact-route.test.mjs tests/placement-test.test.mjs tests/placement-test-route.test.mjs tests/migration-route-parity.test.mjs",

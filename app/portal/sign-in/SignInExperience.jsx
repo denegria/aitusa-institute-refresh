@@ -98,15 +98,23 @@ export function SignInExperience() {
 
   return (
     <main className="portal-access portal-signin">
-      <a className="portal-access__brand" href="/">
-        <img
-          src="/assets/wix/076-solo-logo-4-x-4-clases1.png"
-          alt=""
-          width="44"
-          height="44"
-        />
-        <span>AIT USA</span>
-      </a>
+      <header className="portal-access__header">
+        <a className="portal-access__brand" href="/" aria-label="AIT USA Institute, inicio">
+          <img
+            src="/assets/wix/076-solo-logo-4-x-4-clases1.png"
+            alt=""
+            width="40"
+            height="40"
+          />
+          <span>
+            <strong>AIT USA</strong>
+            <small>INSTITUTE</small>
+          </span>
+        </a>
+        <a className="portal-access__site-link" href="/">
+          Volver al sitio
+        </a>
+      </header>
 
       <section className="portal-access__card" aria-labelledby="portal-signin-title">
         <div className="portal-signin__progress" aria-label={`Paso ${step === "email" ? 1 : 2} de 2`}>

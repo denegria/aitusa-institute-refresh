@@ -2780,8 +2780,8 @@ textarea {
 }
 
 .placement-page__app {
-  min-height: 720px;
-  padding-block: 24px 90px;
+  min-height: 0;
+  padding-block: 18px 12px;
   background: #001a3d;
 }
 
@@ -2796,6 +2796,35 @@ textarea {
   background: #fffdf9;
   box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
   scroll-margin-top: 86px;
+}
+
+.placement-utility {
+  align-items: center;
+  background: #001a3d;
+  border-top: 1px solid rgba(217, 180, 93, 0.22);
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  padding: 4px 16px max(8px, env(safe-area-inset-bottom));
+}
+
+.placement-utility a {
+  align-items: center;
+  color: rgba(255, 255, 255, 0.78);
+  display: inline-flex;
+  font-size: 0.75rem;
+  font-weight: 750;
+  min-height: 44px;
+  padding: 10px 2px;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.3);
+  text-underline-offset: 3px;
+}
+
+.placement-utility a:hover,
+.placement-utility a:focus-visible {
+  color: #fff;
+  text-decoration-color: #d9b45d;
 }
 
 .diagnostic-shell__brand {
@@ -2840,6 +2869,106 @@ textarea {
   display: grid;
   gap: 22px;
   padding-top: 56px;
+}
+
+.diagnostic-age-link {
+  align-items: center;
+  align-self: center;
+  background: transparent;
+  border: 0;
+  color: var(--blue-deep);
+  display: inline-flex;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 750;
+  min-height: 44px;
+  padding: 8px 4px;
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 26, 61, 0.28);
+  text-underline-offset: 4px;
+}
+
+.diagnostic-age-link:hover,
+.diagnostic-age-link:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+.diagnostic-age-link:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.placement-dialog {
+  inset: 0;
+  position: fixed;
+  z-index: 100;
+}
+
+.placement-dialog__backdrop {
+  background: rgba(0, 10, 25, 0.72);
+  border: 0;
+  inset: 0;
+  min-height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.placement-dialog__panel {
+  background: #fffdf9;
+  border: 1px solid rgba(196, 147, 45, 0.4);
+  border-radius: 20px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+  left: 50%;
+  max-width: 520px;
+  padding: 32px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 32px);
+}
+
+.placement-dialog__panel h2 {
+  color: var(--blue-deep);
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  margin: 12px 44px 0 0;
+}
+
+.placement-dialog__panel > p:not(.eyebrow-chip) {
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 14px 0 24px;
+}
+
+.placement-dialog__close {
+  align-items: center;
+  background: transparent;
+  border: 1px solid rgba(0, 26, 61, 0.16);
+  border-radius: 999px;
+  color: var(--blue-deep);
+  display: inline-flex;
+  font-size: 1.4rem;
+  height: 44px;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  width: 44px;
+}
+
+.placement-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.placement-dialog__actions .button {
+  min-height: 48px;
 }
 
 .diagnostic-intro h2,
@@ -3634,6 +3763,10 @@ textarea {
     padding-block: 18px 54px;
   }
 
+  .placement-page__app {
+    padding-bottom: 10px;
+  }
+
   .diagnostic-shell {
     width: min(100% - 20px, 1040px);
     min-height: 650px;
@@ -3657,6 +3790,11 @@ textarea {
 
   .diagnostic-intro {
     gap: 22px;
+  }
+
+  .diagnostic-age-link {
+    width: 100%;
+    justify-content: center;
   }
 
   .diagnostic-intro__actions {
@@ -3705,6 +3843,34 @@ textarea {
     grid-template-columns: 30px minmax(0, 1fr);
     padding: 14px;
     font-size: 0.84rem;
+  }
+
+  .placement-utility {
+    gap: 14px;
+  }
+
+  .placement-dialog__panel {
+    border-radius: 20px 20px 0 0;
+    bottom: 0;
+    left: 0;
+    max-height: min(86svh, 620px);
+    overflow-y: auto;
+    padding: 28px 20px max(24px, env(safe-area-inset-bottom));
+    top: auto;
+    transform: none;
+    width: 100%;
+  }
+
+  .placement-dialog__panel h2 {
+    font-size: 1.8rem;
+  }
+
+  .placement-dialog__actions {
+    display: grid;
+  }
+
+  .placement-dialog__actions .button {
+    width: 100%;
   }
 
   .diagnostic-progress {

@@ -44,7 +44,9 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
   it("exposes the guardian boundary and passwordless Study Buddy conversion", () => {
     assert.match(component, /practica 3–5 minutos/);
     assert.match(component, /cinco\s+turnos/);
-    assert.match(component, /Un menor de 13 puede completar el examen/);
+    assert.match(component, /Puede completar el examen y ver su resultado/);
+    assert.match(component, /Continuar como menor de 13/);
+    assert.match(component, /role="dialog"/);
     assert.match(component, /No hace falta una cuenta para verlo/);
     assert.match(component, /Este permiso es opcional/);
     assert.match(component, /api\/portal\/guardian-onboarding\/code/);
