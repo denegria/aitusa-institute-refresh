@@ -3747,7 +3747,7 @@ textarea {
     min-height: 0;
   }
 
-  .diagnostic-shell:has(.diagnostic-question-screen) .diagnostic-shell__brand {
+  .diagnostic-shell__brand {
     display: none;
   }
 
