@@ -3751,6 +3751,19 @@ textarea {
     display: none;
   }
 
+  .diagnostic-intro {
+    gap: 12px;
+    padding-block: 36px 18px;
+  }
+
+  .diagnostic-intro__facts article {
+    padding-block: 12px;
+  }
+
+  .diagnostic-intro .diagnostic-trust {
+    padding-block: 12px;
+  }
+
   .diagnostic-question-screen {
     padding-block: 18px 14px;
   }
@@ -4053,6 +4066,29 @@ textarea {
     justify-content: flex-start;
     width: 100%;
     padding-inline: 0;
+  }
+}
+
+@media (max-width: 720px) and (max-height: 820px) {
+  .section.placement-page__app {
+    padding-block: 6px 4px;
+  }
+
+  .diagnostic-intro {
+    gap: 10px;
+    padding-block: 34px 10px;
+  }
+
+  .diagnostic-intro h2 {
+    margin-top: 6px;
+  }
+
+  .diagnostic-intro__facts article {
+    padding-block: 10px;
+  }
+
+  .diagnostic-intro .diagnostic-trust {
+    padding: 10px;
   }
 }
 
