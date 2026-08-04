@@ -1233,6 +1233,7 @@
 .portal-access {
   align-items: stretch;
   background: var(--portal-navy-950);
+  box-sizing: border-box;
   display: grid;
   grid-template-rows: 68px minmax(0, 1fr);
   justify-items: center;
