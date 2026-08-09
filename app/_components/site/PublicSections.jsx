@@ -71,6 +71,10 @@ export function MethodSection() {
             </h2>
             <p className="method-editorial__promise">{methodNarrative.promise || ""}</p>
             <p className="method-editorial__intro-copy">{methodNarrative.introduction || ""}</p>
+            <p className="method-editorial__trust-note">
+              <i data-lucide="shield-check" aria-hidden="true" />
+              <span>Educación para adultos. Enfoque humano. Resultados reales.</span>
+            </p>
           </header>
           <figure className="method-editorial__compass" aria-hidden="true">
             <img
@@ -81,10 +85,6 @@ export function MethodSection() {
               loading="lazy"
             />
           </figure>
-          <p className="method-editorial__trust-note">
-            <i data-lucide="shield-check" aria-hidden="true" />
-            <span>Educación para adultos. Enfoque humano. Resultados reales.</span>
-          </p>
         </div>
         <section className="method-editorial__pain" aria-labelledby="method-pain-title">
           <div className="method-editorial__pain-copy">

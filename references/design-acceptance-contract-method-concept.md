@@ -6,13 +6,13 @@ An adult learner should move through one coherent story: recognize their frustra
 
 ## Chosen interaction model
 
-A long-form editorial chapter inspired by the selected generated concept. The page uses a visual opening, numbered question rows, an illustrated solution bridge, a three-principle band, and a final video conclusion. It is one reading flow, not tabs, cards, or a carousel.
+A long-form editorial chapter faithfully rebuilt from the selected reference. The page uses the source's visual opening, numbered question rows, illustrated solution bridge, three-principle band, and final video conclusion as one continuous reading flow—not tabs, cards, or a carousel.
 
 ## Selected visual direction
 
 Source visual truth: `references/graphic-concept-method-reference.webp`.
 
-Translate its warm editorial paper, navy-and-gold ink illustrations, strong serif-like display hierarchy, numbered rules, and generous whitespace into the existing AIT design system. Generated copy about graphic design is not product truth and must not be reproduced.
+Faithful-reference mode. `references/graphic-concept-method-reference.webp` is the acceptance authority for its warm editorial paper, navy-and-gold ink illustration language, serif/italic display hierarchy, hairline rules, asymmetrical desktop composition, spacing rhythm, and narrative flow. Approved AIT English-learning copy and the real Method video replace only the mock's graphic-design claims and testimonial; no other visual translation or design-system exception is implied.
 
 ## Locked behavior, content, and state
 
@@ -36,7 +36,9 @@ Translate its warm editorial paper, navy-and-gold ink illustrations, strong seri
 ## Composition invariants
 
 - The opening is two-column on desktop and keeps the title dominant over the illustration.
+- The trust line stays visually attached to the opening copy, rather than creating a separate opening row.
 - Numbered questions read as editorial rows, never boxed cards.
+- Desktop questions preserve the source's asymmetry: the serif heading sits left of the three rule-separated rows.
 - The solution bridge is a distinct warm panel with copy readable before its illustration.
 - Three principles form one horizontal band on desktop and stack cleanly on mobile.
 - The final video chapter feels conclusive and keeps the portrait media at a useful size.
