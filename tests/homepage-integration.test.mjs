@@ -234,6 +234,16 @@ describe("homepage React integration", () => {
       styles,
       /Homepage balance pass:[\s\S]*grid-template-rows: minmax\(0, 1fr\) auto;[\s\S]*method-editorial__questions[\s\S]*grid-template-columns: minmax\(0, 1fr\);[\s\S]*#libros[\s\S]*background: var\(--home-navy\)/,
     );
+    assert.match(sections, /method-editorial__opening/);
+    assert.match(sections, /graphic-concept-compass\.webp/);
+    assert.match(sections, /graphic-concept-path\.webp/);
+    assert.match(sections, /method-editorial__principles/);
+    assert.match(sections, /method-editorial__closing/);
+    assert.match(content, /Mira cómo funciona Graphic Concept\./);
+    assert.match(
+      styles,
+      /Graphic Concept reference pass:[\s\S]*method-editorial__opening[\s\S]*method-editorial__bridge-art[\s\S]*method-editorial__principles[\s\S]*method-editorial__closing/,
+    );
   });
 
   it("keeps the book route in the section-reading order", async () => {

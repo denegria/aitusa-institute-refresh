@@ -61,12 +61,23 @@ export function MethodSection() {
   return (
     <section className="method-section" id="metodo" aria-labelledby="method-title">
       <div className="method-editorial">
-        <header className="method-editorial__intro section-heading section-heading--framed">
-          <p className="method-kicker">{methodNarrative.eyebrow || "Método Graphic Concept"}</p>
-          <h2 id="method-title">{methodNarrative.heading || ""}</h2>
-          <p className="method-editorial__promise">{methodNarrative.promise || ""}</p>
-          <p className="method-editorial__intro-copy">{methodNarrative.introduction || ""}</p>
-        </header>
+        <div className="method-editorial__opening">
+          <header className="method-editorial__intro section-heading section-heading--framed">
+            <p className="method-kicker">{methodNarrative.eyebrow || "Método Graphic Concept"}</p>
+            <h2 id="method-title">{methodNarrative.heading || ""}</h2>
+            <p className="method-editorial__promise">{methodNarrative.promise || ""}</p>
+            <p className="method-editorial__intro-copy">{methodNarrative.introduction || ""}</p>
+          </header>
+          <figure className="method-editorial__compass" aria-hidden="true">
+            <img
+              src="/assets/method/graphic-concept-compass.webp"
+              alt=""
+              width="900"
+              height="900"
+              loading="lazy"
+            />
+          </figure>
+        </div>
         <section className="method-editorial__pain" aria-labelledby="method-pain-title">
           <div className="method-editorial__pain-copy">
             <p className="method-story-kicker">{methodNarrative.painEyebrow || "Lo que escuchamos"}</p>
@@ -83,24 +94,43 @@ export function MethodSection() {
           </ul>
         </section>
         <div className="method-editorial__bridge">
-          <p className="method-story-kicker">{methodNarrative.solutionEyebrow || "La respuesta"}</p>
-          <h3>{methodNarrative.solutionHeading || "Una ruta clara para comprender, hablar y avanzar."}</h3>
-          <p>{methodNarrative.solutionIntroduction || ""}</p>
+          <div className="method-editorial__bridge-copy">
+            <p className="method-story-kicker">{methodNarrative.solutionEyebrow || "La respuesta"}</p>
+            <h3>{methodNarrative.solutionHeading || "Una ruta clara para comprender, hablar y avanzar."}</h3>
+          </div>
+          <p className="method-editorial__bridge-intro">{methodNarrative.solutionIntroduction || ""}</p>
+          <img
+            className="method-editorial__bridge-art"
+            src="/assets/method/graphic-concept-path.webp"
+            alt=""
+            width="1200"
+            height="800"
+            loading="lazy"
+            aria-hidden="true"
+          />
         </div>
-        <div className="method-editorial__solution">
-          <div className="method-editorial__solution-copy">
+        <section className="method-editorial__principles" aria-labelledby="method-principles-title">
+          <div className="method-editorial__principles-heading">
             <p className="method-story-kicker">{methodNarrative.reasonsEyebrow || "De la pregunta a la práctica"}</p>
-            <h3>{methodNarrative.reasonsHeading || "Tres razones para avanzar con más facilidad."}</h3>
-            <ul className="method-reasons" aria-label="Resumen del método en tres razones">
-              {solutionCharacteristics.map((item) => (
-                <li key={item.key}>
-                  <span className="method-reason__icon" aria-hidden="true">
-                    <i data-lucide={item.icon || "circle-check"} />
-                  </span>
-                  <div><h4>{item.title}</h4><p>{item.body}</p></div>
-                </li>
-              ))}
-            </ul>
+            <h3 id="method-principles-title">{methodNarrative.reasonsHeading || "Tres razones para avanzar con más facilidad."}</h3>
+          </div>
+          <ul className="method-reasons" aria-label="Resumen del método en tres razones">
+            {solutionCharacteristics.map((item, index) => (
+              <li key={item.key}>
+                <div className="method-reason__mark" aria-hidden="true">
+                  <span className="method-reason__icon"><i data-lucide={item.icon || "circle-check"} /></span>
+                  <span className="method-reason__number">{String(index + 1).padStart(2, "0")}</span>
+                </div>
+                <div><h4>{item.title}</h4><p>{item.body}</p></div>
+              </li>
+            ))}
+          </ul>
+        </section>
+        <div className="method-editorial__closing">
+          <div className="method-editorial__closing-copy">
+            <p className="method-story-kicker">{methodNarrative.videoEyebrow || "El método en acción"}</p>
+            <h3>{methodNarrative.videoHeading || "Mira cómo funciona Graphic Concept."}</h3>
+            <p>{methodNarrative.videoIntroduction || ""}</p>
           </div>
           <MethodVideo narrative={methodNarrative} />
         </div>

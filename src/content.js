@@ -3130,6 +3130,10 @@ const methodNarrative = {
     "Graphic Concept convierte esas frustraciones en una secuencia visual: primero comprendes, después hablas y, con práctica guiada, avanzas a tu ritmo.",
   reasonsEyebrow: "De la pregunta a la práctica",
   reasonsHeading: "Tres razones para avanzar con más facilidad.",
+  videoEyebrow: "El método en acción",
+  videoHeading: "Mira cómo funciona Graphic Concept.",
+  videoIntroduction:
+    "En 1:45 conocerás la idea completa y cómo pasa de la comprensión a la práctica.",
   videoLabel: "Conoce el método completo · 1:45",
   videoAriaLabel: "Conoce el método Graphic Concept completo",
   video: site.images.introVideo,

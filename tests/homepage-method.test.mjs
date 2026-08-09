@@ -71,9 +71,9 @@ describe("homepage Method story", () => {
     assert.match(method, /aria-label="Resumen del método en tres razones"/);
     assert.match(method, /<ul className="method-reasons"/);
     assert.match(method, /className="method-reason__icon"/);
+    assert.match(method, /className="method-reason__number"/);
     assert.match(method, /data-lucide=/);
     assert.match(method, /aria-hidden="true"/);
-    assert.doesNotMatch(method, /method-reason__number/);
     assert.doesNotMatch(method, /<ol class="method-reasons"/);
     assert.match(method, /narrative\.video/);
     assert.doesNotMatch(method, /role="tablist"/);
@@ -112,11 +112,14 @@ describe("homepage Method story", () => {
     assert.match(source, /method-editorial__intro/);
     assert.match(source, /method-editorial__pain/);
     assert.match(source, /method-editorial__bridge/);
-    assert.match(source, /method-editorial__solution/);
+    assert.match(source, /method-editorial__principles/);
+    assert.match(source, /method-editorial__closing/);
+    assert.match(source, /graphic-concept-compass\.webp/);
+    assert.match(source, /graphic-concept-path\.webp/);
     assert.match(source, /method-video-frame/);
     assert.match(
       styles,
-      /\.method-editorial\s*\{[\s\S]*grid-template-areas:[\s\S]*"intro media"[\s\S]*"reasons media"/,
+      /Graphic Concept reference pass:[\s\S]*\.home-page #metodo \.method-editorial\s*\{[\s\S]*display: flex;[\s\S]*flex-direction: column/,
     );
     assert.match(
       styles,
@@ -128,42 +131,37 @@ describe("homepage Method story", () => {
     );
     assert.match(
       styles,
-      /@media \(max-width: 719px\)[\s\S]*grid-template-areas:[\s\S]*"intro"[\s\S]*"media"[\s\S]*"reasons"/,
+      /Graphic Concept reference pass:[\s\S]*\.method-editorial__opening[\s\S]*grid-template-columns: minmax\(0, 1\.13fr\) minmax\(340px, 0\.87fr\)/,
     );
     assert.match(
       styles,
-      /@media \(min-width: 1600px\) and \(min-height: 820px\)[\s\S]*\.method-editorial\s*\{[\s\S]*grid-template-columns: minmax\(0, 1\.52fr\) minmax\(400px, 0\.68fr\)/,
+      /Graphic Concept reference pass:[\s\S]*\.method-editorial__questions li\s*\{[\s\S]*grid-template-columns: 62px 14px minmax\(0, 1fr\)/,
     );
     assert.match(
       styles,
-      /@media \(min-width: 1600px\) and \(min-height: 820px\)[\s\S]*\.method-reasons\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\);[\s\S]*align-self: stretch/,
+      /Graphic Concept reference pass:[\s\S]*\.method-editorial__bridge\s*\{[\s\S]*grid-template-columns: minmax\(0, 1\.05fr\) minmax\(220px, 0\.66fr\) minmax\(280px, 0\.86fr\)/,
     );
     assert.match(
       styles,
-      /@media \(min-width: 1181px\) and \(max-width: 1599px\) and \(min-height: 768px\)[\s\S]*\.method-reasons\s*\{[\s\S]*grid-template-rows: repeat\(3, minmax\(0, 1fr\)\);[\s\S]*align-self: stretch/,
+      /Graphic Concept reference pass:[\s\S]*\.method-editorial__principles \.method-reasons\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);[\s\S]*grid-template-rows: auto/,
     );
     assert.match(
       styles,
-      /@media \(min-width: 1600px\) and \(min-height: 820px\)[\s\S]*\.method-reasons li > div\s*\{[\s\S]*display: block;[\s\S]*max-width: 720px/,
+      /Graphic Concept reference pass:[\s\S]*\.method-editorial__closing\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\) minmax\(330px, 0\.72fr\)/,
     );
     assert.match(
       styles,
-      /@media \(min-width: 1600px\) and \(min-height: 820px\)[\s\S]*\.method-editorial\s*\{[\s\S]*height: calc\(100% - clamp\(32px, 6svh, 64px\)\);[\s\S]*min-height: min\(790px, 100%\)/,
+      /@media \(max-width: 1040px\)[\s\S]*\.home-page #metodo \.method-editorial__pain\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)/,
     );
     assert.match(
       styles,
-      /@media \(min-width: 1600px\) and \(min-height: 820px\)[\s\S]*\.method-editorial__media\s*\{[\s\S]*clamp\(360px, calc\(\(100svh - 190px\) \* 0\.5577\), 430px\)/,
+      /@media \(max-width: 719px\)[\s\S]*\.home-page #metodo \.method-editorial__opening\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)/,
     );
     assert.match(
       styles,
-      /@media \(min-width: 1600px\) and \(min-height: 820px\)[\s\S]*\.method-editorial__intro > p:last-child\s*\{[\s\S]*font-size: 1\.06rem;[\s\S]*font-weight: 500;[\s\S]*\.method-reasons p\s*\{[\s\S]*font-size: 1\.05rem;[\s\S]*font-weight: 500;/,
+      /@media \(max-width: 719px\)[\s\S]*\.home-page #metodo \.method-editorial__principles \.method-reasons\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)/,
     );
-    assert.match(
-      styles,
-      /@media \(min-width: 2200px\) and \(min-height: 1200px\)[\s\S]*\.method-section\s*\{[\s\S]*height: min\(1120px, calc\(100svh - 94px\)\)[\s\S]*\.method-editorial\s*\{[\s\S]*grid-template-rows: auto auto;[\s\S]*align-content: center/,
-    );
-    assert.match(styles, /Homepage annotation pass 2:[\s\S]*\.home-page #metodo[\s\S]*min-height: clamp\(1450px, 178svh, 1820px\)/);
-    assert.match(styles, /\.home-page #metodo \.method-editorial__questions[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)/);
+    assert.match(styles, /Graphic Concept reference pass:[\s\S]*mix-blend-mode: multiply/);
   });
 
   it("keeps the mobile summary legible and the safe-area header fill intact", async () => {
@@ -171,7 +169,7 @@ describe("homepage Method story", () => {
 
     assert.match(
       styles,
-      /@media \(max-width: 719px\)[\s\S]*\.method-reasons h3\s*\{[\s\S]*font-size: 0\.83rem/,
+      /@media \(max-width: 719px\)[\s\S]*\.home-page #metodo \.method-editorial__closing\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\);[\s\S]*gap: 38px/,
     );
     assert.match(
       styles,

@@ -1062,3 +1062,11 @@ do next. “Unavailable” must never look like “broken.”
   comparison evaluates palette hierarchy and surface balance, not pixel cloning.
 - Exact staging commit/deployment and Linear evidence. Production stays out of
   scope until explicit approval.
+
+---
+
+# Graphic Concept Method reference implementation — 2026-08-09
+
+The scoped workflow, visual direction, locked content, responsive invariants,
+and closeout evidence are recorded in
+`references/design-acceptance-contract-method-concept.md`.

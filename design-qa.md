@@ -132,8 +132,6 @@ No actionable P0, P1, or P2 findings remain.
 
 passed
 
----
-
 # Design QA — AIT USA institutional student journey palette
 
 ## Source and implementation evidence
@@ -193,3 +191,12 @@ action emphasis, and institutional tone rather than pixel-level cloning.
 ## Final result
 
 passed
+
+---
+
+# Graphic Concept Method reference implementation — 2026-08-09
+
+The latest source-to-render comparison, responsive evidence, iteration history,
+and final result are recorded in `design-qa-method-concept.md`.
+
+Final result: passed
