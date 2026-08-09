@@ -36,18 +36,6 @@ export function HeroSection() {
               {painHero.objections.map((item) => <li key={item}><p>{item}</p></li>)}
             </ul>
           ) : null}
-          <div className="hero__conversion">
-            <div className="button-row hero__actions">
-              <a className="button button--primary" href={conversionCtas.placement?.href || "/placement-test/"}>
-                {painHero.ctas?.primary || "Conoce tu nivel"}
-                <i data-lucide="arrow-right" aria-hidden="true" />
-              </a>
-              <a className="button button--ghost" href="#metodo">
-                <i data-lucide="circle-play" aria-hidden="true" />
-                {painHero.ctas?.secondary || "Explora el método"}
-              </a>
-            </div>
-          </div>
           <nav className="hero__modalities" aria-label="Formatos de clase">
             <a href="/cursos/#ingles-presencial"><i data-lucide="users-round" aria-hidden="true" /><span>Presencial</span></a>
             <a href="/cursos/#ingles-online"><i data-lucide="laptop" aria-hidden="true" /><span>Online</span></a>
@@ -104,11 +92,10 @@ export function MethodSection() {
 }
 
 const supportingPrograms = [
-  { label: "Inglés para niños", href: "/cursos/ingles-ninos/" },
   { label: "GED", href: "/cursos/ged/" },
   { label: "Computación", href: "/cursos/#computacion-y-cursos-tecnicos" },
   { label: "Español para extranjeros", href: "/cursos/espanol-extranjeros/" },
-  { label: "Programas de apoyo", href: "/cursos/#apoyo-academico" },
+  { label: "Tutorías de matemáticas", href: "/cursos/tutorias-matematicas/" },
 ];
 
 export function OfferingPathSection() {
@@ -134,7 +121,11 @@ export function OfferingPathSection() {
                 {item.emphasis === "primary" ? <span className="offer-node__status">Programa principal</span> : null}
                 <h3>{item.title}</h3>
                 <p>
-                  <span className="offer-node__summary-full">{item.summary}</span>
+                  <span className="offer-node__summary-full">
+                    {item.summaryLead ? <strong className="offer-node__summary-lead">{item.summaryLead}</strong> : null}
+                    {item.summaryLead ? " " : ""}
+                    {item.summary}
+                  </span>
                   <span className="offer-node__summary-compact">{item.mobileSummary || item.summary}</span>
                 </p>
               </div>
@@ -175,6 +166,7 @@ export function LocationsSection() {
           locations={mapped}
           hours={hours}
           hoursTitle="Bound Brook · Sede principal"
+          hoursEyebrow="Horario de atención administrativo"
           whatsappHref={site.whatsappHref}
         />
       </div>

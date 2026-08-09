@@ -22,7 +22,7 @@ describe("homepage Method story", () => {
     assert.equal(methodNarrative.videoLabel, "Conoce el método completo · 1:45");
     assert.equal(
       methodNarrative.introduction,
-      "Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. Así nació Graphic Concept: una forma diferente de aprender, creada para ayudarte a comprender y hablar inglés sin memorizar listas interminables.",
+      "Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. Así nació Graphic Concept: un método visual, fácil de aprender y pensado para cualquier persona, sin importar su nivel académico. Te ayuda a comprender y hablar inglés con más facilidad y fluidez, sin memorizar listas interminables.",
     );
     assert.deepEqual(
       Array.from(solutionCharacteristics, (item) => item.title),

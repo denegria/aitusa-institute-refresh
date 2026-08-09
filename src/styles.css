@@ -10454,3 +10454,122 @@ textarea {
     line-height: 1.25;
   }
 }
+
+/* Homepage annotation pass: make route links legible, increase the Method
+   chapter's editorial breathing room, and turn course CTAs into clear actions. */
+.hero__modalities a {
+  border: 1px solid transparent;
+  border-radius: 6px;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease;
+}
+
+.hero__modalities a:hover,
+.hero__modalities a:focus-visible {
+  border-color: rgba(0, 26, 61, 0.18);
+  background: #eef3ff;
+  box-shadow: inset 0 -3px 0 #d9b45d, 0 8px 18px rgba(0, 26, 61, 0.1);
+  color: var(--home-navy, #001a3d);
+}
+
+.hero__modalities a:hover svg,
+.hero__modalities a:focus-visible svg {
+  color: #b57d17;
+}
+
+.hero__modalities a:focus-visible {
+  outline: 2px solid #4f84f6;
+  outline-offset: -2px;
+}
+
+.home-page #cursos .offer-node__summary-lead {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--home-navy, #001a3d);
+  font-weight: 850;
+}
+
+.home-page #cursos .offer-node--primary .offer-node__summary-lead {
+  color: #ffffff;
+}
+
+@media (min-width: 720px) {
+  .home-page #cursos .offer-node__link {
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid rgba(0, 26, 61, 0.2);
+    border-radius: 6px;
+    background: rgba(0, 26, 61, 0.045);
+    box-shadow: 0 4px 12px rgba(0, 26, 61, 0.08);
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      background-color 160ms ease,
+      box-shadow 160ms ease,
+      color 160ms ease;
+  }
+
+  .home-page #cursos .offer-node__link:hover,
+  .home-page #cursos .offer-node__link:focus-visible {
+    border-color: var(--home-blue, #174ea6);
+    background: var(--home-blue, #174ea6);
+    box-shadow: 0 8px 18px rgba(23, 78, 166, 0.2);
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+
+  .home-page #cursos .offer-node--primary .offer-node__link {
+    border-color: rgba(255, 255, 255, 0.34);
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+  }
+
+  .home-page #cursos .offer-node--primary .offer-node__link:hover,
+  .home-page #cursos .offer-node--primary .offer-node__link:focus-visible {
+    border-color: #d9b45d;
+    background: #d9b45d;
+    color: var(--home-navy, #001a3d);
+  }
+}
+
+@media (min-width: 1041px) and (max-width: 2199px) {
+  .home-page #metodo {
+    height: auto;
+    min-height: clamp(820px, calc(100svh - 76px), 1120px);
+    padding-block: clamp(40px, 5svh, 72px);
+  }
+
+  .home-page #metodo .method-editorial {
+    width: min(100%, 1320px);
+    min-height: clamp(720px, calc(100svh - 180px), 940px);
+  }
+}
+
+@media (min-width: 1041px) and (max-width: 1599px) {
+  .home-page #metodo .method-editorial {
+    grid-template-columns: minmax(0, 1.2fr) minmax(360px, 0.8fr);
+    column-gap: clamp(44px, 4.5vw, 76px);
+  }
+
+  .home-page #metodo .method-editorial__media {
+    width: min(100%, 430px);
+    max-width: 430px;
+  }
+}
+
+@media (min-width: 1600px) and (max-width: 2199px) {
+  .home-page #metodo .method-editorial__media {
+    width: min(100%, 460px);
+    max-width: 460px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__modalities a,
+  .home-page #cursos .offer-node__link {
+    transition: none;
+  }
+}

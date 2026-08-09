@@ -42,18 +42,20 @@ describe("homepage React integration", () => {
     assert.match(source, /offer-node__status/);
     assert.match(source, /Programa principal/);
     assert.match(source, /catalog-programs/);
-    assert.match(source, /Inglés para niños/);
-    assert.match(source, /\/cursos\/ingles-ninos\//);
+    assert.doesNotMatch(source, /Inglés para niños/);
+    assert.doesNotMatch(source, /\/cursos\/ingles-ninos\//);
     assert.match(source, /\/cursos\/ged\//);
     assert.match(source, /computacion-y-cursos-tecnicos/);
     assert.match(source, /\/cursos\/espanol-extranjeros\//);
-    assert.match(source, /apoyo-academico/);
+    assert.match(source, /Tutorías de matemáticas/);
+    assert.match(source, /\/cursos\/tutorias-matematicas\//);
+    assert.doesNotMatch(source, /apoyo-academico/);
     assert.deepEqual(
       productOfferings.slice(0, 3).map((offering) => offering.mobileSummary),
       [
         "Práctica cara a cara con corrección inmediata en Nueva Jersey.",
         "Combina clases presenciales y apoyo remoto.",
-        "Estudia en vivo desde casa o desde otro país.",
+        "Clases en vivo, nunca grabadas, desde casa o desde otro país.",
       ],
     );
     assert.match(source, /offer-node__summary-compact/);
@@ -97,6 +99,7 @@ describe("homepage React integration", () => {
     assert.match(source, /<ScheduleGroup key=\{group\.label\} group=\{group\}/);
     assert.match(source, /data-schedule-slot/);
     assert.match(sections, /hoursTitle="Bound Brook · Sede principal"/);
+    assert.match(sections, /hoursEyebrow="Horario de atención administrativo"/);
     assert.match(locationExplorer, /<h3 id="location-hours-title">\{hoursTitle\}<\/h3>/);
     assert.doesNotMatch(source, /<details|<summary|location-hours-panel__toggle/);
     assert.match(sections, /!?\["pending", "online"\]\.includes\(location\.status\)/);
@@ -130,7 +133,7 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(placement, /Primero recibes valor|privacyNote|notice-box/);
   });
 
-  it("keeps the approved hero hierarchy and two primary actions", async () => {
+  it("keeps the approved hero hierarchy without the removed hero CTAs", async () => {
     const { sections } = await readSources();
     const hero = sections.slice(
       sections.indexOf("export function HeroSection"),
@@ -139,23 +142,24 @@ describe("homepage React integration", () => {
     assert.match(hero, /hero__title-block/);
     assert.match(hero, /hero__summary/);
     assert.match(hero, /hero__objections/);
-    assert.match(hero, /hero__conversion/);
-    assert.equal((hero.match(/className="button button--/g) || []).length, 2);
+    assert.match(hero, /hero__modalities/);
+    assert.doesNotMatch(hero, /hero__conversion/);
+    assert.equal((hero.match(/className="button button--/g) || []).length, 0);
     assert.ok(hero.indexOf("hero__summary") < hero.indexOf("hero__objections"));
-    assert.ok(hero.indexOf("hero__objections") < hero.indexOf("hero__conversion"));
+    assert.ok(hero.indexOf("hero__objections") < hero.indexOf("hero__modalities"));
   });
 
   it("keeps the institutional proof band factual, visible, and non-duplicative", async () => {
     const { institutionalProof, painHero } = await import("../src/content.js");
     const { sections } = await readSources();
 
-    assert.equal(painHero.eyebrow, "Escuela de inglés en Nueva Jersey");
+    assert.equal(painHero.eyebrow, "Una escuela de inglés diferente para gente con propósito");
     assert.equal(institutionalProof.length, 4);
     assert.deepEqual(
       institutionalProof.map((proof) => proof.value),
       ["Desde 2004", "+1,000", "4 sedes", "Alcance internacional"],
     );
-    assert.match(institutionalProof.at(-1).label, /EE\. UU\., Centroamérica y Sudamérica/);
+    assert.match(institutionalProof.at(-1).label, /EE\. UU\., Centroamérica, Sudamérica y Europa/);
     assert.match(sections, /className="hero__institutional-band"/);
     assert.match(sections, /institutionalProof\.map/);
   });

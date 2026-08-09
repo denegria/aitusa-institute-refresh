@@ -3082,9 +3082,9 @@ const faqs = [
 ];
 
 const painHero = {
-  eyebrow: "Escuela de inglés en Nueva Jersey",
-  headline: "Comprende el inglés. Exprésate con confianza.",
-  headlineLead: "Comprende el inglés.",
+  eyebrow: "Una escuela de inglés diferente para gente con propósito",
+  headline: "Supera el inglés. Exprésate con confianza.",
+  headlineLead: "Supera el inglés.",
   headlineEmphasis: "Exprésate con confianza.",
   headlineAccent: "",
   subheadline:
@@ -3097,11 +3097,6 @@ const painHero = {
     "¿Llevas tiempo intentando hablar inglés y todavía no lo logras?",
     "¿Te obligan a memorizar miles de palabras y sientes que no te alcanzan ni el tiempo ni la cabeza?",
   ],
-  ctas: {
-    primary: "Conoce tu nivel",
-    secondary: "Explora el método",
-    tertiary: "Ver cursos detallados",
-  },
 };
 
 const institutionalProof = [
@@ -3119,7 +3114,7 @@ const institutionalProof = [
   },
   {
     value: "Alcance internacional",
-    label: "EE. UU., Centroamérica y Sudamérica",
+    label: "EE. UU., Centroamérica, Sudamérica y Europa",
   },
 ];
 
@@ -3127,7 +3122,7 @@ const methodNarrative = {
   eyebrow: "Método Graphic Concept",
   heading: "Tres razones por las que somos diferentes.",
   introduction:
-    "Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. Así nació Graphic Concept: una forma diferente de aprender, creada para ayudarte a comprender y hablar inglés sin memorizar listas interminables.",
+    "Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. Así nació Graphic Concept: un método visual, fácil de aprender y pensado para cualquier persona, sin importar su nivel académico. Te ayuda a comprender y hablar inglés con más facilidad y fluidez, sin memorizar listas interminables.",
   videoLabel: "Conoce el método completo · 1:45",
   videoAriaLabel: "Conoce el método Graphic Concept completo",
   video: site.images.introVideo,
@@ -3215,10 +3210,11 @@ const productOfferings = [
     marker: "Online",
     emphasis: "secondary",
     audience: "Estudiantes en otros lugares o con agenda remota",
+    summaryLead: "Clases en vivo, nunca grabadas.",
     summary:
       "Conéctate desde casa o desde otro país con práctica en vivo; coordinamos el horario según tu nivel y zona horaria.",
     mobileSummary:
-      "Estudia en vivo desde casa o desde otro país.",
+      "Clases en vivo, nunca grabadas, desde casa o desde otro país.",
     details: [
       "Ideal para estudiantes fuera de Nueva Jersey.",
       "WhatsApp y orientación para elegir nivel y horario.",
