@@ -81,6 +81,10 @@ export function MethodSection() {
               loading="lazy"
             />
           </figure>
+          <p className="method-editorial__trust-note">
+            <i data-lucide="shield-check" aria-hidden="true" />
+            <span>Educación para adultos. Enfoque humano. Resultados reales.</span>
+          </p>
         </div>
         <section className="method-editorial__pain" aria-labelledby="method-pain-title">
           <div className="method-editorial__pain-copy">
@@ -148,6 +152,10 @@ export function MethodSection() {
           </div>
           <MethodVideo narrative={methodNarrative} />
         </div>
+        <footer className="method-editorial__footer-note">
+          <i data-lucide="shield-check" aria-hidden="true" />
+          <p>No se trata de dónde empiezas, sino de hasta dónde puedes llegar. <em>Estamos aquí para ayudarte a lograrlo.</em></p>
+        </footer>
       </div>
     </section>
   );

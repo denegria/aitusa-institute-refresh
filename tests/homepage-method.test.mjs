@@ -22,16 +22,16 @@ describe("homepage Method story", () => {
     assert.equal(methodNarrative.videoLabel, "Conoce el método completo · 1:45");
     assert.equal(
       methodNarrative.introduction,
-      "Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. Así nació Graphic Concept: un método visual, fácil de aprender y pensado para cualquier persona, sin importar su nivel académico. Te ayuda a comprender y hablar inglés con más facilidad y fluidez, sin memorizar listas interminables.",
+      "Creado para adultos con poco tiempo que quieren comprender, hablar y avanzar sin memorizar listas interminables.",
     );
     assert.equal(
       methodNarrative.promise,
-      "Graphic Concept es nuestro método visual para ayudarte a pensar en inglés y comunicarte en el trabajo, los estudios y la vida diaria.",
+      "En AIT USA Institute convertimos el inglés en un aprendizaje visual, práctico y humano.",
     );
     assert.deepEqual(methodNarrative.painPoints, [
-      "¿Quieres hablar inglés rápido, fácil y sin estrés?",
-      "¿Llevas tiempo intentando hablar inglés y todavía no lo logras?",
-      "¿Te obligan a memorizar miles de palabras y sientes que no te alcanzan ni el tiempo ni la cabeza?",
+      "¿Puedo aprender inglés si empiezo desde cero?",
+      "¿Tendré tiempo para estudiar y cumplir mis metas?",
+      "¿Este conocimiento realmente me ayudará a trabajar en lo que me apasiona?",
     ]);
     assert.deepEqual(
       Array.from(solutionCharacteristics, (item) => item.title),

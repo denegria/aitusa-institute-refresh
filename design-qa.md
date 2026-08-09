@@ -258,3 +258,63 @@ Final result: passed
 - P3: If the site later adopts a licensed editorial serif as a global brand token, replace the local system-serif fallback with that approved family.
 
 final result: passed
+
+---
+
+# Graphic Concept final fidelity pass — 2026-08-09
+
+## Comparison target and evidence
+
+- Source visual truth: `C:\Users\Alvaro\AppData\Local\Temp\codex-clipboard-2f56a5cb-d1db-42be-97c1-0f377844089b.png` (379 × 800 physical px).
+- Browser-rendered implementation: `http://localhost:3020/#metodo`, paused video state with the site navigation visible.
+- Mobile evidence: `C:\Users\Alvaro\AppData\Local\Temp\ait-method-mobile-final.png` at 379 × 800 browser viewport, 364 CSS px content width, DPR 1.
+- Desktop evidence: `C:\Users\Alvaro\AppData\Local\Temp\ait-method-desktop-top-final.png`, `ait-method-desktop-mid-final.png`, and `ait-method-desktop-bottom-final.png` at 1440 × 900 browser viewport, 1425 CSS px content width, DPR 1.
+- The source and each final implementation capture were emitted together in the same comparison input. Focused top, middle, and closing comparisons were necessary because the responsive web section is taller than a single desktop viewport.
+
+## Findings and fixes
+
+### Fonts and typography
+
+- Earlier implementation still used heavy homepage sans headings for the bridge, principles, and proof close. This was a P1 mismatch against the reference's consistent editorial-serif voice.
+- Fixed with a section-scoped Georgia serif stack, restrained weights, tighter letter spacing, smaller copy, and the exact three-line gold-italic title treatment.
+
+### Spacing and layout rhythm
+
+- Earlier mobile evidence stacked the compass below a long text block and produced a 2536 px chapter, losing the reference composition. The questions and solution also read as separate homepage panels rather than one editorial board.
+- Fixed by pairing the compass with the title at mobile, shortening the introduction, restoring four compact learner cues, placing the question label beside its numbered rules, keeping a shallow two-track bridge, and retaining three equal principle columns. Final mobile section height is 1828 px with no horizontal overflow; desktop height is 2071 px within the centered 1040 px editorial board.
+
+### Colors and visual tokens
+
+- The final implementation uses the reference's paper ivory, AIT navy, muted gold, and hairline rules. No gradient, card shadow, or high-chroma treatment competes with the board.
+
+### Image quality and asset fidelity
+
+- The project-local compass and staircase WebP assets are sharp, correctly scaled, and use the source's ink-on-paper treatment. The proof area retains a real AIT portrait video and its working native controls. No visible reference asset is replaced by CSS art or a fabricated drawing.
+
+### Copy and content
+
+- Copy is now deliberately short and follows the source sequence: adult-learning promise, four barriers, three questions, Graphic Concept answer, three principles, real-student proof, and the closing reassurance.
+- English-learning language remains accurate to AIT's product direction while matching the reference's line lengths and information density.
+
+## Comparison history
+
+1. Prior staging state: P1 typography and density drift remained; mobile opening was one long column and several headings were heavy sans.
+2. First final-pass correction: shortened copy, restored serif hierarchy, added the trust and closing reassurance, and compressed mobile composition. Same-input comparison found the mobile question label still stacked above its rules.
+3. Second correction: moved the trust note into the opening grid and placed the mobile question label beside its numbered rows. Post-fix same-input comparison showed the source hierarchy at both 379 × 800 and 1440 × 900, with no P0/P1/P2 visual mismatch remaining.
+
+## Responsive, interaction, and runtime checks
+
+- Mobile: 364/364 CSS document width; no horizontal overflow.
+- Desktop: 1425/1425 CSS document width; no horizontal overflow.
+- Video remains visible, paused, and interactive with native controls.
+- Navigation remains visible and unchanged.
+- Browser console warning/error scan returned no entries.
+
+## Severity review
+
+- P0: none.
+- P1: none remaining.
+- P2: none remaining.
+- P3: an approved licensed editorial serif could replace the system-serif fallback later; this does not block fidelity.
+
+final result: passed
