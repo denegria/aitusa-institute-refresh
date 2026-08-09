@@ -198,7 +198,8 @@ export function BooksSection() {
   return (
     <section className="section books-section" id="libros" aria-labelledby="books-title">
       <div className="section-inner books-section__inner">
-        <header className="section-heading books-section__heading">
+        <header className="section-heading section-heading--framed books-section__heading">
+          <p className="section-kicker">Ruta Graphic Concept</p>
           <h2 id="books-title">Nuestros libros.</h2>
         </header>
         <div className="books-gallery" aria-label="Colección de libros de AIT USA Institute">

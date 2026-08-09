@@ -215,6 +215,7 @@ describe("homepage React integration", () => {
     assert.match(sections, /className="section books-section" id="libros"/);
     assert.match(sections, /bookLibrary\.levels\.flatMap/);
     assert.match(sections, /books-gallery/);
+    assert.match(sections, /Ruta Graphic Concept/);
     assert.doesNotMatch(sections, /books-showcase/);
     assert.match(content, /intro-book-portada\.avif/);
     assert.match(sections, /chapter-accent chapter-accent--mobile/);
@@ -229,6 +230,10 @@ describe("homepage React integration", () => {
     );
     assert.match(styles, /\.home-page #sedes \.real-map-card__frame\s*\{[\s\S]*height: 158px/);
     assert.match(styles, /\.home-page #sedes \.location-rail-toolbar\s*\{[\s\S]*display: flex/);
+    assert.match(
+      styles,
+      /Homepage balance pass:[\s\S]*grid-template-rows: minmax\(0, 1fr\) auto;[\s\S]*method-editorial__questions[\s\S]*grid-template-columns: minmax\(0, 1fr\);[\s\S]*#libros[\s\S]*background: var\(--home-navy\)/,
+    );
   });
 
   it("keeps the book route in the section-reading order", async () => {

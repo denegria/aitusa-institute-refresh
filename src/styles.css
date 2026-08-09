@@ -11323,3 +11323,300 @@ textarea {
     width: min(100%, 184px);
   }
 }
+
+/* Homepage balance pass: anchor the hero formats, let the Method story read as
+   an editorial sequence, and present the books as one quiet collection. */
+@media (min-width: 1041px) {
+  .home-page #inicio .hero__copy {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    align-items: stretch;
+    padding: 0 0 clamp(44px, 6.2svh, 62px) var(--hero-gutter);
+  }
+
+  .home-page #inicio .hero__title-block {
+    align-self: center;
+    max-width: 520px;
+    padding-top: clamp(14px, 2.5svh, 26px);
+    transform: translateY(-2%);
+  }
+
+  .home-page #inicio .hero__modalities {
+    align-self: end;
+    margin-top: 0;
+  }
+}
+
+.home-page #metodo {
+  padding-block: clamp(84px, 11svh, 140px) clamp(104px, 14svh, 172px);
+}
+
+.home-page #metodo .method-editorial {
+  gap: clamp(72px, 10svh, 124px);
+}
+
+.home-page #metodo .method-editorial__intro {
+  max-width: 980px;
+}
+
+.home-page #metodo .method-editorial__intro h2 {
+  max-width: 880px;
+}
+
+.home-page #metodo .method-editorial__pain {
+  grid-template-columns: minmax(280px, 0.58fr) minmax(0, 1.42fr);
+  gap: clamp(52px, 6vw, 92px);
+  align-items: start;
+  padding-block: clamp(44px, 6svh, 72px);
+}
+
+.home-page #metodo .method-editorial__questions {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(0, 26, 61, 0.2);
+}
+
+.home-page #metodo .method-editorial__questions li {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  min-height: 0;
+  gap: 20px;
+  align-items: start;
+  padding: clamp(22px, 3svh, 30px) 0;
+  border: 0;
+  border-bottom: 1px solid rgba(0, 26, 61, 0.2);
+  background: transparent;
+  box-shadow: none;
+}
+
+.home-page #metodo .method-question__index {
+  padding-top: 2px;
+  color: var(--home-gold-text);
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.home-page #metodo .method-editorial__questions p {
+  max-width: 720px;
+  font-family: var(--font-display);
+  font-size: clamp(1.22rem, 1.8vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.home-page #metodo .method-editorial__bridge {
+  display: grid;
+  grid-template-areas:
+    "kicker heading"
+    ". body";
+  grid-template-columns: minmax(170px, 0.34fr) minmax(0, 1fr);
+  gap: 18px clamp(36px, 5vw, 78px);
+  max-width: none;
+  padding: clamp(38px, 5vw, 62px);
+  border: 0;
+  border-left: 4px solid var(--home-gold);
+  background: rgba(255, 255, 255, 0.58);
+  box-shadow: 0 22px 54px rgba(0, 26, 61, 0.06);
+}
+
+.home-page #metodo .method-editorial__bridge .method-story-kicker {
+  grid-area: kicker;
+  padding-top: 9px;
+}
+
+.home-page #metodo .method-editorial__bridge h3 {
+  grid-area: heading;
+  max-width: 760px;
+  margin-top: 0;
+}
+
+.home-page #metodo .method-editorial__bridge > p:last-child {
+  grid-area: body;
+  max-width: 720px;
+  margin-top: 0;
+}
+
+.home-page #metodo .method-editorial__solution {
+  grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+  gap: clamp(64px, 8vw, 112px);
+  align-items: center;
+}
+
+.home-page #metodo .method-editorial__solution .method-editorial__media {
+  align-self: center;
+}
+
+.home-page #libros {
+  padding-block: clamp(76px, 10svh, 118px) clamp(88px, 12svh, 132px);
+  background: var(--home-navy);
+}
+
+.home-page #libros .books-section__inner {
+  width: min(1240px, calc(100% - 32px));
+}
+
+.home-page #libros .books-section__heading {
+  max-width: 760px;
+  margin-bottom: clamp(48px, 7svh, 78px);
+  padding-left: clamp(20px, 2.2vw, 34px);
+  border-left: 4px solid var(--home-gold);
+}
+
+.home-page #libros .books-section__heading .section-kicker {
+  color: var(--home-gold-light);
+}
+
+.home-page #libros .books-section__heading h2 {
+  margin-top: 14px;
+  font-size: clamp(2.8rem, 5vw, 4.6rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.home-page #libros .books-gallery {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-rows: minmax(300px, auto);
+  gap: clamp(16px, 2vw, 28px);
+  align-items: end;
+}
+
+.home-page #libros .books-gallery figure,
+.home-page #libros .books-gallery__intro,
+.home-page #libros .books-gallery__book--1,
+.home-page #libros .books-gallery__book--2,
+.home-page #libros .books-gallery__book--3,
+.home-page #libros .books-gallery__book--4,
+.home-page #libros .books-gallery__book--5,
+.home-page #libros .books-gallery__book--6 {
+  grid-column: auto;
+  grid-row: auto;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.home-page #libros .books-gallery img,
+.home-page #libros .books-gallery__intro img {
+  width: 100%;
+  max-width: 172px;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: 0 22px 38px rgba(0, 8, 24, 0.4);
+}
+
+.home-page #libros .books-gallery__intro img {
+  max-width: 188px;
+}
+
+@media (max-width: 1040px) {
+  .home-page #metodo .method-editorial__pain,
+  .home-page #metodo .method-editorial__solution {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-page #metodo .method-editorial__questions li {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
+
+  .home-page #metodo .method-editorial__bridge {
+    grid-template-columns: minmax(140px, 0.3fr) minmax(0, 1fr);
+  }
+
+  .home-page #libros .books-gallery {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+
+  .home-page #libros .books-gallery__intro {
+    grid-column: auto;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 719px) {
+  .home-page #metodo {
+    padding-block: 64px 86px;
+  }
+
+  .home-page #metodo .method-editorial {
+    gap: 54px;
+  }
+
+  .home-page #metodo .method-editorial__pain {
+    gap: 30px;
+    padding-block: 34px;
+  }
+
+  .home-page #metodo .method-editorial__solution {
+    gap: 42px;
+  }
+
+  .home-page #metodo .method-editorial__questions li {
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 12px;
+    padding-block: 18px;
+    background: transparent;
+  }
+
+  .home-page #metodo .method-question__index {
+    font-size: 1.2rem;
+  }
+
+  .home-page #metodo .method-editorial__questions p {
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .home-page #metodo .method-editorial__bridge {
+    display: block;
+    padding: 28px 22px;
+    border-left: 3px solid var(--home-gold);
+  }
+
+  .home-page #metodo .method-editorial__bridge h3 {
+    margin-top: 10px;
+  }
+
+  .home-page #metodo .method-editorial__bridge > p:last-child {
+    margin-top: 14px;
+  }
+
+  .home-page #libros {
+    padding-block: 64px 78px;
+  }
+
+  .home-page #libros .books-section__heading {
+    margin-bottom: 40px;
+    padding-left: 16px;
+  }
+
+  .home-page #libros .books-section__heading h2 {
+    margin-top: 10px;
+    font-size: clamp(2.35rem, 11vw, 3.2rem);
+  }
+
+  .home-page #libros .books-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px 18px;
+  }
+
+  .home-page #libros .books-gallery figure,
+  .home-page #libros .books-gallery__intro {
+    min-height: 0;
+    padding: 0;
+  }
+
+  .home-page #libros .books-gallery img,
+  .home-page #libros .books-gallery__intro img {
+    width: min(100%, 154px);
+  }
+}
