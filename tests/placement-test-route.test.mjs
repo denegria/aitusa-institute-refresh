@@ -52,6 +52,22 @@ describe("MIS-265 placement test route", () => {
       body.placementTest.levelBlocks.map((block) => block.passCount),
       [9, 10, 7, 5, 6, 9],
     );
+    assert.deepEqual(
+      body.placementTest.levelBlocks.map((block) => [
+        block.start + 1,
+        block.start + block.count,
+        block.label,
+        block.book,
+      ]),
+      [
+        [1, 12, "Level 1", "Intro Book"],
+        [13, 25, "Level 2", "Book 1"],
+        [26, 35, "Level 3", "Book 2"],
+        [36, 42, "Level 4", "Book 3"],
+        [43, 50, "Level 5", "Book 4"],
+        [51, 62, "Level 6", "Book 5"],
+      ],
+    );
     assert.equal(body.crmWrite, false);
   });
 

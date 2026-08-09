@@ -72,6 +72,7 @@ const publicQuestions = placementTest.questions.flatMap((level, levelIndex) =>
     options: Object.freeze([...question.options]),
     levelIndex,
     levelLabel: level.level,
+    book: level.book,
   })),
 );
 

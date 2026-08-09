@@ -44,6 +44,37 @@ function quizAnswersForBlockScores(correctCounts) {
     ));
 }
 
+describe("placement academic book boundaries", () => {
+  it("maps every exact 1-based block boundary to its approved book label", () => {
+    const expected = [
+      [1, 12, "Level 1", "Intro Book"],
+      [13, 25, "Level 2", "Book 1"],
+      [26, 35, "Level 3", "Book 2"],
+      [36, 42, "Level 4", "Book 3"],
+      [43, 50, "Level 5", "Book 4"],
+      [51, 62, "Level 6", "Book 5"],
+    ];
+
+    assert.deepEqual(
+      PLACEMENT_LEVEL_BLOCKS.map((block) => [
+        block.start + 1,
+        block.start + block.count,
+        block.label,
+        block.book,
+      ]),
+      expected,
+    );
+
+    for (const [first, last, level, book] of expected) {
+      for (const questionNumber of [first, last]) {
+        const question = DIAGNOSTIC_QUESTION_BANK[questionNumber - 1];
+        assert.equal(question.levelLabel, `${level} (${book})`);
+        assert.equal(question.book, book);
+      }
+    }
+  });
+});
+
 describe("MIS-265 placement test model", () => {
   it("validates score and goal while allowing an anonymous result", () => {
     const validation = validatePlacementInput({
@@ -145,7 +176,7 @@ describe("MIS-265 placement test model", () => {
     assert.equal(score.placementReason, "advanced_cap_reached");
     assert.equal(score.finalScoringStatus, "advisor_review");
     assert.equal(score.advisorReviewRequired, true);
-    assert.equal(selectPlacementRecommendation(score).level, "Nivel 6 / Book 3 alto");
+    assert.equal(selectPlacementRecommendation(score).level, "Nivel 6 / Book 5 alto");
   });
 
   it("uses the normalized client answer-key decisions without exposing the key publicly", () => {

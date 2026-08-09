@@ -22,7 +22,7 @@ back/skip behavior, and a clear result-to-practice conversion moment.
 - Do not reveal correct/incorrect answers during the diagnostic.
 - Separate completion progress from academic exploration:
   - `Pregunta 18 de 62 · cerca de 8 min restantes`
-  - a Book 1 → Book 2 → Book 3 path with copy such as
+  - an Intro Book → Book 1 → Book 2 → Book 3 → Book 4 → Book 5 path with copy such as
     `Explorando preguntas de Nivel 2`
 - Never say a learner has qualified for a level before the approved scoring
   service produces the completed result.

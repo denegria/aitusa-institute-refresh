@@ -42,12 +42,12 @@ export const PLACEMENT_BLOCK_PASS_RATE = 0.7;
 export const PLACEMENT_WRITING_REVIEW_MODE = "advisor_only";
 
 export const PLACEMENT_LEVEL_BLOCKS = Object.freeze([
-  Object.freeze({ key: "level-1", label: "Level 1", book: "Book 1", start: 0, count: 12, passCount: 9 }),
+  Object.freeze({ key: "level-1", label: "Level 1", book: "Intro Book", start: 0, count: 12, passCount: 9 }),
   Object.freeze({ key: "level-2", label: "Level 2", book: "Book 1", start: 12, count: 13, passCount: 10 }),
   Object.freeze({ key: "level-3", label: "Level 3", book: "Book 2", start: 25, count: 10, passCount: 7 }),
-  Object.freeze({ key: "level-4", label: "Level 4", book: "Book 2", start: 35, count: 7, passCount: 5 }),
-  Object.freeze({ key: "level-5", label: "Level 5", book: "Book 3", start: 42, count: 8, passCount: 6 }),
-  Object.freeze({ key: "level-6", label: "Level 6", book: "Book 3", start: 50, count: 12, passCount: 9 }),
+  Object.freeze({ key: "level-4", label: "Level 4", book: "Book 3", start: 35, count: 7, passCount: 5 }),
+  Object.freeze({ key: "level-5", label: "Level 5", book: "Book 4", start: 42, count: 8, passCount: 6 }),
+  Object.freeze({ key: "level-6", label: "Level 6", book: "Book 5", start: 50, count: 12, passCount: 9 }),
 ]);
 
 let expectedBlockStart = 0;
@@ -67,7 +67,7 @@ if (expectedBlockStart !== PLACEMENT_QUIZ_QUESTION_COUNT) {
 export const PLACEMENT_RECOMMENDATIONS = Object.freeze([
   Object.freeze({
     key: "foundation",
-    level: "Nivel 1 / Book 1 base",
+    level: "Nivel 1 / Intro Book base",
     copy:
       "Te conviene empezar con una ruta base enfocada en comprensión, frases útiles y práctica guiada.",
     bestFit: "Inglés presencial u online para construir confianza desde cero.",
@@ -97,7 +97,7 @@ export const PLACEMENT_RECOMMENDATIONS = Object.freeze([
   }),
   Object.freeze({
     key: "book-3-entry",
-    level: "Nivel 5 / Book 3 inicial",
+    level: "Nivel 5 / Book 4 inicial",
     copy:
       "Puedes practicar estructuras más avanzadas, fluidez, escritura corta y situaciones de trabajo o estudio.",
     bestFit:
@@ -105,7 +105,7 @@ export const PLACEMENT_RECOMMENDATIONS = Object.freeze([
   }),
   Object.freeze({
     key: "book-3-upper",
-    level: "Nivel 6 / Book 3 alto",
+    level: "Nivel 6 / Book 5 alto",
     copy:
       "Tu resultado sugiere una ruta avanzada o de objetivos específicos, sujeta a entrevista o revisión de escritura.",
     bestFit:

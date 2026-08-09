@@ -34,6 +34,13 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.doesNotMatch(component, /Calificaste para/);
   });
 
+  it("renders the six-book academic path used by the question boundaries", () => {
+    for (const book of ["Intro Book", "Book 1", "Book 2", "Book 3", "Book 4", "Book 5"]) {
+      assert.match(component, new RegExp(`label: "${book}"`));
+    }
+    assert.match(component, /const currentBook = getBookKey\(question\.book\)/);
+  });
+
   it("does not calculate a fallback result in the browser", () => {
     assert.match(component, /fetch\("\/api\/placement-test"/);
     assert.doesNotMatch(component, /buildFallbackResult/);

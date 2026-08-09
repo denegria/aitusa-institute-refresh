@@ -3414,12 +3414,12 @@ const placementTest = {
       "First Name/Nombre",
       "Last Name/Apellido",
       "Telephone Number/Telefono",
-      "Level 1 (Book 1)",
+      "Level 1 (Intro Book)",
       "Level 2 (Book 1)",
       "Level 3 (Book 2)",
-      "Level 4 (Book 2)",
-      "Level 5 (Book 3)",
-      "Level 6 (Book 3)",
+      "Level 4 (Book 3)",
+      "Level 5 (Book 4)",
+      "Level 6 (Book 5)",
       "Free Writing",
     ],
     questionCount: 62,
@@ -3472,7 +3472,8 @@ const placementTest = {
   ],
   questions: [
     {
-      level: "Level 1 (Book 1)",
+      level: "Level 1 (Intro Book)",
+      book: "Intro Book",
       items: [
         { prompt: "1. My Father ____ 56 years old.", options: ["has", "are", "is", "I Don't Know"] },
         { prompt: "2. ___ I wrong?", options: ["Is", "Am", "Do", "I Don't Know"] },
@@ -3490,6 +3491,7 @@ const placementTest = {
     },
     {
       level: "Level 2 (Book 1)",
+      book: "Book 1",
       items: [
         { prompt: "13. Bob is _____ married. He’s single.", options: ["was", "not", "only", "I Don't Know"] },
         { prompt: "14. Where _____ your parents live?", options: ["does", "do", "were", "I Don't Know"] },
@@ -3508,6 +3510,7 @@ const placementTest = {
     },
     {
       level: "Level 3 (Book 2)",
+      book: "Book 2",
       items: [
         { prompt: "26. What did you give your mother for Christmas?", options: ["I gave her a plant.", "I gave to her a plant.", "I gave a plant.", "I Don't Know"] },
         { prompt: "27. There aren’t ____ cookies on my plate.", options: ["many", "much", "some", "I Don't Know"] },
@@ -3522,7 +3525,8 @@ const placementTest = {
       ],
     },
     {
-      level: "Level 4 (Book 2)",
+      level: "Level 4 (Book 3)",
+      book: "Book 3",
       items: [
         { prompt: "36. When you were a child, ____ you speak Russian?", options: ["Could", "Can", "Should", "I Don't Know"] },
         { prompt: "37. I was jogging ______ the park when I slipped and fell.", options: ["at", "on", "through", "I Don't Know"] },
@@ -3534,7 +3538,8 @@ const placementTest = {
       ],
     },
     {
-      level: "Level 5 (Book 3)",
+      level: "Level 5 (Book 4)",
+      book: "Book 4",
       items: [
         { prompt: "43. You should never argue ____ your parents.", options: ["to", "at", "with", "I Don't Know"] },
         { prompt: "44. Some people always complain _____ the weather.", options: ["at", "on", "about", "I Don't know"] },
@@ -3547,7 +3552,8 @@ const placementTest = {
       ],
     },
     {
-      level: "Level 6 (Book 3)",
+      level: "Level 6 (Book 5)",
+      book: "Book 5",
       items: [
         { prompt: "51. By the time I got to the concert, it _____.", options: ["has already begun", "already began", "had already begun", "I Don't Know"] },
         { prompt: "52. I decided to stop _____ my nails.", options: ["bite", "to bite", "biting", "I Don't Know"] },
@@ -3582,7 +3588,7 @@ const placementTest = {
   recommendations: [
     {
       key: "foundation",
-      level: "Nivel 1 / Book 1 base",
+      level: "Nivel 1 / Intro Book base",
       recommendation:
         "Te conviene empezar con una ruta base enfocada en comprensión, frases útiles y práctica guiada.",
       bestFit: "Inglés presencial o híbrido para construir confianza desde cero.",
@@ -3610,14 +3616,14 @@ const placementTest = {
     },
     {
       key: "book-3-entry",
-      level: "Nivel 5 / Book 3 inicial",
+      level: "Nivel 5 / Book 4 inicial",
       recommendation:
         "Puedes practicar estructuras más avanzadas, fluidez, escritura corta y situaciones de trabajo o estudio.",
       bestFit: "Ruta intermedia alta con práctica oral y confirmación académica antes de inscripción final.",
     },
     {
       key: "book-3-upper",
-      level: "Nivel 6 / Book 3 alto",
+      level: "Nivel 6 / Book 5 alto",
       recommendation:
         "Tu resultado sugiere una ruta avanzada o de objetivos específicos, sujeta a entrevista o revisión de escritura.",
       bestFit: "Ruta conversacional, online o presencial, según disponibilidad y meta principal.",

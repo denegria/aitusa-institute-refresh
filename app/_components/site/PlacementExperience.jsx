@@ -92,18 +92,21 @@ function serverSnapshotMatchesLocal(serverSnapshot, localSnapshot) {
   );
 }
 
-function getBookKey(levelIndex) {
-  if (levelIndex <= 1) return "book-1";
-  if (levelIndex <= 3) return "book-2";
-  return "book-3";
+const BOOK_PATH = Object.freeze([
+  Object.freeze({ key: "intro-book", label: "Intro Book" }),
+  Object.freeze({ key: "book-1", label: "Book 1" }),
+  Object.freeze({ key: "book-2", label: "Book 2" }),
+  Object.freeze({ key: "book-3", label: "Book 3" }),
+  Object.freeze({ key: "book-4", label: "Book 4" }),
+  Object.freeze({ key: "book-5", label: "Book 5" }),
+]);
+
+function getBookKey(bookLabel) {
+  return BOOK_PATH.find((book) => book.label === bookLabel)?.key || BOOK_PATH[0].key;
 }
 
 function getBookLabel(bookKey) {
-  return {
-    "book-1": "Book 1",
-    "book-2": "Book 2",
-    "book-3": "Book 3",
-  }[bookKey];
+  return BOOK_PATH.find((book) => book.key === bookKey)?.label || BOOK_PATH[0].label;
 }
 
 function ProgressHeader({ question, questionIndex, questionCount }) {
@@ -114,7 +117,7 @@ function ProgressHeader({ question, questionIndex, questionCount }) {
       ((questionCount - questionIndex - 1) * SECONDS_PER_GRADED_QUESTION) / 60,
     ),
   );
-  const currentBook = getBookKey(question.levelIndex);
+  const currentBook = getBookKey(question.book);
 
   return (
     <header className="diagnostic-progress">
@@ -133,7 +136,7 @@ function ProgressHeader({ question, questionIndex, questionCount }) {
         <span style={{ width: `${progress}%` }} />
       </div>
       <div className="diagnostic-level-path" aria-label="Ruta académica explorada">
-        {["book-1", "book-2", "book-3"].map((bookKey) => (
+        {BOOK_PATH.map(({ key: bookKey }) => (
           <span
             className={bookKey === currentBook ? "is-current" : ""}
             aria-current={bookKey === currentBook ? "step" : undefined}
@@ -1117,6 +1120,7 @@ export function PlacementExperience() {
         ...question,
         globalIndex: globalIndex++,
         levelIndex,
+        book: level.book,
         levelLabel: level.level.replace(/\s*\(.*\)$/, ""),
       })),
     );
