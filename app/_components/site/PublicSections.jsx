@@ -64,7 +64,11 @@ export function MethodSection() {
         <div className="method-editorial__opening">
           <header className="method-editorial__intro section-heading section-heading--framed">
             <p className="method-kicker">{methodNarrative.eyebrow || "Método Graphic Concept"}</p>
-            <h2 id="method-title">{methodNarrative.heading || ""}</h2>
+            <h2 id="method-title" className="method-editorial__display-title">
+              {(methodNarrative.headingLines || [methodNarrative.heading || ""]).map((line, index) => (
+                <span className={index === 2 ? "method-editorial__display-accent" : undefined} key={line}>{line}</span>
+              ))}
+            </h2>
             <p className="method-editorial__promise">{methodNarrative.promise || ""}</p>
             <p className="method-editorial__intro-copy">{methodNarrative.introduction || ""}</p>
           </header>
@@ -84,6 +88,15 @@ export function MethodSection() {
             <h3 id="method-pain-title">{methodNarrative.painHeading || "¿Te suena familiar?"}</h3>
             <p>{methodNarrative.painIntroduction || ""}</p>
           </div>
+          <ul className="method-editorial__pain-cues" aria-label="Barreras comunes al aprender inglés">
+            {(methodNarrative.painCues || []).map((item) => (
+              <li key={item.title}>
+                <i data-lucide={item.icon} aria-hidden="true" />
+                <strong>{item.title}</strong>
+                <span>{item.body}</span>
+              </li>
+            ))}
+          </ul>
           <ul className="method-editorial__questions" aria-label="Preguntas comunes al aprender inglés">
             {(methodNarrative.painPoints || []).map((item, index) => (
               <li key={item}>

@@ -3110,28 +3110,35 @@ const institutionalProof = [
 
 const methodNarrative = {
   eyebrow: "Método Graphic Concept",
-  heading: "Tres razones por las que somos diferentes.",
+  heading: "Aprende diferente. Piensa en diseño. Crea tu futuro.",
+  headingLines: ["Aprende diferente.", "Piensa en diseño.", "Crea tu futuro."],
   promise:
     "Graphic Concept es nuestro método visual para ayudarte a pensar en inglés y comunicarte en el trabajo, los estudios y la vida diaria.",
   introduction:
     "Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. Así nació Graphic Concept: un método visual, fácil de aprender y pensado para cualquier persona, sin importar su nivel académico. Te ayuda a comprender y hablar inglés con más facilidad y fluidez, sin memorizar listas interminables.",
-  painEyebrow: "Lo que escuchamos",
-  painHeading: "¿Te suena familiar?",
+  painEyebrow: "Sabemos cómo te sientes",
+  painHeading: "Aprender inglés también tiene que adaptarse a tu vida.",
   painIntroduction:
     "No se trata de esforzarte más por memorizar. Se trata de encontrar una forma de aprender que te permita entender, practicar y usar el inglés con confianza.",
+  painCues: [
+    { icon: "brain", title: "Miedo a empezar", body: "Quieres hablar, pero no sabes por dónde comenzar." },
+    { icon: "clock-3", title: "Poco tiempo", body: "Tu agenda deja poco espacio para una rutina imposible." },
+    { icon: "circle-help", title: "Muchas dudas", body: "Buscas una forma clara de usar el idioma de verdad." },
+    { icon: "battery-low", title: "Cansancio", body: "No quieres memorizar sin sentir que avanzas." },
+  ],
   painPoints: [
     "¿Quieres hablar inglés rápido, fácil y sin estrés?",
     "¿Llevas tiempo intentando hablar inglés y todavía no lo logras?",
     "¿Te obligan a memorizar miles de palabras y sientes que no te alcanzan ni el tiempo ni la cabeza?",
   ],
-  solutionEyebrow: "La respuesta",
-  solutionHeading: "Una ruta clara para comprender, hablar y avanzar.",
+  solutionEyebrow: "La respuesta es sí",
+  solutionHeading: "Por eso existe el Método Graphic Concept.",
   solutionIntroduction:
     "Graphic Concept convierte esas frustraciones en una secuencia visual: primero comprendes, después hablas y, con práctica guiada, avanzas a tu ritmo.",
-  reasonsEyebrow: "De la pregunta a la práctica",
-  reasonsHeading: "Tres razones para avanzar con más facilidad.",
-  videoEyebrow: "El método en acción",
-  videoHeading: "Mira cómo funciona Graphic Concept.",
+  reasonsEyebrow: "Cómo lo hacemos",
+  reasonsHeading: "Tres principios que guían tu aprendizaje.",
+  videoEyebrow: "Lo que importa",
+  videoHeading: "Historias reales, resultados que inspiran.",
   videoIntroduction:
     "En 1:45 conocerás la idea completa y cómo pasa de la comprensión a la práctica.",
   videoLabel: "Conoce el método completo · 1:45",
