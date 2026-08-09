@@ -97,6 +97,7 @@ export function MethodSection() {
               </li>
             ))}
           </ul>
+          <p className="method-editorial__question-heading">Tres preguntas que muchos se hacen</p>
           <ul className="method-editorial__questions" aria-label="Preguntas comunes al aprender inglés">
             {(methodNarrative.painPoints || []).map((item, index) => (
               <li key={item}>

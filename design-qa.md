@@ -200,3 +200,61 @@ The latest source-to-render comparison, responsive evidence, iteration history,
 and final result are recorded in `design-qa-method-concept.md`.
 
 Final result: passed
+
+---
+
+# Graphic Concept fidelity correction — 2026-08-09
+
+## Comparison target
+
+- Source visual truth: `C:\Users\Alvaro\AppData\Local\Temp\codex-clipboard-342bbd87-7887-434b-8d64-f9875a915e2f.png` (379 × 800 px).
+- Implementation: browser-rendered local homepage `http://localhost:3020/#metodo`.
+- Captures: in-app Browser, 390 × 844 CSS px mobile and 1440 × 900 CSS px desktop, DPR 1, top-of-section state, navigation visible, video paused.
+- Density normalization: source is a compact single-column editorial board; the comparison matched its content hierarchy and density at mobile, and its two-column opening / compact reading grid at desktop.
+
+## Findings
+
+### Fonts and typography
+
+- The earlier render used the homepage display sans at a homepage-hero scale, producing a major mismatch with the reference's editorial serif hierarchy.
+- Fixed: the Graphic Concept display and question/pain headlines now use a conservative Georgia serif stack only inside this section. The title uses the same three short lines and gold italic accent as the source.
+
+### Spacing and layout rhythm
+
+- The earlier render treated the method as a sequence of large viewport chapters. The reference is a compact paper-like composition with shallow rule-separated bands.
+- Fixed: reduced the opening scale, section gaps, bridge height, principle-card padding, and video footprint. The learner cues now sit in a four-column strip, questions use shallow numbered rules, and the bridge is a single warm panel.
+- Mobile check found a horizontal overflow caused by a desktop bridge grid winning at the mobile breakpoint. Fixed with a single-column override; final mobile document width is 375/375.
+
+### Colors and visual tokens
+
+- The final surface uses existing warm ivory, AIT navy, and muted gold. The broad radial/gradient treatment is no longer visually dominant.
+
+### Image quality and asset fidelity
+
+- The existing project-local compass and path WebP artwork match the reference's ink-and-paper direction. The conclusion retains the real AIT portrait video rather than a fabricated testimonial asset.
+
+### Copy and content
+
+- The source's core sequence is preserved: opening promise, learner-fit cues, three questions, Graphic Concept solution, three principles, and real proof.
+- Unapproved mock-specific curriculum claims and fabricated testimonial details remain excluded.
+
+## Comparison history
+
+1. Earlier staging render: P1 composition drift. The result used a broad homepage chapter scale and omitted the compact learner-fit / question structure.
+2. First correction: added the reference headline and cue strip. Browser QA found a P1 mobile grid override and horizontal overflow.
+3. Second correction: restored the mobile single-column grid and removed overflow. The opening still read too much like a homepage hero.
+4. Final correction: reduced the entire layout to the source's editorial density, added the shallow question heading/rows, and applied the local serif hierarchy. Final mobile and desktop captures show the intended paper-like composition with no horizontal overflow.
+
+## Validation
+
+- Focused homepage-method tests: passed.
+- Production build: passed.
+- Browser-rendered responsive checks: passed at 390 × 844 and 1440 × 900.
+- Horizontal overflow: none at the final checked viewports.
+- Console error scan: no errors observed during the rendered checks.
+
+## Follow-up polish
+
+- P3: If the site later adopts a licensed editorial serif as a global brand token, replace the local system-serif fallback with that approved family.
+
+final result: passed
