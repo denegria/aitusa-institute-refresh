@@ -193,45 +193,37 @@ export function LocationsSection() {
 }
 
 export function BooksSection() {
+  const galleryBooks = bookLibrary.levels.flatMap((level) => level.books);
+
   return (
     <section className="section books-section" id="libros" aria-labelledby="books-title">
       <div className="section-inner books-section__inner">
-        <header className="section-heading section-heading--framed books-section__heading">
-          <p className="section-kicker">Ruta Graphic Concept</p>
+        <header className="section-heading books-section__heading">
           <h2 id="books-title">Nuestros libros.</h2>
-          <p>Una ruta visual de apoyo para que cada nivel tenga una dirección clara, práctica y fácil de seguir.</p>
         </header>
-        <div className="books-showcase">
-          <article className="books-showcase__intro">
-            <div className="books-showcase__intro-copy">
-              <img className="books-showcase__logo" src={site.images.logo} alt="AIT USA Institute" width="96" height="96" />
-              <p className="books-showcase__eyebrow">{bookLibrary.intro.eyebrow}</p>
-              <h3>{bookLibrary.intro.title}</h3>
-              <p>{bookLibrary.intro.description}</p>
-            </div>
-            <figure className="book-card book-card--intro">
-              <img src={bookLibrary.intro.image} alt={bookLibrary.intro.imageAlt} width="160" height="209" loading="lazy" decoding="async" />
-              <figcaption>English introductory book</figcaption>
+        <div className="books-gallery" aria-label="Colección de libros de AIT USA Institute">
+          <figure className="books-gallery__intro">
+            <img
+              src={bookLibrary.intro.image}
+              alt={bookLibrary.intro.imageAlt}
+              width="160"
+              height="209"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+          {galleryBooks.map((book, index) => (
+            <figure className={`books-gallery__book books-gallery__book--${index + 1}`} key={book.title}>
+              <img
+                src={book.image}
+                alt={book.imageAlt}
+                width="177"
+                height="219"
+                loading="lazy"
+                decoding="async"
+              />
             </figure>
-          </article>
-          <div className="books-showcase__levels">
-            {bookLibrary.levels.map((level) => (
-              <article className="book-level" key={level.key}>
-                <header className="book-level__heading">
-                  <p>{level.eyebrow}</p>
-                  <h3>{level.title}</h3>
-                </header>
-                <ul className="book-level__covers" aria-label={`Libros: ${level.title}`}>
-                  {level.books.map((book) => (
-                    <li className="book-card" key={book.title}>
-                      <img src={book.image} alt={book.imageAlt} width="177" height="219" loading="lazy" decoding="async" />
-                      <span>{book.title}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
     </section>

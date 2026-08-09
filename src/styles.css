@@ -11149,3 +11149,177 @@ textarea {
     width: min(100%, 146px);
   }
 }
+
+/* Homepage annotation pass 3: let the book covers carry the visual story and
+   give the desktop hero hierarchy a little more vertical breathing room. */
+@media (min-width: 1181px) and (min-height: 768px) {
+  .home-page #inicio .hero__copy {
+    padding-top: clamp(56px, 7.4svh, 82px);
+  }
+
+  .home-page #inicio .hero__modalities {
+    margin-top: clamp(34px, 5svh, 52px);
+  }
+}
+
+.home-page #libros {
+  padding-block: clamp(74px, 10svh, 124px);
+  background:
+    linear-gradient(118deg, rgba(35, 69, 145, 0.96), rgba(0, 37, 76, 0.98)),
+    var(--home-navy);
+}
+
+.home-page #libros .books-section__inner {
+  width: min(1280px, calc(100% - 32px));
+}
+
+.home-page #libros .books-section__heading {
+  margin: 0 0 clamp(36px, 6svh, 72px);
+}
+
+.home-page #libros .books-section__heading h2 {
+  max-width: none;
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(3.4rem, 7vw, 5.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
+.home-page #libros .books-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(280px, auto));
+  gap: clamp(14px, 2vw, 24px);
+  align-items: stretch;
+}
+
+.home-page #libros .books-gallery figure {
+  display: grid;
+  min-width: 0;
+  min-height: 280px;
+  place-items: center;
+  margin: 0;
+  padding: clamp(18px, 2.2vw, 32px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 26, 61, 0.5);
+  box-shadow: 0 18px 34px rgba(0, 8, 24, 0.12);
+}
+
+.home-page #libros .books-gallery__intro {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  background: linear-gradient(145deg, rgba(75, 112, 203, 0.92), rgba(39, 75, 157, 0.88));
+}
+
+.home-page #libros .books-gallery__book--1,
+.home-page #libros .books-gallery__book--2 {
+  grid-column: 2;
+}
+
+.home-page #libros .books-gallery__book--1,
+.home-page #libros .books-gallery__book--3,
+.home-page #libros .books-gallery__book--5 {
+  grid-row: 1;
+}
+
+.home-page #libros .books-gallery__book--2,
+.home-page #libros .books-gallery__book--4,
+.home-page #libros .books-gallery__book--6 {
+  grid-row: 2;
+}
+
+.home-page #libros .books-gallery__book--3,
+.home-page #libros .books-gallery__book--4 {
+  grid-column: 3;
+  background: rgba(39, 75, 157, 0.76);
+}
+
+.home-page #libros .books-gallery__book--5,
+.home-page #libros .books-gallery__book--6 {
+  grid-column: 4;
+  background: rgba(0, 53, 99, 0.78);
+}
+
+.home-page #libros .books-gallery img {
+  display: block;
+  width: min(100%, 230px);
+  height: auto;
+  max-height: 100%;
+  padding: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  background: #ffffff;
+  box-shadow: 0 18px 28px rgba(0, 8, 24, 0.32);
+  object-fit: contain;
+}
+
+.home-page #libros .books-gallery__intro img {
+  width: min(100%, 250px);
+  aspect-ratio: 160 / 209;
+}
+
+.home-page #libros .books-gallery__book img {
+  aspect-ratio: 177 / 219;
+}
+
+@media (max-width: 1040px) {
+  .home-page #libros .books-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+
+  .home-page #libros .books-gallery__intro,
+  .home-page #libros .books-gallery__book--1,
+  .home-page #libros .books-gallery__book--2,
+  .home-page #libros .books-gallery__book--3,
+  .home-page #libros .books-gallery__book--4,
+  .home-page #libros .books-gallery__book--5,
+  .home-page #libros .books-gallery__book--6 {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .home-page #libros .books-gallery__intro {
+    grid-column: 1 / -1;
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 719px) {
+  .home-page #libros {
+    padding-block: 62px 76px;
+  }
+
+  .home-page #libros .books-section__inner {
+    width: min(100%, calc(100% - 28px));
+  }
+
+  .home-page #libros .books-section__heading {
+    margin-bottom: 32px;
+  }
+
+  .home-page #libros .books-section__heading h2 {
+    font-size: clamp(2.8rem, 14vw, 4rem);
+  }
+
+  .home-page #libros .books-gallery {
+    gap: 12px;
+  }
+
+  .home-page #libros .books-gallery figure {
+    min-height: 226px;
+    padding: 12px;
+  }
+
+  .home-page #libros .books-gallery__intro {
+    min-height: 270px;
+  }
+
+  .home-page #libros .books-gallery img {
+    width: min(100%, 154px);
+  }
+
+  .home-page #libros .books-gallery__intro img {
+    width: min(100%, 184px);
+  }
+}

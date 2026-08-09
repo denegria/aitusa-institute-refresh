@@ -213,7 +213,9 @@ describe("homepage React integration", () => {
     assert.match(interactive, /className="chapter-accent"/);
     assert.match(sections, /className="section faq-section" id="faq"/);
     assert.match(sections, /className="section books-section" id="libros"/);
-    assert.match(sections, /bookLibrary\.levels\.map/);
+    assert.match(sections, /bookLibrary\.levels\.flatMap/);
+    assert.match(sections, /books-gallery/);
+    assert.doesNotMatch(sections, /books-showcase/);
     assert.match(content, /intro-book-portada\.avif/);
     assert.match(sections, /chapter-accent chapter-accent--mobile/);
     assert.match(chrome, /readingSectionIds/);
