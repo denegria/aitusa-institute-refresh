@@ -17,7 +17,9 @@ Faithful-reference mode. `references/graphic-concept-method-reference.webp` is t
 ## Locked behavior, content, and state
 
 - Preserve the approved Spanish Graphic Concept narrative and three pain questions.
-- Preserve the three approved learning characteristics and their existing icons.
+- Preserve the three approved learning characteristics and render them with
+  project-local source-derived gold editorial line marks, rather than a generic
+  UI icon set.
 - Preserve the real AIT 1:45 video, poster, controls, accessible label, and mobile fullscreen behavior.
 - Preserve the Method section anchor and reading order between the hero and student proof.
 - Use existing AIT navy, blue, muted gold, warm surface, typography, and focus behavior.
@@ -35,13 +37,18 @@ Faithful-reference mode. `references/graphic-concept-method-reference.webp` is t
 
 ## Composition invariants
 
-- The opening is two-column on desktop and keeps the title dominant over the illustration.
+- The opening is two-column on desktop and keeps the title dominant over the
+  labeled navy-and-gold compass illustration derived from the selected source.
 - The trust line stays visually attached to the opening copy, rather than creating a separate opening row.
-- Numbered questions read as editorial rows, never boxed cards.
+- Numbered questions read as generously spaced editorial rows, never boxed
+  cards: three-line serif heading, large italic figures, gold diagonal slashes,
+  and long fine rules.
 - Desktop questions preserve the source's asymmetry: the serif heading sits left of the three rule-separated rows.
 - The solution bridge is a distinct warm panel with copy readable before its illustration.
-- Three principles form one horizontal band on desktop and stack cleanly on mobile.
-- The final video chapter feels conclusive and keeps the portrait media at a useful size.
+- Three principles form one horizontal band on desktop and stack vertically with
+  legible supporting copy on mobile.
+- The final video chapter feels conclusive, keeps the portrait media at a useful
+  editorial size, and aligns its copy beside (not far below) the video on desktop.
 - Section whitespace is intentional; no horizontal overflow or clipped content at regression viewports.
 
 ## Content-growth assumptions

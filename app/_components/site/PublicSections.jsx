@@ -12,6 +12,19 @@ import {
 import { CallbackDialog, FaqList, MethodVideo } from "./InteractiveSections";
 import { LocationExplorer } from "./LocationExplorer";
 
+const methodPainArtwork = [
+  "/assets/method/graphic-concept-pain-1.png",
+  "/assets/method/graphic-concept-pain-2.png",
+  "/assets/method/graphic-concept-pain-3.png",
+  "/assets/method/graphic-concept-pain-4.png",
+];
+
+const methodPrincipleArtwork = [
+  "/assets/method/graphic-concept-principle-1.png",
+  "/assets/method/graphic-concept-principle-2.png",
+  "/assets/method/graphic-concept-principle-3.png",
+];
+
 export function HeroSection() {
   return (
     <section className="hero" id="inicio">
@@ -78,10 +91,10 @@ export function MethodSection() {
           </header>
           <figure className="method-editorial__compass" aria-hidden="true">
             <img
-              src="/assets/method/graphic-concept-compass.webp"
+              src="/assets/method/graphic-concept-compass-source.png"
               alt=""
-              width="900"
-              height="900"
+              width="410"
+              height="360"
               loading="lazy"
             />
           </figure>
@@ -93,19 +106,30 @@ export function MethodSection() {
             <p>{methodNarrative.painIntroduction || ""}</p>
           </div>
           <ul className="method-editorial__pain-cues" aria-label="Barreras comunes al aprender inglés">
-            {(methodNarrative.painCues || []).map((item) => (
+            {(methodNarrative.painCues || []).map((item, index) => (
               <li key={item.title}>
-                <i data-lucide={item.icon} aria-hidden="true" />
+                <img
+                  className="method-editorial__pain-cue-art"
+                  src={methodPainArtwork[index]}
+                  alt=""
+                  width="100"
+                  height="75"
+                  loading="lazy"
+                  aria-hidden="true"
+                />
                 <strong>{item.title}</strong>
                 <span>{item.body}</span>
               </li>
             ))}
           </ul>
-          <p className="method-editorial__question-heading">Tres preguntas que muchos se hacen</p>
+          <p className="method-editorial__question-heading">
+            <span>Tres preguntas</span><span>que muchos</span><span>se hacen</span>
+          </p>
           <ul className="method-editorial__questions" aria-label="Preguntas comunes al aprender inglés">
             {(methodNarrative.painPoints || []).map((item, index) => (
               <li key={item}>
                 <span className="method-question__index">{String(index + 1).padStart(2, "0")}</span>
+                <span className="method-question__slash" aria-hidden="true">/</span>
                 <p>{item}</p>
               </li>
             ))}
@@ -136,7 +160,15 @@ export function MethodSection() {
             {solutionCharacteristics.map((item, index) => (
               <li key={item.key}>
                 <div className="method-reason__mark" aria-hidden="true">
-                  <span className="method-reason__icon"><i data-lucide={item.icon || "circle-check"} /></span>
+                  <span className="method-reason__icon">
+                    <img
+                      src={methodPrincipleArtwork[index]}
+                      alt=""
+                      width="91"
+                      height="95"
+                      loading="lazy"
+                    />
+                  </span>
                   <span className="method-reason__number">{String(index + 1).padStart(2, "0")}</span>
                 </div>
                 <div><h4>{item.title}</h4><p>{item.body}</p></div>

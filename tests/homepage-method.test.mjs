@@ -114,7 +114,11 @@ describe("homepage Method story", () => {
     assert.match(source, /method-editorial__bridge/);
     assert.match(source, /method-editorial__principles/);
     assert.match(source, /method-editorial__closing/);
-    assert.match(source, /graphic-concept-compass\.webp/);
+    assert.match(source, /graphic-concept-compass-source\.png/);
+    assert.match(source, /graphic-concept-pain-1\.png/);
+    assert.match(source, /graphic-concept-principle-1\.png/);
+    assert.match(source, /method-question__slash/);
+    assert.match(source, /Tres preguntas<\/span><span>que muchos<\/span><span>se hacen/);
     assert.match(source, /graphic-concept-path\.webp/);
     assert.match(source, /method-video-frame/);
     assert.match(
@@ -162,6 +166,14 @@ describe("homepage Method story", () => {
       /@media \(max-width: 719px\)[\s\S]*\.home-page #metodo \.method-editorial__principles \.method-reasons\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)/,
     );
     assert.match(styles, /Graphic Concept reference pass:[\s\S]*mix-blend-mode: multiply/);
+    assert.match(
+      styles,
+      /MIS-378 Sentry correction:[\s\S]*\.method-editorial__questions li\s*\{[\s\S]*min-height: clamp\(64px, 5vw, 82px\)/,
+    );
+    assert.match(
+      styles,
+      /MIS-378 Sentry correction:[\s\S]*@media \(max-width: 719px\)[\s\S]*\.method-editorial__principles \.method-reasons\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)/,
+    );
   });
 
   it("keeps the mobile summary legible and the safe-area header fill intact", async () => {

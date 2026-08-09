@@ -6703,6 +6703,264 @@ textarea {
   }
 }
 
+/* MIS-378 Sentry correction: source-derived ink work, question rhythm, and
+   responsive editorial proportion. This block intentionally wins over the
+   prior compact pass above. */
+.home-page #metodo .method-editorial__compass {
+  width: min(100%, 340px);
+  margin-top: 0;
+}
+
+.home-page #metodo .method-editorial__compass img,
+.home-page #metodo .method-editorial__pain-cue-art,
+.home-page #metodo .method-reason__icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.home-page #metodo .method-editorial__pain-cue-art {
+  width: 42px;
+  height: 34px;
+  object-position: left center;
+}
+
+.home-page #metodo .method-editorial__question-heading span {
+  display: block;
+}
+
+.home-page #metodo .method-editorial__questions li {
+  grid-template-columns: 62px 28px minmax(0, 1fr);
+  gap: 14px;
+  min-height: clamp(64px, 5vw, 82px);
+  padding: 13px 0;
+  border-top: 1px solid rgba(0, 26, 61, .19);
+}
+
+.home-page #metodo .method-editorial__questions li::before {
+  display: none;
+}
+
+.home-page #metodo .method-question__index {
+  color: var(--home-navy);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 2.7vw, 2.55rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: .9;
+}
+
+.home-page #metodo .method-question__slash {
+  grid-column: 2;
+  grid-row: 1;
+  color: var(--home-gold-text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.8rem, 2.35vw, 2.25rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: .8;
+  transform: rotate(-10deg);
+}
+
+.home-page #metodo .method-editorial__questions p {
+  grid-column: 3;
+  grid-row: 1;
+  color: var(--home-body);
+  font-family: var(--font-body);
+  font-size: clamp(.96rem, 1.22vw, 1.13rem);
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.home-page #metodo .method-editorial__bridge {
+  grid-template-columns: minmax(0, 1.05fr) minmax(180px, .68fr) minmax(240px, .74fr);
+  overflow: visible;
+}
+
+.home-page #metodo .method-editorial__bridge > * {
+  min-width: 0;
+}
+
+.home-page #metodo .method-editorial__bridge-art {
+  width: min(100%, 280px);
+  max-width: 100%;
+  margin: 0;
+  justify-self: end;
+}
+
+.home-page #metodo .method-reason__icon {
+  width: 66px;
+  height: 58px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.home-page #metodo .method-editorial__principles .method-reasons h4 {
+  font-size: clamp(1.08rem, 1.4vw, 1.34rem);
+}
+
+.home-page #metodo .method-editorial__principles .method-reasons p {
+  font-size: clamp(.82rem, .96vw, .94rem);
+  line-height: 1.5;
+}
+
+.home-page #metodo .method-editorial__closing {
+  grid-template-columns: minmax(0, 1fr) minmax(260px, .62fr);
+  gap: clamp(32px, 4vw, 54px);
+  align-items: start;
+}
+
+.home-page #metodo .method-editorial__closing-copy {
+  padding-top: clamp(10px, 1.8vw, 24px);
+}
+
+.home-page #metodo .method-editorial__closing .method-editorial__media {
+  width: min(100%, 280px);
+  max-width: 280px;
+  justify-self: start;
+}
+
+@media (min-width: 720px) {
+  .home-page #metodo .method-editorial__pain {
+    grid-template-columns: minmax(250px, .55fr) minmax(0, 1.45fr);
+    column-gap: clamp(44px, 5vw, 72px);
+    row-gap: 28px;
+    padding-top: 30px;
+  }
+
+  .home-page #metodo .method-editorial__question-heading {
+    grid-column: 1;
+    align-self: start;
+    max-width: 290px;
+    margin: 4px 0 0;
+    color: var(--home-navy);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2rem, 2.55vw, 2.6rem);
+    font-weight: 400;
+    line-height: .98;
+  }
+
+  .home-page #metodo .method-editorial__questions {
+    grid-column: 2;
+    width: 100%;
+    margin: 0;
+    border-bottom: 1px solid rgba(0, 26, 61, .19);
+  }
+}
+
+@media (max-width: 1040px) {
+  .home-page #metodo .method-editorial__bridge {
+    grid-template-columns: minmax(0, 1fr) minmax(160px, .7fr);
+  }
+
+  .home-page #metodo .method-editorial__bridge-copy,
+  .home-page #metodo .method-editorial__bridge-intro {
+    grid-column: 1;
+  }
+
+  .home-page #metodo .method-editorial__bridge-art {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    width: 100%;
+  }
+}
+
+@media (max-width: 719px) {
+  .home-page #metodo .method-editorial__opening {
+    grid-template-columns: minmax(0, 1.08fr) minmax(128px, .72fr);
+    gap: 12px;
+  }
+
+  .home-page #metodo .method-editorial__intro h2 {
+    font-size: clamp(1.85rem, 8.1vw, 2.15rem);
+  }
+
+  .home-page #metodo .method-editorial__compass {
+    width: min(100%, 190px);
+    margin-top: 16px;
+    justify-self: end;
+  }
+
+  .home-page #metodo .method-editorial__pain-cue-art {
+    width: 34px;
+    height: 28px;
+  }
+
+  .home-page #metodo .method-editorial__questions li {
+    grid-template-columns: 34px 18px minmax(0, 1fr);
+    gap: 8px;
+    min-height: 58px;
+    padding: 10px 0;
+  }
+
+  .home-page #metodo .method-question__index { font-size: 1.45rem; }
+  .home-page #metodo .method-question__slash { font-size: 1.35rem; }
+  .home-page #metodo .method-editorial__questions p { font-size: .75rem; line-height: 1.35; }
+
+  .home-page #metodo .method-editorial__bridge {
+    grid-template-columns: minmax(0, 1.08fr) minmax(112px, .72fr);
+    gap: 12px;
+    padding: 20px 16px;
+    overflow: visible;
+  }
+
+  .home-page #metodo .method-editorial__bridge-art {
+    width: 100%;
+    max-width: 150px;
+    margin: 0;
+  }
+
+  .home-page #metodo .method-editorial__principles .method-reasons {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-page #metodo .method-editorial__principles .method-reasons li,
+  .home-page #metodo .method-editorial__principles .method-reasons li:first-child,
+  .home-page #metodo .method-editorial__principles .method-reasons li:last-child {
+    grid-template-columns: 82px minmax(0, 1fr);
+    gap: 18px;
+    padding: 24px 0;
+    border-right: 0;
+    border-bottom: 1px solid rgba(0, 26, 61, .18);
+  }
+
+  .home-page #metodo .method-editorial__principles .method-reasons li:last-child {
+    border-bottom: 0;
+  }
+
+  .home-page #metodo .method-reason__mark {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .home-page #metodo .method-reason__icon {
+    width: 64px;
+    height: 58px;
+  }
+
+  .home-page #metodo .method-reason__number { font-size: 1.5rem; }
+  .home-page #metodo .method-editorial__principles .method-reasons h4 { font-size: 1rem; }
+  .home-page #metodo .method-editorial__principles .method-reasons p { font-size: .82rem; line-height: 1.46; }
+
+  .home-page #metodo .method-editorial__closing {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 26px;
+  }
+
+  .home-page #metodo .method-editorial__closing-copy { padding-top: 0; }
+
+  .home-page #metodo .method-editorial__closing .method-editorial__media {
+    width: min(100%, 260px);
+    max-width: 260px;
+    justify-self: center;
+  }
+}
+
 /* MIS-349: quiet, persistent returning-student utility. */
 .student-portal-entry {
   display: inline-flex;
@@ -11621,8 +11879,8 @@ textarea {
   }
 }
 
-/* Graphic Concept reference pass: translate the selected editorial concept into
-   the approved English-learning story and the existing AIT design system. */
+/* Graphic Concept reference pass: faithfully rebuild the selected editorial
+   concept with the approved English-learning story and existing AIT assets. */
 .home-page #metodo {
   background:
     radial-gradient(circle at 82% 9%, rgba(196, 147, 45, 0.11), transparent 27%),
