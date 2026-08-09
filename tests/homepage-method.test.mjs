@@ -24,6 +24,15 @@ describe("homepage Method story", () => {
       methodNarrative.introduction,
       "Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. Así nació Graphic Concept: un método visual, fácil de aprender y pensado para cualquier persona, sin importar su nivel académico. Te ayuda a comprender y hablar inglés con más facilidad y fluidez, sin memorizar listas interminables.",
     );
+    assert.equal(
+      methodNarrative.promise,
+      "Graphic Concept es nuestro método visual para ayudarte a pensar en inglés y comunicarte en el trabajo, los estudios y la vida diaria.",
+    );
+    assert.deepEqual(methodNarrative.painPoints, [
+      "¿Quieres hablar inglés rápido, fácil y sin estrés?",
+      "¿Llevas tiempo intentando hablar inglés y todavía no lo logras?",
+      "¿Te obligan a memorizar miles de palabras y sientes que no te alcanzan ni el tiempo ni la cabeza?",
+    ]);
     assert.deepEqual(
       Array.from(solutionCharacteristics, (item) => item.title),
       [
@@ -101,6 +110,9 @@ describe("homepage Method story", () => {
 
     assert.match(source, /Método Graphic Concept/);
     assert.match(source, /method-editorial__intro/);
+    assert.match(source, /method-editorial__pain/);
+    assert.match(source, /method-editorial__bridge/);
+    assert.match(source, /method-editorial__solution/);
     assert.match(source, /method-video-frame/);
     assert.match(
       styles,
@@ -150,6 +162,8 @@ describe("homepage Method story", () => {
       styles,
       /@media \(min-width: 2200px\) and \(min-height: 1200px\)[\s\S]*\.method-section\s*\{[\s\S]*height: min\(1120px, calc\(100svh - 94px\)\)[\s\S]*\.method-editorial\s*\{[\s\S]*grid-template-rows: auto auto;[\s\S]*align-content: center/,
     );
+    assert.match(styles, /Homepage annotation pass 2:[\s\S]*\.home-page #metodo[\s\S]*min-height: clamp\(1450px, 178svh, 1820px\)/);
+    assert.match(styles, /\.home-page #metodo \.method-editorial__questions[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)/);
   });
 
   it("keeps the mobile summary legible and the safe-area header fill intact", async () => {

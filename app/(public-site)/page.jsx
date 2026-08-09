@@ -2,6 +2,7 @@ import { ProofStories } from "../_components/site/InteractiveSections";
 import {
   FaqSection,
   FinalCtaSection,
+  BooksSection,
   HeroSection,
   LocationsSection,
   MethodSection,
@@ -85,6 +86,7 @@ export default function HomePage() {
         <ProofStories />
         <OfferingPathSection />
         <LocationsSection />
+        <BooksSection />
         <FaqSection />
         <FinalCtaSection />
       </main>

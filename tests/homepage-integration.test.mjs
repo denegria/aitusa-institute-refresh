@@ -18,6 +18,7 @@ describe("homepage React integration", () => {
     const proof = page.indexOf("<ProofStories");
     const offerings = page.indexOf("<OfferingPathSection");
     const locations = page.indexOf("<LocationsSection");
+    const books = page.indexOf("<BooksSection");
     const faq = page.indexOf("<FaqSection");
     const finalCta = page.indexOf("<FinalCtaSection");
 
@@ -25,7 +26,8 @@ describe("homepage React integration", () => {
     assert.ok(proof > method);
     assert.ok(offerings > proof);
     assert.ok(locations > offerings);
-    assert.ok(faq > locations);
+    assert.ok(books > locations);
+    assert.ok(faq > books);
     assert.ok(finalCta > faq);
     assert.doesNotMatch(page, /dangerouslySetInnerHTML[\s\S]*legacy|src\/main\.js/);
   });
@@ -133,20 +135,24 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(placement, /Primero recibes valor|privacyNote|notice-box/);
   });
 
-  it("keeps the approved hero hierarchy without the removed hero CTAs", async () => {
+  it("keeps the approved hero hierarchy while moving the method story below", async () => {
     const { sections } = await readSources();
     const hero = sections.slice(
       sections.indexOf("export function HeroSection"),
       sections.indexOf("export function MethodSection"),
     );
+    const method = sections.slice(
+      sections.indexOf("export function MethodSection"),
+      sections.indexOf("const supportingPrograms"),
+    );
     assert.match(hero, /hero__title-block/);
-    assert.match(hero, /hero__summary/);
-    assert.match(hero, /hero__objections/);
     assert.match(hero, /hero__modalities/);
     assert.doesNotMatch(hero, /hero__conversion/);
+    assert.doesNotMatch(hero, /hero__summary|hero__objections/);
     assert.equal((hero.match(/className="button button--/g) || []).length, 0);
-    assert.ok(hero.indexOf("hero__summary") < hero.indexOf("hero__objections"));
-    assert.ok(hero.indexOf("hero__objections") < hero.indexOf("hero__modalities"));
+    assert.match(method, /method-editorial__promise/);
+    assert.match(method, /method-editorial__questions/);
+    assert.match(method, /Preguntas comunes al aprender inglés/);
   });
 
   it("keeps the institutional proof band factual, visible, and non-duplicative", async () => {
@@ -177,6 +183,7 @@ describe("homepage React integration", () => {
 
   it("shares the desktop chapter grid and makes mobile lookup rails explicit", async () => {
     const { sections, interactive, chrome, styles } = await readSources();
+    const content = await readFile("src/content.js", "utf8");
 
     assert.match(
       sections,
@@ -205,6 +212,9 @@ describe("homepage React integration", () => {
     assert.match(interactive, /proof-shelf__heading proof-shelf__heading--mobile-framed/);
     assert.match(interactive, /className="chapter-accent"/);
     assert.match(sections, /className="section faq-section" id="faq"/);
+    assert.match(sections, /className="section books-section" id="libros"/);
+    assert.match(sections, /bookLibrary\.levels\.map/);
+    assert.match(content, /intro-book-portada\.avif/);
     assert.match(sections, /chapter-accent chapter-accent--mobile/);
     assert.match(chrome, /readingSectionIds/);
     assert.match(
@@ -217,5 +227,10 @@ describe("homepage React integration", () => {
     );
     assert.match(styles, /\.home-page #sedes \.real-map-card__frame\s*\{[\s\S]*height: 158px/);
     assert.match(styles, /\.home-page #sedes \.location-rail-toolbar\s*\{[\s\S]*display: flex/);
+  });
+
+  it("keeps the book route in the section-reading order", async () => {
+    const chrome = await readFile("app/_components/site/SiteChrome.jsx", "utf8");
+    assert.match(chrome, /readingSectionIds = .*"libros", "faq"/);
   });
 });

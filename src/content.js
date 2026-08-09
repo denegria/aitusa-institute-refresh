@@ -3087,16 +3087,6 @@ const painHero = {
   headlineLead: "Supera el inglés.",
   headlineEmphasis: "Exprésate con confianza.",
   headlineAccent: "",
-  subheadline:
-    "Graphic Concept es nuestro método visual para ayudarte a pensar en inglés y comunicarte en el trabajo, los estudios y la vida diaria.",
-  subheadlineLines: [
-    "Graphic Concept es nuestro método visual para ayudarte a pensar en inglés y comunicarte en el trabajo, los estudios y la vida diaria.",
-  ],
-  objections: [
-    "¿Quieres hablar inglés rápido, fácil y sin estrés?",
-    "¿Llevas tiempo intentando hablar inglés y todavía no lo logras?",
-    "¿Te obligan a memorizar miles de palabras y sientes que no te alcanzan ni el tiempo ni la cabeza?",
-  ],
 };
 
 const institutionalProof = [
@@ -3121,8 +3111,25 @@ const institutionalProof = [
 const methodNarrative = {
   eyebrow: "Método Graphic Concept",
   heading: "Tres razones por las que somos diferentes.",
+  promise:
+    "Graphic Concept es nuestro método visual para ayudarte a pensar en inglés y comunicarte en el trabajo, los estudios y la vida diaria.",
   introduction:
     "Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. Así nació Graphic Concept: un método visual, fácil de aprender y pensado para cualquier persona, sin importar su nivel académico. Te ayuda a comprender y hablar inglés con más facilidad y fluidez, sin memorizar listas interminables.",
+  painEyebrow: "Lo que escuchamos",
+  painHeading: "¿Te suena familiar?",
+  painIntroduction:
+    "No se trata de esforzarte más por memorizar. Se trata de encontrar una forma de aprender que te permita entender, practicar y usar el inglés con confianza.",
+  painPoints: [
+    "¿Quieres hablar inglés rápido, fácil y sin estrés?",
+    "¿Llevas tiempo intentando hablar inglés y todavía no lo logras?",
+    "¿Te obligan a memorizar miles de palabras y sientes que no te alcanzan ni el tiempo ni la cabeza?",
+  ],
+  solutionEyebrow: "La respuesta",
+  solutionHeading: "Una ruta clara para comprender, hablar y avanzar.",
+  solutionIntroduction:
+    "Graphic Concept convierte esas frustraciones en una secuencia visual: primero comprendes, después hablas y, con práctica guiada, avanzas a tu ritmo.",
+  reasonsEyebrow: "De la pregunta a la práctica",
+  reasonsHeading: "Tres razones para avanzar con más facilidad.",
   videoLabel: "Conoce el método completo · 1:45",
   videoAriaLabel: "Conoce el método Graphic Concept completo",
   video: site.images.introVideo,
@@ -3154,6 +3161,69 @@ const solutionCharacteristics = [
       "Graphic Concept se adapta a tu nivel: un método propio, patentado y probado para hablar con más facilidad.",
   },
 ];
+
+const bookLibrary = {
+  intro: {
+    title: "Intro Plus",
+    eyebrow: "Aquí empiezas",
+    description: "Familiarízate con el inglés y conoce la ruta visual que te acompaña desde el primer paso.",
+    image: "/assets/books/intro-book-portada.avif",
+    imageAlt: "Portada del libro Intro Plus de AIT USA Institute.",
+  },
+  levels: [
+    {
+      key: "foundation",
+      eyebrow: "Aquí aprendes",
+      title: "El método, la técnica y la estrategia",
+      books: [
+        {
+          title: "Step 1 Plus",
+          image: "/assets/books/step-plus-1-portada.avif",
+          imageAlt: "Portada del libro Step 1 Plus de AIT USA Institute.",
+        },
+        {
+          title: "Step 2 Plus",
+          image: "/assets/books/step-plus-2-portada.avif",
+          imageAlt: "Portada del libro Step 2 Plus de AIT USA Institute.",
+        },
+      ],
+    },
+    {
+      key: "progress",
+      eyebrow: "Aquí estás listo",
+      title: "Con todos los tiempos: presente, pasado y futuro",
+      books: [
+        {
+          title: "Step 3 Plus",
+          image: "/assets/books/step-plus-3-portada.avif",
+          imageAlt: "Portada del libro Step 3 Plus de AIT USA Institute.",
+        },
+        {
+          title: "Step 4 Plus",
+          image: "/assets/books/step-plus-4-portada.avif",
+          imageAlt: "Portada del libro Step 4 Plus de AIT USA Institute.",
+        },
+      ],
+    },
+    {
+      key: "flight",
+      eyebrow: "Aquí estás",
+      title: "Listo para volar",
+      books: [
+        {
+          title: "Step 5 Plus",
+          image: "/assets/books/step-plus-5-portada.avif",
+          imageAlt: "Portada del libro Step 5 Plus de AIT USA Institute.",
+        },
+        {
+          title: "Step 6 Plus",
+          image: "/assets/books/step-plus-6-portada.avif",
+          imageAlt: "Portada del libro Step 6 Plus de AIT USA Institute.",
+        },
+      ],
+    },
+  ],
+};
 
 const productOfferings = [
   {
@@ -3558,6 +3628,7 @@ const placementTest = {
 export const siteData = {
   painHero,
   methodNarrative,
+  bookLibrary,
   solutionCharacteristics,
   productOfferings,
   courseCatalog,
@@ -3621,6 +3692,7 @@ export {
   methodBlocks,
   methodCharacteristics,
   methodNarrative,
+  bookLibrary,
   modalities,
   nav,
   painHero,

@@ -11,7 +11,7 @@ const sections = [
   ["Sedes", "sedes"],
   ["Contacto", "contacto"],
 ];
-const readingSectionIds = [...sections.map(([, id]) => id), "faq"];
+const readingSectionIds = [...sections.map(([, id]) => id), "libros", "faq"];
 
 export function SiteHeader({ activePage = "home" }) {
   const [open, setOpen] = useState(false);

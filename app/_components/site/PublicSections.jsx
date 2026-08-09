@@ -2,6 +2,7 @@ import {
   conversionCtas,
   institutionalProof,
   locations,
+  bookLibrary,
   methodNarrative,
   painHero,
   productOfferings,
@@ -26,16 +27,6 @@ export function HeroSection() {
             </h1>
             {painHero.headlineAccent ? <p className="hero__headline-accent">{painHero.headlineAccent}</p> : null}
           </div>
-          <p className="hero__summary">
-            {(painHero.subheadlineLines || [painHero.subheadline || ""]).map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </p>
-          {painHero.objections?.length ? (
-            <ul className="hero__objections" aria-label="Preguntas comunes al aprender inglés">
-              {painHero.objections.map((item) => <li key={item}><p>{item}</p></li>)}
-            </ul>
-          ) : null}
           <nav className="hero__modalities" aria-label="Formatos de clase">
             <a href="/cursos/#ingles-presencial"><i data-lucide="users-round" aria-hidden="true" /><span>Presencial</span></a>
             <a href="/cursos/#ingles-online"><i data-lucide="laptop" aria-hidden="true" /><span>Online</span></a>
@@ -73,19 +64,46 @@ export function MethodSection() {
         <header className="method-editorial__intro section-heading section-heading--framed">
           <p className="method-kicker">{methodNarrative.eyebrow || "Método Graphic Concept"}</p>
           <h2 id="method-title">{methodNarrative.heading || ""}</h2>
-          <p>{methodNarrative.introduction || ""}</p>
+          <p className="method-editorial__promise">{methodNarrative.promise || ""}</p>
+          <p className="method-editorial__intro-copy">{methodNarrative.introduction || ""}</p>
         </header>
-        <MethodVideo narrative={methodNarrative} />
-        <ul className="method-reasons" aria-label="Resumen del método en tres razones">
-          {solutionCharacteristics.map((item) => (
-            <li key={item.key}>
-              <span className="method-reason__icon" aria-hidden="true">
-                <i data-lucide={item.icon || "circle-check"} />
-              </span>
-              <div><h3>{item.title}</h3><p>{item.body}</p></div>
-            </li>
-          ))}
-        </ul>
+        <section className="method-editorial__pain" aria-labelledby="method-pain-title">
+          <div className="method-editorial__pain-copy">
+            <p className="method-story-kicker">{methodNarrative.painEyebrow || "Lo que escuchamos"}</p>
+            <h3 id="method-pain-title">{methodNarrative.painHeading || "¿Te suena familiar?"}</h3>
+            <p>{methodNarrative.painIntroduction || ""}</p>
+          </div>
+          <ul className="method-editorial__questions" aria-label="Preguntas comunes al aprender inglés">
+            {(methodNarrative.painPoints || []).map((item, index) => (
+              <li key={item}>
+                <span className="method-question__index">{String(index + 1).padStart(2, "0")}</span>
+                <p>{item}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+        <div className="method-editorial__bridge">
+          <p className="method-story-kicker">{methodNarrative.solutionEyebrow || "La respuesta"}</p>
+          <h3>{methodNarrative.solutionHeading || "Una ruta clara para comprender, hablar y avanzar."}</h3>
+          <p>{methodNarrative.solutionIntroduction || ""}</p>
+        </div>
+        <div className="method-editorial__solution">
+          <div className="method-editorial__solution-copy">
+            <p className="method-story-kicker">{methodNarrative.reasonsEyebrow || "De la pregunta a la práctica"}</p>
+            <h3>{methodNarrative.reasonsHeading || "Tres razones para avanzar con más facilidad."}</h3>
+            <ul className="method-reasons" aria-label="Resumen del método en tres razones">
+              {solutionCharacteristics.map((item) => (
+                <li key={item.key}>
+                  <span className="method-reason__icon" aria-hidden="true">
+                    <i data-lucide={item.icon || "circle-check"} />
+                  </span>
+                  <div><h4>{item.title}</h4><p>{item.body}</p></div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <MethodVideo narrative={methodNarrative} />
+        </div>
       </div>
     </section>
   );
@@ -169,6 +187,52 @@ export function LocationsSection() {
           hoursEyebrow="Horario de atención administrativo"
           whatsappHref={site.whatsappHref}
         />
+      </div>
+    </section>
+  );
+}
+
+export function BooksSection() {
+  return (
+    <section className="section books-section" id="libros" aria-labelledby="books-title">
+      <div className="section-inner books-section__inner">
+        <header className="section-heading section-heading--framed books-section__heading">
+          <p className="section-kicker">Ruta Graphic Concept</p>
+          <h2 id="books-title">Nuestros libros.</h2>
+          <p>Una ruta visual de apoyo para que cada nivel tenga una dirección clara, práctica y fácil de seguir.</p>
+        </header>
+        <div className="books-showcase">
+          <article className="books-showcase__intro">
+            <div className="books-showcase__intro-copy">
+              <img className="books-showcase__logo" src={site.images.logo} alt="AIT USA Institute" width="96" height="96" />
+              <p className="books-showcase__eyebrow">{bookLibrary.intro.eyebrow}</p>
+              <h3>{bookLibrary.intro.title}</h3>
+              <p>{bookLibrary.intro.description}</p>
+            </div>
+            <figure className="book-card book-card--intro">
+              <img src={bookLibrary.intro.image} alt={bookLibrary.intro.imageAlt} width="160" height="209" loading="lazy" decoding="async" />
+              <figcaption>English introductory book</figcaption>
+            </figure>
+          </article>
+          <div className="books-showcase__levels">
+            {bookLibrary.levels.map((level) => (
+              <article className="book-level" key={level.key}>
+                <header className="book-level__heading">
+                  <p>{level.eyebrow}</p>
+                  <h3>{level.title}</h3>
+                </header>
+                <ul className="book-level__covers" aria-label={`Libros: ${level.title}`}>
+                  {level.books.map((book) => (
+                    <li className="book-card" key={book.title}>
+                      <img src={book.image} alt={book.imageAlt} width="177" height="219" loading="lazy" decoding="async" />
+                      <span>{book.title}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
