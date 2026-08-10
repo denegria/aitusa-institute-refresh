@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { faqs, site, testimonials } from "../../../src/content";
+import { communityGallery, faqs, site, testimonials } from "../../../src/content";
 
 export function MethodVideo({ narrative }) {
   const enterMobileFullscreen = (event) => {
@@ -51,172 +52,418 @@ export function ProofStories() {
     Eric: "Eric",
     Leila: "Leila",
   };
-  const ordered = [
+  const orderedStories = [
     testimonials.find((item) => item.name === "Jessica"),
     ...testimonials.filter((item) => item.name !== "Jessica"),
   ].filter(Boolean);
-  const railRef = useRef(null);
-  const dialogRef = useRef(null);
+  const sectionRef = useRef(null);
+  const videoDialogRef = useRef(null);
+  const imageDialogRef = useRef(null);
   const triggerRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [railState, setRailState] = useState({ atStart: true, atEnd: false });
-  const active = ordered[activeIndex] || ordered[0];
+  const pauseTimerRef = useRef(null);
+  const [activeTab, setActiveTab] = useState("stories");
+  const [cycleIndex, setCycleIndex] = useState(0);
+  const [activeStoryIndex, setActiveStoryIndex] = useState(0);
+  const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+  const [lightboxTab, setLightboxTab] = useState("stories");
+  const [isInView, setIsInView] = useState(false);
+  const [hoverPaused, setHoverPaused] = useState(false);
+  const [interactionPaused, setInteractionPaused] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [showAllGraduations, setShowAllGraduations] = useState(false);
 
-  const updateRailState = () => {
-    const rail = railRef.current;
-    if (!rail) return;
-    const max = Math.max(0, rail.scrollWidth - rail.clientWidth);
-    setRailState({ atStart: rail.scrollLeft <= 4, atEnd: rail.scrollLeft >= max - 4 });
+  const tabMeta = {
+    stories: {
+      eyebrow: "Entrevistas en inglés",
+    },
+    graduations: {
+      eyebrow: "Graduaciones",
+    },
+    classroom: {
+      eyebrow: "En clase",
+    },
+    celebrations: {
+      eyebrow: "Celebraciones",
+    },
+  };
+
+  const photosForTab = communityGallery[activeTab] || communityGallery.stories;
+  const activeStoryCycleIndex = orderedStories.length ? cycleIndex % orderedStories.length : 0;
+  const activeStoryCycle = orderedStories[activeStoryCycleIndex] || orderedStories[0];
+  const activePhotoCycleIndex = photosForTab.length ? cycleIndex % photosForTab.length : 0;
+  const activePhotoCycle = photosForTab[activePhotoCycleIndex] || communityGallery.stories[0];
+  const sidePhotos = Array.from({ length: 2 }, (_, offset) => {
+    const index = photosForTab.length ? (activePhotoCycleIndex + offset + 1) % photosForTab.length : 0;
+    return { photo: photosForTab[index], index };
+  }).filter((item) => item.photo);
+  const activeStory = orderedStories[activeStoryIndex] || orderedStories[0];
+  const lightboxPhotos = communityGallery[lightboxTab] || communityGallery.stories;
+  const activePhoto = lightboxPhotos[activePhotoIndex] || lightboxPhotos[0];
+  const featuredGraduationIds = ["0031", "0022", "0033", "0028"];
+  const graduationWall = showAllGraduations
+    ? communityGallery.graduations.map((photo, index) => ({ photo, index }))
+    : featuredGraduationIds
+        .map((id) => {
+          const index = communityGallery.graduations.findIndex((photo) => photo.id === id);
+          return { photo: communityGallery.graduations[index], index };
+        })
+        .filter(({ photo }) => photo);
+
+  const pauseAfterInteraction = () => {
+    setInteractionPaused(true);
+    window.clearTimeout(pauseTimerRef.current);
+    pauseTimerRef.current = window.setTimeout(() => setInteractionPaused(false), 12000);
   };
 
   useEffect(() => {
-    updateRailState();
-    window.addEventListener("resize", updateRailState);
-    return () => window.removeEventListener("resize", updateRailState);
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updatePreference = () => setPrefersReducedMotion(media.matches);
+    updatePreference();
+    media.addEventListener?.("change", updatePreference);
+    return () => media.removeEventListener?.("change", updatePreference);
   }, []);
 
-  const scrollRail = (direction) => {
-    const rail = railRef.current;
-    const story = rail?.querySelector(".proof-story");
-    if (!rail || !story) return;
-    const gap = Number.parseFloat(window.getComputedStyle(rail).columnGap) || 0;
-    rail.scrollBy({
-      left: (story.getBoundingClientRect().width + gap) * direction,
-      behavior: "smooth",
-    });
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || !("IntersectionObserver" in window)) {
+      setIsInView(true);
+      return undefined;
+    }
+
+    const bounds = section.getBoundingClientRect();
+    setIsInView(bounds.bottom > 0 && bounds.top < window.innerHeight);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsInView(entry.isIntersecting),
+      { threshold: 0.02 },
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isInView || hoverPaused || interactionPaused || prefersReducedMotion) return undefined;
+    const timer = window.setInterval(() => setCycleIndex((index) => index + 1), 6500);
+    return () => window.clearInterval(timer);
+  }, [hoverPaused, interactionPaused, isInView, prefersReducedMotion]);
+
+  useEffect(
+    () => () => {
+      window.clearTimeout(pauseTimerRef.current);
+    },
+    [],
+  );
+
+  const selectTab = (tabId) => {
+    setActiveTab(tabId);
+    setCycleIndex(0);
+    setActivePhotoIndex(0);
+    pauseAfterInteraction();
+  };
+
+  const handleTabKeyDown = (event, index) => {
+    const lastIndex = communityGallery.tabs.length - 1;
+    let nextIndex = null;
+    if (event.key === "ArrowRight") nextIndex = index === lastIndex ? 0 : index + 1;
+    if (event.key === "ArrowLeft") nextIndex = index === 0 ? lastIndex : index - 1;
+    if (event.key === "Home") nextIndex = 0;
+    if (event.key === "End") nextIndex = lastIndex;
+    if (nextIndex === null) return;
+    event.preventDefault();
+    const nextTab = communityGallery.tabs[nextIndex];
+    selectTab(nextTab.id);
+    window.requestAnimationFrame(() => document.getElementById(`community-tab-${nextTab.id}`)?.focus());
   };
 
   const openStory = (index, trigger) => {
-    const dialog = dialogRef.current;
+    const dialog = videoDialogRef.current;
     if (!dialog?.showModal) return;
     triggerRef.current = trigger;
-    setActiveIndex(index);
+    setActiveStoryIndex(index);
     dialog.showModal();
     document.documentElement.classList.add("has-proof-dialog");
   };
 
-  const closeDialog = () => dialogRef.current?.close();
-  const closeCleanup = () => {
-    const video = dialogRef.current?.querySelector("video");
+  const closeVideoDialog = () => videoDialogRef.current?.close();
+  const closeVideoCleanup = () => {
+    const video = videoDialogRef.current?.querySelector("video");
     video?.pause();
     document.documentElement.classList.remove("has-proof-dialog");
     triggerRef.current?.focus();
   };
 
+  const openPhoto = (index, trigger, tabId = activeTab) => {
+    const dialog = imageDialogRef.current;
+    if (!dialog?.showModal) return;
+    triggerRef.current = trigger;
+    setLightboxTab(tabId);
+    setActivePhotoIndex(index);
+    dialog.showModal();
+    document.documentElement.classList.add("has-proof-dialog");
+  };
+
+  const closeImageDialog = () => imageDialogRef.current?.close();
+  const closeImageCleanup = () => {
+    document.documentElement.classList.remove("has-proof-dialog");
+    triggerRef.current?.focus();
+  };
+
+  const showPreviousPhoto = () => {
+    setActivePhotoIndex((index) => (index - 1 + lightboxPhotos.length) % lightboxPhotos.length);
+  };
+
+  const showNextPhoto = () => {
+    setActivePhotoIndex((index) => (index + 1) % lightboxPhotos.length);
+  };
+
   return (
     <section
-      className={`section proof-editorial${ordered.length === 3 ? " proof-editorial--complete-row" : ""}`}
+      className={`section community-proof${isInView ? " is-visible" : ""}`}
       id="experiencia"
-      data-proof-shelf
+      ref={sectionRef}
+      data-community-proof
+      onPointerEnter={() => setHoverPaused(true)}
+      onPointerLeave={() => setHoverPaused(false)}
     >
-      <div className="proof-shelf__inner">
-        <div className="proof-shelf__heading proof-shelf__heading--mobile-framed">
-          <div className="proof-shelf__copy">
-            <span className="chapter-accent" aria-hidden="true" />
-            <p className="section-kicker">Experiencias reales</p>
-            <h2>Historias de estudiantes AIT.</h2>
-            <p>Conoce las clases, la práctica y el acompañamiento desde la voz de quienes ya viven la experiencia.</p>
-          </div>
-          <div className="proof-shelf__controls" aria-label="Navegar historias">
-            <span>{ordered.length} historias</span>
-            <button type="button" disabled={railState.atStart} onClick={() => scrollRail(-1)} aria-label="Ver historias anteriores">
-              <i data-lucide="arrow-left" aria-hidden="true" />
-            </button>
-            <button type="button" disabled={railState.atEnd} onClick={() => scrollRail(1)} aria-label="Ver más historias">
-              <i data-lucide="arrow-right" aria-hidden="true" />
-            </button>
-          </div>
-        </div>
+      <div className="community-proof__inner">
+        <header className="community-proof__heading" style={{ "--reveal-order": 0 }}>
+          <span className="chapter-accent" aria-hidden="true" />
+          <p className="section-kicker">{communityGallery.eyebrow}</p>
+          <h2>{communityGallery.title}</h2>
+          <p>{communityGallery.introduction}</p>
+        </header>
+
         <div
-          className="proof-shelf__rail"
-          role="list"
-          aria-label="Historias de estudiantes en video"
-          ref={railRef}
-          data-proof-rail
-          onScroll={updateRailState}
+          className="community-proof__tabs"
+          role="tablist"
+          aria-label="Explorar experiencias de AIT"
+          style={{ "--reveal-order": 1 }}
         >
-          {ordered.map((item, index) => (
-            <a
-              className="proof-story"
-              href={item.video}
-              role="listitem"
-              aria-haspopup="dialog"
-              key={`${item.name}-${item.video}`}
-              data-proof-story
-              onClick={(event) => {
-                if (!dialogRef.current?.showModal) return;
-                event.preventDefault();
-                openStory(index, event.currentTarget);
-              }}
+          {communityGallery.tabs.map((tab, index) => (
+            <button
+              className={activeTab === tab.id ? "is-active" : ""}
+              type="button"
+              role="tab"
+              id={`community-tab-${tab.id}`}
+              aria-selected={activeTab === tab.id}
+              aria-controls="community-proof-panel"
+              tabIndex={activeTab === tab.id ? 0 : -1}
+              key={tab.id}
+              onClick={() => selectTab(tab.id)}
+              onKeyDown={(event) => handleTabKeyDown(event, index)}
             >
-              <img
-                src={item.videoPoster || item.image}
-                alt={item.imageAlt || ""}
-                loading={index < 3 ? "eager" : "lazy"}
-              />
-              <span className="proof-story__shade" aria-hidden="true" />
-              <span className="proof-story__duration">{item.duration || ""}</span>
-              <span className="proof-story__play" aria-hidden="true"><i data-lucide="play" /></span>
-              <span className="proof-story__copy">
-                <small>{item.result}</small>
-                <strong>{shortLabels[item.name] || item.name}</strong>
-                <span>{item.headline || item.text}</span>
-              </span>
-            </a>
+              {tab.label}
+            </button>
           ))}
         </div>
-        <p className="proof-shelf__hint">
-          <i data-lucide="move-horizontal" aria-hidden="true" />
-          <span>Desliza para conocer más historias.</span>
-        </p>
+
+        <div
+          className="community-proof__stage"
+          id="community-proof-panel"
+          role="tabpanel"
+          aria-labelledby={`community-tab-${activeTab}`}
+          key={activeTab}
+          style={{ "--reveal-order": 2 }}
+        >
+          {activeTab === "stories" ? (
+            <a
+              className="community-proof__feature community-proof__feature--video"
+              href={activeStoryCycle.video}
+              aria-haspopup="dialog"
+              aria-label={`Ver entrevista en inglés con ${shortLabels[activeStoryCycle.name] || activeStoryCycle.name}`}
+              key={activeStoryCycle.video}
+              onClick={(event) => {
+                if (!videoDialogRef.current?.showModal) return;
+                event.preventDefault();
+                pauseAfterInteraction();
+                openStory(activeStoryCycleIndex, event.currentTarget);
+              }}
+            >
+              <Image
+                src={activeStoryCycle.videoPoster || activeStoryCycle.image}
+                alt={activeStoryCycle.imageAlt || ""}
+                fill
+                sizes="(max-width: 719px) calc(100vw - 32px), 48vw"
+              />
+              <span className="community-proof__media-shade" aria-hidden="true" />
+              <span className="community-proof__play" aria-hidden="true"><i data-lucide="play" /></span>
+            </a>
+          ) : (
+            <button
+              className="community-proof__feature community-proof__feature--photo"
+              type="button"
+              key={activePhotoCycle.id}
+              onClick={(event) => {
+                pauseAfterInteraction();
+                openPhoto(activePhotoCycleIndex, event.currentTarget);
+              }}
+              aria-label={`Ampliar: ${activePhotoCycle.alt}`}
+            >
+              <Image
+                src={activePhotoCycle.src}
+                alt=""
+                fill
+                sizes="(max-width: 719px) calc(100vw - 32px), 48vw"
+                style={{ objectPosition: activePhotoCycle.position }}
+              />
+              <span className="community-proof__media-shade" aria-hidden="true" />
+            </button>
+          )}
+
+          <div className="community-proof__mosaic" aria-label={`Selección de ${tabMeta[activeTab].eyebrow.toLowerCase()}`}>
+            {sidePhotos.map(({ photo, index }, tileIndex) => (
+              <button
+                className="community-proof__tile"
+                type="button"
+                key={`${activeTab}-${cycleIndex}-${photo.id}`}
+                style={{ "--tile-order": tileIndex }}
+                onClick={(event) => {
+                  pauseAfterInteraction();
+                  openPhoto(index, event.currentTarget);
+                }}
+                aria-label={`Ampliar: ${photo.alt}`}
+              >
+                <Image
+                  src={photo.src}
+                  alt=""
+                  fill
+                  sizes="(max-width: 719px) 44vw, 24vw"
+                  style={{ objectPosition: photo.position }}
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <section className="community-proof__graduations" aria-labelledby="graduation-wall-title" style={{ "--reveal-order": 3 }}>
+          <div className="community-proof__graduation-heading">
+            <h3 id="graduation-wall-title">Graduaciones recientes</h3>
+          </div>
+
+          <div className={`community-proof__wall${showAllGraduations ? " is-expanded" : ""}`}>
+            {graduationWall.map(({ photo, index }) => (
+              <button
+                className="community-proof__wall-tile"
+                type="button"
+                key={photo.id}
+                style={{ "--tile-order": index }}
+                onClick={(event) => {
+                  const trigger = event.currentTarget;
+                  selectTab("graduations");
+                  setActivePhotoIndex(index);
+                  window.requestAnimationFrame(() => openPhoto(index, trigger, "graduations"));
+                }}
+                aria-label={`Ampliar: ${photo.alt}`}
+              >
+                <Image
+                  src={photo.src}
+                  alt=""
+                  fill
+                  sizes="(max-width: 719px) 50vw, (max-width: 1040px) 25vw, 17vw"
+                  style={{ objectPosition: photo.position }}
+                />
+              </button>
+            ))}
+          </div>
+
+          <button
+            className="community-proof__graduation-action"
+            type="button"
+            aria-expanded={showAllGraduations}
+            onClick={() => setShowAllGraduations((value) => !value)}
+          >
+            <span>{showAllGraduations ? "Ver graduaciones destacadas" : "Ver las 27 graduaciones"}</span>
+            <i data-lucide={showAllGraduations ? "arrow-up" : "arrow-right"} aria-hidden="true" />
+          </button>
+        </section>
+
         <dialog
           className="proof-dialog"
           aria-labelledby="proof-dialog-title"
-          ref={dialogRef}
+          ref={videoDialogRef}
           data-proof-dialog
-          onClose={closeCleanup}
+          onClose={closeVideoCleanup}
           onClick={(event) => {
-            if (event.target === dialogRef.current) closeDialog();
+            if (event.target === videoDialogRef.current) closeVideoDialog();
           }}
         >
           <div className="proof-dialog__shell">
-            <button className="proof-dialog__close" type="button" onClick={closeDialog} aria-label="Cerrar historia">
+            <button className="proof-dialog__close" type="button" onClick={closeVideoDialog} aria-label="Cerrar entrevista">
               <i data-lucide="x" aria-hidden="true" />
             </button>
             <div className="proof-dialog__media">
               <div
                 className="proof-dialog__video-frame"
-                style={{ aspectRatio: `${active.videoWidth || 16} / ${active.videoHeight || 9}` }}
+                style={{ aspectRatio: `${activeStory.videoWidth || 16} / ${activeStory.videoHeight || 9}` }}
               >
                 <video
-                  key={active.video}
+                  key={activeStory.video}
                   controls
                   playsInline
                   preload="metadata"
-                  src={active.video}
-                  poster={active.videoPoster || active.image}
-                  width={active.videoWidth || 16}
-                  height={active.videoHeight || 9}
-                  aria-label={shortLabels[active.name] || active.name}
+                  src={activeStory.video}
+                  poster={activeStory.videoPoster || activeStory.image}
+                  width={activeStory.videoWidth || 16}
+                  height={activeStory.videoHeight || 9}
+                  aria-label={shortLabels[activeStory.name] || activeStory.name}
                   data-proof-dialog-video
                 />
               </div>
             </div>
             <div className="proof-dialog__footer">
               <div className="proof-dialog__copy">
-                <span>{active.result} · {active.duration || ""}</span>
-                <h3 id="proof-dialog-title" data-proof-dialog-title>{shortLabels[active.name] || active.name}</h3>
-                <p>{active.headline || active.text}</p>
+                <span>{activeStory.result} · {activeStory.duration || ""}</span>
+                <h3 id="proof-dialog-title" data-proof-dialog-title>{shortLabels[activeStory.name] || activeStory.name}</h3>
+                <p>{activeStory.headline || activeStory.text}</p>
               </div>
-              <div className="proof-dialog__nav" aria-label="Cambiar historia">
-                <button type="button" data-proof-dialog-prev onClick={() => setActiveIndex((activeIndex - 1 + ordered.length) % ordered.length)}>
+              <div className="proof-dialog__nav" aria-label="Cambiar entrevista">
+                <button type="button" data-proof-dialog-prev onClick={() => setActiveStoryIndex((activeStoryIndex - 1 + orderedStories.length) % orderedStories.length)}>
                   <i data-lucide="arrow-left" aria-hidden="true" /><span>Anterior</span>
                 </button>
-                <button type="button" data-proof-dialog-next onClick={() => setActiveIndex((activeIndex + 1) % ordered.length)}>
+                <button type="button" data-proof-dialog-next onClick={() => setActiveStoryIndex((activeStoryIndex + 1) % orderedStories.length)}>
                   <span>Siguiente</span><i data-lucide="arrow-right" aria-hidden="true" />
                 </button>
               </div>
             </div>
+          </div>
+        </dialog>
+
+        <dialog
+          className="community-lightbox"
+          aria-labelledby="community-lightbox-title"
+          ref={imageDialogRef}
+          onClose={closeImageCleanup}
+          onClick={(event) => {
+            if (event.target === imageDialogRef.current) closeImageDialog();
+          }}
+        >
+          <div className="community-lightbox__shell">
+            <button className="community-lightbox__close" type="button" onClick={closeImageDialog} aria-label="Cerrar fotografía">
+              <i data-lucide="x" aria-hidden="true" />
+            </button>
+            {activePhoto ? (
+              <>
+                <div className="community-lightbox__media">
+                  <Image
+                    src={activePhoto.src}
+                    alt={activePhoto.alt}
+                    fill
+                    sizes="(max-width: 719px) calc(100vw - 20px), min(1120px, calc(100vw - 36px))"
+                    style={{ objectPosition: activePhoto.position }}
+                  />
+                </div>
+                <footer className="community-lightbox__footer">
+                  <div>
+                    <span>{tabMeta[lightboxTab]?.eyebrow || "Experiencia AIT"}</span>
+                    <p id="community-lightbox-title">{activePhoto.alt}</p>
+                  </div>
+                  <nav aria-label="Cambiar fotografía">
+                    <button type="button" onClick={showPreviousPhoto} aria-label="Fotografía anterior"><i data-lucide="arrow-left" aria-hidden="true" /></button>
+                    <button type="button" onClick={showNextPhoto} aria-label="Fotografía siguiente"><i data-lucide="arrow-right" aria-hidden="true" /></button>
+                  </nav>
+                </footer>
+              </>
+            ) : null}
           </div>
         </dialog>
       </div>

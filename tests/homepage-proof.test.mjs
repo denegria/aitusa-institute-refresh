@@ -3,13 +3,9 @@ import { readFile } from "node:fs/promises";
 import { describe, it } from "node:test";
 import { siteData } from "../src/content.js";
 
-async function loadSiteData() {
-  return siteData;
-}
-
-describe("homepage Prueba real gallery", () => {
-  it("keeps the published staging videos and their real durations", async () => {
-    const { testimonials } = await loadSiteData();
+describe("homepage community gallery", () => {
+  it("keeps the published testimonial videos and their real durations", () => {
+    const { testimonials } = siteData;
 
     assert.ok(testimonials.length >= 3);
     assert.equal(testimonials.find((item) => item.name === "Testimonio internacional")?.duration, "0:46");
@@ -22,57 +18,77 @@ describe("homepage Prueba real gallery", () => {
     }
   });
 
-  it("renders a scalable story shelf with a no-JS video fallback", async () => {
-    const proofSection = await readFile("app/_components/site/InteractiveSections.jsx", "utf8");
+  it("organizes every gallery image into accessible editorial views", () => {
+    const { communityGallery } = siteData;
 
-    assert.match(proofSection, /function ProofStories/);
-    assert.match(proofSection, /className="proof-shelf__rail"/);
-    assert.match(proofSection, /role="list"/);
-    assert.match(proofSection, /role="listitem"/);
-    assert.match(proofSection, /aria-haspopup="dialog"/);
-    assert.match(proofSection, /href=\{item\.video\}/);
-    assert.match(proofSection, /<dialog/);
-    assert.match(proofSection, /<video/);
-    assert.match(proofSection, /ordered\.length === 3/);
-    assert.match(proofSection, /proof-editorial--complete-row/);
-    assert.doesNotMatch(proofSection, /slice\(0,\s*3\)/);
-    assert.doesNotMatch(proofSection, /Tres historias/);
-    assert.doesNotMatch(proofSection, /autoplay/);
-    assert.doesNotMatch(proofSection, /muted/);
+    assert.deepEqual(
+      communityGallery.tabs.map((tab) => tab.id),
+      ["stories", "graduations", "classroom", "celebrations"],
+    );
+    assert.equal(communityGallery.tabs[0].label, "Entrevistas en inglés");
+    assert.match(communityGallery.introduction, /Entrevistas en inglés con estudiantes AIT/);
+    assert.equal(communityGallery.graduations.length, 27);
+    assert.ok(communityGallery.celebrations.length >= 20);
+    assert.ok(communityGallery.classroom.length >= 5);
+
+    const uniquePhotos = new Map();
+    for (const tab of communityGallery.tabs) {
+      for (const photo of communityGallery[tab.id]) uniquePhotos.set(photo.id, photo);
+    }
+    assert.equal(uniquePhotos.size, 54);
+    for (const photo of uniquePhotos.values()) {
+      assert.match(photo.src, /^\/assets\/gallery\/photos\/\d{4}\.webp$/);
+      assert.ok(photo.alt.length > 20);
+    }
   });
 
-  it("supports rail and dialog navigation without autoplay", async () => {
+  it("renders keyboard tabs, no-JS video links, and both media dialogs", async () => {
     const source = await readFile("app/_components/site/InteractiveSections.jsx", "utf8");
 
-    assert.match(source, /function ProofStories/);
-    assert.match(source, /rail\.scrollBy/);
-    assert.match(source, /dialog\.showModal\(\)/);
+    assert.match(source, /export function ProofStories/);
+    assert.match(source, /className="community-proof__tabs"/);
+    assert.match(source, /role="tablist"/);
+    assert.match(source, /role="tab"/);
+    assert.match(source, /role="tabpanel"/);
+    assert.match(source, /event\.key === "ArrowRight"/);
+    assert.match(source, /event\.key === "ArrowLeft"/);
+    assert.match(source, /href=\{activeStoryCycle\.video\}/);
+    assert.match(source, /aria-label=\{`Ver entrevista en inglés con/);
+    assert.match(source, /className="proof-dialog"/);
+    assert.match(source, /className="community-lightbox"/);
+    assert.match(source, /Array\.from\(\{ length: 2 \}/);
+    assert.match(source, /featuredGraduationIds = \["0031", "0022", "0033", "0028"\]/);
+    assert.match(source, /communityGallery\.graduations\.findIndex/);
+    assert.match(source, /Ver las 27 graduaciones/);
+    assert.doesNotMatch(source, /community-proof__explore/);
     assert.match(source, /video\?\.pause\(\)/);
     assert.match(source, /triggerRef\.current\?\.focus\(\)/);
     assert.doesNotMatch(source, /video\.play\(\)/);
+    assert.doesNotMatch(source, /autoPlay|autoplay/);
   });
 
-  it("preserves native video frames and responsive shelf layouts", async () => {
+  it("cycles visible imagery and reveals the section without overriding reduced motion", async () => {
+    const source = await readFile("app/_components/site/InteractiveSections.jsx", "utf8");
     const styles = await readFile("src/styles.css", "utf8");
 
-    assert.match(styles, /\.proof-shelf__rail\s*\{[\s\S]*grid-auto-flow: column/);
-    assert.match(styles, /\.proof-shelf__rail\s*\{[\s\S]*scroll-snap-type: x mandatory/);
-    assert.match(styles, /\.proof-dialog__media video\s*\{[\s\S]*object-fit: contain/);
-    assert.match(styles, /@media \(max-width: 640px\)[\s\S]*\.proof-shelf__rail\s*\{[\s\S]*grid-auto-columns: min\(76vw, 290px\)/);
-    assert.match(styles, /\.proof-shelf__controls button,[\s\S]*min-height: 44px/);
-    assert.match(styles, /--proof-gold: #c4932d/);
-    assert.match(styles, /--proof-navy: #001a3d/);
-    assert.match(
-      styles,
-      /@media \(min-width: 1041px\)[\s\S]*\.home-page \.proof-editorial--complete-row \.proof-shelf__controls button\s*\{[\s\S]*display: none/,
-    );
-    assert.match(
-      styles,
-      /@media \(min-width: 1041px\)[\s\S]*\.home-page \.proof-editorial--complete-row \.proof-shelf__rail\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);[\s\S]*overflow-x: visible/,
-    );
-    assert.match(
-      styles,
-      /\.home-page \.proof-editorial--complete-row \.proof-shelf__hint\s*\{[\s\S]*display: none/,
-    );
+    assert.match(source, /IntersectionObserver/);
+    assert.match(source, /bounds\.bottom > 0 && bounds\.top < window\.innerHeight/);
+    assert.match(source, /threshold: 0\.02/);
+    assert.match(source, /window\.setInterval\(\(\) => setCycleIndex/);
+    assert.match(source, /6500/);
+    assert.match(source, /prefers-reduced-motion: reduce/);
+    assert.match(source, /interactionPaused/);
+    assert.match(source, /hoverPaused/);
+    assert.match(styles, /\.community-proof__stage\s*\{[\s\S]*grid-template-columns: minmax\(0, 1\.78fr\) minmax\(250px, 1fr\)/);
+    assert.match(styles, /\.community-proof__mosaic\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)[\s\S]*grid-template-rows: repeat\(2, minmax\(0, 1fr\)\)/);
+    assert.match(styles, /\.community-proof__wall\s*\{[\s\S]*grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
+    assert.match(styles, /\.community-proof__wall-tile\s*\{[\s\S]*aspect-ratio: 3 \/ 4/);
+    assert.match(styles, /filter: brightness\(1\.025\) contrast\(1\.035\) saturate\(\.9\)/);
+    assert.doesNotMatch(styles, /\.community-proof__wall-tile:nth-child/);
+    assert.match(styles, /\.community-proof\.is-visible \.community-proof__heading/);
+    assert.match(styles, /@keyframes communityMediaIn/);
+    assert.match(styles, /@keyframes communityTileReveal/);
+    assert.match(styles, /@media \(max-width: 719px\)[\s\S]*\.community-proof__tabs\s*\{[\s\S]*overflow-x: auto/);
+    assert.match(styles, /@media \(prefers-reduced-motion: reduce\)[\s\S]*animation: none/);
   });
 });

@@ -261,6 +261,65 @@ final result: passed
 
 ---
 
+# Community gallery cleanup and interview relabel — 2026-08-10
+
+## Comparison target and evidence
+
+- Selected visual target: `C:\Users\Alvaro\.codex\generated_images\019fec9c-869a-73a0-810b-a5ba80b98f1c\exec-f08e9386-6af1-4edd-a003-13a760b0d175.png` (984 × 1640 px).
+- Same-input comparison board: `artifacts/gallery-cleanup/reference-vs-implementation-final.jpg`.
+- Desktop implementation states: `artifacts/gallery-cleanup/qa-implementation-heading.png`, `qa-implementation-top.png`, and `qa-implementation-bottom.png` at a 1440 × 900 CSS viewport.
+- Mobile implementation state: `artifacts/gallery-cleanup/implementation-mobile-390x844.png` at a 390 × 844 CSS viewport.
+- Route and state: `http://127.0.0.1:5174/#experiencia`, first interview selected, video paused, graduation archive collapsed.
+
+The web chapter is taller than one desktop viewport, so the comparison board pairs the complete source mock with focused heading, media-stage, and graduation-row captures. The repeated site header in the three implementation slices is capture context rather than part of the gallery design.
+
+## Required fidelity surfaces
+
+### Fonts and typography
+
+- Existing AIT display and body fonts remain intact. The two-line editorial headline, restrained supporting copy, tab hierarchy, and compact graduation heading match the selected direction.
+- The first tab now says `Entrevistas en inglés`, accurately naming the live student interview videos rather than calling them generic stories.
+
+### Spacing and layout rhythm
+
+- The earlier two-by-two support mosaic and irregular 15-tile graduation wall were the main P1 density problem.
+- Fixed with one dominant interview feature, two evenly stacked supporting images, and four equal 3:4 graduation cards. The expanded 27-photo archive preserves the same uniform grid instead of switching to masonry.
+- Section gaps, media radii, tab baselines, and the centered archive action now follow the selected mock's strict alignment.
+
+### Colors and visual tokens
+
+- Deep navy remains the chapter surface; warm gold is limited to the section marker, selected-tab rule, and archive action.
+- Photography receives one restrained, non-generative brightness, contrast, and saturation treatment. No identity, face, or scene content is altered.
+
+### Image quality and asset fidelity
+
+- The featured interview uses the real Jessica poster and opens the real video. Supporting photos and all 27 graduation photos are optimized local AIT assets rendered through `next/image`.
+- The four collapsed graduation cards were changed from weak group shots to certificate-forward images with clear subjects and consistent portrait crops.
+- The source mock's simulated bottom video controls are intentionally replaced by a real play affordance and working dialog rather than fake playback chrome.
+
+### Copy and content
+
+- The introduction now names student interviews in English, graduations, and real community moments.
+- `Graduaciones recientes` and `Ver las 27 graduaciones` match the selected concept. No new student outcomes, quotes, or promotional claims were invented.
+
+## Interaction, accessibility, and responsive checks
+
+- Interview feature cycling changed the real video source after 6.5 seconds and pauses for reduced motion, hover, or recent interaction.
+- Video dialog opened the selected interview; the photo lightbox opened, advanced to a different image, closed, and returned focus.
+- Tabs remain keyboard-oriented ARIA tabs. `Graduaciones` selected correctly, the collapsed row contained 4 cards, and the archive expanded to all 27 with `aria-expanded=true`.
+- Mobile at 390 × 844 keeps the gold chapter marker, horizontally scrollable tabs, one featured interview, a two-photo support grid, and two-column graduation cards without visible horizontal page overflow.
+
+## Comparison history
+
+1. P1: the first implementation felt visually messy because it combined a near-equal two-column stage with four small tiles and an irregular 15-photo wall. Replaced by the selected strict grid.
+2. P2: the first four chronological graduation files did not consistently show certificates. Replaced with certificate-forward editorial picks while preserving all 27 in the archive.
+3. P0 fallback: the browser check exposed a blank chapter when the reveal observer was unavailable. The section now stays visible by default and uses the reveal animation only as an enhancement.
+4. Final same-input comparison found no remaining P0, P1, or P2 difference. The real header context and functional play affordance are intentional product constraints; no P3 follow-up is required for this slice.
+
+final result: passed
+
+---
+
 # Graphic Concept final fidelity pass — 2026-08-09
 
 ## Comparison target and evidence

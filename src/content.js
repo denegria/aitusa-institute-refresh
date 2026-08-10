@@ -2,6 +2,13 @@
 const assetHires = (name) => asset(`hires/${name}`);
 const assetVideo = (name) => asset(`videos/${name}`);
 const assetVideoPoster = (name) => asset(`videos/posters/${name}`);
+const galleryPhoto = (id, category, alt, position = "50% 50%") => ({
+  id,
+  category,
+  src: `/assets/gallery/photos/${id}.webp`,
+  alt,
+  position,
+});
 
 const site = {
   name: "AiT USA Institute",
@@ -2902,6 +2909,66 @@ const testimonials = [
   },
 ];
 
+const communityPhotos = [
+  galleryPhoto("0001", "celebrations", "Estudiante de AIT celebrando su cumpleaños en el salón."),
+  galleryPhoto("0002", "celebrations", "Compañeros de AIT reunidos para celebrar un cumpleaños."),
+  galleryPhoto("0003", "celebrations", "Estudiante de AIT celebrando con una torta de cumpleaños."),
+  galleryPhoto("0004", "celebrations", "Grupo de la comunidad AIT reunido durante una actividad al aire libre."),
+  galleryPhoto("0005", "celebrations", "Estudiantes y equipo de AIT compartiendo una actividad al aire libre.", "50% 42%"),
+  galleryPhoto("0006", "celebrations", "Estudiantes de AIT con disfraces durante una celebración de Halloween.", "50% 38%"),
+  galleryPhoto("0007", "celebrations", "Grupo de AIT reunido para una celebración de Halloween."),
+  galleryPhoto("0008", "celebrations", "Comunidad de AIT compartiendo comida y una celebración en el salón."),
+  galleryPhoto("0009", "celebrations", "Estudiantes de AIT reunidos durante una celebración navideña."),
+  galleryPhoto("0010", "celebrations", "Estudiantes y equipo de AIT compartiendo una cena de fin de año.", "50% 44%"),
+  galleryPhoto("0011", "classroom", "Clase de adultos en AIT con práctica guiada y participación en grupo.", "50% 44%"),
+  galleryPhoto("0012", "classroom", "Estudiantes de AIT trabajando con libros y materiales durante la clase.", "50% 45%"),
+  ...Array.from({ length: 27 }, (_, index) => {
+    const id = String(index + 13).padStart(4, "0");
+    return galleryPhoto(
+      id,
+      "graduations",
+      "Estudiantes de AIT mostrando sus certificados al completar una etapa de aprendizaje.",
+      "50% 42%",
+    );
+  }),
+  galleryPhoto("0040", "celebrations", "Comunidad de AIT preparando una mesa para la celebración del Día de las Madres."),
+  galleryPhoto("0041", "celebrations", "Retratos de estudiantes de AIT durante la sesión del Día de las Madres."),
+  galleryPhoto("0042", "celebrations", "Estudiante de AIT con una rosa durante la sesión del Día de las Madres.", "50% 38%"),
+  galleryPhoto("0043", "celebrations", "Retratos de la comunidad AIT en el escenario floral del Día de las Madres."),
+  galleryPhoto("0044", "celebrations", "Estudiante de AIT sonriendo durante la sesión del Día de las Madres.", "50% 38%"),
+  galleryPhoto("0045", "celebrations", "Compañeras de AIT posando juntas en la celebración del Día de las Madres."),
+  galleryPhoto("0046", "celebrations", "Diseño de AIT felicitando a un grupo de estudiantes graduados."),
+  galleryPhoto("0047", "celebrations", "Recuerdo gráfico de AIT celebrando el progreso de sus estudiantes."),
+  galleryPhoto("0048", "celebrations", "Collage de AIT con estudiantes y certificados de graduación."),
+  galleryPhoto("0049", "celebrations", "Collage de AIT con momentos de progreso académico."),
+  galleryPhoto("0050", "celebrations", "Publicación de AIT que reúne fotografías de estudiantes graduados."),
+  galleryPhoto("0051", "celebrations", "Publicación de AIT celebrando un logro académico de sus estudiantes."),
+  galleryPhoto("0052", "celebrations", "Estudiantes de AIT reunidos para una celebración de San Valentín."),
+  galleryPhoto("0053", "celebrations", "Compañeros de AIT compartiendo la celebración de San Valentín.", "50% 42%"),
+  galleryPhoto("0054", "celebrations", "Grupo de la comunidad AIT durante una sesión de San Valentín."),
+];
+
+const communityGallery = {
+  eyebrow: "Experiencias reales",
+  title: "Más que clases: una comunidad que avanza.",
+  introduction:
+    "Entrevistas en inglés con estudiantes AIT, graduaciones y momentos reales de una comunidad que avanza junta.",
+  tabs: [
+    { id: "stories", label: "Entrevistas en inglés" },
+    { id: "graduations", label: "Graduaciones" },
+    { id: "classroom", label: "En clase" },
+    { id: "celebrations", label: "Celebraciones" },
+  ],
+  stories: communityPhotos.filter((photo) =>
+    ["0005", "0006", "0011", "0018", "0042", "0053"].includes(photo.id),
+  ),
+  graduations: communityPhotos.filter((photo) => photo.category === "graduations"),
+  classroom: communityPhotos.filter((photo) =>
+    ["0011", "0012", "0024", "0026", "0028"].includes(photo.id),
+  ),
+  celebrations: communityPhotos.filter((photo) => photo.category === "celebrations"),
+};
+
 const trustHighlights = [
   {
     title: "Corrección visible",
@@ -3656,6 +3723,7 @@ export const siteData = {
   heroSignal,
   heroStartPath,
   launchPath,
+  communityGallery,
   testimonials,
   trustHighlights,
   trustFeature,
@@ -3703,6 +3771,7 @@ export {
   site,
   solutionCharacteristics,
   stats,
+  communityGallery,
   testimonials,
   trustFeature,
   trustHighlights,

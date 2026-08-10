@@ -176,7 +176,7 @@ describe("homepage React integration", () => {
     assert.match(styles, /\.hero__kicker\s*\{[\s\S]*color: #c28a26/);
     assert.match(styles, /\.hero__modalities svg\s*\{[\s\S]*color: #c28a26/);
     assert.match(styles, /\.hero__headline-emphasis\s*\{[\s\S]*text-transform: none/);
-    assert.match(styles, /\.proof-shelf__rail\s*\{[\s\S]*scroll-snap-type: x mandatory/);
+    assert.match(styles, /\.community-proof__tabs\s*\{[\s\S]*grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
     assert.match(styles, /\.home-page \.real-map-pin\s*\{[\s\S]*width: 44px;[\s\S]*height: 44px/);
     assert.match(styles, /\.final-cta-contact-link\s*\{[\s\S]*min-height: 44px/);
     assert.match(styles, /\.site-footer\s*\{[\s\S]*background: #001a3d/);
@@ -211,7 +211,7 @@ describe("homepage React integration", () => {
       styles,
       /Location focus and final chapter-accent pass:[\s\S]*\.home-page #sedes \.location-compact-list\s*\{[\s\S]*display: flex;[\s\S]*overflow-x: auto;[\s\S]*scroll-snap-type: x mandatory/,
     );
-    assert.match(interactive, /proof-shelf__heading proof-shelf__heading--mobile-framed/);
+    assert.match(interactive, /className="community-proof__heading"/);
     assert.match(interactive, /className="chapter-accent"/);
     assert.match(sections, /className="section faq-section" id="faq"/);
     assert.match(sections, /className="section books-section" id="libros"/);
