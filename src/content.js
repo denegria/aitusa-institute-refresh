@@ -3110,36 +3110,27 @@ const institutionalProof = [
 
 const methodNarrative = {
   eyebrow: "Método Graphic Concept",
-  heading: "Aprende diferente. Piensa en diseño. Crea tu futuro.",
-  headingLines: ["Aprende diferente.", "Piensa en diseño.", "Crea tu futuro."],
+  heading: "Tres razones por las que somos diferentes.",
+  headingLines: ["Tres razones por las que somos diferentes."],
   promise:
-    "En AIT USA Institute convertimos el inglés en un aprendizaje visual, práctico y humano.",
+    "Graphic Concept es nuestro método visual para ayudarte a pensar en inglés y comunicarte en el trabajo, los estudios y la vida diaria.",
   introduction:
-    "Creado para adultos con poco tiempo que quieren comprender, hablar y avanzar sin memorizar listas interminables.",
-  painEyebrow: "Sabemos cómo te sientes",
-  painHeading: "Estudiar de adulto tiene sus propios desafíos. No estás solo.",
-  painIntroduction: "",
-  painCues: [
-    { icon: "brain", title: "Te sientes perdido", body: "No sabes por dónde empezar ni qué camino tomar." },
-    { icon: "clock-3", title: "Poco tiempo", body: "Tu agenda deja poco espacio para una rutina imposible." },
-    { icon: "circle-help", title: "Mucha teoría, poca práctica", body: "Aprendes conceptos, pero no sabes cómo usarlos." },
-    { icon: "battery-low", title: "Dudas de ti mismo", body: "Piensas si todavía estás a tiempo de lograrlo." },
-  ],
+    "Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. Así nació Graphic Concept: un método visual, fácil de aprender y pensado para cualquier persona, sin importar su nivel académico. Te ayuda a comprender y hablar inglés con más facilidad y fluidez, sin memorizar listas interminables.",
+  painEyebrow: "Lo que escuchamos",
+  painHeading: "¿Te suena familiar?",
+  painIntroduction:
+    "No se trata de esforzarte más por memorizar. Se trata de encontrar una forma de aprender que te permita entender, practicar y usar el inglés con confianza.",
   painPoints: [
-    "¿Puedo aprender inglés si empiezo desde cero?",
-    "¿Tendré tiempo para estudiar y cumplir mis metas?",
-    "¿Este conocimiento realmente me ayudará a trabajar en lo que me apasiona?",
+    "¿Quieres hablar inglés rápido, fácil y sin estrés?",
+    "¿Llevas tiempo intentando hablar inglés y todavía no lo logras?",
+    "¿Te obligan a memorizar miles de palabras y sientes que no te alcanzan ni el tiempo ni la cabeza?",
   ],
-  solutionEyebrow: "La respuesta es sí",
-  solutionHeading: "Por eso existe el Método Graphic Concept.",
+  solutionEyebrow: "La respuesta",
+  solutionHeading: "Una ruta clara para comprender, hablar y avanzar.",
   solutionIntroduction:
-    "Un método creado para adultos que quieren aprender distinto, aplicar lo aprendido y avanzar a su ritmo.",
-  reasonsEyebrow: "Cómo lo hacemos",
-  reasonsHeading: "Tres principios que guían tu aprendizaje.",
-  videoEyebrow: "Lo que importa",
-  videoHeading: "Historias reales, resultados que inspiran.",
-  videoIntroduction:
-    "Nuestros estudiantes transforman su esfuerzo en confianza y nuevas oportunidades. Tú puedes ser el siguiente.",
+    "Graphic Concept convierte esas frustraciones en una secuencia visual: primero comprendes, después hablas y, con práctica guiada, avanzas a tu ritmo.",
+  reasonsEyebrow: "De la pregunta a la práctica",
+  reasonsHeading: "Tres razones para avanzar con más facilidad.",
   videoLabel: "Conoce el método completo · 1:45",
   videoAriaLabel: "Conoce el método Graphic Concept completo",
   video: site.images.introVideo,

@@ -235,11 +235,12 @@ describe("homepage React integration", () => {
       /Homepage balance pass:[\s\S]*grid-template-rows: minmax\(0, 1fr\) auto;[\s\S]*method-editorial__questions[\s\S]*grid-template-columns: minmax\(0, 1fr\);[\s\S]*#libros[\s\S]*background: var\(--home-navy\)/,
     );
     assert.match(sections, /method-editorial__opening/);
-    assert.match(sections, /graphic-concept-compass-source\.png/);
-    assert.match(sections, /graphic-concept-path\.webp/);
-    assert.match(sections, /method-editorial__principles/);
-    assert.match(sections, /method-editorial__closing/);
-    assert.match(content, /Historias reales, resultados que inspiran\./);
+    assert.match(sections, /method-editorial__community/);
+    assert.match(sections, /method-editorial__conclusion/);
+    assert.doesNotMatch(sections, /graphic-concept-compass-source\.png/);
+    assert.doesNotMatch(sections, /graphic-concept-path\.webp/);
+    assert.doesNotMatch(sections, /className="method-editorial__principles"|className="method-editorial__closing"/);
+    assert.match(content, /¿Te suena familiar\?/);
     assert.match(
       styles,
       /Graphic Concept reference pass:[\s\S]*method-editorial__opening[\s\S]*method-editorial__bridge-art[\s\S]*method-editorial__principles[\s\S]*method-editorial__closing/,

@@ -12,19 +12,6 @@ import {
 import { CallbackDialog, FaqList, MethodVideo } from "./InteractiveSections";
 import { LocationExplorer } from "./LocationExplorer";
 
-const methodPainArtwork = [
-  "/assets/method/graphic-concept-pain-1.png",
-  "/assets/method/graphic-concept-pain-2.png",
-  "/assets/method/graphic-concept-pain-3.png",
-  "/assets/method/graphic-concept-pain-4.png",
-];
-
-const methodPrincipleArtwork = [
-  "/assets/method/graphic-concept-principle-1.png",
-  "/assets/method/graphic-concept-principle-2.png",
-  "/assets/method/graphic-concept-principle-3.png",
-];
-
 export function HeroSection() {
   return (
     <section className="hero" id="inicio">
@@ -78,116 +65,53 @@ export function MethodSection() {
           <header className="method-editorial__intro section-heading section-heading--framed">
             <p className="method-kicker">{methodNarrative.eyebrow || "Método Graphic Concept"}</p>
             <h2 id="method-title" className="method-editorial__display-title">
-              {(methodNarrative.headingLines || [methodNarrative.heading || ""]).map((line, index) => (
-                <span className={index === 2 ? "method-editorial__display-accent" : undefined} key={line}>{line}</span>
+              {(methodNarrative.headingLines || [methodNarrative.heading || ""]).map((line) => (
+                <span key={line}>{line}</span>
               ))}
             </h2>
             <p className="method-editorial__promise">{methodNarrative.promise || ""}</p>
             <p className="method-editorial__intro-copy">{methodNarrative.introduction || ""}</p>
-            <p className="method-editorial__trust-note">
-              <i data-lucide="shield-check" aria-hidden="true" />
-              <span>Educación para adultos. Enfoque humano. Resultados reales.</span>
-            </p>
           </header>
-          <figure className="method-editorial__compass" aria-hidden="true">
-            <img
-              src="/assets/method/graphic-concept-compass-source.png"
-              alt=""
-              width="410"
-              height="360"
-              loading="lazy"
-            />
-          </figure>
         </div>
-        <section className="method-editorial__pain" aria-labelledby="method-pain-title">
-          <div className="method-editorial__pain-copy">
+      </div>
+      <section className="method-editorial__community" aria-labelledby="method-community-title">
+        <div className="method-editorial__community-inner">
+          <header className="method-editorial__community-copy">
             <p className="method-story-kicker">{methodNarrative.painEyebrow || "Lo que escuchamos"}</p>
-            <h3 id="method-pain-title">{methodNarrative.painHeading || "¿Te suena familiar?"}</h3>
+            <h3 id="method-community-title">{methodNarrative.painHeading || "¿Te suena familiar?"}</h3>
             <p>{methodNarrative.painIntroduction || ""}</p>
-          </div>
-          <ul className="method-editorial__pain-cues" aria-label="Barreras comunes al aprender inglés">
-            {(methodNarrative.painCues || []).map((item, index) => (
-              <li key={item.title}>
-                <img
-                  className="method-editorial__pain-cue-art"
-                  src={methodPainArtwork[index]}
-                  alt=""
-                  width="100"
-                  height="75"
-                  loading="lazy"
-                  aria-hidden="true"
-                />
-                <strong>{item.title}</strong>
-                <span>{item.body}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="method-editorial__question-heading">
-            <span>Tres preguntas</span><span>que muchos</span><span>se hacen</span>
-          </p>
+          </header>
           <ul className="method-editorial__questions" aria-label="Preguntas comunes al aprender inglés">
-            {(methodNarrative.painPoints || []).map((item, index) => (
+            {(methodNarrative.painPoints || []).map((item) => (
               <li key={item}>
-                <span className="method-question__index">{String(index + 1).padStart(2, "0")}</span>
-                <span className="method-question__slash" aria-hidden="true">/</span>
                 <p>{item}</p>
               </li>
             ))}
           </ul>
-        </section>
+        </div>
+      </section>
+      <div className="method-editorial">
         <div className="method-editorial__bridge">
           <div className="method-editorial__bridge-copy">
             <p className="method-story-kicker">{methodNarrative.solutionEyebrow || "La respuesta"}</p>
             <h3>{methodNarrative.solutionHeading || "Una ruta clara para comprender, hablar y avanzar."}</h3>
           </div>
           <p className="method-editorial__bridge-intro">{methodNarrative.solutionIntroduction || ""}</p>
-          <img
-            className="method-editorial__bridge-art"
-            src="/assets/method/graphic-concept-path.webp"
-            alt=""
-            width="1200"
-            height="800"
-            loading="lazy"
-            aria-hidden="true"
-          />
         </div>
-        <section className="method-editorial__principles" aria-labelledby="method-principles-title">
+        <section className="method-editorial__conclusion" aria-labelledby="method-principles-title">
           <div className="method-editorial__principles-heading">
             <p className="method-story-kicker">{methodNarrative.reasonsEyebrow || "De la pregunta a la práctica"}</p>
             <h3 id="method-principles-title">{methodNarrative.reasonsHeading || "Tres razones para avanzar con más facilidad."}</h3>
           </div>
           <ul className="method-reasons" aria-label="Resumen del método en tres razones">
-            {solutionCharacteristics.map((item, index) => (
+            {solutionCharacteristics.map((item) => (
               <li key={item.key}>
-                <div className="method-reason__mark" aria-hidden="true">
-                  <span className="method-reason__icon">
-                    <img
-                      src={methodPrincipleArtwork[index]}
-                      alt=""
-                      width="91"
-                      height="95"
-                      loading="lazy"
-                    />
-                  </span>
-                  <span className="method-reason__number">{String(index + 1).padStart(2, "0")}</span>
-                </div>
                 <div><h4>{item.title}</h4><p>{item.body}</p></div>
               </li>
             ))}
           </ul>
-        </section>
-        <div className="method-editorial__closing">
-          <div className="method-editorial__closing-copy">
-            <p className="method-story-kicker">{methodNarrative.videoEyebrow || "El método en acción"}</p>
-            <h3>{methodNarrative.videoHeading || "Mira cómo funciona Graphic Concept."}</h3>
-            <p>{methodNarrative.videoIntroduction || ""}</p>
-          </div>
           <MethodVideo narrative={methodNarrative} />
-        </div>
-        <footer className="method-editorial__footer-note">
-          <i data-lucide="shield-check" aria-hidden="true" />
-          <p>No se trata de dónde empiezas, sino de hasta dónde puedes llegar. <em>Estamos aquí para ayudarte a lograrlo.</em></p>
-        </footer>
+        </section>
       </div>
     </section>
   );
