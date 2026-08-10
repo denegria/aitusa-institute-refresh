@@ -150,8 +150,8 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(hero, /hero__conversion/);
     assert.doesNotMatch(hero, /hero__summary|hero__objections/);
     assert.equal((hero.match(/className="button button--/g) || []).length, 0);
-    assert.match(method, /method-editorial__promise/);
-    assert.match(method, /method-editorial__questions/);
+    assert.match(method, /method-story__promise/);
+    assert.match(method, /method-story__questions/);
     assert.match(method, /Preguntas comunes al aprender inglés/);
   });
 
@@ -187,7 +187,7 @@ describe("homepage React integration", () => {
 
     assert.match(
       sections,
-      /method-editorial__intro section-heading section-heading--framed/,
+      /method-story__intro section-heading section-heading--framed/,
     );
     assert.match(
       styles,
@@ -234,9 +234,9 @@ describe("homepage React integration", () => {
       styles,
       /Homepage balance pass:[\s\S]*grid-template-rows: minmax\(0, 1fr\) auto;[\s\S]*method-editorial__questions[\s\S]*grid-template-columns: minmax\(0, 1fr\);[\s\S]*#libros[\s\S]*background: var\(--home-navy\)/,
     );
-    assert.match(sections, /method-editorial__opening/);
-    assert.match(sections, /method-editorial__community/);
-    assert.match(sections, /method-editorial__conclusion/);
+    assert.match(sections, /method-story__opening/);
+    assert.match(sections, /method-story__community/);
+    assert.match(sections, /method-story__conclusion/);
     assert.doesNotMatch(sections, /graphic-concept-compass-source\.png/);
     assert.doesNotMatch(sections, /graphic-concept-path\.webp/);
     assert.doesNotMatch(sections, /className="method-editorial__principles"|className="method-editorial__closing"/);

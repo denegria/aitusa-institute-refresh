@@ -343,7 +343,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       .filter((img) => !img.complete || img.naturalWidth === 0)
       .map((img) => img.currentSrc || img.src);
     const methodPosterIssues = (await Promise.all(
-      [...document.querySelectorAll('.method-editorial__video')].map(async (video) => {
+      [...document.querySelectorAll('[data-method-video]')].map(async (video) => {
         const poster = new Image();
         poster.src = video.poster;
         await new Promise((resolve) => {
@@ -374,7 +374,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         return null;
       }),
     )).filter(Boolean);
-    const methodVideos = [...document.querySelectorAll('.method-editorial__video')];
+    const methodVideos = [...document.querySelectorAll('[data-method-video]')];
     await Promise.all(methodVideos.map((video) => new Promise((resolve) => {
       if (video.readyState >= 1 || video.error) {
         resolve();
@@ -441,9 +441,9 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       return null;
     };
     const videoVisualIssues = (await Promise.all(methodVideos.map(inspectVideoFrame))).filter(Boolean);
-    const methodFrameIssues = [...document.querySelectorAll('.method-video-frame')]
+    const methodFrameIssues = [...document.querySelectorAll('.method-story__video-frame')]
       .flatMap((media) => {
-        const video = media.querySelector('.method-editorial__video');
+        const video = media.querySelector('[data-method-video]');
         if (!video) {
           return [{ reason: 'missing-video' }];
         }
@@ -815,7 +815,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       });
 
       [
-        ['method', '#metodo .method-editorial__intro h2'],
+        ['method', '#metodo .method-story__intro h2'],
         ['testimonials', '#experiencia .proof-shelf__heading h2'],
         ['study-options', '#cursos .section-heading h2'],
         ['locations', '#sedes .section-heading h2'],
@@ -834,7 +834,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
 
       [
         ['hero-body', '#inicio .hero__summary', '#inicio'],
-        ['method-body', '#metodo .method-editorial__intro > p:last-child', '#metodo'],
+        ['method-body', '#metodo .method-story__intro > p:last-child', '#metodo'],
         ['testimonials-body', '#experiencia .proof-shelf__heading > div:first-child > p:last-child', '#experiencia'],
         ['study-options-body', '#cursos .section-heading > p:not(.section-kicker)', '#cursos'],
         ['locations-body', '#sedes .section-heading > p:not(.section-kicker)', '#sedes'],
@@ -899,7 +899,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         }
       });
 
-      const methodHeading = document.querySelector('#metodo .method-editorial__intro h2');
+      const methodHeading = document.querySelector('#metodo .method-story__intro h2');
       const methodHeadingSize = parseFloat(methodHeading ? getComputedStyle(methodHeading).fontSize : '0');
       if (!methodHeading || methodHeadingSize < 30) {
         designConsistencyIssues.push({
@@ -909,7 +909,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       }
 
       [
-        ['method', '#metodo .method-editorial__intro', true],
+        ['method', '#metodo .method-story__intro', true],
         ['testimonials', '#experiencia .chapter-accent', false],
         ['study-options', '#cursos .section-heading', true],
         ['locations', '#sedes .section-heading', true],
@@ -941,7 +941,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
         }
       });
 
-      const methodIntro = document.querySelector('#metodo .method-editorial__intro');
+      const methodIntro = document.querySelector('#metodo .method-story__intro');
       const methodBorderWidth = parseFloat(methodIntro ? getComputedStyle(methodIntro).borderLeftWidth : '0');
       if (!methodIntro || methodBorderWidth !== 0) {
         designConsistencyIssues.push({
@@ -1011,7 +1011,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     if (innerWidth >= 1041) {
       const standardGrid = document.querySelector('#cursos .section-inner')?.getBoundingClientRect();
       [
-        ['method', document.querySelector('#metodo .method-editorial')?.getBoundingClientRect()],
+        ['method', document.querySelector('#metodo .method-story-frame')?.getBoundingClientRect()],
         ['final-cta', document.querySelector('#contacto .final-cta-layout')?.getBoundingClientRect()],
         ['footer', document.querySelector('.site-footer__compact')?.getBoundingClientRect()],
       ].forEach(([label, grid]) => {
@@ -1028,7 +1028,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       });
 
       const heroHeading = document.querySelector('#inicio h1');
-      const desktopMethodHeading = document.querySelector('#metodo .method-editorial__intro h2');
+      const desktopMethodHeading = document.querySelector('#metodo .method-story__intro h2');
       const heroHeadingSize = parseFloat(heroHeading ? getComputedStyle(heroHeading).fontSize : '0');
       const desktopMethodHeadingSize = parseFloat(
         desktopMethodHeading ? getComputedStyle(desktopMethodHeading).fontSize : '0',

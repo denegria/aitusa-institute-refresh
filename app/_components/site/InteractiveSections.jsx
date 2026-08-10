@@ -20,10 +20,10 @@ export function MethodVideo({ narrative }) {
   };
 
   return (
-    <figure className="method-editorial__media">
-      <div className="method-video-frame">
+    <figure className="method-story__media">
+      <div className="method-story__video-frame">
         <video
-          className="method-editorial__video"
+          className="method-story__video"
           controls
           preload="metadata"
           width={narrative.videoWidth || 464}

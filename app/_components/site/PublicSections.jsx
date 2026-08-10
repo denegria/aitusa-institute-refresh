@@ -59,29 +59,29 @@ export function HeroSection() {
 
 export function MethodSection() {
   return (
-    <section className="method-section" id="metodo" aria-labelledby="method-title">
-      <div className="method-editorial">
-        <div className="method-editorial__opening">
-          <header className="method-editorial__intro section-heading section-heading--framed">
+    <section className="method-story-section" id="metodo" aria-labelledby="method-title">
+      <div className="method-story-frame">
+        <div className="method-story__opening">
+          <header className="method-story__intro section-heading section-heading--framed">
             <p className="method-kicker">{methodNarrative.eyebrow || "Método Graphic Concept"}</p>
-            <h2 id="method-title" className="method-editorial__display-title">
+            <h2 id="method-title" className="method-story__display-title">
               {(methodNarrative.headingLines || [methodNarrative.heading || ""]).map((line) => (
                 <span key={line}>{line}</span>
               ))}
             </h2>
-            <p className="method-editorial__promise">{methodNarrative.promise || ""}</p>
-            <p className="method-editorial__intro-copy">{methodNarrative.introduction || ""}</p>
+            <p className="method-story__promise">{methodNarrative.promise || ""}</p>
+            <p className="method-story__intro-copy">{methodNarrative.introduction || ""}</p>
           </header>
         </div>
       </div>
-      <section className="method-editorial__community" aria-labelledby="method-community-title">
-        <div className="method-editorial__community-inner">
-          <header className="method-editorial__community-copy">
+      <section className="method-story__community" aria-labelledby="method-community-title">
+        <div className="method-story__community-inner">
+          <header className="method-story__community-copy">
             <p className="method-story-kicker">{methodNarrative.painEyebrow || "Lo que escuchamos"}</p>
             <h3 id="method-community-title">{methodNarrative.painHeading || "¿Te suena familiar?"}</h3>
             <p>{methodNarrative.painIntroduction || ""}</p>
           </header>
-          <ul className="method-editorial__questions" aria-label="Preguntas comunes al aprender inglés">
+          <ul className="method-story__questions" aria-label="Preguntas comunes al aprender inglés">
             {(methodNarrative.painPoints || []).map((item) => (
               <li key={item}>
                 <p>{item}</p>
@@ -90,16 +90,16 @@ export function MethodSection() {
           </ul>
         </div>
       </section>
-      <div className="method-editorial">
-        <div className="method-editorial__bridge">
-          <div className="method-editorial__bridge-copy">
+      <div className="method-story-frame">
+        <div className="method-story__bridge">
+          <div className="method-story__bridge-copy">
             <p className="method-story-kicker">{methodNarrative.solutionEyebrow || "La respuesta"}</p>
             <h3>{methodNarrative.solutionHeading || "Una ruta clara para comprender, hablar y avanzar."}</h3>
           </div>
-          <p className="method-editorial__bridge-intro">{methodNarrative.solutionIntroduction || ""}</p>
+          <p className="method-story__bridge-intro">{methodNarrative.solutionIntroduction || ""}</p>
         </div>
-        <section className="method-editorial__conclusion" aria-labelledby="method-principles-title">
-          <div className="method-editorial__principles-heading">
+        <section className="method-story__conclusion" aria-labelledby="method-principles-title">
+          <div className="method-story__principles-heading">
             <p className="method-story-kicker">{methodNarrative.reasonsEyebrow || "De la pregunta a la práctica"}</p>
             <h3 id="method-principles-title">{methodNarrative.reasonsHeading || "Tres razones para avanzar con más facilidad."}</h3>
           </div>
