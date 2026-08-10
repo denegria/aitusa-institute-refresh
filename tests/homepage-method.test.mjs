@@ -48,6 +48,10 @@ describe("homepage Method community story", () => {
         },
       ],
     );
+    assert.deepEqual(
+      solutionCharacteristics.map(({ icon }) => icon),
+      ["ear", "message-circle", "route"],
+    );
   });
 
   it("renders the community band and unnumbered semantic questions", async () => {
@@ -64,12 +68,14 @@ describe("homepage Method community story", () => {
     assert.match(method, /<ul className="method-story__questions"/);
     assert.match(method, /<ul className="method-reasons"/);
     assert.match(method, /aria-label="Preguntas comunes al aprender inglés"/);
-    assert.match(method, /aria-label="Resumen del método en tres razones"/);
+    assert.match(method, /aria-label="Resultados prácticos del método"/);
     assert.doesNotMatch(method, /<ol/);
     assert.doesNotMatch(method, /method-question__index|method-question__slash|Tres preguntas/);
     assert.doesNotMatch(method, /method-story__promise|method-story__bridge|painIntroduction/);
     assert.doesNotMatch(method, /graphic-concept-(compass-source|pain-|principle-|path)/);
-    assert.doesNotMatch(method, /method-reason__(icon|number|mark)/);
+    assert.equal((method.match(/className="method-reason__icon"/g) || []).length, 1);
+    assert.match(method, /data-lucide=\{item\.icon \|\| "circle-check"\}/);
+    assert.doesNotMatch(method, /Resumen del método en tres razones|method-reason__(number|mark)/);
     assert.doesNotMatch(method, /footer-note|trust-note|videoEyebrow|videoHeading|videoIntroduction/);
     assert.doesNotMatch(method, /method-section|method-editorial/);
   });
@@ -114,6 +120,9 @@ describe("homepage Method community story", () => {
     assert.match(layer, /method-story__community-inner\s*\{[\s\S]*grid-template-columns: minmax\(240px, \.68fr\) minmax\(0, 1\.6fr\)/);
     assert.match(layer, /method-story__questions\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
     assert.match(layer, /method-story__conclusion\s*\{[\s\S]*grid-template-areas:[\s\S]*"heading video"[\s\S]*"reasons video"/);
+    assert.match(layer, /method-story__community \.method-story-kicker\s*\{[\s\S]*color: var\(--home-gold-light\)/);
+    assert.match(layer, /method-story__conclusion \.method-reasons li\s*\{[\s\S]*grid-template-columns: 42px minmax\(0, 1fr\)/);
+    assert.match(layer, /method-story__conclusion \.method-reason__icon\s*\{[\s\S]*width: 40px;[\s\S]*background: rgba\(196, 147, 45, \.1\)/);
     assert.match(layer, /@media \(max-width: 900px\)[\s\S]*method-story__questions\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)/);
     assert.match(layer, /@media \(max-width: 900px\)[\s\S]*"heading"[\s\S]*"reasons"[\s\S]*"video"/);
     assert.match(layer, /@media \(max-width: 719px\)[\s\S]*method-story__media\s*\{[\s\S]*width: min\(100%, 300px\)/);

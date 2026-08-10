@@ -56,6 +56,9 @@ remain the only interactive element inside the section.
 - Response heading: `Lo que cambia cuando entiendes el método.`
 - Preserve the approved three fundamentals and supporting descriptions from
   `solutionCharacteristics` verbatim.
+- Restore the established `ear`, `message-circle`, and `route` benefit icons
+  beside those three fundamentals. The icons are supporting wayfinding, not a
+  return to numbered or decorative principle artwork.
 - Video label: `Conoce el método completo · 1:45`
 
 ## Locked behavior and state
@@ -63,7 +66,8 @@ remain the only interactive element inside the section.
 - Preserve `#metodo`, the section's current position, the one real video source,
   poster, controls, accessible label, preload behavior, and mobile fullscreen behavior.
 - Questions and fundamentals are semantic unordered lists without visible or
-  accessible sequence numbers.
+  accessible sequence numbers. The fundamentals list is labeled as practical
+  results, not as “three reasons.”
 - No question-count subheading such as `Tres preguntas`.
 - The video appears exactly once.
 - Preserve keyboard access, visible focus, reduced-motion behavior, and page
@@ -71,10 +75,11 @@ remain the only interactive element inside the section.
 
 ## Explicit non-goals
 
-- No compass, door, path, staircase, decorative illustration, question/principle
-  artwork, invented testimonial, fake quote, CTA, grammar demo, cards, carousel,
-  tabs, new colors, gradients, or changes outside the Method section and its
-  focused tests/reference contract.
+- No compass, door, path, staircase, decorative illustration, question artwork,
+  invented testimonial, fake quote, CTA, grammar demo, cards, carousel, tabs,
+  new colors, gradients, or changes outside the Method section and its focused
+  tests/reference contract. The three restored benefit icons are the sole
+  permitted exception.
 - No hero changes beyond the eyebrow color. No proof, courses, locations, books,
   FAQ, navigation, form, route, data, production, or production-branch changes.
 
@@ -93,11 +98,13 @@ remain the only interactive element inside the section.
   a readable line length and does not create an empty image-shaped hole.
 - The navy band is full bleed, clearly framed as community voice, and contains
   one heading plus three equally weighted unnumbered questions separated by
-  restrained gold rules.
+  restrained gold rules. Its eyebrow uses the lighter homepage gold token for
+  clear contrast against navy.
 - The conclusion follows the questions directly; no redundant bridge chapter is
   inserted between the community voice and AIT's response.
 - On desktop, fundamentals and the single portrait video are balanced side by
-  side; the video is neither oversized nor detached.
+  side; the video is neither oversized nor detached. Each fundamental uses the
+  established compact gold icon tile beside its copy.
 - On tablet/mobile, questions and fundamentals stack in natural reading order;
   the video follows the fundamentals and remains useful without horizontal
   overflow or clipped controls.

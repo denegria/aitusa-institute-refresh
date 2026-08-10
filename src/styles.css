@@ -6790,6 +6790,10 @@ textarea {
   line-height: 1;
 }
 
+.home-page #metodo .method-story__community .method-story-kicker {
+  color: var(--home-gold-light);
+}
+
 .home-page #metodo .method-story__questions {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -6861,21 +6865,36 @@ textarea {
 }
 
 .home-page #metodo .method-story__conclusion .method-reasons li {
-  display: block;
-  padding: 24px 0 24px 26px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding: 24px 0;
   border: 0;
   border-bottom: 1px solid rgba(0, 26, 61, .18);
-  position: relative;
 }
 
 .home-page #metodo .method-story__conclusion .method-reasons li::before {
-  position: absolute;
-  top: 28px;
-  left: 0;
-  width: 2px;
+  content: none;
+}
+
+.home-page #metodo .method-story__conclusion .method-reason__icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
   height: 40px;
-  background: var(--home-gold);
-  content: "";
+  margin-top: 1px;
+  border: 1px solid rgba(138, 100, 18, .38);
+  border-radius: 10px;
+  background: rgba(196, 147, 45, .1);
+  color: var(--home-gold-text);
+}
+
+.home-page #metodo .method-story__conclusion .method-reason__icon svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.9;
 }
 
 .home-page #metodo .method-story__conclusion .method-reasons h4 {
@@ -6978,6 +6997,19 @@ textarea {
   .home-page #metodo .method-story__community { padding-block: 50px; }
   .home-page #metodo .method-story__community-copy h3 { font-size: clamp(2.3rem, 12vw, 3.25rem); }
   .home-page #metodo .method-story__questions p { font-size: 1.12rem; }
+  .home-page #metodo .method-story__conclusion .method-reasons li {
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 13px;
+  }
+  .home-page #metodo .method-story__conclusion .method-reason__icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+  }
+  .home-page #metodo .method-story__conclusion .method-reason__icon svg {
+    width: 18px;
+    height: 18px;
+  }
   .home-page #metodo .method-story__media {
     width: min(100%, 300px);
     justify-self: center;

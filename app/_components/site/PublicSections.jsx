@@ -94,9 +94,12 @@ export function MethodSection() {
             <p className="method-story-kicker">{methodNarrative.reasonsEyebrow || "Nuestra respuesta"}</p>
             <h3 id="method-principles-title">{methodNarrative.reasonsHeading || "Lo que cambia cuando entiendes el método."}</h3>
           </div>
-          <ul className="method-reasons" aria-label="Resumen del método en tres razones">
+          <ul className="method-reasons" aria-label="Resultados prácticos del método">
             {solutionCharacteristics.map((item) => (
               <li key={item.key}>
+                <span className="method-reason__icon" aria-hidden="true">
+                  <i data-lucide={item.icon || "circle-check"} />
+                </span>
                 <div><h4>{item.title}</h4><p>{item.body}</p></div>
               </li>
             ))}

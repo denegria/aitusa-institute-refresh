@@ -201,6 +201,8 @@ try {
       const accent = getComputedStyle(intro, '::before');
       const heroKicker = document.querySelector('.hero__kicker');
       const modalityIcon = document.querySelector('.hero__modalities svg');
+      const communityKicker = document.querySelector('.method-story__community .method-story-kicker');
+      const reasonIcons = [...document.querySelectorAll('.method-story__conclusion .method-reason__icon')];
       const methodOverflow = [...document.querySelectorAll('#metodo *')]
         .filter((element) => element.scrollWidth > element.clientWidth + 2 && getComputedStyle(element).overflowX === 'visible')
         .slice(0, 8)
@@ -225,6 +227,13 @@ try {
         methodOverflow,
         heroKickerColor: heroKicker ? getComputedStyle(heroKicker).color : '',
         modalityIconColor: modalityIcon ? getComputedStyle(modalityIcon).color : null,
+        communityKickerColor: communityKicker ? getComputedStyle(communityKicker).color : '',
+        reasonIconCount: reasonIcons.length,
+        reasonIcons: reasonIcons.map((icon) => ({
+          ...rect(icon),
+          hasSvg: Boolean(icon.querySelector('svg')),
+          ariaHidden: icon.getAttribute('aria-hidden'),
+        })),
         accent: { width: accent.width, height: accent.height, backgroundImage: accent.backgroundImage },
         questionsColumns: getComputedStyle(document.querySelector('.method-story__questions')).gridTemplateColumns,
         conclusionAreas: getComputedStyle(conclusion).gridTemplateAreas,
@@ -248,6 +257,11 @@ try {
     if (summary.videoCount !== 1 || !summary.videoControls || summary.videoError) issues.push("method-video-invalid");
     if (summary.horizontalOverflow > 0 || summary.methodOverflow.length) issues.push("horizontal-overflow");
     if (summary.heroKickerColor !== "rgb(194, 138, 38)") issues.push("hero-gold-mismatch");
+    if (summary.communityKickerColor !== "rgb(217, 180, 93)") issues.push("community-kicker-contrast");
+    if (
+      summary.reasonIconCount !== 3
+      || summary.reasonIcons.some((icon) => !icon.hasSvg || icon.ariaHidden !== "true" || icon.width < 36 || icon.height < 36)
+    ) issues.push("reason-icons-invalid");
     const accentWidth = parseFloat(summary.accent.width);
     const accentHeight = parseFloat(summary.accent.height);
     const accentSized = viewport.width <= 719
