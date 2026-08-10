@@ -166,14 +166,12 @@ describe("homepage Method story", () => {
       /@media \(max-width: 719px\)[\s\S]*\.home-page #metodo \.method-editorial__principles \.method-reasons\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)/,
     );
     assert.match(styles, /Graphic Concept reference pass:[\s\S]*mix-blend-mode: multiply/);
-    assert.match(
-      styles,
-      /MIS-378 Sentry correction:[\s\S]*\.method-editorial__questions li\s*\{[\s\S]*min-height: clamp\(64px, 5vw, 82px\)/,
-    );
-    assert.match(
-      styles,
-      /MIS-378 Sentry correction:[\s\S]*@media \(max-width: 719px\)[\s\S]*\.method-editorial__principles \.method-reasons\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)/,
-    );
+    const finalMethodLayer = styles.slice(styles.lastIndexOf("/* MIS-378 final effective fidelity layer"));
+    assert.match(finalMethodLayer, /@media \(min-width: 720px\)[\s\S]*min-height: 62px;[\s\S]*font-size: clamp\(\.96rem, 1\.22vw, 1\.13rem\)/);
+    assert.match(finalMethodLayer, /@media \(max-width: 719px\)[\s\S]*\.method-editorial__principles \.method-reasons\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)/);
+    assert.match(finalMethodLayer, /grid-template-columns: 82px minmax\(0, 1fr\);[\s\S]*font-size: \.82rem/);
+    assert.match(finalMethodLayer, /\.method-editorial__closing\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\);[\s\S]*align-items: start/);
+    assert.doesNotMatch(finalMethodLayer, /repeat\(3, minmax\(0, 1fr\)\)|align-items: end|width: 145%|margin: 0 -/);
   });
 
   it("keeps the mobile summary legible and the safe-area header fill intact", async () => {

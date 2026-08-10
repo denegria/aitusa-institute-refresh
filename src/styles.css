@@ -6703,9 +6703,8 @@ textarea {
   }
 }
 
-/* MIS-378 Sentry correction: source-derived ink work, question rhythm, and
-   responsive editorial proportion. This block intentionally wins over the
-   prior compact pass above. */
+/* MIS-378 source-art baseline. The final effective Method fidelity selectors
+   live after the reference pass so later legacy layers cannot reset them. */
 .home-page #metodo .method-editorial__compass {
   width: min(100%, 340px);
   margin-top: 0;
@@ -12364,16 +12363,17 @@ textarea {
 .home-page #metodo .method-editorial__pain-cues span { font-size: .58rem; line-height: 1.33; }
 .home-page #metodo .method-editorial__question-heading { grid-column: 1; margin: 12px 0 -7px; color: var(--home-navy); font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.25rem, 1.75vw, 1.65rem); font-weight: 500; line-height: 1.06; }
 .home-page #metodo .method-editorial__questions { grid-column: 1; width: min(100%, 720px); margin: 0 0 0 auto; }
-.home-page #metodo .method-editorial__questions li { grid-template-columns: 38px 8px minmax(0, 1fr); gap: 10px; padding: 7px 0; }
-.home-page #metodo .method-editorial__questions li::before { height: 16px; }
-.home-page #metodo .method-question__index { font-size: 1.18rem; }
-.home-page #metodo .method-editorial__questions p { font-size: .72rem; line-height: 1.35; }
+.home-page #metodo .method-editorial__questions li { grid-template-columns: 62px 28px minmax(0, 1fr); gap: 14px; min-height: 62px; padding: 13px 0; }
+.home-page #metodo .method-editorial__questions li::before { display: none; }
+.home-page #metodo .method-question__index { font-size: clamp(2rem, 2.7vw, 2.55rem); }
+.home-page #metodo .method-editorial__questions p { font-size: clamp(.96rem, 1.22vw, 1.13rem); font-weight: 400; line-height: 1.45; }
 
 .home-page #metodo .method-editorial__bridge {
   grid-template-columns: minmax(0, .9fr) minmax(170px, .85fr) minmax(180px, .65fr);
   gap: clamp(20px, 3vw, 42px);
   min-height: 150px;
   padding: clamp(21px, 3vw, 34px);
+  overflow: visible;
   border: 0;
   border-radius: 4px;
   box-shadow: none;
@@ -12381,7 +12381,7 @@ textarea {
 }
 .home-page #metodo .method-editorial__bridge h3 { margin-top: 8px; font-size: clamp(1.4rem, 2vw, 2rem); line-height: 1.02; }
 .home-page #metodo .method-editorial__bridge-intro { padding-left: 20px; font-size: .67rem; line-height: 1.4; }
-.home-page #metodo .method-editorial__bridge-art { width: min(145%, 300px); margin-right: -40px; }
+.home-page #metodo .method-editorial__bridge-art { width: min(100%, 280px); max-width: 100%; margin: 0; }
 
 .home-page #metodo .method-editorial__principles { gap: 18px; }
 .home-page #metodo .method-editorial__principles-heading h3,
@@ -12394,13 +12394,14 @@ textarea {
 .home-page #metodo .method-editorial__principles .method-reasons p { margin-top: 5px; font-size: .66rem; line-height: 1.38; }
 
 .home-page #metodo .method-editorial__closing {
-  grid-template-columns: minmax(0, 1fr) minmax(190px, .38fr);
-  gap: clamp(35px, 7vw, 88px);
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, .62fr);
+  gap: clamp(32px, 4vw, 54px);
+  align-items: start;
   padding-inline: 0;
 }
+.home-page #metodo .method-editorial__closing-copy { padding-top: clamp(10px, 1.8vw, 24px); }
 .home-page #metodo .method-editorial__closing-copy > p:last-child { max-width: 320px; margin-top: 12px; font-size: .7rem; line-height: 1.4; }
-.home-page #metodo .method-editorial__closing .method-editorial__media { width: min(100%, 220px); max-width: 220px; }
+.home-page #metodo .method-editorial__closing .method-editorial__media { width: min(100%, 280px); max-width: 280px; justify-self: start; }
 .home-page #metodo .method-editorial__media figcaption { min-height: 26px; padding: 5px 8px; font-size: .53rem; }
 
 @media (max-width: 719px) {
@@ -12420,12 +12421,13 @@ textarea {
   .home-page #metodo .method-editorial__pain-cues span { font-size: .6rem; }
   .home-page #metodo .method-editorial__question-heading { margin: 15px 0 -2px; font-size: 1.25rem; }
   .home-page #metodo .method-editorial__questions { width: 100%; }
-  .home-page #metodo .method-editorial__bridge { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 20px 18px 0; }
+  .home-page #metodo .method-editorial__bridge { grid-template-columns: minmax(0, 1.08fr) minmax(112px, .72fr); gap: 12px; padding: 20px 16px; overflow: visible; }
   .home-page #metodo .method-editorial__bridge-intro { padding-left: 0; font-size: .7rem; }
-  .home-page #metodo .method-editorial__bridge-art { width: calc(100% + 36px); margin: 0 -18px; }
+  .home-page #metodo .method-editorial__bridge-art { grid-column: 2; grid-row: 1 / span 2; width: 100%; max-width: 150px; margin: 0; }
   .home-page #metodo .method-editorial__principles .method-reasons li { padding-block: 18px; }
-  .home-page #metodo .method-editorial__closing { gap: 28px; }
-  .home-page #metodo .method-editorial__closing .method-editorial__media { width: min(100%, 210px); }
+  .home-page #metodo .method-editorial__closing { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .home-page #metodo .method-editorial__closing-copy { padding-top: 0; }
+  .home-page #metodo .method-editorial__closing .method-editorial__media { width: min(100%, 260px); max-width: 260px; justify-self: center; }
 }
 
 /* Final reference fidelity: preserve the concept board's serif voice, fine rules,
@@ -12507,8 +12509,8 @@ textarea {
   color: var(--home-gold-text);
 }
 
-/* MIS-378 faithful-reference correction: keep the opening and questions on
-   the same editorial grid lines as the selected source. */
+/* MIS-378 final effective fidelity layer: keep the opening and questions on
+   the selected source grid without allowing later compact resets. */
 @media (min-width: 720px) {
   .home-page #metodo .method-editorial__pain {
     grid-template-columns: minmax(220px, .5fr) minmax(0, 1.5fr);
@@ -12524,22 +12526,59 @@ textarea {
   .home-page #metodo .method-editorial__question-heading {
     grid-column: 1;
     align-self: start;
-    margin: 5px 0 0;
-    max-width: 230px;
-    font-size: clamp(1.45rem, 2.1vw, 2rem);
-    line-height: 1.02;
+    margin: 4px 0 0;
+    max-width: 290px;
+    font-size: clamp(2rem, 2.55vw, 2.6rem);
+    font-weight: 400;
+    line-height: .98;
   }
 
   .home-page #metodo .method-editorial__questions {
     grid-column: 2;
     width: 100%;
     margin: 0;
+    border-bottom: 1px solid rgba(0, 26, 61, .19);
+  }
+
+  .home-page #metodo .method-editorial__questions li {
+    grid-template-columns: 62px 28px minmax(0, 1fr);
+    gap: 14px;
+    min-height: 62px;
+    padding: 13px 0;
+  }
+
+  .home-page #metodo .method-editorial__questions li::before {
+    display: none;
   }
 
   .home-page #metodo .method-question__index {
     color: var(--home-navy);
     font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2rem, 2.7vw, 2.55rem);
     font-style: italic;
+    font-weight: 400;
+  }
+
+  .home-page #metodo .method-question__slash {
+    grid-column: 2;
+    grid-row: 1;
+    color: var(--home-gold-text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.8rem, 2.35vw, 2.25rem);
+    font-style: italic;
+    font-weight: 400;
+    line-height: .8;
+    transform: rotate(-10deg);
+  }
+
+  .home-page #metodo .method-editorial__questions p {
+    grid-column: 3;
+    grid-row: 1;
+    color: var(--home-body);
+    font-family: var(--font-body);
+    font-size: clamp(.96rem, 1.22vw, 1.13rem);
+    font-weight: 400;
+    line-height: 1.45;
   }
 }
 
@@ -12602,13 +12641,15 @@ textarea {
   }
 
   .home-page #metodo .method-editorial__questions li {
-    grid-template-columns: 28px 6px minmax(0, 1fr);
-    gap: 7px;
-    padding: 6px 0;
+    grid-template-columns: 34px 18px minmax(0, 1fr);
+    gap: 8px;
+    min-height: 58px;
+    padding: 10px 0;
   }
 
   .home-page #metodo .method-editorial__questions p {
-    font-size: .64rem;
+    font-size: .75rem;
+    line-height: 1.35;
   }
 
   .home-page #metodo .method-editorial__bridge {
@@ -12625,40 +12666,44 @@ textarea {
   .home-page #metodo .method-editorial__bridge-art {
     grid-column: 2;
     grid-row: 1 / span 2;
-    width: 145%;
-    margin: 0 -18px 0 -8px;
+    width: 100%;
+    max-width: 150px;
+    margin: 0;
   }
 
   .home-page #metodo .method-editorial__principles .method-reasons {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .home-page #metodo .method-editorial__principles .method-reasons li,
   .home-page #metodo .method-editorial__principles .method-reasons li:first-child,
   .home-page #metodo .method-editorial__principles .method-reasons li:last-child {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 9px;
-    padding: 14px 9px;
-    border-right: 1px solid rgba(0, 26, 61, .14);
-    border-bottom: 0;
+    grid-template-columns: 82px minmax(0, 1fr);
+    gap: 18px;
+    padding: 24px 0;
+    border-right: 0;
+    border-bottom: 1px solid rgba(0, 26, 61, .18);
   }
 
-  .home-page #metodo .method-editorial__principles .method-reasons li:first-child { padding-left: 0; }
-  .home-page #metodo .method-editorial__principles .method-reasons li:last-child { padding-right: 0; border-right: 0; }
-  .home-page #metodo .method-reason__mark { flex-direction: row; gap: 7px; }
-  .home-page #metodo .method-reason__icon { width: 34px; height: 34px; }
-  .home-page #metodo .method-reason__number { font-size: 1rem; }
-  .home-page #metodo .method-editorial__principles .method-reasons h4 { font-size: .67rem; }
-  .home-page #metodo .method-editorial__principles .method-reasons p { font-size: .56rem; line-height: 1.35; }
+  .home-page #metodo .method-editorial__principles .method-reasons li:last-child { border-bottom: 0; }
+  .home-page #metodo .method-reason__mark { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .home-page #metodo .method-reason__icon { width: 64px; height: 58px; }
+  .home-page #metodo .method-reason__number { font-size: 1.5rem; }
+  .home-page #metodo .method-editorial__principles .method-reasons h4 { font-size: 1rem; }
+  .home-page #metodo .method-editorial__principles .method-reasons p { font-size: .82rem; line-height: 1.46; }
 
   .home-page #metodo .method-editorial__closing {
-    grid-template-columns: minmax(0, 1fr) minmax(128px, .65fr);
-    gap: 22px;
-    align-items: end;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 26px;
+    align-items: start;
   }
 
+  .home-page #metodo .method-editorial__closing-copy { padding-top: 0; }
+
   .home-page #metodo .method-editorial__closing .method-editorial__media {
-    width: min(100%, 144px);
+    width: min(100%, 260px);
+    max-width: 260px;
+    justify-self: center;
   }
 
   .home-page #metodo .method-editorial__footer-note {
