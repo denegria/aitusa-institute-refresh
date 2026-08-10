@@ -261,6 +261,71 @@ final result: passed
 
 ---
 
+# Community gallery video-only and motion pass — 2026-08-10
+
+## Comparison target and evidence
+
+- Selected visual target: `C:\Users\Alvaro\.codex\generated_images\019fec9c-869a-73a0-810b-a5ba80b98f1c\exec-f08e9386-6af1-4edd-a003-13a760b0d175.png`.
+- Fresh same-input board: `artifacts/gallery-design-qa/reference-vs-local-final.jpg`.
+- Desktop source-state capture: `artifacts/gallery-design-qa/local-968x1720.png`.
+- Mobile browser check: 390 × 844 CSS px in the in-app browser.
+- Poster-selection contact sheets: `artifacts/gallery-poster-candidates/`.
+- Route and state: `http://127.0.0.1:5174/#experiencia`, interview tab selected, videos paused, graduation archive collapsed.
+
+The selected concept remains the composition reference. The two supporting
+photos in that concept are intentionally replaced by the two remaining real
+interview videos because the approved product requirement now makes the first
+tab video-only.
+
+## Findings and fixes
+
+1. P1: the interview tab mixed one video with two unrelated photos. Fixed by
+   presenting all three real English interview videos in the same one-plus-two
+   grid.
+2. P1: the earlier posters caught speakers mid-word. Real frames were sampled
+   across each source video. Jessica now uses a calm engaged exchange, Eric
+   uses the frame where both people are smiling, and the international
+   interview uses a neutral closed-mouth frame. New `-curated.jpg` paths avoid
+   stale optimized-image caches.
+3. P2: the earlier timer changed media inside one tab, so automatic movement
+   was easy to miss. The selected tab now advances every eight seconds and its
+   gold underline fills toward the next change. Hover, recent interaction, and
+   reduced-motion preference still pause or disable automatic cycling.
+4. P2: dynamic video cards initially lost their Lucide play glyphs after a tab
+   transition. The icon runtime now rehydrates after gallery state changes.
+5. P2: the media grade was too weak to unify mixed source lighting. The final
+   render uses a restrained brightness, contrast, and saturation correction on
+   every gallery image and poster without altering faces or scene content.
+
+## Responsive, interaction, and runtime checks
+
+- Desktop retains the approved strict one-plus-two stage, four-card graduation
+  row, navy chapter, and limited gold accents.
+- Mobile at 390 × 844 keeps one large video, two equal video cards, horizontally
+  scrollable tabs, and no document-level horizontal overflow.
+- Automatic movement changed the selected tab from `Entrevistas en inglés` to
+  `Graduaciones` after 8.5 seconds in the rendered browser.
+- Eric's dialog loaded the curated poster and real 42.77-second MP4 with
+  `readyState=4`; keyboard playback advanced beyond 1.3 seconds.
+- A fresh browser tab returned no console warnings or errors after final code
+  changes.
+- The legacy full browser harness captured the homepage states but later
+  stopped on its existing `/cursos/computacion-oficina` readiness assertion;
+  gallery desktop/mobile checks were completed directly in the in-app browser.
+
+## Validation
+
+- `node --test tests/*.test.mjs`: 267 passed.
+- `npm run check:assets`: 89 references, 0 missing, 0 orphaned.
+- `npm run build`: passed; 36 static pages generated.
+- `git diff --check`: passed.
+
+No actionable P0, P1, or P2 findings remain.
+
+final result: passed
+
+---
+
 # Community gallery cleanup and interview relabel — 2026-08-10
 
 ## Comparison target and evidence

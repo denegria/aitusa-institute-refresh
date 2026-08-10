@@ -13561,6 +13561,11 @@ textarea {
   transform: scaleX(1);
 }
 
+.community-proof__tabs.is-auto-cycling button.is-active::after {
+  animation: communityTabProgress var(--community-cycle-duration) linear both;
+  transform-origin: left;
+}
+
 .community-proof__tabs button:focus-visible,
 .community-proof__feature:focus-visible,
 .community-proof__tile:focus-visible,
@@ -13607,7 +13612,7 @@ textarea {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(1.025) contrast(1.035) saturate(.9);
+  filter: brightness(1.045) contrast(1.055) saturate(.94);
   transition: transform .7s cubic-bezier(.22, 1, .36, 1), filter .35s ease;
 }
 
@@ -13615,7 +13620,7 @@ textarea {
 .community-proof__tile:hover img,
 .community-proof__wall-tile:hover img {
   transform: scale(1.025);
-  filter: brightness(1.045) contrast(1.035) saturate(.94);
+  filter: brightness(1.07) contrast(1.06) saturate(.98);
 }
 
 .community-proof__media-shade {
@@ -13650,6 +13655,31 @@ textarea {
   width: 24px;
   height: 24px;
   margin-left: 3px;
+}
+
+.community-proof__play--small {
+  width: 50px;
+  height: 50px;
+}
+
+.community-proof__play--small svg {
+  width: 19px;
+  height: 19px;
+}
+
+.community-proof__video-duration {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  padding: 7px 9px;
+  border: 1px solid rgba(255, 255, 255, .32);
+  border-radius: 999px;
+  background: rgba(0, 15, 43, .78);
+  color: #fff;
+  font-size: .73rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .community-proof__mosaic {
@@ -13838,6 +13868,11 @@ textarea {
 @keyframes communityTileReveal {
   from { opacity: 0; transform: translateY(18px) scale(.97); }
   to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes communityTabProgress {
+  from { opacity: 1; transform: scaleX(0); }
+  to { opacity: 1; transform: scaleX(1); }
 }
 
 @media (max-width: 1040px) {

@@ -27,6 +27,7 @@ describe("homepage community gallery", () => {
     );
     assert.equal(communityGallery.tabs[0].label, "Entrevistas en inglés");
     assert.match(communityGallery.introduction, /Entrevistas en inglés con estudiantes AIT/);
+    assert.equal(communityGallery.stories.length, 0);
     assert.equal(communityGallery.graduations.length, 27);
     assert.ok(communityGallery.celebrations.length >= 20);
     assert.ok(communityGallery.classroom.length >= 5);
@@ -46,13 +47,15 @@ describe("homepage community gallery", () => {
     const source = await readFile("app/_components/site/InteractiveSections.jsx", "utf8");
 
     assert.match(source, /export function ProofStories/);
-    assert.match(source, /className="community-proof__tabs"/);
+    assert.match(source, /community-proof__tabs/);
     assert.match(source, /role="tablist"/);
     assert.match(source, /role="tab"/);
     assert.match(source, /role="tabpanel"/);
     assert.match(source, /event\.key === "ArrowRight"/);
     assert.match(source, /event\.key === "ArrowLeft"/);
     assert.match(source, /href=\{activeStoryCycle\.video\}/);
+    assert.match(source, /sideStories\.map/);
+    assert.match(source, /community-proof__tile community-proof__tile--video/);
     assert.match(source, /aria-label=\{`Ver entrevista en inglés con/);
     assert.match(source, /className="proof-dialog"/);
     assert.match(source, /className="community-lightbox"/);
@@ -74,8 +77,9 @@ describe("homepage community gallery", () => {
     assert.match(source, /IntersectionObserver/);
     assert.match(source, /bounds\.bottom > 0 && bounds\.top < window\.innerHeight/);
     assert.match(source, /threshold: 0\.02/);
-    assert.match(source, /window\.setInterval\(\(\) => setCycleIndex/);
-    assert.match(source, /6500/);
+    assert.match(source, /setActiveTab\(\(currentTab\)/);
+    assert.match(source, /COMMUNITY_TAB_CYCLE_MS = 8000/);
+    assert.match(source, /is-auto-cycling/);
     assert.match(source, /prefers-reduced-motion: reduce/);
     assert.match(source, /interactionPaused/);
     assert.match(source, /hoverPaused/);
@@ -83,11 +87,12 @@ describe("homepage community gallery", () => {
     assert.match(styles, /\.community-proof__mosaic\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)[\s\S]*grid-template-rows: repeat\(2, minmax\(0, 1fr\)\)/);
     assert.match(styles, /\.community-proof__wall\s*\{[\s\S]*grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
     assert.match(styles, /\.community-proof__wall-tile\s*\{[\s\S]*aspect-ratio: 3 \/ 4/);
-    assert.match(styles, /filter: brightness\(1\.025\) contrast\(1\.035\) saturate\(\.9\)/);
+    assert.match(styles, /filter: brightness\(1\.045\) contrast\(1\.055\) saturate\(\.94\)/);
     assert.doesNotMatch(styles, /\.community-proof__wall-tile:nth-child/);
     assert.match(styles, /\.community-proof\.is-visible \.community-proof__heading/);
     assert.match(styles, /@keyframes communityMediaIn/);
     assert.match(styles, /@keyframes communityTileReveal/);
+    assert.match(styles, /@keyframes communityTabProgress/);
     assert.match(styles, /@media \(max-width: 719px\)[\s\S]*\.community-proof__tabs\s*\{[\s\S]*overflow-x: auto/);
     assert.match(styles, /@media \(prefers-reduced-motion: reduce\)[\s\S]*animation: none/);
   });

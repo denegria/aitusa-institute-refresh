@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { communityGallery, faqs, site, testimonials } from "../../../src/content";
 
+const COMMUNITY_TAB_CYCLE_MS = 8000;
+
 export function MethodVideo({ narrative }) {
   const enterMobileFullscreen = (event) => {
     const video = event.currentTarget;
@@ -65,7 +67,7 @@ export function ProofStories() {
   const [cycleIndex, setCycleIndex] = useState(0);
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
-  const [lightboxTab, setLightboxTab] = useState("stories");
+  const [lightboxTab, setLightboxTab] = useState("graduations");
   const [isInView, setIsInView] = useState(false);
   const [hoverPaused, setHoverPaused] = useState(false);
   const [interactionPaused, setInteractionPaused] = useState(false);
@@ -87,17 +89,21 @@ export function ProofStories() {
     },
   };
 
-  const photosForTab = communityGallery[activeTab] || communityGallery.stories;
+  const photosForTab = activeTab === "stories" ? [] : (communityGallery[activeTab] || []);
   const activeStoryCycleIndex = orderedStories.length ? cycleIndex % orderedStories.length : 0;
   const activeStoryCycle = orderedStories[activeStoryCycleIndex] || orderedStories[0];
   const activePhotoCycleIndex = photosForTab.length ? cycleIndex % photosForTab.length : 0;
-  const activePhotoCycle = photosForTab[activePhotoCycleIndex] || communityGallery.stories[0];
+  const activePhotoCycle = photosForTab[activePhotoCycleIndex] || communityGallery.graduations[0];
+  const sideStories = Array.from({ length: 2 }, (_, offset) => {
+    const index = orderedStories.length ? (activeStoryCycleIndex + offset + 1) % orderedStories.length : 0;
+    return { story: orderedStories[index], index };
+  }).filter((item) => item.story);
   const sidePhotos = Array.from({ length: 2 }, (_, offset) => {
     const index = photosForTab.length ? (activePhotoCycleIndex + offset + 1) % photosForTab.length : 0;
     return { photo: photosForTab[index], index };
   }).filter((item) => item.photo);
   const activeStory = orderedStories[activeStoryIndex] || orderedStories[0];
-  const lightboxPhotos = communityGallery[lightboxTab] || communityGallery.stories;
+  const lightboxPhotos = communityGallery[lightboxTab] || communityGallery.graduations;
   const activePhoto = lightboxPhotos[activePhotoIndex] || lightboxPhotos[0];
   const featuredGraduationIds = ["0031", "0022", "0033", "0028"];
   const graduationWall = showAllGraduations
@@ -143,9 +149,30 @@ export function ProofStories() {
 
   useEffect(() => {
     if (!isInView || hoverPaused || interactionPaused || prefersReducedMotion) return undefined;
-    const timer = window.setInterval(() => setCycleIndex((index) => index + 1), 6500);
+    const timer = window.setInterval(() => {
+      setActiveTab((currentTab) => {
+        const currentIndex = communityGallery.tabs.findIndex((tab) => tab.id === currentTab);
+        return communityGallery.tabs[(currentIndex + 1) % communityGallery.tabs.length].id;
+      });
+      setCycleIndex((index) => index + 1);
+      setActivePhotoIndex(0);
+    }, COMMUNITY_TAB_CYCLE_MS);
     return () => window.clearInterval(timer);
   }, [hoverPaused, interactionPaused, isInView, prefersReducedMotion]);
+
+  useEffect(() => {
+    if (!isInView) return;
+    const activeTabButton = document.getElementById(`community-tab-${activeTab}`);
+    activeTabButton?.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  }, [activeTab, isInView, prefersReducedMotion]);
+
+  useEffect(() => {
+    window.lucide?.createIcons?.();
+  }, [activePhotoIndex, activeStoryIndex, activeTab, cycleIndex, showAllGraduations]);
 
   useEffect(
     () => () => {
@@ -222,8 +249,8 @@ export function ProofStories() {
       id="experiencia"
       ref={sectionRef}
       data-community-proof
-      onPointerEnter={() => setHoverPaused(true)}
-      onPointerLeave={() => setHoverPaused(false)}
+      onMouseEnter={() => setHoverPaused(true)}
+      onMouseLeave={() => setHoverPaused(false)}
     >
       <div className="community-proof__inner">
         <header className="community-proof__heading" style={{ "--reveal-order": 0 }}>
@@ -234,10 +261,10 @@ export function ProofStories() {
         </header>
 
         <div
-          className="community-proof__tabs"
+          className={`community-proof__tabs${isInView && !hoverPaused && !interactionPaused && !prefersReducedMotion ? " is-auto-cycling" : ""}`}
           role="tablist"
-          aria-label="Explorar experiencias de AIT"
-          style={{ "--reveal-order": 1 }}
+          aria-label="Explorar experiencias de AIT; las pestañas avanzan automáticamente"
+          style={{ "--community-cycle-duration": `${COMMUNITY_TAB_CYCLE_MS}ms`, "--reveal-order": 1 }}
         >
           {communityGallery.tabs.map((tab, index) => (
             <button
@@ -284,9 +311,11 @@ export function ProofStories() {
                 alt={activeStoryCycle.imageAlt || ""}
                 fill
                 sizes="(max-width: 719px) calc(100vw - 32px), 48vw"
+                style={{ objectPosition: activeStoryCycle.posterPosition }}
               />
               <span className="community-proof__media-shade" aria-hidden="true" />
               <span className="community-proof__play" aria-hidden="true"><i data-lucide="play" /></span>
+              <span className="community-proof__video-duration">{activeStoryCycle.duration}</span>
             </a>
           ) : (
             <button
@@ -311,27 +340,55 @@ export function ProofStories() {
           )}
 
           <div className="community-proof__mosaic" aria-label={`Selección de ${tabMeta[activeTab].eyebrow.toLowerCase()}`}>
-            {sidePhotos.map(({ photo, index }, tileIndex) => (
-              <button
-                className="community-proof__tile"
-                type="button"
-                key={`${activeTab}-${cycleIndex}-${photo.id}`}
-                style={{ "--tile-order": tileIndex }}
-                onClick={(event) => {
-                  pauseAfterInteraction();
-                  openPhoto(index, event.currentTarget);
-                }}
-                aria-label={`Ampliar: ${photo.alt}`}
-              >
-                <Image
-                  src={photo.src}
-                  alt=""
-                  fill
-                  sizes="(max-width: 719px) 44vw, 24vw"
-                  style={{ objectPosition: photo.position }}
-                />
-              </button>
-            ))}
+            {activeTab === "stories"
+              ? sideStories.map(({ story, index }, tileIndex) => (
+                  <a
+                    className="community-proof__tile community-proof__tile--video"
+                    href={story.video}
+                    aria-haspopup="dialog"
+                    aria-label={`Ver entrevista en inglés con ${shortLabels[story.name] || story.name}`}
+                    key={`${cycleIndex}-${story.video}`}
+                    style={{ "--tile-order": tileIndex }}
+                    onClick={(event) => {
+                      if (!videoDialogRef.current?.showModal) return;
+                      event.preventDefault();
+                      pauseAfterInteraction();
+                      openStory(index, event.currentTarget);
+                    }}
+                  >
+                    <Image
+                      src={story.videoPoster || story.image}
+                      alt=""
+                      fill
+                      sizes="(max-width: 719px) 44vw, 24vw"
+                      style={{ objectPosition: story.posterPosition }}
+                    />
+                    <span className="community-proof__media-shade" aria-hidden="true" />
+                    <span className="community-proof__play community-proof__play--small" aria-hidden="true"><i data-lucide="play" /></span>
+                    <span className="community-proof__video-duration">{story.duration}</span>
+                  </a>
+                ))
+              : sidePhotos.map(({ photo, index }, tileIndex) => (
+                  <button
+                    className="community-proof__tile"
+                    type="button"
+                    key={`${activeTab}-${cycleIndex}-${photo.id}`}
+                    style={{ "--tile-order": tileIndex }}
+                    onClick={(event) => {
+                      pauseAfterInteraction();
+                      openPhoto(index, event.currentTarget);
+                    }}
+                    aria-label={`Ampliar: ${photo.alt}`}
+                  >
+                    <Image
+                      src={photo.src}
+                      alt=""
+                      fill
+                      sizes="(max-width: 719px) 44vw, 24vw"
+                      style={{ objectPosition: photo.position }}
+                    />
+                  </button>
+                ))}
           </div>
         </div>
 
