@@ -65,11 +65,10 @@ export function MethodSection() {
           <header className="method-story__intro section-heading section-heading--framed">
             <p className="method-kicker">{methodNarrative.eyebrow || "Método Graphic Concept"}</p>
             <h2 id="method-title" className="method-story__display-title">
-              {(methodNarrative.headingLines || [methodNarrative.heading || ""]).map((line) => (
-                <span key={line}>{line}</span>
+              {(methodNarrative.headingLines || [methodNarrative.heading || ""]).map((line, index, lines) => (
+                <span key={line}>{line}{index < lines.length - 1 ? " " : ""}</span>
               ))}
             </h2>
-            <p className="method-story__promise">{methodNarrative.promise || ""}</p>
             <p className="method-story__intro-copy">{methodNarrative.introduction || ""}</p>
           </header>
         </div>
@@ -79,7 +78,6 @@ export function MethodSection() {
           <header className="method-story__community-copy">
             <p className="method-story-kicker">{methodNarrative.painEyebrow || "Lo que escuchamos"}</p>
             <h3 id="method-community-title">{methodNarrative.painHeading || "¿Te suena familiar?"}</h3>
-            <p>{methodNarrative.painIntroduction || ""}</p>
           </header>
           <ul className="method-story__questions" aria-label="Preguntas comunes al aprender inglés">
             {(methodNarrative.painPoints || []).map((item) => (
@@ -91,17 +89,10 @@ export function MethodSection() {
         </div>
       </section>
       <div className="method-story-frame">
-        <div className="method-story__bridge">
-          <div className="method-story__bridge-copy">
-            <p className="method-story-kicker">{methodNarrative.solutionEyebrow || "La respuesta"}</p>
-            <h3>{methodNarrative.solutionHeading || "Una ruta clara para comprender, hablar y avanzar."}</h3>
-          </div>
-          <p className="method-story__bridge-intro">{methodNarrative.solutionIntroduction || ""}</p>
-        </div>
         <section className="method-story__conclusion" aria-labelledby="method-principles-title">
           <div className="method-story__principles-heading">
-            <p className="method-story-kicker">{methodNarrative.reasonsEyebrow || "De la pregunta a la práctica"}</p>
-            <h3 id="method-principles-title">{methodNarrative.reasonsHeading || "Tres razones para avanzar con más facilidad."}</h3>
+            <p className="method-story-kicker">{methodNarrative.reasonsEyebrow || "Nuestra respuesta"}</p>
+            <h3 id="method-principles-title">{methodNarrative.reasonsHeading || "Lo que cambia cuando entiendes el método."}</h3>
           </div>
           <ul className="method-reasons" aria-label="Resumen del método en tres razones">
             {solutionCharacteristics.map((item) => (

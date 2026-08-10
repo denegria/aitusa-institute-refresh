@@ -1,68 +1,59 @@
-# Graphic Concept community-story section — MIS-378 design acceptance contract
+# Graphic Concept homepage-rhythm refinement — MIS-378 design acceptance contract
 
 ## User workflow and problem
 
-An adult learner should recognize the questions AIT repeatedly hears from its
-community, understand that those frustrations are why Graphic Concept exists,
-then finish with a concise explanation of the method beside the real 1:45 video.
-The current staging composition decorates this story with unrelated compass,
-path, numbered-question, and numbered-principle devices that make the section
-feel longer and less credible.
+An adult learner should understand AIT's teaching philosophy, recognize the
+questions AIT repeatedly hears from its community, and see how Graphic Concept
+answers those frustrations beside the real 1:45 video. The accepted staging
+composition has the right ingredients, but its opening reads like two competing
+copy blocks, the community heading is weakened by an unnecessary explanation,
+and the separate answer bridge makes the story feel assembled rather than fluid.
 
 ## Chosen interaction model
 
-A linear editorial story with four chapters:
+A linear editorial story with three chapters:
 
-1. A warm opening that establishes the method and AIT's listening history.
+1. A warm philosophy-led opening that combines AIT's 20+ years of listening and
+   the Graphic Concept definition into one coherent passage.
 2. A full-width navy community-voices band containing three unnumbered questions.
-3. A short warm solution bridge explaining why Graphic Concept was created.
-4. A concluding fundamentals-and-video split with the real portrait video shown
-   exactly once.
+3. A concluding response-and-video split that introduces the method's practical
+   value without counting the fundamentals as "three reasons."
 
 No interaction is required to understand the story. The native video controls
 remain the only interactive element inside the section.
 
 ## Selected visual direction and reference classification
 
-- Mode: **faithful-reference with explicitly approved product refinements**.
-- Source visual truth:
-  `/root/.openclaw/agents/main/agent/codex-home/generated_images/019fe93c-f7d7-74b3-a028-645810fd1508/exec-cfe97fae-5833-4226-a5d8-0a9a3064aebd.png`
-- Preserve the selected option's warm opening, full-width navy community band,
-  ivory solution bridge, and final fundamentals/video split.
+- Mode: **inspiration mode**. Alvaro's August 10 refinement feedback and the
+  homepage's existing section system are authoritative; the earlier generated
+  option is no longer a literal fidelity target.
+- Preserve the accepted option's warm opening, full-width navy community band,
+  and final fundamentals/video split while removing the now-rejected standalone
+  solution bridge.
 - Match the homepage's existing Plus Jakarta Sans typography, 1180px content
   frame, navy/warm/gold tokens, restrained 8px radii, and adjacent-section
   rhythm instead of introducing a standalone campaign style.
-
-### Explicitly permitted deviations
-
-- Remove the duplicate opening video from the generated option. The real video
-  appears once, beside the fundamentals, as Alvaro requested.
-- Use the homepage's existing type family and token values rather than the
-  generated image's approximate raster typography and colors.
-- Reflow copy at tablet/mobile widths while preserving reading order and emphasis.
-- Use semantic HTML and native video controls even where the raster reference
-  simplifies them.
-
-No other compositional downgrade is permitted.
+- Use the same vertical blue-to-gold heading accent seen in the other homepage
+  chapters. At the mobile breakpoint it follows the homepage system's compact
+  horizontal-marker variant. The opening eyebrow is gold and the large heading
+  is near-black navy.
 
 ## Locked content
 
-- Eyebrow: `Método Graphic Concept`
-- Heading: `Tres razones por las que somos diferentes.`
-- Promise: `Graphic Concept es nuestro método visual para ayudarte a pensar en inglés y comunicarte en el trabajo, los estudios y la vida diaria.`
-- Introduction: `Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. Así nació Graphic Concept: un método visual, fácil de aprender y pensado para cualquier persona, sin importar su nivel académico. Te ayuda a comprender y hablar inglés con más facilidad y fluidez, sin memorizar listas interminables.`
+- Hero eyebrow retains `Una escuela de inglés diferente para gente con propósito`
+  and uses the same warm gold as the modality icons below it.
+- Method eyebrow: `Nuestra filosofía`
+- Method heading: `Primero comprendes. Después hablas.`
+- Opening passage: `Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. De esa experiencia nació Graphic Concept: nuestro método visual para ayudarte a pensar en inglés y comunicarte en el trabajo, los estudios y la vida diaria. Es fácil de aprender y está pensado para cualquier persona, sin importar su nivel académico, para que comprendas y hables con más facilidad y fluidez, sin memorizar listas interminables.`
 - Community eyebrow: `Lo que escuchamos`
 - Community heading: `¿Te suena familiar?`
-- Community intro: `No se trata de esforzarte más por memorizar. Se trata de encontrar una forma de aprender que te permita entender, practicar y usar el inglés con confianza.`
+- No community intro paragraph; the questions carry the subsection.
 - Questions, in source order but visually unnumbered:
   - `¿Quieres hablar inglés rápido, fácil y sin estrés?`
   - `¿Llevas tiempo intentando hablar inglés y todavía no lo logras?`
   - `¿Te obligan a memorizar miles de palabras y sientes que no te alcanzan ni el tiempo ni la cabeza?`
-- Solution eyebrow: `La respuesta`
-- Solution heading: `Una ruta clara para comprender, hablar y avanzar.`
-- Solution intro: `Graphic Concept convierte esas frustraciones en una secuencia visual: primero comprendes, después hablas y, con práctica guiada, avanzas a tu ritmo.`
-- Fundamentals eyebrow: `De la pregunta a la práctica`
-- Fundamentals heading: `Tres razones para avanzar con más facilidad.`
+- Response eyebrow: `Nuestra respuesta`
+- Response heading: `Lo que cambia cuando entiendes el método.`
 - Preserve the approved three fundamentals and supporting descriptions from
   `solutionCharacteristics` verbatim.
 - Video label: `Conoce el método completo · 1:45`
@@ -84,8 +75,8 @@ No other compositional downgrade is permitted.
   artwork, invented testimonial, fake quote, CTA, grammar demo, cards, carousel,
   tabs, new colors, gradients, or changes outside the Method section and its
   focused tests/reference contract.
-- No hero, proof, courses, locations, books, FAQ, navigation, form, route, data,
-  production, or production-branch changes.
+- No hero changes beyond the eyebrow color. No proof, courses, locations, books,
+  FAQ, navigation, form, route, data, production, or production-branch changes.
 
 ## Responsive contract
 
@@ -98,13 +89,13 @@ No other compositional downgrade is permitted.
 ## Layout and hierarchy invariants
 
 - All warm chapters align to the homepage's 1180px content frame.
-- Opening title remains the dominant type; promise and introduction retain
-  readable line lengths and do not create an empty image-shaped hole.
+- Opening title remains the dominant type; the single integrated passage retains
+  a readable line length and does not create an empty image-shaped hole.
 - The navy band is full bleed, clearly framed as community voice, and contains
-  one heading/intro plus three equally weighted unnumbered questions separated
-  by restrained gold rules.
-- The solution bridge is concise and visually connects the dark band to the
-  concluding method chapter without another illustration.
+  one heading plus three equally weighted unnumbered questions separated by
+  restrained gold rules.
+- The conclusion follows the questions directly; no redundant bridge chapter is
+  inserted between the community voice and AIT's response.
 - On desktop, fundamentals and the single portrait video are balanced side by
   side; the video is neither oversized nor detached.
 - On tablet/mobile, questions and fundamentals stack in natural reading order;
@@ -122,16 +113,13 @@ No other compositional downgrade is permitted.
 
 ## Required closeout evidence
 
-- Source and rendered 1440px section captures combined into one comparison artifact.
-- Focused comparisons for the community band and fundamentals/video conclusion.
+- Before/after 1440px section captures on a matching viewport basis.
+- Focused captures for the community band and fundamentals/video conclusion.
 - Browser captures or DOM measurements at every locked viewport.
 - Zero horizontal overflow, missing assets, console errors, failed page requests,
   or broken video controls.
 - Focused Method tests, full test suite, 44-asset audit (or current truthful
   inventory), production build, browser verification, and `git diff --check`.
-- Independent visual reviewer who did not implement the candidate; the reviewer
-  must name residual differences and return accepted, accepted-with-approved-
-  deviations, or rejected.
 - Exact candidate commit, routing evidence, Director decision, staging branch
   containment, Git-triggered Vercel deployment, and live staging evidence or
   the exact access blocker. Production remains untouched.

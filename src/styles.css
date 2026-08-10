@@ -4804,7 +4804,7 @@ textarea {
 
 .hero__kicker {
   margin: 0;
-  color: #8a6412;
+  color: #c28a26;
   font-size: 0.94rem;
   font-weight: 800;
   line-height: 1.2;
@@ -4812,7 +4812,7 @@ textarea {
 }
 
 .hero .hero__kicker {
-  color: #8a6412;
+  color: #c28a26;
 }
 
 .hero h1 {
@@ -5869,7 +5869,7 @@ textarea {
 
 .home-page #inicio .hero__headline-accent,
 .home-page #inicio .hero__kicker {
-  color: var(--home-gold-text);
+  color: #c28a26;
 }
 
 .home-page #inicio .hero__summary,
@@ -6704,7 +6704,7 @@ textarea {
 }
 
 /* MIS-378 correction: the rendered story intentionally uses isolated names so
-   retired Method grids cannot reorder, clip, or restyle its four chapters. */
+   retired Method grids cannot reorder, clip, or restyle its three chapters. */
 .home-page #metodo.method-story-section {
   display: block;
   width: 100%;
@@ -6722,27 +6722,30 @@ textarea {
 }
 
 .home-page #metodo .method-story__opening {
-  max-width: 790px;
+  max-width: 860px;
 }
 
 .home-page #metodo .method-story__intro {
   max-width: none;
-  padding: 0;
+  padding: 0 0 0 18px;
   border: 0;
 }
 
 .home-page #metodo .method-story__intro::before {
+  position: absolute;
+  inset: 4px auto 4px 0;
   display: block;
-  width: 32px;
-  height: 2px;
-  margin-bottom: 16px;
-  background: var(--home-gold);
+  width: 5px;
+  height: auto;
+  margin: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--home-blue), var(--home-gold));
   content: "";
 }
 
 .home-page #metodo .method-story__intro h2 {
-  max-width: 760px;
-  margin-top: 16px;
+  max-width: 800px;
+  margin-top: 14px;
   color: var(--home-navy);
   font-family: var(--font-display);
   font-size: clamp(2.7rem, 5.2vw, 4.9rem);
@@ -6753,33 +6756,26 @@ textarea {
 
 .home-page #metodo .method-story__display-title span { display: block; }
 
-.home-page #metodo .method-story__promise {
-  max-width: 650px;
-  margin-top: 28px;
-  color: var(--home-blue);
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
-  font-weight: 700;
-  line-height: 1.5;
-}
-
 .home-page #metodo .method-story__intro-copy {
-  max-width: 690px;
-  margin-top: 22px;
+  max-width: 760px;
+  margin-top: 28px;
   color: var(--home-body);
-  font-size: clamp(.98rem, 1.2vw, 1.08rem);
-  line-height: 1.65;
+  font-size: clamp(1rem, 1.25vw, 1.1rem);
+  line-height: 1.68;
 }
 
 .home-page #metodo .method-story__community {
   width: 100%;
+  margin-top: clamp(52px, 7vw, 88px);
   padding: clamp(56px, 7vw, 94px) 16px;
   background: var(--home-navy);
 }
 
 .home-page #metodo .method-story__community-inner {
   display: grid;
-  grid-template-columns: minmax(260px, .84fr) minmax(0, 1.5fr);
-  gap: clamp(42px, 7vw, 110px);
+  grid-template-columns: minmax(240px, .68fr) minmax(0, 1.6fr);
+  gap: clamp(42px, 6vw, 88px);
+  align-items: center;
   width: min(1180px, 100%);
   margin: 0 auto;
 }
@@ -6794,18 +6790,10 @@ textarea {
   line-height: 1;
 }
 
-.home-page #metodo .method-story__community-copy > p:last-child {
-  max-width: 440px;
-  margin-top: 24px;
-  color: rgba(255, 255, 255, .88);
-  font-size: clamp(.96rem, 1.15vw, 1.06rem);
-  line-height: 1.62;
-}
-
 .home-page #metodo .method-story__questions {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-self: end;
+  align-self: center;
   gap: 0;
   margin: 0;
   padding: 0;
@@ -6836,15 +6824,6 @@ textarea {
   line-height: 1.32;
 }
 
-.home-page #metodo .method-story__bridge {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, .78fr);
-  gap: clamp(36px, 8vw, 88px);
-  align-items: center;
-  padding: 0;
-}
-
-.home-page #metodo .method-story__bridge h3,
 .home-page #metodo .method-story__principles-heading h3 {
   margin-top: 14px;
   color: var(--home-navy);
@@ -6855,16 +6834,6 @@ textarea {
   line-height: 1.04;
 }
 
-.home-page #metodo .method-story__bridge-intro {
-  max-width: 450px;
-  margin: 0;
-  padding-left: clamp(24px, 3vw, 42px);
-  border-left: 1px solid var(--home-gold);
-  color: var(--home-body);
-  font-size: clamp(.98rem, 1.2vw, 1.08rem);
-  line-height: 1.62;
-}
-
 .home-page #metodo .method-story__conclusion {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(250px, .58fr);
@@ -6873,9 +6842,13 @@ textarea {
     "reasons video";
   gap: 28px clamp(48px, 7vw, 112px);
   align-items: start;
+  padding-top: clamp(56px, 7vw, 92px);
 }
 
-.home-page #metodo .method-story__principles-heading { grid-area: heading; }
+.home-page #metodo .method-story__principles-heading {
+  grid-area: heading;
+  max-width: 650px;
+}
 
 .home-page #metodo .method-story__conclusion .method-reasons {
   display: grid;
@@ -6968,7 +6941,6 @@ textarea {
 
 @media (max-width: 900px) {
   .home-page #metodo .method-story__community-inner,
-  .home-page #metodo .method-story__bridge,
   .home-page #metodo .method-story__conclusion {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -6989,11 +6961,6 @@ textarea {
     border-bottom: 1px solid rgba(211, 169, 79, .55);
   }
 
-  .home-page #metodo .method-story__bridge-intro {
-    max-width: 590px;
-    padding-left: 24px;
-  }
-
   .home-page #metodo .method-story__conclusion {
     grid-template-areas:
       "heading"
@@ -7001,19 +6968,16 @@ textarea {
       "video";
   }
 
-  .home-page #metodo .method-story__media { justify-self: start; }
+  .home-page #metodo .method-story__media { justify-self: center; }
 }
 
 @media (max-width: 719px) {
   .home-page #metodo.method-story-section { padding-block: 60px 76px; }
   .home-page #metodo .method-story-frame { gap: 46px; }
   .home-page #metodo .method-story__intro h2 { font-size: clamp(2.35rem, 12vw, 3.25rem); }
-  .home-page #metodo .method-story__promise { margin-top: 22px; }
   .home-page #metodo .method-story__community { padding-block: 50px; }
   .home-page #metodo .method-story__community-copy h3 { font-size: clamp(2.3rem, 12vw, 3.25rem); }
   .home-page #metodo .method-story__questions p { font-size: 1.12rem; }
-  .home-page #metodo .method-story__bridge { gap: 24px; }
-  .home-page #metodo .method-story__bridge-intro { padding-left: 20px; }
   .home-page #metodo .method-story__media {
     width: min(100%, 300px);
     justify-self: center;

@@ -150,7 +150,8 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(hero, /hero__conversion/);
     assert.doesNotMatch(hero, /hero__summary|hero__objections/);
     assert.equal((hero.match(/className="button button--/g) || []).length, 0);
-    assert.match(method, /method-story__promise/);
+    assert.match(method, /method-story__intro-copy/);
+    assert.doesNotMatch(method, /method-story__promise|method-story__bridge/);
     assert.match(method, /method-story__questions/);
     assert.match(method, /Preguntas comunes al aprender inglés/);
   });
@@ -172,7 +173,8 @@ describe("homepage React integration", () => {
 
   it("preserves the accepted responsive and semantic visual rules", async () => {
     const { styles } = await readSources();
-    assert.match(styles, /\.hero__kicker\s*\{[\s\S]*color: #8a6412/);
+    assert.match(styles, /\.hero__kicker\s*\{[\s\S]*color: #c28a26/);
+    assert.match(styles, /\.hero__modalities svg\s*\{[\s\S]*color: #c28a26/);
     assert.match(styles, /\.hero__headline-emphasis\s*\{[\s\S]*text-transform: none/);
     assert.match(styles, /\.proof-shelf__rail\s*\{[\s\S]*scroll-snap-type: x mandatory/);
     assert.match(styles, /\.home-page \.real-map-pin\s*\{[\s\S]*width: 44px;[\s\S]*height: 44px/);
