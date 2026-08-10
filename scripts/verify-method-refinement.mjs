@@ -179,6 +179,13 @@ try {
       const conclusion = document.querySelector('.method-story__conclusion');
       const media = document.querySelector('.method-story__media');
       const video = document.querySelector('#metodo video');
+      const introCopy = document.querySelector('.method-story__intro-copy');
+      const questionItems = [...document.querySelectorAll('.method-story__questions > li')];
+      const books = document.querySelector('#libros');
+      const bookHeading = document.querySelector('#libros .books-section__heading');
+      const bookGallery = document.querySelector('#libros .books-gallery');
+      const bookFigures = [...document.querySelectorAll('#libros .books-gallery > figure')];
+      const bookImages = [...document.querySelectorAll('#libros .books-gallery img')];
       const rect = (element) => {
         const value = element?.getBoundingClientRect();
         return value ? {
@@ -198,7 +205,16 @@ try {
           setTimeout(done, 3500);
         });
       }
+      if (books) books.scrollIntoView({ block: 'center' });
+      await Promise.all(bookImages.map((image) => image.complete
+        ? Promise.resolve()
+        : new Promise((resolve) => {
+          image.addEventListener('load', resolve, { once: true });
+          image.addEventListener('error', resolve, { once: true });
+          setTimeout(resolve, 3500);
+        })));
       const accent = getComputedStyle(intro, '::before');
+      const bookAccent = getComputedStyle(bookHeading, '::before');
       const heroKicker = document.querySelector('.hero__kicker');
       const modalityIcon = document.querySelector('.hero__modalities svg');
       const communityKicker = document.querySelector('.method-story__community .method-story-kicker');
@@ -236,12 +252,40 @@ try {
         })),
         accent: { width: accent.width, height: accent.height, backgroundImage: accent.backgroundImage },
         questionsColumns: getComputedStyle(document.querySelector('.method-story__questions')).gridTemplateColumns,
+        questionItems: questionItems.map(rect),
         conclusionAreas: getComputedStyle(conclusion).gridTemplateAreas,
         method: rect(method),
         intro: rect(intro),
+        introCopy: rect(introCopy),
         community: rect(community),
         conclusion: rect(conclusion),
         media: rect(media),
+        books: rect(books),
+        bookHeadingBorderLeftWidth: getComputedStyle(bookHeading).borderLeftWidth,
+        bookAccent: {
+          width: bookAccent.width,
+          height: bookAccent.height,
+          backgroundImage: bookAccent.backgroundImage,
+        },
+        bookColumns: getComputedStyle(bookGallery).gridTemplateColumns,
+        bookCount: bookFigures.length,
+        bookFigures: bookFigures.map((figure) => {
+          const styles = getComputedStyle(figure);
+          return {
+            className: figure.className,
+            ...rect(figure),
+            gridColumnStart: styles.gridColumnStart,
+            gridColumnEnd: styles.gridColumnEnd,
+            gridRowStart: styles.gridRowStart,
+            gridRowEnd: styles.gridRowEnd,
+          };
+        }),
+        bookImages: bookImages.map((image) => ({
+          ...rect(image),
+          complete: image.complete,
+          naturalWidth: image.naturalWidth,
+          naturalHeight: image.naturalHeight,
+        })),
         errorOverlay: Boolean(document.querySelector('[data-nextjs-dialog], .vite-error-overlay')),
       };
     })()`);
@@ -271,6 +315,39 @@ try {
     if (!(summary.intro.y < summary.community.y && summary.community.y < summary.conclusion.y)) issues.push("chapter-order");
     if (viewport.width > 900 && summary.questionsColumns.split(" ").length !== 3) issues.push("desktop-question-columns");
     if (viewport.width <= 900 && summary.questionsColumns.split(" ").length !== 1) issues.push("compact-question-stack");
+    if (summary.introCopy.width > 705) issues.push("opening-copy-measure");
+    if (viewport.width > 900) {
+      const questionHeights = summary.questionItems.map((item) => item.height);
+      if (Math.max(...questionHeights) - Math.min(...questionHeights) > 38) issues.push("question-rhythm-imbalance");
+    }
+    if (summary.bookCount !== 7 || summary.bookImages.some((image) => !image.complete || image.naturalWidth <= 0)) {
+      issues.push("book-assets-invalid");
+    }
+    if (summary.bookHeadingBorderLeftWidth !== "0px" || summary.bookAccent.backgroundImage === "none") {
+      issues.push("duplicate-book-heading-accent");
+    }
+    const introBook = summary.bookFigures.find((figure) => figure.className.includes("books-gallery__intro"));
+    const stepBooks = summary.bookFigures.filter((figure) => figure.className.includes("books-gallery__book--"));
+    if (viewport.width > 719) {
+      const expected = [
+        ["2", "1"], ["3", "1"], ["4", "1"],
+        ["2", "2"], ["3", "2"], ["4", "2"],
+      ];
+      if (
+        introBook?.gridColumnStart !== "1"
+        || introBook?.gridRowStart !== "1"
+        || introBook?.gridRowEnd !== "span 2"
+        || stepBooks.some((book, index) => book.gridColumnStart !== expected[index][0] || book.gridRowStart !== expected[index][1])
+      ) issues.push("desktop-book-sequence");
+    } else if (introBook?.gridColumnStart !== "1" || introBook?.gridColumnEnd !== "-1") {
+      issues.push("mobile-intro-feature");
+    }
+    const stepImageWidths = summary.bookImages.slice(1).map((image) => image.width);
+    const minStepWidth = viewport.width >= 1041 ? 185 : viewport.width >= 720 ? 130 : 125;
+    const minIntroWidth = viewport.width >= 720 ? 180 : 170;
+    if (summary.bookImages[0]?.width < minIntroWidth || Math.min(...stepImageWidths) < minStepWidth) {
+      issues.push("book-cover-scale");
+    }
     if (summary.errorOverlay) issues.push("framework-error-overlay");
 
     const methodScreenshot = path.join(screenshotsDir, `${viewport.name}-method.png`);
@@ -280,7 +357,9 @@ try {
       heroScreenshot = path.join(screenshotsDir, `${viewport.name}-hero.png`);
       await captureElement("#inicio", heroScreenshot);
     }
-    results.push({ ...viewport, summary, issues, methodScreenshot, heroScreenshot });
+    const booksScreenshot = path.join(screenshotsDir, `${viewport.name}-books.png`);
+    await captureElement("#libros", booksScreenshot);
+    results.push({ ...viewport, summary, issues, methodScreenshot, booksScreenshot, heroScreenshot });
   }
 
   const report = { appUrl, screenshotsDir, consoleErrors, exceptions, results };

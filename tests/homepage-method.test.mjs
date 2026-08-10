@@ -117,8 +117,10 @@ describe("homepage Method community story", () => {
 
     assert.match(layer, /method-story__community\s*\{[\s\S]*background: var\(--home-navy\)/);
     assert.match(layer, /method-story__intro::before\s*\{[\s\S]*width: 5px;[\s\S]*linear-gradient\(180deg, var\(--home-blue\), var\(--home-gold\)\)/);
-    assert.match(layer, /method-story__community-inner\s*\{[\s\S]*grid-template-columns: minmax\(240px, \.68fr\) minmax\(0, 1\.6fr\)/);
-    assert.match(layer, /method-story__questions\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
+    assert.match(styles, /MIS-378 homepage rhythm polish:[\s\S]*method-story__intro-copy\s*\{[\s\S]*max-width: 700px;[\s\S]*line-height: 1\.62/);
+    assert.match(styles, /MIS-378 homepage rhythm polish:[\s\S]*method-story__community-inner\s*\{[\s\S]*grid-template-columns: minmax\(220px, \.58fr\) minmax\(0, 1\.62fr\)/);
+    assert.match(styles, /MIS-378 homepage rhythm polish:[\s\S]*method-story__questions\s*\{[\s\S]*grid-template-columns: minmax\(0, \.9fr\) minmax\(0, 1\.05fr\) minmax\(0, 1\.25fr\)/);
+    assert.match(styles, /MIS-378 homepage rhythm polish:[\s\S]*method-story__questions p\s*\{[\s\S]*font-size: clamp\(1\.08rem, 1\.45vw, 1\.36rem\);[\s\S]*line-height: 1\.34/);
     assert.match(layer, /method-story__conclusion\s*\{[\s\S]*grid-template-areas:[\s\S]*"heading video"[\s\S]*"reasons video"/);
     assert.match(layer, /method-story__community \.method-story-kicker\s*\{[\s\S]*color: var\(--home-gold-light\)/);
     assert.match(layer, /method-story__conclusion \.method-reasons li\s*\{[\s\S]*grid-template-columns: 42px minmax\(0, 1fr\)/);

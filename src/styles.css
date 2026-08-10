@@ -13321,3 +13321,117 @@ textarea {
     justify-self: center;
   }
 }
+
+/* MIS-378 homepage rhythm polish: preserve the accepted Method narrative while
+   improving its reading measure, then present the curriculum as one featured
+   Intro cover followed by a deliberate two-row sequence. */
+.home-page #metodo .method-story__intro-copy {
+  max-width: 700px;
+  line-height: 1.62;
+}
+
+.home-page #metodo .method-story__community-inner {
+  grid-template-columns: minmax(220px, .58fr) minmax(0, 1.62fr);
+  gap: clamp(38px, 5vw, 72px);
+}
+
+.home-page #metodo .method-story__questions {
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.05fr) minmax(0, 1.25fr);
+}
+
+.home-page #metodo .method-story__questions li {
+  padding-inline: clamp(16px, 2vw, 30px);
+}
+
+.home-page #metodo .method-story__questions li:first-child { padding-left: 0; }
+.home-page #metodo .method-story__questions li:last-child { padding-right: 0; }
+
+.home-page #metodo .method-story__questions p {
+  font-size: clamp(1.08rem, 1.45vw, 1.36rem);
+  line-height: 1.34;
+}
+
+.home-page #libros .books-section__heading {
+  padding-left: 24px;
+  border-left: 0;
+}
+
+.home-page #libros .books-gallery {
+  grid-template-columns: minmax(220px, .9fr) repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(230px, auto));
+  gap: 32px clamp(28px, 3.4vw, 52px);
+  align-items: center;
+}
+
+.home-page #libros .books-gallery > figure {
+  display: grid;
+  place-items: center;
+  justify-self: stretch;
+}
+
+.home-page #libros .books-gallery > .books-gallery__intro {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+.home-page #libros .books-gallery > .books-gallery__book--1 { grid-column: 2; grid-row: 1; }
+.home-page #libros .books-gallery > .books-gallery__book--2 { grid-column: 3; grid-row: 1; }
+.home-page #libros .books-gallery > .books-gallery__book--3 { grid-column: 4; grid-row: 1; }
+.home-page #libros .books-gallery > .books-gallery__book--4 { grid-column: 2; grid-row: 2; }
+.home-page #libros .books-gallery > .books-gallery__book--5 { grid-column: 3; grid-row: 2; }
+.home-page #libros .books-gallery > .books-gallery__book--6 { grid-column: 4; grid-row: 2; }
+
+.home-page #libros .books-gallery img,
+.home-page #libros .books-gallery__intro img {
+  width: min(100%, 194px);
+  max-width: 194px;
+}
+
+.home-page #libros .books-gallery__intro img {
+  width: min(100%, 210px);
+  max-width: 210px;
+}
+
+@media (max-width: 900px) {
+  .home-page #metodo .method-story__community-inner,
+  .home-page #metodo .method-story__questions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 719px) {
+  .home-page #libros .books-section__heading {
+    padding-left: 0;
+  }
+
+  .home-page #libros .books-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+    gap: 30px 18px;
+  }
+
+  .home-page #libros .books-gallery > .books-gallery__intro {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .home-page #libros .books-gallery > .books-gallery__book--1,
+  .home-page #libros .books-gallery > .books-gallery__book--2,
+  .home-page #libros .books-gallery > .books-gallery__book--3,
+  .home-page #libros .books-gallery > .books-gallery__book--4,
+  .home-page #libros .books-gallery > .books-gallery__book--5,
+  .home-page #libros .books-gallery > .books-gallery__book--6 {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .home-page #libros .books-gallery img {
+    width: min(100%, 148px);
+    max-width: 148px;
+  }
+
+  .home-page #libros .books-gallery__intro img {
+    width: min(100%, 180px);
+    max-width: 180px;
+  }
+}

@@ -1070,3 +1070,64 @@ do next. “Unavailable” must never look like “broken.”
 The scoped workflow, visual direction, locked content, responsive invariants,
 and closeout evidence are recorded in
 `references/design-acceptance-contract-method-concept.md`.
+
+---
+
+# Homepage Method rhythm and book collection — 2026-08-10
+
+## User workflow and problem
+
+- The approved Graphic Concept story is clear, but its opening copy measure and
+  uneven question lengths can be easier to scan without changing the narrative.
+- The book collection currently renders two competing heading accents and all
+  seven covers in one horizontal row, making the curriculum read as an image
+  wall rather than a deliberate sequence.
+
+## Chosen interaction model and visual direction
+
+- Reference mode: inspiration. Alvaro's staged review and the established
+  homepage section system are authoritative; no generated or external visual is
+  a fidelity target.
+- Preserve the Method's three-chapter editorial sequence. Improve only reading
+  measure, question-column balance, and small spacing details that increase
+  comprehension.
+- Present the books as one featured Intro cover spanning both desktop rows,
+  followed by Steps 1–3 on the first row and Steps 4–6 on the second. Keep the
+  covers unboxed on navy so the curriculum art, not another card system, carries
+  the section.
+- Keep the existing gradient heading rule and remove the redundant solid rule.
+
+## Locked behavior, content, and non-goals
+
+- Preserve all approved Method copy, its lightened `Lo que escuchamos` eyebrow,
+  three questions, three outcome icons, native video, caption, and semantic
+  order.
+- Preserve the `Ruta Graphic Concept` / `Nuestros libros.` heading and all seven
+  source covers in Intro, Step 1 through Step 6 DOM order.
+- No new ornaments, labels, cards, carousel, horizontal scroller, copy rewrite,
+  asset generation, route change, interaction, production promotion, or data
+  write.
+
+## Responsive and rhythm invariants
+
+- Primary CSS viewports: 1440×900 and 390×844. Regression viewports: 1280×720
+  and 768×1024. Default zoom; DPR is not an acceptance dimension.
+- Desktop books: featured Intro plus a legible 3×2 sequence with materially
+  larger covers than the current seven-column row.
+- Tablet books: four-column reading order that naturally produces Intro + Steps
+  1–3, then Steps 4–6. Mobile books: featured Intro above a two-column sequence.
+- Method titles remain in the homepage display family; body copy keeps a
+  readable measure; the three questions feel balanced without clipping or
+  truncation.
+- One heading accent only, no page-level horizontal overflow, no image
+  distortion, and no regression to adjacent homepage sections.
+
+## Required closeout evidence
+
+- Focused homepage Method/books tests, full test suite, asset audit, webpack
+  production build, and `git diff --check`.
+- DOM measurements and one calibrated screenshot for each required viewport,
+  including grid order, rendered cover sizes, heading pseudo-element/border,
+  Method text measure, overflow, image loading, and console/runtime state.
+- Exact staging commit and Git-triggered deployment verification. Production
+  remains untouched and MIS-378 stays in Human Review unless Alvaro accepts it.

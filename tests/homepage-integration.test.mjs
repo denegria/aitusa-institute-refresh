@@ -253,4 +253,29 @@ describe("homepage React integration", () => {
     const chrome = await readFile("app/_components/site/SiteChrome.jsx", "utf8");
     assert.match(chrome, /readingSectionIds = .*"libros", "faq"/);
   });
+
+  it("presents the books as one featured Intro cover and an ordered two-row curriculum", async () => {
+    const { sections, styles } = await readSources();
+
+    assert.equal((sections.match(/books-gallery__intro/g) || []).length, 1);
+    assert.equal((sections.match(/books-gallery__book--\$\{index \+ 1\}/g) || []).length, 1);
+    assert.match(
+      styles,
+      /MIS-378 homepage rhythm polish:[\s\S]*books-section__heading\s*\{[\s\S]*padding-left: 24px;[\s\S]*border-left: 0/,
+    );
+    assert.match(
+      styles,
+      /MIS-378 homepage rhythm polish:[\s\S]*books-gallery\s*\{[\s\S]*grid-template-columns: minmax\(220px, \.9fr\) repeat\(3, minmax\(0, 1fr\)\);[\s\S]*grid-template-rows: repeat\(2, minmax\(230px, auto\)\)/,
+    );
+    assert.match(styles, /books-gallery > \.books-gallery__intro\s*\{[\s\S]*grid-column: 1;[\s\S]*grid-row: 1 \/ span 2/);
+    assert.match(styles, /books-gallery > \.books-gallery__book--1\s*\{ grid-column: 2; grid-row: 1; \}/);
+    assert.match(styles, /books-gallery > \.books-gallery__book--3\s*\{ grid-column: 4; grid-row: 1; \}/);
+    assert.match(styles, /books-gallery > \.books-gallery__book--4\s*\{ grid-column: 2; grid-row: 2; \}/);
+    assert.match(styles, /books-gallery > \.books-gallery__book--6\s*\{ grid-column: 4; grid-row: 2; \}/);
+    assert.match(styles, /books-gallery__intro img\s*\{[\s\S]*max-width: 210px/);
+    assert.match(
+      styles,
+      /@media \(max-width: 719px\)[\s\S]*books-gallery > \.books-gallery__intro\s*\{[\s\S]*grid-column: 1 \/ -1;[\s\S]*grid-row: auto/,
+    );
+  });
 });
