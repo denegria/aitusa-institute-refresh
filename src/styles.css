@@ -1650,6 +1650,27 @@ button {
   margin: 0;
 }
 
+@media (max-width: 719px) {
+  .program-card__identity {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    min-height: 0;
+  }
+
+  .program-card__identity .eyebrow-chip {
+    justify-self: start;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+
+  .program-card__identity h3 {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+}
+
 .program-card__body {
   padding: 18px;
 }

@@ -1554,6 +1554,32 @@ const verifyCourseRoute = async ({
     const firstMode = firstCard?.querySelector('.eyebrow-chip');
     const firstTitle = firstCard?.querySelector('h3');
     const catalogLinks = [...document.querySelectorAll('[data-course-detail-link]')];
+    const elementMetrics = (element) => {
+      if (!element) return null;
+      const rect = element.getBoundingClientRect();
+      return {
+        clientWidth: element.clientWidth,
+        scrollWidth: element.scrollWidth,
+        clientHeight: element.clientHeight,
+        scrollHeight: element.scrollHeight,
+        left: Math.round(rect.left),
+        right: Math.round(rect.right),
+        top: Math.round(rect.top),
+        bottom: Math.round(rect.bottom),
+      };
+    };
+    const cardIdentities = [...document.querySelectorAll('.program-card')].map((card) => {
+      const identity = card.querySelector('.program-card__identity');
+      const chip = identity?.querySelector('.eyebrow-chip');
+      const cardTitle = identity?.querySelector('h3');
+      return {
+        title: cardTitle?.textContent.trim() || '',
+        chipText: chip?.textContent.trim() || '',
+        identity: elementMetrics(identity),
+        chip: elementMetrics(chip),
+        titleElement: elementMetrics(cardTitle),
+      };
+    });
     const expectedSlugs = [
       'ingles-jovenes-adultos',
       'ingles-hibrido-adultos',
@@ -1582,6 +1608,7 @@ const verifyCourseRoute = async ({
       programCount: document.querySelectorAll('.program-card').length,
       detailCount: document.querySelectorAll('.course-detail-stack, [data-course-detail]').length,
       catalogSlugs: catalogLinks.map((link) => link.dataset.courseDetailLink),
+      cardIdentities,
       expectedSlugs,
       missingImages: images.filter((img) => !img.complete || img.naturalWidth === 0).map((img) => img.currentSrc || img.src),
       pageScrollWidth: document.documentElement.scrollWidth,
@@ -1590,6 +1617,7 @@ const verifyCourseRoute = async ({
   })()`);
   let screenshot = null;
   let cardScreenshot = null;
+  let officeCardScreenshot = null;
   if (!skipScreenshots) {
     await stabilizeViewport();
     const shot = await captureViewport(name);
@@ -1608,6 +1636,20 @@ const verifyCourseRoute = async ({
       const cardShot = await captureViewport(`${name} first card`);
       cardScreenshot = path.join(screenshotsDir, `${name}-first-card.png`);
       await writeFile(cardScreenshot, Buffer.from(cardShot.data, "base64"));
+
+      await evaluate(`(() => {
+        const officeLink = document.querySelector('[data-course-detail-link="computacion-oficina"]');
+        const officeCard = officeLink?.closest('.program-card');
+        window.scrollTo({
+          top: Math.max(0, (officeCard?.getBoundingClientRect().top || 0) + window.scrollY - 120),
+          left: 0,
+          behavior: 'instant',
+        });
+      })()`);
+      await sleep(180);
+      const officeCardShot = await captureViewport(`${name} office card`);
+      officeCardScreenshot = path.join(screenshotsDir, `${name}-office-card.png`);
+      await writeFile(officeCardScreenshot, Buffer.from(officeCardShot.data, "base64"));
     }
   }
   const issues = [];
@@ -1619,6 +1661,26 @@ const verifyCourseRoute = async ({
     issues.push(`firstGroupTop=${result.firstGroupTop}`);
   }
   if (!result.firstCardTop || !result.firstModeText || !result.firstTitleText) issues.push("firstCardIdentityMissing");
+  const identityIssues = result.cardIdentities.filter((card) => {
+    if (!card.identity || !card.chip || !card.titleElement || !card.title) return true;
+    const elements = [card.identity, card.chip, card.titleElement];
+    const hasInternalOverflow = elements.some((element) => (
+      element.scrollWidth > element.clientWidth + 1
+      || element.scrollHeight > element.clientHeight + 1
+      || element.clientWidth <= 0
+      || element.clientHeight <= 0
+    ));
+    const childEscapesIdentity = [card.chip, card.titleElement].some((element) => (
+      element.left < card.identity.left - 1
+      || element.right > card.identity.right + 1
+      || element.top < card.identity.top - 1
+      || element.bottom > card.identity.bottom + 1
+    ));
+    return hasInternalOverflow || childEscapesIdentity;
+  });
+  if (mobile && identityIssues.length) {
+    issues.push(`cardIdentityOverflow=${JSON.stringify(identityIssues)}`);
+  }
   if (
     requireIdentifiableAboveFold
     && (
@@ -1633,7 +1695,7 @@ const verifyCourseRoute = async ({
   if (result.pageScrollWidth > result.pageClientWidth + 2) issues.push(`overflow=${result.pageScrollWidth}/${result.pageClientWidth}`);
   if (result.missingImages.length) issues.push(`missingImages=${result.missingImages.length}`);
   if (issues.length) throw new Error(`${name} failed: ${issues.join(", ")} ${JSON.stringify(result)}`);
-  return { ...result, width, height, mobile, screenshot, cardScreenshot };
+  return { ...result, width, height, mobile, screenshot, cardScreenshot, officeCardScreenshot };
 };
 
 const verifyLocationHoursRoute = async ({ name, width, height, mobile }) => {
