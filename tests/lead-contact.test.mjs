@@ -1,9 +1,11 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { describe, it } from "node:test";
 import {
   buildLeadCrmDeliveryEvent,
   buildLeadAdvisorHandoffMessage,
   evaluateLeadContactSubmission,
+  LEAD_INTERESTS,
   validateLeadContactInput,
 } from "../src/leads/leadContactModel.js";
 import { SMS_DISCLOSURE_VERSION } from "../src/legal/publicLegalContent.js";
@@ -36,6 +38,19 @@ const validSubmission = Object.freeze({
 });
 
 describe("MIS-266 lead contact model", () => {
+  it("keeps the historical kids interest API-compatible after public retirement", async () => {
+    const response = evaluateLeadContactSubmission({
+      ...validSubmission,
+      lead: { ...validSubmission.lead, interest: "kids" },
+    });
+    const contactForm = await readFile("app/_components/ContactForm.jsx", "utf8");
+
+    assert.equal(LEAD_INTERESTS.includes("kids"), true);
+    assert.equal(response.status, 200);
+    assert.equal(response.body.ok, true);
+    assert.doesNotMatch(contactForm, /\["kids",|value="kids"/);
+  });
+
   it("validates required lead fields, consent, interest, email, and spam signals", () => {
     const validation = validateLeadContactInput({
       lead: {

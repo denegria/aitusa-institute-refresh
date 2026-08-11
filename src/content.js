@@ -360,9 +360,10 @@ const allCourseRecords = [
         },
       ],
       schedule: [
-        "Lunes a jueves por la mañana: 9:30 am–10:30 am y 10:30 am–11:30 am.",
-        "Lunes a jueves por la noche: 6:20 pm–7:30 pm, 7:30 pm–8:40 pm y 8:40 pm–9:50 pm.",
-        "Sábados: 10:00 am–1:00 pm y 2:00 pm–5:00 pm.",
+        "Lunes a jueves por la mañana: clases con inicio a las 8:30 am, 9:30 am, 10:30 am y 11:30 am.",
+        "Lunes a jueves por la noche: clases con inicio a las 6:30 pm, 7:40 pm y 8:45 pm.",
+        "Sábados: 10:00 am–1:00 pm y 3:30 pm–5:30 pm.",
+        "Domingos: 10:30 am–12:30 pm.",
       ],
       note: "Los formatos y horarios pueden variar por sede. Confirma tu grupo antes de inscribirte.",
     },
@@ -452,16 +453,20 @@ const allCourseRecords = [
       },
       schedule: [
         {
-          label: "Lun–jue · mañanas",
-          times: ["9:30–10:30 am", "10:30–11:30 am"],
+          label: "Lun–jue · inicios por la mañana",
+          times: ["8:30 am", "9:30 am", "10:30 am", "11:30 am"],
         },
         {
-          label: "Lun–jue · noches",
-          times: ["6:20–7:30 pm", "7:30–8:40 pm", "8:40–9:50 pm"],
+          label: "Lun–jue · inicios por la noche",
+          times: ["6:30 pm", "7:40 pm", "8:45 pm"],
         },
         {
           label: "Sábados",
-          times: ["10:00 am–1:00 pm", "2:00–5:00 pm"],
+          times: ["10:00 am–1:00 pm", "3:30–5:30 pm"],
+        },
+        {
+          label: "Domingos",
+          times: ["10:30 am–12:30 pm"],
         },
       ],
       formats: [
@@ -485,7 +490,18 @@ const allCourseRecords = [
         },
       ],
       logisticsNote:
-        "Los bloques publicados pueden variar por sede. Un asesor confirma la sede, el grupo y el horario antes de la inscripción.",
+        "Los horarios de inicio entre semana y los bloques de fin de semana pueden variar por sede. Un asesor confirma la sede, el grupo y el horario antes de la inscripción.",
+      sectionCopy: {
+        logistics: {
+          eyebrow: "Modalidad y horarios",
+          title: "Una ruta presencial que también debe funcionar con tu semana.",
+          text:
+            "Revisa los horarios de inicio entre semana y los bloques de fin de semana. Tu grupo final se confirma según el nivel, la sede y la disponibilidad.",
+          formatsLabel: "Claves de la experiencia presencial",
+          scheduleLabel: "Inicios entre semana y bloques de fin de semana",
+          actionLabel: "Confirmar sede y horario",
+        },
+      },
       story: {
         eyebrow: "Historia AIT",
         name: "Jessica",
@@ -2444,24 +2460,24 @@ const methodCharacteristics = [
 
 const schedules = [
   {
-    label: "Mañanas",
+    label: "Mañanas · lun–jue",
     timeProfile: "mañana",
-    times: ["8:30 am a 9:30 am", "9:30 am a 10:30 am", "10:30 am a 11:30 am"],
+    times: ["8:30 am", "9:30 am", "10:30 am", "11:30 am"],
     bestFor: "Ideal para quienes quieren aprender al inicio de la semana con energía y constancia.",
     badge: "Más elegido",
-    duration: "Sesión de 60 min",
+    duration: "Horarios de inicio",
     availability: "4 cupos disponibles por clase",
     commitment: "Ideal si puedes asegurar 1 día por semana de forma estable.",
     cta: "Ver mañanas",
     whatsappHint: "Me conviene más el turno de mañana.",
   },
   {
-    label: "Noches",
+    label: "Noches · lun–jue",
     timeProfile: "noche",
-    times: ["6:20 pm a 7:30 pm", "7:30 pm a 8:40 pm", "8:40 pm a 9:50 pm"],
+    times: ["6:30 pm", "7:40 pm", "8:45 pm"],
     bestFor: "Pensado para después del trabajo o de las clases de la semana.",
     badge: "Máxima flexibilidad",
-    duration: "Sesión de 60 min",
+    duration: "Horarios de inicio",
     availability: "5 cupos disponibles por clase",
     commitment: "Útil si tu rutina cambia entre semana o teletrabajas.",
     cta: "Ver noches",
@@ -2470,10 +2486,10 @@ const schedules = [
   {
     label: "Sábados",
     timeProfile: "fin-de-semana",
-    times: ["10:00 am a 1:00 pm", "3:00 pm a 5:30 pm"],
+    times: ["10:00 am a 1:00 pm", "3:30 pm a 5:30 pm"],
     bestFor: "Perfecto si entre semana estás ocupado y prefieres recuperar el ritmo en fin de semana.",
     badge: "Para familias",
-    duration: "Sesión de 60 o 90 min",
+    duration: "Bloques publicados",
     availability: "3 cupos por horario",
     commitment: "Buen ajuste para quienes tienen agenda académica o laboral variable.",
     cta: "Ver sábados",
@@ -2482,10 +2498,10 @@ const schedules = [
   {
     label: "Domingos",
     timeProfile: "fin-de-semana",
-    times: ["10:00 am a 12:30 pm"],
+    times: ["10:30 am a 12:30 pm"],
     bestFor: "Conserva el impulso semanal sin sacrificar tus días laborales.",
     badge: "Reentrada",
-    duration: "Sesión de 90 min",
+    duration: "Bloque publicado",
     availability: "2 cupos por semana",
     commitment: "Te conviene si solo tienes un bloque fuerte disponible los domingos.",
     cta: "Ver domingos",
@@ -2545,15 +2561,15 @@ const verifiedHeadquartersHours = [
   {
     label: "Entre semana",
     slots: [
-      { label: "Lun–jue", times: "8:30 am–10 pm" },
-      { label: "Vie", times: "9:30 am–8 pm" },
+      { label: "Lun–jue", times: "9:30 am–10:00 pm" },
+      { label: "Vie", times: "9:30 am–8:00 pm" },
     ],
   },
   {
     label: "Fin de semana",
     slots: [
-      { label: "Sáb", times: "9:30 am–6 pm" },
-      { label: "Dom", times: "10 am–1 pm" },
+      { label: "Sáb", times: "9:30 am–6:00 pm" },
+      { label: "Dom", times: "10:30 am–1:30 pm" },
     ],
   },
 ];

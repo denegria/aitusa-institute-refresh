@@ -754,10 +754,10 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     const locationHourTimes = locationHourEntries
       .map((entry) => entry.querySelector('dd')?.textContent.trim() || '');
     const expectedLocationHourTimes = [
-      '8:30 am–10 pm',
-      '9:30 am–8 pm',
-      '9:30 am–6 pm',
-      '10 am–1 pm',
+      '9:30 am–10:00 pm',
+      '9:30 am–8:00 pm',
+      '9:30 am–6:00 pm',
+      '10:30 am–1:30 pm',
     ];
     const locationHoursDisclosure = document.querySelector('#sedes .location-hours-panel :is(details, summary)');
     if (
@@ -1283,7 +1283,7 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       const hours = [...(panel?.querySelectorAll('[data-schedule-slot]') || [])];
       const title = panel?.querySelector('#location-hours-title')?.textContent.trim() || '';
       const times = hours.map((hour) => hour.querySelector('dd')?.textContent.trim() || '');
-      const expectedTimes = ['8:30 am–10 pm', '9:30 am–8 pm', '9:30 am–6 pm', '10 am–1 pm'];
+      const expectedTimes = ['9:30 am–10:00 pm', '9:30 am–8:00 pm', '9:30 am–6:00 pm', '10:30 am–1:30 pm'];
       const visibleGroups = groups.filter((group) => group.getBoundingClientRect().height > 0);
       const visibleHours = hours.filter((hour) => hour.getBoundingClientRect().height > 0);
       const issues = [];
@@ -1510,13 +1510,19 @@ const verifyHeroViewport = async ({ name, width, height }) => {
   return { name, width, height, screenshot, ...metrics };
 };
 
-const verifyCourseRoute = async () => {
-  console.log("Checking course-catalog-route...");
+const verifyCourseRoute = async ({
+  name = "course-catalog-route",
+  width = 1440,
+  height = 900,
+  mobile = false,
+  requireIdentifiableAboveFold = false,
+} = {}) => {
+  console.log(`Checking ${name}...`);
   await send("Emulation.setDeviceMetricsOverride", {
-    width: 1440,
-    height: 900,
-    deviceScaleFactor: 1,
-    mobile: false,
+    width,
+    height,
+    deviceScaleFactor: mobile ? 2 : 1,
+    mobile,
   });
 
   const loaded = waitForLoad();
@@ -1544,6 +1550,9 @@ const verifyCourseRoute = async () => {
       setTimeout(done, 2500);
     })));
     const firstGroup = document.querySelector('.catalog-group');
+    const firstCard = firstGroup?.querySelector('.program-card');
+    const firstMode = firstCard?.querySelector('.eyebrow-chip');
+    const firstTitle = firstCard?.querySelector('h3');
     const catalogLinks = [...document.querySelectorAll('[data-course-detail-link]')];
     const expectedSlugs = [
       'ingles-jovenes-adultos',
@@ -1557,12 +1566,19 @@ const verifyCourseRoute = async () => {
     ];
 
     return {
-      name: 'course-catalog-route',
+      name: ${JSON.stringify(name)},
       location: location.href,
       title: document.title,
       heading: document.querySelector('#main-content h1')?.innerText || '',
       canonical: document.querySelector('link[rel="canonical"]')?.href || '',
       firstGroupTop: Math.round(firstGroup?.getBoundingClientRect().top || 0),
+      firstCardTop: Math.round(firstCard?.getBoundingClientRect().top || 0),
+      firstModeText: firstMode?.textContent.trim() || '',
+      firstModeTop: Math.round(firstMode?.getBoundingClientRect().top || 0),
+      firstModeBottom: Math.round(firstMode?.getBoundingClientRect().bottom || 0),
+      firstTitleText: firstTitle?.textContent.trim() || '',
+      firstTitleTop: Math.round(firstTitle?.getBoundingClientRect().top || 0),
+      firstTitleBottom: Math.round(firstTitle?.getBoundingClientRect().bottom || 0),
       programCount: document.querySelectorAll('.program-card').length,
       detailCount: document.querySelectorAll('.course-detail-stack, [data-course-detail]').length,
       catalogSlugs: catalogLinks.map((link) => link.dataset.courseDetailLink),
@@ -1572,17 +1588,150 @@ const verifyCourseRoute = async () => {
       pageClientWidth: document.documentElement.clientWidth,
     };
   })()`);
+  let screenshot = null;
+  let cardScreenshot = null;
+  if (!skipScreenshots) {
+    await stabilizeViewport();
+    const shot = await captureViewport(name);
+    screenshot = path.join(screenshotsDir, `${name}.png`);
+    await writeFile(screenshot, Buffer.from(shot.data, "base64"));
+    if (mobile) {
+      await evaluate(`(() => {
+        const firstCard = document.querySelector('.catalog-group .program-card');
+        window.scrollTo({
+          top: Math.max(0, (firstCard?.getBoundingClientRect().top || 0) + window.scrollY - 160),
+          left: 0,
+          behavior: 'instant',
+        });
+      })()`);
+      await sleep(180);
+      const cardShot = await captureViewport(`${name} first card`);
+      cardScreenshot = path.join(screenshotsDir, `${name}-first-card.png`);
+      await writeFile(cardScreenshot, Buffer.from(cardShot.data, "base64"));
+    }
+  }
   const issues = [];
   if (result.heading !== "Explora cursos, formatos y próximos pasos con más detalle.") issues.push(`heading=${JSON.stringify(result.heading)}`);
   if (!result.canonical.endsWith("/cursos/")) issues.push(`canonical=${result.canonical}`);
   if (result.programCount !== 8) issues.push(`programCount=${result.programCount}`);
   if (result.detailCount !== 0) issues.push(`detailCount=${result.detailCount}`);
-  if (result.firstGroupTop > 900 || result.firstGroupTop <= 0) issues.push(`firstGroupTop=${result.firstGroupTop}`);
+  if (!mobile && (result.firstGroupTop > height || result.firstGroupTop <= 0)) {
+    issues.push(`firstGroupTop=${result.firstGroupTop}`);
+  }
+  if (!result.firstCardTop || !result.firstModeText || !result.firstTitleText) issues.push("firstCardIdentityMissing");
+  if (
+    requireIdentifiableAboveFold
+    && (
+      result.firstTitleTop >= height
+      || result.firstTitleBottom > height
+      || Math.min(result.firstTitleBottom, height) - result.firstTitleTop < 20
+    )
+  ) {
+    issues.push(`firstCardTitleNotIdentifiable=${result.firstTitleTop}/${result.firstTitleBottom}/${height}`);
+  }
   if (JSON.stringify([...result.catalogSlugs].sort()) !== JSON.stringify([...result.expectedSlugs].sort())) issues.push("catalogSlugs");
   if (result.pageScrollWidth > result.pageClientWidth + 2) issues.push(`overflow=${result.pageScrollWidth}/${result.pageClientWidth}`);
   if (result.missingImages.length) issues.push(`missingImages=${result.missingImages.length}`);
-  if (issues.length) throw new Error(`course catalog failed: ${issues.join(", ")} ${JSON.stringify(result)}`);
-  return result;
+  if (issues.length) throw new Error(`${name} failed: ${issues.join(", ")} ${JSON.stringify(result)}`);
+  return { ...result, width, height, mobile, screenshot, cardScreenshot };
+};
+
+const verifyLocationHoursRoute = async ({ name, width, height, mobile }) => {
+  console.log(`Checking ${name}...`);
+  await send("Emulation.setDeviceMetricsOverride", {
+    width,
+    height,
+    deviceScaleFactor: mobile ? 2 : 1,
+    mobile,
+  });
+
+  const loaded = waitForLoad();
+  const nav = await send("Page.navigate", { url: appUrl }, 30000);
+  if (nav.errorText && nav.errorText !== "net::ERR_ABORTED") {
+    throw new Error(`${name} navigation failed: ${nav.errorText}`);
+  }
+  await loaded;
+  await waitForAppReady();
+  await waitForSelector("#sedes .location-hours-panel");
+  await sleep(400);
+
+  await evaluate(`(() => {
+    const section = document.querySelector('#sedes');
+    window.scrollTo({
+      top: Math.max(0, (section?.getBoundingClientRect().top || 0) + window.scrollY - ${mobile ? 80 : 100}),
+      left: 0,
+      behavior: 'instant',
+    });
+  })()`);
+  await sleep(180);
+
+  const result = await evaluate(`(() => {
+    const section = document.querySelector('#sedes');
+    const panel = section?.querySelector('.location-hours-panel');
+    const groups = [...(panel?.querySelectorAll('.location-hours-panel__group') || [])];
+    const slots = [...(panel?.querySelectorAll('[data-schedule-slot]') || [])];
+    const images = [...(section?.querySelectorAll('img') || [])];
+    const sectionOverflowing = [...(section?.querySelectorAll('*') || [])]
+      .filter((element) => {
+        const style = getComputedStyle(element);
+        return element.scrollWidth > element.clientWidth + 2 && style.overflowX === 'visible';
+      })
+      .slice(0, 12)
+      .map((element) => ({
+        tag: element.tagName.toLowerCase(),
+        className: typeof element.className === 'string' ? element.className : '',
+        scrollWidth: element.scrollWidth,
+        clientWidth: element.clientWidth,
+      }));
+    return {
+      title: panel?.querySelector('#location-hours-title')?.textContent.trim() || '',
+      groupCount: groups.length,
+      visibleGroupCount: groups.filter((group) => group.getBoundingClientRect().height > 0).length,
+      slotCount: slots.length,
+      visibleSlotCount: slots.filter((slot) => slot.getBoundingClientRect().height > 0).length,
+      labels: slots.map((slot) => slot.querySelector('dt')?.textContent.trim() || ''),
+      times: slots.map((slot) => slot.querySelector('dd')?.textContent.trim() || ''),
+      panelTop: Math.round(panel?.getBoundingClientRect().top || 0),
+      panelBottom: Math.round(panel?.getBoundingClientRect().bottom || 0),
+      missingImages: images
+        .filter((image) => !image.complete || image.naturalWidth === 0)
+        .map((image) => image.currentSrc || image.src),
+      pageScrollWidth: document.documentElement.scrollWidth,
+      pageClientWidth: document.documentElement.clientWidth,
+      sectionOverflowing,
+    };
+  })()`);
+
+  await stabilizeViewport();
+  await evaluate(`(() => {
+    const section = document.querySelector('#sedes');
+    window.scrollTo({
+      top: Math.max(0, (section?.getBoundingClientRect().top || 0) + window.scrollY - ${mobile ? 80 : 100}),
+      left: 0,
+      behavior: 'instant',
+    });
+  })()`);
+  await sleep(180);
+  let screenshot = null;
+  if (!skipScreenshots) {
+    const shot = await captureViewport(name);
+    screenshot = path.join(screenshotsDir, `${name}.png`);
+    await writeFile(screenshot, Buffer.from(shot.data, "base64"));
+  }
+
+  const expectedLabels = ["Lun–jue", "Vie", "Sáb", "Dom"];
+  const expectedTimes = ["9:30 am–10:00 pm", "9:30 am–8:00 pm", "9:30 am–6:00 pm", "10:30 am–1:30 pm"];
+  const issues = [];
+  if (result.title !== "Bound Brook · Sede principal") issues.push(`title=${JSON.stringify(result.title)}`);
+  if (result.groupCount !== 2 || result.visibleGroupCount !== 2) issues.push(`groups=${result.groupCount}/${result.visibleGroupCount}`);
+  if (result.slotCount !== 4 || result.visibleSlotCount !== 4) issues.push(`slots=${result.slotCount}/${result.visibleSlotCount}`);
+  if (JSON.stringify(result.labels) !== JSON.stringify(expectedLabels)) issues.push(`labels=${JSON.stringify(result.labels)}`);
+  if (JSON.stringify(result.times) !== JSON.stringify(expectedTimes)) issues.push(`times=${JSON.stringify(result.times)}`);
+  if (result.pageScrollWidth > result.pageClientWidth + 2) issues.push(`pageOverflow=${result.pageScrollWidth}/${result.pageClientWidth}`);
+  if (result.sectionOverflowing.length) issues.push(`sectionOverflow=${JSON.stringify(result.sectionOverflowing)}`);
+  if (result.missingImages.length) issues.push(`missingImages=${result.missingImages.length}`);
+  if (issues.length) throw new Error(`${name} failed: ${issues.join(", ")} ${JSON.stringify(result)}`);
+  return { name, width, height, mobile, screenshot, ...result };
 };
 
 const waitForSelector = async (selector, timeoutMs = 10000) => {
@@ -1818,6 +1967,7 @@ const verifyEditorialCourseRoute = async ({
   expectedPrimaryHref,
   expectedPrimaryExternal,
   expectStory,
+  expectedScheduleGroups,
   width,
   height,
   mobile,
@@ -1914,6 +2064,10 @@ const verifyEditorialCourseRoute = async ({
       outcomesCount: document.querySelectorAll('.course-outcome-list > li').length,
       formatsCount: document.querySelectorAll('.course-format-list > article').length,
       scheduleCount: document.querySelectorAll('.course-schedule-panel dl > div').length,
+      scheduleGroups: [...document.querySelectorAll('.course-schedule-panel dl > div')].map((group) => ({
+        label: group.querySelector('dt')?.textContent.trim() || '',
+        times: group.querySelector('dd')?.textContent.trim() || '',
+      })),
       storyCount: document.querySelectorAll('.course-program-story').length,
       faqCount: document.querySelectorAll('.course-faq-list details').length,
       firstFaqOpen: document.querySelector('.course-faq-list details')?.open || false,
@@ -1934,6 +2088,22 @@ const verifyEditorialCourseRoute = async ({
     };
   })()`);
 
+  let scheduleScreenshot = null;
+  if (expectedScheduleGroups && !skipScreenshots) {
+    await evaluate(`(() => {
+      const section = document.querySelector(${JSON.stringify(mobile ? ".course-schedule-panel" : ".course-program-logistics")});
+      window.scrollTo({
+        top: Math.max(0, (section?.getBoundingClientRect().top || 0) + window.scrollY - ${mobile ? 80 : 100}),
+        left: 0,
+        behavior: 'instant',
+      });
+    })()`);
+    await sleep(180);
+    const scheduleShot = await captureViewport(`${name} schedule`);
+    scheduleScreenshot = path.join(screenshotsDir, `${name}-schedule.png`);
+    await writeFile(scheduleScreenshot, Buffer.from(scheduleShot.data, "base64"));
+  }
+
   const issues = [];
   if (result.heading !== expectedHeading) issues.push(`heading=${JSON.stringify(result.heading)}`);
   if (result.template !== "course-editorial-v1") issues.push(`template=${result.template}`);
@@ -1941,6 +2111,9 @@ const verifyEditorialCourseRoute = async ({
   if (result.outcomesCount !== 3) issues.push(`outcomesCount=${result.outcomesCount}`);
   if (result.formatsCount !== 3) issues.push(`formatsCount=${result.formatsCount}`);
   if (result.scheduleCount !== expectedScheduleCount) issues.push(`scheduleCount=${result.scheduleCount}`);
+  if (expectedScheduleGroups && JSON.stringify(result.scheduleGroups) !== JSON.stringify(expectedScheduleGroups)) {
+    issues.push(`scheduleGroups=${JSON.stringify(result.scheduleGroups)}`);
+  }
   if (result.faqCount !== 6 || !result.firstFaqOpen) {
     issues.push(`faq=${result.faqCount}/${result.firstFaqOpen}`);
   }
@@ -1967,7 +2140,7 @@ const verifyEditorialCourseRoute = async ({
     throw new Error(`${name} failed: ${issues.join(", ")} ${JSON.stringify(result)}`);
   }
 
-  return { name, width, height, mobile, screenshot, ...result };
+  return { name, width, height, mobile, screenshot, scheduleScreenshot, ...result };
 };
 
 const results = [];
@@ -1980,6 +2153,8 @@ const routesOnly = process.env.VERIFY_ROUTES_ONLY === "1";
 const placementOnly = process.env.VERIFY_PLACEMENT_ONLY === "1";
 const editorialCoursesOnly = process.env.VERIFY_EDITORIAL_COURSES_ONLY === "1";
 const editorialRegressionOnly = process.env.VERIFY_EDITORIAL_REGRESSION_ONLY === "1";
+const catalogOnly = process.env.VERIFY_CATALOG_ONLY === "1";
+const locationHoursOnly = process.env.VERIFY_LOCATION_HOURS_ONLY === "1";
 try {
   if (
     !auditOnly &&
@@ -1989,15 +2164,75 @@ try {
     !routesOnly &&
     !placementOnly &&
     !editorialCoursesOnly &&
-    !editorialRegressionOnly
+    !editorialRegressionOnly &&
+    !catalogOnly &&
+    !locationHoursOnly
   ) {
     results.push(await verifyHeroViewport({ name: "hero-reference-1904x950", width: 1904, height: 950 }));
     results.push(await verifyHeroViewport({ name: "hero-short-1867x847", width: 1867, height: 847 }));
   }
-  if (placementOnly) {
+  if (locationHoursOnly) {
+    results.push(await verifyLocationHoursRoute({
+      name: "location-hours-desktop-1440x900",
+      width: 1440,
+      height: 900,
+      mobile: false,
+    }));
+    results.push(await verifyLocationHoursRoute({
+      name: "location-hours-mobile-390x844",
+      width: 390,
+      height: 844,
+      mobile: true,
+    }));
+    results.push(await verifyLocationHoursRoute({
+      name: "location-hours-guard-360x800",
+      width: 360,
+      height: 800,
+      mobile: true,
+    }));
+  } else if (catalogOnly) {
+    results.push(await verifyCourseRoute({
+      name: "course-catalog-desktop-1440x900",
+      width: 1440,
+      height: 900,
+      mobile: false,
+      requireIdentifiableAboveFold: true,
+    }));
+    results.push(await verifyCourseRoute({
+      name: "course-catalog-mobile-390x844",
+      width: 390,
+      height: 844,
+      mobile: true,
+    }));
+    results.push(await verifyCourseRoute({
+      name: "course-catalog-guard-360x800",
+      width: 360,
+      height: 800,
+      mobile: true,
+    }));
+  } else if (placementOnly) {
     results.push(await verifyPlacementRoute());
   } else if (editorialRegressionOnly) {
     const regressionRoutes = [
+      {
+        name: "course-flagship-regression-360x800",
+        route: "/cursos/ingles-jovenes-adultos/",
+        expectedHeading: "Inglés presencial para jóvenes y adultos",
+        expectedPathwayCount: 3,
+        expectedScheduleCount: 4,
+        expectedScheduleGroups: [
+          { label: "Lun–jue · inicios por la mañana", times: "8:30 am · 9:30 am · 10:30 am · 11:30 am" },
+          { label: "Lun–jue · inicios por la noche", times: "6:30 pm · 7:40 pm · 8:45 pm" },
+          { label: "Sábados", times: "10:00 am–1:00 pm · 3:30–5:30 pm" },
+          { label: "Domingos", times: "10:30 am–12:30 pm" },
+        ],
+        expectedPrimaryHref: "/placement-test/",
+        expectedPrimaryExternal: false,
+        expectStory: true,
+        width: 360,
+        height: 800,
+        mobile: true,
+      },
       {
         name: "course-hybrid-regression-1366x768",
         route: "/cursos/ingles-hibrido-adultos/",
@@ -2060,7 +2295,13 @@ try {
         route: "/cursos/ingles-jovenes-adultos/",
         expectedHeading: "Inglés presencial para jóvenes y adultos",
         expectedPathwayCount: 3,
-        expectedScheduleCount: 3,
+        expectedScheduleCount: 4,
+        expectedScheduleGroups: [
+          { label: "Lun–jue · inicios por la mañana", times: "8:30 am · 9:30 am · 10:30 am · 11:30 am" },
+          { label: "Lun–jue · inicios por la noche", times: "6:30 pm · 7:40 pm · 8:45 pm" },
+          { label: "Sábados", times: "10:00 am–1:00 pm · 3:30–5:30 pm" },
+          { label: "Domingos", times: "10:30 am–12:30 pm" },
+        ],
         expectedPrimaryHref: "/placement-test/",
         expectedPrimaryExternal: false,
         expectStory: true,

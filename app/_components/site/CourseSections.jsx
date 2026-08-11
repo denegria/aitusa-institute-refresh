@@ -3,10 +3,12 @@ import { courseCatalog, programs } from "../../../src/content";
 function ProgramCard({ program }) {
   return (
     <article className="program-card" data-category={program.category}>
-      <img src={program.image} alt={program.imageAlt} />
-      <div className="program-card__body">
+      <div className="program-card__identity">
         <p className="eyebrow-chip">{program.mode}</p>
         <h3>{program.title}</h3>
+      </div>
+      <img src={program.image} alt={program.imageAlt} />
+      <div className="program-card__body">
         <p>{program.summary}</p>
         <dl className="program-meta">
           <div><dt>Ideal para</dt><dd>{program.bestFor}</dd></div>

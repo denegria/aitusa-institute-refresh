@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { describe, it } from "node:test";
-import { courseCatalog, productOfferings, programs } from "../src/content.js";
+import { courseCatalog, productOfferings, programs, schedules } from "../src/content.js";
 import { getCourseMetaDescription } from "../src/seo/courseMetadata.js";
 
 const activeSlugs = [
@@ -83,6 +83,56 @@ describe("AIT USA native course routes and SEO contract", () => {
     assert.equal(presencial.mode, "Presencial");
     assert.match(presencial.editorial.lead, /presencial/i);
     assert.doesNotMatch(presencial.editorial.lead, /híbrido|online/i);
+    assert.deepEqual(presencial.editorial.schedule, [
+      {
+        label: "Lun–jue · inicios por la mañana",
+        times: ["8:30 am", "9:30 am", "10:30 am", "11:30 am"],
+      },
+      {
+        label: "Lun–jue · inicios por la noche",
+        times: ["6:30 pm", "7:40 pm", "8:45 pm"],
+      },
+      {
+        label: "Sábados",
+        times: ["10:00 am–1:00 pm", "3:30–5:30 pm"],
+      },
+      {
+        label: "Domingos",
+        times: ["10:30 am–12:30 pm"],
+      },
+    ]);
+    assert.deepEqual(presencial.courseDetail.schedule, [
+      "Lunes a jueves por la mañana: clases con inicio a las 8:30 am, 9:30 am, 10:30 am y 11:30 am.",
+      "Lunes a jueves por la noche: clases con inicio a las 6:30 pm, 7:40 pm y 8:45 pm.",
+      "Sábados: 10:00 am–1:00 pm y 3:30 pm–5:30 pm.",
+      "Domingos: 10:30 am–12:30 pm.",
+    ]);
+    assert.deepEqual(schedules.map(({ label, times, duration }) => ({ label, times, duration })), [
+      {
+        label: "Mañanas · lun–jue",
+        times: ["8:30 am", "9:30 am", "10:30 am", "11:30 am"],
+        duration: "Horarios de inicio",
+      },
+      {
+        label: "Noches · lun–jue",
+        times: ["6:30 pm", "7:40 pm", "8:45 pm"],
+        duration: "Horarios de inicio",
+      },
+      {
+        label: "Sábados",
+        times: ["10:00 am a 1:00 pm", "3:30 pm a 5:30 pm"],
+        duration: "Bloques publicados",
+      },
+      {
+        label: "Domingos",
+        times: ["10:30 am a 12:30 pm"],
+        duration: "Bloque publicado",
+      },
+    ]);
+    assert.doesNotMatch(
+      JSON.stringify({ courseDetail: presencial.courseDetail, editorial: presencial.editorial, schedules }),
+      /6:20|8:40|9:50|2:00 pm|3:00 pm|10:00 am a 12:30 pm/,
+    );
     assert.equal(hybrid.title, "Inglés híbrido para jóvenes y adultos");
     assert.equal(hybrid.mode, "Presencial + remoto");
     assert.match(hybrid.editorial.lead, /presencial.*remoto/i);

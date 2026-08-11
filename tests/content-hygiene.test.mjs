@@ -34,6 +34,22 @@ describe("MIS-267 content hygiene", () => {
     assert.equal(headquarters.hoursLabel, "Horario de atención");
     assert.equal(headquarters.hours.length, 2);
     assert.equal(headquarters.hours.flatMap((group) => group.slots).length, 4);
+    assert.deepEqual(headquarters.hours, [
+      {
+        label: "Entre semana",
+        slots: [
+          { label: "Lun–jue", times: "9:30 am–10:00 pm" },
+          { label: "Vie", times: "9:30 am–8:00 pm" },
+        ],
+      },
+      {
+        label: "Fin de semana",
+        slots: [
+          { label: "Sáb", times: "9:30 am–6:00 pm" },
+          { label: "Dom", times: "10:30 am–1:30 pm" },
+        ],
+      },
+    ]);
     assert.equal(
       satelliteLocations.every((location) => !Object.hasOwn(location, "hours")),
       true,

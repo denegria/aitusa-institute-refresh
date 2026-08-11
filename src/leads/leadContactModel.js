@@ -59,6 +59,7 @@ export const LEAD_INTERESTS = Object.freeze([
   "ingles-presencial",
   "ingles-hibrido",
   "ingles-online",
+  "kids",
   "ged",
   "computacion",
   "espanol",
