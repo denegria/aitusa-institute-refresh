@@ -1,4 +1,5 @@
 import { conversionCtas, programs, site } from "../../../src/content";
+import { getCourseMetaDescription } from "../../../src/seo/courseMetadata";
 import { CourseCatalog } from "./CourseSections";
 import { FaqSection, FinalCtaSection } from "./PublicSections";
 import { SiteFooter, SiteHeader } from "./SiteChrome";
@@ -44,7 +45,7 @@ export function getCourseMetadata(slug) {
   const program = programs.find((item) => item.slug === slug);
   if (!program) return null;
   const title = `${program.title} | AiT USA Institute`;
-  const description = `${program.summary} Conoce la modalidad, los horarios publicados y el siguiente paso para confirmar tu ruta.`;
+  const description = getCourseMetaDescription(program);
   return {
     title,
     description,

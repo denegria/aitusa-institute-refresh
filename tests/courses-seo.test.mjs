@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { describe, it } from "node:test";
 import { courseCatalog, productOfferings, programs } from "../src/content.js";
+import { getCourseMetaDescription } from "../src/seo/courseMetadata.js";
 
 const activeSlugs = [
   "ingles-jovenes-adultos",
@@ -48,6 +49,29 @@ describe("AIT USA native course routes and SEO contract", () => {
     assert.ok(programs.every((program) => program.editorial.closing));
     assert.match(shell, /`\$\{program\.title\} \| AiT USA Institute`/);
     assert.match(shell, /canonical: `\/cursos\/\$\{program\.slug\}\/`/);
+  });
+
+  it("keeps generated course snippets unique, useful, and within the SEO limit", () => {
+    const descriptions = programs.map(getCourseMetaDescription);
+
+    assert.equal(new Set(descriptions).size, descriptions.length);
+    assert.ok(descriptions.every((description) => description.length >= 140));
+    assert.ok(descriptions.every((description) => description.length <= 160));
+  });
+
+  it("removes retired course records from the source inventory while retaining redirects", async () => {
+    const contentSource = await readFile("src/content.js", "utf8");
+    const recordInventory = contentSource.slice(
+      contentSource.indexOf("const allCourseRecords = ["),
+      contentSource.indexOf("const hybridEnglishProgram = {"),
+    );
+    const legacySource = await readFile("src/seo/legacyRoutes.js", "utf8");
+
+    assert.doesNotMatch(recordInventory, /slug: "ingles-ninos"/);
+    assert.doesNotMatch(recordInventory, /slug: "reparacion-computadoras"/);
+    assert.match(contentSource, /const retiredCourseSlugs = new Set\(\["ingles-ninos", "reparacion-computadoras"\]\)/);
+    assert.match(legacySource, /\/cursos\/ingles-ninos\//);
+    assert.match(legacySource, /\/cursos\/reparacion-computadoras\//);
   });
 
   it("keeps the three English journeys unique while preserving verified facts", () => {
