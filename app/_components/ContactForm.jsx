@@ -14,7 +14,6 @@ const interests = [
   ["ingles-presencial", "Inglés presencial"],
   ["ingles-hibrido", "Inglés híbrido"],
   ["ingles-online", "Inglés online"],
-  ["kids", "Inglés para niños"],
   ["ged", "GED"],
   ["computacion", "Computación"],
   ["otro", "Otro"],

@@ -47,7 +47,8 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(source, /Inglés para niños/);
     assert.doesNotMatch(source, /\/cursos\/ingles-ninos\//);
     assert.match(source, /\/cursos\/ged\//);
-    assert.match(source, /computacion-y-cursos-tecnicos/);
+    assert.match(source, /\/cursos\/computacion-basica\//);
+    assert.match(source, /\/cursos\/computacion-oficina\//);
     assert.match(source, /\/cursos\/espanol-extranjeros\//);
     assert.match(source, /Tutorías de matemáticas/);
     assert.match(source, /\/cursos\/tutorias-matematicas\//);

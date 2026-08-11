@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { conversionCtas, site } from "../../../src/content";
+import { conversionCtas, programs, site } from "../../../src/content";
 import { SiteFooter, SiteHeader } from "./SiteChrome";
 
 const defaultSectionCopy = {
@@ -325,6 +325,31 @@ function CourseFaq({ faqs, copy = defaultSectionCopy.faq }) {
   );
 }
 
+function CourseRelated({ program }) {
+  const related = [
+    ...programs.filter((candidate) => candidate.slug !== program.slug && candidate.category === program.category),
+    ...programs.filter((candidate) => candidate.slug !== program.slug && candidate.category !== program.category),
+  ].slice(0, 3);
+
+  return (
+    <aside className="course-program-related" aria-labelledby="course-related-title">
+      <div className="section-inner">
+        <p className="section-kicker">Sigue explorando</p>
+        <h2 id="course-related-title">Otras rutas que también puedes comparar.</h2>
+        <nav aria-label="Cursos relacionados">
+          {related.map((candidate) => (
+            <a href={`/cursos/${candidate.slug}/`} key={candidate.slug}>
+              <span>{candidate.title}</span>
+              <small>{candidate.mode}</small>
+              <i data-lucide="arrow-right" aria-hidden="true" />
+            </a>
+          ))}
+        </nav>
+      </div>
+    </aside>
+  );
+}
+
 function CourseClosing({ closing }) {
   const primaryCta = {
     label: closing.primaryLabel,
@@ -405,6 +430,7 @@ export function CourseProgramPage({ program }) {
         {editorial.faqs?.length ? (
           <CourseFaq faqs={editorial.faqs} copy={editorial.sectionCopy?.faq} />
         ) : null}
+        <CourseRelated program={program} />
         <CourseClosing closing={editorial.closing} />
       </main>
       <SiteFooter />

@@ -1511,25 +1511,25 @@ const verifyHeroViewport = async ({ name, width, height }) => {
 };
 
 const verifyCourseRoute = async () => {
-  console.log("Checking course-route...");
+  console.log("Checking course-catalog-route...");
   await send("Emulation.setDeviceMetricsOverride", {
-    width: 1280,
-    height: 1000,
+    width: 1440,
+    height: 900,
     deviceScaleFactor: 1,
     mobile: false,
   });
 
   const loaded = waitForLoad();
-  const courseUrl = new URL("/cursos/computacion-oficina/", appUrl).toString();
-  const nav = await send("Page.navigate", { url: courseUrl }, 30000);
+  const catalogUrl = new URL("/cursos/", appUrl).toString();
+  const nav = await send("Page.navigate", { url: catalogUrl }, 30000);
   if (nav.errorText && nav.errorText !== "net::ERR_ABORTED") {
-    throw new Error(`Course route navigation failed: ${nav.errorText}`);
+    throw new Error(`Course catalog navigation failed: ${nav.errorText}`);
   }
   await loaded;
   await waitForAppReady();
   await sleep(400);
 
-  return evaluate(`(async () => {
+  const result = await evaluate(`(async () => {
     const images = [...document.images];
     await Promise.all(images.map((img) => new Promise((resolve) => {
       img.loading = 'eager';
@@ -1543,23 +1543,46 @@ const verifyCourseRoute = async () => {
       img.src = img.currentSrc || img.src;
       setTimeout(done, 2500);
     })));
-    const courseSchema = document.querySelector('script[data-schema="course"]')?.textContent || '{}';
-    let parsedCourse = {};
-    try {
-      parsedCourse = JSON.parse(courseSchema);
-    } catch {}
+    const firstGroup = document.querySelector('.catalog-group');
+    const catalogLinks = [...document.querySelectorAll('[data-course-detail-link]')];
+    const expectedSlugs = [
+      'ingles-jovenes-adultos',
+      'ingles-hibrido-adultos',
+      'ingles-online-adultos',
+      'espanol-extranjeros',
+      'ged',
+      'tutorias-matematicas',
+      'computacion-basica',
+      'computacion-oficina',
+    ];
 
     return {
-      name: 'course-route-computacion-oficina',
+      name: 'course-catalog-route',
       location: location.href,
       title: document.title,
+      heading: document.querySelector('#main-content h1')?.innerText || '',
       canonical: document.querySelector('link[rel="canonical"]')?.href || '',
-      openCourseDetail: document.querySelector('[data-course-detail][open]')?.dataset.courseDetail || '',
-      officeDetailHasExcel: document.querySelector('[data-course-detail="computacion-oficina"]')?.innerText.includes('Excel') || false,
-      courseSchemaName: parsedCourse.name || '',
+      firstGroupTop: Math.round(firstGroup?.getBoundingClientRect().top || 0),
+      programCount: document.querySelectorAll('.program-card').length,
+      detailCount: document.querySelectorAll('.course-detail-stack, [data-course-detail]').length,
+      catalogSlugs: catalogLinks.map((link) => link.dataset.courseDetailLink),
+      expectedSlugs,
       missingImages: images.filter((img) => !img.complete || img.naturalWidth === 0).map((img) => img.currentSrc || img.src),
+      pageScrollWidth: document.documentElement.scrollWidth,
+      pageClientWidth: document.documentElement.clientWidth,
     };
   })()`);
+  const issues = [];
+  if (result.heading !== "Explora cursos, formatos y próximos pasos con más detalle.") issues.push(`heading=${JSON.stringify(result.heading)}`);
+  if (!result.canonical.endsWith("/cursos/")) issues.push(`canonical=${result.canonical}`);
+  if (result.programCount !== 8) issues.push(`programCount=${result.programCount}`);
+  if (result.detailCount !== 0) issues.push(`detailCount=${result.detailCount}`);
+  if (result.firstGroupTop > 900 || result.firstGroupTop <= 0) issues.push(`firstGroupTop=${result.firstGroupTop}`);
+  if (JSON.stringify([...result.catalogSlugs].sort()) !== JSON.stringify([...result.expectedSlugs].sort())) issues.push("catalogSlugs");
+  if (result.pageScrollWidth > result.pageClientWidth + 2) issues.push(`overflow=${result.pageScrollWidth}/${result.pageClientWidth}`);
+  if (result.missingImages.length) issues.push(`missingImages=${result.missingImages.length}`);
+  if (issues.length) throw new Error(`course catalog failed: ${issues.join(", ")} ${JSON.stringify(result)}`);
+  return result;
 };
 
 const waitForSelector = async (selector, timeoutMs = 10000) => {
@@ -1976,13 +1999,13 @@ try {
   } else if (editorialRegressionOnly) {
     const regressionRoutes = [
       {
-        name: "course-kids-regression-1366x768",
-        route: "/cursos/ingles-ninos/",
-        expectedHeading: "Inglés para niños",
+        name: "course-hybrid-regression-1366x768",
+        route: "/cursos/ingles-hibrido-adultos/",
+        expectedHeading: "Inglés híbrido para jóvenes y adultos",
         expectedPathwayCount: 3,
         expectedScheduleCount: 3,
-        expectedPrimaryHref: "wa.me/17323790593",
-        expectedPrimaryExternal: true,
+        expectedPrimaryHref: "/placement-test/",
+        expectedPrimaryExternal: false,
         expectStory: false,
         width: 1366,
         height: 768,
@@ -2015,13 +2038,13 @@ try {
         mobile: true,
       },
       {
-        name: "course-repair-regression-430x932",
-        route: "/cursos/reparacion-computadoras/",
-        expectedHeading: "Reparación de computadoras",
+        name: "course-hybrid-regression-430x932",
+        route: "/cursos/ingles-hibrido-adultos/",
+        expectedHeading: "Inglés híbrido para jóvenes y adultos",
         expectedPathwayCount: 3,
         expectedScheduleCount: 3,
-        expectedPrimaryHref: "wa.me/17323790593",
-        expectedPrimaryExternal: true,
+        expectedPrimaryHref: "/placement-test/",
+        expectedPrimaryExternal: false,
         expectStory: false,
         width: 430,
         height: 932,
@@ -2035,13 +2058,23 @@ try {
     const editorialRoutes = [
       {
         route: "/cursos/ingles-jovenes-adultos/",
-        expectedHeading: "Inglés para jóvenes y adultos",
+        expectedHeading: "Inglés presencial para jóvenes y adultos",
         expectedPathwayCount: 3,
         expectedScheduleCount: 3,
         expectedPrimaryHref: "/placement-test/",
         expectedPrimaryExternal: false,
         expectStory: true,
         slug: "flagship",
+      },
+      {
+        route: "/cursos/ingles-hibrido-adultos/",
+        expectedHeading: "Inglés híbrido para jóvenes y adultos",
+        expectedPathwayCount: 3,
+        expectedScheduleCount: 3,
+        expectedPrimaryHref: "/placement-test/",
+        expectedPrimaryExternal: false,
+        expectStory: false,
+        slug: "hybrid",
       },
       {
         route: "/cursos/ingles-online-adultos/",
@@ -2052,16 +2085,6 @@ try {
         expectedPrimaryExternal: false,
         expectStory: false,
         slug: "online",
-      },
-      {
-        route: "/cursos/ingles-ninos/",
-        expectedHeading: "Inglés para niños",
-        expectedPathwayCount: 3,
-        expectedScheduleCount: 3,
-        expectedPrimaryHref: "wa.me/17323790593",
-        expectedPrimaryExternal: true,
-        expectStory: false,
-        slug: "kids",
       },
       {
         route: "/cursos/espanol-extranjeros/",
@@ -2112,16 +2135,6 @@ try {
         expectedPrimaryExternal: true,
         expectStory: false,
         slug: "office",
-      },
-      {
-        route: "/cursos/reparacion-computadoras/",
-        expectedHeading: "Reparación de computadoras",
-        expectedPathwayCount: 3,
-        expectedScheduleCount: 3,
-        expectedPrimaryHref: "wa.me/17323790593",
-        expectedPrimaryExternal: true,
-        expectStory: false,
-        slug: "repair",
       },
     ];
     for (const course of editorialRoutes) {

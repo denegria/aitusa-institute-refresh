@@ -28,9 +28,9 @@ export function HeroSection() {
             {painHero.headlineAccent ? <p className="hero__headline-accent">{painHero.headlineAccent}</p> : null}
           </div>
           <nav className="hero__modalities" aria-label="Formatos de clase">
-            <a href="/cursos/#ingles-presencial"><i data-lucide="users-round" aria-hidden="true" /><span>Presencial</span></a>
-            <a href="/cursos/#ingles-online"><i data-lucide="laptop" aria-hidden="true" /><span>Online</span></a>
-            <a href="/cursos/#ingles-hibrido"><i data-lucide="monitor-smartphone" aria-hidden="true" /><span>Híbrido</span></a>
+            <a href="/cursos/ingles-jovenes-adultos/"><i data-lucide="users-round" aria-hidden="true" /><span>Presencial</span></a>
+            <a href="/cursos/ingles-online-adultos/"><i data-lucide="laptop" aria-hidden="true" /><span>Online</span></a>
+            <a href="/cursos/ingles-hibrido-adultos/"><i data-lucide="monitor-smartphone" aria-hidden="true" /><span>Híbrido</span></a>
           </nav>
         </div>
         <figure className="hero__visual">
@@ -113,7 +113,8 @@ export function MethodSection() {
 
 const supportingPrograms = [
   { label: "GED", href: "/cursos/ged/" },
-  { label: "Computación", href: "/cursos/#computacion-y-cursos-tecnicos" },
+  { label: "Computación básica", href: "/cursos/computacion-basica/" },
+  { label: "Computación para oficina", href: "/cursos/computacion-oficina/" },
   { label: "Español para extranjeros", href: "/cursos/espanol-extranjeros/" },
   { label: "Tutorías de matemáticas", href: "/cursos/tutorias-matematicas/" },
 ];

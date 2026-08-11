@@ -45,7 +45,6 @@ const site = {
     options: [
       "Validar si los videos reales encajan con mi estilo de aprendizaje",
       "Comparar presencial, híbrido y online con mi agenda",
-      "Encontrar la mejor opción para mi hijo/hija (8-13)",
       "Mejorar inglés para entrevista, trabajo o universidad",
       "Empezar esta semana con un plan real",
     ],
@@ -83,7 +82,7 @@ const site = {
   seoDescription:
     "Aprende inglés con el método Graphic Concept, práctica guiada y clases reales en Nueva Jersey o desde donde estés.",
   seoKeywords:
-    "AiT USA Institute, clases de inglés Nueva Jersey, GED, computación, español, clases para niños, videos reales de inglés, clases presenciales, clases híbridas, clases online, entrevista de trabajo en inglés, ruta inicial personalizada, Bound Brook, Plainfield, Piscataway, inglés conversacional para adultos",
+    "AiT USA Institute, clases de inglés Nueva Jersey, GED, computación, español, videos reales de inglés, clases presenciales, clases híbridas, clases online, entrevista de trabajo en inglés, ruta inicial personalizada, Bound Brook, Plainfield, Piscataway, inglés conversacional para adultos",
   seoImage: assetVideoPoster("intro-video-great.jpg"),
   seoImageAlt:
     "Frame real del video introductorio de AiT USA Institute.",
@@ -289,21 +288,21 @@ const learningOutcomes = [
 const courseGuides = [
   {
     title: "Quiero hablar inglés con más seguridad",
-    text: "Empieza por Inglés para jóvenes y adultos u online si quieres una ruta clara para conversación real.",
-    href: "?curso=ingles#cursos",
-    cta: "Ver inglés",
+    text: "Empieza por una ruta presencial para practicar conversación real con apoyo y corrección cara a cara.",
+    href: "/cursos/ingles-jovenes-adultos/",
+    cta: "Ver inglés presencial",
   },
   {
-    title: "Busco una opción para mi hijo o hija",
-    text: "Inglés para niños está pensado para 8 a 13 años con apoyo visual y seguimiento familiar.",
-    href: "?curso=ninos#cursos",
-    cta: "Ver niños",
+    title: "Necesito flexibilidad para estudiar inglés",
+    text: "La ruta híbrida combina encuentros presenciales con apoyo remoto cuando tu semana cambia.",
+    href: "/cursos/ingles-hibrido-adultos/",
+    cta: "Ver inglés híbrido",
   },
   {
     title: "Necesito apoyo académico o técnico",
     text: "GED, matemáticas y tecnología tienen rutas específicas para que avances con un objetivo concreto.",
-    href: "?curso=academico#cursos",
-    cta: "Ver apoyo académico",
+    href: "/cursos/",
+    cta: "Explorar programas",
   },
 ];
 
@@ -312,35 +311,35 @@ const admissionsCourseHref = (course) =>
     `Hola AIT USA, quiero información sobre ${course}, mi punto de inicio y los horarios disponibles.`,
   )}`;
 
-const programs = [
+const allCourseRecords = [
   {
     slug: "ingles-jovenes-adultos",
-    title: "Inglés para jóvenes y adultos",
+    title: "Inglés presencial para jóvenes y adultos",
     category: "ingles",
-    mode: "Presencial, híbrido y online",
-    audience: "Adultos y jóvenes en EE. UU.",
-    bestFor: "Ideal si quieres hablar con más seguridad en trabajo, escuela o trámites.",
-    fit: "Ideal si quieres conversar con más seguridad en trabajo, escuela o trámites diarios.",
-    cta: "Ver inglés",
+    mode: "Presencial",
+    audience: "Adultos y jóvenes en Nueva Jersey",
+    bestFor: "Ideal si quieres practicar cara a cara para trabajo, escuela o trámites.",
+    fit: "Ideal si quieres conversar con más seguridad en una sede de Nueva Jersey.",
+    cta: "Ver inglés presencial",
     image: site.images.adultEnglish,
     imageAlt: "Estudiante adulta practicando conversación en una clase de inglés con apoyo visual.",
     summary:
-      "Un camino directo para hablar con confianza, entendiendo situaciones reales: trabajo, estudios, servicios y vida diaria.",
+      "Un camino presencial para hablar con confianza, entendiendo situaciones reales: trabajo, estudios, servicios y vida diaria.",
     details: [
       "Objetivo práctico: conversar y comprender con naturalidad en contexto real.",
-      "Modalidad presencial o online para adaptarse a tu agenda.",
+      "Práctica cara a cara y corrección inmediata en una sede de Nueva Jersey.",
       "Talleres y tutorías con seguimiento de progreso semanal.",
     ],
     courseDetail: {
       lead:
-        "Programa principal para adultos y jóvenes dentro de Estados Unidos que quieren hablar y comprender inglés sin depender de traducción constante.",
+        "Programa presencial para adultos y jóvenes en Nueva Jersey que quieren hablar y comprender inglés sin depender de traducción constante.",
       sections: [
         {
           title: "Lo que trabaja el programa",
           items: [
             "Hablar y comprender inglés en presente, pasado y futuro con una meta de nivel intermedio a mediano plazo.",
             "Pensar en inglés usando el método Graphic Concept en vez de memorizar listas extensas.",
-            "Practicar conversación para trabajo, escuela, trámites y vida diaria.",
+            "Practicar conversación presencial para trabajo, escuela, trámites y vida diaria.",
           ],
         },
         {
@@ -369,16 +368,16 @@ const programs = [
     },
     editorial: {
       version: "course-editorial-v1",
-      eyebrow: "Programa principal de inglés",
+      eyebrow: "Inglés presencial para jóvenes y adultos",
       lead:
-        "Una ruta práctica para comprender, conversar y responder con más seguridad en el trabajo, los estudios, los trámites y la vida diaria.",
+        "Una ruta presencial para comprender, conversar y responder con más seguridad en el trabajo, los estudios, los trámites y la vida diaria.",
       heroImage: site.images.adultEnglish,
       heroImageAlt:
         "Estudiante adulta practicando inglés con materiales digitales y un cuaderno.",
       proofLedger: [
         {
-          label: "Modalidades",
-          value: "Presencial · híbrido · online",
+          label: "Modalidad",
+          value: "Presencial en Nueva Jersey",
         },
         {
           label: "Ruta académica",
@@ -468,25 +467,25 @@ const programs = [
       formats: [
         {
           icon: "building-2",
-          title: "Presencial",
+          title: "Práctica cara a cara",
           text:
             "Práctica cara a cara y corrección inmediata en una sede de Nueva Jersey.",
         },
         {
-          icon: "monitor-smartphone",
-          title: "Híbrido",
+          icon: "messages-square",
+          title: "Corrección en vivo",
           text:
-            "Combina encuentros presenciales con apoyo remoto cuando el grupo lo permite.",
+            "Recibe ajustes durante la clase y lleva las dudas a talleres y tutorías.",
         },
         {
-          icon: "laptop",
-          title: "Online",
+          icon: "building-2",
+          title: "Sedes de Nueva Jersey",
           text:
-            "Participa en tiempo real con un profesor: las clases son interactivas y no pregrabadas.",
+            "El asesor confirma la sede y el grupo activo antes de la inscripción.",
         },
       ],
       logisticsNote:
-        "Puedes solicitar otro bloque cuando lo necesites, sujeto a cupo. Un asesor confirma sede, modalidad y horario antes de la inscripción.",
+        "Los bloques publicados pueden variar por sede. Un asesor confirma la sede, el grupo y el horario antes de la inscripción.",
       story: {
         eyebrow: "Historia AIT",
         name: "Jessica",
@@ -508,14 +507,14 @@ const programs = [
             "No. El examen de ubicación ofrece una recomendación inicial y un asesor confirma contigo el punto de entrada antes de la inscripción.",
         },
         {
-          question: "¿Puedo estudiar presencial, híbrido u online?",
+          question: "¿Puedo elegir entre las sedes?",
           answer:
-            "El programa contempla las tres modalidades. La opción disponible se confirma según tu nivel, sede, horario y el grupo activo.",
+            "AIT cuenta con atención en Nueva Jersey. La sede concreta se confirma según tu nivel, horario y el grupo activo.",
         },
         {
           question: "¿En qué sede se ofrece el programa?",
           answer:
-            "AIT cuenta con atención en Nueva Jersey y opción online. La sede concreta del curso se confirma antes de inscribirte porque los grupos pueden variar.",
+            "AIT cuenta con atención en Nueva Jersey. La sede concreta del curso se confirma antes de inscribirte porque los grupos pueden variar.",
         },
         {
           question: "¿Cuánto tarda completar la ruta?",
@@ -528,9 +527,9 @@ const programs = [
             "El programa contempla talleres y tutorías para reforzar dudas, actualizarse y nivelarse. Confirma la disponibilidad correspondiente a tu grupo.",
         },
         {
-          question: "¿Las clases online son grabadas?",
+          question: "¿Qué pasa si no puedo asistir a una clase?",
           answer:
-            "No. Son clases en tiempo real con un profesor, para que puedas interactuar, practicar y recibir corrección durante la sesión.",
+            "Contacta a admisiones para revisar el siguiente bloque disponible y mantener continuidad en tu ruta.",
         },
       ],
       closing: {
@@ -2629,6 +2628,298 @@ const programs = [
   },
 ];
 
+const hybridEnglishProgram = {
+  slug: "ingles-hibrido-adultos",
+  title: "Inglés híbrido para jóvenes y adultos",
+  category: "ingles",
+  mode: "Presencial + remoto",
+  audience: "Adultos y jóvenes en Nueva Jersey",
+  bestFor: "Ideal si necesitas flexibilidad sin perder encuentros y seguimiento.",
+  fit: "Ideal si tu semana cambia y quieres combinar apoyo presencial y remoto.",
+  cta: "Ver inglés híbrido",
+  image: site.images.heroFemaleZoom,
+  imageAlt: "Instructora guiando una clase de inglés con apoyo remoto.",
+  summary:
+    "Combina encuentros presenciales con apoyo remoto cuando tu semana cambia, sin perder práctica ni seguimiento.",
+  details: [
+    "Alterna entre apoyo presencial y acompañamiento remoto.",
+    "Mantiene seguimiento con un horario realista.",
+    "Pensado para estudiantes con semanas variables.",
+  ],
+  courseDetail: {
+    lead:
+      "Ruta híbrida para adultos y jóvenes en Nueva Jersey que necesitan flexibilidad y quieren mantener una práctica guiada de inglés.",
+    sections: [
+      {
+        title: "Experiencia híbrida",
+        items: [
+          "Combina encuentros presenciales con apoyo remoto cuando el grupo lo permite.",
+          "Usa la estructura visual de Graphic Concept para conectar cada sesión.",
+          "La alternancia y el horario final se confirman con admisiones antes de comenzar.",
+        ],
+      },
+      {
+        title: "Práctica y seguimiento",
+        items: [
+          "Practica conversación para trabajo, escuela, trámites y vida diaria.",
+          "Talleres y tutorías ayudan a aclarar dudas, actualizarse y nivelarse.",
+          "La corrección en vivo mantiene continuidad entre los distintos espacios de estudio.",
+        ],
+      },
+      {
+        title: "Niveles",
+        items: [
+          "Básico: palabras y expresiones frecuentes, presente y base de no traducción.",
+          "Intermedio: pasado y futuro con refuerzo visual del método.",
+          "Avanzado: conversación, escritura, lectura y comprensión con práctica guiada.",
+        ],
+      },
+    ],
+    schedule: [
+      "Lunes a jueves por la mañana: 9:30 am–10:30 am y 10:30 am–11:30 am.",
+      "Lunes a jueves por la noche: 6:20 pm–7:30 pm, 7:30 pm–8:40 pm y 8:40 pm–9:50 pm.",
+      "Sábados: 10:00 am–1:00 pm y 2:00 pm–5:00 pm.",
+    ],
+    note: "Los formatos, la alternancia y los horarios pueden variar por sede y grupo. Confirma tu ruta antes de inscribirte.",
+  },
+  editorial: {
+    version: "course-editorial-v1",
+    eyebrow: "Inglés híbrido para jóvenes y adultos",
+    lead:
+      "Una ruta flexible para comprender, conversar y sostener tu práctica combinando encuentros presenciales con apoyo remoto.",
+    heroImage: site.images.heroFemaleZoom,
+    heroImageAlt:
+      "Instructora guiando una clase de inglés con audífonos y apoyo remoto.",
+    heroNote:
+      "La sede, la alternancia, el nivel y el horario se confirman según el grupo activo y tu agenda.",
+    primaryCta: {
+      label: "Descubrir mi nivel",
+      href: "/placement-test/",
+      external: false,
+    },
+    advisorCta: {
+      label: "Hablar con admisiones",
+      href: site.whatsappHref,
+      external: true,
+    },
+    proofLedger: [
+      {
+        label: "Modalidad",
+        value: "Presencial + remoto",
+      },
+      {
+        label: "Ruta académica",
+        value: "Básico · intermedio · avanzado",
+      },
+      {
+        label: "Práctica",
+        value: "Clase · talleres · tutorías",
+      },
+      {
+        label: "Organización",
+        value: "Según grupo y agenda",
+      },
+    ],
+    outcomes: [
+      {
+        number: "01",
+        title: "Mantener una práctica posible",
+        text:
+          "Combina los espacios disponibles para sostener el contacto con el idioma cuando tu semana no es igual todos los días.",
+      },
+      {
+        number: "02",
+        title: "Conectar cada encuentro",
+        text:
+          "Usa una estructura visual común para llevar la explicación, la conversación y la corrección de una sesión a la siguiente.",
+      },
+      {
+        number: "03",
+        title: "Responder en situaciones reales",
+        text:
+          "Practica conversaciones útiles para trabajo, escuela, servicios y vida diaria con acompañamiento del grupo.",
+      },
+    ],
+    pathway: [
+      {
+        stage: "Etapa 01",
+        title: "Base funcional",
+        text:
+          "Construye expresiones frecuentes, presente y contexto visual con apoyo de docentes bilingües.",
+        focus: "Comprender primero",
+      },
+      {
+        stage: "Etapa 02",
+        title: "Mayor autonomía",
+        text:
+          "Integra pasado y futuro mientras amplías escucha, conversación y respuesta en situaciones cotidianas.",
+        focus: "Practicar con continuidad",
+      },
+      {
+        stage: "Etapa 03",
+        title: "Comunicación amplia",
+        text:
+          "Profundiza conversación, lectura, escritura y comprensión con práctica guiada y ajustes de ruta.",
+        focus: "Usar lo aprendido",
+      },
+    ],
+    method: {
+      eyebrow: "Método Graphic Concept",
+      title: "La flexibilidad funciona mejor cuando la estructura se mantiene.",
+      text:
+        "Graphic Concept organiza tiempos, palabras y contexto de forma visual. Esa referencia común ayuda a conectar el trabajo presencial con el apoyo remoto.",
+      image: site.images.routeConcept,
+      imageAlt:
+        "Instructora explicando una secuencia visual para practicar inglés.",
+      points: [
+        "Mapa visual para comprender antes de memorizar listas extensas.",
+        "Práctica oral con corrección durante los encuentros disponibles.",
+        "Apoyo remoto para continuar el trabajo entre sesiones.",
+        "Talleres y tutorías para reforzar dudas y nivelarse.",
+      ],
+    },
+    schedule: [
+      {
+        label: "Lun–jue · mañanas",
+        times: ["9:30–10:30 am", "10:30–11:30 am"],
+      },
+      {
+        label: "Lun–jue · noches",
+        times: ["6:20–7:30 pm", "7:30–8:40 pm", "8:40–9:50 pm"],
+      },
+      {
+        label: "Sábados",
+        times: ["10:00 am–1:00 pm", "2:00–5:00 pm"],
+      },
+    ],
+    formats: [
+      {
+        icon: "building-2",
+        title: "Encuentros presenciales",
+        text:
+          "Practica cara a cara en una sede de Nueva Jersey cuando el grupo lo permite.",
+      },
+      {
+        icon: "monitor-smartphone",
+        title: "Apoyo remoto",
+        text:
+          "Continúa con orientación y práctica remota entre los encuentros presenciales.",
+      },
+      {
+        icon: "route",
+        title: "Una ruta conectada",
+        text:
+          "La alternancia, el grupo y el bloque final se confirman antes de la inscripción.",
+      },
+    ],
+    logisticsNote:
+      "Los bloques publicados son referencias de la ruta de inglés. Admisiones confirma sede, alternancia, nivel, grupo y horario vigente.",
+    sectionCopy: {
+      outcomes: {
+        eyebrow: "Flexibilidad con dirección",
+        title: "La modalidad debe adaptarse a tu semana sin perder el hilo.",
+        text:
+          "El programa conecta encuentros, apoyo remoto y seguimiento para que puedas sostener la práctica.",
+      },
+      pathway: {
+        id: "ruta-hibrida",
+        eyebrow: "Ruta por niveles",
+        title: "El punto de entrada sigue siendo académico, aunque cambie el espacio.",
+        text:
+          "La evaluación inicial orienta el nivel y admisiones confirma qué combinación está disponible para tu grupo.",
+        actionLabel: "Ver mi nivel",
+        actionHref: "/placement-test/",
+      },
+      logistics: {
+        eyebrow: "Encuentros y apoyo remoto",
+        title: "Confirma la combinación que realmente está activa.",
+        text:
+          "La disponibilidad depende del grupo, la sede, el nivel y el horario; no asumimos una alternancia automática.",
+        formatsLabel: "Claves de la ruta híbrida",
+        scheduleLabel: "Bloques publicados",
+        actionLabel: "Confirmar mi combinación",
+      },
+      faq: {
+        eyebrow: "Antes de inscribirte",
+        title: "Respuestas para elegir una ruta híbrida con menos dudas.",
+        text:
+          "Admisiones puede confirmar qué encuentros, apoyo remoto y bloques corresponden al grupo activo.",
+      },
+    },
+    faqs: [
+      {
+        question: "¿Qué significa que el programa sea híbrido?",
+        answer:
+          "Combina encuentros presenciales con apoyo remoto. La forma concreta de alternar los espacios depende del grupo activo y se confirma antes de la inscripción.",
+      },
+      {
+        question: "¿Puedo elegir qué días asistir presencialmente?",
+        answer:
+          "No asumimos una elección libre de días. Admisiones confirma la sede, el bloque y la combinación disponible según el grupo y el cupo.",
+      },
+      {
+        question: "¿Qué niveles ofrece la ruta?",
+        answer:
+          "La ruta publicada contempla básico, intermedio y avanzado. La evaluación inicial ayuda a orientar el punto de entrada.",
+      },
+      {
+        question: "¿Se mantienen los mismos horarios del programa de inglés?",
+        answer:
+          "Los bloques publicados corresponden a la ruta de inglés, pero la combinación híbrida, el grupo y la sede deben confirmarse antes de organizar tu calendario.",
+      },
+      {
+        question: "¿Hay talleres y tutorías?",
+        answer:
+          "La información publicada contempla talleres y tutorías para aclarar dudas, actualizarse y nivelarse. Confirma la disponibilidad del grupo.",
+      },
+      {
+        question: "¿Qué pasa si mi agenda cambia?",
+        answer:
+          "Comparte el cambio con admisiones. Cualquier ajuste depende del nivel, el grupo activo, la sede y el cupo disponible.",
+      },
+    ],
+    closing: {
+      eyebrow: "Tu semana también cuenta",
+      title: "Confirma una combinación que puedas sostener.",
+      text:
+        "Llega con tu nivel y tu disponibilidad para revisar qué parte presencial y qué apoyo remoto están activos.",
+      primaryLabel: "Descubrir mi nivel",
+      primaryCta: {
+        href: "/placement-test/",
+        external: false,
+      },
+      advisorLabel: "Hablar con admisiones",
+      advisorCta: {
+        href: site.whatsappHref,
+        external: true,
+      },
+    },
+  },
+};
+
+const activeProgramSlugs = [
+  "ingles-jovenes-adultos",
+  "ingles-hibrido-adultos",
+  "ingles-online-adultos",
+  "espanol-extranjeros",
+  "ged",
+  "tutorias-matematicas",
+  "computacion-basica",
+  "computacion-oficina",
+];
+
+const retiredCourseSlugs = new Set(["ingles-ninos", "reparacion-computadoras"]);
+
+const programs = [
+  allCourseRecords.find((program) => program.slug === "ingles-jovenes-adultos"),
+  hybridEnglishProgram,
+  allCourseRecords.find((program) => program.slug === "ingles-online-adultos"),
+  ...allCourseRecords.filter((program) =>
+    activeProgramSlugs.includes(program.slug)
+    && !["ingles-jovenes-adultos", "ingles-online-adultos"].includes(program.slug),
+  ),
+];
+
 const heroProof = [
   {
     value: "20+",
@@ -3028,7 +3319,7 @@ const contactPrep = [
   },
   {
     title: "Meta principal",
-    text: "Trabajo, universidad, entrevista, niño/a o apoyo técnico: afinamos la ruta a tu meta.",
+    text: "Trabajo, universidad, entrevista, apoyo académico o apoyo técnico: afinamos la ruta a tu meta.",
   },
 ];
 
@@ -3305,7 +3596,7 @@ const productOfferings = [
     ],
     image: site.images.adultEnglish,
     imageAlt: "Clase presencial de inglés para adultos en AiT USA.",
-    href: "/cursos/#ingles-presencial",
+    href: "/cursos/ingles-jovenes-adultos/",
     cta: "Ver formato presencial",
     relatedPrograms: ["ingles-jovenes-adultos"],
   },
@@ -3328,7 +3619,7 @@ const productOfferings = [
     ],
     image: site.images.heroFemaleZoom,
     imageAlt: "Instructora guiando una clase de inglés en formato híbrido.",
-    href: "/cursos/#ingles-hibrido",
+    href: "/cursos/ingles-hibrido-adultos/",
     cta: "Ver formato híbrido",
     relatedPrograms: ["ingles-jovenes-adultos", "ingles-online-adultos"],
   },
@@ -3352,7 +3643,7 @@ const productOfferings = [
     ],
     image: site.images.onlineEnglish,
     imageAlt: "Clase de inglés online con apoyo visual.",
-    href: "/cursos/#ingles-online",
+    href: "/cursos/ingles-online-adultos/",
     cta: "Ver formato online",
     relatedPrograms: ["ingles-online-adultos"],
   },
@@ -3364,22 +3655,20 @@ const productOfferings = [
     emphasis: "secondary",
     audience: "Familias y estudiantes con metas específicas",
     summary:
-      "Explora inglés para niños, GED, computación, español para extranjeros y cursos técnicos.",
+      "Explora GED, computación, español para extranjeros y tutorías de matemáticas.",
     details: [
-      "Inglés para niños de 8 a 13 años.",
       "GED y tutorías para metas académicas concretas.",
-      "Computación, oficina, reparación y español para extranjeros.",
+      "Computación básica y para oficina.",
+      "Español para extranjeros y otras rutas de apoyo.",
     ],
     image: site.images.computing,
     imageAlt: "Programas de apoyo académico y técnico de AiT USA.",
-    href: "/cursos/#programas-de-apoyo",
+    href: "/cursos/",
     cta: "Explorar programas de apoyo",
     relatedPrograms: [
-      "ingles-ninos",
       "ged",
       "computacion-basica",
       "computacion-oficina",
-      "reparacion-computadoras",
       "espanol-extranjeros",
       "tutorias-matematicas",
     ],
@@ -3393,7 +3682,7 @@ const courseCatalog = [
     description:
       "Compara la experiencia presencial con las alternativas online para elegir cómo quieres estudiar.",
     anchor: "rutas-principales-de-ingles",
-    programs: ["ingles-jovenes-adultos", "ingles-online-adultos", "ingles-ninos"],
+    programs: ["ingles-jovenes-adultos", "ingles-hibrido-adultos", "ingles-online-adultos"],
   },
   {
     key: "academic-support",
@@ -3405,11 +3694,11 @@ const courseCatalog = [
   },
   {
     key: "digital-technical",
-    title: "Computación y cursos técnicos",
+    title: "Computación y apoyo práctico",
     description:
       "Formación digital práctica para estudiar, trabajar o explorar una ruta técnica complementaria.",
-    anchor: "computacion-y-cursos-tecnicos",
-    programs: ["computacion-basica", "computacion-oficina", "reparacion-computadoras"],
+    anchor: "computacion-y-apoyo-practico",
+    programs: ["computacion-basica", "computacion-oficina"],
   },
   {
     key: "additional-languages",
@@ -3766,6 +4055,7 @@ export {
   placementTest,
   productOfferings,
   programs,
+  retiredCourseSlugs,
   requirements,
   schedules,
   site,

@@ -36,12 +36,12 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.aitusainstitute.com/cursos/ingles-online-adultos/</loc>
+    <loc>https://www.aitusainstitute.com/cursos/ingles-hibrido-adultos/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.aitusainstitute.com/cursos/ingles-ninos/</loc>
+    <loc>https://www.aitusainstitute.com/cursos/ingles-online-adultos/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -67,11 +67,6 @@
   </url>
   <url>
     <loc>https://www.aitusainstitute.com/cursos/computacion-oficina/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.aitusainstitute.com/cursos/reparacion-computadoras/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

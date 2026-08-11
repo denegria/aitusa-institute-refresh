@@ -1,14 +1,14 @@
 import { conversionCtas, programs, site } from "../../../src/content";
-import { CourseCatalog, OfferingsSection } from "./CourseSections";
+import { CourseCatalog } from "./CourseSections";
 import { FaqSection, FinalCtaSection } from "./PublicSections";
 import { SiteFooter, SiteHeader } from "./SiteChrome";
 
-export function CoursesPage({ selectedSlug = null }) {
+export function CoursesPage() {
   return (
     <>
       <SiteHeader activePage="courses" />
       <main id="main-content">
-        <section className="page-hero section" id="inicio">
+        <section className="page-hero page-hero--catalog section" id="inicio">
           <div className="section-inner page-hero__grid">
             <div className="page-hero__copy">
               <p className="section-kicker">Catálogo detallado</p>
@@ -19,16 +19,19 @@ export function CoursesPage({ selectedSlug = null }) {
                 <a className="button button--ghost" href={conversionCtas.advisor?.href || site.whatsappHref} target="_blank" rel="noreferrer">Hablar con un asesor</a>
               </div>
             </div>
-            <div className="page-hero__media card">
-              <img src={site.images.routeLevels} alt={site.images.contactAlt || "Ruta por niveles de AiT USA."} />
+            <div className="page-hero__media card page-hero__media--catalog">
               <p className="eyebrow-chip">Ruta guiada</p>
-              <h2>Inglés presencial sigue siendo la oferta principal.</h2>
-              <p>También puedes comparar opciones híbridas, online y programas de apoyo antes de hablar con el equipo.</p>
+              <h2>Empieza por el formato que encaja con tu semana.</h2>
+              <p>Presencial, híbrido y online tienen fichas propias. También puedes explorar GED, matemáticas, computación y español.</p>
+              <nav className="catalog-hero-links" aria-label="Fichas destacadas de inglés">
+                <a href="/cursos/ingles-jovenes-adultos/">Inglés presencial</a>
+                <a href="/cursos/ingles-hibrido-adultos/">Inglés híbrido</a>
+                <a href="/cursos/ingles-online-adultos/">Inglés online</a>
+              </nav>
             </div>
           </div>
         </section>
-        <OfferingsSection />
-        <CourseCatalog selectedSlug={selectedSlug} />
+        <CourseCatalog />
         <FinalCtaSection />
         <FaqSection />
       </main>
@@ -40,15 +43,25 @@ export function CoursesPage({ selectedSlug = null }) {
 export function getCourseMetadata(slug) {
   const program = programs.find((item) => item.slug === slug);
   if (!program) return null;
+  const title = `${program.title} | AiT USA Institute`;
+  const description = `${program.summary} Conoce la modalidad, los horarios publicados y el siguiente paso para confirmar tu ruta.`;
   return {
-    title: `${program.title} | Cursos AiT USA Institute`,
-    description: `${program.title}. ${program.summary}`,
+    title,
+    description,
     alternates: { canonical: `/cursos/${program.slug}/` },
     openGraph: {
-      title: `${program.title} | Cursos AiT USA Institute`,
-      description: program.summary,
+      type: "website",
+      siteName: site.name,
+      title,
+      description,
       url: `/cursos/${program.slug}/`,
       images: [{ url: program.image, alt: program.imageAlt }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [program.image],
     },
   };
 }

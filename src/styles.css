@@ -374,6 +374,14 @@ button {
     radial-gradient(circle at 85% 15%, rgba(18, 64, 163, 0.12), transparent 34%);
 }
 
+.page-hero--catalog {
+  padding-block: 24px;
+}
+
+.page-hero--catalog .page-hero__grid {
+  gap: 24px;
+}
+
 .hero__grid,
 .page-hero__grid,
 .final-cta-layout,
@@ -2715,6 +2723,56 @@ textarea {
   margin-bottom: 0;
 }
 
+.page-hero__media--catalog {
+  align-self: stretch;
+}
+
+.catalog-hero-links {
+  display: grid;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.catalog-hero-links a,
+.catalog-nav a {
+  color: var(--blue);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.catalog-hero-links a {
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 1px solid rgba(29, 78, 216, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.catalog-hero-links a:hover,
+.catalog-hero-links a:focus-visible,
+.catalog-nav a:hover,
+.catalog-nav a:focus-visible {
+  background: var(--blue-soft);
+  text-decoration: underline;
+}
+
+.catalog-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 4px 0 28px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.catalog-nav a {
+  min-height: 42px;
+  padding: 9px 0;
+}
+
 .catalog-group {
   margin-top: 34px;
 }
@@ -2722,6 +2780,10 @@ textarea {
 .catalog-group__heading {
   max-width: 760px;
   margin-bottom: 18px;
+}
+
+.catalog-group:first-of-type {
+  margin-top: 18px;
 }
 
 .notice-box {
@@ -7353,8 +7415,8 @@ textarea {
   grid-template-columns: minmax(0, 0.94fr) minmax(440px, 1.06fr);
   gap: clamp(44px, 6vw, 96px);
   align-items: center;
-  min-height: 586px;
-  padding-block: clamp(32px, 3.8vw, 56px);
+  min-height: 540px;
+  padding-block: clamp(26px, 3vw, 42px);
 }
 
 .course-program-hero__copy {
@@ -7365,7 +7427,7 @@ textarea {
   display: flex;
   gap: 7px;
   align-items: center;
-  margin-bottom: 34px;
+  margin-bottom: 24px;
   color: var(--ink-soft);
   font-size: 0.78rem;
   font-weight: 760;
@@ -7392,14 +7454,14 @@ textarea {
   margin: 14px 0 0;
   color: var(--blue-deep);
   font-family: var(--font-display);
-  font-size: clamp(3.5rem, 5.1vw, 5.25rem);
+  font-size: clamp(3rem, 4.4vw, 4.6rem);
   letter-spacing: -0.055em;
   line-height: 0.96;
 }
 
 .course-program-hero__lead {
   max-width: 640px;
-  margin: 24px 0 0;
+  margin: 20px 0 0;
   color: var(--ink-soft);
   font-size: clamp(1.06rem, 1.35vw, 1.22rem);
   line-height: 1.65;
@@ -7410,7 +7472,7 @@ textarea {
   flex-wrap: wrap;
   gap: 14px 22px;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 24px;
 }
 
 .course-program-page .button {
@@ -7993,6 +8055,70 @@ textarea {
   background: #ffffff;
 }
 
+.course-program-related {
+  padding: clamp(56px, 7vw, 92px) 0;
+  border-top: 1px solid rgba(0, 26, 61, 0.12);
+  background: #eef4ff;
+}
+
+.course-program-related h2 {
+  max-width: 760px;
+  margin: 0;
+  color: var(--blue-deep);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 3.45rem);
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+}
+
+.course-program-related nav {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.course-program-related nav a {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  min-height: 112px;
+  padding: 18px 42px 18px 18px;
+  border: 1px solid rgba(18, 64, 163, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.course-program-related nav a:hover,
+.course-program-related nav a:focus-visible {
+  border-color: rgba(29, 78, 216, 0.42);
+  background: #ffffff;
+}
+
+.course-program-related nav span {
+  color: var(--blue-deep);
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.course-program-related nav small {
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.course-program-related nav svg {
+  position: absolute;
+  top: 18px;
+  right: 16px;
+  width: 18px;
+  height: 18px;
+  color: var(--blue);
+}
+
 .course-program-faq__layout {
   display: grid;
   grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1.25fr);
@@ -8132,6 +8258,10 @@ textarea {
 
   .course-program-story__media {
     justify-self: start;
+  }
+
+  .course-program-related nav {
+    grid-template-columns: 1fr;
   }
 }
 

@@ -25,6 +25,9 @@ describe("public-route React migration parity", () => {
     for (const program of programs) {
       assert.match(sitemap, new RegExp(`<loc>https://www\\.aitusainstitute\\.com/cursos/${program.slug}/</loc>`));
     }
+    assert.match(sitemap, /\/cursos\/ingles-hibrido-adultos\//);
+    assert.doesNotMatch(sitemap, /\/cursos\/ingles-ninos\//);
+    assert.doesNotMatch(sitemap, /\/cursos\/reparacion-computadoras\//);
     assert.doesNotMatch(sitemap, /\/courses\//);
     assert.match(manifest, /AiT USA Institute/);
   });
