@@ -13695,6 +13695,10 @@ textarea {
   min-width: 0;
 }
 
+.community-proof__mosaic--single {
+  grid-template-rows: minmax(0, 1fr);
+}
+
 .community-proof__tile {
   min-height: 0;
   animation: communityMediaIn .58s cubic-bezier(.22, 1, .36, 1) both;
@@ -13954,6 +13958,10 @@ textarea {
   .community-proof__mosaic {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: none;
+  }
+
+  .community-proof__mosaic--single {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .community-proof__tile { aspect-ratio: 3 / 4; }

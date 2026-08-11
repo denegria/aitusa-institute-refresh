@@ -31,7 +31,8 @@ describe("homepage community gallery", () => {
     assert.equal(communityGallery.stories.length, 0);
     assert.equal(communityGallery.graduations.length, 27);
     assert.ok(communityGallery.celebrations.length >= 20);
-    assert.ok(communityGallery.classroom.length >= 5);
+    assert.deepEqual(communityGallery.classroom.map((photo) => photo.id), ["0011", "0012"]);
+    assert.equal(communityGallery.classroom[0].position, "50% 78%");
 
     const uniquePhotos = new Map();
     for (const tab of communityGallery.tabs) {
@@ -82,6 +83,8 @@ describe("homepage community gallery", () => {
     assert.match(source, /COMMUNITY_TAB_CYCLE_MS = 8000/);
     assert.match(source, /COMMUNITY_PHOTO_CYCLE_MS = 2600/);
     assert.match(source, /activeTab, setActiveTab] = useState\("classroom"\)/);
+    assert.match(source, /activeTab === "classroom" \? 1 : 2/);
+    assert.match(source, /community-proof__mosaic--single/);
     assert.match(source, /activeTab === "graduations" \|\| activeTab === "celebrations"/);
     assert.match(source, /setMediaCycleIndex\(\(index\) => index \+ 1\)/);
     assert.match(source, /community-proof__photo-count/);
@@ -92,6 +95,7 @@ describe("homepage community gallery", () => {
     assert.match(source, /focusPaused/);
     assert.match(styles, /\.community-proof__stage\s*\{[\s\S]*grid-template-columns: minmax\(0, 1\.78fr\) minmax\(250px, 1fr\)/);
     assert.match(styles, /\.community-proof__mosaic\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)[\s\S]*grid-template-rows: repeat\(2, minmax\(0, 1fr\)\)/);
+    assert.match(styles, /\.community-proof__mosaic--single\s*\{[\s\S]*grid-template-rows: minmax\(0, 1fr\)/);
     assert.match(styles, /\.community-proof__wall\s*\{[\s\S]*grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
     assert.match(styles, /\.community-proof__wall-tile\s*\{[\s\S]*aspect-ratio: 3 \/ 4/);
     assert.match(styles, /filter: brightness\(1\.045\) contrast\(1\.055\) saturate\(\.94\)/);

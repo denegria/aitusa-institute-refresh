@@ -103,7 +103,8 @@ export function ProofStories() {
     const index = orderedStories.length ? (activeStoryCycleIndex + offset + 1) % orderedStories.length : 0;
     return { story: orderedStories[index], index };
   }).filter((item) => item.story);
-  const sidePhotos = Array.from({ length: 2 }, (_, offset) => {
+  const sidePhotoCount = activeTab === "classroom" ? 1 : 2;
+  const sidePhotos = Array.from({ length: sidePhotoCount }, (_, offset) => {
     const index = photosForTab.length ? (activePhotoCycleIndex + offset + 1) % photosForTab.length : 0;
     return { photo: photosForTab[index], index };
   }).filter((item) => item.photo);
@@ -370,7 +371,10 @@ export function ProofStories() {
             </button>
           )}
 
-          <div className="community-proof__mosaic" aria-label={`Selección de ${tabMeta[activeTab].eyebrow.toLowerCase()}`}>
+          <div
+            className={`community-proof__mosaic${sidePhotos.length === 1 ? " community-proof__mosaic--single" : ""}`}
+            aria-label={`Selección de ${tabMeta[activeTab].eyebrow.toLowerCase()}`}
+          >
             {activeTab === "stories"
               ? sideStories.map(({ story, index }, tileIndex) => (
                   <a

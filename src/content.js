@@ -2923,7 +2923,7 @@ const communityPhotos = [
   galleryPhoto("0008", "celebrations", "Comunidad de AIT compartiendo comida y una celebración en el salón."),
   galleryPhoto("0009", "celebrations", "Estudiantes de AIT reunidos durante una celebración navideña."),
   galleryPhoto("0010", "celebrations", "Estudiantes y equipo de AIT compartiendo una cena de fin de año.", "50% 44%"),
-  galleryPhoto("0011", "classroom", "Clase de adultos en AIT con práctica guiada y participación en grupo.", "50% 44%"),
+  galleryPhoto("0011", "classroom", "Clase de adultos en AIT con práctica guiada y participación en grupo.", "50% 78%"),
   galleryPhoto("0012", "classroom", "Estudiantes de AIT trabajando con libros y materiales durante la clase.", "50% 45%"),
   ...Array.from({ length: 27 }, (_, index) => {
     const id = String(index + 13).padStart(4, "0");
@@ -2965,7 +2965,7 @@ const communityGallery = {
   stories: [],
   graduations: communityPhotos.filter((photo) => photo.category === "graduations"),
   classroom: communityPhotos.filter((photo) =>
-    ["0011", "0012", "0024", "0026", "0028"].includes(photo.id),
+    ["0011", "0012"].includes(photo.id),
   ),
   celebrations: communityPhotos.filter((photo) => photo.category === "celebrations"),
 };
