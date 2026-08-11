@@ -23,10 +23,11 @@ describe("homepage community gallery", () => {
 
     assert.deepEqual(
       communityGallery.tabs.map((tab) => tab.id),
-      ["stories", "graduations", "classroom", "celebrations"],
+      ["classroom", "graduations", "celebrations", "stories"],
     );
-    assert.equal(communityGallery.tabs[0].label, "Entrevistas en inglés");
-    assert.match(communityGallery.introduction, /Entrevistas en inglés con estudiantes AIT/);
+    assert.equal(communityGallery.tabs[0].label, "En clase");
+    assert.equal(communityGallery.tabs.at(-1).label, "Entrevistas en inglés");
+    assert.match(communityGallery.introduction, /Clases reales, graduaciones, celebraciones y entrevistas en inglés/);
     assert.equal(communityGallery.stories.length, 0);
     assert.equal(communityGallery.graduations.length, 27);
     assert.ok(communityGallery.celebrations.length >= 20);
@@ -62,7 +63,7 @@ describe("homepage community gallery", () => {
     assert.match(source, /Array\.from\(\{ length: 2 \}/);
     assert.match(source, /featuredGraduationIds = \["0031", "0022", "0033", "0028"\]/);
     assert.match(source, /communityGallery\.graduations\.findIndex/);
-    assert.match(source, /Ver las 27 graduaciones/);
+    assert.match(source, /Ver todas las graduaciones recientes/);
     assert.doesNotMatch(source, /community-proof__explore/);
     assert.match(source, /video\?\.pause\(\)/);
     assert.match(source, /triggerRef\.current\?\.focus\(\)/);
@@ -79,10 +80,16 @@ describe("homepage community gallery", () => {
     assert.match(source, /threshold: 0\.02/);
     assert.match(source, /setActiveTab\(\(currentTab\)/);
     assert.match(source, /COMMUNITY_TAB_CYCLE_MS = 8000/);
+    assert.match(source, /COMMUNITY_PHOTO_CYCLE_MS = 2600/);
+    assert.match(source, /activeTab, setActiveTab] = useState\("classroom"\)/);
+    assert.match(source, /activeTab === "graduations" \|\| activeTab === "celebrations"/);
+    assert.match(source, /setMediaCycleIndex\(\(index\) => index \+ 1\)/);
+    assert.match(source, /community-proof__photo-count/);
     assert.match(source, /is-auto-cycling/);
     assert.match(source, /prefers-reduced-motion: reduce/);
     assert.match(source, /interactionPaused/);
     assert.match(source, /hoverPaused/);
+    assert.match(source, /focusPaused/);
     assert.match(styles, /\.community-proof__stage\s*\{[\s\S]*grid-template-columns: minmax\(0, 1\.78fr\) minmax\(250px, 1fr\)/);
     assert.match(styles, /\.community-proof__mosaic\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)[\s\S]*grid-template-rows: repeat\(2, minmax\(0, 1fr\)\)/);
     assert.match(styles, /\.community-proof__wall\s*\{[\s\S]*grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
@@ -95,5 +102,17 @@ describe("homepage community gallery", () => {
     assert.match(styles, /@keyframes communityTabProgress/);
     assert.match(styles, /@media \(max-width: 719px\)[\s\S]*\.community-proof__tabs\s*\{[\s\S]*overflow-x: auto/);
     assert.match(styles, /@media \(prefers-reduced-motion: reduce\)[\s\S]*animation: none/);
+  });
+
+  it("prioritizes practical homepage FAQ questions without repeating the same schedule objection", async () => {
+    const { faqs } = siteData;
+    const source = await readFile("app/_components/site/InteractiveSections.jsx", "utf8");
+
+    assert.equal(faqs.length, 7);
+    assert.ok(faqs.some((faq) => faq.question.includes("otro país")));
+    assert.ok(faqs.some((faq) => faq.question.includes("no puedo asistir")));
+    assert.equal(faqs.filter((faq) => /Trabajo todo el día|No tengo mucho tiempo/.test(faq.question)).length, 1);
+    assert.match(source, /\{faqs\.map\(\(faq, index\) => \(/);
+    assert.doesNotMatch(source, /faqs\.slice\(0, 6\)/);
   });
 });

@@ -241,7 +241,7 @@ export function FaqSection() {
           <span className="chapter-accent chapter-accent--mobile" aria-hidden="true" />
           <p className="section-kicker">Preguntas frecuentes</p>
           <h2>¿Todavía tienes dudas?</h2>
-          <p>Aquí respondemos las preguntas que más escuchamos de nuestros estudiantes.</p>
+          <p>Aquí respondemos dudas sobre tu nivel, la práctica, los horarios y las modalidades.</p>
         </div>
         <FaqList />
       </div>

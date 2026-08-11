@@ -2955,12 +2955,12 @@ const communityGallery = {
   eyebrow: "Experiencias reales",
   title: "Más que clases: una comunidad que avanza.",
   introduction:
-    "Entrevistas en inglés con estudiantes AIT, graduaciones y momentos reales de una comunidad que avanza junta.",
+    "Clases reales, graduaciones, celebraciones y entrevistas en inglés con estudiantes AIT: momentos de una comunidad que avanza junta.",
   tabs: [
-    { id: "stories", label: "Entrevistas en inglés" },
-    { id: "graduations", label: "Graduaciones" },
     { id: "classroom", label: "En clase" },
+    { id: "graduations", label: "Graduaciones" },
     { id: "celebrations", label: "Celebraciones" },
+    { id: "stories", label: "Entrevistas en inglés" },
   ],
   stories: [],
   graduations: communityPhotos.filter((photo) => photo.category === "graduations"),
@@ -3113,25 +3113,11 @@ const faqs = [
     cta: "Ver libro",
   },
   {
-    question: "No tengo mucho tiempo, pero quiero aprender a hablar inglés. ¿Puedo avanzar?",
+    question: "Trabajo todo el día y tengo poco tiempo. ¿Aun así puedo avanzar?",
     answer:
-      "Puedes empezar con 15 a 20 minutos diarios y elegir horario flexible (mañana, noche o fin de semana) con metas pequeñas y medibles.",
-    outcome: "Te proponemos un plan realista para avanzar sin desordenar tu agenda.",
+      "Sí. Puedes empezar con 15 a 20 minutos diarios y elegir una opción presencial, híbrida u online con horarios de mañana, noche o fin de semana.",
+    outcome: "Te proponemos un ritmo realista para avanzar sin desordenar tu agenda.",
     cta: "Ver horarios",
-  },
-  {
-    question: "Trabajo todo el día. ¿Aun así puedo estudiar?",
-    answer:
-      "Sí. Tenemos opciones presenciales, híbridas y online para estudiar sin romper tu rutina laboral, con continuidad semanal realista.",
-    outcome: "Puedes mantener continuidad aunque tu semana cambie.",
-    cta: "Ver horarios",
-  },
-  {
-    question: "Nunca fui buen estudiante. ¿Todavía puedo aprender?",
-    answer:
-      "Sí. Si te cuesta mantener ritmo, esta ruta se enfoca en objetivos semanales claros, práctica oral guiada y seguimiento cercano para recuperar confianza.",
-    outcome: "Lo difícil deja de ser confuso y se convierte en un proceso con metas.",
-    cta: "Pedir orientación",
   },
   {
     question: "¿Puedo estudiar desde otro país o por videollamada?",
@@ -3141,7 +3127,7 @@ const faqs = [
     cta: "Ver horarios",
   },
   {
-    question: "¿Qué pasa si no puedo cubrir una clase o me atraso?",
+    question: "¿Qué pasa si no puedo asistir a una clase o me atraso?",
     answer:
       "Contáctanos y te ayudamos a recuperar con un plan corto para que no pierdas continuidad: ajustes de horario, repaso dirigido y próximos pasos claros.",
     outcome: "Te devolvemos ritmo sin sanciones ni vueltas innecesarias.",

@@ -13667,7 +13667,8 @@ textarea {
   height: 19px;
 }
 
-.community-proof__video-duration {
+.community-proof__video-duration,
+.community-proof__photo-count {
   position: absolute;
   top: 14px;
   right: 14px;
@@ -13680,6 +13681,10 @@ textarea {
   font-size: .73rem;
   font-weight: 800;
   line-height: 1;
+}
+
+.community-proof__photo-count {
+  letter-spacing: .06em;
 }
 
 .community-proof__mosaic {

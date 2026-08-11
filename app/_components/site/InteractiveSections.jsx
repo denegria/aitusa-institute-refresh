@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { communityGallery, faqs, site, testimonials } from "../../../src/content";
 
 const COMMUNITY_TAB_CYCLE_MS = 8000;
+const COMMUNITY_PHOTO_CYCLE_MS = 2600;
 
 export function MethodVideo({ narrative }) {
   const enterMobileFullscreen = (event) => {
@@ -63,13 +64,14 @@ export function ProofStories() {
   const imageDialogRef = useRef(null);
   const triggerRef = useRef(null);
   const pauseTimerRef = useRef(null);
-  const [activeTab, setActiveTab] = useState("stories");
-  const [cycleIndex, setCycleIndex] = useState(0);
+  const [activeTab, setActiveTab] = useState("classroom");
+  const [mediaCycleIndex, setMediaCycleIndex] = useState(0);
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
   const [lightboxTab, setLightboxTab] = useState("graduations");
   const [isInView, setIsInView] = useState(false);
   const [hoverPaused, setHoverPaused] = useState(false);
+  const [focusPaused, setFocusPaused] = useState(false);
   const [interactionPaused, setInteractionPaused] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [showAllGraduations, setShowAllGraduations] = useState(false);
@@ -90,9 +92,12 @@ export function ProofStories() {
   };
 
   const photosForTab = activeTab === "stories" ? [] : (communityGallery[activeTab] || []);
-  const activeStoryCycleIndex = orderedStories.length ? cycleIndex % orderedStories.length : 0;
+  const photoAutoRotates = activeTab === "graduations" || activeTab === "celebrations";
+  const activeStoryCycleIndex = 0;
   const activeStoryCycle = orderedStories[activeStoryCycleIndex] || orderedStories[0];
-  const activePhotoCycleIndex = photosForTab.length ? cycleIndex % photosForTab.length : 0;
+  const activePhotoCycleIndex = photosForTab.length && photoAutoRotates
+    ? mediaCycleIndex % photosForTab.length
+    : 0;
   const activePhotoCycle = photosForTab[activePhotoCycleIndex] || communityGallery.graduations[0];
   const sideStories = Array.from({ length: 2 }, (_, offset) => {
     const index = orderedStories.length ? (activeStoryCycleIndex + offset + 1) % orderedStories.length : 0;
@@ -148,17 +153,32 @@ export function ProofStories() {
   }, []);
 
   useEffect(() => {
-    if (!isInView || hoverPaused || interactionPaused || prefersReducedMotion) return undefined;
+    if (!isInView || hoverPaused || focusPaused || interactionPaused || prefersReducedMotion) return undefined;
     const timer = window.setInterval(() => {
       setActiveTab((currentTab) => {
         const currentIndex = communityGallery.tabs.findIndex((tab) => tab.id === currentTab);
         return communityGallery.tabs[(currentIndex + 1) % communityGallery.tabs.length].id;
       });
-      setCycleIndex((index) => index + 1);
       setActivePhotoIndex(0);
     }, COMMUNITY_TAB_CYCLE_MS);
     return () => window.clearInterval(timer);
-  }, [hoverPaused, interactionPaused, isInView, prefersReducedMotion]);
+  }, [focusPaused, hoverPaused, interactionPaused, isInView, prefersReducedMotion]);
+
+  useEffect(() => {
+    if (
+      !photoAutoRotates
+      || !isInView
+      || hoverPaused
+      || focusPaused
+      || interactionPaused
+      || prefersReducedMotion
+    ) return undefined;
+
+    const timer = window.setInterval(() => {
+      setMediaCycleIndex((index) => index + 1);
+    }, COMMUNITY_PHOTO_CYCLE_MS);
+    return () => window.clearInterval(timer);
+  }, [focusPaused, hoverPaused, interactionPaused, isInView, photoAutoRotates, prefersReducedMotion]);
 
   useEffect(() => {
     if (!isInView) return;
@@ -172,7 +192,7 @@ export function ProofStories() {
 
   useEffect(() => {
     window.lucide?.createIcons?.();
-  }, [activePhotoIndex, activeStoryIndex, activeTab, cycleIndex, showAllGraduations]);
+  }, [activePhotoIndex, activeStoryIndex, activeTab, mediaCycleIndex, showAllGraduations]);
 
   useEffect(
     () => () => {
@@ -183,7 +203,7 @@ export function ProofStories() {
 
   const selectTab = (tabId) => {
     setActiveTab(tabId);
-    setCycleIndex(0);
+    setMediaCycleIndex(0);
     setActivePhotoIndex(0);
     pauseAfterInteraction();
   };
@@ -251,6 +271,10 @@ export function ProofStories() {
       data-community-proof
       onMouseEnter={() => setHoverPaused(true)}
       onMouseLeave={() => setHoverPaused(false)}
+      onFocusCapture={() => setFocusPaused(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setFocusPaused(false);
+      }}
     >
       <div className="community-proof__inner">
         <header className="community-proof__heading" style={{ "--reveal-order": 0 }}>
@@ -261,7 +285,7 @@ export function ProofStories() {
         </header>
 
         <div
-          className={`community-proof__tabs${isInView && !hoverPaused && !interactionPaused && !prefersReducedMotion ? " is-auto-cycling" : ""}`}
+          className={`community-proof__tabs${isInView && !hoverPaused && !focusPaused && !interactionPaused && !prefersReducedMotion ? " is-auto-cycling" : ""}`}
           role="tablist"
           aria-label="Explorar experiencias de AIT; las pestañas avanzan automáticamente"
           style={{ "--community-cycle-duration": `${COMMUNITY_TAB_CYCLE_MS}ms`, "--reveal-order": 1 }}
@@ -310,6 +334,7 @@ export function ProofStories() {
                 src={activeStoryCycle.videoPoster || activeStoryCycle.image}
                 alt={activeStoryCycle.imageAlt || ""}
                 fill
+                loading={isInView ? "eager" : "lazy"}
                 sizes="(max-width: 719px) calc(100vw - 32px), 48vw"
                 style={{ objectPosition: activeStoryCycle.posterPosition }}
               />
@@ -332,10 +357,16 @@ export function ProofStories() {
                 src={activePhotoCycle.src}
                 alt=""
                 fill
+                loading={isInView ? "eager" : "lazy"}
                 sizes="(max-width: 719px) calc(100vw - 32px), 48vw"
                 style={{ objectPosition: activePhotoCycle.position }}
               />
               <span className="community-proof__media-shade" aria-hidden="true" />
+              {photoAutoRotates ? (
+                <span className="community-proof__photo-count" aria-hidden="true">
+                  {String(activePhotoCycleIndex + 1).padStart(2, "0")} / {String(photosForTab.length).padStart(2, "0")}
+                </span>
+              ) : null}
             </button>
           )}
 
@@ -347,7 +378,7 @@ export function ProofStories() {
                     href={story.video}
                     aria-haspopup="dialog"
                     aria-label={`Ver entrevista en inglés con ${shortLabels[story.name] || story.name}`}
-                    key={`${cycleIndex}-${story.video}`}
+                    key={story.video}
                     style={{ "--tile-order": tileIndex }}
                     onClick={(event) => {
                       if (!videoDialogRef.current?.showModal) return;
@@ -372,7 +403,7 @@ export function ProofStories() {
                   <button
                     className="community-proof__tile"
                     type="button"
-                    key={`${activeTab}-${cycleIndex}-${photo.id}`}
+                    key={`${activeTab}-${mediaCycleIndex}-${photo.id}`}
                     style={{ "--tile-order": tileIndex }}
                     onClick={(event) => {
                       pauseAfterInteraction();
@@ -429,7 +460,7 @@ export function ProofStories() {
             aria-expanded={showAllGraduations}
             onClick={() => setShowAllGraduations((value) => !value)}
           >
-            <span>{showAllGraduations ? "Ver graduaciones destacadas" : "Ver las 27 graduaciones"}</span>
+            <span>{showAllGraduations ? "Ver graduaciones destacadas" : "Ver todas las graduaciones recientes"}</span>
             <i data-lucide={showAllGraduations ? "arrow-up" : "arrow-right"} aria-hidden="true" />
           </button>
         </section>
@@ -533,7 +564,7 @@ export function FaqList() {
 
   return (
     <div className="faq-list">
-      {faqs.slice(0, 6).map((faq, index) => (
+      {faqs.map((faq, index) => (
         <details
           key={faq.question}
           open={openIndex === index}
