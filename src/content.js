@@ -2,12 +2,25 @@
 const assetHires = (name) => asset(`hires/${name}`);
 const assetVideo = (name) => asset(`videos/${name}`);
 const assetVideoPoster = (name) => asset(`videos/posters/${name}`);
+const warmCommunityPhotoIds = new Set([
+  "0001",
+  "0002",
+  "0003",
+  "0006",
+  "0007",
+  "0040",
+  "0052",
+  "0053",
+  "0054",
+  ...Array.from({ length: 27 }, (_, index) => String(index + 13).padStart(4, "0")),
+]);
 const galleryPhoto = (id, category, alt, position = "50% 50%") => ({
   id,
   category,
   src: `/assets/gallery/photos/${id}.webp`,
   alt,
   position,
+  tone: warmCommunityPhotoIds.has(id) ? "warm" : "neutral",
 });
 
 const site = {

@@ -358,6 +358,7 @@ export function ProofStories() {
                 src={activePhotoCycle.src}
                 alt=""
                 fill
+                className={activePhotoCycle.tone === "warm" ? "community-proof__image--warm" : undefined}
                 loading={isInView ? "eager" : "lazy"}
                 sizes="(max-width: 719px) calc(100vw - 32px), 48vw"
                 style={{ objectPosition: activePhotoCycle.position }}
@@ -419,6 +420,7 @@ export function ProofStories() {
                       src={photo.src}
                       alt=""
                       fill
+                      className={photo.tone === "warm" ? "community-proof__image--warm" : undefined}
                       sizes="(max-width: 719px) 44vw, 24vw"
                       style={{ objectPosition: photo.position }}
                     />
@@ -451,6 +453,7 @@ export function ProofStories() {
                   src={photo.src}
                   alt=""
                   fill
+                  className={photo.tone === "warm" ? "community-proof__image--warm" : undefined}
                   sizes="(max-width: 719px) 50vw, (max-width: 1040px) 25vw, 17vw"
                   style={{ objectPosition: photo.position }}
                 />
@@ -540,6 +543,7 @@ export function ProofStories() {
                     src={activePhoto.src}
                     alt={activePhoto.alt}
                     fill
+                    className={activePhoto.tone === "warm" ? "community-proof__image--warm" : undefined}
                     sizes="(max-width: 719px) calc(100vw - 20px), min(1120px, calc(100vw - 36px))"
                     style={{ objectPosition: activePhoto.position }}
                   />

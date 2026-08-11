@@ -33,6 +33,9 @@ describe("homepage community gallery", () => {
     assert.ok(communityGallery.celebrations.length >= 20);
     assert.deepEqual(communityGallery.classroom.map((photo) => photo.id), ["0011", "0012"]);
     assert.equal(communityGallery.classroom[0].position, "50% 78%");
+    assert.ok(communityGallery.graduations.every((photo) => photo.tone === "warm"));
+    assert.equal(communityGallery.celebrations.filter((photo) => photo.tone === "warm").length, 9);
+    assert.ok(communityGallery.classroom.every((photo) => photo.tone === "neutral"));
 
     const uniquePhotos = new Map();
     for (const tab of communityGallery.tabs) {
@@ -99,6 +102,8 @@ describe("homepage community gallery", () => {
     assert.match(styles, /\.community-proof__wall\s*\{[\s\S]*grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
     assert.match(styles, /\.community-proof__wall-tile\s*\{[\s\S]*aspect-ratio: 3 \/ 4/);
     assert.match(styles, /filter: brightness\(1\.045\) contrast\(1\.055\) saturate\(\.94\)/);
+    assert.match(source, /community-proof__image--warm/);
+    assert.match(styles, /filter: brightness\(1\.05\) contrast\(1\.045\) saturate\(1\.01\) sepia\(\.065\)/);
     assert.doesNotMatch(styles, /\.community-proof__wall-tile:nth-child/);
     assert.match(styles, /\.community-proof\.is-visible \.community-proof__heading/);
     assert.match(styles, /@keyframes communityMediaIn/);
