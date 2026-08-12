@@ -253,9 +253,9 @@ export function LocationsSection() {
         </aside>
         <LocationExplorer
           locations={mapped}
-          hours={headquarters.hours}
-          hoursTitle={`${headquarters.city} · Sede principal`}
-          hoursEyebrow="Horario de atención administrativo"
+          hours={mapped.find((location) => location.mapKey === "bound-brook")?.hours || []}
+          hoursTitle="Bound Brook · Sede principal"
+          hoursEyebrow="Horario de atención"
           whatsappHref={site.whatsappHref}
         />
       </div>

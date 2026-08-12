@@ -17,7 +17,7 @@ describe("MIS-267 content hygiene", () => {
     assert.equal(JSON.stringify(site.forms).includes("Google Form"), false);
   });
 
-  it("keeps active-location contact details and scopes verified hours to headquarters", async () => {
+  it("keeps active-location contact details and scopes verified hours to Bound Brook", async () => {
     const { headquarters, locations, site } = await loadSiteData();
     const activeLocations = locations.filter((location) => location.status === "active");
 
@@ -31,9 +31,13 @@ describe("MIS-267 content hygiene", () => {
     }
     assert.equal(headquarters.city, "Nueva York");
     assert.equal(headquarters.status, "headquarters");
-    assert.equal(headquarters.hours.length, 2);
-    assert.equal(headquarters.hours.flatMap((group) => group.slots).length, 4);
-    assert.deepEqual(headquarters.hours, [
+    const boundBrook = locations.find((location) => location.mapKey === "bound-brook");
+    assert.equal(headquarters.hours, undefined);
+    assert.equal(headquarters.note, "HQ");
+    assert.equal(boundBrook.note, "Sede principal");
+    assert.equal(boundBrook.hours.length, 2);
+    assert.equal(boundBrook.hours.flatMap((group) => group.slots).length, 4);
+    assert.deepEqual(boundBrook.hours, [
       {
         label: "Entre semana",
         slots: [

@@ -12143,6 +12143,7 @@ textarea {
    an editorial sequence, and present the books as one quiet collection. */
 @media (min-width: 1041px) {
   .home-page #inicio .hero__copy {
+    --hero-gutter: clamp(28px, 3.2vw, 46px);
     display: grid;
     grid-template-rows: minmax(0, 1fr) auto;
     align-items: stretch;
@@ -12153,7 +12154,7 @@ textarea {
     align-self: center;
     max-width: 520px;
     padding-top: clamp(14px, 2.5svh, 26px);
-    transform: translateY(-2%);
+    transform: translateY(clamp(12px, 2.2svh, 22px));
   }
 
   .home-page #inicio .hero__modalities {
@@ -13868,6 +13869,14 @@ textarea {
   filter: brightness(1.05) contrast(1.045) saturate(1.01) sepia(.065);
 }
 
+.community-proof__feature img.community-proof__image--contain,
+.community-proof__tile img.community-proof__image--contain,
+.community-proof__wall-tile img.community-proof__image--contain,
+.community-lightbox__media img.community-proof__image--contain {
+  object-fit: contain;
+  background: #f7c4ca;
+}
+
 .community-proof__feature:hover img,
 .community-proof__tile:hover img,
 .community-proof__wall-tile:hover img {
@@ -13879,6 +13888,12 @@ textarea {
 .community-proof__tile:hover img.community-proof__image--warm,
 .community-proof__wall-tile:hover img.community-proof__image--warm {
   filter: brightness(1.07) contrast(1.055) saturate(1.035) sepia(.065);
+}
+
+.community-proof__feature:hover img.community-proof__image--contain,
+.community-proof__tile:hover img.community-proof__image--contain,
+.community-proof__wall-tile:hover img.community-proof__image--contain {
+  transform: none;
 }
 
 .community-proof__media-shade {
@@ -14630,7 +14645,11 @@ textarea {
 
 @media (min-width: 720px) {
   .home-page #experiencia .community-proof__tabs {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .home-page #experiencia .community-proof__tabs button {
+    white-space: nowrap;
   }
 
   .home-page #metodo.method-story-section {

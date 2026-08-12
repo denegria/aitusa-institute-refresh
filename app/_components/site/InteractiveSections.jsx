@@ -7,6 +7,12 @@ import { communityGallery, faqs, site, testimonials } from "../../../src/content
 const COMMUNITY_TAB_CYCLE_MS = 8000;
 const COMMUNITY_PHOTO_CYCLE_MS = 2600;
 
+const communityPhotoClassName = (photo) => [
+  photo.tone === "warm" ? "community-proof__image--warm" : "",
+  photo.category === "celebrations" ? "community-proof__image--celebration" : "",
+  photo.fit === "contain" ? "community-proof__image--contain" : "",
+].filter(Boolean).join(" ") || undefined;
+
 export function MethodVideo({ narrative }) {
   const enterMobileFullscreen = (event) => {
     const video = event.currentTarget;
@@ -422,7 +428,7 @@ export function ProofStories() {
                 src={activePhotoCycle.src}
                 alt=""
                 fill
-                className={activePhotoCycle.tone === "warm" ? "community-proof__image--warm" : undefined}
+                className={communityPhotoClassName(activePhotoCycle)}
                 loading={isInView ? "eager" : "lazy"}
                 sizes="(max-width: 719px) calc(100vw - 32px), 48vw"
                 style={{ objectPosition: activePhotoCycle.position }}
@@ -455,7 +461,7 @@ export function ProofStories() {
                       src={photo.src}
                       alt=""
                       fill
-                      className={photo.tone === "warm" ? "community-proof__image--warm" : undefined}
+                      className={communityPhotoClassName(photo)}
                       sizes="(max-width: 719px) 44vw, 24vw"
                       style={{ objectPosition: photo.position }}
                     />
@@ -498,7 +504,7 @@ export function ProofStories() {
                   src={photo.src}
                   alt=""
                   fill
-                  className={photo.tone === "warm" ? "community-proof__image--warm" : undefined}
+                  className={communityPhotoClassName(photo)}
                   sizes="(max-width: 719px) 50vw, (max-width: 1040px) 25vw, 17vw"
                   style={{ objectPosition: photo.position }}
                 />

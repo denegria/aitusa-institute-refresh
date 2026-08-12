@@ -14,6 +14,7 @@ const warmCommunityPhotoIds = new Set([
   "0054",
   ...Array.from({ length: 27 }, (_, index) => String(index + 13).padStart(4, "0")),
 ]);
+const containCommunityPhotoIds = new Set(["0041", "0042", "0043", "0044", "0045"]);
 const galleryPhoto = (id, category, alt, position = "50% 50%") => ({
   id,
   category,
@@ -21,6 +22,7 @@ const galleryPhoto = (id, category, alt, position = "50% 50%") => ({
   alt,
   position,
   tone: warmCommunityPhotoIds.has(id) ? "warm" : "neutral",
+  fit: containCommunityPhotoIds.has(id) ? "contain" : "cover",
 });
 
 const site = {
@@ -2557,7 +2559,7 @@ const methodBlocks = [
   },
 ];
 
-const verifiedHeadquartersHours = [
+const verifiedBoundBrookHours = [
   {
     label: "Entre semana",
     slots: [
@@ -2586,12 +2588,14 @@ const locations = [
     city: "Bound Brook, New Jersey",
     address: "213 E. Main St., Bound Brook, NJ 08805",
     mapKey: "bound-brook",
-    note: "Sede presencial",
+    note: "Sede principal",
     status: "active",
     bestFor: "Ideal si quieres asistir a una sede presencial en el centro de Nueva Jersey.",
     highlight: "Sede presencial con apoyo para confirmar nivel y horario.",
     cta: "Escribir sobre Bound Brook",
     ...centralLocationContact,
+    hoursLabel: "Horario de atención",
+    hours: verifiedBoundBrookHours,
   },
   {
     city: "Plainfield, New Jersey",
@@ -2670,10 +2674,9 @@ const locations = [
 
 const headquarters = {
   city: "Nueva York",
-  note: "Sede principal administrativa",
+  note: "HQ",
   status: "headquarters",
   ...centralLocationContact,
-  hours: verifiedHeadquartersHours,
 };
 
 const testimonials = [

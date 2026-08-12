@@ -36,6 +36,10 @@ describe("homepage community gallery", () => {
     assert.equal(communityGallery.classroom[0].position, "50% 78%");
     assert.ok(communityGallery.graduations.every((photo) => photo.tone === "warm"));
     assert.equal(communityGallery.celebrations.filter((photo) => photo.tone === "warm").length, 9);
+    assert.deepEqual(
+      communityGallery.celebrations.filter((photo) => photo.fit === "contain").map((photo) => photo.id),
+      ["0041", "0042", "0043", "0044", "0045"],
+    );
     assert.ok(communityGallery.classroom.every((photo) => photo.tone === "neutral"));
 
     const uniquePhotos = new Map();
@@ -111,7 +115,7 @@ describe("homepage community gallery", () => {
     assert.match(styles, /@keyframes communityMediaIn/);
     assert.match(styles, /@keyframes communityTileReveal/);
     assert.match(styles, /@keyframes communityTabProgress/);
-    assert.match(styles, /\.community-proof__tabs\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
+    assert.match(styles, /\.home-page #experiencia \.community-proof__tabs\s*\{[\s\S]*grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
     assert.match(styles, /@media \(max-width: 719px\)[\s\S]*\.community-proof__tabs\s*\{[\s\S]*overflow-x: auto/);
     assert.match(styles, /@media \(prefers-reduced-motion: reduce\)[\s\S]*animation: none/);
   });

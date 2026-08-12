@@ -109,8 +109,9 @@ describe("homepage React integration", () => {
     assert.match(source, /<section className="location-hours-panel"/);
     assert.match(source, /<ScheduleGroup key=\{group\.label\} group=\{group\}/);
     assert.match(source, /data-schedule-slot/);
-    assert.match(sections, /hoursTitle=\{`\$\{headquarters\.city\} · Sede principal`\}/);
-    assert.match(sections, /hoursEyebrow="Horario de atención administrativo"/);
+    assert.match(sections, /hours=\{mapped\.find\(\(location\) => location\.mapKey === "bound-brook"\)\?\.hours \|\| \[\]\}/);
+    assert.match(sections, /hoursTitle="Bound Brook · Sede principal"/);
+    assert.match(sections, /hoursEyebrow="Horario de atención"/);
     assert.match(locationExplorer, /<h3 id="location-hours-title">\{hoursTitle\}<\/h3>/);
     assert.doesNotMatch(source, /<details|<summary|location-hours-panel__toggle/);
     assert.match(sections, /location\.status !== "online"/);
