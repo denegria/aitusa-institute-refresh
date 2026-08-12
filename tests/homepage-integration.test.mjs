@@ -15,24 +15,29 @@ describe("homepage React integration", () => {
   it("keeps the homepage in one proof-led React funnel sequence", async () => {
     const { page } = await readSources();
     const method = page.indexOf("<MethodSection");
+    const testimonials = page.indexOf("<TestimonialsSection");
     const proof = page.indexOf("<ProofStories");
     const offerings = page.indexOf("<OfferingPathSection");
+    const supportingCourses = page.indexOf("<SupportingCoursesSection");
     const locations = page.indexOf("<LocationsSection");
     const books = page.indexOf("<BooksSection");
     const faq = page.indexOf("<FaqSection");
     const finalCta = page.indexOf("<FinalCtaSection");
 
     assert.ok(method >= 0);
+    assert.ok(testimonials > method);
     assert.ok(proof > method);
+    assert.ok(proof > testimonials);
     assert.ok(offerings > proof);
-    assert.ok(locations > offerings);
+    assert.ok(supportingCourses > offerings);
+    assert.ok(locations > supportingCourses);
     assert.ok(books > locations);
     assert.ok(faq > books);
     assert.ok(finalCta > faq);
     assert.doesNotMatch(page, /dangerouslySetInnerHTML[\s\S]*legacy|src\/main\.js/);
   });
 
-  it("keeps three primary modality choices and the approved support-program rail", async () => {
+  it("keeps three primary modality choices and moves support programs below", async () => {
     const { productOfferings } = await import("../src/content.js");
     const { sections } = await readSources();
     const start = sections.indexOf("const supportingPrograms");
@@ -43,7 +48,8 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(source, /offer-node__marker/);
     assert.match(source, /offer-node__status/);
     assert.match(source, /Programa principal/);
-    assert.match(source, /catalog-programs/);
+    assert.match(source, /SupportingCoursesSection/);
+    assert.match(source, /supporting-courses-grid/);
     assert.doesNotMatch(source, /Inglés para niños/);
     assert.doesNotMatch(source, /\/cursos\/ingles-ninos\//);
     assert.match(source, /\/cursos\/ged\//);
@@ -52,6 +58,8 @@ describe("homepage React integration", () => {
     assert.match(source, /\/cursos\/espanol-extranjeros\//);
     assert.match(source, /Tutorías de matemáticas/);
     assert.match(source, /\/cursos\/tutorias-matematicas\//);
+    assert.match(source, /Ciudadanía/);
+    assert.match(source, /Consultar ruta/);
     assert.doesNotMatch(source, /apoyo-academico/);
     assert.deepEqual(
       productOfferings.slice(0, 3).map((offering) => offering.mobileSummary),
@@ -101,11 +109,11 @@ describe("homepage React integration", () => {
     assert.match(source, /<section className="location-hours-panel"/);
     assert.match(source, /<ScheduleGroup key=\{group\.label\} group=\{group\}/);
     assert.match(source, /data-schedule-slot/);
-    assert.match(sections, /hoursTitle="Bound Brook · Sede principal"/);
+    assert.match(sections, /hoursTitle=\{`\$\{headquarters\.city\} · Sede principal`\}/);
     assert.match(sections, /hoursEyebrow="Horario de atención administrativo"/);
     assert.match(locationExplorer, /<h3 id="location-hours-title">\{hoursTitle\}<\/h3>/);
     assert.doesNotMatch(source, /<details|<summary|location-hours-panel__toggle/);
-    assert.match(sections, /!?\["pending", "online"\]\.includes\(location\.status\)/);
+    assert.match(sections, /location\.status !== "online"/);
     assert.doesNotMatch(sections, /\{online \? <LocationRow/);
     assert.doesNotMatch(source, /real-map-card__expand/);
     assert.doesNotMatch(source, /<iframe|<svg/);
@@ -177,7 +185,7 @@ describe("homepage React integration", () => {
     assert.match(styles, /\.hero__kicker\s*\{[\s\S]*color: #c28a26/);
     assert.match(styles, /\.hero__modalities svg\s*\{[\s\S]*color: #c28a26/);
     assert.match(styles, /\.hero__headline-emphasis\s*\{[\s\S]*text-transform: none/);
-    assert.match(styles, /\.community-proof__tabs\s*\{[\s\S]*grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
+    assert.match(styles, /\.community-proof__tabs\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
     assert.match(styles, /\.home-page \.real-map-pin\s*\{[\s\S]*width: 44px;[\s\S]*height: 44px/);
     assert.match(styles, /\.final-cta-contact-link\s*\{[\s\S]*min-height: 44px/);
     assert.match(styles, /\.site-footer\s*\{[\s\S]*background: #001a3d/);
@@ -202,11 +210,11 @@ describe("homepage React integration", () => {
     );
     assert.match(
       styles,
-      /\.home-page #cursos \.catalog-programs__links\s*\{[\s\S]*flex-wrap: wrap;[\s\S]*overflow-x: visible/,
+      /\.supporting-courses-grid\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/,
     );
     assert.match(
       styles,
-      /Compact mobile study decision ledger:[\s\S]*\.home-page #cursos \.offer-node\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\) auto;[\s\S]*\.home-page #cursos \.catalog-programs__links\s*\{[\s\S]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/,
+      /\.supporting-course-card\s*\{[\s\S]*min-height: 210px/,
     );
     assert.match(
       styles,

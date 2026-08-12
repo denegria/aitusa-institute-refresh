@@ -1,5 +1,6 @@
 import {
   conversionCtas,
+  headquarters,
   institutionalProof,
   locations,
   bookLibrary,
@@ -112,11 +113,48 @@ export function MethodSection() {
 }
 
 const supportingPrograms = [
-  { label: "GED", href: "/cursos/ged/" },
-  { label: "Computación básica", href: "/cursos/computacion-basica/" },
-  { label: "Computación para oficina", href: "/cursos/computacion-oficina/" },
-  { label: "Español para extranjeros", href: "/cursos/espanol-extranjeros/" },
-  { label: "Tutorías de matemáticas", href: "/cursos/tutorias-matematicas/" },
+  {
+    label: "GED",
+    description: "Refuerza tu preparación académica con una ruta concreta.",
+    href: "/cursos/ged/",
+    icon: "graduation-cap",
+    cta: "Ver programa",
+  },
+  {
+    label: "Computación básica",
+    description: "Aprende herramientas digitales para tus próximos pasos.",
+    href: "/cursos/computacion-basica/",
+    icon: "monitor",
+    cta: "Ver programa",
+  },
+  {
+    label: "Computación para oficina",
+    description: "Practica habilidades digitales útiles para el trabajo.",
+    href: "/cursos/computacion-oficina/",
+    icon: "briefcase-business",
+    cta: "Ver programa",
+  },
+  {
+    label: "Español para extranjeros",
+    description: "Desarrolla español práctico para la vida diaria y el trabajo.",
+    href: "/cursos/espanol-extranjeros/",
+    icon: "languages",
+    cta: "Ver programa",
+  },
+  {
+    label: "Tutorías de matemáticas",
+    description: "Recibe apoyo enfocado para una meta académica puntual.",
+    href: "/cursos/tutorias-matematicas/",
+    icon: "calculator",
+    cta: "Ver programa",
+  },
+  {
+    label: "Ciudadanía",
+    description: "Consulta la ruta de preparación cívica disponible para tu objetivo.",
+    href: "/cursos/",
+    icon: "landmark",
+    cta: "Consultar ruta",
+  },
 ];
 
 export function OfferingPathSection() {
@@ -128,10 +166,10 @@ export function OfferingPathSection() {
           <h2>¿Cómo quieres estudiar?</h2>
           <p className="offer-path__intro">
             <span className="offer-path__intro-full">
-              Compara las clases presenciales, híbridas y online. Si buscas otra meta, también puedes explorar nuestros programas de apoyo.
+              Compara las clases presenciales, híbridas y online para elegir cómo quieres estudiar.
             </span>
             <span className="offer-path__intro-compact">
-              Compara presencial, híbrido y online; después explora otros programas.
+              Compara presencial, híbrido y online.
             </span>
           </p>
         </div>
@@ -157,36 +195,66 @@ export function OfferingPathSection() {
             </article>
           ))}
         </div>
-        <nav className="catalog-programs" aria-label="Otros programas de AIT USA">
-          <p className="catalog-programs__label">También ofrecemos</p>
-          <ul className="catalog-programs__links">
-            {supportingPrograms.map((program) => (
-              <li key={program.href}><a className="catalog-programs__link" href={program.href}>{program.label}</a></li>
-            ))}
-          </ul>
-        </nav>
+      </div>
+    </section>
+  );
+}
+
+export function SupportingCoursesSection() {
+  return (
+    <section className="section supporting-courses-section" id="cursos-apoyo" aria-labelledby="supporting-courses-title">
+      <div className="section-inner supporting-courses-section__inner">
+        <header className="section-heading section-heading--framed supporting-courses-section__heading">
+          <p className="section-kicker">Más rutas para metas concretas</p>
+          <h2 id="supporting-courses-title">Cursos de apoyo.</h2>
+          <p>
+            Si buscas una meta académica, laboral o de integración, aquí puedes comparar otras rutas de AIT USA.
+          </p>
+        </header>
+        <div className="supporting-courses-grid">
+          {supportingPrograms.map((program) => (
+            <article className="supporting-course-card" key={program.label}>
+              <span className="supporting-course-card__icon" aria-hidden="true">
+                <i data-lucide={program.icon} />
+              </span>
+              <div>
+                <h3>{program.label}</h3>
+                <p>{program.description}</p>
+              </div>
+              <a className="supporting-course-card__link" href={program.href} aria-label={`${program.cta}: ${program.label}`}>
+                <span>{program.cta}</span>
+                <i data-lucide="arrow-right" aria-hidden="true" />
+              </a>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
 
 export function LocationsSection() {
-  const mapped = locations.filter((location) => !["pending", "online"].includes(location.status));
-  const headquarters = mapped.find((location) => location.mapKey === "bound-brook");
-  const hours = headquarters?.hours || [];
+  const mapped = locations.filter((location) => location.status !== "online");
 
   return (
     <section className="section section--white" id="sedes">
       <div className="section-inner">
         <div className="section-heading section-heading--framed">
-          <p className="section-kicker">Nueva Jersey</p>
+          <p className="section-kicker">Nueva Jersey · coordinación en Nueva York</p>
           <h2 id="sedes-title">Sedes cerca de ti.</h2>
-          <p>Revisa ubicaciones y horarios para elegir la alternativa más conveniente.</p>
+          <p>Revisa las sedes presenciales y coordina tu atención según la alternativa más conveniente.</p>
         </div>
+        <aside className="location-headquarters" aria-label={`${headquarters.note}: ${headquarters.city}`}>
+          <div>
+            <span className="location-headquarters__eyebrow">{headquarters.note}</span>
+            <h3>{headquarters.city}</h3>
+          </div>
+          <p>Coordinación administrativa y atención online para estudiantes dentro y fuera de Nueva Jersey.</p>
+        </aside>
         <LocationExplorer
           locations={mapped}
-          hours={hours}
-          hoursTitle="Bound Brook · Sede principal"
+          hours={headquarters.hours}
+          hoursTitle={`${headquarters.city} · Sede principal`}
           hoursEyebrow="Horario de atención administrativo"
           whatsappHref={site.whatsappHref}
         />

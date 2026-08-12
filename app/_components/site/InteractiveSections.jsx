@@ -48,25 +48,140 @@ export function MethodVideo({ narrative }) {
   );
 }
 
-export function ProofStories() {
+export function TestimonialsSection() {
   const shortLabels = {
     Jessica: "Jessica",
     "Testimonio internacional": "Experiencia internacional",
     Eric: "Eric",
-    Leila: "Leila",
   };
   const orderedStories = [
     testimonials.find((item) => item.name === "Jessica"),
     ...testimonials.filter((item) => item.name !== "Jessica"),
   ].filter(Boolean);
+  const dialogRef = useRef(null);
+  const triggerRef = useRef(null);
+  const [activeStoryIndex, setActiveStoryIndex] = useState(0);
+  const activeStory = orderedStories[activeStoryIndex] || orderedStories[0];
+
+  useEffect(() => {
+    window.lucide?.createIcons?.();
+  }, [activeStoryIndex]);
+
+  const openStory = (index, trigger) => {
+    if (!dialogRef.current?.showModal) return;
+    triggerRef.current = trigger;
+    setActiveStoryIndex(index);
+    dialogRef.current.showModal();
+    document.documentElement.classList.add("has-proof-dialog");
+  };
+
+  const closeStory = () => dialogRef.current?.close();
+  const closeStoryCleanup = () => {
+    dialogRef.current?.querySelector("video")?.pause();
+    document.documentElement.classList.remove("has-proof-dialog");
+    triggerRef.current?.focus();
+  };
+
+  return (
+    <section className="section testimonials-section" id="testimonios" aria-labelledby="testimonials-title">
+      <div className="section-inner testimonials-section__inner">
+        <header className="section-heading section-heading--framed testimonials-section__heading">
+          <p className="section-kicker">Testimonios</p>
+          <h2 id="testimonials-title">Historias que se cuentan en primera persona.</h2>
+          <p>Escucha a estudiantes y docentes contar qué cambia cuando el método y el acompañamiento se sienten reales.</p>
+        </header>
+
+        <div className="testimonials-grid">
+          {orderedStories.map((story, index) => (
+            <button
+              className="testimonial-card"
+              type="button"
+              key={story.video}
+              onClick={(event) => openStory(index, event.currentTarget)}
+              aria-label={`Ver entrevista en inglés con ${shortLabels[story.name] || story.name}`}
+            >
+              <span className="testimonial-card__media">
+                <Image
+                  src={story.videoPoster || story.image}
+                  alt=""
+                  fill
+                  sizes="(max-width: 719px) 100vw, (max-width: 1040px) 50vw, 33vw"
+                  style={{ objectPosition: story.posterPosition }}
+                />
+                <span className="testimonial-card__shade" aria-hidden="true" />
+                <span className="community-proof__play" aria-hidden="true"><i data-lucide="play" /></span>
+                <span className="testimonial-card__duration">{story.duration}</span>
+              </span>
+              <span className="testimonial-card__copy">
+                <span>{story.result}</span>
+                <strong>{shortLabels[story.name] || story.name}</strong>
+                <small>{story.headline}</small>
+              </span>
+            </button>
+          ))}
+        </div>
+
+        <dialog
+          className="proof-dialog testimonial-dialog"
+          aria-labelledby="testimonial-dialog-title"
+          ref={dialogRef}
+          onClose={closeStoryCleanup}
+          onClick={(event) => {
+            if (event.target === dialogRef.current) closeStory();
+          }}
+        >
+          <div className="proof-dialog__shell">
+            <button className="proof-dialog__close" type="button" onClick={closeStory} aria-label="Cerrar testimonio">
+              <i data-lucide="x" aria-hidden="true" />
+            </button>
+            <div className="proof-dialog__media">
+              <div
+                className="proof-dialog__video-frame"
+                style={{ aspectRatio: `${activeStory.videoWidth || 16} / ${activeStory.videoHeight || 9}` }}
+              >
+                <video
+                  key={activeStory.video}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  src={activeStory.video}
+                  poster={activeStory.videoPoster || activeStory.image}
+                  width={activeStory.videoWidth || 16}
+                  height={activeStory.videoHeight || 9}
+                  aria-label={shortLabels[activeStory.name] || activeStory.name}
+                  data-testimonial-dialog-video
+                />
+              </div>
+            </div>
+            <div className="proof-dialog__footer">
+              <div className="proof-dialog__copy">
+                <span>{activeStory.result} · {activeStory.duration || ""}</span>
+                <h3 id="testimonial-dialog-title">{shortLabels[activeStory.name] || activeStory.name}</h3>
+                <p>{activeStory.headline || activeStory.text}</p>
+              </div>
+              <div className="proof-dialog__nav" aria-label="Cambiar testimonio">
+                <button type="button" onClick={() => setActiveStoryIndex((activeStoryIndex - 1 + orderedStories.length) % orderedStories.length)}>
+                  <i data-lucide="arrow-left" aria-hidden="true" /><span>Anterior</span>
+                </button>
+                <button type="button" onClick={() => setActiveStoryIndex((activeStoryIndex + 1) % orderedStories.length)}>
+                  <span>Siguiente</span><i data-lucide="arrow-right" aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </dialog>
+      </div>
+    </section>
+  );
+}
+
+export function ProofStories() {
   const sectionRef = useRef(null);
-  const videoDialogRef = useRef(null);
   const imageDialogRef = useRef(null);
   const triggerRef = useRef(null);
   const pauseTimerRef = useRef(null);
   const [activeTab, setActiveTab] = useState("classroom");
   const [mediaCycleIndex, setMediaCycleIndex] = useState(0);
-  const [activeStoryIndex, setActiveStoryIndex] = useState(0);
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
   const [lightboxTab, setLightboxTab] = useState("graduations");
   const [isInView, setIsInView] = useState(false);
@@ -77,9 +192,6 @@ export function ProofStories() {
   const [showAllGraduations, setShowAllGraduations] = useState(false);
 
   const tabMeta = {
-    stories: {
-      eyebrow: "Entrevistas en inglés",
-    },
     graduations: {
       eyebrow: "Graduaciones",
     },
@@ -89,26 +201,22 @@ export function ProofStories() {
     celebrations: {
       eyebrow: "Celebraciones",
     },
+    "community-service": {
+      eyebrow: "Servicio comunitario",
+    },
   };
 
-  const photosForTab = activeTab === "stories" ? [] : (communityGallery[activeTab] || []);
+  const photosForTab = communityGallery[activeTab] || [];
   const photoAutoRotates = activeTab === "graduations" || activeTab === "celebrations";
-  const activeStoryCycleIndex = 0;
-  const activeStoryCycle = orderedStories[activeStoryCycleIndex] || orderedStories[0];
   const activePhotoCycleIndex = photosForTab.length && photoAutoRotates
     ? mediaCycleIndex % photosForTab.length
     : 0;
   const activePhotoCycle = photosForTab[activePhotoCycleIndex] || communityGallery.graduations[0];
-  const sideStories = Array.from({ length: 2 }, (_, offset) => {
-    const index = orderedStories.length ? (activeStoryCycleIndex + offset + 1) % orderedStories.length : 0;
-    return { story: orderedStories[index], index };
-  }).filter((item) => item.story);
   const sidePhotoCount = activeTab === "classroom" ? 1 : 2;
   const sidePhotos = Array.from({ length: sidePhotoCount }, (_, offset) => {
     const index = photosForTab.length ? (activePhotoCycleIndex + offset + 1) % photosForTab.length : 0;
     return { photo: photosForTab[index], index };
   }).filter((item) => item.photo);
-  const activeStory = orderedStories[activeStoryIndex] || orderedStories[0];
   const lightboxPhotos = communityGallery[lightboxTab] || communityGallery.graduations;
   const activePhoto = lightboxPhotos[activePhotoIndex] || lightboxPhotos[0];
   const featuredGraduationIds = ["0031", "0022", "0033", "0028"];
@@ -193,7 +301,7 @@ export function ProofStories() {
 
   useEffect(() => {
     window.lucide?.createIcons?.();
-  }, [activePhotoIndex, activeStoryIndex, activeTab, mediaCycleIndex, showAllGraduations]);
+  }, [activePhotoIndex, activeTab, mediaCycleIndex, showAllGraduations]);
 
   useEffect(
     () => () => {
@@ -221,23 +329,6 @@ export function ProofStories() {
     const nextTab = communityGallery.tabs[nextIndex];
     selectTab(nextTab.id);
     window.requestAnimationFrame(() => document.getElementById(`community-tab-${nextTab.id}`)?.focus());
-  };
-
-  const openStory = (index, trigger) => {
-    const dialog = videoDialogRef.current;
-    if (!dialog?.showModal) return;
-    triggerRef.current = trigger;
-    setActiveStoryIndex(index);
-    dialog.showModal();
-    document.documentElement.classList.add("has-proof-dialog");
-  };
-
-  const closeVideoDialog = () => videoDialogRef.current?.close();
-  const closeVideoCleanup = () => {
-    const video = videoDialogRef.current?.querySelector("video");
-    video?.pause();
-    document.documentElement.classList.remove("has-proof-dialog");
-    triggerRef.current?.focus();
   };
 
   const openPhoto = (index, trigger, tabId = activeTab) => {
@@ -317,34 +408,7 @@ export function ProofStories() {
           key={activeTab}
           style={{ "--reveal-order": 2 }}
         >
-          {activeTab === "stories" ? (
-            <a
-              className="community-proof__feature community-proof__feature--video"
-              href={activeStoryCycle.video}
-              aria-haspopup="dialog"
-              aria-label={`Ver entrevista en inglés con ${shortLabels[activeStoryCycle.name] || activeStoryCycle.name}`}
-              key={activeStoryCycle.video}
-              onClick={(event) => {
-                if (!videoDialogRef.current?.showModal) return;
-                event.preventDefault();
-                pauseAfterInteraction();
-                openStory(activeStoryCycleIndex, event.currentTarget);
-              }}
-            >
-              <Image
-                src={activeStoryCycle.videoPoster || activeStoryCycle.image}
-                alt={activeStoryCycle.imageAlt || ""}
-                fill
-                loading={isInView ? "eager" : "lazy"}
-                sizes="(max-width: 719px) calc(100vw - 32px), 48vw"
-                style={{ objectPosition: activeStoryCycle.posterPosition }}
-              />
-              <span className="community-proof__media-shade" aria-hidden="true" />
-              <span className="community-proof__play" aria-hidden="true"><i data-lucide="play" /></span>
-              <span className="community-proof__video-duration">{activeStoryCycle.duration}</span>
-            </a>
-          ) : (
-            <button
+          <button
               className="community-proof__feature community-proof__feature--photo"
               type="button"
               key={activePhotoCycle.id}
@@ -370,41 +434,12 @@ export function ProofStories() {
                 </span>
               ) : null}
             </button>
-          )}
 
           <div
             className={`community-proof__mosaic${sidePhotos.length === 1 ? " community-proof__mosaic--single" : ""}`}
             aria-label={`Selección de ${tabMeta[activeTab].eyebrow.toLowerCase()}`}
           >
-            {activeTab === "stories"
-              ? sideStories.map(({ story, index }, tileIndex) => (
-                  <a
-                    className="community-proof__tile community-proof__tile--video"
-                    href={story.video}
-                    aria-haspopup="dialog"
-                    aria-label={`Ver entrevista en inglés con ${shortLabels[story.name] || story.name}`}
-                    key={story.video}
-                    style={{ "--tile-order": tileIndex }}
-                    onClick={(event) => {
-                      if (!videoDialogRef.current?.showModal) return;
-                      event.preventDefault();
-                      pauseAfterInteraction();
-                      openStory(index, event.currentTarget);
-                    }}
-                  >
-                    <Image
-                      src={story.videoPoster || story.image}
-                      alt=""
-                      fill
-                      sizes="(max-width: 719px) 44vw, 24vw"
-                      style={{ objectPosition: story.posterPosition }}
-                    />
-                    <span className="community-proof__media-shade" aria-hidden="true" />
-                    <span className="community-proof__play community-proof__play--small" aria-hidden="true"><i data-lucide="play" /></span>
-                    <span className="community-proof__video-duration">{story.duration}</span>
-                  </a>
-                ))
-              : sidePhotos.map(({ photo, index }, tileIndex) => (
+            {sidePhotos.map(({ photo, index }, tileIndex) => (
                   <button
                     className="community-proof__tile"
                     type="button"
@@ -428,6 +463,16 @@ export function ProofStories() {
                 ))}
           </div>
         </div>
+
+        {activeTab === "community-service" ? (
+          <aside className="community-proof__service-note" aria-label={`Servicio comunitario: ${communityGallery.serviceNote.eyebrow}`}>
+            <span className="community-proof__service-note-kicker">{communityGallery.serviceNote.eyebrow}</span>
+            <div>
+              <h3>{communityGallery.serviceNote.title}</h3>
+              <p>{communityGallery.serviceNote.text}</p>
+            </div>
+          </aside>
+        ) : null}
 
         <section className="community-proof__graduations" aria-labelledby="graduation-wall-title" style={{ "--reveal-order": 3 }}>
           <div className="community-proof__graduation-heading">
@@ -471,57 +516,6 @@ export function ProofStories() {
             <i data-lucide={showAllGraduations ? "arrow-up" : "arrow-right"} aria-hidden="true" />
           </button>
         </section>
-
-        <dialog
-          className="proof-dialog"
-          aria-labelledby="proof-dialog-title"
-          ref={videoDialogRef}
-          data-proof-dialog
-          onClose={closeVideoCleanup}
-          onClick={(event) => {
-            if (event.target === videoDialogRef.current) closeVideoDialog();
-          }}
-        >
-          <div className="proof-dialog__shell">
-            <button className="proof-dialog__close" type="button" onClick={closeVideoDialog} aria-label="Cerrar entrevista">
-              <i data-lucide="x" aria-hidden="true" />
-            </button>
-            <div className="proof-dialog__media">
-              <div
-                className="proof-dialog__video-frame"
-                style={{ aspectRatio: `${activeStory.videoWidth || 16} / ${activeStory.videoHeight || 9}` }}
-              >
-                <video
-                  key={activeStory.video}
-                  controls
-                  playsInline
-                  preload="metadata"
-                  src={activeStory.video}
-                  poster={activeStory.videoPoster || activeStory.image}
-                  width={activeStory.videoWidth || 16}
-                  height={activeStory.videoHeight || 9}
-                  aria-label={shortLabels[activeStory.name] || activeStory.name}
-                  data-proof-dialog-video
-                />
-              </div>
-            </div>
-            <div className="proof-dialog__footer">
-              <div className="proof-dialog__copy">
-                <span>{activeStory.result} · {activeStory.duration || ""}</span>
-                <h3 id="proof-dialog-title" data-proof-dialog-title>{shortLabels[activeStory.name] || activeStory.name}</h3>
-                <p>{activeStory.headline || activeStory.text}</p>
-              </div>
-              <div className="proof-dialog__nav" aria-label="Cambiar entrevista">
-                <button type="button" data-proof-dialog-prev onClick={() => setActiveStoryIndex((activeStoryIndex - 1 + orderedStories.length) % orderedStories.length)}>
-                  <i data-lucide="arrow-left" aria-hidden="true" /><span>Anterior</span>
-                </button>
-                <button type="button" data-proof-dialog-next onClick={() => setActiveStoryIndex((activeStoryIndex + 1) % orderedStories.length)}>
-                  <span>Siguiente</span><i data-lucide="arrow-right" aria-hidden="true" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </dialog>
 
         <dialog
           className="community-lightbox"

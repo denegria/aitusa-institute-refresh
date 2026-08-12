@@ -18,10 +18,8 @@ describe("MIS-267 content hygiene", () => {
   });
 
   it("keeps active-location contact details and scopes verified hours to headquarters", async () => {
-    const { locations, site } = await loadSiteData();
+    const { headquarters, locations, site } = await loadSiteData();
     const activeLocations = locations.filter((location) => location.status === "active");
-    const headquarters = activeLocations.find((location) => location.mapKey === "bound-brook");
-    const satelliteLocations = activeLocations.filter((location) => location.mapKey !== "bound-brook");
 
     assert.equal(activeLocations.length >= 3, true);
     for (const location of activeLocations) {
@@ -31,7 +29,8 @@ describe("MIS-267 content hygiene", () => {
       assert.equal(location.whatsapp, site.whatsapp);
       assert.equal(location.whatsappHref, site.whatsappHref);
     }
-    assert.equal(headquarters.hoursLabel, "Horario de atención");
+    assert.equal(headquarters.city, "Nueva York");
+    assert.equal(headquarters.status, "headquarters");
     assert.equal(headquarters.hours.length, 2);
     assert.equal(headquarters.hours.flatMap((group) => group.slots).length, 4);
     assert.deepEqual(headquarters.hours, [
@@ -50,18 +49,18 @@ describe("MIS-267 content hygiene", () => {
         ],
       },
     ]);
-    assert.equal(
-      satelliteLocations.every((location) => !Object.hasOwn(location, "hours")),
-      true,
-    );
+    assert.equal(locations.filter((location) => location.status === "limited").length, 3);
   });
 
-  it("keeps North Plainfield pending until source facts are approved", async () => {
+  it("keeps appointment-only locations explicit without inventing addresses", async () => {
     const { locations } = await loadSiteData();
     const northPlainfield = locations.find((location) => location.city.includes("North Plainfield"));
+    const somerville = locations.find((location) => location.city.includes("Somerville"));
 
-    assert.equal(northPlainfield.status, "pending");
-    assert.match(northPlainfield.address, /pendiente/i);
+    assert.equal(northPlainfield.status, "limited");
+    assert.equal(somerville.status, "limited");
+    assert.equal(northPlainfield.note, "Atención con cita previa");
+    assert.equal(somerville.note, "Atención con cita previa");
   });
 
   it("captures the legacy placement exam source for the on-site handoff", async () => {

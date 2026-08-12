@@ -2586,14 +2586,12 @@ const locations = [
     city: "Bound Brook, New Jersey",
     address: "213 E. Main St., Bound Brook, NJ 08805",
     mapKey: "bound-brook",
-    note: "Oficina central / sede principal",
+    note: "Sede presencial",
     status: "active",
-    bestFor: "Ideal si quieres una sede central con coordinación administrativa directa.",
-    highlight: "Recepción principal y coordinación administrativa.",
+    bestFor: "Ideal si quieres asistir a una sede presencial en el centro de Nueva Jersey.",
+    highlight: "Sede presencial con apoyo para confirmar nivel y horario.",
     cta: "Escribir sobre Bound Brook",
     ...centralLocationContact,
-    hoursLabel: "Horario de atención",
-    hours: verifiedHeadquartersHours,
   },
   {
     city: "Plainfield, New Jersey",
@@ -2631,6 +2629,19 @@ const locations = [
     hours: ["Coordina el horario y punto de encuentro antes de asistir."],
   },
   {
+    city: "Somerville, New Jersey",
+    address: "Somerville, NJ, USA",
+    mapKey: "somerville",
+    note: "Atención con cita previa",
+    status: "limited",
+    bestFor: "Ideal si necesitas coordinar una orientación en el área de Somerville.",
+    highlight: "Atención disponible con cita previa.",
+    cta: "Consultar atención en Somerville",
+    ...centralLocationContact,
+    hoursLabel: "Atención con cita previa",
+    hours: ["Coordina el horario y punto de encuentro antes de asistir."],
+  },
+  {
     city: "New York / Online",
     address: "Atención online",
     note: "Atención para clases en línea",
@@ -2644,14 +2655,26 @@ const locations = [
   },
   {
     city: "North Plainfield, New Jersey",
-    address: "Dirección pendiente de confirmación",
-    note: "Sede en revisión. No activa para inscripción pública todavía.",
-    status: "pending",
-    bestFor: "Mención informativa únicamente hasta confirmar dirección y operación final.",
-    highlight: "Esta ubicación todavía no está disponible como sede activa.",
-    cta: "Pedir actualización de North Plainfield",
+    address: "North Plainfield, NJ, USA",
+    mapKey: "north-plainfield",
+    note: "Atención con cita previa",
+    status: "limited",
+    bestFor: "Ideal si necesitas coordinar una orientación en el área de North Plainfield.",
+    highlight: "Atención disponible con cita previa.",
+    cta: "Consultar atención en North Plainfield",
+    ...centralLocationContact,
+    hoursLabel: "Atención con cita previa",
+    hours: ["Coordina el horario y punto de encuentro antes de asistir."],
   },
 ];
+
+const headquarters = {
+  city: "Nueva York",
+  note: "Sede principal administrativa",
+  status: "headquarters",
+  ...centralLocationContact,
+  hours: verifiedHeadquartersHours,
+};
 
 const testimonials = [
   {
@@ -2742,23 +2765,34 @@ const communityPhotos = [
   galleryPhoto("0054", "celebrations", "Grupo de la comunidad AIT durante una sesión de San Valentín."),
 ];
 
+const communityServicePhotos = [
+  galleryPhoto("0004", "community-service", "Imagen de muestra: comunidad de AIT colaborando durante una actividad al aire libre.", "50% 42%"),
+  galleryPhoto("0005", "community-service", "Imagen de muestra: estudiantes de AIT preparando una actividad de apoyo comunitario.", "50% 42%"),
+  galleryPhoto("0008", "community-service", "Imagen de muestra: comunidad de AIT compartiendo una actividad de colaboración.", "50% 50%"),
+];
+
 const communityGallery = {
   eyebrow: "Experiencias reales",
   title: "Más que clases: una comunidad que avanza.",
   introduction:
-    "Clases reales, graduaciones, celebraciones y entrevistas en inglés con estudiantes AIT: momentos de una comunidad que avanza junta.",
+    "Clases reales, graduaciones, celebraciones y servicio comunitario: momentos de una comunidad que avanza junta.",
   tabs: [
     { id: "classroom", label: "En clase" },
     { id: "graduations", label: "Graduaciones" },
     { id: "celebrations", label: "Celebraciones" },
-    { id: "stories", label: "Entrevistas en inglés" },
+    { id: "community-service", label: "Servicio comunitario" },
   ],
-  stories: [],
   graduations: communityPhotos.filter((photo) => photo.category === "graduations"),
   classroom: communityPhotos.filter((photo) =>
     ["0011", "0012"].includes(photo.id),
   ),
   celebrations: communityPhotos.filter((photo) => photo.category === "celebrations"),
+  "community-service": communityServicePhotos,
+  serviceNote: {
+    eyebrow: "St. Jude",
+    title: "Servicio que también se comparte fuera del salón.",
+    text: "Este espacio queda listo para documentar el apoyo comunitario junto a St. Jude con fotografías y detalles aprobados.",
+  },
 };
 
 const trustHighlights = [
@@ -3486,6 +3520,7 @@ export const siteData = {
   faqs,
   heroPoints,
   locations,
+  headquarters,
   methodCharacteristics,
   methodBlocks,
   modalities,
@@ -3532,6 +3567,7 @@ export {
   launchPath,
   learningOutcomes,
   locations,
+  headquarters,
   methodBlocks,
   methodCharacteristics,
   methodNarrative,

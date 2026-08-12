@@ -23,12 +23,13 @@ describe("homepage community gallery", () => {
 
     assert.deepEqual(
       communityGallery.tabs.map((tab) => tab.id),
-      ["classroom", "graduations", "celebrations", "stories"],
+      ["classroom", "graduations", "celebrations", "community-service"],
     );
     assert.equal(communityGallery.tabs[0].label, "En clase");
-    assert.equal(communityGallery.tabs.at(-1).label, "Entrevistas en inglés");
-    assert.match(communityGallery.introduction, /Clases reales, graduaciones, celebraciones y entrevistas en inglés/);
-    assert.equal(communityGallery.stories.length, 0);
+    assert.equal(communityGallery.tabs.at(-1).label, "Servicio comunitario");
+    assert.match(communityGallery.introduction, /Clases reales, graduaciones, celebraciones y servicio comunitario/);
+    assert.equal(communityGallery["community-service"].length, 3);
+    assert.equal(communityGallery.serviceNote.eyebrow, "St. Jude");
     assert.equal(communityGallery.graduations.length, 27);
     assert.ok(communityGallery.celebrations.length >= 20);
     assert.deepEqual(communityGallery.classroom.map((photo) => photo.id), ["0011", "0012"]);
@@ -48,9 +49,12 @@ describe("homepage community gallery", () => {
     }
   });
 
-  it("renders keyboard tabs, no-JS video links, and both media dialogs", async () => {
+  it("renders keyboard tabs, testimonial videos, and the community lightbox", async () => {
     const source = await readFile("app/_components/site/InteractiveSections.jsx", "utf8");
 
+    assert.match(source, /export function TestimonialsSection/);
+    assert.match(source, /className="testimonial-card"/);
+    assert.match(source, /data-testimonial-dialog-video/);
     assert.match(source, /export function ProofStories/);
     assert.match(source, /community-proof__tabs/);
     assert.match(source, /role="tablist"/);
@@ -58,18 +62,16 @@ describe("homepage community gallery", () => {
     assert.match(source, /role="tabpanel"/);
     assert.match(source, /event\.key === "ArrowRight"/);
     assert.match(source, /event\.key === "ArrowLeft"/);
-    assert.match(source, /href=\{activeStoryCycle\.video\}/);
-    assert.match(source, /sideStories\.map/);
-    assert.match(source, /community-proof__tile community-proof__tile--video/);
     assert.match(source, /aria-label=\{`Ver entrevista en inglés con/);
-    assert.match(source, /className="proof-dialog"/);
+    assert.match(source, /className="proof-dialog testimonial-dialog"/);
     assert.match(source, /className="community-lightbox"/);
-    assert.match(source, /Array\.from\(\{ length: 2 \}/);
+    assert.match(source, /Array\.from\(\{ length: sidePhotoCount \}/);
     assert.match(source, /featuredGraduationIds = \["0031", "0022", "0033", "0028"\]/);
     assert.match(source, /communityGallery\.graduations\.findIndex/);
+    assert.match(source, /communityGallery\.serviceNote/);
     assert.match(source, /Ver todas las graduaciones recientes/);
     assert.doesNotMatch(source, /community-proof__explore/);
-    assert.match(source, /video\?\.pause\(\)/);
+    assert.match(source, /querySelector\("video"\)\?\.pause\(\)/);
     assert.match(source, /triggerRef\.current\?\.focus\(\)/);
     assert.doesNotMatch(source, /video\.play\(\)/);
     assert.doesNotMatch(source, /autoPlay|autoplay/);
@@ -109,6 +111,7 @@ describe("homepage community gallery", () => {
     assert.match(styles, /@keyframes communityMediaIn/);
     assert.match(styles, /@keyframes communityTileReveal/);
     assert.match(styles, /@keyframes communityTabProgress/);
+    assert.match(styles, /\.community-proof__tabs\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
     assert.match(styles, /@media \(max-width: 719px\)[\s\S]*\.community-proof__tabs\s*\{[\s\S]*overflow-x: auto/);
     assert.match(styles, /@media \(prefers-reduced-motion: reduce\)[\s\S]*animation: none/);
   });

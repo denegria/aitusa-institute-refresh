@@ -1,4 +1,4 @@
-import { ProofStories } from "../_components/site/InteractiveSections";
+import { ProofStories, TestimonialsSection } from "../_components/site/InteractiveSections";
 import {
   FaqSection,
   FinalCtaSection,
@@ -7,6 +7,7 @@ import {
   LocationsSection,
   MethodSection,
   OfferingPathSection,
+  SupportingCoursesSection,
 } from "../_components/site/PublicSections";
 import { SiteFooter, SiteHeader } from "../_components/site/SiteChrome";
 import { site } from "../../src/content";
@@ -83,8 +84,10 @@ export default function HomePage() {
       <main id="main-content" className="home-page">
         <HeroSection />
         <MethodSection />
+        <TestimonialsSection />
         <ProofStories />
         <OfferingPathSection />
+        <SupportingCoursesSection />
         <LocationsSection />
         <BooksSection />
         <FaqSection />

@@ -8,6 +8,8 @@ const mapFocus = {
   plainfield: { x: 88, y: 33, targetX: 78, targetY: 50, scale: 2.05 },
   piscataway: { x: 83, y: 45, targetX: 70, targetY: 50, scale: 1.9 },
   flemington: { x: 15, y: 64, targetX: 24, targetY: 37, scale: 1.75 },
+  somerville: { x: 55, y: 47, targetX: 50, targetY: 50, scale: 2.05 },
+  "north-plainfield": { x: 80, y: 30, targetX: 78, targetY: 50, scale: 2.05 },
 };
 
 function MapPin({ location, index, selected, onSelect }) {
@@ -152,7 +154,7 @@ export function LocationExplorer({ locations, hours, hoursTitle, hoursEyebrow = 
             <Image
               className="real-map-card__image"
               src="/assets/maps/new-jersey-campus-map.jpg"
-              alt="Mapa del centro de Nueva Jersey con Bound Brook, Plainfield, Piscataway y Flemington."
+              alt="Mapa del centro de Nueva Jersey con Bound Brook, Plainfield, Piscataway, Flemington, Somerville y North Plainfield."
               fill
               sizes="(max-width: 1040px) calc(100vw - 28px), 50vw"
             />
@@ -205,7 +207,7 @@ export function LocationExplorer({ locations, hours, hoursTitle, hoursEyebrow = 
         <div
           className="location-compact-list"
           ref={railRef}
-          aria-label="Sedes presenciales en Nueva Jersey"
+          aria-label="Sedes presenciales y con cita en Nueva Jersey"
           onScroll={handleRailScroll}
         >
           {locations.map((location, index) => (
