@@ -2674,6 +2674,7 @@ const locations = [
 
 const headquarters = {
   city: "Nueva York",
+  address: "Nueva York · Coordinación administrativa y atención online",
   note: "HQ",
   status: "headquarters",
   ...centralLocationContact,

@@ -72,6 +72,9 @@ describe("homepage React integration", () => {
     assert.match(source, /offer-node__summary-compact/);
     assert.doesNotMatch(source, /offer-node__link-compact/);
     assert.match(source, /aria-label=\{item\.cta\}/);
+    assert.match(source, /offer-node offer-node--secondary supporting-course-card/);
+    assert.match(source, /offer-node__link supporting-course-card__link/);
+    assert.doesNotMatch(source, /supporting-course-card__icon|program\.icon/);
   });
 
   it("uses placement as the primary final conversion and callback as the sole secondary action", async () => {
@@ -112,6 +115,11 @@ describe("homepage React integration", () => {
     assert.match(sections, /hours=\{mapped\.find\(\(location\) => location\.mapKey === "bound-brook"\)\?\.hours \|\| \[\]\}/);
     assert.match(sections, /hoursTitle="Bound Brook · Sede principal"/);
     assert.match(sections, /hoursEyebrow="Horario de atención"/);
+    assert.match(sections, /const locationList = \[/);
+    assert.match(sections, /mapKey: "new-york-hq"/);
+    assert.doesNotMatch(sections, /location-headquarters/);
+    assert.match(locationExplorer, /headquarters: "HQ"/);
+    assert.match(locationExplorer, /mapFocus\[location\.mapKey\]/);
     assert.match(locationExplorer, /<h3 id="location-hours-title">\{hoursTitle\}<\/h3>/);
     assert.doesNotMatch(source, /<details|<summary|location-hours-panel__toggle/);
     assert.match(sections, /location\.status !== "online"/);
@@ -157,6 +165,8 @@ describe("homepage React integration", () => {
     );
     assert.match(hero, /hero__title-block/);
     assert.match(hero, /hero__modalities/);
+    assert.match(hero, /hero__spain-launch/);
+    assert.match(hero, /Spain Launch/);
     assert.doesNotMatch(hero, /hero__conversion/);
     assert.doesNotMatch(hero, /hero__summary|hero__objections/);
     assert.equal((hero.match(/className="button button--/g) || []).length, 0);
@@ -185,6 +195,10 @@ describe("homepage React integration", () => {
     const { styles } = await readSources();
     assert.match(styles, /\.hero__kicker\s*\{[\s\S]*color: #c28a26/);
     assert.match(styles, /\.hero__modalities svg\s*\{[\s\S]*color: #c28a26/);
+    assert.match(styles, /\.hero__spain-launch\s*\{[\s\S]*animation: heroSpainLaunchSweep/);
+    assert.match(styles, /heroSpainLaunchPulse/);
+    assert.match(styles, /method-story__conclusion \.method-reasons\s*\{[\s\S]*transform: translateY/);
+    assert.match(styles, /method-reason__icon::before/);
     assert.match(styles, /\.hero__headline-emphasis\s*\{[\s\S]*text-transform: none/);
     assert.match(styles, /\.community-proof__tabs\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
     assert.match(styles, /\.home-page \.real-map-pin\s*\{[\s\S]*width: 44px;[\s\S]*height: 44px/);

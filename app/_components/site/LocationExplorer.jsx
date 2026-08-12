@@ -32,17 +32,19 @@ function LocationRow({ location, index, selected, onSelect, whatsappHref }) {
   const statusLabel = {
     active: location.note?.includes("principal") ? "Principal" : "Presencial",
     limited: "Con cita",
+    headquarters: "HQ",
   };
   const limited = location.status === "limited";
+  const headquarters = location.status === "headquarters";
   const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.address)}`;
-  const href = limited
-    ? `${whatsappHref}?text=${encodeURIComponent(`Hola AIT USA, quiero consultar la atención con cita previa en ${location.city}.`)}`
+  const href = limited || headquarters
+    ? `${whatsappHref}?text=${encodeURIComponent(`Hola AIT USA, quiero consultar ${headquarters ? "el HQ administrativo" : "la atención con cita previa"} en ${location.city}.`)}`
     : mapsHref;
   const shortCity = location.city.split(",")[0];
   const supportingText = limited
     ? "Atención disponible con coordinación previa"
     : location.address;
-  const actionLabel = limited ? "Consultar" : "Cómo llegar";
+  const actionLabel = limited || headquarters ? "Consultar" : "Cómo llegar";
 
   return (
     <article
@@ -54,7 +56,7 @@ function LocationRow({ location, index, selected, onSelect, whatsappHref }) {
       <button
         className="compact-location-row__focus"
         type="button"
-        aria-label={`Mostrar ${shortCity} en el mapa`}
+        aria-label={headquarters ? `Seleccionar ${shortCity}` : `Mostrar ${shortCity} en el mapa`}
         aria-pressed={selected}
         onClick={() => onSelect(index, false)}
       >
@@ -149,7 +151,7 @@ export function LocationExplorer({ locations, hours, hoursTitle, hoursEyebrow = 
   return (
     <div className="location-explorer">
       <div className="real-map-card">
-        <div className="real-map-card__frame" data-map-focused={selectedLocation ? "true" : "false"}>
+        <div className="real-map-card__frame" data-map-focused={focus ? "true" : "false"}>
           <div className="real-map-card__stage" style={{ transform: stageTransform }}>
             <Image
               className="real-map-card__image"
@@ -159,7 +161,7 @@ export function LocationExplorer({ locations, hours, hoursTitle, hoursEyebrow = 
               sizes="(max-width: 1040px) calc(100vw - 28px), 50vw"
             />
             <div className="real-map-card__pins" aria-label="Sedes marcadas en el mapa">
-              {locations.map((location, index) => (
+              {locations.map((location, index) => mapFocus[location.mapKey] ? (
                 <MapPin
                   key={location.mapKey}
                   location={location}
@@ -167,11 +169,13 @@ export function LocationExplorer({ locations, hours, hoursTitle, hoursEyebrow = 
                   selected={selectedIndex === index}
                   onSelect={selectLocation}
                 />
-              ))}
+              ) : null)}
             </div>
           </div>
           <p className={`real-map-card__focus-label${selectedLocation ? " is-visible" : ""}`} aria-live="polite">
-            {selectedLocation ? `Mostrando ${selectedLocation.city.split(",")[0]}` : "Vista general de las sedes"}
+            {selectedLocation
+              ? (focus ? `Mostrando ${selectedLocation.city.split(",")[0]}` : `Seleccionada ${selectedLocation.note}: ${selectedLocation.city}`)
+              : "Vista general de las sedes"}
           </p>
           <a
             className="real-map-card__attribution"
@@ -207,7 +211,7 @@ export function LocationExplorer({ locations, hours, hoursTitle, hoursEyebrow = 
         <div
           className="location-compact-list"
           ref={railRef}
-          aria-label="Sedes presenciales y con cita en Nueva Jersey"
+          aria-label="Sedes presenciales, con cita y HQ administrativo"
           onScroll={handleRailScroll}
         >
           {locations.map((location, index) => (

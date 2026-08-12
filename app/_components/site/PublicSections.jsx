@@ -35,6 +35,12 @@ export function HeroSection() {
           </nav>
         </div>
         <figure className="hero__visual">
+          <aside className="hero__spain-launch" aria-label="Spain Launch: próximamente en España">
+            <span className="hero__spain-launch__pulse" aria-hidden="true" />
+            <span className="hero__spain-launch__eyebrow">Spain Launch</span>
+            <strong>AIT USA Institute llega a España</strong>
+            <span className="hero__spain-launch__detail">Próximamente</span>
+          </aside>
           <img
             src={site.images.approvedHero}
             alt="Asesora de AIT USA orientando a una estudiante adulta en un salón de inglés."
@@ -117,42 +123,36 @@ const supportingPrograms = [
     label: "GED",
     description: "Refuerza tu preparación académica con una ruta concreta.",
     href: "/cursos/ged/",
-    icon: "graduation-cap",
     cta: "Ver programa",
   },
   {
     label: "Computación básica",
     description: "Aprende herramientas digitales para tus próximos pasos.",
     href: "/cursos/computacion-basica/",
-    icon: "monitor",
     cta: "Ver programa",
   },
   {
     label: "Computación para oficina",
     description: "Practica habilidades digitales útiles para el trabajo.",
     href: "/cursos/computacion-oficina/",
-    icon: "briefcase-business",
     cta: "Ver programa",
   },
   {
     label: "Español para extranjeros",
     description: "Desarrolla español práctico para la vida diaria y el trabajo.",
     href: "/cursos/espanol-extranjeros/",
-    icon: "languages",
     cta: "Ver programa",
   },
   {
     label: "Tutorías de matemáticas",
     description: "Recibe apoyo enfocado para una meta académica puntual.",
     href: "/cursos/tutorias-matematicas/",
-    icon: "calculator",
     cta: "Ver programa",
   },
   {
     label: "Ciudadanía",
     description: "Consulta la ruta de preparación cívica disponible para tu objetivo.",
     href: "/cursos/",
-    icon: "landmark",
     cta: "Consultar ruta",
   },
 ];
@@ -213,15 +213,13 @@ export function SupportingCoursesSection() {
         </header>
         <div className="supporting-courses-grid">
           {supportingPrograms.map((program) => (
-            <article className="supporting-course-card" key={program.label}>
-              <span className="supporting-course-card__icon" aria-hidden="true">
-                <i data-lucide={program.icon} />
-              </span>
+            <article className="offer-node offer-node--secondary supporting-course-card" key={program.label}>
               <div>
+                <span className="offer-node__status supporting-course-card__status">Curso de apoyo</span>
                 <h3>{program.label}</h3>
                 <p>{program.description}</p>
               </div>
-              <a className="supporting-course-card__link" href={program.href} aria-label={`${program.cta}: ${program.label}`}>
+              <a className="offer-node__link supporting-course-card__link" href={program.href} aria-label={`${program.cta}: ${program.label}`}>
                 <span>{program.cta}</span>
                 <i data-lucide="arrow-right" aria-hidden="true" />
               </a>
@@ -235,6 +233,17 @@ export function SupportingCoursesSection() {
 
 export function LocationsSection() {
   const mapped = locations.filter((location) => location.status !== "online");
+  const locationList = [
+    ...mapped,
+    {
+      ...headquarters,
+      mapKey: "new-york-hq",
+      address: "Nueva York · Coordinación administrativa y atención online",
+      bestFor: "Ideal si necesitas coordinación administrativa o atención online.",
+      highlight: "HQ de AIT USA Institute para estudiantes dentro y fuera de Nueva Jersey.",
+      cta: "Consultar HQ",
+    },
+  ];
 
   return (
     <section className="section section--white" id="sedes">
@@ -244,15 +253,8 @@ export function LocationsSection() {
           <h2 id="sedes-title">Sedes cerca de ti.</h2>
           <p>Revisa las sedes presenciales y coordina tu atención según la alternativa más conveniente.</p>
         </div>
-        <aside className="location-headquarters" aria-label={`${headquarters.note}: ${headquarters.city}`}>
-          <div>
-            <span className="location-headquarters__eyebrow">{headquarters.note}</span>
-            <h3>{headquarters.city}</h3>
-          </div>
-          <p>Coordinación administrativa y atención online para estudiantes dentro y fuera de Nueva Jersey.</p>
-        </aside>
         <LocationExplorer
-          locations={mapped}
+          locations={locationList}
           hours={mapped.find((location) => location.mapKey === "bound-brook")?.hours || []}
           hoursTitle="Bound Brook · Sede principal"
           hoursEyebrow="Horario de atención"

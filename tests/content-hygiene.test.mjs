@@ -30,6 +30,7 @@ describe("MIS-267 content hygiene", () => {
       assert.equal(location.whatsappHref, site.whatsappHref);
     }
     assert.equal(headquarters.city, "Nueva York");
+    assert.equal(headquarters.address, "Nueva York · Coordinación administrativa y atención online");
     assert.equal(headquarters.status, "headquarters");
     const boundBrook = locations.find((location) => location.mapKey === "bound-brook");
     assert.equal(headquarters.hours, undefined);

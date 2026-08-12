@@ -14698,3 +14698,296 @@ textarea {
     line-height: 1;
   }
 }
+
+/* Homepage review pass: give the hero a purposeful Spain launch signal,
+   bring the Method reasons into the same visual finish as its video, and
+   use the same action-card language for every course route. */
+.home-page #inicio .hero__visual {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  height: var(--hero-main-height);
+}
+
+.home-page #inicio .hero__visual > img {
+  position: static;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+  object-position: 57% 42%;
+  transform: none;
+}
+
+.home-page #inicio .hero__spain-launch {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1vw, 16px);
+  min-height: 46px;
+  padding: 9px clamp(18px, 2.5vw, 34px);
+  overflow: hidden;
+  background:
+    linear-gradient(105deg, rgba(0, 26, 61, .98), rgba(23, 78, 166, .94) 62%, rgba(196, 147, 45, .95));
+  color: #ffffff;
+  isolation: isolate;
+}
+
+.home-page #inicio .hero__spain-launch::after {
+  position: absolute;
+  inset: 0 auto 0 -22%;
+  z-index: -1;
+  width: 22%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .2), transparent);
+  content: "";
+  transform: skewX(-20deg);
+  animation: heroSpainLaunchSweep 5.5s ease-in-out infinite;
+}
+
+.hero__spain-launch__pulse {
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border: 2px solid rgba(255, 255, 255, .8);
+  border-radius: 50%;
+  background: var(--home-gold-light, #e6b54a);
+  box-shadow: 0 0 0 0 rgba(230, 181, 74, .62);
+  animation: heroSpainLaunchPulse 2.2s ease-out infinite;
+}
+
+.hero__spain-launch__eyebrow {
+  color: #f6d47a;
+  font-size: .68rem;
+  font-weight: 850;
+  letter-spacing: .12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hero__spain-launch strong {
+  font-family: var(--font-display);
+  font-size: clamp(.9rem, 1.2vw, 1.08rem);
+  letter-spacing: -.02em;
+  line-height: 1.1;
+}
+
+.hero__spain-launch__detail {
+  margin-left: auto;
+  color: rgba(255, 255, 255, .78);
+  font-size: .72rem;
+  font-weight: 750;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+@keyframes heroSpainLaunchSweep {
+  0%, 34% { left: -22%; }
+  62%, 100% { left: 112%; }
+}
+
+@keyframes heroSpainLaunchPulse {
+  0%, 42%, 100% { box-shadow: 0 0 0 0 rgba(230, 181, 74, .62); }
+  16% { box-shadow: 0 0 0 7px rgba(230, 181, 74, 0); }
+}
+
+@media (min-width: 1041px) {
+  .home-page #metodo .method-story__conclusion .method-reasons {
+    transform: translateY(clamp(-18px, -1.8svh, -10px));
+  }
+
+  .home-page #metodo .method-story__conclusion .method-reasons li {
+    padding-block: 19px;
+  }
+}
+
+.home-page #metodo .method-story__conclusion .method-reason__icon {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  margin-top: -2px;
+  border: 1px solid rgba(196, 147, 45, .64);
+  border-radius: 14px;
+  background: linear-gradient(145deg, #fffaf0 0%, #f2e3bd 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .94),
+    0 8px 16px rgba(0, 26, 61, .1);
+  color: var(--home-navy, #001a3d);
+}
+
+.home-page #metodo .method-story__conclusion .method-reasons li {
+  grid-template-columns: 46px minmax(0, 1fr);
+}
+
+.home-page #metodo .method-story__conclusion .method-reason__icon::before {
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(196, 147, 45, .28);
+  border-radius: 10px;
+  content: "";
+}
+
+.home-page #metodo .method-story__conclusion .method-reason__icon svg {
+  position: relative;
+  z-index: 1;
+  width: 21px;
+  height: 21px;
+  color: var(--home-gold-text, #8a6412);
+  stroke-width: 2.05;
+}
+
+.home-page #cursos-apoyo .supporting-courses-grid {
+  gap: 14px;
+}
+
+.home-page #cursos-apoyo .supporting-course-card {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 260px;
+  padding: 24px 22px 22px;
+  border-color: rgba(0, 26, 61, .14);
+  border-radius: var(--radius, 12px);
+  background: rgba(255, 255, 255, .94);
+  box-shadow: 0 18px 40px rgba(0, 26, 61, .1);
+}
+
+.home-page #cursos-apoyo .supporting-course-card:hover {
+  border-color: rgba(23, 78, 166, .42);
+  box-shadow: 0 24px 48px rgba(0, 26, 61, .14);
+  transform: translateY(-2px);
+}
+
+.home-page #cursos-apoyo .supporting-course-card__status {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--home-gold-text, #8a6412);
+}
+
+.home-page #cursos-apoyo .supporting-course-card h3 {
+  margin: 0 0 12px;
+  font-size: clamp(1.3rem, 1.8vw, 1.6rem);
+}
+
+.home-page #cursos-apoyo .supporting-course-card p {
+  max-width: 330px;
+  margin: 0;
+  font-size: .94rem;
+  line-height: 1.52;
+}
+
+.home-page #cursos-apoyo .supporting-course-card__link {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid rgba(0, 26, 61, .2);
+  border-radius: 6px;
+  background: rgba(0, 26, 61, .045);
+  box-shadow: 0 4px 12px rgba(0, 26, 61, .08);
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease;
+}
+
+.home-page #cursos-apoyo .supporting-course-card__link:hover,
+.home-page #cursos-apoyo .supporting-course-card__link:focus-visible {
+  border-color: var(--home-blue, #174ea6);
+  background: var(--home-blue, #174ea6);
+  box-shadow: 0 8px 18px rgba(23, 78, 166, .2);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.home-page #sedes .compact-location-row--headquarters {
+  border-color: rgba(196, 147, 45, .55);
+  background: linear-gradient(90deg, rgba(196, 147, 45, .1), rgba(255, 255, 255, .94));
+}
+
+.home-page #sedes .compact-location-row--headquarters .compact-location-row__number {
+  background: var(--home-navy, #001a3d);
+  color: #ffffff;
+}
+
+.home-page #sedes .compact-location-row--headquarters .compact-location-row__action {
+  color: var(--home-gold-text, #8a6412);
+}
+
+@media (max-width: 719px) {
+  .home-page #inicio .hero__visual {
+    height: 310px;
+  }
+
+  .home-page #inicio .hero__spain-launch {
+    min-height: 42px;
+    gap: 7px;
+    padding-inline: 16px;
+  }
+
+  .home-page #inicio .hero__visual > img {
+    object-position: 56% 42%;
+  }
+
+  .hero__spain-launch__eyebrow {
+    font-size: .58rem;
+  }
+
+  .hero__spain-launch strong {
+    font-size: .82rem;
+  }
+
+  .hero__spain-launch__detail {
+    font-size: .58rem;
+  }
+
+  .home-page #cursos-apoyo .supporting-course-card {
+    min-height: 0;
+    padding: 20px;
+  }
+
+  .home-page #metodo .method-story__conclusion .method-reasons li {
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 13px;
+  }
+
+  .home-page #metodo .method-story__conclusion .method-reason__icon {
+    width: 36px;
+    height: 36px;
+    margin-top: 0;
+    border-radius: 10px;
+  }
+
+  .home-page #metodo .method-story__conclusion .method-reason__icon::before {
+    inset: 4px;
+    border-radius: 7px;
+  }
+
+  .home-page #metodo .method-story__conclusion .method-reason__icon svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  .home-page #inicio .hero__visual {
+    height: 280px;
+  }
+}
+
+@media (max-width: 374px) {
+  .home-page #inicio .hero__visual {
+    height: clamp(340px, 46svh, 370px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__spain-launch::after,
+  .hero__spain-launch__pulse {
+    animation: none;
+  }
+
+  .home-page #cursos-apoyo .supporting-course-card:hover,
+  .home-page #cursos-apoyo .supporting-course-card__link:hover,
+  .home-page #cursos-apoyo .supporting-course-card__link:focus-visible {
+    transform: none;
+  }
+}
