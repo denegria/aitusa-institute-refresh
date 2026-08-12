@@ -15,8 +15,7 @@ function ProgramCard({ program }) {
           <div><dt>Audiencia</dt><dd>{program.audience}</dd></div>
         </dl>
         <div className="button-row">
-          <a className="button button--primary" href={`/cursos/${program.slug}/`} data-course-detail-link={program.slug}>Abrir ficha completa</a>
-          <a className="button button--ghost" href="/placement-test/">Ver mi nivel</a>
+          <a className="button button--primary" href={`/cursos/${program.slug}/`} data-course-detail-link={program.slug}>Learn more</a>
         </div>
       </div>
     </article>
@@ -25,12 +24,12 @@ function ProgramCard({ program }) {
 
 export function CourseCatalog() {
   return (
-    <section className="section section--soft" id="catalogo-detallado">
+    <section className="section section--soft course-catalog" id="catalogo-detallado">
       <div className="section-inner">
         <div className="section-heading">
-          <p className="section-kicker">Ocho rutas activas</p>
-          <h2>Elige una ficha y conoce el siguiente paso.</h2>
-          <p>El catálogo resume cada programa. La ficha completa reúne su modalidad, horarios, preguntas frecuentes y formas de contacto.</p>
+          <p className="section-kicker">Catálogo detallado</p>
+          <h1>Explora cursos, formatos y próximos pasos con más detalle.</h1>
+          <p>Compara modalidades, objetivos y horarios para inglés, GED, computación y programas de apoyo.</p>
         </div>
         <nav className="catalog-nav" aria-label="Saltar a un grupo de cursos">
           {courseCatalog.map((group) => <a href={`#${group.anchor}`} key={group.key}>{group.title}</a>)}

@@ -17,6 +17,12 @@ export function HeroSection() {
   return (
     <section className="hero" id="inicio">
       <div className="hero__main">
+        <aside className="hero__spain-launch" aria-label="Spain Launch: próximamente en España">
+          <span className="hero__spain-launch__pulse" aria-hidden="true" />
+          <span className="hero__spain-launch__eyebrow">Spain Launch</span>
+          <strong>AIT USA Institute llega a España</strong>
+          <span className="hero__spain-launch__detail">Próximamente</span>
+        </aside>
         <div className="hero__copy">
           <div className="hero__title-block">
             <p className="hero__kicker">{painHero.eyebrow || ""}</p>
@@ -35,12 +41,6 @@ export function HeroSection() {
           </nav>
         </div>
         <figure className="hero__visual">
-          <aside className="hero__spain-launch" aria-label="Spain Launch: próximamente en España">
-            <span className="hero__spain-launch__pulse" aria-hidden="true" />
-            <span className="hero__spain-launch__eyebrow">Spain Launch</span>
-            <strong>AIT USA Institute llega a España</strong>
-            <span className="hero__spain-launch__detail">Próximamente</span>
-          </aside>
           <img
             src={site.images.approvedHero}
             alt="Asesora de AIT USA orientando a una estudiante adulta en un salón de inglés."

@@ -29,16 +29,18 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
 
   it("keeps progress separate from academic qualification", () => {
     assert.match(component, /role="progressbar"/);
-    assert.match(component, /Explorando preguntas de/);
-    assert.match(component, /Tu nivel se estima al final/);
+    assert.doesNotMatch(component, /Explorando preguntas de/);
+    assert.doesNotMatch(component, /Tu nivel se estima al final/);
     assert.doesNotMatch(component, /Calificaste para/);
   });
 
-  it("renders the six-book academic path used by the question boundaries", () => {
-    for (const book of ["Intro Book", "Book 1", "Book 2", "Book 3", "Book 4", "Book 5"]) {
-      assert.match(component, new RegExp(`label: "${book}"`));
+  it("renders a scrollable six-level academic path", () => {
+    for (const level of ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6"]) {
+      assert.match(component, new RegExp(`label: "${level}"`));
     }
     assert.match(component, /const currentBook = getBookKey\(question\.book\)/);
+    assert.match(component, /scrollIntoView/);
+    assert.match(styles, /\.diagnostic-level-path \{[\s\S]*overflow-x: auto;/);
   });
 
   it("does not calculate a fallback result in the browser", () => {

@@ -79,7 +79,7 @@ describe("AIT USA native course routes and SEO contract", () => {
     const hybrid = programs.find((program) => program.slug === "ingles-hibrido-adultos");
     const online = programs.find((program) => program.slug === "ingles-online-adultos");
 
-    assert.equal(presencial.title, "Inglés presencial para jóvenes y adultos");
+    assert.equal(presencial.title, "Inglés presencial");
     assert.equal(presencial.mode, "Presencial");
     assert.match(presencial.editorial.lead, /presencial/i);
     assert.doesNotMatch(presencial.editorial.lead, /híbrido|online/i);
@@ -133,10 +133,11 @@ describe("AIT USA native course routes and SEO contract", () => {
       JSON.stringify({ courseDetail: presencial.courseDetail, editorial: presencial.editorial, schedules }),
       /6:20|8:40|9:50|2:00 pm|3:00 pm|10:00 am a 12:30 pm/,
     );
-    assert.equal(hybrid.title, "Inglés híbrido para jóvenes y adultos");
+    assert.equal(hybrid.title, "Inglés híbrido");
     assert.equal(hybrid.mode, "Presencial + remoto");
     assert.match(hybrid.editorial.lead, /presencial.*remoto/i);
     assert.match(hybrid.editorial.faqs[0].answer, /grupo activo/i);
+    assert.equal(online.title, "Inglés online");
     assert.equal(online.mode, "100% online");
     assert.match(online.editorial.lead, /100% online/i);
     assert.match(online.editorial.formats.find((format) => format.title === "Clase en vivo").text, /no pregrabada/);
@@ -183,6 +184,9 @@ describe("AIT USA native course routes and SEO contract", () => {
     assert.doesNotMatch(source, /OfferingsSection|course-detail-stack|<details|<summary|filter-bar/);
     assert.match(source, /catalog-nav/);
     assert.match(source, /data-course-detail-link=\{program\.slug\}/);
+    assert.match(source, />Learn more<\/a>/);
+    assert.doesNotMatch(source, /Abrir ficha completa|Ver mi nivel/);
+    assert.doesNotMatch(page, /page-hero--catalog|Hacer examen de ubicación|Hablar con un asesor/);
     assert.doesNotMatch(page, /OfferingsSection/);
     assert.equal(courseCatalog.flatMap((group) => group.programs).length, 8);
     assert.equal(new Set(courseCatalog.flatMap((group) => group.programs)).size, 8);

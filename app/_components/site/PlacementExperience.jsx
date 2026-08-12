@@ -93,16 +93,16 @@ function serverSnapshotMatchesLocal(serverSnapshot, localSnapshot) {
 }
 
 const BOOK_PATH = Object.freeze([
-  Object.freeze({ key: "intro-book", label: "Intro Book" }),
-  Object.freeze({ key: "book-1", label: "Book 1" }),
-  Object.freeze({ key: "book-2", label: "Book 2" }),
-  Object.freeze({ key: "book-3", label: "Book 3" }),
-  Object.freeze({ key: "book-4", label: "Book 4" }),
-  Object.freeze({ key: "book-5", label: "Book 5" }),
+  Object.freeze({ key: "level-1", label: "Level 1", book: "Intro Book" }),
+  Object.freeze({ key: "level-2", label: "Level 2", book: "Book 1" }),
+  Object.freeze({ key: "level-3", label: "Level 3", book: "Book 2" }),
+  Object.freeze({ key: "level-4", label: "Level 4", book: "Book 3" }),
+  Object.freeze({ key: "level-5", label: "Level 5", book: "Book 4" }),
+  Object.freeze({ key: "level-6", label: "Level 6", book: "Book 5" }),
 ]);
 
 function getBookKey(bookLabel) {
-  return BOOK_PATH.find((book) => book.label === bookLabel)?.key || BOOK_PATH[0].key;
+  return BOOK_PATH.find((level) => level.book === bookLabel)?.key || BOOK_PATH[0].key;
 }
 
 function getBookLabel(bookKey) {
@@ -118,6 +118,11 @@ function ProgressHeader({ question, questionIndex, questionCount }) {
     ),
   );
   const currentBook = getBookKey(question.book);
+  const currentLevelRef = useRef(null);
+
+  useEffect(() => {
+    currentLevelRef.current?.scrollIntoView({ block: "nearest", inline: "center" });
+  }, [currentBook]);
 
   return (
     <header className="diagnostic-progress">
@@ -141,14 +146,12 @@ function ProgressHeader({ question, questionIndex, questionCount }) {
             className={bookKey === currentBook ? "is-current" : ""}
             aria-current={bookKey === currentBook ? "step" : undefined}
             key={bookKey}
+            ref={bookKey === currentBook ? currentLevelRef : undefined}
           >
             {getBookLabel(bookKey)}
           </span>
         ))}
       </div>
-      <p className="diagnostic-level-note">
-        Explorando preguntas de {question.levelLabel}. Tu nivel se estima al final.
-      </p>
     </header>
   );
 }

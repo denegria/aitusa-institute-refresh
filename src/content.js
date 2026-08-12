@@ -150,6 +150,8 @@ const site = {
     jessicaInterviewVideo: assetVideo("student-interview-jessica-great.mp4"),
     jessicaInterviewVideoPoster: assetVideoPoster("student-interview-jessica-great-curated.jpg"),
     heroClassroom: assetHires("hero-classroom.jpg"),
+    classroomStudy: "/assets/gallery/photos/0011.webp",
+    hybridClass: "/assets/gallery/photos/0012.webp",
     heroFemaleZoom: assetHires("online-instructor-headset.jpg"),
     heroFemaleSpeakingPoster: asset("live/hero-female-speaking-poster.jpg"),
     adultEnglish: assetHires("adult-speaking-class.jpg"),
@@ -316,15 +318,15 @@ const admissionsCourseHref = (course) =>
 const allCourseRecords = [
   {
     slug: "ingles-jovenes-adultos",
-    title: "Inglés presencial para jóvenes y adultos",
+    title: "Inglés presencial",
     category: "ingles",
     mode: "Presencial",
     audience: "Adultos y jóvenes en Nueva Jersey",
     bestFor: "Ideal si quieres practicar cara a cara para trabajo, escuela o trámites.",
     fit: "Ideal si quieres conversar con más seguridad en una sede de Nueva Jersey.",
     cta: "Ver inglés presencial",
-    image: site.images.adultEnglish,
-    imageAlt: "Estudiante adulta practicando conversación en una clase de inglés con apoyo visual.",
+    image: site.images.classroomStudy,
+    imageAlt: "Estudiantes practicando inglés en una clase presencial de AiT USA.",
     summary:
       "Un camino presencial para hablar con confianza, entendiendo situaciones reales: trabajo, estudios, servicios y vida diaria.",
     details: [
@@ -371,7 +373,7 @@ const allCourseRecords = [
     },
     editorial: {
       version: "course-editorial-v1",
-      eyebrow: "Inglés presencial para jóvenes y adultos",
+      eyebrow: "Inglés presencial",
       lead:
         "Una ruta presencial para comprender, conversar y responder con más seguridad en el trabajo, los estudios, los trámites y la vida diaria.",
       heroImage: site.images.adultEnglish,
@@ -562,7 +564,7 @@ const allCourseRecords = [
   },
   {
     slug: "ingles-online-adultos",
-    title: "Inglés online para jóvenes y adultos",
+    title: "Inglés online",
     category: "ingles",
     mode: "100% online",
     audience: "Adultos y jóvenes fuera de EE. UU.",
@@ -1586,8 +1588,8 @@ const allCourseRecords = [
     bestFor: "Ideal si quieres aprender desde cero a usar internet y archivos.",
     fit: "Ideal si quieres aprender desde cero a usar internet, archivos y herramientas básicas.",
     cta: "Ver computación",
-    image: site.images.computing,
-    imageAlt: "Instructora guiando una clase de computación básica con laptop, tablet y teléfono.",
+    image: site.images.repair,
+    imageAlt: "Estudiante practicando habilidades de computación y reparación de equipos.",
     summary:
       "Curso práctico para dominar navegación, productividad y herramientas digitales esenciales.",
     details: [
@@ -2119,15 +2121,15 @@ const allCourseRecords = [
 
 const hybridEnglishProgram = {
   slug: "ingles-hibrido-adultos",
-  title: "Inglés híbrido para jóvenes y adultos",
+  title: "Inglés híbrido",
   category: "ingles",
   mode: "Presencial + remoto",
   audience: "Adultos y jóvenes en Nueva Jersey",
   bestFor: "Ideal si necesitas flexibilidad sin perder encuentros y seguimiento.",
   fit: "Ideal si tu semana cambia y quieres combinar apoyo presencial y remoto.",
   cta: "Ver inglés híbrido",
-  image: site.images.heroFemaleZoom,
-  imageAlt: "Instructora guiando una clase de inglés con apoyo remoto.",
+  image: site.images.hybridClass,
+  imageAlt: "Estudiantes practicando inglés con apoyo de una pantalla y una laptop.",
   summary:
     "Combina encuentros presenciales con apoyo remoto cuando tu semana cambia, sin perder práctica ni seguimiento.",
   details: [
@@ -2173,7 +2175,7 @@ const hybridEnglishProgram = {
   },
   editorial: {
     version: "course-editorial-v1",
-    eyebrow: "Inglés híbrido para jóvenes y adultos",
+    eyebrow: "Inglés híbrido",
     lead:
       "Una ruta flexible para comprender, conversar y sostener tu práctica combinando encuentros presenciales con apoyo remoto.",
     heroImage: site.images.heroFemaleZoom,
