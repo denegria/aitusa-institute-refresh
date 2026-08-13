@@ -15262,11 +15262,11 @@ textarea {
 
 .course-catalog .catalog-tabs {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 8px;
   margin: 0 0 28px;
   padding: 7px;
-  overflow-x: auto;
+  overflow-x: visible;
   border: 1px solid rgba(0, 26, 61, 0.16);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.72);
@@ -15610,9 +15610,11 @@ textarea {
   }
 
   .course-catalog .catalog-tabs {
+    flex-wrap: nowrap;
     margin-inline: -2px;
     margin-bottom: 24px;
     padding: 5px;
+    overflow-x: auto;
     border-radius: 16px;
   }
 

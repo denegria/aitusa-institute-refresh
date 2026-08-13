@@ -34,7 +34,8 @@ describe("course catalog editorial component", () => {
     assert.match(source, /tabIndex=\{activeTab === .* \? 0 : -1\}/);
     assert.match(source, /ArrowRight/);
     assert.match(source, /requestAnimationFrame/);
-    assert.match(styles, /\.course-catalog \.catalog-tabs\s*\{[\s\S]*flex-wrap: nowrap;[\s\S]*overflow-x: auto;/);
+    assert.match(styles, /\.course-catalog \.catalog-tabs\s*\{[\s\S]*flex-wrap: wrap;[\s\S]*overflow-x: visible;/);
+    assert.match(styles, /@media \(max-width: 719px\)[\s\S]*\.course-catalog \.catalog-tabs\s*\{[\s\S]*flex-wrap: nowrap;[\s\S]*overflow-x: auto;/);
     assert.match(styles, /\.course-catalog \.catalog-tabs button\s*\{[\s\S]*min-height: 44px;/);
   });
 });
