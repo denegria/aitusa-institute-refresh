@@ -17,6 +17,15 @@ const defaultSectionCopy = {
     actionLabel: "Ver mi nivel",
     actionHref: conversionCtas.placement.href,
   },
+  inquiryPathway: {
+    eyebrow: "Siguiente paso",
+    title: "Confirma si este programa encaja con tu objetivo.",
+    text:
+      "Comparte tu objetivo, punto de partida y disponibilidad por WhatsApp para recibir orientación sobre el programa.",
+    actionLabel: "Consultar por WhatsApp",
+    actionHref: conversionCtas.advisor.href,
+    external: true,
+  },
   logistics: {
     eyebrow: "Formatos y horarios",
     title: "Una ruta académica que también debe funcionar con tu semana.",
@@ -33,14 +42,32 @@ const defaultSectionCopy = {
   },
 };
 
+function isEnglishProgram(program) {
+  return program.category === "ingles";
+}
+
+function defaultProgramInquiryCta(program) {
+  return {
+    label: `Consultar ${program.title.toLowerCase()}`,
+    href: conversionCtas.advisor.href,
+    external: true,
+  };
+}
+
 function externalLinkProps(link) {
   return link?.external ? { target: "_blank", rel: "noreferrer" } : {};
 }
 
 function CourseHero({ program, editorial }) {
+  const englishProgram = isEnglishProgram(program);
   const primaryCta = {
-    label: editorial.closing.primaryLabel,
-    href: conversionCtas.placement.href,
+    ...(englishProgram
+      ? {
+          label: editorial.closing?.primaryLabel || conversionCtas.placement.label,
+          href: conversionCtas.placement.href,
+          external: false,
+        }
+      : defaultProgramInquiryCta(program)),
     ...editorial.primaryCta,
   };
   const advisorCta = {
@@ -82,7 +109,9 @@ function CourseHero({ program, editorial }) {
           </div>
           <p className="course-program-hero__note">
             {editorial.heroNote ||
-              "Evaluación inicial sin compromiso. Tu grupo se confirma antes de la inscripción."}
+              (englishProgram
+                ? "Evaluación inicial sin compromiso. Tu grupo se confirma antes de la inscripción."
+                : "Admisiones confirma el punto de inicio, el grupo y el horario antes de comenzar.")}
           </p>
         </div>
         <figure className="course-program-hero__media">
@@ -267,6 +296,9 @@ function CourseLogistics({ editorial, copy = defaultSectionCopy.logistics }) {
 }
 
 function CourseStory({ story }) {
+  const videoDescriptionId = "course-story-video-description";
+  const transcriptNoteId = "course-story-video-transcript-note";
+
   return (
     <section className="course-program-story" id="historia" aria-labelledby="course-story-title">
       <div className="section-inner course-program-story__layout">
@@ -289,11 +321,18 @@ function CourseStory({ story }) {
             width={story.width}
             height={story.height}
             aria-label={story.videoLabel}
+            aria-describedby={`${videoDescriptionId} ${transcriptNoteId}`}
           >
             <source src={story.video} type="video/mp4" />
             Tu navegador no puede reproducir este video.
           </video>
           <figcaption>{story.videoLabel}</figcaption>
+          <p id={videoDescriptionId}>
+            <strong>Alternativa de texto:</strong> {story.text}
+          </p>
+          <p id={transcriptNoteId}>
+            No hay subtítulos ni una transcripción verificable disponible para este video.
+          </p>
         </figure>
       </div>
     </section>
@@ -350,11 +389,16 @@ function CourseRelated({ program }) {
   );
 }
 
-function CourseClosing({ closing }) {
+function CourseClosing({ closing, program }) {
+  const englishProgram = isEnglishProgram(program);
   const primaryCta = {
-    label: closing.primaryLabel,
-    href: conversionCtas.placement.href,
-    external: false,
+    ...(englishProgram
+      ? {
+          label: closing.primaryLabel || conversionCtas.placement.label,
+          href: conversionCtas.placement.href,
+          external: false,
+        }
+      : defaultProgramInquiryCta(program)),
     ...closing.primaryCta,
   };
   const advisorCta = {
@@ -396,6 +440,11 @@ function CourseClosing({ closing }) {
 
 export function CourseProgramPage({ program }) {
   const editorial = program.editorial;
+  const pathwayCopy =
+    editorial.sectionCopy?.pathway ||
+    (isEnglishProgram(program)
+      ? defaultSectionCopy.pathway
+      : defaultSectionCopy.inquiryPathway);
 
   return (
     <>
@@ -416,7 +465,7 @@ export function CourseProgramPage({ program }) {
         {editorial.pathway?.length ? (
           <CoursePathway
             pathway={editorial.pathway}
-            copy={editorial.sectionCopy?.pathway}
+            copy={pathwayCopy}
           />
         ) : null}
         {editorial.method ? <CourseMethod method={editorial.method} /> : null}
@@ -431,7 +480,7 @@ export function CourseProgramPage({ program }) {
           <CourseFaq faqs={editorial.faqs} copy={editorial.sectionCopy?.faq} />
         ) : null}
         <CourseRelated program={program} />
-        <CourseClosing closing={editorial.closing} />
+        <CourseClosing closing={editorial.closing} program={program} />
       </main>
       <SiteFooter />
     </>

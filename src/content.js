@@ -1588,8 +1588,8 @@ const allCourseRecords = [
     bestFor: "Ideal si quieres aprender desde cero a usar internet y archivos.",
     fit: "Ideal si quieres aprender desde cero a usar internet, archivos y herramientas básicas.",
     cta: "Ver computación",
-    image: site.images.repair,
-    imageAlt: "Estudiante practicando habilidades de computación y reparación de equipos.",
+    image: site.images.computing,
+    imageAlt: "Estudiante practicando tareas básicas de computación con una laptop y una tableta.",
     summary:
       "Curso práctico para dominar navegación, productividad y herramientas digitales esenciales.",
     details: [
