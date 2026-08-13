@@ -198,8 +198,9 @@ describe("AIT USA native course routes and SEO contract", () => {
     assert.match(source, /role="tabpanel"/);
     assert.doesNotMatch(source, /catalog-nav/);
     assert.match(source, /data-course-detail-link=\{program\.slug\}/);
-    assert.match(source, />Learn more<\/a>/);
-    assert.doesNotMatch(source, /Abrir ficha completa|Ver mi nivel/);
+    assert.match(source, /\{program\.cta\}/);
+    assert.ok(programs.every((program) => program.cta && !/learn more/i.test(program.cta)));
+    assert.doesNotMatch(source, /Learn more|Abrir ficha completa|Ver mi nivel/);
     assert.doesNotMatch(page, /page-hero--catalog|Hacer examen de ubicación|Hablar con un asesor/);
     assert.doesNotMatch(page, /OfferingsSection/);
     assert.equal(courseCatalog.flatMap((group) => group.programs).length, 8);
