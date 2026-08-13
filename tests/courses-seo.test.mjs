@@ -21,6 +21,9 @@ describe("AIT USA native course routes and SEO contract", () => {
     assert.match(source, /Cursos AiT USA Institute \| Catálogo detallado/);
     assert.match(source, /canonical: "\/cursos\//);
     assert.match(source, /Explora el catálogo detallado de inglés, GED, computación/);
+    assert.match(source, /"@type": "ItemList"/);
+    assert.match(source, /itemListElement: programs\.map/);
+    assert.match(source, /data-schema="course-catalog"/);
     assert.match(source, /<CoursesPage/);
   });
 
@@ -32,6 +35,12 @@ describe("AIT USA native course routes and SEO contract", () => {
     assert.match(route, /programs\.map/);
     assert.match(route, /generateMetadata/);
     assert.match(route, /"@type": "Course"/);
+    assert.match(route, /"@type": "CourseInstance"/);
+    assert.match(route, /hasCourseInstance/);
+    assert.match(route, /courseMode: program\.mode/);
+    assert.match(route, /location: buildCourseLocations/);
+    assert.match(route, /courseSchedule: buildCourseSchedule/);
+    assert.doesNotMatch(route, /provider:\s*\{[^}]*courseMode/);
     assert.match(route, /"@type": "BreadcrumbList"/);
     assert.match(route, /"@type": "FAQPage"/);
     assert.match(route, /data-schema="breadcrumb"/);
@@ -49,6 +58,8 @@ describe("AIT USA native course routes and SEO contract", () => {
     assert.ok(programs.every((program) => program.editorial.closing));
     assert.match(shell, /`\$\{program\.title\} \| AiT USA Institute`/);
     assert.match(shell, /canonical: `\/cursos\/\$\{program\.slug\}\/`/);
+    assert.match(shell, /locale: "es_US"/);
+    assert.match(shell, /site: site\.twitterHandle/);
   });
 
   it("keeps generated course snippets unique, useful, and within the SEO limit", () => {
@@ -207,5 +218,11 @@ describe("AIT USA native course routes and SEO contract", () => {
     assert.match(detailAlias, /permanentRedirect/);
     assert.match(detailAlias, /`\/cursos\/\$\{slug\}\/`/);
     assert.match(detailAlias, /retiredCourseSlugs/);
+  });
+
+  it("keeps the Spanish course navigation canonical and current", async () => {
+    const chrome = await readFile("app/_components/site/SiteChrome.jsx", "utf8");
+    assert.match(chrome, /id === "cursos"[\s\S]*?"\/cursos\//);
+    assert.match(chrome, /activePage === "courses" && id === "cursos"[\s\S]*?"page"/);
   });
 });

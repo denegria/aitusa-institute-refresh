@@ -6,6 +6,7 @@ export const metadata = {
   title: "AIT USA Institute",
   description:
     "AIT USA Institute public site and student portal migration foundation.",
+  manifest: "/site.webmanifest",
   icons: {
     icon: "/assets/wix/076-solo-logo-4-x-4-clases1.png",
   },

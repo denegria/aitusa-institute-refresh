@@ -94,8 +94,20 @@ export function SiteHeader({ activePage = "home" }) {
           aria-label="Navegación principal"
         >
           {sections.map(([label, id]) => {
-            const href = activePage === "home" ? `#${id}` : id === "inicio" ? "/" : `/#${id}`;
-            const current = activePage === "home" && activeSection === id ? "location" : undefined;
+            const href =
+              activePage === "home"
+                ? `#${id}`
+                : id === "inicio"
+                  ? "/"
+                  : id === "cursos"
+                    ? "/cursos/"
+                    : `/#${id}`;
+            const current =
+              activePage === "courses" && id === "cursos"
+                ? "page"
+                : activePage === "home" && activeSection === id
+                  ? "location"
+                  : undefined;
             return (
               <a key={id} href={href} aria-current={current} onClick={closeMenu}>
                 {label}

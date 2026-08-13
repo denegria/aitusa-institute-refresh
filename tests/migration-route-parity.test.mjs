@@ -30,6 +30,9 @@ describe("public-route React migration parity", () => {
     assert.doesNotMatch(sitemap, /\/cursos\/reparacion-computadoras\//);
     assert.doesNotMatch(sitemap, /\/courses\//);
     assert.match(manifest, /AiT USA Institute/);
+    assert.match(manifest, /"src": "\/assets\/wix\/076-solo-logo-4-x-4-clases1\.png"/);
+    assert.doesNotMatch(manifest, /\/public\/assets\//);
+    assert.equal(await exists("sitemap.xml"), false);
   });
 
   it("uses native App Router pages instead of legacy public-route rewrites", async () => {
@@ -45,6 +48,8 @@ describe("public-route React migration parity", () => {
     assert.equal(await exists("app/(public-site)/contactanos/page.jsx"), true);
     assert.equal(await exists("app/(public-site)/privacy-policy/page.jsx"), true);
     assert.equal(await exists("app/(public-site)/terms-and-conditions/page.jsx"), true);
+    assert.equal(await exists("app/(public-site)/not-found.jsx"), true);
+    assert.equal(await exists("app/(public-site)/error.jsx"), true);
     assert.equal(await exists("app/contactanos/page.jsx"), false);
     assert.equal(await exists("app/privacy-policy/page.jsx"), false);
     assert.equal(await exists("app/terms-and-conditions/page.jsx"), false);

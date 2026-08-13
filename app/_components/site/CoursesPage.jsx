@@ -29,6 +29,7 @@ export function getCourseMetadata(slug) {
     alternates: { canonical: `/cursos/${program.slug}/` },
     openGraph: {
       type: "website",
+      locale: "es_US",
       siteName: site.name,
       title,
       description,
@@ -37,6 +38,7 @@ export function getCourseMetadata(slug) {
     },
     twitter: {
       card: "summary_large_image",
+      site: site.twitterHandle,
       title,
       description,
       images: [program.image],

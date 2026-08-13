@@ -25,8 +25,57 @@ function buildCourseSchema(program) {
       name: site.name,
       url: site.canonical,
     },
-    courseMode: program.mode,
     url: courseUrl,
+    hasCourseInstance: [buildCourseInstanceSchema(program, courseUrl)],
+  };
+}
+
+function buildCourseLocations(program, courseUrl) {
+  const mode = program.mode.toLowerCase();
+  const hasPhysicalLocation = mode.includes("presencial");
+  const hasVirtualLocation = mode.includes("online") || mode.includes("remoto");
+  const physicalLocations = site.locations.map((location) => ({
+    "@type": "Place",
+    name: `${location.addressLocality}, ${location.addressRegion}`,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: location.streetAddress,
+      addressLocality: location.addressLocality,
+      addressRegion: location.addressRegion,
+      postalCode: location.postalCode,
+      addressCountry: location.addressCountry,
+    },
+  }));
+  const virtualLocation = {
+    "@type": "VirtualLocation",
+    name: "Clases online",
+    url: courseUrl,
+  };
+
+  if (hasPhysicalLocation && hasVirtualLocation) return [...physicalLocations, virtualLocation];
+  if (hasVirtualLocation) return virtualLocation;
+  return physicalLocations;
+}
+
+function buildCourseSchedule(program) {
+  const schedule = program.editorial?.schedule || [];
+  return {
+    "@type": "Schedule",
+    name: "Horarios publicados",
+    description: schedule
+      .map(({ label, times }) => `${label}: ${times.join("; ")}`)
+      .join(". "),
+    scheduleTimezone: "America/New_York",
+  };
+}
+
+function buildCourseInstanceSchema(program, courseUrl) {
+  return {
+    "@type": "CourseInstance",
+    "@id": `${courseUrl}#course-instance`,
+    courseMode: program.mode,
+    location: buildCourseLocations(program, courseUrl),
+    courseSchedule: buildCourseSchedule(program),
   };
 }
 
