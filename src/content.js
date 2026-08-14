@@ -168,7 +168,7 @@ const site = {
       "/assets/generated/english/english-hybrid-hero.png",
     englishHybridMethodGenerated:
       "/assets/generated/english/english-hybrid-method.png",
-    gedStudyGroup: "/assets/gallery/photos/0018.webp",
+    gedStudyGroup: "/assets/generated/ged-preparation-study-group-v1.png",
     basicComputingHero: "/assets/generated/computacion-basica-hero-generated.webp",
     basicComputingMethod: "/assets/generated/computacion-basica-metodo-generated.webp",
     officeComputingHero: "/assets/generated/computacion-oficina-hero-generated.webp",
@@ -1211,7 +1211,7 @@ const allCourseRecords = [
           "La preparación organiza el trabajo académico y el seguimiento. El ritmo real depende de tu base, asistencia y práctica; la duración publicada es una estimación.",
         image: site.images.gedStudyGroup,
         imageAlt:
-          "Grupo de estudiantes de AiT USA reunido para una sesión académica.",
+          "Personas adultas trabajando con una instructora durante una sesión de preparación académica para el GED.",
         figcaption: "Preparación GED · práctica y seguimiento académico",
         points: [
           "Orientación inicial para entender el proceso y el punto de arranque.",
