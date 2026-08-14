@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { courseCatalog, programs } from "../../../src/content";
+import { catalogInformationRoutes, courseCatalog, programs } from "../../../src/content";
 
 const allOfferingsKey = "all-offerings";
 const primaryGroupKey = "english-paths";
@@ -10,6 +10,12 @@ const primaryGroupKey = "english-paths";
 function getPrograms(slugs) {
   return slugs
     .map((slug) => programs.find((program) => program.slug === slug))
+    .filter(Boolean);
+}
+
+function getInformationRoutes(keys) {
+  return keys
+    .map((key) => catalogInformationRoutes.find((route) => route.key === key))
     .filter(Boolean);
 }
 
@@ -49,6 +55,39 @@ function ProgramCard({ program, featured = false }) {
   );
 }
 
+function InformationRouteCard({ route }) {
+  return (
+    <article className="program-card program-card--informational" data-category="information">
+      <div className="program-card__identity">
+        <p className="eyebrow-chip">{route.label}</p>
+        <h3>{route.title}</h3>
+      </div>
+      <Image
+        className="program-card__image"
+        src={route.image}
+        alt={route.imageAlt}
+        width={1200}
+        height={900}
+        sizes="(max-width: 719px) calc(100vw - 32px), (max-width: 1040px) 44vw, 28vw"
+      />
+      <div className="program-card__body">
+        <p>{route.summary}</p>
+        <p className="program-card__note">{route.note}</p>
+        <div className="button-row">
+          <a
+            className="button button--primary"
+            href={route.href}
+            data-information-route-link={route.key}
+            aria-label={`${route.cta}: ${route.title}`}
+          >
+            {route.cta}
+          </a>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 function ProgramGrid({ programsToRender, featured = false, supporting = false }) {
   return (
     <div className={`program-grid${featured ? " program-grid--featured" : ""}${supporting ? " program-grid--supporting" : ""}`}>
@@ -59,8 +98,17 @@ function ProgramGrid({ programsToRender, featured = false, supporting = false })
   );
 }
 
+function InformationRouteGrid({ routes }) {
+  return (
+    <div className="program-grid program-grid--supporting">
+      {routes.map((route) => <InformationRouteCard route={route} key={route.key} />)}
+    </div>
+  );
+}
+
 function CatalogGroup({ group }) {
   const groupPrograms = getPrograms(group.programs);
+  const groupInformationRoutes = getInformationRoutes(group.informationRoutes || []);
   const isPrimary = group.key === primaryGroupKey;
 
   return (
@@ -71,18 +119,22 @@ function CatalogGroup({ group }) {
         <p>{group.description}</p>
       </div>
       <ProgramGrid programsToRender={groupPrograms} featured={isPrimary} supporting={!isPrimary} />
+      {groupInformationRoutes.length ? <InformationRouteGrid routes={groupInformationRoutes} /> : null}
     </section>
   );
 }
 
 export function CourseCatalog() {
-  const [activeTab, setActiveTab] = useState(primaryGroupKey);
+  const [activeTab, setActiveTab] = useState(allOfferingsKey);
   const activeGroup = courseCatalog.find((group) => group.key === activeTab);
   const primaryGroup = courseCatalog.find((group) => group.key === primaryGroupKey);
   const primaryPrograms = getPrograms(primaryGroup?.programs || []);
   const visiblePrograms = activeGroup
     ? getPrograms(activeGroup.programs)
     : courseCatalog.flatMap((group) => getPrograms(group.programs));
+  const visibleInformationRoutes = activeGroup
+    ? getInformationRoutes(activeGroup.informationRoutes || [])
+    : courseCatalog.flatMap((group) => getInformationRoutes(group.informationRoutes || []));
   const activeTabId = `catalog-tab-${activeTab}`;
   const panelId = "catalog-panel";
   const formatSummary = [...new Set(visiblePrograms.map((program) => program.mode))].join(" · ");
@@ -145,7 +197,7 @@ export function CourseCatalog() {
           ) : null}
         </div>
 
-        <div className="catalog-tabs" role="tablist" aria-label="Filtrar el catálogo por tipo de curso">
+        <div className="catalog-tabs" role="tablist" aria-label="Filtrar el catálogo por tipo de ruta">
           <button
             type="button"
             id={`catalog-tab-${allOfferingsKey}`}
@@ -195,6 +247,7 @@ export function CourseCatalog() {
                   featured={activeGroup.key === primaryGroupKey}
                   supporting={activeGroup.key !== primaryGroupKey}
                 />
+                {visibleInformationRoutes.length ? <InformationRouteGrid routes={visibleInformationRoutes} /> : null}
               </>
             ) : (
               <div className="catalog-group-list">
@@ -205,19 +258,19 @@ export function CourseCatalog() {
 
           <aside className="course-catalog__fact-card" aria-labelledby="catalog-facts-title">
             <p className="section-kicker">Para decidir con claridad</p>
-            <h2 id="catalog-facts-title">Mira primero el formato y el objetivo.</h2>
-            <p>Las tarjetas reúnen los datos publicados para comparar cada ruta sin adivinar qué programa encaja.</p>
+            <h2 id="catalog-facts-title">Mira primero el formato, el objetivo y el estado.</h2>
+            <p>Las tarjetas reúnen los datos publicados para comparar programas y rutas informativas sin adivinar qué aplica.</p>
             <dl>
               <div>
-                <dt>Programas visibles</dt>
-                <dd>{visiblePrograms.length}</dd>
+                <dt>Rutas visibles</dt>
+                <dd>{visiblePrograms.length + visibleInformationRoutes.length}</dd>
               </div>
               <div>
                 <dt>Formatos</dt>
                 <dd>{formatSummary}</dd>
               </div>
             </dl>
-            <p className="course-catalog__fact-note">Cada botón lleva a la ficha completa del programa seleccionado.</p>
+            <p className="course-catalog__fact-note">Cada botón lleva a la ficha publicada o a una página informativa con su estado claro.</p>
           </aside>
         </div>
       </div>

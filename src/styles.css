@@ -15417,6 +15417,20 @@ textarea {
   line-height: 1.45;
 }
 
+.course-catalog .program-card--informational {
+  border-color: rgba(196, 147, 45, 0.68);
+}
+
+.course-catalog .program-card__note {
+  margin-top: -4px;
+  padding: 10px 11px;
+  border-left: 3px solid var(--catalog-gold);
+  background: rgba(196, 147, 45, 0.1);
+  color: var(--catalog-navy);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
 .course-catalog .program-meta {
   gap: 12px;
   margin-bottom: 18px;

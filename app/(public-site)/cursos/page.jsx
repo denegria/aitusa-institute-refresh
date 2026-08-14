@@ -4,7 +4,7 @@ import { programs, site } from "../../../src/content";
 export const metadata = {
   title: "Cursos AiT USA Institute | Catálogo detallado",
   description:
-    "Explora el catálogo detallado de inglés, GED, computación y programas de apoyo de AiT USA Institute.",
+    "Explora el catálogo detallado de inglés, GED, computación, programas de apoyo y una ruta informativa de ciudadanía de AiT USA Institute.",
   keywords: site.seoKeywords,
   alternates: {
     canonical: "/cursos/",
@@ -20,7 +20,7 @@ export const metadata = {
     siteName: site.name,
     title: "Cursos AiT USA Institute | Catálogo detallado",
     description:
-      "Explora el catálogo detallado de inglés, GED, computación y programas de apoyo de AiT USA Institute.",
+      "Explora el catálogo detallado de inglés, GED, computación, programas de apoyo y una ruta informativa de ciudadanía de AiT USA Institute.",
     images: [{ url: site.seoImage, alt: site.seoImageAlt }],
   },
   twitter: {
@@ -28,7 +28,7 @@ export const metadata = {
     site: site.twitterHandle,
     title: "Cursos AiT USA Institute | Catálogo detallado",
     description:
-      "Explora el catálogo detallado de inglés, GED, computación y programas de apoyo de AiT USA Institute.",
+      "Explora el catálogo detallado de inglés, GED, computación, programas de apoyo y una ruta informativa de ciudadanía de AiT USA Institute.",
     images: [site.seoImage],
   },
 };

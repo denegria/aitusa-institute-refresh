@@ -3242,6 +3242,26 @@ const courseCatalog = [
       "Opciones complementarias para estudiantes que también necesitan español para extranjeros o rutas futuras.",
     anchor: "otros-idiomas-y-apoyo-adicional",
     programs: ["espanol-extranjeros"],
+    informationRoutes: ["ciudadania"],
+  },
+];
+
+// These routes live in the public catalog so people can find the right
+// conversation, but they are deliberately separate from `programs`: they are
+// not published courses and must never inherit course metadata or schema.
+const catalogInformationRoutes = [
+  {
+    key: "ciudadania",
+    title: "Ciudadanía",
+    label: "Información en preparación",
+    summary:
+      "Una ruta informativa para conversar con AiT USA sobre apoyo de preparación cívica y confirmar qué información está disponible.",
+    note:
+      "No es un curso publicado. Formato, horarios, requisitos, costo y disponibilidad están pendientes de confirmación.",
+    image: site.images.adultEnglish,
+    imageAlt: "Estudiantes adultos conversando en un espacio de aprendizaje.",
+    href: "/ciudadania/",
+    cta: "Ver información de ciudadanía",
   },
 ];
 
@@ -3522,6 +3542,7 @@ export const siteData = {
   solutionCharacteristics,
   productOfferings,
   courseCatalog,
+  catalogInformationRoutes,
   conversionCtas,
   placementTest,
   heroProof,
@@ -3565,6 +3586,7 @@ export {
   contactPrep,
   conversionCtas,
   courseCatalog,
+  catalogInformationRoutes,
   courseGuides,
   differentiators,
   downloads,

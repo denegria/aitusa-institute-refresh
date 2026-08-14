@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { describe, it } from "node:test";
-import { courseCatalog, productOfferings, programs, schedules } from "../src/content.js";
+import { catalogInformationRoutes, courseCatalog, productOfferings, programs, schedules } from "../src/content.js";
 import { getCourseMetaDescription } from "../src/seo/courseMetadata.js";
 
 const activeSlugs = [
@@ -195,6 +195,7 @@ describe("AIT USA native course routes and SEO contract", () => {
     assert.doesNotMatch(source, /OfferingsSection|course-detail-stack|<details|<summary|filter-bar/);
     assert.match(source, /role="tablist"/);
     assert.match(source, /Todos los cursos/);
+    assert.match(source, /useState\(allOfferingsKey\)/);
     assert.match(source, /role="tabpanel"/);
     assert.doesNotMatch(source, /catalog-nav/);
     assert.match(source, /data-course-detail-link=\{program\.slug\}/);
@@ -205,6 +206,10 @@ describe("AIT USA native course routes and SEO contract", () => {
     assert.doesNotMatch(page, /OfferingsSection/);
     assert.equal(courseCatalog.flatMap((group) => group.programs).length, 8);
     assert.equal(new Set(courseCatalog.flatMap((group) => group.programs)).size, 8);
+    assert.deepEqual(catalogInformationRoutes.map((route) => route.key), ["ciudadania"]);
+    assert.equal(catalogInformationRoutes[0].href, "/ciudadania/");
+    assert.match(catalogInformationRoutes[0].note, /No es un curso publicado/i);
+    assert.equal(courseCatalog.find((group) => group.key === "additional-languages").informationRoutes?.[0], "ciudadania");
     assert.deepEqual(productOfferings.slice(0, 3).map((offering) => offering.href), [
       "/cursos/ingles-jovenes-adultos/",
       "/cursos/ingles-hibrido-adultos/",
