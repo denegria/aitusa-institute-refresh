@@ -152,6 +152,14 @@ const site = {
     heroClassroom: assetHires("hero-classroom.jpg"),
     classroomStudy: "/assets/gallery/photos/0011.webp",
     hybridClass: "/assets/gallery/photos/0012.webp",
+    inPersonEnglishMethod: "/assets/gallery/photos/0028.webp",
+    onlineEnglishMethod: assetHires("adult-english-speaking.jpg"),
+    hybridEnglishHero: "/assets/gallery/photos/0012.webp",
+    hybridEnglishMethod: "/assets/gallery/photos/0017.webp",
+    gedStudyGroup: "/assets/gallery/photos/0018.webp",
+    basicComputingHero: assetHires("devices-study.jpg"),
+    basicComputingMethod: "/assets/gallery/photos/0011.webp",
+    officeComputingMethod: "/assets/gallery/photos/0035.webp",
     heroFemaleZoom: assetHires("online-instructor-headset.jpg"),
     heroFemaleSpeakingPoster: asset("live/hero-female-speaking-poster.jpg"),
     adultEnglish: assetHires("adult-speaking-class.jpg"),
@@ -445,9 +453,9 @@ const allCourseRecords = [
         title: "Primero entiendes la estructura. Después la usas para hablar.",
         text:
           "Graphic Concept organiza tiempos, palabras y contexto de forma visual. La clase conecta esa estructura con conversación, repetición oral y corrección inmediata.",
-        image: site.images.routeConcept,
+        image: site.images.inPersonEnglishMethod,
         imageAlt:
-          "Instructora explicando una secuencia visual para comprender y practicar inglés.",
+          "Estudiantes de AiT USA practicando inglés en una clase presencial.",
         points: [
           "Explicación visual antes de memorizar listas extensas.",
           "Práctica oral con corrección durante la clase.",
@@ -691,9 +699,9 @@ const allCourseRecords = [
         title: "La pantalla no reemplaza la interacción: la organiza.",
         text:
           "Graphic Concept presenta tiempos, palabras y contexto de forma visual. El profesor conecta esa estructura con práctica oral y corrección durante la sesión.",
-        image: site.images.routeConcept,
+        image: site.images.onlineEnglishMethod,
         imageAlt:
-          "Instructora explicando una secuencia visual usada durante una clase de inglés online.",
+          "Instructora guiando a estudiantes durante una lección de inglés.",
         points: [
           "Explicación visual antes de memorizar listas extensas.",
           "Clases en tiempo real con un profesor y participación del grupo.",
@@ -1188,9 +1196,9 @@ const allCourseRecords = [
         title: "Refuerza por áreas antes de reservar el examen oficial.",
         text:
           "La preparación organiza el trabajo académico y el seguimiento. El ritmo real depende de tu base, asistencia y práctica; la duración publicada es una estimación.",
-        image: site.images.classroomStudy,
+        image: site.images.gedStudyGroup,
         imageAlt:
-          "Estudiantes de AiT USA participando en una clase guiada con materiales de estudio.",
+          "Grupo de estudiantes de AiT USA reunido para una sesión académica.",
         figcaption: "Preparación GED · práctica y seguimiento académico",
         points: [
           "Orientación inicial para entender el proceso y el punto de arranque.",
@@ -1630,9 +1638,9 @@ const allCourseRecords = [
       eyebrow: "Independencia digital desde la base",
       lead:
         "Un curso práctico para principiantes que quieren usar internet, archivos, programas y funciones cotidianas de la computadora con más seguridad.",
-      heroImage: site.images.hybridClass,
+      heroImage: site.images.basicComputingHero,
       heroImageAlt:
-        "Estudiantes de AiT USA trabajando con una laptop y materiales durante una clase.",
+        "Persona usando una laptop, una tableta y apuntes durante una sesión de estudio.",
       heroNote:
         "El sistema operativo, el nivel inicial y el bloque vigente se confirman antes de comenzar.",
       primaryCta: {
@@ -1714,9 +1722,9 @@ const allCourseRecords = [
         title: "Cada función se entiende mejor cuando resuelve una tarea real.",
         text:
           "La ruta conecta explicaciones básicas con acciones cotidianas: buscar, escribir, guardar, compartir, instalar y mantener orden.",
-        image: site.images.computing,
+        image: site.images.basicComputingMethod,
         imageAlt:
-          "Dispositivos digitales usados para practicar tareas básicas de computación.",
+          "Estudiantes de AiT USA trabajando con materiales de estudio en el salón.",
         figcaption: "Computación básica · práctica para tareas cotidianas",
         points: [
           "Operaciones esenciales en Windows o Mac según el grupo.",
@@ -1987,9 +1995,9 @@ const allCourseRecords = [
         title: "No se trata de memorizar menús; se trata de completar un trabajo real.",
         text:
           "Cada módulo conecta funciones del software con documentos, hojas de cálculo o presentaciones que aparecen en oficina, estudio y administración.",
-        image: site.images.adultEnglish,
+        image: site.images.officeComputingMethod,
         imageAlt:
-          "Persona practicando con laptop, tableta y apuntes en un espacio de estudio.",
+          "Comunidad de estudiantes de AiT USA reunida en la sede.",
         figcaption: "Computación para oficina · documentos, datos y presentaciones",
         points: [
           "Ejercicios alrededor de tareas reales.",
@@ -2178,9 +2186,9 @@ const hybridEnglishProgram = {
     eyebrow: "Inglés híbrido",
     lead:
       "Una ruta flexible para comprender, conversar y sostener tu práctica combinando encuentros presenciales con apoyo remoto.",
-    heroImage: site.images.heroFemaleZoom,
+    heroImage: site.images.hybridEnglishHero,
     heroImageAlt:
-      "Instructora guiando una clase de inglés con audífonos y apoyo remoto.",
+      "Estudiantes de AiT USA usando una laptop durante una sesión de aprendizaje guiada.",
     heroNote:
       "La sede, la alternancia, el nivel y el horario se confirman según el grupo activo y tu agenda.",
     primaryCta: {
@@ -2259,9 +2267,9 @@ const hybridEnglishProgram = {
       title: "La flexibilidad funciona mejor cuando la estructura se mantiene.",
       text:
         "Graphic Concept organiza tiempos, palabras y contexto de forma visual. Esa referencia común ayuda a conectar el trabajo presencial con el apoyo remoto.",
-      image: site.images.routeConcept,
+      image: site.images.hybridEnglishMethod,
       imageAlt:
-        "Instructora explicando una secuencia visual para practicar inglés.",
+        "Estudiantes de AiT USA practicando con materiales de inglés y apoyo de una pantalla.",
       points: [
         "Mapa visual para comprender antes de memorizar listas extensas.",
         "Práctica oral con corrección durante los encuentros disponibles.",
