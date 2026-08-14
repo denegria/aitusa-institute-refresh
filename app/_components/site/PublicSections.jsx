@@ -152,7 +152,7 @@ const supportingPrograms = [
   {
     label: "Ciudadanía",
     description: "Consulta la ruta de preparación cívica disponible para tu objetivo.",
-    href: "/cursos/",
+    href: "/ciudadania/",
     cta: "Consultar ruta",
   },
 ];
