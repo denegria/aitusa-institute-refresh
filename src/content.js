@@ -376,9 +376,9 @@ const allCourseRecords = [
       eyebrow: "Inglés presencial",
       lead:
         "Una ruta presencial para comprender, conversar y responder con más seguridad en el trabajo, los estudios, los trámites y la vida diaria.",
-      heroImage: site.images.adultEnglish,
+      heroImage: site.images.approvedHero,
       heroImageAlt:
-        "Estudiante adulta practicando inglés con materiales digitales y un cuaderno.",
+        "Docente orientando a una estudiante en una clase de inglés de AiT USA.",
       proofLedger: [
         {
           label: "Modalidad",
@@ -921,9 +921,9 @@ const allCourseRecords = [
         title: "Aprender una lengua también significa usarla con un propósito.",
         text:
           "La ruta se organiza alrededor de comprensión, vocabulario y práctica para situaciones reales. El grupo y el nivel determinan el ritmo concreto.",
-        image: site.images.spanish,
+        image: site.images.routeLevels,
         imageAlt:
-          "Persona adulta participando en una práctica conversacional de idioma.",
+          "Instructora guiando el avance por niveles con una escala visual de progreso.",
         figcaption: "Español online · comprensión y conversación guiada",
         points: [
           "Situaciones relacionadas con estudio, trabajo y vida diaria.",
@@ -1188,9 +1188,9 @@ const allCourseRecords = [
         title: "Refuerza por áreas antes de reservar el examen oficial.",
         text:
           "La preparación organiza el trabajo académico y el seguimiento. El ritmo real depende de tu base, asistencia y práctica; la duración publicada es una estimación.",
-        image: site.images.math,
+        image: site.images.classroomStudy,
         imageAlt:
-          "Tutora guiando ejercicios académicos con calculadora, cuaderno y material de práctica.",
+          "Estudiantes de AiT USA participando en una clase guiada con materiales de estudio.",
         figcaption: "Preparación GED · práctica y seguimiento académico",
         points: [
           "Orientación inicial para entender el proceso y el punto de arranque.",
@@ -1457,9 +1457,9 @@ const allCourseRecords = [
         title: "Primero se delimita el problema; después se practica lo que lo desbloquea.",
         text:
           "Una tutoría útil no intenta cubrir toda la materia a la vez. Se concentra en el tema actual, la base que falta y los próximos ejercicios.",
-        image: site.images.math,
+        image: site.images.heroClassroom,
         imageAlt:
-          "Sesión de tutoría matemática con ejercicios escritos y calculadora.",
+          "Estudiantes trabajando en clase con acompañamiento del docente.",
         figcaption: "Tutoría matemática · explicación, práctica y verificación",
         points: [
           "Contexto del curso y tema antes de la sesión.",
@@ -1630,9 +1630,9 @@ const allCourseRecords = [
       eyebrow: "Independencia digital desde la base",
       lead:
         "Un curso práctico para principiantes que quieren usar internet, archivos, programas y funciones cotidianas de la computadora con más seguridad.",
-      heroImage: site.images.computing,
+      heroImage: site.images.hybridClass,
       heroImageAlt:
-        "Instructora guiando una clase de computación básica con distintos dispositivos.",
+        "Estudiantes de AiT USA trabajando con una laptop y materiales durante una clase.",
       heroNote:
         "El sistema operativo, el nivel inicial y el bloque vigente se confirman antes de comenzar.",
       primaryCta: {
@@ -1987,9 +1987,9 @@ const allCourseRecords = [
         title: "No se trata de memorizar menús; se trata de completar un trabajo real.",
         text:
           "Cada módulo conecta funciones del software con documentos, hojas de cálculo o presentaciones que aparecen en oficina, estudio y administración.",
-        image: site.images.office,
+        image: site.images.adultEnglish,
         imageAlt:
-          "Espacio de trabajo digital con aplicaciones de oficina en una computadora.",
+          "Persona practicando con laptop, tableta y apuntes en un espacio de estudio.",
         figcaption: "Computación para oficina · documentos, datos y presentaciones",
         points: [
           "Ejercicios alrededor de tareas reales.",
