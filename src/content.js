@@ -169,9 +169,10 @@ const site = {
     englishHybridMethodGenerated:
       "/assets/generated/english/english-hybrid-method.png",
     gedStudyGroup: "/assets/gallery/photos/0018.webp",
-    basicComputingHero: assetHires("devices-study.jpg"),
-    basicComputingMethod: "/assets/gallery/photos/0011.webp",
-    officeComputingMethod: "/assets/gallery/photos/0035.webp",
+    basicComputingHero: "/assets/generated/computacion-basica-hero-generated.webp",
+    basicComputingMethod: "/assets/generated/computacion-basica-metodo-generated.webp",
+    officeComputingHero: "/assets/generated/computacion-oficina-hero-generated.webp",
+    officeComputingMethod: "/assets/generated/computacion-oficina-metodo-generated.webp",
     heroFemaleZoom: assetHires("online-instructor-headset.jpg"),
     heroFemaleSpeakingPoster: asset("live/hero-female-speaking-poster.jpg"),
     adultEnglish: assetHires("adult-speaking-class.jpg"),
@@ -1652,7 +1653,7 @@ const allCourseRecords = [
         "Un curso práctico para principiantes que quieren usar internet, archivos, programas y funciones cotidianas de la computadora con más seguridad.",
       heroImage: site.images.basicComputingHero,
       heroImageAlt:
-        "Persona usando una laptop, una tableta y apuntes durante una sesión de estudio.",
+        "Estudiante adulto practicando tareas básicas de computación con el acompañamiento de una instructora.",
       heroNote:
         "El sistema operativo, el nivel inicial y el bloque vigente se confirman antes de comenzar.",
       primaryCta: {
@@ -1736,7 +1737,7 @@ const allCourseRecords = [
           "La ruta conecta explicaciones básicas con acciones cotidianas: buscar, escribir, guardar, compartir, instalar y mantener orden.",
         image: site.images.basicComputingMethod,
         imageAlt:
-          "Estudiantes de AiT USA trabajando con materiales de estudio en el salón.",
+          "Dos estudiantes adultos organizan una práctica de archivos y documentos junto a una laptop.",
         figcaption: "Computación básica · práctica para tareas cotidianas",
         points: [
           "Operaciones esenciales en Windows o Mac según el grupo.",
@@ -1923,9 +1924,9 @@ const allCourseRecords = [
       eyebrow: "Herramientas para oficina y estudio",
       lead:
         "Una ruta práctica por Word, Excel y PowerPoint para crear documentos, organizar información y presentar ideas con más claridad.",
-      heroImage: site.images.office,
+      heroImage: site.images.officeComputingHero,
       heroImageAlt:
-        "Persona trabajando en una computadora con herramientas de productividad de oficina.",
+        "Estudiante adulta practicando una tarea de oficina con computadora y documentos de trabajo.",
       heroNote:
         "El módulo, el nivel inicial, el software y el horario vigente se confirman con admisiones.",
       primaryCta: {
@@ -2009,7 +2010,7 @@ const allCourseRecords = [
           "Cada módulo conecta funciones del software con documentos, hojas de cálculo o presentaciones que aparecen en oficina, estudio y administración.",
         image: site.images.officeComputingMethod,
         imageAlt:
-          "Comunidad de estudiantes de AiT USA reunida en la sede.",
+          "Grupo de estudiantes adultos practica una presentación y revisa documentos en una mesa de trabajo.",
         figcaption: "Computación para oficina · documentos, datos y presentaciones",
         points: [
           "Ejercicios alrededor de tareas reales.",
