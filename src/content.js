@@ -156,6 +156,18 @@ const site = {
     onlineEnglishMethod: assetHires("adult-english-speaking.jpg"),
     hybridEnglishHero: "/assets/gallery/photos/0012.webp",
     hybridEnglishMethod: "/assets/gallery/photos/0017.webp",
+    englishInPersonHeroGenerated:
+      "/assets/generated/english/english-in-person-hero.png",
+    englishInPersonMethodGenerated:
+      "/assets/generated/english/english-in-person-method.png",
+    englishOnlineHeroGenerated:
+      "/assets/generated/english/english-online-hero.png",
+    englishOnlineMethodGenerated:
+      "/assets/generated/english/english-online-method.png",
+    englishHybridHeroGenerated:
+      "/assets/generated/english/english-hybrid-hero.png",
+    englishHybridMethodGenerated:
+      "/assets/generated/english/english-hybrid-method.png",
     gedStudyGroup: "/assets/gallery/photos/0018.webp",
     basicComputingHero: assetHires("devices-study.jpg"),
     basicComputingMethod: "/assets/gallery/photos/0011.webp",
@@ -384,9 +396,9 @@ const allCourseRecords = [
       eyebrow: "Inglés presencial",
       lead:
         "Una ruta presencial para comprender, conversar y responder con más seguridad en el trabajo, los estudios, los trámites y la vida diaria.",
-      heroImage: site.images.approvedHero,
+      heroImage: site.images.englishInPersonHeroGenerated,
       heroImageAlt:
-        "Docente orientando a una estudiante en una clase de inglés de AiT USA.",
+        "Docente guiando a adultos durante una clase presencial de inglés.",
       proofLedger: [
         {
           label: "Modalidad",
@@ -453,9 +465,9 @@ const allCourseRecords = [
         title: "Primero entiendes la estructura. Después la usas para hablar.",
         text:
           "Graphic Concept organiza tiempos, palabras y contexto de forma visual. La clase conecta esa estructura con conversación, repetición oral y corrección inmediata.",
-        image: site.images.inPersonEnglishMethod,
+        image: site.images.englishInPersonMethodGenerated,
         imageAlt:
-          "Estudiantes de AiT USA practicando inglés en una clase presencial.",
+          "Adultos practicando una conversación guiada en una clase de inglés.",
         points: [
           "Explicación visual antes de memorizar listas extensas.",
           "Práctica oral con corrección durante la clase.",
@@ -628,9 +640,9 @@ const allCourseRecords = [
       eyebrow: "Inglés en vivo desde cualquier país",
       lead:
         "Una ruta 100% online para comprender, conversar y avanzar con un profesor en tiempo real, materiales visuales y acompañamiento remoto.",
-      heroImage: site.images.onlineEnglish,
+      heroImage: site.images.englishOnlineHeroGenerated,
       heroImageAlt:
-        "Instructora con audífonos guiando una clase de inglés online en tiempo real.",
+        "Instructora guiando una clase de inglés online en tiempo real desde su espacio de trabajo.",
       heroNote:
         "La evaluación inicial orienta tu nivel. El grupo y la hora se confirman según tu país y zona horaria.",
       proofLedger: [
@@ -699,9 +711,9 @@ const allCourseRecords = [
         title: "La pantalla no reemplaza la interacción: la organiza.",
         text:
           "Graphic Concept presenta tiempos, palabras y contexto de forma visual. El profesor conecta esa estructura con práctica oral y corrección durante la sesión.",
-        image: site.images.onlineEnglishMethod,
+        image: site.images.englishOnlineMethodGenerated,
         imageAlt:
-          "Instructora guiando a estudiantes durante una lección de inglés.",
+          "Estudiante adulta practicando inglés online mientras toma notas.",
         points: [
           "Explicación visual antes de memorizar listas extensas.",
           "Clases en tiempo real con un profesor y participación del grupo.",
@@ -2186,9 +2198,9 @@ const hybridEnglishProgram = {
     eyebrow: "Inglés híbrido",
     lead:
       "Una ruta flexible para comprender, conversar y sostener tu práctica combinando encuentros presenciales con apoyo remoto.",
-    heroImage: site.images.hybridEnglishHero,
+    heroImage: site.images.englishHybridHeroGenerated,
     heroImageAlt:
-      "Estudiantes de AiT USA usando una laptop durante una sesión de aprendizaje guiada.",
+      "Adultos participando en una clase de inglés híbrida con un docente conectado a distancia.",
     heroNote:
       "La sede, la alternancia, el nivel y el horario se confirman según el grupo activo y tu agenda.",
     primaryCta: {
@@ -2267,9 +2279,9 @@ const hybridEnglishProgram = {
       title: "La flexibilidad funciona mejor cuando la estructura se mantiene.",
       text:
         "Graphic Concept organiza tiempos, palabras y contexto de forma visual. Esa referencia común ayuda a conectar el trabajo presencial con el apoyo remoto.",
-      image: site.images.hybridEnglishMethod,
+      image: site.images.englishHybridMethodGenerated,
       imageAlt:
-        "Estudiantes de AiT USA practicando con materiales de inglés y apoyo de una pantalla.",
+        "Docente y estudiante revisando un ejercicio visual de inglés después de una sesión híbrida.",
       points: [
         "Mapa visual para comprender antes de memorizar listas extensas.",
         "Práctica oral con corrección durante los encuentros disponibles.",
