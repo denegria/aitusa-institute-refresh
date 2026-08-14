@@ -35,7 +35,11 @@
     "test:portal-availability": "node --test tests/portal-availability.test.mjs",
     "test:portal-shell": "node --test tests/portal-shell.test.mjs tests/portal-view-model.test.mjs",
     "test:guardian-onboarding": "node --test tests/guardian-onboarding.test.mjs tests/guardian-onboarding-route.test.mjs",
-    "verify:browser": "node ./scripts/verify-browser.mjs"
+    "verify:browser": "node ./scripts/verify-browser.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check:repository": "node ./scripts/check-repository.mjs",
+    "verify:release-surfaces": "node ./scripts/verify-release-surfaces.mjs",
+    "validate": "npm run check:repository && npm run check:assets && npm test && npm run build"
   },
   "dependencies": {
     "@neondatabase/serverless": "1.1.0",

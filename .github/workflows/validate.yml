@@ -1,0 +1,51 @@
+name: Validate candidate
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run validate
+      - name: Start production server
+        run: |
+          npm run start > /tmp/aitusa-next.log 2>&1 &
+          echo $! > /tmp/aitusa-next.pid
+          for attempt in {1..40}; do
+            curl --fail --silent http://127.0.0.1:3000/ > /dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/aitusa-next.log
+          exit 1
+      - name: Capture deterministic release surfaces
+        env:
+          VERIFY_BASE_URL: http://127.0.0.1:3000
+          VERIFY_SCREENSHOTS_DIR: artifacts/release-surfaces
+        run: npm run verify:release-surfaces
+      - name: Upload release evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-surfaces-${{ github.sha }}
+          path: |
+            artifacts/release-surfaces
+            /tmp/aitusa-next.log
+          if-no-files-found: warn
+          retention-days: 14

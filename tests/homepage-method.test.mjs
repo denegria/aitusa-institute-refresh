@@ -91,7 +91,7 @@ describe("homepage Method community story", () => {
     );
     const video = interactive.slice(
       interactive.indexOf("export function MethodVideo"),
-      interactive.indexOf("export function ProofStories"),
+      interactive.indexOf("export function TestimonialsSection"),
     );
 
     assert.equal((method.match(/<MethodVideo/g) || []).length, 1);

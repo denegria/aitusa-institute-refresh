@@ -10,8 +10,9 @@ describe("course catalog editorial component", () => {
     const englishPrograms = englishGroup.programs.map((slug) => programs.find((program) => program.slug === slug));
 
     assert.match(source, /const primaryGroupKey = "english-paths"/);
-    assert.match(source, /useState\(primaryGroupKey\)/);
+    assert.match(source, /useState\(allOfferingsKey\)/);
     assert.match(source, /primaryPrograms\.map/);
+    assert.match(source, /visibleInformationRoutes/);
     assert.match(source, /\{program\.cta\}/);
     assert.deepEqual(englishPrograms.map((program) => program.title), [
       "Inglés presencial",
