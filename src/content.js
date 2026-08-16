@@ -176,15 +176,20 @@ const site = {
     officeComputingMethod: "/assets/generated/computacion-oficina-metodo-generated.webp",
     heroFemaleZoom: assetHires("online-instructor-headset.jpg"),
     heroFemaleSpeakingPoster: asset("live/hero-female-speaking-poster.jpg"),
-    adultEnglish: assetHires("adult-speaking-class.jpg"),
+    adultEnglish: "/assets/generated/annotation/courses/english-in-person-class.webp",
     onlineEnglish: assetHires("online-instructor-headset.jpg"),
     kidsEnglish: assetHires("kids-online-class.jpg"),
-    computing: assetHires("devices-study.jpg"),
-    office: asset("081-laptop-work.jpg"),
+    computing: "/assets/generated/annotation/courses/computacion-basica-class.webp",
+    office: "/assets/generated/annotation/courses/computacion-oficina-class.webp",
     repair: asset("089-reparacion-de-computadoras.jpg"),
-    spanish: assetHires("adult-english-speaking.jpg"),
+    spanish: "/assets/generated/annotation/courses/spanish-conversation.webp",
     ged: asset("products/product-ged.jpg"),
-    math: asset("095-math-class.jpg"),
+    math: "/assets/generated/annotation/courses/math-class-algebra.webp",
+    methodIcons: {
+      understand: "/assets/generated/annotation/icons/method-understand.webp",
+      speak: "/assets/generated/annotation/icons/method-speak.webp",
+      progress: "/assets/generated/annotation/icons/method-progress.webp",
+    },
     method: assetHires("graphic-concept-method.jpg"),
     tutoring: assetHires("online-instructor-headset.jpg"),
     level: assetHires("adult-speaking-class.jpg"),
@@ -398,9 +403,9 @@ const allCourseRecords = [
       eyebrow: "Inglés presencial",
       lead:
         "Una ruta presencial para comprender, conversar y responder con más seguridad en el trabajo, los estudios, los trámites y la vida diaria.",
-      heroImage: site.images.englishInPersonHeroGenerated,
+      heroImage: site.images.adultEnglish,
       heroImageAlt:
-        "Docente guiando a adultos durante una clase presencial de inglés.",
+        "Docente guiando a estudiantes adultos de distintas edades durante una clase presencial de inglés.",
       proofLedger: [
         {
           label: "Modalidad",
@@ -822,7 +827,7 @@ const allCourseRecords = [
     fit: "Ideal si quieres moverte con más seguridad en contextos de estudio y trabajo.",
     cta: "Ver español",
     image: site.images.spanish,
-    imageAlt: "Instructora guiando una clase conversacional por videollamada con apoyo visual.",
+    imageAlt: "Profesora y estudiantes adultos practicando conversación en español en el aula.",
     summary:
       "Clases de español conversacional para moverse con más seguridad en estudio y trabajo.",
     details: [
@@ -943,9 +948,9 @@ const allCourseRecords = [
         title: "Aprender una lengua también significa usarla con un propósito.",
         text:
           "La ruta se organiza alrededor de comprensión, vocabulario y práctica para situaciones reales. El grupo y el nivel determinan el ritmo concreto.",
-        image: site.images.routeLevels,
+        image: site.images.spanish,
         imageAlt:
-          "Instructora guiando el avance por niveles con una escala visual de progreso.",
+          "Profesora y estudiantes adultos practicando conversación en español en el aula.",
         figcaption: "Español online · comprensión y conversación guiada",
         points: [
           "Situaciones relacionadas con estudio, trabajo y vida diaria.",
@@ -1479,9 +1484,9 @@ const allCourseRecords = [
         title: "Primero se delimita el problema; después se practica lo que lo desbloquea.",
         text:
           "Una tutoría útil no intenta cubrir toda la materia a la vez. Se concentra en el tema actual, la base que falta y los próximos ejercicios.",
-        image: site.images.heroClassroom,
+        image: site.images.math,
         imageAlt:
-          "Estudiantes trabajando en clase con acompañamiento del docente.",
+          "Tutora y estudiantes trabajando álgebra en un salón de clases, con ecuaciones en la pizarra.",
         figcaption: "Tutoría matemática · explicación, práctica y verificación",
         points: [
           "Contexto del curso y tema antes de la sesión.",
@@ -1652,9 +1657,9 @@ const allCourseRecords = [
       eyebrow: "Independencia digital desde la base",
       lead:
         "Un curso práctico para principiantes que quieren usar internet, archivos, programas y funciones cotidianas de la computadora con más seguridad.",
-      heroImage: site.images.basicComputingHero,
+      heroImage: site.images.computing,
       heroImageAlt:
-        "Estudiante adulto practicando tareas básicas de computación con el acompañamiento de una instructora.",
+        "Instructora guiando a estudiantes adultos que practican computación en laptops y computadoras.",
       heroNote:
         "El sistema operativo, el nivel inicial y el bloque vigente se confirman antes de comenzar.",
       primaryCta: {
@@ -1736,9 +1741,9 @@ const allCourseRecords = [
         title: "Cada función se entiende mejor cuando resuelve una tarea real.",
         text:
           "La ruta conecta explicaciones básicas con acciones cotidianas: buscar, escribir, guardar, compartir, instalar y mantener orden.",
-        image: site.images.basicComputingMethod,
+        image: site.images.computing,
         imageAlt:
-          "Dos estudiantes adultos organizan una práctica de archivos y documentos junto a una laptop.",
+          "Estudiantes adultos practicando tareas básicas de computación en laptops y computadoras.",
         figcaption: "Computación básica · práctica para tareas cotidianas",
         points: [
           "Operaciones esenciales en Windows o Mac según el grupo.",
@@ -1876,7 +1881,7 @@ const allCourseRecords = [
     fit: "Ideal si buscas mejorar productividad con Word, Excel y PowerPoint.",
     cta: "Ver oficina",
     image: site.images.office,
-    imageAlt: "Herramientas de Microsoft Office y una persona trabajando en computadora.",
+    imageAlt: "Estudiantes adultos practicando herramientas de oficina en laptops durante una clase.",
     summary:
       "Entrenamiento en Word, Excel y PowerPoint para productividad en vida real.",
     details: [
@@ -1925,9 +1930,9 @@ const allCourseRecords = [
       eyebrow: "Herramientas para oficina y estudio",
       lead:
         "Una ruta práctica por Word, Excel y PowerPoint para crear documentos, organizar información y presentar ideas con más claridad.",
-      heroImage: site.images.officeComputingHero,
+      heroImage: site.images.office,
       heroImageAlt:
-        "Estudiante adulta practicando una tarea de oficina con computadora y documentos de trabajo.",
+        "Estudiantes adultos practicando documentos, datos y presentaciones en laptops.",
       heroNote:
         "El módulo, el nivel inicial, el software y el horario vigente se confirman con admisiones.",
       primaryCta: {
@@ -2009,9 +2014,9 @@ const allCourseRecords = [
         title: "No se trata de memorizar menús; se trata de completar un trabajo real.",
         text:
           "Cada módulo conecta funciones del software con documentos, hojas de cálculo o presentaciones que aparecen en oficina, estudio y administración.",
-        image: site.images.officeComputingMethod,
+        image: site.images.office,
         imageAlt:
-          "Grupo de estudiantes adultos practica una presentación y revisa documentos en una mesa de trabajo.",
+          "Estudiantes adultos practicando documentos, datos y presentaciones en laptops durante una clase.",
         figcaption: "Computación para oficina · documentos, datos y presentaciones",
         points: [
           "Ejercicios alrededor de tareas reales.",
@@ -3042,6 +3047,7 @@ const solutionCharacteristics = [
   {
     key: "understand",
     icon: "ear",
+    iconImage: site.images.methodIcons.understand,
     title: "Comprende sin traducir",
     body:
       "Entrena tu comprensión para entender inglés directamente, sin traducir palabra por palabra.",
@@ -3049,6 +3055,7 @@ const solutionCharacteristics = [
   {
     key: "speak",
     icon: "message-circle",
+    iconImage: site.images.methodIcons.speak,
     title: "Habla sin memorizar",
     body:
       "Practica estructuras útiles para hablar desde la primera clase, sin listas interminables.",
@@ -3056,6 +3063,7 @@ const solutionCharacteristics = [
   {
     key: "graphic-concept",
     icon: "route",
+    iconImage: site.images.methodIcons.progress,
     title: "Avanza a tu ritmo",
     body:
       "Graphic Concept se adapta a tu nivel: un método propio, patentado y probado para hablar con más facilidad.",

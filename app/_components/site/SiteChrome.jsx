@@ -66,6 +66,27 @@ export function SiteHeader({ activePage = "home" }) {
 
   const closeMenu = () => setOpen(false);
 
+  const navigateToSection = (event, id) => {
+    if (activePage !== "home") {
+      closeMenu();
+      return;
+    }
+
+    const target = document.getElementById(id);
+    if (!target) {
+      closeMenu();
+      return;
+    }
+
+    event.preventDefault();
+    const headerHeight = document.querySelector(".site-header")?.getBoundingClientRect().height || 0;
+    const targetTop = target.offsetTop - headerHeight - 12;
+    window.history.pushState(null, "", `#${id}`);
+    window.scrollTo({ top: Math.max(0, targetTop), behavior: "auto" });
+    setActiveSection(id);
+    closeMenu();
+  };
+
   return (
     <>
       <a className="skip-link" href="#main-content">Saltar al contenido</a>
@@ -109,7 +130,7 @@ export function SiteHeader({ activePage = "home" }) {
                   ? "location"
                   : undefined;
             return (
-              <a key={id} href={href} aria-current={current} onClick={closeMenu}>
+              <a key={id} href={href} aria-current={current} onClick={(event) => navigateToSection(event, id)}>
                 {label}
               </a>
             );

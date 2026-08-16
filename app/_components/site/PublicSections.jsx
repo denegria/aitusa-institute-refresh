@@ -19,9 +19,12 @@ export function HeroSection() {
       <div className="hero__main">
         <aside className="hero__spain-launch" aria-label="Spain Launch: próximamente en España">
           <span className="hero__spain-launch__pulse" aria-hidden="true" />
-          <span className="hero__spain-launch__eyebrow">Spain Launch</span>
-          <strong>AIT USA Institute llega a España</strong>
-          <span className="hero__spain-launch__detail">Próximamente</span>
+          <span className="hero__spain-launch__copy">
+            <span className="hero__spain-launch__eyebrow">Próxima parada</span>
+            <strong>España, la próxima conversación empieza aquí.</strong>
+          </span>
+          <span className="hero__spain-launch__detail">AIT USA · Próximamente</span>
+          <span className="hero__spain-launch__orbit" aria-hidden="true"><span /></span>
         </aside>
         <div className="hero__copy">
           <div className="hero__title-block">
@@ -105,7 +108,18 @@ export function MethodSection() {
             {solutionCharacteristics.map((item) => (
               <li key={item.key}>
                 <span className="method-reason__icon" aria-hidden="true">
-                  <i data-lucide={item.icon || "circle-check"} />
+                  {item.iconImage ? (
+                    <img
+                      className="method-reason__icon-image"
+                      src={item.iconImage}
+                      alt=""
+                      width="320"
+                      height="320"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : null}
+                  <i className="method-reason__icon-fallback" data-lucide={item.icon || "circle-check"} />
                 </span>
                 <div><h4>{item.title}</h4><p>{item.body}</p></div>
               </li>
