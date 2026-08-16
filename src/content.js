@@ -152,6 +152,7 @@ const site = {
     heroClassroom: assetHires("hero-classroom.jpg"),
     classroomStudy: "/assets/gallery/photos/0011.webp",
     hybridClass: "/assets/gallery/photos/0012.webp",
+    tutoringMathHero: "/assets/editorial/tutoring-math-hero.png",
     inPersonEnglishMethod: "/assets/gallery/photos/0028.webp",
     onlineEnglishMethod: assetHires("adult-english-speaking.jpg"),
     hybridEnglishHero: "/assets/gallery/photos/0012.webp",
@@ -1394,9 +1395,9 @@ const allCourseRecords = [
       eyebrow: "Apoyo focalizado en matemáticas",
       lead:
         "Tutorías para estudiantes de secundaria o universidad que necesitan aclarar un bloqueo, recuperar base y organizar la siguiente práctica.",
-      heroImage: site.images.math,
+      heroImage: site.images.tutoringMathHero,
       heroImageAlt:
-        "Tutora guiando ejercicios de matemáticas con calculadora, cuaderno y material de práctica.",
+        "Estudiante adulta recibiendo tutoría focalizada de matemáticas con ecuaciones, un gráfico, cuaderno y calculadora.",
       heroNote:
         "La materia, el nivel, la modalidad y el horario se confirman antes de comenzar.",
       primaryCta: {
