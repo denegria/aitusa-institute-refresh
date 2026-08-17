@@ -13,6 +13,8 @@ const sections = [
 ];
 const readingSectionIds = [...sections.map(([, id]) => id), "libros", "faq"];
 
+const getDocumentTop = (node) => node.getBoundingClientRect().top + window.scrollY;
+
 export function SiteHeader({ activePage = "home" }) {
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("inicio");
@@ -25,13 +27,13 @@ export function SiteHeader({ activePage = "home" }) {
       const nodes = readingSectionIds
         .map((id) => document.getElementById(id))
         .filter(Boolean)
-        .sort((a, b) => a.offsetTop - b.offsetTop);
+        .sort((a, b) => getDocumentTop(a) - getDocumentTop(b));
       if (!nodes.length) return;
 
       const readingLine = window.scrollY + Math.min(window.innerHeight * 0.32, 280);
       let current = nodes[0];
       for (const node of nodes) {
-        if (node.offsetTop <= readingLine) current = node;
+        if (getDocumentTop(node) <= readingLine) current = node;
       }
       if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 8) {
         current = nodes.at(-1);
@@ -80,7 +82,7 @@ export function SiteHeader({ activePage = "home" }) {
 
     event.preventDefault();
     const headerHeight = document.querySelector(".site-header")?.getBoundingClientRect().height || 0;
-    const targetTop = target.offsetTop - headerHeight - 12;
+    const targetTop = getDocumentTop(target) - headerHeight - 12;
     window.history.pushState(null, "", `#${id}`);
     window.scrollTo({ top: Math.max(0, targetTop), behavior: "auto" });
     setActiveSection(id);

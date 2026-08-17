@@ -16071,3 +16071,117 @@ textarea {
     display: none;
   }
 }
+
+/* Staging review follow-up: keep the Spain ribbon clear of the mobile
+   headline, show the approved hero image at its natural ratio, and let the
+   supporting-course path share the English offer-card system. */
+@media (max-width: 719px) {
+  .home-page #inicio .hero__copy {
+    padding-top: 46px;
+  }
+
+  .home-page #inicio .hero__visual {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 3 / 2;
+    background: #f3eee6;
+  }
+
+  .home-page #inicio .hero__visual > img {
+    position: static;
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .home-page #inicio .hero__institutional-inner {
+    min-height: 124px;
+  }
+
+  .home-page #inicio .hero__institutional-fact {
+    min-height: 62px;
+    padding-block: 9px;
+  }
+
+  .home-page #metodo.method-story-section {
+    padding-bottom: 40px;
+  }
+
+  .home-page #metodo .method-story__questions li,
+  .home-page #metodo .method-story__questions li:first-child,
+  .home-page #metodo .method-story__questions li:last-child {
+    padding-inline: 0;
+  }
+
+  .home-page #cursos-apoyo .supporting-course-card {
+    min-height: 88px;
+    padding: 12px 14px;
+    box-shadow: none;
+  }
+
+  .home-page #cursos-apoyo .supporting-course-card > div {
+    min-width: 0;
+  }
+
+  .home-page #cursos-apoyo .supporting-course-card p {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+}
+
+@media (min-width: 720px) {
+  .home-page #cursos-apoyo .supporting-courses-section__inner {
+    width: min(clamp(1180px, 82.5vw, 1320px), calc(100% - 28px));
+  }
+
+  .home-page #cursos-apoyo .supporting-courses-section__heading {
+    max-width: 736px;
+  }
+
+  .home-page #cursos-apoyo .supporting-courses-section__heading h2 {
+    font-size: clamp(3rem, 3.15vw, 3.25rem);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+  }
+
+  .home-page #cursos-apoyo .supporting-courses-section__heading > p:last-child {
+    max-width: 42rem;
+    margin-top: 16px;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .home-page #cursos-apoyo .supporting-courses-grid {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-page #cursos-apoyo .supporting-course-card {
+    min-height: clamp(250px, 15.72vw, 259.14px);
+    padding: 22px;
+    border-color: rgba(0, 26, 61, 0.18);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 18px 40px rgba(0, 51, 255, 0.1);
+  }
+
+  .home-page #cursos-apoyo .supporting-course-card p {
+    max-width: none;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .home-page #cursos-apoyo .supporting-course-card__link {
+    min-height: 44px;
+    padding: 10px 14px;
+    border-color: rgba(0, 26, 61, 0.2);
+    border-radius: 6px;
+    background: rgba(0, 26, 61, 0.045);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+}

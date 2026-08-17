@@ -136,37 +136,37 @@ const supportingPrograms = [
     label: "GED",
     description: "Refuerza tu preparación académica con una ruta concreta.",
     href: "/cursos/ged/",
-    cta: "Ver programa",
+    cta: "Explorar GED",
   },
   {
     label: "Computación básica",
     description: "Aprende herramientas digitales para tus próximos pasos.",
     href: "/cursos/computacion-basica/",
-    cta: "Ver programa",
+    cta: "Ver ruta básica",
   },
   {
     label: "Computación para oficina",
     description: "Practica habilidades digitales útiles para el trabajo.",
     href: "/cursos/computacion-oficina/",
-    cta: "Ver programa",
+    cta: "Ver ruta oficina",
   },
   {
     label: "Español para extranjeros",
     description: "Desarrolla español práctico para la vida diaria y el trabajo.",
     href: "/cursos/espanol-extranjeros/",
-    cta: "Ver programa",
+    cta: "Practicar español",
   },
   {
     label: "Tutorías de matemáticas",
     description: "Recibe apoyo enfocado para una meta académica puntual.",
     href: "/cursos/tutorias-matematicas/",
-    cta: "Ver programa",
+    cta: "Ver tutorías",
   },
   {
     label: "Ciudadanía",
     description: "Consulta la ruta de preparación cívica disponible para tu objetivo.",
     href: "/ciudadania/",
-    cta: "Consultar ruta",
+    cta: "Consultar ciudadanía",
   },
 ];
 
