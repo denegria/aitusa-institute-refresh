@@ -15981,6 +15981,10 @@ textarea {
 }
 
 @media (max-width: 719px) {
+  .home-page #metodo .method-story__principles-heading h3 {
+    margin-bottom: 8px;
+  }
+
   .hero__spain-launch__copy {
     gap: 2px;
   }
