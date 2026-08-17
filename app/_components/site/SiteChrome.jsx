@@ -84,7 +84,7 @@ export function SiteHeader({ activePage = "home" }) {
     const headerHeight = document.querySelector(".site-header")?.getBoundingClientRect().height || 0;
     const targetTop = getDocumentTop(target) - headerHeight - 12;
     window.history.pushState(null, "", `#${id}`);
-    window.scrollTo({ top: Math.max(0, targetTop), behavior: "auto" });
+    window.scrollTo({ top: Math.max(0, targetTop), behavior: "instant" });
     setActiveSection(id);
     closeMenu();
   };
