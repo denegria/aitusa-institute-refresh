@@ -166,8 +166,8 @@ describe("homepage React integration", () => {
     assert.match(hero, /hero__title-block/);
     assert.match(hero, /hero__modalities/);
     assert.match(hero, /hero__spain-launch/);
-    assert.match(hero, /España es nuestra próxima parada/);
-    assert.match(hero, /Muy pronto, una nueva comunidad aprenderá con nosotros/);
+    assert.match(hero, /Nos enorgullece anunciar que AIT USA ya está en España/);
+    assert.doesNotMatch(hero, /España es nuestra próxima parada|Muy pronto|Próximamente/);
     assert.doesNotMatch(hero, /hero__conversion/);
     assert.doesNotMatch(hero, /hero__summary|hero__objections/);
     assert.equal((hero.match(/className="button button--/g) || []).length, 0);
@@ -193,7 +193,7 @@ describe("homepage React integration", () => {
   });
 
   it("preserves the accepted responsive and semantic visual rules", async () => {
-    const { interactive, styles } = await readSources();
+    const { sections, interactive, styles } = await readSources();
     const launchPolish = styles.slice(styles.lastIndexOf("/* MIS-394 launch-week homepage polish"));
     assert.match(styles, /\.hero__kicker\s*\{[\s\S]*color: #c28a26/);
     assert.match(styles, /\.hero__modalities svg\s*\{[\s\S]*color: #c28a26/);
@@ -207,14 +207,28 @@ describe("homepage React integration", () => {
     assert.match(interactive, /className="country-proof"/);
     assert.match(interactive, /SPANISH_SPEAKING_COUNTRIES\.map/);
     assert.equal((interactive.match(/\{ name: "/g) || []).length, 21);
+    assert.match(interactive, /src=\{country\.src\}/);
+    assert.doesNotMatch(interactive, /flag: "[🇦-🇿]/u);
     assert.match(launchPolish, /\.country-proof__flags\s*\{[\s\S]*display: flex/);
-    assert.match(launchPolish, /supporting-course-card__link\s*\{[\s\S]*background: transparent/);
+    assert.match(launchPolish, /supporting-course-card__link\s*\{[\s\S]*border: 1px solid[\s\S]*border-radius: 6px/);
+    assert.match(sections, /Nos enorgullece anunciar que AIT USA ya está en España\./);
+    assert.doesNotMatch(sections, /España es nuestra próxima parada|Muy pronto, una nueva comunidad|Próximamente en España/);
+    assert.doesNotMatch(sections, /supporting-course-card__status|>Curso de apoyo</);
     assert.match(styles, /\.hero__headline-emphasis\s*\{[\s\S]*text-transform: none/);
     assert.match(styles, /\.community-proof__tabs\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
     assert.match(styles, /\.home-page \.real-map-pin\s*\{[\s\S]*width: 44px;[\s\S]*height: 44px/);
     assert.match(styles, /\.final-cta-contact-link\s*\{[\s\S]*min-height: 44px/);
     assert.match(styles, /\.site-footer\s*\{[\s\S]*background: #001a3d/);
     assert.match(styles, /Viewport rhythm: keep each homepage chapter within one comfortable screen/);
+  });
+
+  it("ships a real local flag image for every named country", async () => {
+    const { interactive } = await readSources();
+    const sources = [...interactive.matchAll(/\{ name: "[^"]+", src: "(\/assets\/flags\/[a-z]{2}\.svg)" \}/g)]
+      .map((match) => match[1]);
+
+    assert.equal(sources.length, 21);
+    await Promise.all(sources.map((source) => readFile(`public${source}`, "utf8")));
   });
 
   it("shares the desktop chapter grid and makes mobile lookup rails explicit", async () => {
@@ -262,7 +276,7 @@ describe("homepage React integration", () => {
     );
     assert.match(
       styles,
-      /:is\(#metodo, #cursos, #sedes, \.faq-section, #contacto\)[\s\S]*linear-gradient\(90deg, #4f84f6, #d9b45d\)/,
+      /:is\(#metodo, #cursos, #cursos-apoyo, #sedes, \.faq-section, #contacto\)[\s\S]*linear-gradient\(90deg, #4f84f6, #d9b45d\)/,
     );
     assert.match(styles, /\.home-page #sedes \.real-map-card__frame\s*\{[\s\S]*height: 158px/);
     assert.match(styles, /\.home-page #sedes \.location-rail-toolbar\s*\{[\s\S]*display: flex/);

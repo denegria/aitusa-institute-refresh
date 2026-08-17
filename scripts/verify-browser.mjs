@@ -342,6 +342,61 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
     const missingImages = images
       .filter((img) => !img.complete || img.naturalWidth === 0)
       .map((img) => img.currentSrc || img.src);
+    const launchHeadline = document.querySelector('.hero__spain-launch strong')?.textContent.trim() || '';
+    const countryFlags = [...document.querySelectorAll('.country-proof__flags img')];
+    const countryFlagIssues = [];
+    if (countryFlags.length !== 21) {
+      countryFlagIssues.push({ type: 'country-flag-count-invalid', count: countryFlags.length });
+    }
+    countryFlags.forEach((flag, index) => {
+      const rect = flag.getBoundingClientRect();
+      if (
+        !flag.complete
+        || flag.naturalWidth === 0
+        || !flag.currentSrc.endsWith('.svg')
+        || rect.width < 30
+        || rect.height < 22
+      ) {
+        countryFlagIssues.push({
+          type: 'country-flag-invalid',
+          index,
+          src: flag.currentSrc,
+          complete: flag.complete,
+          naturalWidth: flag.naturalWidth,
+          width: Math.round(rect.width),
+          height: Math.round(rect.height),
+        });
+      }
+    });
+    if (launchHeadline !== 'Nos enorgullece anunciar que AIT USA ya está en España.') {
+      countryFlagIssues.push({ type: 'spain-launch-headline-invalid', launchHeadline });
+    }
+    const supportingCards = [...document.querySelectorAll('#cursos-apoyo .supporting-course-card')];
+    const supportingCardIssues = [];
+    if (supportingCards.length !== 6) {
+      supportingCardIssues.push({ type: 'supporting-card-count-invalid', count: supportingCards.length });
+    }
+    supportingCards.forEach((card, index) => {
+      const link = card.querySelector('.supporting-course-card__link');
+      const linkStyle = link ? getComputedStyle(link) : null;
+      const linkRect = link?.getBoundingClientRect();
+      if (
+        !link
+        || !linkStyle
+        || !linkRect
+        || linkRect.height < 44
+        || parseFloat(linkStyle.borderTopWidth) < 1
+        || parseFloat(linkStyle.borderRadius) < 5
+      ) {
+        supportingCardIssues.push({
+          type: 'supporting-card-cta-invalid',
+          index,
+          height: Math.round(linkRect?.height || 0),
+          borderWidth: linkStyle?.borderTopWidth || '',
+          borderRadius: linkStyle?.borderRadius || '',
+        });
+      }
+    });
     const methodPosterIssues = (await Promise.all(
       [...document.querySelectorAll('[data-method-video]')].map(async (video) => {
         const poster = new Image();
@@ -1105,6 +1160,11 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       variantLists: document.querySelectorAll('.variant-list').length,
       faqs: document.querySelectorAll('.faq-list details').length,
       missingImages,
+      launchHeadline,
+      countryFlagCount: countryFlags.length,
+      countryFlagIssues,
+      supportingCardCount: supportingCards.length,
+      supportingCardIssues,
       methodPosterIssues,
       videoMetadataIssues,
       videoVisualIssues,
@@ -1121,6 +1181,9 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
       paletteIssues,
       designConsistencyIssues,
       availableSectionHeight,
+      pageScrollWidth: document.documentElement.scrollWidth,
+      pageClientWidth: document.documentElement.clientWidth,
+      pageOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 2,
       pageHeight: document.documentElement.scrollHeight,
     };
   })()`);
@@ -1156,6 +1219,8 @@ const verifyViewport = async ({ name, width, height, mobile }) => {
 
     await captureSection("#metodo", "method");
     await captureSection(".method-reasons", "method-reasons");
+    await captureSection("#testimonios", "testimonials");
+    await captureSection(".country-proof", "country-flags");
     await captureSection("#experiencia", "videos");
     await captureSection(".proof-shelf__rail", "story-controls");
 
@@ -2211,6 +2276,8 @@ const skipHero = process.env.VERIFY_SKIP_HERO === "1";
 const auditOnly = process.env.VERIFY_AUDIT_ONLY === "1";
 const mobileOnly = process.env.VERIFY_MOBILE_ONLY === "1";
 const desktopOnly = process.env.VERIFY_DESKTOP_ONLY === "1";
+const launchOnly = process.env.VERIFY_HOMEPAGE_LAUNCH_ONLY === "1";
+const launchViewport = process.env.VERIFY_HOMEPAGE_LAUNCH_VIEWPORT || "all";
 const routesOnly = process.env.VERIFY_ROUTES_ONLY === "1";
 const placementOnly = process.env.VERIFY_PLACEMENT_ONLY === "1";
 const editorialCoursesOnly = process.env.VERIFY_EDITORIAL_COURSES_ONLY === "1";
@@ -2223,6 +2290,7 @@ try {
     !skipHero &&
     !mobileOnly &&
     !desktopOnly &&
+    !launchOnly &&
     !routesOnly &&
     !placementOnly &&
     !editorialCoursesOnly &&
@@ -2481,6 +2549,16 @@ try {
       expectedHeading: "Términos y Condiciones",
       expectLegalToc: true,
     }));
+  } else if (launchOnly) {
+    const launchViewports = [
+      { key: "desktop", name: "launch-desktop-1440x900", width: 1440, height: 900, mobile: false },
+      { key: "desktop-compact", name: "launch-desktop-1280x800", width: 1280, height: 800, mobile: false },
+      { key: "tablet", name: "launch-tablet-768x1024", width: 768, height: 1024, mobile: true },
+      { key: "mobile", name: "launch-mobile-390x844", width: 390, height: 844, mobile: true },
+    ].filter((viewport) => launchViewport === "all" || viewport.key === launchViewport);
+    for (const viewport of launchViewports) {
+      results.push(await verifyViewport(viewport));
+    }
   } else if (desktopOnly) {
     results.push(await verifyViewport({ name: "desktop-home-1920x1080", width: 1920, height: 1080, mobile: false }));
     results.push(await verifyViewport({ name: "desktop-home-1536x864", width: 1536, height: 864, mobile: false }));
@@ -2528,8 +2606,16 @@ await writeFile(
 
 console.log(JSON.stringify({ results, exceptions, consoleMessageCount: consoleMessages.length }, null, 2));
 
-const blockingResults = results.filter((result) =>
+const blockingResults = results.filter((result) => launchOnly
+  ? (
+    (result.countryFlagIssues && result.countryFlagIssues.length) ||
+    (result.supportingCardIssues && result.supportingCardIssues.length) ||
+    result.pageOverflow
+  )
+  : (
   (result.missingImages && result.missingImages.length) ||
+  (result.countryFlagIssues && result.countryFlagIssues.length) ||
+  (result.supportingCardIssues && result.supportingCardIssues.length) ||
   (result.overflowing && result.overflowing.length) ||
   (result.sectionRhythmIssues && result.sectionRhythmIssues.length) ||
   (result.mobileHeroIssues && result.mobileHeroIssues.length) ||
@@ -2549,8 +2635,15 @@ const blockingResults = results.filter((result) =>
   (result.locationMapCheck?.issues && result.locationMapCheck.issues.length) ||
   (result.locationHoursCheck?.issues && result.locationHoursCheck.issues.length) ||
   (result.navigationCheck?.issues && result.navigationCheck.issues.length)
-);
+));
 
-if (exceptions.length || consoleMessages.length || blockingResults.length) {
+const unexpectedConsoleMessages = launchOnly
+  ? consoleMessages.filter((item) => {
+    const message = item.args?.map((arg) => arg.value || arg.description).join(" ") || "";
+    return !message.includes("Download the React DevTools") && message !== "[HMR] connected";
+  })
+  : consoleMessages;
+
+if (exceptions.length || unexpectedConsoleMessages.length || blockingResults.length) {
   process.exitCode = 1;
 }

@@ -17,14 +17,12 @@ export function HeroSection() {
   return (
     <section className="hero" id="inicio">
       <div className="hero__main">
-        <aside className="hero__spain-launch" aria-label="AIT USA: España es nuestra próxima parada">
+        <aside className="hero__spain-launch" aria-label="AIT USA ya está en España">
           <span className="hero__spain-launch__pulse" aria-hidden="true" />
           <span className="hero__spain-launch__copy">
             <span className="hero__spain-launch__eyebrow">AIT USA sigue creciendo</span>
-            <strong>España es nuestra próxima parada.</strong>
+            <strong>Nos enorgullece anunciar que AIT USA ya está en España.</strong>
           </span>
-          <span className="hero__spain-launch__trail">Muy pronto, una nueva comunidad aprenderá con nosotros.</span>
-          <span className="hero__spain-launch__detail">Próximamente en España</span>
           <span className="hero__spain-launch__orbit" aria-hidden="true"><span /></span>
         </aside>
         <div className="hero__copy">
@@ -230,12 +228,11 @@ export function SupportingCoursesSection() {
           {supportingPrograms.map((program) => (
             <article className="offer-node offer-node--secondary supporting-course-card" key={program.label}>
               <div>
-                <span className="offer-node__status supporting-course-card__status">Curso de apoyo</span>
                 <h3>{program.label}</h3>
                 <p>{program.description}</p>
               </div>
               <a className="offer-node__link supporting-course-card__link" href={program.href} aria-label={`${program.cta}: ${program.label}`}>
-                <span>{program.cta}</span>
+                <span className="supporting-course-card__link-label">{program.cta}</span>
                 <i data-lucide="arrow-right" aria-hidden="true" />
               </a>
             </article>

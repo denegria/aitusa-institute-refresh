@@ -8,27 +8,27 @@ const COMMUNITY_TAB_CYCLE_MS = 8000;
 const COMMUNITY_PHOTO_CYCLE_MS = 2600;
 
 const SPANISH_SPEAKING_COUNTRIES = [
-  { name: "Argentina", flag: "🇦🇷" },
-  { name: "Bolivia", flag: "🇧🇴" },
-  { name: "Chile", flag: "🇨🇱" },
-  { name: "Colombia", flag: "🇨🇴" },
-  { name: "Costa Rica", flag: "🇨🇷" },
-  { name: "Cuba", flag: "🇨🇺" },
-  { name: "Ecuador", flag: "🇪🇨" },
-  { name: "El Salvador", flag: "🇸🇻" },
-  { name: "España", flag: "🇪🇸" },
-  { name: "Guatemala", flag: "🇬🇹" },
-  { name: "Guinea Ecuatorial", flag: "🇬🇶" },
-  { name: "Honduras", flag: "🇭🇳" },
-  { name: "México", flag: "🇲🇽" },
-  { name: "Nicaragua", flag: "🇳🇮" },
-  { name: "Panamá", flag: "🇵🇦" },
-  { name: "Paraguay", flag: "🇵🇾" },
-  { name: "Perú", flag: "🇵🇪" },
-  { name: "Puerto Rico", flag: "🇵🇷" },
-  { name: "República Dominicana", flag: "🇩🇴" },
-  { name: "Uruguay", flag: "🇺🇾" },
-  { name: "Venezuela", flag: "🇻🇪" },
+  { name: "Argentina", src: "/assets/flags/ar.svg" },
+  { name: "Bolivia", src: "/assets/flags/bo.svg" },
+  { name: "Chile", src: "/assets/flags/cl.svg" },
+  { name: "Colombia", src: "/assets/flags/co.svg" },
+  { name: "Costa Rica", src: "/assets/flags/cr.svg" },
+  { name: "Cuba", src: "/assets/flags/cu.svg" },
+  { name: "Ecuador", src: "/assets/flags/ec.svg" },
+  { name: "El Salvador", src: "/assets/flags/sv.svg" },
+  { name: "España", src: "/assets/flags/es.svg" },
+  { name: "Guatemala", src: "/assets/flags/gt.svg" },
+  { name: "Guinea Ecuatorial", src: "/assets/flags/gq.svg" },
+  { name: "Honduras", src: "/assets/flags/hn.svg" },
+  { name: "México", src: "/assets/flags/mx.svg" },
+  { name: "Nicaragua", src: "/assets/flags/ni.svg" },
+  { name: "Panamá", src: "/assets/flags/pa.svg" },
+  { name: "Paraguay", src: "/assets/flags/py.svg" },
+  { name: "Perú", src: "/assets/flags/pe.svg" },
+  { name: "Puerto Rico", src: "/assets/flags/pr.svg" },
+  { name: "República Dominicana", src: "/assets/flags/do.svg" },
+  { name: "Uruguay", src: "/assets/flags/uy.svg" },
+  { name: "Venezuela", src: "/assets/flags/ve.svg" },
 ];
 
 const communityPhotoClassName = (photo) => [
@@ -159,7 +159,15 @@ export function TestimonialsSection() {
           <ul className="country-proof__flags" aria-label="Países hispanohablantes de nuestra comunidad">
             {SPANISH_SPEAKING_COUNTRIES.map((country) => (
               <li key={country.name} title={country.name}>
-                <span role="img" aria-label={country.name}>{country.flag}</span>
+                <Image
+                  src={country.src}
+                  alt={`Bandera de ${country.name}`}
+                  width={36}
+                  height={27}
+                  unoptimized
+                  loading="lazy"
+                  decoding="async"
+                />
               </li>
             ))}
           </ul>

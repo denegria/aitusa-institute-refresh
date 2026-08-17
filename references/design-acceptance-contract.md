@@ -1,3 +1,57 @@
+# AIT USA Homepage Launch Corrections — MIS-394
+
+## User workflow and problem
+
+- A prospective student should understand at a glance that AIT USA has already
+  launched in Spain, see credible international-student proof, and compare the
+  supporting courses through the same visual/action language used by the main
+  study-format cards.
+- The current ribbon still describes Spain as a future stop, the country strip
+  relies on platform-dependent emoji instead of dependable flag artwork, and
+  accumulated CSS overrides leave the supporting-course heading indented and
+  the cards/CTAs visually inconsistent.
+
+## Chosen interaction model and visual direction
+
+- Reference mode: faithful-reference to Alvaro's explicit annotations and the
+  existing `#cursos` offer-card system immediately above the supporting-course
+  section.
+- Keep the gold eyebrow, replace all competing launch copy with one full-width
+  confirmed-launch headline, and preserve the ribbon gradient, sweep, pulse,
+  and orbit artwork.
+- Render all 21 Spanish-speaking country flags as real local SVG image assets in
+  a slim edge-to-edge strip that may scroll horizontally on narrow viewports.
+- Make each supporting-course card use the same status hierarchy, card rhythm,
+  bordered CTA box, hover/focus behavior, and mobile row treatment as the main
+  course cards while retaining accurate route-specific copy.
+
+## Locked invariants and non-goals
+
+- Locked: gold ribbon eyebrow; one Spain-launch headline; existing hero image;
+  all 21 named countries; six supporting routes; 44px minimum CTAs; one H2 for
+  the supporting-course section; visible keyboard focus; no horizontal page
+  overflow.
+- Source-to-render map: ribbon eyebrow -> existing gold eyebrow; launch state ->
+  one `strong` headline spanning the available ribbon; country data -> local SVG
+  image per list item; main `offer-node` card/CTA language -> supporting card and
+  CTA selectors at desktop and mobile.
+- Non-goals: navigation, Portal/auth, CRM, testimonials, course-route content,
+  Method section, or a broader homepage redesign.
+
+## Responsive and evidence contract
+
+- Primary CSS viewports: 1440x900 and 390x844.
+- Regression CSS viewports: 1280x800 and 768x1024.
+- The Spain headline remains legible without clipping; the decorative orbit
+  never competes with copy; every real flag is visible or reachable within the
+  dedicated strip; supporting headings align with the shared section frame;
+  card heights and CTA boxes remain consistent within each grid row.
+- Required evidence: targeted tests, full suite, asset check, production build,
+  `git diff --check`, DOM count/source checks for 21 flag images, zero page
+  overflow/broken images/console errors, and screenshots at all four viewports.
+
+---
+
 # AIT USA Placement Diagnostic V2 — MIS-339
 
 ## Problem
