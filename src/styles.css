@@ -16169,7 +16169,7 @@ textarea {
   }
 
   .home-page #cursos-apoyo .supporting-course-card {
-    min-height: clamp(250px, 15.72vw, 259.14px);
+    min-height: 259.14px;
     padding: 22px;
     border-color: rgba(0, 26, 61, 0.18);
     border-radius: 8px;
