@@ -132,6 +132,7 @@ const site = {
   images: {
     logo: asset("076-solo-logo-4-x-4-clases1.png"),
     approvedHero: "/assets/hero/approved-concept-1-clean.png",
+    approvedHeroMobile: "/assets/hero/approved-concept-1-classroom.png",
     hero: assetHires("graphic-concept-method.jpg"),
     heroPoster: assetHires("graphic-concept-method.jpg"),
     heroVideo: assetVideo("intro-video-great.mp4"),

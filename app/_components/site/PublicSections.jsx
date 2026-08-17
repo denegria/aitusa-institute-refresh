@@ -43,13 +43,16 @@ export function HeroSection() {
           </nav>
         </div>
         <figure className="hero__visual">
-          <img
-            src={site.images.approvedHero}
-            alt="Asesora de AIT USA orientando a una estudiante adulta en un salón de inglés."
-            width="1536"
-            height="1024"
-            fetchPriority="high"
-          />
+          <picture>
+            <source media="(max-width: 719px)" srcSet={site.images.approvedHeroMobile} />
+            <img
+              src={site.images.approvedHero}
+              alt="Asesora de AIT USA orientando a una estudiante adulta en un salón de inglés."
+              width="1536"
+              height="1024"
+              fetchPriority="high"
+            />
+          </picture>
         </figure>
       </div>
       <aside className="hero__institutional-band" aria-label="Trayectoria de AIT USA Institute">

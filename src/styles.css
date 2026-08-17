@@ -16075,9 +16075,30 @@ textarea {
 /* Staging review follow-up: keep the Spain ribbon clear of the mobile
    headline, show the approved hero image at its natural ratio, and let the
    supporting-course path share the English offer-card system. */
+.home-page #inicio .hero__visual > picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.home-page #inicio .hero__visual > picture > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  min-height: 0;
+  object-fit: cover;
+  object-position: 57% 0%;
+  transform: none;
+}
+
 @media (max-width: 719px) {
   .home-page #inicio .hero__copy {
-    padding-top: 46px;
+    padding-top: 72px;
   }
 
   .home-page #inicio .hero__visual {
@@ -16087,7 +16108,14 @@ textarea {
     background: #f3eee6;
   }
 
-  .home-page #inicio .hero__visual > img {
+  .home-page #inicio .hero__visual > picture {
+    position: static;
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .home-page #inicio .hero__visual > picture > img {
     position: static;
     display: block;
     width: 100%;
@@ -16169,7 +16197,7 @@ textarea {
   }
 
   .home-page #cursos-apoyo .supporting-course-card {
-    min-height: 259.14px;
+    min-height: 220px;
     padding: 22px;
     border-color: rgba(0, 26, 61, 0.18);
     border-radius: 8px;
