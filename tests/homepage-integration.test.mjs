@@ -166,7 +166,8 @@ describe("homepage React integration", () => {
     assert.match(hero, /hero__title-block/);
     assert.match(hero, /hero__modalities/);
     assert.match(hero, /hero__spain-launch/);
-    assert.match(hero, /Spain Launch/);
+    assert.match(hero, /España es nuestra próxima parada/);
+    assert.match(hero, /Muy pronto, una nueva comunidad aprenderá con nosotros/);
     assert.doesNotMatch(hero, /hero__conversion/);
     assert.doesNotMatch(hero, /hero__summary|hero__objections/);
     assert.equal((hero.match(/className="button button--/g) || []).length, 0);
@@ -192,13 +193,22 @@ describe("homepage React integration", () => {
   });
 
   it("preserves the accepted responsive and semantic visual rules", async () => {
-    const { styles } = await readSources();
+    const { interactive, styles } = await readSources();
+    const launchPolish = styles.slice(styles.lastIndexOf("/* MIS-394 launch-week homepage polish"));
     assert.match(styles, /\.hero__kicker\s*\{[\s\S]*color: #c28a26/);
     assert.match(styles, /\.hero__modalities svg\s*\{[\s\S]*color: #c28a26/);
     assert.match(styles, /\.hero__spain-launch\s*\{[\s\S]*animation: heroSpainLaunchSweep/);
     assert.match(styles, /heroSpainLaunchPulse/);
     assert.match(styles, /method-story__conclusion \.method-reasons\s*\{[\s\S]*transform: translateY/);
     assert.match(styles, /method-reason__icon::before/);
+    assert.match(launchPolish, /method-reason__icon::before\s*\{[\s\S]*content: none/);
+    assert.match(launchPolish, /method-reason__icon-image\s*\{[\s\S]*width: 58px;[\s\S]*height: 58px/);
+    assert.match(launchPolish, /method-reasons li\s*\{[\s\S]*align-items: center/);
+    assert.match(interactive, /className="country-proof"/);
+    assert.match(interactive, /SPANISH_SPEAKING_COUNTRIES\.map/);
+    assert.equal((interactive.match(/\{ name: "/g) || []).length, 21);
+    assert.match(launchPolish, /\.country-proof__flags\s*\{[\s\S]*display: flex/);
+    assert.match(launchPolish, /supporting-course-card__link\s*\{[\s\S]*background: transparent/);
     assert.match(styles, /\.hero__headline-emphasis\s*\{[\s\S]*text-transform: none/);
     assert.match(styles, /\.community-proof__tabs\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
     assert.match(styles, /\.home-page \.real-map-pin\s*\{[\s\S]*width: 44px;[\s\S]*height: 44px/);

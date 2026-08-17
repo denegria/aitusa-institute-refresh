@@ -7,6 +7,30 @@ import { communityGallery, faqs, site, testimonials } from "../../../src/content
 const COMMUNITY_TAB_CYCLE_MS = 8000;
 const COMMUNITY_PHOTO_CYCLE_MS = 2600;
 
+const SPANISH_SPEAKING_COUNTRIES = [
+  { name: "Argentina", flag: "🇦🇷" },
+  { name: "Bolivia", flag: "🇧🇴" },
+  { name: "Chile", flag: "🇨🇱" },
+  { name: "Colombia", flag: "🇨🇴" },
+  { name: "Costa Rica", flag: "🇨🇷" },
+  { name: "Cuba", flag: "🇨🇺" },
+  { name: "Ecuador", flag: "🇪🇨" },
+  { name: "El Salvador", flag: "🇸🇻" },
+  { name: "España", flag: "🇪🇸" },
+  { name: "Guatemala", flag: "🇬🇹" },
+  { name: "Guinea Ecuatorial", flag: "🇬🇶" },
+  { name: "Honduras", flag: "🇭🇳" },
+  { name: "México", flag: "🇲🇽" },
+  { name: "Nicaragua", flag: "🇳🇮" },
+  { name: "Panamá", flag: "🇵🇦" },
+  { name: "Paraguay", flag: "🇵🇾" },
+  { name: "Perú", flag: "🇵🇪" },
+  { name: "Puerto Rico", flag: "🇵🇷" },
+  { name: "República Dominicana", flag: "🇩🇴" },
+  { name: "Uruguay", flag: "🇺🇾" },
+  { name: "Venezuela", flag: "🇻🇪" },
+];
+
 const communityPhotoClassName = (photo) => [
   photo.tone === "warm" ? "community-proof__image--warm" : "",
   photo.category === "celebrations" ? "community-proof__image--celebration" : "",
@@ -126,6 +150,20 @@ export function TestimonialsSection() {
             </button>
           ))}
         </div>
+
+        <aside className="country-proof" aria-labelledby="country-proof-title">
+          <div className="country-proof__copy">
+            <span>Una comunidad sin fronteras</span>
+            <strong id="country-proof-title">Estudiantes de todo el mundo han aprendido con AIT USA.</strong>
+          </div>
+          <ul className="country-proof__flags" aria-label="Países hispanohablantes de nuestra comunidad">
+            {SPANISH_SPEAKING_COUNTRIES.map((country) => (
+              <li key={country.name} title={country.name}>
+                <span role="img" aria-label={country.name}>{country.flag}</span>
+              </li>
+            ))}
+          </ul>
+        </aside>
 
         <dialog
           className="proof-dialog testimonial-dialog"

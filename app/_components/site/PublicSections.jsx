@@ -17,13 +17,14 @@ export function HeroSection() {
   return (
     <section className="hero" id="inicio">
       <div className="hero__main">
-        <aside className="hero__spain-launch" aria-label="Spain Launch: próximamente en España">
+        <aside className="hero__spain-launch" aria-label="AIT USA: España es nuestra próxima parada">
           <span className="hero__spain-launch__pulse" aria-hidden="true" />
           <span className="hero__spain-launch__copy">
-            <span className="hero__spain-launch__eyebrow">Próxima parada</span>
-            <strong>España, la próxima conversación empieza aquí.</strong>
+            <span className="hero__spain-launch__eyebrow">AIT USA sigue creciendo</span>
+            <strong>España es nuestra próxima parada.</strong>
           </span>
-          <span className="hero__spain-launch__detail">AIT USA · Próximamente</span>
+          <span className="hero__spain-launch__trail">Muy pronto, una nueva comunidad aprenderá con nosotros.</span>
+          <span className="hero__spain-launch__detail">Próximamente en España</span>
           <span className="hero__spain-launch__orbit" aria-hidden="true"><span /></span>
         </aside>
         <div className="hero__copy">

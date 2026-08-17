@@ -1131,3 +1131,59 @@ and closeout evidence are recorded in
   Method text measure, overflow, image loading, and console/runtime state.
 - Exact staging commit and Git-triggered deployment verification. Production
   remains untouched and MIS-378 stays in Human Review unless Alvaro accepts it.
+
+---
+
+# AIT USA launch-week homepage polish — 2026-08-17
+
+## Owner direction and source-to-render mapping
+
+- Reference mode: faithful owner-selected refinement of the live staging
+  homepage. The current approved page remains the visual source of truth.
+- Spain ribbon: preserve the navy-to-gold gradient, sweep, pulse, and orbit;
+  replace the vague headline with an explicit “next stop” announcement and use
+  the ribbon's horizontal space for one supporting sentence.
+- Method conclusion: preserve the three approved illustrations and content;
+  remove the nested icon frames, increase illustration scale, reduce the
+  headline-to-list gap, and center every illustration against its text block.
+- Testimonials: add one restrained proof strip after the three videos with a
+  concise international-community statement and a single-row rail of flags for
+  the Spanish-speaking countries represented by the school's reach.
+- Supporting courses: keep all six routes and labels, but return their tiles to
+  the same border, radius, surface, shadow, spacing, and text-link language used
+  by the primary course tiles immediately above them.
+
+## Locked behavior and non-goals
+
+- Preserve homepage section order, hero image and core headline, testimonial
+  media/dialog behavior, Method copy/video, course destinations, navigation,
+  placement, authentication, Portal, CRM, and analytics behavior.
+- No new carousel, marquee, autoplay, remote flag dependency, image generation,
+  route change, or broad homepage redesign.
+- The flag rail is semantic proof, not a geographic promise of physical
+  campuses. It must remain visually secondary to the testimonials.
+
+## Responsive and accessibility contract
+
+- Primary CSS viewports: 1440×1000 and 390×844. Regression viewports: 768×1024
+  and 1280×720.
+- Desktop ribbon reads as one balanced horizontal announcement; mobile keeps
+  the “España es nuestra próxima parada” claim and orbit without clipped copy.
+- Method list gap is materially below the 47px staging baseline; icons are at
+  least 48px and vertically centered without a visible frame.
+- Country flags remain one compact rail; mobile may scroll the rail horizontally
+  without creating page-level overflow. Country names remain available to
+  assistive technology and native hover inspection.
+- Course tiles maintain equal row heights, clear 44px interaction targets,
+  visible focus, and no hover-only information.
+
+## Required closeout evidence
+
+- Focused homepage integration/Method tests, full suite, asset audit, production
+  build, and `git diff --check`.
+- Calibrated desktop and mobile screenshots of all four changed regions plus DOM
+  measurements for Method gap/alignment, overflow, image loading, reduced
+  motion, and console/runtime state.
+- Independent visual review of the candidate, exact staging deployment/live QA,
+  then an authorized fast-forward of the complete staging history to `main`
+  followed by production smoke QA. No manual platform deployment.
