@@ -16123,7 +16123,15 @@ textarea {
   }
 
   .home-page #cursos-apoyo .supporting-course-card > div {
+    grid-column: 1;
+    grid-row: 1;
     min-width: 0;
+  }
+
+  .home-page #cursos-apoyo .supporting-course-card__link {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
   }
 
   .home-page #cursos-apoyo .supporting-course-card p {
