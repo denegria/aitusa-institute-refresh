@@ -3,18 +3,12 @@ import { describe, it } from "node:test";
 import { GET } from "../app/api/portal/privacy/route.js";
 
 describe("MIS-279 privacy route handler", () => {
-  it("returns safe policy status for a portal account", async () => {
+  it("fails closed instead of resolving fixture account policy", async () => {
     const response = await GET(
       new Request("http://localhost/api/portal/privacy?accountKey=guardianActive"),
     );
-    const body = await response.json();
-
-    assert.equal(response.status, 200);
-    assert.equal(body.ok, true);
-    assert.equal(body.durableConsentStorage, false);
-    assert.equal(body.policy.account.privacyGateSatisfied, true);
-    assert.equal(body.policy.guardianPolicy.minimumSelfServiceAge, 13);
-    assert.equal(body.policy.guardianPolicy.anonymousDiagnosticAllowed, true);
-    assert.equal("providerSubject" in body.policy.account, false);
+    assert.equal(response.status, 404);
+    assert.equal(await response.text(), "Not Found");
+    assert.equal(response.headers.get("cache-control"), "private, no-store");
   });
 });

@@ -7,17 +7,13 @@ function request(path = "", init) {
 }
 
 describe("MIS-273 scanner check-in route handler", () => {
-  it("returns station metadata for an authorized fixture teacher", async () => {
-    const response = await GET(request());
-    const body = await response.json();
-
-    assert.equal(response.status, 200);
-    assert.equal(body.ok, true);
-    assert.equal(body.station.stationRef, "station_bound_brook_front_desk");
-    assert.equal(body.crmWrite, false);
+  it("fails GET closed instead of exposing fixture station metadata", async () => {
+    const response = await GET(request("?accountKey=teacherActive"));
+    assert.equal(response.status, 404);
+    assert.equal(await response.text(), "Not Found");
   });
 
-  it("previews a scanner check-in event without storing attendance", async () => {
+  it("fails POST closed instead of accepting fixture scanner events", async () => {
     const response = await POST(
       request("", {
         method: "POST",
@@ -30,11 +26,7 @@ describe("MIS-273 scanner check-in route handler", () => {
         }),
       }),
     );
-    const body = await response.json();
-
-    assert.equal(response.status, 202);
-    assert.equal(body.result, "accepted_present");
-    assert.equal(body.crmSyncPreview.crmTimelinePreview.eventType, "attendance_scan");
-    assert.equal(body.crmWrite, false);
+    assert.equal(response.status, 404);
+    assert.equal(await response.text(), "Not Found");
   });
 });

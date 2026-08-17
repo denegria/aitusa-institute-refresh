@@ -7,26 +7,12 @@ function request(search = "") {
 }
 
 describe("MIS-272 attendance route handler", () => {
-  it("returns a portal-safe attendance summary for an authorized guardian", async () => {
+  it("fails closed even when fixture identity query parameters are supplied", async () => {
     const response = await GET(
       request("?accountKey=guardianActive&studentCrmContactRef=crm_contact_fixture_minor_001"),
     );
-    const body = await response.json();
-
-    assert.equal(response.status, 200);
-    assert.equal(body.ok, true);
-    assert.equal(body.attendance.studentCrmContactRef, "crm_contact_fixture_minor_001");
-    assert.equal(body.crmSyncPreview.crmTimelinePreview.eventType, "attendance_scan");
-    assert.equal(body.crmWrite, false);
-  });
-
-  it("returns a privacy-gate denial for the default student fixture", async () => {
-    const response = await GET(request());
-    const body = await response.json();
-
-    assert.equal(response.status, 403);
-    assert.equal(body.ok, false);
-    assert.equal(body.reason, "privacy_gate_required");
-    assert.equal(body.crmWrite, false);
+    assert.equal(response.status, 404);
+    assert.equal(await response.text(), "Not Found");
+    assert.equal(response.headers.get("cache-control"), "private, no-store");
   });
 });

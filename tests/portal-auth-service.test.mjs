@@ -62,6 +62,7 @@ function fixture({
   revokeError = null,
   hasActiveAccount = true,
   authDecision = "allowed",
+  observeOutcome = null,
 } = {}) {
   const providerCalls = [];
   const repositoryCalls = [];
@@ -144,6 +145,7 @@ function fixture({
       hashSecret: "portal-auth-service-test-secret-32-bytes",
       monotonicNow: () => 0,
       sleep: async () => {},
+      observeOutcome,
     }),
   };
 }
@@ -204,6 +206,22 @@ describe("MIS-341 authenticated portal service", () => {
       rateLimited.authEventCalls[0].reservation.decision,
       "blocked_email_budget",
     );
+  });
+
+  it("reports only safe code-request outcomes without changing the generic response", async () => {
+    const observed = [];
+    const active = fixture({
+      observeOutcome(event) {
+        observed.push(structuredClone(event));
+      },
+    });
+
+    await active.service.requestSignInCode({ email: "student@example.com" });
+
+    assert.deepEqual(observed, [
+      { eventType: "code_request", outcome: "provider_dispatched" },
+    ]);
+    assert.equal(JSON.stringify(observed).match(/student|email|ip|workos/i), null);
   });
 
   it("issues sealed session data only after provider identity resolves an active account", async () => {

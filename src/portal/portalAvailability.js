@@ -47,6 +47,10 @@ export function isPortalPrototypeAvailable(environment = process.env) {
 export function getPortalPrototypeGateResponse(environment = process.env) {
   if (isPortalPrototypeAvailable(environment)) return null;
 
+  return getRetiredPortalPrototypeResponse();
+}
+
+export function getRetiredPortalPrototypeResponse() {
   return new Response("Not Found", {
     status: 404,
     headers: {

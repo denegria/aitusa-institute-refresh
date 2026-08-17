@@ -29,6 +29,7 @@ export function createPortalAuthService({
     new Promise((resolve) => setTimeout(resolve, milliseconds)),
   security = PORTAL_AUTH_SECURITY,
   ledger = null,
+  observeOutcome = null,
 }) {
   if (!repository) throw new Error("portal_auth_repository_required");
   if (!authProvider) throw new Error("portal_auth_provider_required");
@@ -60,6 +61,14 @@ export function createPortalAuthService({
     } catch {
       // The atomic reservation is already durable. A pending outcome is safer
       // than failing an otherwise valid one-time-code flow after provider work.
+    }
+  }
+
+  function reportOutcome(eventType, outcome) {
+    try {
+      observeOutcome?.({ eventType, outcome });
+    } catch {
+      // Authentication must not depend on operational logging.
     }
   }
 
@@ -132,6 +141,7 @@ export function createPortalAuthService({
           envelopeStartedAt = monotonicNow();
         }
         await completeAttempt(reservation, outcome);
+        reportOutcome("code_request", outcome);
         await waitForGenericCodeResponse({
           startedAt: envelopeStartedAt,
           monotonicNow,
@@ -218,6 +228,7 @@ export function createPortalAuthService({
         };
       } finally {
         await completeAttempt(reservation, outcome);
+        reportOutcome("code_verify", outcome);
         if (reservation?.id) await emitLedger(ledger, {
           eventName: outcome === "success" ? "portal_auth_success" : "portal_auth_failure",
           idempotencyKey: `portal-auth-verify:${reservation.id}`,
