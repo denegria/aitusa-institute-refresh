@@ -195,7 +195,10 @@ describe("MIS-341 authenticated portal routes", () => {
     const cookie = response.headers.get("set-cookie");
 
     assert.equal(response.status, 303);
-    assert.equal(response.headers.get("location"), "https://example.com/portal/");
+    assert.equal(
+      response.headers.get("location"),
+      "https://example.com/portal/sign-in/",
+    );
     assert.match(cookie, /^aitusa_portal_session=;/);
     assert.match(cookie, /Max-Age=0/);
     assert.match(cookie, /Expires=Thu, 01 Jan 1970 00:00:00 GMT/);

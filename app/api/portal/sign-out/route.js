@@ -41,7 +41,7 @@ export function createPortalSignOutHandler({
 
       const headers = new Headers({
         "cache-control": "no-store, private",
-        location: new URL("/portal/", request.url).toString(),
+        location: new URL("/portal/sign-in/", request.url).toString(),
       });
       headers.append("set-cookie", serializeExpiredCookie());
       return new Response(null, { status: 303, headers });
