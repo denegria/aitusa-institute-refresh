@@ -38,5 +38,9 @@ describe("course catalog editorial component", () => {
     assert.match(styles, /\.course-catalog \.catalog-tabs\s*\{[\s\S]*flex-wrap: wrap;[\s\S]*overflow-x: visible;/);
     assert.match(styles, /@media \(max-width: 719px\)[\s\S]*\.course-catalog \.catalog-tabs\s*\{[\s\S]*flex-wrap: nowrap;[\s\S]*overflow-x: auto;/);
     assert.match(styles, /\.course-catalog \.catalog-tabs button\s*\{[\s\S]*min-height: 44px;/);
+    assert.match(styles, /\.course-catalog \{[\s\S]*padding-block: clamp\(28px, 3\.4vw, 40px\)/);
+    assert.match(styles, /\.course-catalog__intro-copy h1 \{[\s\S]*font-size: clamp\(2\.2rem, 3\.6vw, 3\.35rem\)/);
+    assert.match(styles, /\.course-catalog__intro-media \{[\s\S]*min-height: 248px;[\s\S]*max-height: 320px;/);
+    assert.doesNotMatch(styles, /\.course-catalog__intro-copy h1 \{[\s\S]*font-size: clamp\(2\.7rem, 5\.6vw, 5\.6rem\)/);
   });
 });

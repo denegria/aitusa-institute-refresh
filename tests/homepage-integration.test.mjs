@@ -59,7 +59,7 @@ describe("homepage React integration", () => {
     assert.match(source, /Tutorías de matemáticas/);
     assert.match(source, /\/cursos\/tutorias-matematicas\//);
     assert.match(source, /Ciudadanía/);
-    assert.match(source, /Consultar ruta/);
+    assert.match(source, /Consultar ciudadanía/);
     assert.doesNotMatch(source, /apoyo-academico/);
     assert.deepEqual(
       productOfferings.slice(0, 3).map((offering) => offering.mobileSummary),
@@ -178,15 +178,20 @@ describe("homepage React integration", () => {
   });
 
   it("keeps the institutional proof band factual, visible, and non-duplicative", async () => {
-    const { institutionalProof, painHero } = await import("../src/content.js");
+    const { headquarters, institutionalProof, locations, painHero } = await import("../src/content.js");
     const { sections } = await readSources();
+    const publishedLocationCount = locations.filter((location) => location.status !== "online").length + 1;
 
     assert.equal(painHero.eyebrow, "Una escuela de inglés diferente para gente con propósito");
     assert.equal(institutionalProof.length, 4);
+    assert.equal(headquarters.status, "headquarters");
+    assert.equal(publishedLocationCount, 7);
     assert.deepEqual(
       institutionalProof.map((proof) => proof.value),
-      ["Desde 2004", "+1,000", "4 sedes", "Alcance internacional"],
+      ["Desde 2004", "+1,000", `${publishedLocationCount} ubicaciones`, "Alcance internacional"],
     );
+    assert.equal(institutionalProof[2].label, "Publicadas en el mapa de sedes");
+    assert.doesNotMatch(institutionalProof.map((proof) => proof.value).join(" "), /4 sedes/);
     assert.match(institutionalProof.at(-1).label, /EE\. UU\., Centroamérica, Sudamérica y Europa/);
     assert.match(sections, /className="hero__institutional-band"/);
     assert.match(sections, /institutionalProof\.map/);
@@ -220,6 +225,10 @@ describe("homepage React integration", () => {
     assert.match(styles, /\.final-cta-contact-link\s*\{[\s\S]*min-height: 44px/);
     assert.match(styles, /\.site-footer\s*\{[\s\S]*background: #001a3d/);
     assert.match(styles, /Viewport rhythm: keep each homepage chapter within one comfortable screen/);
+    assert.match(
+      styles,
+      /@media \(max-width: 1040px\) and \(min-width: 720px\)[\s\S]*\.home-page #inicio \.hero__copy[\s\S]*padding-top: calc\(var\(--home-spain-launch-height, 62px\) \+ 16px\)/,
+    );
   });
 
   it("ships a real local flag image for every named country", async () => {

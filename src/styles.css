@@ -5605,7 +5605,7 @@ textarea {
   }
 
   .hero__copy {
-    padding: 50px clamp(28px, 7vw, 72px);
+    padding: 78px clamp(28px, 7vw, 72px) 50px;
   }
 
   .hero h1 {
@@ -15107,7 +15107,7 @@ textarea {
   --catalog-navy: #001a3d;
   --catalog-blue: #174ea6;
   --catalog-gold: #c4932d;
-  padding-block: clamp(56px, 7vw, 104px);
+  padding-block: clamp(28px, 3.4vw, 40px) clamp(48px, 6vw, 88px);
   background:
     radial-gradient(circle at 8% 8%, rgba(196, 147, 45, 0.1), transparent 24%),
     linear-gradient(180deg, rgba(238, 244, 255, 0.9), rgba(248, 250, 252, 0.94));
@@ -15115,10 +15115,10 @@ textarea {
 
 .course-catalog__intro {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
-  gap: clamp(28px, 5vw, 72px);
+  grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.72fr);
+  gap: clamp(20px, 3vw, 40px);
   align-items: stretch;
-  margin-bottom: clamp(34px, 5vw, 62px);
+  margin-bottom: clamp(18px, 2.4vw, 28px);
 }
 
 .course-catalog__intro-copy {
@@ -15126,27 +15126,27 @@ textarea {
   flex-direction: column;
   justify-content: center;
   min-width: 0;
-  padding-block: clamp(8px, 2vw, 24px);
+  padding-block: 0;
 }
 
 .course-catalog__intro-copy h1 {
   max-width: 720px;
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(2.7rem, 5.6vw, 5.6rem);
+  font-size: clamp(2.2rem, 3.6vw, 3.35rem);
   letter-spacing: -0.045em;
   line-height: 0.98;
 }
 
 .course-catalog__lead {
   max-width: 660px;
-  margin: 22px 0 0;
+  margin: 12px 0 0;
   color: var(--ink-soft);
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-size: clamp(0.98rem, 1.2vw, 1.08rem);
 }
 
 .course-catalog__decision-guide {
-  margin-top: clamp(28px, 4vw, 48px);
+  margin-top: clamp(14px, 2vw, 22px);
 }
 
 .course-catalog__guide-label {
@@ -15167,8 +15167,8 @@ textarea {
 .course-catalog__route {
   display: flex;
   flex-direction: column;
-  min-height: 142px;
-  padding: 14px;
+  min-height: 118px;
+  padding: 12px;
   border: 1px solid rgba(0, 26, 61, 0.14);
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.7);
@@ -15211,13 +15211,14 @@ textarea {
 .course-catalog__intro-media {
   position: relative;
   isolation: isolate;
-  min-height: 420px;
+  min-height: 248px;
+  max-height: 320px;
   margin: 0;
   overflow: hidden;
   border: 1px solid rgba(0, 26, 61, 0.16);
-  border-radius: 22px;
+  border-radius: 18px;
   background: var(--catalog-navy);
-  box-shadow: 0 24px 52px rgba(0, 26, 61, 0.16);
+  box-shadow: 0 18px 36px rgba(0, 26, 61, 0.14);
 }
 
 .course-catalog__intro-media::after {
@@ -15264,7 +15265,7 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 0 0 28px;
+  margin: 0 0 18px;
   padding: 7px;
   overflow-x: visible;
   border: 1px solid rgba(0, 26, 61, 0.16);
@@ -15541,8 +15542,13 @@ textarea {
 
 @media (max-width: 1040px) {
   .course-catalog__intro {
-    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.82fr);
-    gap: 28px;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 0.68fr);
+    gap: 20px;
+  }
+
+  .course-catalog__intro-media {
+    min-height: 220px;
+    max-height: 260px;
   }
 
   .course-catalog__route-list {
@@ -15564,14 +15570,14 @@ textarea {
 
 @media (max-width: 719px) {
   .course-catalog {
-    padding-block: 46px 58px;
+    padding-block: 28px 48px;
   }
 
   .course-catalog__intro {
     display: flex;
     flex-direction: column;
-    gap: 28px;
-    margin-bottom: 32px;
+    gap: 18px;
+    margin-bottom: 20px;
   }
 
   .course-catalog__intro-copy {
@@ -15579,15 +15585,15 @@ textarea {
   }
 
   .course-catalog__intro-copy h1 {
-    font-size: clamp(2.35rem, 12vw, 3.7rem);
+    font-size: clamp(2.05rem, 10vw, 2.7rem);
   }
 
   .course-catalog__lead {
-    margin-top: 16px;
+    margin-top: 10px;
   }
 
   .course-catalog__decision-guide {
-    margin-top: 24px;
+    margin-top: 16px;
   }
 
   .course-catalog__route-list {
@@ -15613,7 +15619,8 @@ textarea {
   }
 
   .course-catalog__intro-media {
-    min-height: 290px;
+    min-height: 180px;
+    max-height: 210px;
     border-radius: 16px;
   }
 
@@ -15658,11 +15665,26 @@ textarea {
   }
 }
 
+@media (max-width: 1040px) and (min-width: 720px) {
+  .home-page #inicio .hero__copy {
+    padding-top: calc(var(--home-spain-launch-height, 62px) + 16px);
+  }
+
+  .home-page #inicio .hero__kicker {
+    position: relative;
+    z-index: 5;
+  }
+}
+
 /* Annotation follow-up: give the Spain launch a stronger editorial beat,
    replace the method glyphs with the new visual set, tighten support cards,
    and make homepage section navigation land below the sticky header. */
+.home-page #inicio {
+  --home-spain-launch-height: 62px;
+}
+
 .home-page #inicio .hero__spain-launch {
-  min-height: 62px;
+  min-height: var(--home-spain-launch-height);
   padding: 10px clamp(18px, 2.5vw, 34px);
   background:
     radial-gradient(circle at 18% 50%, rgba(79, 132, 246, .22), transparent 24%),

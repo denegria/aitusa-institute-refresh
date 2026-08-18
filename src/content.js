@@ -2710,6 +2710,13 @@ const headquarters = {
   ...centralLocationContact,
 };
 
+const publishedLocationInventory = [
+  ...locations.filter((location) => location.status !== "online"),
+  headquarters,
+];
+
+const publishedLocationCount = publishedLocationInventory.length;
+
 const testimonials = [
   {
     name: "Testimonio internacional",
@@ -3012,8 +3019,8 @@ const institutionalProof = [
     label: "Estudiantes guiados",
   },
   {
-    value: "4 sedes",
-    label: "En Nueva Jersey",
+    value: `${publishedLocationCount} ubicaciones`,
+    label: "Publicadas en el mapa de sedes",
   },
   {
     value: "Alcance internacional",
