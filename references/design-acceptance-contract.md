@@ -1,3 +1,59 @@
+# AIT USA Responsive Conversion Corrections — 2026-08-18
+
+## User workflow and problem
+
+- A prospective student should enter the homepage and course catalog without
+  announcement copy colliding with the hero at common tablet widths, should
+  reach catalog comparison controls and course cards without a manifesto-sized
+  first screen, and should see an accurate location claim.
+- This is a focused correction pass from the Grok 4.6 production review. It is
+  not authorization for a homepage redesign, new CTA work, navigation changes,
+  course-content changes, or production promotion.
+
+## Chosen interaction model and visual direction
+
+- Reference mode: inspiration mode constrained by the existing navy/gold AIT
+  design system and current information architecture.
+- Preserve the existing hero and catalog composition while tightening vertical
+  rhythm and responsive clearance. The catalog must become comparison-first:
+  filters and the first useful course content move materially upward without
+  hiding the catalog introduction or breaking hierarchy.
+
+## Locked behavior, content, and non-goals
+
+- Fix the España announcement-bar/hero-kicker collision at 1024x768 and
+  768x1024 with visible separation; do not hide either element.
+- Compress `/cursos/` so filters and first course content are materially closer
+  to the first viewport at 1440x900, while preserving one H1, readable copy,
+  current filter behavior, focus states, and all course content.
+- Replace the unsupported homepage `4 sedes` claim with wording justified by
+  the actual location inventory rendered by the site. Do not guess a business
+  taxonomy; use a truthful count/qualifier supported by the current data.
+- Preserve Spanish-first copy, existing routes, public header/footer, hero
+  media, placement-test behavior, catalog filtering semantics, and 44px action
+  targets. No horizontal page overflow.
+- Non-goals: homepage CTA, header `Cursos` destination, mobile filter
+  discoverability, study-card affordance, portal/auth, CRM/data/provider work,
+  or production/main changes.
+
+## Responsive and evidence contract
+
+- Primary CSS viewports: 1440x900 and 390x844.
+- Regression CSS viewports: 1024x768 and 768x1024.
+- At both tablet widths, the announcement bar and hero kicker have positive
+  visual/DOM clearance and no overlap.
+- At desktop, catalog tabs begin above the old ~799px position and the first
+  course content begins materially above the old ~1050px position; target a
+  useful first comparison within or immediately after the first viewport.
+- At mobile and tablet widths, compression must not create clipped text,
+  stacked-control collisions, unreadable measures, or page overflow.
+- Required evidence: targeted tests if present, `npm run validate`, production-
+  mode browser checks at all four viewports, DOM positions for announcement,
+  kicker, filters, and first course content, zero console/runtime errors, and
+  `git diff --check`.
+
+---
+
 # AIT USA Homepage Launch Corrections — MIS-394
 
 ## User workflow and problem
