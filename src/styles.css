@@ -16123,7 +16123,7 @@ textarea {
     padding-top: 72px;
   }
 
-  .home-page #inicio .hero h1 {
+  .home-page #inicio h1 {
     margin-top: 12px;
     font-size: clamp(2.8rem, 12vw, 3.225rem);
     line-height: 0.98;
