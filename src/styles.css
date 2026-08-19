@@ -16132,13 +16132,35 @@ textarea {
 
   .home-page #inicio .hero__visual > picture {
     inset: var(--home-spain-launch-height) 0 0;
+    isolation: isolate;
     min-height: 0;
+    overflow: hidden;
     height: calc(100% - var(--home-spain-launch-height));
   }
 
+  .home-page #inicio .hero__visual > picture::after {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    content: "";
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, .14), rgba(255, 255, 255, 0) 13%),
+      linear-gradient(90deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, 0) 10%),
+      linear-gradient(270deg, rgba(255, 255, 255, .035), rgba(255, 255, 255, 0) 8%),
+      linear-gradient(0deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, 0) 11%);
+  }
+
   .home-page #inicio .hero__visual > picture > img {
+    z-index: 0;
     height: 112%;
     object-position: 100% 0%;
+  }
+}
+
+@media (min-width: 1440px) {
+  .home-page #inicio .hero__main {
+    grid-template-columns: minmax(0, 36%) minmax(0, 64%);
   }
 }
 
