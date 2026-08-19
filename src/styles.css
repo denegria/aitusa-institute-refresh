@@ -16120,15 +16120,24 @@ textarea {
 
 @media (min-width: 1041px) {
   .home-page #inicio .hero__main {
-    grid-template-columns: minmax(0, 45%) minmax(0, 55%);
+    grid-template-columns: minmax(0, 42%) minmax(0, 58%);
   }
 
   .home-page #inicio .hero__visual {
+    align-self: stretch;
     margin-left: 0;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .home-page #inicio .hero__visual > picture {
+    height: 100%;
+    min-height: 0;
   }
 
   .home-page #inicio .hero__visual > picture > img {
-    object-position: 76% 0%;
+    height: 100%;
+    object-position: 100% 0%;
   }
 }
 
