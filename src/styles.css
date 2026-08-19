@@ -16176,7 +16176,13 @@ textarea {
   }
 
   .home-page #inicio .hero__title-block {
+    width: 100%;
     max-width: 100%;
+    min-width: 0;
+  }
+
+  .home-page #inicio h1 span {
+    white-space: normal;
   }
 }
 
