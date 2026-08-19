@@ -16120,7 +16120,7 @@ textarea {
 
 @media (min-width: 1041px) {
   .home-page #inicio .hero__main {
-    grid-template-columns: minmax(0, 50%) minmax(0, 50%);
+    grid-template-columns: minmax(0, 45%) minmax(0, 55%);
   }
 
   .home-page #inicio .hero__visual {
