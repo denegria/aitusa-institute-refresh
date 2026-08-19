@@ -16119,8 +16119,16 @@ textarea {
 }
 
 @media (min-width: 1041px) {
+  .home-page #inicio .hero__main {
+    grid-template-columns: minmax(0, 50%) minmax(0, 50%);
+  }
+
+  .home-page #inicio .hero__visual {
+    margin-left: 0;
+  }
+
   .home-page #inicio .hero__visual > picture > img {
-    object-position: 68% 0%;
+    object-position: 76% 0%;
   }
 }
 
