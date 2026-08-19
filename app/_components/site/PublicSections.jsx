@@ -49,8 +49,8 @@ export function HeroSection() {
             <img
               src={site.images.approvedHeroDesktop}
               alt="Asesora de AIT USA orientando a una estudiante adulta en un salón de inglés."
-              width="1536"
-              height="1024"
+              width="2304"
+              height="1536"
               fetchPriority="high"
             />
           </picture>
