@@ -442,3 +442,27 @@ final result: passed
 - P3: an approved licensed editorial serif could replace the system-serif fallback later; this does not block fidelity.
 
 final result: passed
+## Current run — wide-desktop homepage hero
+
+- Source visual: `C:\\Users\\Alvaro\\AppData\\Local\\Temp\\codex-clipboard-f0505c26-d4ae-4303-a12e-80791f02318b.png` (1890 × 698 px reference crop).
+- Implementation: [staging homepage](https://aitusa-institute-refresh-git-staging-alvaros-projects-efb8ae58.vercel.app/), commit `b167e1752b43c235aae237675151a828243abacb`.
+- QA state: homepage hero at the top of the page, default desktop styling, no interaction.
+- Rendered check: Codex in-app browser at 1296 × 920 CSS px (actual content width 1281 px). The in-app canvas caps the viewport below the 1440 px large-desktop breakpoint, so the large-desktop branch was source-checked rather than captured at its target width.
+
+### Compared surfaces
+
+- The regular desktop grid uses a 42/58 copy-to-image split; the large-desktop branch uses 36/64 so the photo extends farther left and showcases more of the supplied classroom image.
+- The image frame begins immediately below the Spain launch banner and is clipped at the trust band below it. The live regular-desktop measurement was image frame `top: 154px`, `bottom: 822px`, with the trust band beginning at `822px`.
+- Both desktop branches share the same subtle white edge veil: a lightened top edge plus reduced left, right, and bottom border treatment. The existing approved soft-fade asset remains the image source; no replacement imagery was introduced.
+- Mobile remains on the existing classroom asset and mobile crop behavior.
+
+### Findings
+
+- No P0, P1, or P2 visual issues found in the available live render.
+- Exact 1440+ pixel comparison remains an open P3 verification item because the Codex in-app browser exposes a maximum inner width of 1296 px in this session; the `min-width: 1440px` layout rule is present in the deployed source.
+
+### Comparison history
+
+- `b167e17 feat: widen large desktop hero treatment` — added the large-desktop column treatment and consistent lighter edge veil.
+
+Final result: passed
