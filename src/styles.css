@@ -16162,6 +16162,12 @@ textarea {
   .home-page #inicio .hero__main {
     grid-template-columns: minmax(0, 36%) minmax(0, 64%);
   }
+
+  .home-page #inicio .hero__visual > picture > img {
+    left: auto;
+    right: 0;
+    width: 135%;
+  }
 }
 
 @media (max-width: 719px) {

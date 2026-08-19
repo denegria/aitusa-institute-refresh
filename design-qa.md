@@ -466,3 +466,12 @@ final result: passed
 - `b167e17 feat: widen large desktop hero treatment` — added the large-desktop column treatment and consistent lighter edge veil.
 
 Final result: passed
+
+## Current run — wide desktop midpoint crop — 2026-08-19
+
+- Source visual: `C:\Users\Alvaro\AppData\Local\Temp\codex-clipboard-9757135a-337d-45bb-86cf-89aec7756eb2.png` (1890 × 698 px reference crop).
+- Change: at `min-width: 1440px`, the existing approved soft-fade image remains right-anchored but renders at 135% of the visual column width. This moves the visible classroom scene left toward the viewport midpoint without changing the column boundary, the right edge, or the shared edge veil.
+- Regression check: regular desktop remains 42/58 with the prior crop; mobile remains on the classroom asset and is outside the new rule.
+- Browser evidence: the live regular desktop render remains aligned below the Spain banner and ends at the trust band; the in-app browser’s maximum inner width is 1296px, so the 1440px branch is source-checked and will be verified again when a wider canvas is available.
+
+Final result: passed
