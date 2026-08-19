@@ -16170,6 +16170,16 @@ textarea {
   }
 }
 
+@media (min-width: 1041px) and (max-width: 1180px) {
+  .home-page #inicio .hero__main {
+    grid-template-columns: minmax(0, 48%) minmax(0, 52%);
+  }
+
+  .home-page #inicio .hero__title-block {
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 719px) {
   .home-page #inicio {
     display: flex;

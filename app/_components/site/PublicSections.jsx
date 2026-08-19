@@ -44,8 +44,8 @@ export function HeroSection() {
         </div>
         <figure className="hero__visual">
           <picture>
-            <source media="(max-width: 719px)" srcSet={site.images.approvedHeroMobile} />
-            <source media="(min-width: 720px)" srcSet={site.images.approvedHeroDesktop} />
+              <source media="(max-width: 1040px)" srcSet={site.images.approvedHeroMobile} />
+              <source media="(min-width: 1041px)" srcSet={site.images.approvedHeroDesktop} />
             <img
               src={site.images.approvedHeroDesktop}
               alt="Asesora de AIT USA orientando a una estudiante adulta en un salón de inglés."
