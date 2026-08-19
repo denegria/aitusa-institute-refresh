@@ -3019,11 +3019,11 @@ const institutionalProof = [
     label: "Estudiantes guiados",
   },
   {
-    value: `${publishedLocationCount} ubicaciones`,
+    value: `${publishedLocationCount} Sedes`,
     label: "Publicadas en el mapa de sedes",
   },
   {
-    value: "Alcance internacional",
+    value: "Alcance Internacional",
     label: "EE. UU., Centroamérica, Sudamérica y Europa",
   },
 ];

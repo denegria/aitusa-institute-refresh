@@ -188,7 +188,7 @@ describe("homepage React integration", () => {
     assert.equal(publishedLocationCount, 7);
     assert.deepEqual(
       institutionalProof.map((proof) => proof.value),
-      ["Desde 2004", "+1,000", `${publishedLocationCount} ubicaciones`, "Alcance internacional"],
+      ["Desde 2004", "+1,000", `${publishedLocationCount} Sedes`, "Alcance Internacional"],
     );
     assert.equal(institutionalProof[2].label, "Publicadas en el mapa de sedes");
     assert.doesNotMatch(institutionalProof.map((proof) => proof.value).join(" "), /4 sedes/);

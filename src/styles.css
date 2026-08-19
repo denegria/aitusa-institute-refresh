@@ -16118,6 +16118,12 @@ textarea {
   transform: none;
 }
 
+@media (min-width: 1041px) {
+  .home-page #inicio .hero__visual > picture > img {
+    object-position: 68% 0%;
+  }
+}
+
 @media (max-width: 719px) {
   .home-page #inicio {
     display: flex;
