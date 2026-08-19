@@ -16131,8 +16131,9 @@ textarea {
   }
 
   .home-page #inicio .hero__visual > picture {
-    height: 100%;
+    inset: var(--home-spain-launch-height) 0 0;
     min-height: 0;
+    height: calc(100% - var(--home-spain-launch-height));
   }
 
   .home-page #inicio .hero__visual > picture > img {
