@@ -16119,6 +16119,18 @@ textarea {
 }
 
 @media (max-width: 719px) {
+  .home-page #inicio {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100svh - 72px);
+  }
+
+  .home-page #inicio .hero__main {
+    flex: 1 1 auto;
+    grid-template-rows: auto minmax(0, 1fr);
+    min-height: 0;
+  }
+
   .home-page #inicio .hero__copy {
     padding-top: 72px;
   }
@@ -16134,8 +16146,8 @@ textarea {
   }
 
   .home-page #inicio .hero__visual {
-    height: clamp(340px, 46svh, 390px);
-    min-height: 0;
+    height: 100%;
+    min-height: clamp(340px, 46svh, 390px);
     aspect-ratio: auto;
     background: #f3eee6;
   }
@@ -16155,7 +16167,7 @@ textarea {
     height: 100%;
     max-width: none;
     object-fit: cover;
-    object-position: center;
+    object-position: 56% 50%;
   }
 
   .home-page #inicio .hero__institutional-inner {
