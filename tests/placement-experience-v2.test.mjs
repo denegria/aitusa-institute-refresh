@@ -123,7 +123,7 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.doesNotMatch(component, /diagnostic-value-preview/);
     assert.match(styles, /\.diagnostic-contact-choice__grid > label \{[\s\S]*grid-template-columns: 18px minmax\(0, 1fr\);[\s\S]*align-items: center;/);
     assert.match(styles, /@media \(max-width: 720px\)[\s\S]*\.diagnostic-contact-choice__grid \{[\s\S]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/);
-    assert.match(styles, /\.diagnostic-contact-choice__grid input \{[\s\S]*-webkit-appearance: none;[\s\S]*appearance: none;/);
+    assert.match(styles, /\.diagnostic-contact-choice__grid input \{[\s\S]*-webkit-appearance: none;[\s\S]*appearance: none;[\s\S]*min-width: 17px;[\s\S]*min-height: 17px;[\s\S]*padding: 0;/);
   });
 
   it("includes directional motion and a reduced-motion override", () => {
