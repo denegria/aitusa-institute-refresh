@@ -21,4 +21,13 @@ describe("MIS-397 channel-specific placement contact consent", () => {
     const event = validateCrmEventEnvelope({ type: "placement_review_created", idempotencyKey: "placement-review:fixture:0001", occurredAt: "2026-08-20T00:00:00.000Z", actor: { portalAccountId: "opaque-account" }, source: { surface: "staff_tool", path: "/employee/placement-reviews" }, consent: { basis: "contract", policyVersion: preference.disclosureVersion }, payload });
     assert.equal(event.ok, true);
   });
+  it("records independent WhatsApp consent and a privacy-safe replacement audit", async () => {
+    const fs = await import("node:fs/promises");
+    const source = await fs.readFile(new URL("../src/placementContact/neonRepository.server.js", import.meta.url), "utf8");
+    const migration = await fs.readFile(new URL("../drizzle/0006_placement_review_and_preferences.sql", import.meta.url), "utf8");
+    assert.match(source, /'whatsapp_contact'/);
+    assert.match(source, /placement_contact_change_audits/);
+    assert.match(migration, /placement_contact_change_audits/);
+    assert.equal(source.includes("'mobile_e164', ${preference.mobile}"), false);
+  });
 });

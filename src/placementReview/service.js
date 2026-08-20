@@ -33,6 +33,7 @@ export function createPlacementReviewService({ repository, now = () => new Date(
       reviewId, actor, action, mutationId, expectedRevision,
       finalLevel: finalLevel?.trim() || null, occurredAt: at,
       eventId: createId(),
+      outboxId: createId(),
     });
     return safeReview(result.review, result.replayed);
   }
@@ -45,7 +46,7 @@ export function createPlacementReviewService({ repository, now = () => new Date(
       if (typeof recommendedLevel !== "string" || !recommendedLevel.trim()) throw new PlacementReviewError("placement_review_recommended_level_invalid", 422);
       const created = await repository.createReview({
         id: createId(), resultId, attemptId, correlationId: correlationId || attemptId,
-        businessUnit, recommendedLevel: recommendedLevel.trim(), occurredAt: now().toISOString(), eventId: createId(),
+        businessUnit, recommendedLevel: recommendedLevel.trim(), occurredAt: now().toISOString(), eventId: createId(), outboxId: createId(),
       });
       return safeReview(created.review, created.replayed);
     },

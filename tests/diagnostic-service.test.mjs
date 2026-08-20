@@ -164,6 +164,8 @@ describe("MIS-337 versioned diagnostic service", () => {
     assert.equal(first.attempt.status, "completed");
     assert.equal(replay.replayed, true);
     assert.equal(replay.result.scores.quizScore, 62);
+    assert.equal(typeof first.resultId, "string");
+    assert.equal(replay.resultId, first.resultId);
   });
 
   it("uses hash-only, one-time-window claim tokens and rejects expired tokens", async () => {

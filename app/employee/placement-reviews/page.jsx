@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import { randomUUID } from "node:crypto";
 import { notFound } from "next/navigation";
 import { getPlacementReviewService } from "../../../src/placementReview/runtime.server.js";
 import { resolvePlacementReviewActor } from "../../../src/placementReview/auth.server.js";
@@ -43,6 +44,7 @@ function ReviewSurface({ reviews, selected }) {
 }
 function ReviewActions({ review }) {
   if (["confirmed", "adjusted"].includes(review.status)) return <p role="status">{PLACEMENT_REVIEW_COPY.confirmed}</p>;
-  return <form className={styles.actions} action={`/api/employee/placement-reviews/${review.id}`} method="post"><input type="hidden" name="expectedRevision" value={review.revision} /><button name="action" value="start" disabled={review.status !== "pending" && review.status !== "additional_review_required"}>Iniciar revisión</button><button name="action" value="confirm" disabled={review.status !== "in_review"}>Confirmar nivel</button><button name="action" value="additional" disabled={review.status !== "in_review"}>Solicitar revisión adicional</button><p>Las decisiones quedan auditadas; no incluyas respuestas, textos ni datos de contacto aquí.</p></form>;
+  const mutationId = randomUUID();
+  return <form className={styles.actions} action={`/api/employee/placement-reviews/${review.id}`} method="post"><input type="hidden" name="expectedRevision" value={review.revision} /><input type="hidden" name="mutationId" value={mutationId} /><label>Actualizar a nivel final<input name="finalLevel" maxLength="120" minLength="1" pattern="[^<>]{1,120}" placeholder="Ej. Nivel 4" /></label><button name="action" value="start" disabled={review.status !== "pending" && review.status !== "additional_review_required"}>Iniciar revisión</button><button name="action" value="confirm" disabled={review.status !== "in_review"}>Confirmar nivel</button><button name="action" value="adjust" disabled={review.status !== "in_review"}>Ajustar nivel</button><button name="action" value="additional" disabled={review.status !== "in_review"}>Solicitar revisión adicional</button><p>Las decisiones quedan auditadas; no incluyas respuestas, textos ni datos de contacto aquí.</p></form>;
 }
 function statusLabel(status) { return ({ pending: PLACEMENT_REVIEW_COPY.pending, in_review: "En revisión", confirmed: PLACEMENT_REVIEW_COPY.confirmed, adjusted: "Nivel ajustado por AIT", additional_review_required: PLACEMENT_REVIEW_COPY.additional })[status] || PLACEMENT_REVIEW_COPY.pending; }

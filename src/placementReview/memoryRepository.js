@@ -1,10 +1,11 @@
 import { PlacementReviewError } from "./errors.js";
 import { placementReviewEventType, transitionTarget } from "./service.js";
+import { buildPlacementReviewCrmEnvelope } from "./crmEnvelope.js";
 
 const clone = (value) => structuredClone(value);
 
 export function createMemoryPlacementReviewRepository() {
-  const reviews = new Map(); const byResult = new Map(); const mutations = new Map(); const events = [];
+  const reviews = new Map(); const byResult = new Map(); const mutations = new Map(); const events = []; const outbox = [];
   return {
     async createReview(input) {
       const existing = byResult.get(input.resultId);
@@ -12,6 +13,7 @@ export function createMemoryPlacementReviewRepository() {
       const review = { ...input, status: "pending", finalLevel: null, revision: 0, createdAt: input.occurredAt, updatedAt: input.occurredAt };
       reviews.set(review.id, review); byResult.set(review.resultId, review.id);
       events.push(eventFor(review, input.eventId, "create", input.occurredAt, null));
+      outbox.push(buildPlacementReviewCrmEnvelope({ review, eventType: "placement_review_created", occurredAt: input.occurredAt }));
       return { review: clone(review), replayed: false };
     },
     async getById(id) { return reviews.has(id) ? clone(reviews.get(id)) : null; },
@@ -28,9 +30,10 @@ export function createMemoryPlacementReviewRepository() {
       if (input.action === "confirm") review.finalLevel = review.recommendedLevel;
       if (input.action === "adjust") review.finalLevel = input.finalLevel;
       mutations.set(mutationKey, true); events.push(eventFor(review, input.eventId, input.action, input.occurredAt, input.actor));
+      outbox.push(buildPlacementReviewCrmEnvelope({ review, eventType: placementReviewEventType(input.action), occurredAt: input.occurredAt }));
       return { review: clone(review), replayed: false };
     },
-    _inspect() { return { reviews: clone([...reviews.values()]), events: clone(events) }; },
+    _inspect() { return { reviews: clone([...reviews.values()]), events: clone(events), outbox: clone(outbox) }; },
   };
 }
 

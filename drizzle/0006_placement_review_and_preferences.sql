@@ -79,6 +79,19 @@ CREATE TABLE "placement_channel_consents" (
   CONSTRAINT "placement_channel_consents_purpose_check" CHECK ("purpose" in ('advisor_contact', 'service_sms', 'marketing_sms', 'phone_call', 'whatsapp_contact'))
 );
 --> statement-breakpoint
+CREATE TABLE "placement_contact_change_audits" (
+  "id" uuid PRIMARY KEY NOT NULL,
+  "account_id" uuid NOT NULL,
+  "attempt_id" uuid NOT NULL,
+  "previous_preference_id" uuid NOT NULL,
+  "replacement_preference_id" uuid NOT NULL,
+  "previous_channel" text NOT NULL,
+  "replacement_channel" text NOT NULL,
+  "change_reason" text NOT NULL,
+  "occurred_at" timestamp with time zone DEFAULT now() NOT NULL,
+  CONSTRAINT "placement_contact_change_reason_check" CHECK ("change_reason" in ('channel_changed', 'mobile_replaced', 'wrong_number_reported'))
+);
+--> statement-breakpoint
 ALTER TABLE "employee_review_roles" ADD CONSTRAINT "employee_review_roles_account_fk" FOREIGN KEY ("portal_account_id") REFERENCES "public"."portal_accounts"("id") ON DELETE cascade;
 --> statement-breakpoint
 ALTER TABLE "placement_reviews" ADD CONSTRAINT "placement_reviews_result_fk" FOREIGN KEY ("result_id") REFERENCES "public"."diagnostic_results"("id") ON DELETE restrict;
@@ -97,6 +110,14 @@ ALTER TABLE "placement_contact_preferences" ADD CONSTRAINT "placement_contact_pr
 --> statement-breakpoint
 ALTER TABLE "placement_channel_consents" ADD CONSTRAINT "placement_channel_consents_preference_fk" FOREIGN KEY ("preference_id") REFERENCES "public"."placement_contact_preferences"("id") ON DELETE restrict;
 --> statement-breakpoint
+ALTER TABLE "placement_contact_change_audits" ADD CONSTRAINT "placement_contact_change_account_fk" FOREIGN KEY ("account_id") REFERENCES "public"."portal_accounts"("id") ON DELETE restrict;
+--> statement-breakpoint
+ALTER TABLE "placement_contact_change_audits" ADD CONSTRAINT "placement_contact_change_attempt_fk" FOREIGN KEY ("attempt_id") REFERENCES "public"."diagnostic_attempts"("id") ON DELETE restrict;
+--> statement-breakpoint
+ALTER TABLE "placement_contact_change_audits" ADD CONSTRAINT "placement_contact_change_previous_fk" FOREIGN KEY ("previous_preference_id") REFERENCES "public"."placement_contact_preferences"("id") ON DELETE restrict;
+--> statement-breakpoint
+ALTER TABLE "placement_contact_change_audits" ADD CONSTRAINT "placement_contact_change_replacement_fk" FOREIGN KEY ("replacement_preference_id") REFERENCES "public"."placement_contact_preferences"("id") ON DELETE restrict;
+--> statement-breakpoint
 CREATE UNIQUE INDEX "placement_reviews_result_uidx" ON "placement_reviews" USING btree ("result_id");
 --> statement-breakpoint
 CREATE INDEX "placement_reviews_queue_idx" ON "placement_reviews" USING btree ("business_unit", "status", "updated_at");
@@ -104,6 +125,60 @@ CREATE INDEX "placement_reviews_queue_idx" ON "placement_reviews" USING btree ("
 CREATE INDEX "placement_review_events_review_idx" ON "placement_review_events" USING btree ("review_id", "occurred_at");
 --> statement-breakpoint
 CREATE INDEX "placement_contact_preferences_account_idx" ON "placement_contact_preferences" USING btree ("account_id", "occurred_at");
+--> statement-breakpoint
+CREATE INDEX "placement_contact_change_attempt_idx" ON "placement_contact_change_audits" USING btree ("attempt_id", "occurred_at");
+--> statement-breakpoint
+-- Canonical CRM event constructor. It is intentionally an allowlist: the
+-- review's recommendation, answers, writing, internal rationale, and contact
+-- values are never selected into the JSON envelope.
+CREATE OR REPLACE FUNCTION placement_crm_payload(review placement_reviews, event_type text, occurred_at timestamptz)
+RETURNS jsonb
+LANGUAGE sql
+STABLE
+AS $$
+  select jsonb_build_object(
+    'schemaVersion', 'aitusa-crm-event-v1',
+    'eventId', 'placement-review:' || review.id::text || ':revision:' || review.revision::text || ':' || event_type,
+    'eventType', event_type,
+    'idempotencyKey', 'placement-review:' || review.id::text || ':revision:' || review.revision::text || ':' || event_type,
+    'correlationId', review.correlation_id,
+    'occurredAt', occurred_at,
+    'source', jsonb_build_object(
+      'product', 'aitusa_refresh',
+      'surface', 'staff_tool',
+      'employeeUrl', '/employee/placement-reviews?review=' || review.id::text,
+      'version', 'mis-395-v1'
+    ),
+    'placement', jsonb_strip_nulls(jsonb_build_object(
+      'reviewId', review.id::text,
+      'resultId', review.result_id::text,
+      'attemptId', review.attempt_id::text,
+      'state', review.status,
+      'finalLevel', case when review.status in ('confirmed', 'adjusted') then review.final_level else null end
+    )),
+    'consent', jsonb_build_object(
+      'communicationPreference', preference.preferred_channel,
+      'disclosureVersion', preference.disclosure_version,
+      'disclosureHash', preference.disclosure_hash,
+      'sourceUrl', preference.source_url,
+      'optInAction', preference.opt_in_action,
+      'advisorContactEmail', coalesce((select decision from placement_channel_consents where preference_id = preference.id and purpose = 'advisor_contact' limit 1), false),
+      'serviceSms', coalesce((select decision from placement_channel_consents where preference_id = preference.id and purpose = 'service_sms' limit 1), false),
+      'marketingSms', coalesce((select decision from placement_channel_consents where preference_id = preference.id and purpose = 'marketing_sms' limit 1), false),
+      'phoneCall', coalesce((select decision from placement_channel_consents where preference_id = preference.id and purpose = 'phone_call' limit 1), false),
+      'whatsappContact', coalesce((select decision from placement_channel_consents where preference_id = preference.id and purpose = 'whatsapp_contact' limit 1), false),
+      'verifiedEmail', coalesce(preference.verified_email, false),
+      'verifiedMobile', coalesce(preference.verified_mobile, false)
+    )
+  )
+  from (select 1) singleton
+  left join lateral (
+    select * from placement_contact_preferences
+    where attempt_id = review.attempt_id
+    order by occurred_at desc, id desc
+    limit 1
+  ) preference on true
+$$;
 --> statement-breakpoint
 -- Backfill only already-claimed diagnostic results. Deterministic IDs and the
 -- result/idempotency unique constraints make this safe to rerun. It writes an
@@ -153,20 +228,9 @@ INSERT INTO "crm_outbox" (
 SELECT
   md5('crm-placement-review-created:' || review.id::text)::uuid,
   'placement_review_created',
-  'placement-review-created:' || review.id::text,
-  review.id::text,
-  jsonb_build_object(
-    'schemaVersion', 'aitusa-crm-event-v1',
-    'eventId', 'placement-review-created:' || review.id::text,
-    'eventType', 'placement_review_created',
-    'idempotencyKey', 'placement-review-created:' || review.id::text,
-    'correlationId', review.correlation_id,
-    'occurredAt', now(),
-    'source', jsonb_build_object('product', 'aitusa_refresh', 'surface', 'staff_tool', 'path', '/employee/placement-reviews', 'version', 'mis-395-v1'),
-    'placementReview', jsonb_build_object('reviewId', review.id::text, 'resultId', review.result_id::text, 'status', review.status, 'recommendedLevel', review.recommended_level),
-    'communicationPreference', null,
-    'consent', jsonb_build_object('verifiedEmail', false, 'verifiedMobile', false)
-  ),
+  'placement-review:' || review.id::text || ':revision:' || review.revision::text || ':placement_review_created',
+  review.correlation_id,
+  placement_crm_payload(review, 'placement_review_created', now()),
   'pending', 0, now(), now()
 FROM "placement_reviews" review
 JOIN "diagnostic_attempts" attempt ON attempt.id = review.attempt_id AND attempt.status = 'claimed'

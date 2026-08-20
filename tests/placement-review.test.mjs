@@ -3,6 +3,8 @@ import { describe, it } from "node:test";
 import { createMemoryPlacementReviewRepository } from "../src/placementReview/memoryRepository.js";
 import { createPlacementReviewService } from "../src/placementReview/service.js";
 import { PLACEMENT_REVIEW_COPY } from "../src/placementReview/contract.js";
+import { buildPlacementReviewCrmEnvelope, validatePlacementReviewCrmEnvelope } from "../src/placementReview/crmEnvelope.js";
+import { assertTrustedEmployeeOrigin } from "../src/placementReview/http.server.js";
 
 const ids = ["00000000-0000-4000-8000-000000000001", "00000000-0000-4000-8000-000000000002", "00000000-0000-4000-8000-000000000003", "00000000-0000-4000-8000-000000000004", "00000000-0000-4000-8000-000000000005", "00000000-0000-4000-8000-000000000006", "00000000-0000-4000-8000-000000000007"];
 function fixture() { let i = 0; const repository = createMemoryPlacementReviewRepository(); return { repository, service: createPlacementReviewService({ repository, createId: () => ids[i++] }), actor: { accountId: "00000000-0000-4000-8000-000000000099", role: "senior", businessUnit: "ait_usa" } }; }
@@ -17,6 +19,12 @@ describe("MIS-395 placement review state machine", () => {
     const replay = await service.confirmReview({ reviewId: review.id, actor, expectedRevision: 1, mutationId: ids[3] });
     assert.equal(started.status, "in_review"); assert.equal(confirmed.status, "confirmed"); assert.equal(confirmed.finalLevel, "Nivel 3"); assert.equal(replay.replayed, true);
     assert.deepEqual(repository._inspect().events.map((event) => event.eventType), ["placement_review_created", "placement_review_started", "placement_review_confirmed"]);
+    const outbox = repository._inspect().outbox;
+    assert.equal(outbox.length, 3);
+    assert.deepEqual(outbox.map((event) => event.placement.state), ["pending", "in_review", "confirmed"]);
+    assert.equal(outbox.at(-1).placement.finalLevel, "Nivel 3");
+    assert.equal(outbox.at(-1).correlationId, ids[1]);
+    assert.equal(validatePlacementReviewCrmEnvelope(outbox.at(-1)).ok, true);
   });
   it("fails closed for cross-BU or stale decisions", async () => {
     const { service, actor } = fixture(); const review = await service.createReview({ resultId: ids[0], attemptId: ids[1], recommendedLevel: "Nivel 3" });
@@ -25,5 +33,33 @@ describe("MIS-395 placement review state machine", () => {
   });
   it("keeps the locked student-facing labels", () => {
     assert.deepEqual(Object.values(PLACEMENT_REVIEW_COPY), ["Nivel recomendado", "Pendiente de confirmación", "Nivel confirmado por AIT", "Revisión adicional requerida"]);
+  });
+  it("adjusts a bounded final level and keeps replay/outbox idempotent", async () => {
+    const { service, repository, actor } = fixture();
+    const review = await service.createReview({ resultId: ids[0], attemptId: ids[1], recommendedLevel: "Nivel 3", correlationId: ids[1] });
+    await service.startReview({ reviewId: review.id, actor, expectedRevision: 0, mutationId: ids[2] });
+    const adjusted = await service.adjustReview({ reviewId: review.id, actor, expectedRevision: 1, mutationId: ids[3], finalLevel: "Nivel 4" });
+    const replay = await service.adjustReview({ reviewId: review.id, actor, expectedRevision: 1, mutationId: ids[3], finalLevel: "Nivel 4" });
+    assert.equal(adjusted.status, "adjusted"); assert.equal(adjusted.finalLevel, "Nivel 4"); assert.equal(replay.replayed, true);
+    const outbox = repository._inspect().outbox;
+    assert.equal(outbox.length, 3); assert.match(outbox.at(-1).idempotencyKey, /revision:2:placement_review_adjusted$/);
+    assert.equal(JSON.stringify(outbox.at(-1)).match(/answer|writing|rationale|email@/i), null);
+  });
+  it("uses an exact Origin comparison for employee mutations", () => {
+    const request = (origin) => new Request("https://staff.aitusa.example/api", { headers: { origin, host: "staff.aitusa.example", "x-forwarded-proto": "https" } });
+    assert.doesNotThrow(() => assertTrustedEmployeeOrigin(request("https://staff.aitusa.example")));
+    assert.throws(() => assertTrustedEmployeeOrigin(request("https://evil-staff.aitusa.example")), /cross_origin_request_forbidden/);
+    assert.throws(() => assertTrustedEmployeeOrigin(request("https://staff.aitusa.example.evil.example")), /cross_origin_request_forbidden/);
+  });
+  it("builds only the canonical CRM envelope allowlist", () => {
+    const event = buildPlacementReviewCrmEnvelope({ review: { id: ids[0], resultId: ids[1], attemptId: ids[2], correlationId: ids[2], status: "adjusted", revision: 2, finalLevel: "Nivel 4", recommendedLevel: "must-not-export", reviewerRationale: "must-not-export" }, eventType: "placement_review_adjusted", occurredAt: "2026-08-20T12:00:00.000Z", consent: { communicationPreference: "email", advisorContactEmail: true, verifiedEmail: true, rawAnswers: "must-not-export" } });
+    assert.equal(validatePlacementReviewCrmEnvelope(event).ok, true);
+    assert.equal(JSON.stringify(event).includes("must-not-export"), false);
+    assert.equal(event.source.employeeUrl, `/employee/placement-reviews?review=${ids[0]}`);
+  });
+  it("keeps the shared CRM fixture valid for the receiving repository", async () => {
+    const fs = await import("node:fs/promises");
+    const fixture = JSON.parse(await fs.readFile(new URL("../docs/fixtures/aitusa-placement-review-crm-envelope-v1.json", import.meta.url), "utf8"));
+    assert.equal(validatePlacementReviewCrmEnvelope(fixture).ok, true);
   });
 });
