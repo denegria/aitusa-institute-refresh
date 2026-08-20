@@ -13,7 +13,7 @@ const styles = await readFile(
 
 describe("MIS-339 placement diagnostic V2 interaction shell", () => {
   it("starts anonymously and renders one question screen instead of contact fields", () => {
-    assert.match(component, /Comenzar examen/);
+    assert.match(component, /Descubrir mi nivel/);
     assert.match(component, /data-diagnostic-screen="question"/);
     assert.match(component, /flatQuestions\[questionIndex\]/);
     assert.doesNotMatch(component, /function StudentFields/);
@@ -52,7 +52,7 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
 
   it("exposes the guardian boundary and passwordless Study Buddy conversion", () => {
     assert.match(component, /práctica personalizada de cinco minutos/);
-    assert.match(component, /cinco turnos cortos/);
+    assert.match(component, /práctica personalizada de cinco minutos/);
     assert.match(component, /Para ver y guardar el resultado/);
     assert.match(component, /Continuar como menor de 13/);
     assert.match(component, /role="dialog"/);
@@ -93,7 +93,7 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
 
   it("gates the academic result until the verified handoff succeeds", () => {
     assert.match(component, /data-diagnostic-screen="result-gate"/);
-    assert.match(component, /¡Terminaste tu evaluación!/);
+    assert.match(component, /Tu resultado está listo/);
     assert.match(component, /if \(!claimReceipt\)/);
     assert.match(component, /onClaimed=\{setClaimReceipt\}/);
     assert.match(component, /¡Nivel desbloqueado!/);
@@ -113,6 +113,14 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.match(styles, /\.placement-page__hero \{[\s\S]*background: #f7f2e8;/);
     assert.match(styles, /\.diagnostic-shell \{[\s\S]*background: #fffdf9;/);
     assert.match(styles, /\.diagnostic-progress__track span \{[\s\S]*background: var\(--gold\);/);
+  });
+
+  it("keeps the contact stage compact and aligned across mobile viewports", () => {
+    assert.match(component, /className="diagnostic-gate-heading"/);
+    assert.match(component, /className="diagnostic-contact-choice__copy"/);
+    assert.doesNotMatch(component, /diagnostic-value-preview/);
+    assert.match(styles, /\.diagnostic-contact-choice__grid > label \{[\s\S]*grid-template-columns: 18px minmax\(0, 1fr\);[\s\S]*align-items: center;/);
+    assert.match(styles, /@media \(max-width: 720px\)[\s\S]*\.diagnostic-contact-choice__grid \{[\s\S]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/);
   });
 
   it("includes directional motion and a reduced-motion override", () => {

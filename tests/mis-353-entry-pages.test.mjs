@@ -36,7 +36,7 @@ describe("MIS-353 focused entry surfaces", () => {
   });
 
   it("progressively discloses the under-13 path", () => {
-    assert.match(placementExperience, /Comenzar examen/);
+    assert.match(placementExperience, /Descubrir mi nivel/);
     assert.match(placementExperience, /¿El estudiante es menor de 13\?/);
     assert.match(placementExperience, /role="dialog"/);
     assert.match(placementExperience, /Continuar como menor de 13/);

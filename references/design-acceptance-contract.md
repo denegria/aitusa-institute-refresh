@@ -1464,3 +1464,16 @@ and closeout evidence are recorded in
 - **Responsive acceptance:** primary viewports 390×844 and 1440×900; regression viewports 430×932 and 1024×768. No horizontal overflow, clipped controls, hidden validation, or result leakage before claim.
 - **Non-goals:** phone authentication, phone OTP, password accounts, marketing enrollment, provider sends, or a new standalone portal.
 - **Evidence:** targeted placement/contact/claim tests, full build, staging browser verification of the pre-result gate and responsive states, then production read-only smoke on the exact validated commit.
+
+---
+## 2026-08-20 — Placement post-test polish and offer continuity
+
+- **Problem:** the approved result gate is functionally correct, but the mobile contact stage reads as one long dark form. Contact controls crowd their labels, the same value promise is repeated above and inside the form, and the primary action falls below the first viewport.
+- **Selected interaction model:** preserve the approved sequence `assessment → contact → OTP → result → Study Buddy`, with one dominant task in each stage. The contact stage starts immediately with a compact completion/progress header and the claim form; it does not add another interstitial click.
+- **Reference mode:** current-state correction based on the supplied production mobile screenshot. Preserve the existing navy/gold/warm-white accents, success mark, progress motif, typography, card radii, and institutional tone. This is polish, not a visual reset.
+- **Contact layout:** name and email remain first, followed by a required channel choice. Channel cards use a stable radio column plus an independent text column, consistent vertical alignment, and a compact two-by-two mobile layout where it remains readable. SMS, WhatsApp, and phone continue to reveal the mobile field.
+- **Copy continuity:** the entry screen promises a saved recommendation plus a personalized five-minute Study Buddy practice; the context and goal screens explain how answers improve the next-step recommendation; the final assessment CTA prepares the student to see the result; the contact, OTP, result, and Study Buddy screens use the same concise value language without duplicating paragraphs.
+- **Viewport behavior:** on 390×844 and 430×932, the contact and OTP stages should place the primary action within one natural viewport whenever validation content is absent. On 1024×768 and 1440×900, the gate remains centered and compact rather than expanding into a long document. Natural page scrolling remains available for accessibility, zoom, guardian consent, errors, and small-height devices.
+- **Locked behavior:** preserve result durability, email-only Portal identity, required advisor channel, conditional unverified mobile capture, explicit channel permission, guardian boundaries, CRM event ordering, marketing-off defaults, and provider-send suppression.
+- **Non-goals:** no phone authentication, no consent bypass, no result leakage before claim, no new offer, no points/streaks/false urgency, and no restructuring of assessment scoring or academic review.
+- **Evidence:** focused placement and result-claim contracts, full validation/build, responsive staging browser evidence at all four viewports, production deployment readiness, read-only production smoke, and Linear MIS-399 closeout.

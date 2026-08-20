@@ -233,8 +233,8 @@ function IntroScreen({ busy, error, resumeSnapshot, onStart, onResume }) {
         <p className="eyebrow-chip">Evaluación inicial</p>
         <h2>Descubre tu punto de partida</h2>
         <p className="diagnostic-lead">
-          Responde 62 preguntas, una a la vez. Puedes regresar, cambiar una
-          respuesta o saltar lo que no sepas.
+          Completa 62 preguntas a tu ritmo. Al terminar, guarda tu nivel y
+          desbloquea una práctica personalizada de cinco minutos.
         </p>
       </div>
       <div className="diagnostic-intro__actions">
@@ -259,7 +259,7 @@ function IntroScreen({ busy, error, resumeSnapshot, onStart, onResume }) {
               type="button"
               onClick={() => onStart("age_13_plus")}
             >
-              {busy ? "Preparando…" : "Comenzar examen"}
+              {busy ? "Preparando…" : "Descubrir mi nivel"}
             </button>
             <button
               className="diagnostic-age-link"
@@ -416,8 +416,8 @@ function ReflectionScreen({
       <p className="eyebrow-chip">Esto no cambia tu nivel</p>
       <h2>{group.label}, ¿cómo te sientes hoy?</h2>
       <p>
-        Tu respuesta solo ayuda a personalizar la recomendación y la
-        conversación con un asesor.
+        Tu respuesta ayuda a personalizar tu siguiente paso y la orientación
+        de AIT.
       </p>
       <div className="diagnostic-answer-list">
         {group.options.map((option, optionIndex) => (
@@ -462,7 +462,7 @@ function GoalScreen({
     <section className="diagnostic-goal" data-diagnostic-screen="goal">
       <p className="eyebrow-chip">Último paso</p>
       <h2>¿Qué quieres lograr con tu inglés?</h2>
-      <p>Esto no cambia tu nivel; nos ayuda a recomendarte el siguiente paso.</p>
+      <p>Tu objetivo y escritura nos ayudan a preparar una ruta más útil para ti.</p>
       <fieldset className="diagnostic-goal__options">
         <legend>Elige tu objetivo principal</legend>
         {placementTest.goals.map((item) => (
@@ -507,7 +507,7 @@ function GoalScreen({
           type="button"
           onClick={onSubmit}
         >
-          {busy ? "Preparando tu resultado…" : "Finalizar evaluación"}
+          {busy ? "Preparando tu resultado…" : "Terminar y ver mi resultado"}
         </button>
       </div>
     </section>
@@ -557,10 +557,10 @@ function claimErrorMessage(code) {
 }
 
 const PLACEMENT_CONTACT_CHANNELS = Object.freeze([
-  { value: "email", label: "Email", hint: "Usaremos el email verificado de tu Portal." },
-  { value: "sms", label: "SMS", hint: "Mensaje de servicio a tu teléfono." },
-  { value: "whatsapp", label: "WhatsApp", hint: "Contacto individual de un asesor." },
-  { value: "phone", label: "Llamada", hint: "Un asesor te llama para orientarte." },
+  { value: "email", label: "Email", hint: "El email de tu Portal." },
+  { value: "sms", label: "SMS", hint: "Mensaje a tu teléfono." },
+  { value: "whatsapp", label: "WhatsApp", hint: "Mensaje de un asesor." },
+  { value: "phone", label: "Llamada", hint: "Orientación por teléfono." },
 ]);
 
 function channelNeedsMobile(channel) {
@@ -612,7 +612,7 @@ function ContactPreferenceFields({ allowed, channel, mobile, onAllowedChange, on
               value={item.value}
               onChange={() => onChannelChange(item.value)}
             />
-            <span><strong>{item.label}</strong><small>{item.hint}</small></span>
+            <span className="diagnostic-contact-choice__copy"><strong>{item.label}</strong><small>{item.hint}</small></span>
           </label>
         ))}
       </div>
@@ -642,7 +642,7 @@ function ContactPreferenceFields({ allowed, channel, mobile, onAllowedChange, on
           <span>{contactPermissionCopy(channel)}</span>
         </label>
       ) : null}
-      <small>Esta elección no autoriza marketing. No se enviará ningún mensaje automático en este paso.</small>
+      <small>Solo usaremos este canal para orientarte sobre tu resultado. Esta elección no autoriza marketing ni envía mensajes ahora.</small>
     </fieldset>
   );
 }
@@ -997,11 +997,11 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed }) {
   return (
     <div className="diagnostic-unlock">
       {step === "details" ? (
-        <form className="diagnostic-claim-form" onSubmit={requestCode}>
+        <form className="diagnostic-claim-form diagnostic-claim-form--contact" onSubmit={requestCode}>
           <div>
-            <p className="section-kicker">Tu resultado está listo</p>
-            <h3>Verifica tus datos para desbloquearlo</h3>
-            <p>Guardaremos tu nivel, activaremos tu Portal y prepararemos una práctica personalizada de cinco minutos.</p>
+            <p className="section-kicker">Datos para tu Portal</p>
+            <h3>Guarda y desbloquea tu resultado</h3>
+            <p>Tu email protege el acceso. Tú eliges cómo quieres recibir orientación de AIT.</p>
           </div>
           <label>
             Nombre
@@ -1054,8 +1054,8 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed }) {
         <form className="diagnostic-claim-form" onSubmit={verifyCode}>
           <div>
             <p className="section-kicker">Revisa tu email</p>
-            <h3>Escribe el código de 6 dígitos</h3>
-            <p>Lo enviamos a {email}. Vence en 10 minutos.</p>
+            <h3>Verifica y abre tu resultado</h3>
+            <p>Escribe el código de 6 dígitos enviado a {email}. Vence en 10 minutos.</p>
           </div>
           <label>
             Código
@@ -1074,7 +1074,7 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed }) {
           {error ? <p className="diagnostic-claim-error" role="alert">{error}</p> : null}
           <div className="diagnostic-claim-form__actions">
             <button className="button button--gold" disabled={busy} type="submit">
-              {busy ? "Verificando…" : "Verificar y guardar"}
+              {busy ? "Verificando…" : "Ver mi resultado"}
             </button>
             <button
               className="diagnostic-unlock__later"
@@ -1144,22 +1144,19 @@ function ResultScreen({
   if (!claimReceipt) {
     return (
       <section className="diagnostic-result diagnostic-result--gate" data-diagnostic-screen="result-gate">
-        <div className="diagnostic-complete">
+        <div className="diagnostic-gate-heading">
           <span className="diagnostic-complete__mark" aria-hidden="true">✓</span>
-          <p className="eyebrow-chip">Evaluación completada</p>
-          <h2>¡Terminaste tu evaluación!</h2>
-          <p>Tu recomendación está lista. Verifica tus datos para guardar tu resultado, desbloquear tu práctica personalizada y recibir orientación de AIT.</p>
+          <div>
+            <p className="eyebrow-chip">Evaluación completada</p>
+            <h2>Tu resultado está listo</h2>
+            <p>Verifica tus datos para verlo y desbloquear tu práctica en Study Buddy.</p>
+          </div>
         </div>
         <ol className="diagnostic-handoff-progress" aria-label="Progreso para ver el resultado">
           <li className="is-complete"><span>✓</span><strong>Evaluación</strong></li>
           <li className="is-current" aria-current="step"><span>2</span><strong>Datos</strong></li>
           <li><span>3</span><strong>Resultado</strong></li>
         </ol>
-        <div className="diagnostic-value-preview" aria-label="Lo que vas a desbloquear">
-          <article><span aria-hidden="true">01</span><div><strong>Tu nivel recomendado</strong><small>Una ruta clara según tus respuestas.</small></div></article>
-          <article><span aria-hidden="true">02</span><div><strong>Study Buddy</strong><small>Tu primera práctica personalizada de cinco minutos.</small></div></article>
-          <article><span aria-hidden="true">03</span><div><strong>Orientación AIT</strong><small>Un asesor continúa contigo por el canal que elijas.</small></div></article>
-        </div>
         <ResultClaimPanel
           ageBand={ageBand}
           attemptId={attemptId}
@@ -1178,6 +1175,14 @@ function ResultScreen({
         <span className="diagnostic-result__label">Pendiente de confirmación</span>
         <h2>{recommendation.level}</h2>
         <p>{recommendation.recommendation || recommendation.copy}</p>
+      </div>
+      <div className="diagnostic-study-unlock">
+        <div>
+          <p className="section-kicker">Misión 2 desbloqueada</p>
+          <h3>Empieza con cinco minutos de práctica</h3>
+          <p>Study Buddy adapta tu primera actividad al nivel que acabas de obtener.</p>
+        </div>
+        <a className="button button--gold" href="/portal/study/">Comenzar mi práctica personalizada</a>
       </div>
       <div className="diagnostic-result__metrics">
         <article>
@@ -1223,14 +1228,6 @@ function ResultScreen({
         {syncNotice ? (
           <p className="diagnostic-result__provisional">{syncNotice}</p>
         ) : null}
-      </div>
-      <div className="diagnostic-study-unlock">
-        <div>
-          <p className="section-kicker">Misión 2 desbloqueada</p>
-          <h3>Convierte tu resultado en práctica</h3>
-          <p>Study Buddy prepara cinco turnos cortos según tu nivel para que empieces ahora, no “algún día”.</p>
-        </div>
-        <a className="button button--gold" href="/portal/study/">Comenzar mi práctica personalizada</a>
       </div>
       <ol className="diagnostic-mission-path" aria-label="Tu ruta después de la evaluación">
         <li className="is-complete"><span>✓</span><div><strong>Descubre tu nivel</strong><small>Completado</small></div></li>
