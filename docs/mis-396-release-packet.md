@@ -11,10 +11,14 @@
 - Visual evidence: local `verify:release-surfaces` passed with six desktop/mobile
   screenshots; local desktop Privacy Policy and mobile `/contactanos` consent
   form were inspected with no browser console or runtime errors
-- Deployment URL: pending staging Git deployment
-- Sentry status: connector unavailable in this session; browser console/runtime
-  checks and full test/build gates passed without privacy-sensitive output
-- Approval state: Director accepted for staging; production remains unapproved
+- Deployment URL:
+  `https://aitusa-institute-refresh-git-staging-alvaros-projects-efb8ae58.vercel.app`
+  (validated Ready deployment `dpl_2etzEdM6dbwSZraQJyRyai2fX38w`, staging
+  commit `4bca70b195ee08ab5e9404fce998bdc027e20537`)
+- Sentry status: connector unavailable in this session; Vercel reported no
+  build errors and no preview runtime error clusters in the validation window.
+  Protected staging browser QA passed after clearing the Vercel-login console.
+- Approval state: staged for Human Review; production remains unapproved
 - Safety: no production data write, SMS send, Telnyx campaign/profile mutation,
   campaign submission, secret export, or manual Vercel deployment occurred
 - Residual gates:
