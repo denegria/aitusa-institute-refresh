@@ -217,6 +217,25 @@ describe("MIS-337 versioned diagnostic service", () => {
     );
   });
 
+  it("returns an explicit recovery boundary instead of reminting a claimed attempt", async () => {
+    const { repository, service } = fixture();
+    const started = await service.startAttempt({
+      requestId: "request-already-claimed-001",
+      requestSecret,
+      ageBand: "age_13_plus",
+    });
+    repository._inspect().attempts.get(started.attempt.id).status = "claimed";
+
+    await assert.rejects(
+      service.mintClaimToken({
+        attemptId: started.attempt.id,
+        resumeCredential: started.resumeCredential,
+      }),
+      (error) => error.code === "attempt_already_claimed" && error.status === 409,
+    );
+    assert.equal(repository._inspect().claims.size, 0);
+  });
+
   it("purges unclaimed attempts after seven days without retaining answers", async () => {
     const { repository, service, setTime } = fixture();
     const started = await service.startAttempt({

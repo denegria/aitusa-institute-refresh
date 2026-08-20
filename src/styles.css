@@ -4051,12 +4051,22 @@ textarea {
 }
 
 .diagnostic-contact-choice__grid input {
+  -webkit-appearance: none;
+  appearance: none;
   box-sizing: border-box;
   flex: 0 0 auto;
   width: 17px;
   height: 17px;
   margin: 0;
-  accent-color: var(--gold);
+  border: 2px solid rgba(255, 255, 255, 0.78);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: inset 0 0 0 4px #fff;
+}
+
+.diagnostic-contact-choice__grid input:checked {
+  border-color: var(--gold);
+  background: var(--gold);
 }
 
 .diagnostic-contact-choice__copy {

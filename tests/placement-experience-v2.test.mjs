@@ -98,6 +98,8 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.match(component, /onClaimed=\{setClaimReceipt\}/);
     assert.match(component, /¡Nivel desbloqueado!/);
     assert.match(component, /Comenzar mi práctica personalizada/);
+    assert.match(component, /resultClaimed: body\.attempt\.status === "claimed"/);
+    assert.match(component, /attempt_already_claimed/);
   });
 
   it("keeps one dominant result action and demotes the remaining pathways", () => {
@@ -121,6 +123,7 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.doesNotMatch(component, /diagnostic-value-preview/);
     assert.match(styles, /\.diagnostic-contact-choice__grid > label \{[\s\S]*grid-template-columns: 18px minmax\(0, 1fr\);[\s\S]*align-items: center;/);
     assert.match(styles, /@media \(max-width: 720px\)[\s\S]*\.diagnostic-contact-choice__grid \{[\s\S]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/);
+    assert.match(styles, /\.diagnostic-contact-choice__grid input \{[\s\S]*-webkit-appearance: none;[\s\S]*appearance: none;/);
   });
 
   it("includes directional motion and a reduced-motion override", () => {
