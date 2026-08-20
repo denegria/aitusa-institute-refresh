@@ -3215,6 +3215,11 @@ textarea {
   box-shadow: 0 0 0 5px rgba(196, 147, 45, 0.14);
 }
 
+.diagnostic-result--gate:has(.diagnostic-contact-choice__grid input:checked) .diagnostic-gate-heading,
+.diagnostic-result--gate:has(.diagnostic-contact-choice__grid input:checked) .diagnostic-handoff-progress {
+  display: none;
+}
+
 .diagnostic-value-preview {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -4450,11 +4455,6 @@ textarea {
   .diagnostic-handoff-progress li > span {
     width: 24px;
     height: 24px;
-  }
-
-  .diagnostic-result--gate:has(.diagnostic-contact-choice__grid input:checked) .diagnostic-gate-heading,
-  .diagnostic-result--gate:has(.diagnostic-contact-choice__grid input:checked) .diagnostic-handoff-progress {
-    display: none;
   }
 
   .diagnostic-intro {
