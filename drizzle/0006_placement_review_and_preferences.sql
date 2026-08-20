@@ -134,8 +134,10 @@ CREATE INDEX "placement_contact_change_attempt_idx" ON "placement_contact_change
 -- review's recommendation, answers, writing, internal rationale, and contact
 -- values are never selected into the JSON envelope.
 -- PostgreSQL cannot rename an existing input parameter through CREATE OR
--- REPLACE. The migration tool transaction makes this drop/recreate atomic.
+-- REPLACE. These are separate prepared statements in one migration-tool
+-- transaction, so the drop/recreate remains atomic without multi-command SQL.
 DROP FUNCTION IF EXISTS placement_crm_payload(placement_reviews, text, timestamptz);
+--> statement-breakpoint
 CREATE FUNCTION placement_crm_payload(review placement_reviews, event_type text, event_occurred_at timestamptz)
 RETURNS jsonb
 LANGUAGE sql

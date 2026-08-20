@@ -94,7 +94,7 @@ describe("MIS-395 placement review state machine", () => {
     const migration = await fs.readFile(new URL("../drizzle/0006_placement_review_and_preferences.sql", import.meta.url), "utf8");
     const constructorStart = migration.indexOf("CREATE FUNCTION placement_crm_payload");
     const constructor = migration.slice(constructorStart, migration.indexOf("$$;", constructorStart));
-    assert.match(migration, /DROP FUNCTION IF EXISTS placement_crm_payload\(placement_reviews, text, timestamptz\);\nCREATE FUNCTION placement_crm_payload/);
+    assert.match(migration, /DROP FUNCTION IF EXISTS placement_crm_payload\(placement_reviews, text, timestamptz\);\n--> statement-breakpoint\nCREATE FUNCTION placement_crm_payload/);
     assert.match(constructor, /event_occurred_at timestamptz/);
     assert.match(constructor, /'occurredAt', event_occurred_at/);
     assert.doesNotMatch(constructor, /'occurredAt', occurred_at/);
