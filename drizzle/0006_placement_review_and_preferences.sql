@@ -133,7 +133,10 @@ CREATE INDEX "placement_contact_change_attempt_idx" ON "placement_contact_change
 -- Canonical CRM event constructor. It is intentionally an allowlist: the
 -- review's recommendation, answers, writing, internal rationale, and contact
 -- values are never selected into the JSON envelope.
-CREATE OR REPLACE FUNCTION placement_crm_payload(review placement_reviews, event_type text, occurred_at timestamptz)
+-- PostgreSQL cannot rename an existing input parameter through CREATE OR
+-- REPLACE. The migration tool transaction makes this drop/recreate atomic.
+DROP FUNCTION IF EXISTS placement_crm_payload(placement_reviews, text, timestamptz);
+CREATE FUNCTION placement_crm_payload(review placement_reviews, event_type text, event_occurred_at timestamptz)
 RETURNS jsonb
 LANGUAGE sql
 STABLE
@@ -144,7 +147,7 @@ AS $$
     'eventType', event_type,
     'idempotencyKey', 'placement-review:' || review.id::text || ':revision:' || review.revision::text || ':' || event_type,
     'correlationId', review.correlation_id,
-    'occurredAt', occurred_at,
+    'occurredAt', event_occurred_at,
     'source', jsonb_build_object(
       'product', 'aitusa_refresh',
       'surface', 'staff_tool',
@@ -251,3 +254,14 @@ JOIN "placement_review_events" audit ON audit.review_id = review.id
   AND audit.revision = review.revision
 WHERE review.status = 'pending'
 ON CONFLICT ("idempotency_key") DO NOTHING;
+--> statement-breakpoint
+-- Repair the earlier ambiguous timestamp parameter for records that have not
+-- been delivered. This changes only the payload; key, correlation, state, and
+-- delivery status remain immutable. It is also harmless on a fresh apply.
+UPDATE "crm_outbox" outbox
+SET "payload" = placement_crm_payload(review, 'placement_review_created', outbox."created_at")
+FROM "placement_reviews" review
+WHERE outbox."event_type" = 'placement_review_created'
+  AND outbox."status" IN ('pending', 'retry_wait', 'dead_letter')
+  AND outbox."idempotency_key" =
+    'placement-review:' || review.id::text || ':revision:' || review.revision::text || ':placement_review_created';

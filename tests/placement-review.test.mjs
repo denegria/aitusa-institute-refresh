@@ -86,4 +86,18 @@ describe("MIS-395 placement review state machine", () => {
     assert.match(phases[1], /INSERT INTO "placement_review_events"[\s\S]*placement_review_created[\s\S]*ON CONFLICT \("id"\) DO NOTHING;/);
     assert.match(phases[2], /INSERT INTO "crm_outbox"[\s\S]*JOIN "placement_review_events" audit[\s\S]*ON CONFLICT \("idempotency_key"\) DO NOTHING;/);
   });
+  it("keeps no-preference CRM payload timestamps sourced from the SQL argument", async () => {
+    const noPreference = buildPlacementReviewCrmEnvelope({ review: { id: ids[0], resultId: ids[1], attemptId: ids[2], correlationId: ids[2], status: "pending", revision: 1 }, eventType: "placement_review_created", occurredAt: "2026-08-20T12:00:00.000Z" });
+    assert.equal(noPreference.occurredAt, "2026-08-20T12:00:00.000Z");
+    assert.deepEqual(noPreference.consent, { communicationPreference: null, disclosureVersion: null, disclosureHash: null, sourceUrl: null, optInAction: null, advisorContactEmail: false, serviceSms: false, marketingSms: false, phoneCall: false, whatsappContact: false, verifiedEmail: false, verifiedMobile: false });
+    const fs = await import("node:fs/promises");
+    const migration = await fs.readFile(new URL("../drizzle/0006_placement_review_and_preferences.sql", import.meta.url), "utf8");
+    const constructorStart = migration.indexOf("CREATE FUNCTION placement_crm_payload");
+    const constructor = migration.slice(constructorStart, migration.indexOf("$$;", constructorStart));
+    assert.match(migration, /DROP FUNCTION IF EXISTS placement_crm_payload\(placement_reviews, text, timestamptz\);\nCREATE FUNCTION placement_crm_payload/);
+    assert.match(constructor, /event_occurred_at timestamptz/);
+    assert.match(constructor, /'occurredAt', event_occurred_at/);
+    assert.doesNotMatch(constructor, /'occurredAt', occurred_at/);
+    assert.match(migration, /UPDATE "crm_outbox" outbox[\s\S]*SET "payload" = placement_crm_payload\(review, 'placement_review_created', outbox\."created_at"\)[\s\S]*outbox\."status" IN \('pending', 'retry_wait', 'dead_letter'\)/);
+  });
 });
