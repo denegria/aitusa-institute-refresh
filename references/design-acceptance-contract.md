@@ -1446,3 +1446,21 @@ and closeout evidence are recorded in
 - **Non-goals:** Adding phone capture, mobile OTP, Telnyx, WhatsApp automation, marketing consent, or a general Portal preference center.
 - **Viewports:** Primary 1440x900; regression 390x844.
 - **Evidence:** Component contract tests, placement-contact validation tests, production build, and rendered staging checks at both viewports.
+
+---
+## 2026-08-20 — Placement result gate and Study Buddy conversion
+
+- **Problem:** the completed assessment currently reveals the result before identity capture, then repeats advisor-consent questions after account creation. The handoff weakens the value exchange and can store an email-specific advisor decision even when the student prefers another channel.
+- **Primary journey:** `Assessment complete → verified contact → result unlocked → Study Buddy → advisor follow-up`.
+- **Completion moment:** after the last assessment step, show `¡Terminaste tu evaluación!`, explain the immediate value (saved result, personalized practice, AIT guidance), and show the compact progress path `Evaluación ✓ → Datos → Resultado`.
+- **Required adult fields:** first name, account email, and one preferred advisor channel: email, SMS, WhatsApp, or phone call. Email remains the only Portal authentication and recovery identity in this release.
+- **Conditional contact field:** choosing SMS, WhatsApp, or phone reveals a mobile input. The number is stored as unverified contact information and is never treated as authentication evidence.
+- **Consent model:** the selected channel has one explicit, channel-specific disclosure. Marketing remains separate and off. Automated WhatsApp, SMS, and Telnyx sends remain disabled. There is no visible `No contact` choice in the conversion flow.
+- **Result boundary:** the recommendation, score breakdown, advisor link, and course links remain hidden until the OTP claim and contact-preference write succeed. The diagnostic result itself remains durably saved before downstream Portal or CRM work so a later failure cannot invalidate the completed assessment.
+- **Unlocked state:** reveal `¡Nivel desbloqueado!`, the full existing academic recommendation, and a primary `Comenzar mi práctica personalizada` CTA to Study Buddy. Portal access and advisor/course actions remain secondary.
+- **Progression:** present the next steps as real milestones: discover level, complete the first five-minute practice, receive the confirmed level, and choose a course/schedule. Do not add points, streaks, artificial scarcity, or false urgency.
+- **Under-13 behavior:** preserve guardian verification, minimum child data, and separate guardian permissions. The child result is revealed only after the guardian-owned claim is complete.
+- **Visual direction:** retain the existing AIT navy, gold, warm-white, typography, and placement-test surface language. Use one focused card per stage, a compact progress strip, strong unlocked-state hierarchy, and no page-within-page dashboard chrome.
+- **Responsive acceptance:** primary viewports 390×844 and 1440×900; regression viewports 430×932 and 1024×768. No horizontal overflow, clipped controls, hidden validation, or result leakage before claim.
+- **Non-goals:** phone authentication, phone OTP, password accounts, marketing enrollment, provider sends, or a new standalone portal.
+- **Evidence:** targeted placement/contact/claim tests, full build, staging browser verification of the pre-result gate and responsive states, then production read-only smoke on the exact validated commit.

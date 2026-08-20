@@ -1,12 +1,12 @@
 export const GUARDIAN_CONSENT_POLICY_VERSION =
-  "aitusa-under-13-guardian-consent-2026-08-02-v1";
+  "aitusa-under-13-guardian-consent-2026-08-20-v2";
 
 export const GUARDIAN_CONSENT_POLICY = Object.freeze({
   minimumSelfServiceAge: 13,
   ageGate: "self_declared_age_band",
   under13AgeBand: "under_13",
   anonymousDiagnosticAllowed: true,
-  anonymousResultAllowed: true,
+  anonymousResultAllowed: false,
   preConsentRetention: "session_only",
   preConsentIdentityCollectionAllowed: false,
   guardianVerificationMethod: "verified_email_plus_attestation",
@@ -37,9 +37,9 @@ export const GUARDIAN_DIRECT_NOTICE_HASH =
 
 const UNDER_13_SESSION_ACTIONS = new Set([
   "take_diagnostic",
-  "view_result",
 ]);
 const UNDER_13_GUARDIAN_ACTIONS = new Set([
+  "view_result",
   "save_result",
   "create_portal_account",
   "access_portal",

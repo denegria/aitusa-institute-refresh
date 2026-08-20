@@ -164,7 +164,7 @@ export const privacyPolicy = Object.freeze({
       id: "menores",
       title: "13. Menores de edad",
       paragraphs: Object.freeze([
-        "Un menor de 13 años puede completar el examen de ubicación y ver su nivel recomendado sin registrarse. Antes de la autorización de un adulto no solicitamos la identidad del menor y sus respuestas permanecen solo en la sesión del navegador.",
+        "Un menor de 13 años puede completar el examen de ubicación sin registrarse. Para ver y guardar el nivel recomendado, un padre, madre o tutor debe verificar su email, aceptar el aviso directo y crear un perfil mínimo del menor. Antes de esa autorización no solicitamos la identidad del menor y sus respuestas permanecen solo en la sesión del navegador.",
         "Guardar el resultado, crear acceso al Portal o usar funciones de práctica requiere una cuenta del padre, madre o tutor, control del correo verificado, una declaración de autorización y el aviso de privacidad correspondiente. Solicitamos solo el nombre y la banda de edad necesarios para vincular el perfil infantil; no exigimos fecha de nacimiento para este flujo.",
         "El contacto con un asesor, la práctica con IA, los SMS de servicio y el marketing son decisiones separadas. Para un estudiante menor de 13 años, cualquier teléfono y consentimiento permitido debe pertenecer al tutor verificado. No buscamos conscientemente consentimiento de marketing directamente de menores.",
       ]),

@@ -128,12 +128,14 @@ describe("MIS-338 result claim contracts", () => {
     assert.match(retentionRepository, /consumed_at.*interval '1 day'/s);
   });
 
-  it("shows the result first and keeps account creation and advisor consent optional", () => {
-    assert.match(component, /data-diagnostic-screen="result"/);
-    assert.match(component, /Guardar mi resultado/);
-    assert.match(component, /Ahora no/);
-    assert.match(component, /advisorContactRequested/);
-    assert.match(component, /El contacto con un asesor es opcional/);
+  it("reveals the result only after verified identity and one channel-specific advisor choice", () => {
+    assert.match(component, /data-diagnostic-screen="result-gate"/);
+    assert.match(component, /Verificar y ver mi resultado/);
+    assert.match(component, /savePlacementContactPreference/);
+    assert.match(component, /advisorContactRequested: false/);
+    assert.match(component, /onClaimed\?\./);
+    assert.doesNotMatch(component, /Ahora no/);
+    assert.doesNotMatch(component, /El contacto con un asesor es opcional/);
     assert.doesNotMatch(component, /type="password"/);
   });
 

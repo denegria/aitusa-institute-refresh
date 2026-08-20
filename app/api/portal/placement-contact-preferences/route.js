@@ -1,4 +1,6 @@
 import { randomUUID } from "node:crypto";
+import { after } from "next/server.js";
+import { dispatchCrmOutboxBestEffort } from "../../../../src/crm/runtime.server.js";
 import { getPortalDatabase, isPortalDatabaseConfigured } from "../../../../src/diagnostic/db.server.js";
 import { createNeonPlacementContactRepository } from "../../../../src/placementContact/neonRepository.server.js";
 import { validatePlacementContactPreference } from "../../../../src/placementContact/contract.js";
@@ -29,6 +31,7 @@ export async function POST(request) {
     if (!validation.ok) return portalClaimJson({ ok: false, error: validation.errors[0] }, { status: 422 });
     const saved = await createNeonPlacementContactRepository(getPortalDatabase()).save({ id: randomUUID(), accountId: snapshot.account.accountId, attemptId: input.attemptId, preference: validation.preference, occurredAt: new Date().toISOString() });
     if (!saved) throw new PortalClaimError("placement_contact_forbidden", 403);
+    if (process.env.VERCEL) after(() => dispatchCrmOutboxBestEffort());
     return portalClaimJson({ ok: true, saved: true, preference: { channel: validation.preference.preferredChannel, verifiedEmail: true, verifiedMobile: false } });
   } catch (error) { return portalClaimFailure(error); }
 }
