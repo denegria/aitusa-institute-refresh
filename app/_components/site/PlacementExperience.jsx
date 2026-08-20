@@ -282,7 +282,7 @@ function IntroScreen({ busy, error, resumeSnapshot, onStart, onResume }) {
       <div className="diagnostic-intro__facts" aria-label="Detalles del examen">
         <article>
           <strong>10–15 min</strong>
-          <span>Tiempo estimado</span>
+          <span>Tiempo aproximado</span>
         </article>
         <article>
           <strong>Sin registro</strong>
@@ -296,7 +296,7 @@ function IntroScreen({ busy, error, resumeSnapshot, onStart, onResume }) {
       <div className="diagnostic-trust">
         <span aria-hidden="true">✓</span>
         <p>
-          Esta es una estimación de ubicación de AIT. Un asesor confirma el
+          Esta es una recomendación de ubicación de AIT. Un asesor confirma el
           nivel final antes de la inscripción.
         </p>
       </div>
@@ -507,7 +507,7 @@ function GoalScreen({
           type="button"
           onClick={onSubmit}
         >
-          {busy ? "Preparando tu resultado…" : "Ver mi nivel estimado"}
+          {busy ? "Preparando tu resultado…" : "Ver mi nivel recomendado"}
         </button>
       </div>
     </section>
@@ -1011,10 +1011,39 @@ function AdultResultClaimPanel({ attemptId, enabled }) {
           <a className="button button--gold" href={receipt?.portalHref || "/portal/"}>
             Abrir mi portal
           </a>
+          <ContactPreferencePanel attemptId={attemptId} />
         </div>
       ) : null}
     </div>
   );
+}
+
+function ContactPreferencePanel({ attemptId }) {
+  const [allowed, setAllowed] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  const save = async (event) => {
+    event.preventDefault(); if (busy || !allowed) return;
+    setBusy(true); setError("");
+    try {
+      const response = await fetch("/api/portal/placement-contact-preferences", { method: "POST", credentials: "same-origin", headers: { "content-type": "application/json" }, body: JSON.stringify({ attemptId, preferredChannel: "email", consents: { email: true }, sourceUrl: window.location.href }) });
+      const body = await response.json(); if (!response.ok || body.ok !== true) throw new Error(body.error || "placement_contact_unavailable");
+      setSaved(true);
+    } catch { setError("No pudimos guardar esta preferencia. Tu resultado permanece guardado."); } finally { setBusy(false); }
+  };
+  return <form className="diagnostic-claim-form" onSubmit={save}>
+    <fieldset disabled={saved || busy}>
+      <legend>Preferencia de contacto (opcional)</legend>
+      <label className="diagnostic-claim-check"><input checked type="radio" readOnly name="placement-channel" /><span>Email</span></label>
+      <label className="diagnostic-claim-check"><input disabled type="radio" name="placement-channel" /><span>SMS — disponible cuando completemos la verificación del número y el servicio SMS.</span></label>
+      <label className="diagnostic-claim-check"><input disabled type="radio" name="placement-channel" /><span>WhatsApp — los mensajes automáticos no están habilitados.</span></label>
+      <label className="diagnostic-claim-check"><input disabled type="radio" name="placement-channel" /><span>Llamada — disponible después de verificar un número.</span></label>
+      <label className="diagnostic-claim-check"><input checked={allowed} type="checkbox" onChange={(event) => setAllowed(event.target.checked)} /><span>Autorizo que AIT USA me contacte por email sobre mi resultado. No autoriza SMS, marketing, llamadas ni WhatsApp.</span></label>
+    </fieldset>
+    {error ? <p className="diagnostic-claim-error" role="alert">{error}</p> : null}
+    {saved ? <p role="status">Preferencia de email guardada.</p> : <button className="button button--ghost" disabled={!allowed || busy} type="submit">{busy ? "Guardando…" : "Guardar preferencia"}</button>}
+  </form>;
 }
 
 function ResultScreen({
@@ -1036,8 +1065,8 @@ function ResultScreen({
   return (
     <section className="diagnostic-result" data-diagnostic-screen="result">
       <div className="diagnostic-result__hero">
-        <p className="eyebrow-chip">Estimación de ubicación AIT</p>
-        <span className="diagnostic-result__label">Punto de partida recomendado</span>
+        <p className="eyebrow-chip">Nivel recomendado</p>
+        <span className="diagnostic-result__label">Pendiente de confirmación</span>
         <h2>{recommendation.level}</h2>
         <p>{recommendation.recommendation || recommendation.copy}</p>
       </div>
@@ -1068,7 +1097,7 @@ function ResultScreen({
         ) : null}
         <p>
           <strong>Confirmación académica:</strong> un asesor revisa esta
-          estimación contigo antes de definir nivel, horario e inscripción.
+          recomendación contigo antes de definir nivel, horario e inscripción.
         </p>
         {scores.answerKeyStatus === "approved" ? (
           <p className="diagnostic-result__provisional">

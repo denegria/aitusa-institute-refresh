@@ -1,0 +1,44 @@
+[
+  {
+    "surface": "homepage",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/",
+    "file": "homepage-desktop.png",
+    "heading": "Supera el inglés.Exprésate con confianza."
+  },
+  {
+    "surface": "method",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/#metodo",
+    "file": "method-desktop.png",
+    "heading": "Nuestra filosofíaPrimero comprendes. Después hablas.Durante más de 20 años hemos escuchado las necesidades y frustracion"
+  },
+  {
+    "surface": "portal-entry",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/portal/sign-in/",
+    "file": "portal-entry-desktop.png",
+    "heading": "Entra a tu Portal"
+  },
+  {
+    "surface": "homepage",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/",
+    "file": "homepage-mobile.png",
+    "heading": "Supera el inglés.Exprésate con confianza."
+  },
+  {
+    "surface": "method",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/#metodo",
+    "file": "method-mobile.png",
+    "heading": "Nuestra filosofíaPrimero comprendes. Después hablas.Durante más de 20 años hemos escuchado las necesidades y frustracion"
+  },
+  {
+    "surface": "portal-entry",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/portal/sign-in/",
+    "file": "portal-entry-mobile.png",
+    "heading": "Entra a tu Portal"
+  }
+]
