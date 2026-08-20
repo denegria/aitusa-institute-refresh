@@ -1,10 +1,19 @@
 import { sql } from "drizzle-orm";
 import { getPortalDatabase } from "../diagnostic/db.server.js";
+import { PortalClaimError } from "../portalClaim/errors.js";
 import { resolveAuthenticatedPortalSnapshot } from "../portalAuth/sessionResolver.server.js";
 import { PlacementReviewError } from "./errors.js";
 
 export async function resolvePlacementReviewActor(request, { resolveSnapshot = resolveAuthenticatedPortalSnapshot, database = getPortalDatabase() } = {}) {
-  const snapshot = await resolveSnapshot(request);
+  let snapshot;
+  try {
+    snapshot = await resolveSnapshot(request);
+  } catch (error) {
+    if (error instanceof PortalClaimError && error.status === 401) {
+      throw new PlacementReviewError("placement_review_unauthenticated", 401);
+    }
+    throw error;
+  }
   const accountId = snapshot?.account?.accountId;
   if (!accountId) throw new PlacementReviewError("placement_review_unauthenticated", 401);
   const result = await database.execute(sql`

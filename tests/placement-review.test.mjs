@@ -6,6 +6,8 @@ import { PLACEMENT_REVIEW_COPY } from "../src/placementReview/contract.js";
 import { buildPlacementReviewCrmEnvelope, validatePlacementReviewCrmEnvelope } from "../src/placementReview/crmEnvelope.js";
 import { assertTrustedEmployeeOrigin } from "../src/placementReview/http.server.js";
 import { sanitizePortalReturnTo } from "../src/portalAuth/returnTo.js";
+import { resolvePlacementReviewActor } from "../src/placementReview/auth.server.js";
+import { PortalClaimError } from "../src/portalClaim/errors.js";
 
 const ids = ["00000000-0000-4000-8000-000000000001", "00000000-0000-4000-8000-000000000002", "00000000-0000-4000-8000-000000000003", "00000000-0000-4000-8000-000000000004", "00000000-0000-4000-8000-000000000005", "00000000-0000-4000-8000-000000000006", "00000000-0000-4000-8000-000000000007"];
 function fixture() { let i = 0; const repository = createMemoryPlacementReviewRepository(); return { repository, service: createPlacementReviewService({ repository, createId: () => ids[i++] }), actor: { accountId: "00000000-0000-4000-8000-000000000099", role: "senior", businessUnit: "ait_usa" } }; }
@@ -61,6 +63,15 @@ describe("MIS-395 placement review state machine", () => {
     assert.equal(sanitizePortalReturnTo("https://evil.example/employee/placement-reviews"), "/portal/");
     assert.equal(sanitizePortalReturnTo("/employee/placement-reviews?review=guessable"), "/portal/");
     assert.equal(sanitizePortalReturnTo(`${reviewPath}&next=/admin`), "/portal/");
+  });
+  it("normalizes a missing or expired Portal session into the employee sign-in boundary", async () => {
+    await assert.rejects(
+      () => resolvePlacementReviewActor(new Request("https://employee.aitusa.local/employee/placement-reviews"), {
+        resolveSnapshot: async () => { throw new PortalClaimError("portal_session_required", 401); },
+        database: { execute: async () => { throw new Error("database_must_not_be_called"); } },
+      }),
+      (error) => error.code === "placement_review_unauthenticated" && error.status === 401,
+    );
   });
   it("builds only the canonical CRM envelope allowlist", () => {
     const event = buildPlacementReviewCrmEnvelope({ review: { id: ids[0], resultId: ids[1], attemptId: ids[2], correlationId: ids[2], status: "adjusted", revision: 2, finalLevel: "Nivel 4", recommendedLevel: "must-not-export", reviewerRationale: "must-not-export" }, eventType: "placement_review_adjusted", occurredAt: "2026-08-20T12:00:00.000Z", consent: { communicationPreference: "email", advisorContactEmail: true, verifiedEmail: true, rawAnswers: "must-not-export" } });
