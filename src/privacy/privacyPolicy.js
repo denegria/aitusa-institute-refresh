@@ -13,6 +13,14 @@ export {
 
 export const SENSITIVE_DATA_FIELD_NAMES = Object.freeze([
   "audio",
+  "answers",
+  "rawAnswers",
+  "writing",
+  "writingSample",
+  "reviewerRationale",
+  "rationale",
+  "reusableToken",
+  "resumeCredential",
   "audioBlob",
   "audioUrl",
   "cardNumber",

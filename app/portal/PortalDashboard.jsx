@@ -142,12 +142,16 @@ export function PortalDashboard({ model }) {
                   {model.course
                     ? model.course.title
                     : model.result
-                      ? "Tu resultado está guardado para revisión"
+                    ? model.result.finalLevel || "Tu resultado está guardado para revisión"
                       : "Completa el examen antes de elegir un nivel"}
                 </h3>
                 <p>
                   {model.result
-                    ? "La ubicación es orientativa. Un asesor confirma el grupo, horario y modalidad antes de la inscripción."
+                    ? model.result.placementReviewStatus === "confirmed" || model.result.placementReviewStatus === "adjusted"
+                      ? "Nivel confirmado por AIT. Un asesor coordinará el grupo, horario y modalidad."
+                      : model.result.placementReviewStatus === "additional_review_required"
+                        ? "Revisión adicional requerida. Tu resultado sigue guardado mientras AIT completa la revisión."
+                        : "Pendiente de confirmación. Un asesor confirma el grupo, horario y modalidad antes de la inscripción."
                     : "Recibirás un punto de partida recomendado antes de compartir información de contacto."}
                 </p>
               </div>

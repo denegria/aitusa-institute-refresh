@@ -269,10 +269,11 @@ export function createDiagnosticService({
         now: currentTime,
       });
       await emitCompletionLedger(ledger, { attempt, attemptId, completionId, occurredAt: currentTime });
-      return {
-        attempt: toSafeAttempt(persisted.attempt),
-        result: persisted.result.response,
-        claimEligible: true,
+        return {
+          attempt: toSafeAttempt(persisted.attempt),
+          result: persisted.result.response,
+          resultId: persisted.result.id,
+          claimEligible: true,
         replayed: persisted.replayed,
       };
     },

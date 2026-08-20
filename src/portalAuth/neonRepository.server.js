@@ -271,6 +271,8 @@ export function createNeonPortalAuthRepository(database) {
           latest.question_bank_version,
           latest.scoring_contract_version,
           latest.result_copy_version,
+          latest.placement_review_status,
+          latest.placement_final_level,
           latest.goal,
           latest.completed_at,
           latest.advisor_contact_requested,
@@ -303,12 +305,15 @@ export function createNeonPortalAuthRepository(database) {
             result.question_bank_version,
             result.scoring_contract_version,
             result.result_copy_version,
+            review.status as placement_review_status,
+            review.final_level as placement_final_level,
             context.goal,
             attempt.completed_at,
             claimed.claim_id,
             claimed.advisor_contact_requested
           from diagnostic_attempts attempt
           join diagnostic_results result on result.attempt_id = attempt.id
+          left join placement_reviews review on review.result_id = result.id
           left join diagnostic_contexts context
             on context.attempt_id = attempt.id
           left join lateral (
@@ -464,6 +469,7 @@ export function toSafePortalSnapshot(row) {
   const result = row.attempt_id
     ? {
         status: row.result_status,
+        attemptId: row.attempt_id,
         recommendedLevelKey: row.recommended_level_key,
         recommendedLevelLabel: row.recommended_level_label,
         answeredQuestionCount: Number(row.answered_question_count),
@@ -476,6 +482,8 @@ export function toSafePortalSnapshot(row) {
         questionBankVersion: row.question_bank_version,
         scoringContractVersion: row.scoring_contract_version,
         resultCopyVersion: row.result_copy_version,
+        placementReviewStatus: row.placement_review_status || "pending",
+        finalLevel: row.placement_final_level || null,
       }
     : null;
   const accountCreationConsent = consentSnapshot(
@@ -496,6 +504,7 @@ export function toSafePortalSnapshot(row) {
   return {
     state: "authenticated",
     account: {
+      accountId: row.account_id,
       status: "active",
       accountType: row.account_type,
       firstName: row.first_name,

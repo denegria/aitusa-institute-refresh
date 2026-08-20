@@ -162,6 +162,7 @@ export function createPortalAccessViewModel(reason = "session_required") {
 function normalizeResult(result) {
   return {
     status: result.status || "provisional",
+    attemptId: cleanText(result.attemptId, ""),
     recommendedLevelKey: cleanText(result.recommendedLevelKey, "basic"),
     recommendedLevelLabel: cleanText(
       result.recommendedLevelLabel,
@@ -170,6 +171,8 @@ function normalizeResult(result) {
     answeredQuestionCount: boundedNumber(result.answeredQuestionCount, 0, 62),
     skippedQuestionCount: boundedNumber(result.skippedQuestionCount, 0, 62),
     advisorConfirmationRequired: result.advisorConfirmationRequired !== false,
+    placementReviewStatus: cleanText(result.placementReviewStatus, "pending"),
+    finalLevel: cleanText(result.finalLevel, ""),
     goal: cleanText(result.goal, ""),
     completedAt: normalizeIso(result.completedAt),
     productContractVersion: cleanText(result.productContractVersion, ""),

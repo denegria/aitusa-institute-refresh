@@ -8,6 +8,7 @@ import {
   getDiagnosticService,
   isDiagnosticServiceConfigured,
 } from "../../../../../../src/diagnostic/runtime.server.js";
+import { getPlacementReviewService, isPlacementReviewConfigured } from "../../../../../../src/placementReview/runtime.server.js";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -38,6 +39,15 @@ export async function POST(request, { params }) {
       selfAssessment: body.selfAssessment,
       goal: body.goal,
       writingSample: body.writingSample,
+    });
+    if (!isPlacementReviewConfigured()) {
+      return diagnosticJson({ ok: false, error: "placement_review_storage_unavailable" }, { status: 503 });
+    }
+    await getPlacementReviewService().createReview({
+      resultId: completed.resultId,
+      attemptId,
+      correlationId: attemptId,
+      recommendedLevel: completed.result?.recommendation?.level,
     });
     return diagnosticJson({ ok: true, durable: true, ...completed });
   } catch (error) {

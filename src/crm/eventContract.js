@@ -16,6 +16,11 @@ export const CRM_EVENT_TYPES = Object.freeze({
     surfaces: ["public_site", "portal"],
     crmEffect: "timeline_entry_and_task",
   }),
+  placement_review_created: Object.freeze({ label: "Placement review created", surfaces: ["staff_tool", "portal"], crmEffect: "timeline_entry_and_task" }),
+  placement_review_started: Object.freeze({ label: "Placement review started", surfaces: ["staff_tool"], crmEffect: "timeline_entry" }),
+  placement_review_confirmed: Object.freeze({ label: "Placement review confirmed", surfaces: ["staff_tool"], crmEffect: "timeline_entry_and_progress" }),
+  placement_review_adjusted: Object.freeze({ label: "Placement review adjusted", surfaces: ["staff_tool"], crmEffect: "timeline_entry_and_progress" }),
+  placement_review_additional_review_required: Object.freeze({ label: "Placement review needs more review", surfaces: ["staff_tool"], crmEffect: "timeline_entry_and_task" }),
   whatsapp_cta_clicked: Object.freeze({
     label: "WhatsApp CTA clicked",
     surfaces: ["public_site"],
