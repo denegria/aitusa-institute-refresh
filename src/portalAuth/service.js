@@ -116,7 +116,7 @@ export function createPortalAuthService({
         if (!reservation.allowed) {
           outcome = "rate_limited";
         } else if (
-          !(await repository.hasActivePortalAccountByEmail(request.email))
+          !(await repository.hasActivePortalAccountByEmail(request.email, request.audience))
         ) {
           outcome = "account_unavailable";
         } else {
@@ -202,9 +202,9 @@ export function createPortalAuthService({
 
         let snapshot;
         try {
-          snapshot = await repository.getActivePortalSnapshot(
-            toPortalIdentity(verified.identity),
-          );
+          snapshot = request.audience === "employee"
+            ? await repository.getActiveEmployeeIdentity(toPortalIdentity(verified.identity))
+            : await repository.getActivePortalSnapshot(toPortalIdentity(verified.identity));
         } catch {
           outcome = "backend_error";
           throw new PortalClaimError("portal_auth_unavailable", 503);
@@ -216,15 +216,18 @@ export function createPortalAuthService({
 
         outcome = "success";
         try {
-          funnelCorrelationId = await repository.getActiveFunnelCorrelationForIdentity?.(
-            toPortalIdentity(verified.identity),
-          ) ?? null;
+          if (request.audience === "student") {
+            funnelCorrelationId = await repository.getActiveFunnelCorrelationForIdentity?.(
+              toPortalIdentity(verified.identity),
+            ) ?? null;
+          }
         } catch {
           // Portal authentication is authoritative; a telemetry lookup must not change it.
         }
         return {
           sessionData: verified.sessionData,
           snapshot,
+          audience: request.audience,
         };
       } finally {
         await completeAttempt(reservation, outcome);

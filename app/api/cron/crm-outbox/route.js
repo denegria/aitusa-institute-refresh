@@ -3,6 +3,7 @@ import {
   getCrmOutboxDispatcher,
   isCrmOutboxConfigured,
 } from '../../../../src/crm/runtime.server.js';
+import { reconcileClaimedPlacementReviewsBestEffort } from '../../../../src/placementReview/runtime.server.js';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -14,8 +15,9 @@ async function handle(request) {
   if (!isCrmOutboxConfigured()) {
     return diagnosticJson({ ok: false, error: 'crm_delivery_unavailable' }, { status: 503 });
   }
+  const reviews = await reconcileClaimedPlacementReviewsBestEffort({ limit: 50 });
   const counts = await getCrmOutboxDispatcher().dispatchDue();
-  return diagnosticJson({ ok: true, ...counts });
+  return diagnosticJson({ ok: true, reviews, ...counts });
 }
 
 export const GET = handle;

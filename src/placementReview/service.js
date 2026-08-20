@@ -56,6 +56,34 @@ export function createPlacementReviewService({ repository, now = () => new Date(
       });
       return safeReview(created.review, created.replayed);
     },
+    async reconcileClaimedReviews({ resultId = null, limit = 10 } = {}) {
+      if (resultId !== null) requireId(resultId, "placement_result_id_invalid");
+      const safeLimit = Number.isInteger(limit) && limit > 0 ? Math.min(limit, 50) : 10;
+      const candidates = await repository.listClaimedResultsMissingReviews({ resultId, limit: safeLimit });
+      let createdCount = 0;
+      let replayedCount = 0;
+      let failedCount = 0;
+      for (const candidate of candidates) {
+        try {
+          const created = await repository.createReview({
+            id: createId(),
+            resultId: candidate.resultId,
+            attemptId: candidate.attemptId,
+            correlationId: candidate.correlationId,
+            businessUnit: PLACEMENT_REVIEW_BUSINESS_UNIT,
+            recommendedLevel: candidate.recommendedLevel.trim(),
+            occurredAt: now().toISOString(),
+            eventId: createId(),
+            outboxId: createId(),
+          });
+          if (created.replayed) replayedCount += 1;
+          else createdCount += 1;
+        } catch {
+          failedCount += 1;
+        }
+      }
+      return { scanned: candidates.length, created: createdCount, replayed: replayedCount, failed: failedCount };
+    },
     async listReviews(actor) {
       await requireActor(actor);
       return (await repository.listByBusinessUnit(actor.businessUnit)).map((review) => safeReview(review));

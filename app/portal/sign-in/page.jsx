@@ -16,5 +16,5 @@ export const metadata = {
 export default async function PortalSignInPage({ searchParams }) {
   if (!isPortalPrototypeAvailable()) notFound();
   const params = await searchParams;
-  return <SignInExperience returnTo={sanitizePortalReturnTo(params?.returnTo)} />;
+  return <SignInExperience audience="student" returnTo={sanitizePortalReturnTo(params?.returnTo, "student")} />;
 }

@@ -123,8 +123,8 @@ function fixture({
         input: structuredClone(input),
       });
     },
-    async hasActivePortalAccountByEmail(email) {
-      repositoryCalls.push({ type: "account-by-email", email });
+    async hasActivePortalAccountByEmail(email, audience) {
+      repositoryCalls.push({ type: "account-by-email", email, audience });
       return hasActiveAccount;
     },
     async getActivePortalSnapshot(value) {
@@ -140,6 +140,18 @@ function fixture({
       return {
         accountId: "00000000-0000-4000-8000-000000000001",
         ...structuredClone(snapshot.account),
+      };
+    },
+    async getActiveEmployeeIdentity(value) {
+      repositoryCalls.push({ type: "employee-identity", identity: structuredClone(value) });
+      if (!snapshot?.account) return null;
+      return {
+        state: "authenticated",
+        account: {
+          accountId: "00000000-0000-4000-8000-000000000001",
+          ...structuredClone(snapshot.account),
+        },
+        employeeAccess: { businessUnit: "ait_usa", role: "senior" },
       };
     },
   };
@@ -191,7 +203,7 @@ describe("MIS-341 authenticated portal service", () => {
     assert.equal(unknown.providerCalls.length, 0);
     assert.equal(rateLimited.providerCalls.length, 0);
     assert.deepEqual(unknown.repositoryCalls, [
-      { type: "account-by-email", email: "student@example.com" },
+      { type: "account-by-email", email: "student@example.com", audience: "student" },
     ]);
     assert.equal(
       available.authEventCalls[0].input.eventType,
@@ -214,6 +226,29 @@ describe("MIS-341 authenticated portal service", () => {
       rateLimited.authEventCalls[0].reservation.decision,
       "blocked_email_budget",
     );
+  });
+
+  it("separates employee and student sign-in audiences on the same OTP backend", async () => {
+    const employee = fixture();
+    const authenticated = await employee.service.verifySignInCode({
+      email: "student@example.com",
+      code: "123456",
+      audience: "employee",
+    });
+    assert.equal(authenticated.audience, "employee");
+    assert.equal(authenticated.snapshot.employeeAccess.role, "senior");
+    assert.deepEqual(employee.repositoryCalls, [
+      { type: "employee-identity", identity },
+    ]);
+
+    const student = fixture();
+    const studentAuth = await student.service.verifySignInCode({
+      email: "student@example.com",
+      code: "123456",
+      audience: "student",
+    });
+    assert.equal(studentAuth.audience, "student");
+    assert.equal(student.repositoryCalls[0].type, "snapshot");
   });
 
   it("reports only safe code-request outcomes without changing the generic response", async () => {

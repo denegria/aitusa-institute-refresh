@@ -1,5 +1,6 @@
 import { after } from "next/server.js";
 import { dispatchCrmOutboxBestEffort } from "../../../../../src/crm/runtime.server.js";
+import { reconcileClaimedPlacementReviewsBestEffort } from "../../../../../src/placementReview/runtime.server.js";
 import {
   assertPortalSameOrigin,
   parsePortalClaimJson,
@@ -32,7 +33,10 @@ export async function POST(request) {
       await parsePortalClaimJson(request),
       identity,
     );
-    if (process.env.VERCEL) after(() => dispatchCrmOutboxBestEffort());
+    if (process.env.VERCEL) after(async () => {
+      await reconcileClaimedPlacementReviewsBestEffort({ resultId: claimed.result?.id });
+      await dispatchCrmOutboxBestEffort();
+    });
     return portalClaimJson({ ok: true, claimed: true, ...claimed });
   } catch (error) {
     return portalClaimFailure(error);

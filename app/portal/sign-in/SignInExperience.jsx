@@ -19,7 +19,8 @@ const ERROR_COPY = Object.freeze({
   cross_origin_request_forbidden: "Actualiza la página e intenta otra vez.",
 });
 
-export function SignInExperience({ returnTo = "/portal/" }) {
+export function SignInExperience({ audience = "student", returnTo = "/portal/" }) {
+  const employee = audience === "employee";
   const [step, setStep] = useState("email");
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
@@ -46,6 +47,7 @@ export function SignInExperience({ returnTo = "/portal/" }) {
     try {
       const response = await postJson("/api/portal/auth/code", {
         email: email.trim().toLowerCase(),
+        audience,
       });
       if (!response.ok) throw new Error(response.error || "request_failed");
       setStep("code");
@@ -68,6 +70,7 @@ export function SignInExperience({ returnTo = "/portal/" }) {
       const response = await postJson("/api/portal/auth/verify", {
         email: email.trim().toLowerCase(),
         code: code.replace(/\D/g, ""),
+        audience,
         returnTo,
       });
       if (!response.ok) throw new Error(response.error || "verification_failed");
@@ -125,11 +128,15 @@ export function SignInExperience({ returnTo = "/portal/" }) {
         </div>
         <p className="portal-eyebrow">Acceso sin contraseña</p>
         <h1 id="portal-signin-title">
-          {step === "email" ? "Entra a tu Portal" : "Revisa tu email"}
+          {step === "email"
+            ? employee ? "Entra al Portal de empleados" : "Entra a tu Portal"
+            : "Revisa tu email"}
         </h1>
         <p>
           {step === "email"
-            ? "Este acceso es para estudiantes que ya guardaron un resultado. Usa el mismo email y, si corresponde a una cuenta activa, recibirás un código de seis dígitos."
+            ? employee
+              ? "Acceso exclusivo para personal autorizado de AIT USA. Usa tu email de empleado y recibirás un código de seis dígitos."
+              : "Este acceso es para estudiantes que ya guardaron un resultado. Usa el mismo email y, si corresponde a una cuenta activa, recibirás un código de seis dígitos."
             : `Si ${maskEmail(email)} corresponde a una cuenta activa, recibirás un código que vence en 10 minutos.`}
         </p>
 
@@ -181,7 +188,7 @@ export function SignInExperience({ returnTo = "/portal/" }) {
               type="submit"
               disabled={busy || code.length !== 6}
             >
-              {status === "verifying" ? "Verificando…" : "Entrar a mi portal"}
+              {status === "verifying" ? "Verificando…" : employee ? "Entrar al portal de empleados" : "Entrar a mi portal"}
             </button>
             <div className="portal-signin__secondary-actions">
               <button
@@ -219,7 +226,7 @@ export function SignInExperience({ returnTo = "/portal/" }) {
           <span aria-hidden="true">✓</span>
           <p>Recibirás un código seguro por email. No necesitas recordar una contraseña.</p>
         </div>
-        {step === "email" ? (
+        {step === "email" && !employee ? (
           <div className="portal-signin__new-student">
             <div>
               <strong>¿Primera vez aquí?</strong>
@@ -232,6 +239,9 @@ export function SignInExperience({ returnTo = "/portal/" }) {
         ) : null}
         <nav className="portal-signin__footer" aria-label="Ayuda y documentos legales">
           <a href="/contactanos">Ayuda</a>
+          <a href={employee ? "/portal/sign-in/" : "/employee/sign-in/"}>
+            {employee ? "Portal estudiantil" : "Acceso de empleados"}
+          </a>
           <a href="/privacy-policy">Privacidad</a>
           <a href="/terms-and-conditions">Términos</a>
         </nav>

@@ -35,6 +35,38 @@ export function createNeonPlacementReviewRepository(database) {
       const row = rows(result)[0]; if (!row) throw new Error("placement_review_create_failed");
       return { review: normalize(row), replayed: toBool(row.replayed) };
     },
+    async listClaimedResultsMissingReviews({ resultId = null, limit = 10 } = {}) {
+      const result = await database.execute(sql`
+        select result.id as result_id, attempt.id as attempt_id,
+          result.recommended_level_label,
+          coalesce(claim.claim_id, attempt.id::text) as correlation_id
+        from diagnostic_attempts attempt
+        join diagnostic_results result on result.attempt_id = attempt.id
+        left join placement_reviews review on review.result_id = result.id
+        left join lateral (
+          select challenge.claim_id
+          from result_claims result_claim
+          join portal_auth_challenges challenge
+            on challenge.result_claim_id = result_claim.id
+           and challenge.status = 'consumed'
+          where result_claim.attempt_id = attempt.id
+            and result_claim.status = 'consumed'
+          order by challenge.consumed_at desc nulls last
+          limit 1
+        ) claim on true
+        where attempt.status = 'claimed'
+          and review.id is null
+          and (${resultId}::uuid is null or result.id = ${resultId}::uuid)
+        order by attempt.claimed_at asc nulls last, result.created_at asc
+        limit ${limit}
+      `);
+      return rows(result).map((row) => ({
+        resultId: row.result_id,
+        attemptId: row.attempt_id,
+        recommendedLevel: row.recommended_level_label,
+        correlationId: row.correlation_id,
+      }));
+    },
     async getById(id) {
       const result = await database.execute(sql`select * from placement_reviews where id = ${id}::uuid limit 1`);
       const row = rows(result)[0]; return row ? normalize(row) : null;

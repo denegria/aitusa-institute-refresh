@@ -51,8 +51,10 @@ test("operator route, repository, scheduler, and immediate dispatch keep launch 
   assert.doesNotMatch(repository, /email|phone|answer|writing|transcript|prompt|provider/i);
   const cron = JSON.parse(vercel).crons.find((item) => item.path === "/api/cron/crm-outbox");
   assert.deepEqual(cron, { path: "/api/cron/crm-outbox", schedule: "0 5 * * *" });
-  for (const source of [claim, start, turns]) {
+  assert.match(claim, /after\(async \(\) => \{[\s\S]*reconcileClaimedPlacementReviewsBestEffort[\s\S]*dispatchCrmOutboxBestEffort\(\)/);
+  for (const source of [start, turns]) {
     assert.match(source, /after\(\(\) => dispatchCrmOutboxBestEffort\(\)\)/);
     assert.match(source, /process\.env\.VERCEL/);
   }
+  assert.match(claim, /process\.env\.VERCEL/);
 });

@@ -31,7 +31,7 @@ async function employeeActor(path) {
     const requestHeaders = await headers();
     return await resolvePlacementReviewActor(new Request(`https://employee.aitusa.local${path}`, { headers: requestHeaders }));
   } catch (error) {
-    if (error instanceof PlacementReviewError && error.code === "placement_review_unauthenticated") redirect(`/portal/sign-in/?returnTo=${encodeURIComponent(path)}`);
+    if (error instanceof PlacementReviewError && error.code === "placement_review_unauthenticated") redirect(`/employee/sign-in/?returnTo=${encodeURIComponent(path)}`);
     notFound();
   }
 }

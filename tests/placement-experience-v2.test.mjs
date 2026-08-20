@@ -74,6 +74,13 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.match(component, /className="button button--gold"[\s\S]*Guardar mi resultado/);
   });
 
+  it("reuses one completion identifier across safe retries", () => {
+    assert.match(component, /const completionIdRef = useRef\(""\)/);
+    assert.match(component, /if \(!completionIdRef\.current\) completionIdRef\.current = createAttemptId\(\)/);
+    assert.match(component, /completionId: completionIdRef\.current/);
+    assert.doesNotMatch(component, /completionId: createAttemptId\(\)/);
+  });
+
   it("keeps one dominant result action and demotes the remaining pathways", () => {
     assert.match(component, /className="diagnostic-result__support"/);
     assert.match(component, /className="diagnostic-result__support-link"[\s\S]*Confirmar con un asesor/);

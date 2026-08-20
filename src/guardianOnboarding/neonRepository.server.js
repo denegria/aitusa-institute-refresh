@@ -72,6 +72,15 @@ export function createNeonGuardianRepository(database) {
             and workos_user_id <> ${input.identity.providerUserId}
             and status <> 'deleted'
         ),
+        employee_conflict as (
+          select account.id from portal_accounts account
+          join employee_review_roles role
+            on role.portal_account_id = account.id
+           and role.active = true
+          where lower(account.primary_email) = ${input.identity.email}
+            and account.workos_user_id = ${input.identity.providerUserId}
+            and account.status = 'active'
+        ),
         account_write as (
           insert into portal_accounts (
             id, workos_user_id, status, account_type, first_name, primary_email,
@@ -80,7 +89,9 @@ export function createNeonGuardianRepository(database) {
           select ${input.accountId}::uuid, ${input.identity.providerUserId}, 'active', 'guardian',
             e.guardian_first_name, e.guardian_email, 'es', ${at}::timestamptz,
             ${at}::timestamptz, ${at}::timestamptz
-          from eligible e where not exists (select 1 from identity_conflict)
+          from eligible e
+          where not exists (select 1 from identity_conflict)
+            and not exists (select 1 from employee_conflict)
           on conflict (workos_user_id) do update set
             account_type = 'guardian', primary_email = excluded.primary_email,
             last_signed_in_at = excluded.last_signed_in_at, updated_at = excluded.updated_at
@@ -175,11 +186,28 @@ export function createNeonGuardianRepository(database) {
         select aw.id as account_id, aw.first_name as guardian_first_name, aw.primary_email,
           cw.id as child_profile_id, cw.first_name as child_first_name, cw.age_band, cw.status as child_status,
           rw.receipt_code, rw.policy_version, rw.permissions,
+          rr.id as result_id, aw.id as claimed_account_id,
           rr.result_status, rr.recommended_level_key, rr.recommended_level_label
         from account_write aw, child_write cw, receipt_write rw, result_write rr, challenge_update cu
       `);
       const row = resultRows(rows)[0];
-      if (!row) throw new PortalClaimError("guardian_finalize_conflict", 409);
+      if (!row) {
+        const employee = await database.execute(sql`
+          select exists(
+            select 1 from portal_accounts account
+            join employee_review_roles role
+              on role.portal_account_id = account.id
+             and role.active = true
+            where lower(account.primary_email) = ${input.identity.email}
+              and account.workos_user_id = ${input.identity.providerUserId}
+              and account.status = 'active'
+          ) as employee_account
+        `);
+        if (toBool(resultRows(employee)[0]?.employee_account)) {
+          throw new PortalClaimError("employee_account_student_claim_forbidden", 409);
+        }
+        throw new PortalClaimError("guardian_finalize_conflict", 409);
+      }
       return toReceipt(row);
     },
     async getReceipt({ challengeId, identity }) {
@@ -187,6 +215,7 @@ export function createNeonGuardianRepository(database) {
         select a.id as account_id, a.first_name as guardian_first_name, a.primary_email,
           c.id as child_profile_id, c.first_name as child_first_name, c.age_band, c.status as child_status,
           r.receipt_code, r.policy_version, r.permissions,
+          dr.id as result_id, a.id as claimed_account_id,
           dr.result_status, dr.recommended_level_key, dr.recommended_level_label
         from guardian_consent_receipts r
         join portal_accounts a on a.id = r.guardian_account_id
@@ -195,7 +224,12 @@ export function createNeonGuardianRepository(database) {
         join diagnostic_results dr on dr.attempt_id = da.id
         where r.challenge_id = ${challengeId}::uuid
           and a.workos_user_id = ${identity.providerUserId}
-          and a.primary_email = ${identity.email}
+          and lower(a.primary_email) = ${identity.email.trim().toLowerCase()}
+          and not exists (
+            select 1 from employee_review_roles role
+            where role.portal_account_id = a.id
+              and role.active = true
+          )
         limit 1
       `);
       const row = resultRows(rows)[0];
@@ -212,7 +246,12 @@ export function createNeonGuardianRepository(database) {
           join guardian_child_links l on l.child_profile_id = c.id
           join portal_accounts a on a.id = l.guardian_account_id
           where c.id = ${childProfileId}::uuid and a.workos_user_id = ${identity.providerUserId}
-            and a.primary_email = ${identity.email} and l.status = 'active'
+            and lower(a.primary_email) = ${identity.email.trim().toLowerCase()} and l.status = 'active'
+            and not exists (
+              select 1 from employee_review_roles role
+              where role.portal_account_id = a.id
+                and role.active = true
+            )
         ),
         child_update as (
           update child_profiles c set status = ${childStatus}, updated_at = ${at}::timestamptz
@@ -269,6 +308,7 @@ function toReceipt(row) {
     account: { id: accountId, firstName: row.guardian_first_name, email: row.primary_email, accountType: "guardian" },
     child: { id: childId, firstName: row.child_first_name, ageBand: row.age_band, status: row.child_status },
     result: {
+      id: row.result_id,
       status: row.result_status,
       recommendedLevelKey: row.recommended_level_key,
       recommendedLevelLabel: row.recommended_level_label,
@@ -291,4 +331,8 @@ function iso(value) {
 
 function resultRows(result) {
   return Array.isArray(result) ? result : result?.rows || [];
+}
+
+function toBool(value) {
+  return value === true || value === "t" || value === 1 || value === "1";
 }

@@ -182,6 +182,8 @@ export function SiteFooter() {
             <nav className="site-footer__nav" aria-labelledby="footer-nav-label">
               <a href="/cursos/"><span>Cursos</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
               <a href="/placement-test/"><span>Examen de nivel</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
+              <a href="/portal/sign-in/"><span>Portal estudiantil</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
+              <a href="/employee/sign-in/"><span>Acceso de empleados</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
               <a href={site.legalLinks.contact}><span>Contacto</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
             </nav>
           </div>

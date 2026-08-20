@@ -16,6 +16,22 @@ const component = await readFile(
   new URL("../app/_components/site/PlacementExperience.jsx", import.meta.url),
   "utf8",
 );
+const completionRoute = await readFile(
+  new URL("../app/api/diagnostic/attempts/[attemptId]/complete/route.js", import.meta.url),
+  "utf8",
+);
+const reviewRepository = await readFile(
+  new URL("../src/placementReview/neonRepository.server.js", import.meta.url),
+  "utf8",
+);
+const authRepository = await readFile(
+  new URL("../src/portalAuth/neonRepository.server.js", import.meta.url),
+  "utf8",
+);
+const guardianRepository = await readFile(
+  new URL("../src/guardianOnboarding/neonRepository.server.js", import.meta.url),
+  "utf8",
+);
 
 describe("MIS-338 result claim contracts", () => {
   it("degrades without calling WorkOS when staging credentials are absent", async () => {
@@ -119,5 +135,19 @@ describe("MIS-338 result claim contracts", () => {
     assert.match(component, /advisorContactRequested/);
     assert.match(component, /El contacto con un asesor es opcional/);
     assert.doesNotMatch(component, /type="password"/);
+  });
+
+  it("creates employee review work only after a result is claimed", () => {
+    assert.doesNotMatch(completionRoute, /PlacementReview|createReview|crm_outbox/);
+    assert.match(reviewRepository, /attempt\.status = 'claimed'/);
+    assert.match(reviewRepository, /review\.id is null/);
+    assert.match(repository, /employee_account_student_claim_forbidden/);
+  });
+
+  it("keeps employee identities out of student-only account surfaces", () => {
+    assert.match(authRepository, /getAuthorizedStudyBuddyContext[\s\S]+not exists \([\s\S]+employee_review_roles/);
+    assert.match(repository, /getClaimReceipt[\s\S]+not exists \([\s\S]+employee_review_roles/);
+    assert.match(guardianRepository, /getReceipt[\s\S]+not exists \([\s\S]+employee_review_roles/);
+    assert.match(guardianRepository, /manageChild[\s\S]+not exists \([\s\S]+employee_review_roles/);
   });
 });

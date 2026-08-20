@@ -1,3 +1,6 @@
+import { after } from "next/server.js";
+import { dispatchCrmOutboxBestEffort } from "../../../../../src/crm/runtime.server.js";
+import { reconcileClaimedPlacementReviewsBestEffort } from "../../../../../src/placementReview/runtime.server.js";
 import {
   assertPortalSameOrigin,
   parsePortalClaimJson,
@@ -22,6 +25,10 @@ export async function POST(request) {
     const service = getGuardianOnboardingService();
     const identity = await service.authenticateSession(readPortalSessionCookie(request));
     const receipt = await service.finalize(await parsePortalClaimJson(request), identity);
+    if (process.env.VERCEL) after(async () => {
+      await reconcileClaimedPlacementReviewsBestEffort({ resultId: receipt.result?.id });
+      await dispatchCrmOutboxBestEffort();
+    });
     return portalClaimJson({ ok: true, saved: true, ...receipt });
   } catch (error) {
     return portalClaimFailure(error);

@@ -174,7 +174,7 @@ describe("MIS-341 authenticated portal routes", () => {
       isConfigured: () => true,
       getService: () => ({
         async verifySignInCode() {
-          return { sessionData: "sealed-session-fixture" };
+          return { sessionData: "sealed-session-fixture", audience: "employee" };
         },
       }),
     });
@@ -191,7 +191,7 @@ describe("MIS-341 authenticated portal routes", () => {
       code: "123456",
       returnTo: "https://evil.example/employee/placement-reviews",
     }));
-    assert.equal((await rejected.json()).portalHref, "/portal/");
+    assert.equal((await rejected.json()).portalHref, "/employee");
   });
 
   it("clears the sealed cookie and redirects a native sign-out form", async () => {

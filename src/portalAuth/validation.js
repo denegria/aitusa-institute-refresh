@@ -4,6 +4,7 @@ import { normalizeEmail } from "../portalClaim/validation.js";
 export function validatePortalSignInCodeRequest(input = {}) {
   return {
     email: normalizeEmail(input.email),
+    audience: normalizeAudience(input.audience),
   };
 }
 
@@ -13,5 +14,9 @@ export function validatePortalSignInVerifyRequest(input = {}) {
   if (!/^\d{6}$/.test(code)) {
     throw new PortalClaimError("portal_sign_in_invalid", 401);
   }
-  return { email, code };
+  return { email, code, audience: normalizeAudience(input.audience) };
+}
+
+function normalizeAudience(value) {
+  return value === "employee" ? "employee" : "student";
 }

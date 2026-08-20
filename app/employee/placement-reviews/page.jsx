@@ -42,7 +42,7 @@ async function employeeActor(reviewId) {
   } catch (error) {
     if (error instanceof PlacementReviewError && error.code === "placement_review_unauthenticated") {
       const returnTo = reviewId ? `/employee/placement-reviews?review=${encodeURIComponent(reviewId)}` : "/employee/placement-reviews";
-      redirect(`/portal/sign-in/?returnTo=${encodeURIComponent(returnTo)}`);
+      redirect(`/employee/sign-in/?returnTo=${encodeURIComponent(returnTo)}`);
     }
     notFound();
   }

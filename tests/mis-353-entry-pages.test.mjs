@@ -14,6 +14,10 @@ const portalExperience = await readFile(
   new URL("../app/portal/sign-in/SignInExperience.jsx", import.meta.url),
   "utf8",
 );
+const employeeSignIn = await readFile(
+  new URL("../app/employee/sign-in/page.jsx", import.meta.url),
+  "utf8",
+);
 const placementStyles = await readFile(
   new URL("../src/styles.css", import.meta.url),
   "utf8",
@@ -48,6 +52,9 @@ describe("MIS-353 focused entry surfaces", () => {
     assert.match(portalStyles, /background: #fffdf9;/);
     assert.match(portalStyles, /\.portal-signin__trust p \{[\s\S]*font-size: 12px;/);
     assert.match(portalStyles, /\.portal-signin__footer a \{[\s\S]*font-size: 12px;/);
+    assert.match(portalExperience, /Acceso de empleados/);
+    assert.match(employeeSignIn, /audience="employee"/);
+    assert.match(portalExperience, /Acceso exclusivo para personal autorizado/);
   });
 
   it("defines the primary viewport fit and mobile disclosure variants", () => {

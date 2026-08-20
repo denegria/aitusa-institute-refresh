@@ -43,7 +43,7 @@ export function createPortalAuthVerifyHandler({
         {
           ok: true,
           authenticated: true,
-          portalHref: sanitizePortalReturnTo(body.returnTo),
+          portalHref: sanitizePortalReturnTo(body.returnTo, authenticated.audience),
         },
         {
           cookie: serializeSessionCookie(authenticated.sessionData),

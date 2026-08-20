@@ -1,3 +1,53 @@
+# AIT USA Result Claim + Portal Entry Hotfix — 2026-08-20
+
+## User workflow and problem
+
+- A student must be able to complete the anonymous diagnostic, see the result,
+  and claim it into a verified student account without CRM or employee-review
+  work blocking that value-delivery path.
+- Employees need a staff-branded sign-in surface. Student and employee accounts
+  remain separate even though both surfaces use the same passwordless identity
+  infrastructure and session-cookie mechanism.
+
+## Interaction model and visual direction
+
+- Student flow: anonymous result -> explicit `Guardar mi resultado` -> verified
+  student account -> employee review and CRM task are queued afterward.
+- Employee flow: `/employee/sign-in/` -> passwordless OTP -> exact employee
+  return path. Reuse the established Portal card, typography, spacing, navy,
+  gold, and warm-white system with staff-specific copy.
+- Public discovery: discreet footer links for `Portal estudiantil` and
+  `Acceso de empleados`; no employee CTA in the primary header or homepage hero.
+- Reference mode: inspiration mode constrained by the shipped student Portal.
+
+## Locked behavior, permissions, and non-goals
+
+- Diagnostic completion cannot create an employee review or CRM task.
+- A claimed adult/guardian result is eligible for idempotent review creation;
+  a repair runner may reconcile claimed results missing reviews.
+- Completion retries reuse one client completion ID and an already-persisted
+  result remains claimable.
+- Student sign-in accepts only non-employee Portal accounts. Employee sign-in
+  accepts only active AIT USA senior/admin reviewer accounts. An employee
+  identity cannot claim or open a student Portal result.
+- Return paths stay same-origin and explicitly allowlisted. Unauthorized roles
+  remain indistinguishable behind fail-closed behavior.
+- Non-goals: separate authentication providers, shared/dual-role UX, employee
+  CTA promotion, coordinator provisioning, Resend setup, or CRM redesign.
+
+## Responsive and evidence contract
+
+- Primary CSS viewports: 1440x900 and 390x844.
+- Regression CSS viewports: 1024x768 and 430x932.
+- The employee sign-in card must preserve one clear primary action, visible
+  staff context, 44px controls, keyboard focus, and no horizontal overflow.
+- Required evidence: focused diagnostic/claim/auth/review tests, complete
+  repository validation, production build, browser checks for both entry pages
+  at primary viewports, allowlisted redirect tests, and production read-only
+  smoke after the approved deployment.
+
+---
+
 # AIT USA Responsive Conversion Corrections — 2026-08-18
 
 ## User workflow and problem

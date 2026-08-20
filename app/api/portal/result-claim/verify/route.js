@@ -33,6 +33,10 @@ export async function POST(request) {
     const cookie = serializePortalSessionCookie(verified.sessionData);
     try {
       const claimed = await service.finalizeClaim(input, verified.identity);
+      if (process.env.VERCEL) after(async () => {
+        await reconcileClaimedPlacementReviewsBestEffort({ resultId: claimed.result?.id });
+        await dispatchCrmOutboxBestEffort();
+      });
       return portalClaimJson(
         { ok: true, claimed: true, ...claimed },
         { cookie },
@@ -56,3 +60,6 @@ export async function POST(request) {
     return portalClaimFailure(error);
   }
 }
+import { after } from "next/server.js";
+import { dispatchCrmOutboxBestEffort } from "../../../../../src/crm/runtime.server.js";
+import { reconcileClaimedPlacementReviewsBestEffort } from "../../../../../src/placementReview/runtime.server.js";

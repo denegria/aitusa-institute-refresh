@@ -39,7 +39,7 @@ export function PlacementReviewActions({ review }) {
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) {
         if (response.status === 401) {
-          window.location.assign(`/portal/sign-in/?returnTo=${encodeURIComponent(`/employee/placement-reviews?review=${review.id}`)}`);
+          window.location.assign(`/employee/sign-in/?returnTo=${encodeURIComponent(`/employee/placement-reviews?review=${review.id}`)}`);
           return;
         }
         setMessage({ type: "error", text: ERROR_COPY[payload.error] || "No pudimos guardar la acción. La revisión no cambió." });

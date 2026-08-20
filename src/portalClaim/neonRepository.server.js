@@ -109,9 +109,19 @@ export function createNeonPortalClaimRepository(database) {
           identity_conflict as (
             select pa.id
             from portal_accounts pa
-            join eligible e on pa.primary_email = e.email
+            join eligible e on lower(pa.primary_email) = e.email
             where pa.workos_user_id <> ${identity.providerUserId}
               and pa.status <> 'deleted'
+          ),
+          employee_conflict as (
+            select pa.id
+            from portal_accounts pa
+            join employee_review_roles role
+              on role.portal_account_id = pa.id
+             and role.active = true
+            join eligible e on pa.primary_email = e.email
+            where pa.workos_user_id = ${identity.providerUserId}
+              and pa.status = 'active'
           ),
           account_write as (
             insert into portal_accounts (
@@ -139,6 +149,7 @@ export function createNeonPortalClaimRepository(database) {
               ${nowIso}::timestamptz
             from eligible e
             where not exists (select 1 from identity_conflict)
+              and not exists (select 1 from employee_conflict)
             on conflict (workos_user_id) do update
             set last_signed_in_at = excluded.last_signed_in_at,
                 updated_at = excluded.updated_at,
@@ -362,6 +373,20 @@ export function createNeonPortalClaimRepository(database) {
       if (emailOwner && emailOwner.workosUserId !== identity.providerUserId) {
         throw new PortalClaimError("portal_identity_conflict", 409);
       }
+      const employee = await database.execute(sql`
+        select exists(
+          select 1 from portal_accounts account
+          join employee_review_roles role
+            on role.portal_account_id = account.id
+           and role.active = true
+          where account.workos_user_id = ${identity.providerUserId}
+            and lower(account.primary_email) = ${challenge.email}
+            and account.status = 'active'
+        ) as employee_account
+      `);
+      if (toBool(rows(employee)[0]?.employee_account)) {
+        throw new PortalClaimError("employee_account_student_claim_forbidden", 409);
+      }
       throw new PortalClaimError("result_claim_not_eligible", 409);
     },
 
@@ -393,7 +418,12 @@ export function createNeonPortalClaimRepository(database) {
           and ch.status = 'consumed'
           and rc.status = 'consumed'
           and pa.workos_user_id = ${identity.providerUserId}
-          and pa.primary_email = ${identity.email}
+          and lower(pa.primary_email) = ${identity.email.trim().toLowerCase()}
+          and not exists (
+            select 1 from employee_review_roles role
+            where role.portal_account_id = pa.id
+              and role.active = true
+          )
         limit 1
       `);
       const row = rows(result)[0];
@@ -439,6 +469,10 @@ function normalizeReceipt(row) {
 
 function rows(result) {
   return Array.isArray(result) ? result : result?.rows || [];
+}
+
+function toBool(value) {
+  return value === true || value === "t" || value === 1 || value === "1";
 }
 
 function toIso(value) {

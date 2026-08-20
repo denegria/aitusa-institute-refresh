@@ -65,12 +65,30 @@ describe("MIS-395 placement review state machine", () => {
   });
   it("allowlists only opaque employee-review return paths", () => {
     const reviewPath = `/employee/placement-reviews?review=${ids[0]}`;
-    assert.equal(sanitizePortalReturnTo(reviewPath), reviewPath);
-    assert.equal(sanitizePortalReturnTo("/employee/placement-reviews"), "/employee/placement-reviews");
-    assert.equal(sanitizePortalReturnTo("//evil.example/employee/placement-reviews"), "/portal/");
-    assert.equal(sanitizePortalReturnTo("https://evil.example/employee/placement-reviews"), "/portal/");
-    assert.equal(sanitizePortalReturnTo("/employee/placement-reviews?review=guessable"), "/portal/");
-    assert.equal(sanitizePortalReturnTo(`${reviewPath}&next=/admin`), "/portal/");
+    assert.equal(sanitizePortalReturnTo(reviewPath, "employee"), reviewPath);
+    assert.equal(sanitizePortalReturnTo("/employee/placement-reviews", "employee"), "/employee/placement-reviews");
+    assert.equal(sanitizePortalReturnTo("/employee/team", "employee"), "/employee/team");
+    assert.equal(sanitizePortalReturnTo("//evil.example/employee/placement-reviews", "employee"), "/employee");
+    assert.equal(sanitizePortalReturnTo("https://evil.example/employee/placement-reviews", "employee"), "/employee");
+    assert.equal(sanitizePortalReturnTo("/employee/placement-reviews?review=guessable", "employee"), "/employee");
+    assert.equal(sanitizePortalReturnTo(`${reviewPath}&next=/admin`, "employee"), "/employee");
+    assert.equal(sanitizePortalReturnTo(reviewPath, "student"), "/portal/");
+  });
+  it("reconciles only claimed results missing an employee review", async () => {
+    const writes = [];
+    const service = createPlacementReviewService({
+      createId: () => ids[writes.length],
+      repository: {
+        async listClaimedResultsMissingReviews(input) {
+          assert.deepEqual(input, { resultId: ids[0], limit: 10 });
+          return [{ resultId: ids[0], attemptId: ids[1], recommendedLevel: "Nivel 3", correlationId: "claim-correlation-fixture" }];
+        },
+        async createReview(input) { writes.push(input); return { review: { ...input, status: "pending", revision: 1, finalLevel: null, createdAt: input.occurredAt, updatedAt: input.occurredAt }, replayed: false }; },
+      },
+    });
+    const result = await service.reconcileClaimedReviews({ resultId: ids[0] });
+    assert.deepEqual(result, { scanned: 1, created: 1, replayed: 0, failed: 0 });
+    assert.equal(writes[0].correlationId, "claim-correlation-fixture");
   });
   it("normalizes a missing or expired Portal session into the employee sign-in boundary", async () => {
     await assert.rejects(

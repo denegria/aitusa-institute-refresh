@@ -164,13 +164,28 @@ export function createNeonPortalAuthRepository(database) {
       `);
     },
 
-    async hasActivePortalAccountByEmail(email) {
+    async hasActivePortalAccountByEmail(email, audience = "student") {
       const result = await database.execute(sql`
         select exists(
           select 1
           from portal_accounts account
           where lower(account.primary_email) = ${email}
             and account.status = 'active'
+            and (
+              (${audience} = 'employee' and exists (
+                select 1 from employee_review_roles role
+                where role.portal_account_id = account.id
+                  and role.business_unit = 'ait_usa'
+                  and role.role in ('senior', 'admin')
+                  and role.active = true
+              ))
+              or
+              (${audience} = 'student' and not exists (
+                select 1 from employee_review_roles role
+                where role.portal_account_id = account.id
+                  and role.active = true
+              ))
+            )
         ) as has_active_account
       `);
       return toBoolean(rows(result)[0]?.has_active_account);
@@ -180,10 +195,15 @@ export function createNeonPortalAuthRepository(database) {
       const result = await database.execute(sql`
         with matching_accounts as (
           select id, status, account_type
-          from portal_accounts
-          where workos_user_id = ${identity.providerUserId}
-            and lower(primary_email) = ${identity.email.trim().toLowerCase()}
-            and status = 'active'
+          from portal_accounts account
+          where account.workos_user_id = ${identity.providerUserId}
+            and lower(account.primary_email) = ${identity.email.trim().toLowerCase()}
+            and account.status = 'active'
+            and not exists (
+              select 1 from employee_review_roles role
+              where role.portal_account_id = account.id
+                and role.active = true
+            )
           order by id
           limit 2
         ),
@@ -258,6 +278,44 @@ export function createNeonPortalAuthRepository(database) {
       };
     },
 
+    async getActiveEmployeeIdentity(identity) {
+      const result = await database.execute(sql`
+        with matching_accounts as (
+          select account.id, account.status, account.account_type,
+            account.first_name, account.primary_email, account.preferred_language,
+            role.business_unit, role.role
+          from portal_accounts account
+          join employee_review_roles role
+            on role.portal_account_id = account.id
+           and role.active = true
+           and role.business_unit = 'ait_usa'
+           and role.role in ('senior', 'admin')
+          where account.workos_user_id = ${identity.providerUserId}
+            and lower(account.primary_email) = ${identity.email.trim().toLowerCase()}
+            and account.status = 'active'
+          order by account.id
+          limit 2
+        )
+        select * from matching_accounts
+        where (select count(*) from matching_accounts) = 1
+        limit 1
+      `);
+      const row = rows(result)[0];
+      if (!row) return null;
+      return {
+        state: "authenticated",
+        account: {
+          accountId: row.id,
+          status: row.status,
+          accountType: row.account_type,
+          firstName: row.first_name,
+          email: row.primary_email,
+          preferredLanguage: row.preferred_language,
+        },
+        employeeAccess: { businessUnit: row.business_unit, role: row.role },
+      };
+    },
+
     async getActivePortalSnapshot(identity) {
       const result = await database.execute(sql`
         with matching_accounts as (
@@ -279,6 +337,11 @@ export function createNeonPortalAuthRepository(database) {
           select ma.*
           from matching_accounts ma
           where (select count(*) from matching_accounts) = 1
+            and not exists (
+              select 1 from employee_review_roles role
+              where role.portal_account_id = ma.id
+                and role.active = true
+            )
         )
         select
           account.id as account_id,

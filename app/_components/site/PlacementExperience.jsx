@@ -539,6 +539,8 @@ function claimErrorMessage(code) {
       "El código venció. Solicita uno nuevo para guardar tu resultado.",
     portal_identity_conflict:
       "Ese email ya está vinculado a otra identidad. Un asesor deberá ayudarte a resolverlo sin duplicar cuentas.",
+    employee_account_student_claim_forbidden:
+      "Ese email pertenece a una cuenta de empleado. Usa otro email para crear tu cuenta estudiantil.",
     claim_finalize_pending:
       "Tu email quedó verificado, pero todavía no pudimos guardar el resultado. Intenta completar el guardado otra vez.",
     guardian_onboarding_unavailable:
@@ -1160,6 +1162,7 @@ export function PlacementExperience() {
 
   const advanceTimer = useRef(null);
   const attemptIdRef = useRef("");
+  const completionIdRef = useRef("");
   const durableRef = useRef(false);
   const revisionRef = useRef(0);
   const syncFailedRef = useRef(false);
@@ -1338,6 +1341,7 @@ export function PlacementExperience() {
       }
     }
     attemptIdRef.current = nextAttemptId;
+    completionIdRef.current = "";
     durableRef.current = nextDurable;
     revisionRef.current = nextRevision;
     syncFailedRef.current = false;
@@ -1366,6 +1370,7 @@ export function PlacementExperience() {
     const nextDurable = resumeSnapshot.durable === true;
     const nextRevision = Number(resumeSnapshot.serverRevision || 0);
     attemptIdRef.current = nextAttemptId;
+    completionIdRef.current = "";
     durableRef.current = nextDurable;
     revisionRef.current = nextRevision;
     syncFailedRef.current = false;
@@ -1549,6 +1554,7 @@ export function PlacementExperience() {
       await syncQueue.current;
       let body;
       if (durableRef.current && !syncFailedRef.current) {
+        if (!completionIdRef.current) completionIdRef.current = createAttemptId();
         const response = await fetch(
           `/api/diagnostic/attempts/${encodeURIComponent(attemptIdRef.current)}/complete`,
           {
@@ -1556,7 +1562,7 @@ export function PlacementExperience() {
             credentials: "same-origin",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({
-              completionId: createAttemptId(),
+              completionId: completionIdRef.current,
               expectedRevision: revisionRef.current,
               selfAssessment: payload.selfAssessment,
               goal,
@@ -1610,6 +1616,7 @@ export function PlacementExperience() {
     setDurable(false);
     setSyncNotice("");
     durableRef.current = false;
+    completionIdRef.current = "";
   };
 
   return (

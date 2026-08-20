@@ -10,3 +10,12 @@ export function getPlacementReviewService() {
   cachedService = createPlacementReviewService({ repository: createNeonPlacementReviewRepository(getPortalDatabase()) });
   return cachedService;
 }
+
+export async function reconcileClaimedPlacementReviewsBestEffort(input = {}) {
+  if (!isPlacementReviewConfigured()) return { scanned: 0, created: 0, replayed: 0, failed: 0, unavailable: true };
+  try {
+    return await getPlacementReviewService().reconcileClaimedReviews(input);
+  } catch {
+    return { scanned: 0, created: 0, replayed: 0, failed: 1 };
+  }
+}
