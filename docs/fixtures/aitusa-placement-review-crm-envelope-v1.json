@@ -1,8 +1,8 @@
 {
   "schemaVersion": "aitusa-crm-event-v1",
-  "eventId": "placement-review:00000000-0000-4000-8000-000000000001:revision:2:placement_review_adjusted",
+  "eventId": "placement-review:00000000-0000-4000-8000-000000000001:revision:3:placement_review_adjusted",
   "eventType": "placement_review_adjusted",
-  "idempotencyKey": "placement-review:00000000-0000-4000-8000-000000000001:revision:2:placement_review_adjusted",
+  "idempotencyKey": "placement-review:00000000-0000-4000-8000-000000000001:revision:3:placement_review_adjusted",
   "correlationId": "00000000-0000-4000-8000-000000000003",
   "occurredAt": "2026-08-20T12:00:00.000Z",
   "source": {
@@ -16,6 +16,7 @@
     "resultId": "00000000-0000-4000-8000-000000000002",
     "attemptId": "00000000-0000-4000-8000-000000000003",
     "state": "adjusted",
+    "revision": 3,
     "finalLevel": "Nivel 4"
   },
   "consent": {

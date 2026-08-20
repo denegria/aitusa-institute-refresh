@@ -43,7 +43,7 @@ export function createPlacementReviewService({ repository, now = () => new Date(
       requireId(resultId, "placement_result_id_invalid");
       requireId(attemptId, "placement_attempt_id_invalid");
       if (businessUnit !== PLACEMENT_REVIEW_BUSINESS_UNIT) throw new PlacementReviewError("placement_review_business_unit_invalid", 422);
-      if (typeof recommendedLevel !== "string" || !recommendedLevel.trim()) throw new PlacementReviewError("placement_review_recommended_level_invalid", 422);
+      if (typeof recommendedLevel !== "string" || !recommendedLevel.trim() || recommendedLevel.trim().length > 120) throw new PlacementReviewError("placement_review_recommended_level_invalid", 422);
       const created = await repository.createReview({
         id: createId(), resultId, attemptId, correlationId: correlationId || attemptId,
         businessUnit, recommendedLevel: recommendedLevel.trim(), occurredAt: now().toISOString(), eventId: createId(), outboxId: createId(),

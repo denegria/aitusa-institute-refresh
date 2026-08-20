@@ -14,14 +14,15 @@ describe("MIS-395 placement review state machine", () => {
     const { service, repository, actor } = fixture();
     const review = await service.createReview({ resultId: ids[0], attemptId: ids[1], recommendedLevel: "Nivel 3", correlationId: ids[1] });
     assert.equal(review.status, "pending");
-    const started = await service.startReview({ reviewId: review.id, actor, expectedRevision: 0, mutationId: ids[2] });
-    const confirmed = await service.confirmReview({ reviewId: review.id, actor, expectedRevision: 1, mutationId: ids[3] });
-    const replay = await service.confirmReview({ reviewId: review.id, actor, expectedRevision: 1, mutationId: ids[3] });
+    const started = await service.startReview({ reviewId: review.id, actor, expectedRevision: 1, mutationId: ids[2] });
+    const confirmed = await service.confirmReview({ reviewId: review.id, actor, expectedRevision: 2, mutationId: ids[3] });
+    const replay = await service.confirmReview({ reviewId: review.id, actor, expectedRevision: 2, mutationId: ids[3] });
     assert.equal(started.status, "in_review"); assert.equal(confirmed.status, "confirmed"); assert.equal(confirmed.finalLevel, "Nivel 3"); assert.equal(replay.replayed, true);
     assert.deepEqual(repository._inspect().events.map((event) => event.eventType), ["placement_review_created", "placement_review_started", "placement_review_confirmed"]);
     const outbox = repository._inspect().outbox;
     assert.equal(outbox.length, 3);
     assert.deepEqual(outbox.map((event) => event.placement.state), ["pending", "in_review", "confirmed"]);
+    assert.deepEqual(outbox.map((event) => event.placement.revision), [1, 2, 3]);
     assert.equal(outbox.at(-1).placement.finalLevel, "Nivel 3");
     assert.equal(outbox.at(-1).correlationId, ids[1]);
     assert.equal(validatePlacementReviewCrmEnvelope(outbox.at(-1)).ok, true);
@@ -29,7 +30,7 @@ describe("MIS-395 placement review state machine", () => {
   it("fails closed for cross-BU or stale decisions", async () => {
     const { service, actor } = fixture(); const review = await service.createReview({ resultId: ids[0], attemptId: ids[1], recommendedLevel: "Nivel 3" });
     await assert.rejects(() => service.startReview({ reviewId: review.id, actor: { ...actor, businessUnit: "other" }, expectedRevision: 0, mutationId: ids[2] }), /placement_review_forbidden/);
-    await assert.rejects(() => service.confirmReview({ reviewId: review.id, actor, expectedRevision: 0, mutationId: ids[3] }), /placement_review_transition_invalid/);
+    await assert.rejects(() => service.confirmReview({ reviewId: review.id, actor, expectedRevision: 1, mutationId: ids[3] }), /placement_review_transition_invalid/);
   });
   it("keeps the locked student-facing labels", () => {
     assert.deepEqual(Object.values(PLACEMENT_REVIEW_COPY), ["Nivel recomendado", "Pendiente de confirmación", "Nivel confirmado por AIT", "Revisión adicional requerida"]);
@@ -37,12 +38,12 @@ describe("MIS-395 placement review state machine", () => {
   it("adjusts a bounded final level and keeps replay/outbox idempotent", async () => {
     const { service, repository, actor } = fixture();
     const review = await service.createReview({ resultId: ids[0], attemptId: ids[1], recommendedLevel: "Nivel 3", correlationId: ids[1] });
-    await service.startReview({ reviewId: review.id, actor, expectedRevision: 0, mutationId: ids[2] });
-    const adjusted = await service.adjustReview({ reviewId: review.id, actor, expectedRevision: 1, mutationId: ids[3], finalLevel: "Nivel 4" });
-    const replay = await service.adjustReview({ reviewId: review.id, actor, expectedRevision: 1, mutationId: ids[3], finalLevel: "Nivel 4" });
+    await service.startReview({ reviewId: review.id, actor, expectedRevision: 1, mutationId: ids[2] });
+    const adjusted = await service.adjustReview({ reviewId: review.id, actor, expectedRevision: 2, mutationId: ids[3], finalLevel: "Nivel 4" });
+    const replay = await service.adjustReview({ reviewId: review.id, actor, expectedRevision: 2, mutationId: ids[3], finalLevel: "Nivel 4" });
     assert.equal(adjusted.status, "adjusted"); assert.equal(adjusted.finalLevel, "Nivel 4"); assert.equal(replay.replayed, true);
     const outbox = repository._inspect().outbox;
-    assert.equal(outbox.length, 3); assert.match(outbox.at(-1).idempotencyKey, /revision:2:placement_review_adjusted$/);
+    assert.equal(outbox.length, 3); assert.match(outbox.at(-1).idempotencyKey, /revision:3:placement_review_adjusted$/);
     assert.equal(JSON.stringify(outbox.at(-1)).match(/answer|writing|rationale|email@/i), null);
   });
   it("uses an exact Origin comparison for employee mutations", () => {
@@ -61,5 +62,17 @@ describe("MIS-395 placement review state machine", () => {
     const fs = await import("node:fs/promises");
     const fixture = JSON.parse(await fs.readFile(new URL("../docs/fixtures/aitusa-placement-review-crm-envelope-v1.json", import.meta.url), "utf8"));
     assert.equal(validatePlacementReviewCrmEnvelope(fixture).ok, true);
+  });
+  it("makes out-of-order delivery detectable with positive monotonic revisions", async () => {
+    const fs = await import("node:fs/promises");
+    const events = JSON.parse(await fs.readFile(new URL("../docs/fixtures/aitusa-placement-review-crm-events-out-of-order-v1.json", import.meta.url), "utf8"));
+    assert.equal(events.every((event) => validatePlacementReviewCrmEnvelope(event).ok), true);
+    assert.deepEqual(events.map((event) => event.placement.revision), [3, 2]);
+  });
+  it("rejects absolute consent URLs, non-positive revisions, and CRM-overlong final levels", () => {
+    const base = buildPlacementReviewCrmEnvelope({ review: { id: ids[0], resultId: ids[1], attemptId: ids[2], correlationId: ids[2], status: "adjusted", revision: 3, finalLevel: "Nivel 4" }, eventType: "placement_review_adjusted", occurredAt: "2026-08-20T12:00:00.000Z", consent: { sourceUrl: "/placement-test/" } });
+    assert.equal(validatePlacementReviewCrmEnvelope({ ...base, consent: { ...base.consent, sourceUrl: "https://aitusa.example/placement-test/" } }).errors.includes("placement_consent_source_url_invalid"), true);
+    assert.equal(validatePlacementReviewCrmEnvelope({ ...base, placement: { ...base.placement, revision: 0 } }).errors.includes("placement_revision_invalid"), true);
+    assert.equal(validatePlacementReviewCrmEnvelope({ ...base, placement: { ...base.placement, finalLevel: "x".repeat(121) } }).errors.includes("placement_final_level_invalid"), true);
   });
 });

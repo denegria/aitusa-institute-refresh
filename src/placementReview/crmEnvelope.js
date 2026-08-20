@@ -25,6 +25,7 @@ export function buildPlacementReviewCrmEnvelope({ review, eventType, occurredAt,
       resultId: review.resultId,
       attemptId: review.attemptId,
       state: review.status,
+      revision: Number(review.revision),
       ...(finalLevel ? { finalLevel } : {}),
     },
     consent: normalizeConsent(consent),
@@ -43,11 +44,17 @@ export function validatePlacementReviewCrmEnvelope(envelope) {
   if (!PLACEMENT_REVIEW_EVENT_TYPES.includes(envelope?.eventType)) errors.push("placement_event_type_invalid");
   if (!opaqueId(envelope?.correlationId) || !opaqueId(envelope?.placement?.reviewId) || !opaqueId(envelope?.placement?.resultId) || !opaqueId(envelope?.placement?.attemptId)) errors.push("placement_ids_invalid");
   if (!recordWithOnly(envelope?.source, ["product", "surface", "employeeUrl", "version"]) || envelope?.source?.product !== "aitusa_refresh" || envelope?.source?.surface !== "staff_tool" || envelope?.source?.version !== PLACEMENT_REVIEW_CRM_VERSION || envelope?.source?.employeeUrl !== `/employee/placement-reviews?review=${envelope?.placement?.reviewId}`) errors.push("placement_source_invalid");
-  const allowedPlacement = ["reviewId", "resultId", "attemptId", "state", "finalLevel"];
+  const allowedPlacement = ["reviewId", "resultId", "attemptId", "state", "revision", "finalLevel"];
   if (!recordWithOnly(envelope?.placement, allowedPlacement) || !["pending", "in_review", "confirmed", "adjusted", "additional_review_required"].includes(envelope?.placement?.state)) errors.push("placement_state_invalid");
-  if (["confirmed", "adjusted"].includes(envelope?.placement?.state) !== Boolean(envelope?.placement?.finalLevel)) errors.push("placement_final_level_invalid");
+  if (!Number.isInteger(envelope?.placement?.revision) || envelope.placement.revision < 1) errors.push("placement_revision_invalid");
+  const expectedKey = `placement-review:${envelope?.placement?.reviewId}:revision:${envelope?.placement?.revision}:${envelope?.eventType}`;
+  if (envelope?.eventId !== expectedKey || envelope?.idempotencyKey !== expectedKey) errors.push("placement_idempotency_invalid");
+  const expectedState = { placement_review_created: "pending", placement_review_started: "in_review", placement_review_confirmed: "confirmed", placement_review_adjusted: "adjusted", placement_review_additional_review_required: "additional_review_required" }[envelope?.eventType];
+  if (expectedState !== envelope?.placement?.state) errors.push("placement_event_state_mismatch");
+  if (["confirmed", "adjusted"].includes(envelope?.placement?.state) !== Boolean(envelope?.placement?.finalLevel) || (envelope?.placement?.finalLevel && (typeof envelope.placement.finalLevel !== "string" || envelope.placement.finalLevel.length > 120))) errors.push("placement_final_level_invalid");
   const consentKeys = ["communicationPreference", "disclosureVersion", "disclosureHash", "sourceUrl", "optInAction", "advisorContactEmail", "serviceSms", "marketingSms", "phoneCall", "whatsappContact", "verifiedEmail", "verifiedMobile"];
   if (!recordWithOnly(envelope?.consent, consentKeys)) errors.push("placement_consent_shape_invalid");
+  if (envelope?.consent?.sourceUrl !== null && !cleanPath(envelope?.consent?.sourceUrl)) errors.push("placement_consent_source_url_invalid");
   return errors.length ? { ok: false, errors } : { ok: true };
 }
 

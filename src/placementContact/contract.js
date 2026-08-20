@@ -29,7 +29,7 @@ export function validatePlacementContactPreference(input = {}) {
     consents: { email: consent.email === true, serviceSms: consent.serviceSms === true, marketingSms: consent.marketingSms === true, phone: consent.phone === true, whatsapp: whatsappRequested },
   }};
 }
-function safeSourceUrl(value) { try { const url = new URL(value || "https://aitusa.example/placement-test/"); return `${url.origin}${url.pathname}`; } catch { return "/placement-test/"; } }
+function safeSourceUrl(value) { try { const url = new URL(value || "https://aitusa.example/placement-test/"); return url.pathname; } catch { return "/placement-test/"; } }
 
 export function buildPlacementContactCrmPayload({ reviewId, resultId, correlationId, preference }) {
   return {

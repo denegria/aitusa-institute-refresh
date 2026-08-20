@@ -6,7 +6,7 @@ import { validateCrmEventEnvelope } from "../src/crm/eventContract.js";
 describe("MIS-397 channel-specific placement contact consent", () => {
   it("keeps email-only save valid without a phone", () => {
     const result = validatePlacementContactPreference({ preferredChannel: "email", verifiedEmail: true, consents: { email: true }, sourceUrl: "https://aitusa.example/placement-test/?email=private" });
-    assert.equal(result.ok, true); assert.equal(result.preference.mobile, null); assert.equal(result.preference.sourceUrl, "https://aitusa.example/placement-test/");
+    assert.equal(result.ok, true); assert.equal(result.preference.mobile, null); assert.equal(result.preference.sourceUrl, "/placement-test/");
   });
   it("requires separately verified E.164 mobile and guardian ownership", () => {
     assert.equal(validatePlacementContactPreference({ preferredChannel: "sms", mobile: "+17323790593", consents: { serviceSms: true } }).ok, false);

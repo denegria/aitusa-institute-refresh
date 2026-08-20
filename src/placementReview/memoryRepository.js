@@ -10,7 +10,7 @@ export function createMemoryPlacementReviewRepository() {
     async createReview(input) {
       const existing = byResult.get(input.resultId);
       if (existing) return { review: clone(reviews.get(existing)), replayed: true };
-      const review = { ...input, status: "pending", finalLevel: null, revision: 0, createdAt: input.occurredAt, updatedAt: input.occurredAt };
+      const review = { ...input, status: "pending", finalLevel: null, revision: 1, createdAt: input.occurredAt, updatedAt: input.occurredAt };
       reviews.set(review.id, review); byResult.set(review.resultId, review.id);
       events.push(eventFor(review, input.eventId, "create", input.occurredAt, null));
       outbox.push(buildPlacementReviewCrmEnvelope({ review, eventType: "placement_review_created", occurredAt: input.occurredAt }));

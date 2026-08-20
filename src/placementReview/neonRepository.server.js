@@ -13,7 +13,7 @@ export function createNeonPlacementReviewRepository(database) {
       const result = await database.execute(sql`
         with inserted as (
           insert into placement_reviews (id, result_id, attempt_id, correlation_id, business_unit, recommended_level, status, revision, created_at, updated_at)
-          values (${input.id}::uuid, ${input.resultId}::uuid, ${input.attemptId}::uuid, ${input.correlationId}, ${input.businessUnit}, ${input.recommendedLevel}, 'pending', 0, ${input.occurredAt}::timestamptz, ${input.occurredAt}::timestamptz)
+          values (${input.id}::uuid, ${input.resultId}::uuid, ${input.attemptId}::uuid, ${input.correlationId}, ${input.businessUnit}, ${input.recommendedLevel}, 'pending', 1, ${input.occurredAt}::timestamptz, ${input.occurredAt}::timestamptz)
           on conflict (result_id) do nothing returning *
         ), selected as (
           select *, false as replayed from inserted union all

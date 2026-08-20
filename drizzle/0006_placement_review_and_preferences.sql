@@ -18,12 +18,14 @@ CREATE TABLE "placement_reviews" (
   "status" text DEFAULT 'pending' NOT NULL,
   "recommended_level" text NOT NULL,
   "final_level" text,
-  "revision" integer DEFAULT 0 NOT NULL,
+  "revision" integer DEFAULT 1 NOT NULL,
   "created_at" timestamp with time zone DEFAULT now() NOT NULL,
   "updated_at" timestamp with time zone DEFAULT now() NOT NULL,
   CONSTRAINT "placement_reviews_bu_check" CHECK ("business_unit" = 'ait_usa'),
   CONSTRAINT "placement_reviews_status_check" CHECK ("status" in ('pending', 'in_review', 'confirmed', 'adjusted', 'additional_review_required')),
-  CONSTRAINT "placement_reviews_revision_check" CHECK ("revision" >= 0)
+  CONSTRAINT "placement_reviews_revision_check" CHECK ("revision" >= 1),
+  CONSTRAINT "placement_reviews_recommended_level_length_check" CHECK (char_length("recommended_level") between 1 and 120),
+  CONSTRAINT "placement_reviews_final_level_length_check" CHECK ("final_level" is null or char_length("final_level") between 1 and 120)
 );
 --> statement-breakpoint
 CREATE TABLE "placement_review_mutations" (
@@ -154,13 +156,18 @@ AS $$
       'resultId', review.result_id::text,
       'attemptId', review.attempt_id::text,
       'state', review.status,
+      'revision', review.revision,
       'finalLevel', case when review.status in ('confirmed', 'adjusted') then review.final_level else null end
     )),
     'consent', jsonb_build_object(
       'communicationPreference', preference.preferred_channel,
       'disclosureVersion', preference.disclosure_version,
       'disclosureHash', preference.disclosure_hash,
-      'sourceUrl', preference.source_url,
+      'sourceUrl', case
+        when preference.source_url is null then null
+        when preference.source_url like '/%' then split_part(preference.source_url, '?', 1)
+        else split_part(regexp_replace(preference.source_url, '^https?://[^/]+', ''), '?', 1)
+      end,
       'optInAction', preference.opt_in_action,
       'advisorContactEmail', coalesce((select decision from placement_channel_consents where preference_id = preference.id and purpose = 'advisor_contact' limit 1), false),
       'serviceSms', coalesce((select decision from placement_channel_consents where preference_id = preference.id and purpose = 'service_sms' limit 1), false),
@@ -196,7 +203,7 @@ WITH inserted_reviews AS (
     'ait_usa',
     'pending',
     result.recommended_level_label,
-    0,
+    1,
     now(),
     now()
   FROM "diagnostic_attempts" attempt
