@@ -75,4 +75,15 @@ describe("MIS-395 placement review state machine", () => {
     assert.equal(validatePlacementReviewCrmEnvelope({ ...base, placement: { ...base.placement, revision: 0 } }).errors.includes("placement_revision_invalid"), true);
     assert.equal(validatePlacementReviewCrmEnvelope({ ...base, placement: { ...base.placement, finalLevel: "x".repeat(121) } }).errors.includes("placement_final_level_invalid"), true);
   });
+  it("orders historical review, audit, and outbox backfill phases for fresh and partial repair", async () => {
+    const fs = await import("node:fs/promises");
+    const migration = await fs.readFile(new URL("../drizzle/0006_placement_review_and_preferences.sql", import.meta.url), "utf8");
+    const backfill = migration.slice(migration.indexOf("-- Backfill only already-claimed diagnostic results."));
+    const phases = backfill.split("--> statement-breakpoint");
+    assert.equal(backfill.includes("WITH inserted_reviews"), false);
+    assert.equal(phases.length >= 3, true);
+    assert.match(phases[0], /INSERT INTO "placement_reviews"[\s\S]*ON CONFLICT \("result_id"\) DO NOTHING;/);
+    assert.match(phases[1], /INSERT INTO "placement_review_events"[\s\S]*placement_review_created[\s\S]*ON CONFLICT \("id"\) DO NOTHING;/);
+    assert.match(phases[2], /INSERT INTO "crm_outbox"[\s\S]*JOIN "placement_review_events" audit[\s\S]*ON CONFLICT \("idempotency_key"\) DO NOTHING;/);
+  });
 });

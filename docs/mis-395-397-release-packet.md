@@ -9,14 +9,26 @@
 - Messaging: email remains valid without a mobile. SMS and calls require a separately verified E.164 number and an explicit channel permission. Service SMS and marketing SMS are separate. Automated WhatsApp is deliberately disabled pending provider/template readiness. Under-13 phone use requires verified guardian ownership.
 - Current launch boundary: the available post-save route persists email-only preference/consent. It deliberately rejects a browser-supplied mobile `verified` flag until a server-owned verified-mobile evidence flow is selected and implemented; no number is silently accepted as verified.
 - Consent audit: each preference persists independent email, service-SMS, marketing-SMS, phone-call, and WhatsApp-contact decisions. Automated WhatsApp remains off. A changed channel or mobile creates a privacy-safe replacement audit that links old/new preference IDs but stores no mobile value in the audit row. CRM `consent.sourceUrl` is always an origin-stripped relative path (for example, `/placement-test/`), never a full URL or query string.
-- Migration: `drizzle/0006_placement_review_and_preferences.sql` is committed only; it has not been run against Neon or any remote database.
-- Migration order (staging first, then production only after approval): pause/disable the CRM outbox dispatcher; apply `0006`; run the verification queries below; inspect queued `placement_review_created` entries and only then restore the dispatcher. The migration backfills every existing `diagnostic_attempts.status = 'claimed'` result using deterministic UUIDs and `ON CONFLICT`, so it is rerunnable and does not duplicate reviews, audit events, or outbox records. It does not send or call any provider.
+- Migration safety: the corrected candidate has not been applied by this lane. Staging identified that the earlier single data-modifying CTE could create review rows without making them visible to its audit/outbox SELECTs. The corrected migration splits the historical backfill into ordered, tool-transaction statement phases: **A** reviews, **B** `placement_review_created` audits, then **C** canonical CRM outbox records. It does not send or call any provider.
+- Migration order (staging first, then production only after approval): pause/disable the CRM outbox dispatcher; apply `0006`; run the verification queries below; inspect queued `placement_review_created` entries and only then restore the dispatcher. For a fresh application, phases A/B/C create one review, audit, and outbox record for every claimed result. For a previously partial application, rerun the corrected ordered A/B/C backfill in the migration tool transaction: phase A conflicts on `result_id`, phase B fills a missing deterministic audit ID, and phase C fills a missing revision-keyed outbox row. Every phase uses deterministic IDs plus `ON CONFLICT`, so it is rerunnable and does not duplicate records.
 
 ```sql
 -- Existing eligible claimed results must each have exactly one pending review.
 select count(*) filter (where status = 'claimed') as claimed_attempts,
        (select count(*) from placement_reviews) as reviews;
 select result_id, count(*) from placement_reviews group by result_id having count(*) <> 1;
+-- Fresh apply and partial-repair check: every eligible pending review has its
+-- deterministic created audit event and its revision-keyed canonical outbox row.
+select review.id, review.result_id,
+       audit.id as created_audit_id,
+       outbox.id as created_outbox_id
+from placement_reviews review
+join diagnostic_attempts attempt on attempt.id = review.attempt_id and attempt.status = 'claimed'
+left join placement_review_events audit on audit.review_id = review.id
+  and audit.event_type = 'placement_review_created' and audit.revision = review.revision
+left join crm_outbox outbox on outbox.idempotency_key =
+  'placement-review:' || review.id::text || ':revision:' || review.revision::text || ':placement_review_created'
+where review.status = 'pending' and (audit.id is null or outbox.id is null);
 -- Safe events contain no contact or answer material; expected queue rows are auditable.
 select event_type, status, count(*) from crm_outbox
 where event_type like 'placement_review_%' group by event_type, status;

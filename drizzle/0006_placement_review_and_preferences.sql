@@ -190,45 +190,50 @@ $$;
 -- Backfill only already-claimed diagnostic results. Deterministic IDs and the
 -- result/idempotency unique constraints make this safe to rerun. It writes an
 -- outbox record but never invokes a provider; the normal dispatcher owns delivery.
-WITH inserted_reviews AS (
-  INSERT INTO "placement_reviews" (
-    "id", "result_id", "attempt_id", "correlation_id", "business_unit",
-    "status", "recommended_level", "revision", "created_at", "updated_at"
-  )
-  SELECT
-    md5('placement-review:' || result.id::text)::uuid,
-    result.id,
-    attempt.id,
-    attempt.id::text,
-    'ait_usa',
-    'pending',
-    result.recommended_level_label,
-    1,
-    now(),
-    now()
-  FROM "diagnostic_attempts" attempt
-  JOIN "diagnostic_results" result ON result.attempt_id = attempt.id
-  WHERE attempt.status = 'claimed'
-  ON CONFLICT ("result_id") DO NOTHING
-  RETURNING "id", "result_id", "attempt_id", "correlation_id", "status", "recommended_level", "revision"
-), review_events AS (
-  INSERT INTO "placement_review_events" (
-    "id", "review_id", "event_type", "status", "revision", "final_level", "actor_account_id", "occurred_at"
-  )
-  SELECT
-    md5('placement-review-created:' || review.id::text)::uuid,
-    review.id,
-    'placement_review_created',
-    review.status,
-    review.revision,
-    null,
-    null,
-    now()
-  FROM "placement_reviews" review
-  JOIN "diagnostic_attempts" attempt ON attempt.id = review.attempt_id AND attempt.status = 'claimed'
-  ON CONFLICT ("id") DO NOTHING
-  RETURNING "review_id"
+-- These are deliberately separate statements. PostgreSQL data-modifying CTEs
+-- share one snapshot, so a following SELECT cannot see a just-inserted review.
+-- Statement boundaries let the audit and outbox phases repair an interrupted
+-- historical backfill as well as a fresh application.
+INSERT INTO "placement_reviews" (
+  "id", "result_id", "attempt_id", "correlation_id", "business_unit",
+  "status", "recommended_level", "revision", "created_at", "updated_at"
 )
+SELECT
+  md5('placement-review:' || result.id::text)::uuid,
+  result.id,
+  attempt.id,
+  attempt.id::text,
+  'ait_usa',
+  'pending',
+  result.recommended_level_label,
+  1,
+  now(),
+  now()
+FROM "diagnostic_attempts" attempt
+JOIN "diagnostic_results" result ON result.attempt_id = attempt.id
+WHERE attempt.status = 'claimed'
+ON CONFLICT ("result_id") DO NOTHING;
+--> statement-breakpoint
+-- A review created by phase A (or a prior partial run) is now visible.
+INSERT INTO "placement_review_events" (
+  "id", "review_id", "event_type", "status", "revision", "final_level", "actor_account_id", "occurred_at"
+)
+SELECT
+  md5('placement-review-created:' || review.id::text)::uuid,
+  review.id,
+  'placement_review_created',
+  review.status,
+  review.revision,
+  null,
+  null,
+  now()
+FROM "placement_reviews" review
+JOIN "diagnostic_attempts" attempt ON attempt.id = review.attempt_id AND attempt.status = 'claimed'
+WHERE review.status = 'pending'
+ON CONFLICT ("id") DO NOTHING;
+--> statement-breakpoint
+-- Phase B's audit row is visible here. It gates this historical outbox event,
+-- so a rerun repairs exactly the missing audit/outbox portions without dupes.
 INSERT INTO "crm_outbox" (
   "id", "event_type", "idempotency_key", "correlation_id", "payload", "status", "attempt_count", "next_attempt_at", "created_at"
 )
@@ -241,4 +246,8 @@ SELECT
   'pending', 0, now(), now()
 FROM "placement_reviews" review
 JOIN "diagnostic_attempts" attempt ON attempt.id = review.attempt_id AND attempt.status = 'claimed'
+JOIN "placement_review_events" audit ON audit.review_id = review.id
+  AND audit.event_type = 'placement_review_created'
+  AND audit.revision = review.revision
+WHERE review.status = 'pending'
 ON CONFLICT ("idempotency_key") DO NOTHING;
