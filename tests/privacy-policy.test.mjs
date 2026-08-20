@@ -16,6 +16,7 @@ describe("MIS-279 privacy policy gate", () => {
       "portal_profile_summary",
       "attendance_record",
       "lesson_progress_summary",
+      "placement_review_record",
       "ai_practice_summary",
       "ai_audio_raw",
       "ai_transcript_raw",
@@ -24,6 +25,19 @@ describe("MIS-279 privacy policy gate", () => {
     ]) {
       assert.equal(PRIVACY_DATA_CATEGORY_NAMES.includes(category), true);
     }
+  });
+
+  it("retains the placement decision and reviewer audit for five years", () => {
+    const result = evaluatePrivacyGate({
+      category: "placement_review_record",
+      actor: { ageGroup: "adult" },
+      consent: { basis: "contract" },
+    });
+
+    assert.equal(result.allowed, true);
+    assert.equal(result.retentionClass, "student_record_5y");
+    assert.equal(result.auditRequired, true);
+    assert.equal(result.deletionPolicy, "review_before_delete_academic_record");
   });
 
   it("allows contract-based attendance records with audit metadata", () => {

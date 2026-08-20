@@ -1,8 +1,9 @@
 # SMS legal and opt-in implementation
 
-Issue: MIS-327
-Prepared: 2026-07-17
-Status: staging implementation; not legal approval and not a Telnyx resubmission
+Issues: MIS-327, MIS-396
+Prepared: 2026-08-20
+Status: legal/consent contract prepared for Human Review; not legal advice and
+not a Telnyx submission
 
 ## Public routes
 
@@ -18,11 +19,13 @@ Institute and legal counsel before the branded-domain launch.
 
 ## Versioned consent contract
 
-- Privacy version: `aitusa-privacy-2026-07-17-v1`
-- Terms version: `aitusa-terms-2026-07-17-v1`
-- SMS disclosure version: `aitusa-sms-consent-2026-07-17-v1`
+- Privacy version: `aitusa-privacy-2026-08-20-v3`
+- Terms version: `aitusa-terms-2026-08-20-v2`
+- Marketing SMS disclosure: `aitusa-sms-consent-marketing-2026-08-20-v2`
+- Service SMS disclosure: `aitusa-sms-consent-service-2026-08-20-v1`
 
-General response permission and SMS marketing consent are separate controls.
+General response permission, service SMS, and SMS marketing consent are
+separate controls.
 The response permission is required to prepare advisor follow-up. The SMS
 checkbox is optional and unchecked by default. The form submits without a phone
 or SMS permission.
@@ -42,17 +45,15 @@ never imply SMS permission.
 
 ## Current data boundary
 
-The contact API still returns a CRM-safe preview only:
+The contact API now creates the approved CRM event and consent evidence:
 
-- `crmWrite: false`
-- `storageEnabled: false`
-- no durable lead or consent storage
-- no provider send
+- `crmWrite: true`
+- durable lead and versioned marketing-consent storage are enabled
+- no provider send until the Telnyx production gate is approved
 - the visitor chooses whether to open and send the prepared WhatsApp message
 
-The preview carries the safe consent source, version, and timestamp metadata but
-keeps raw phone, email, and free-text message content out of the CRM event
-preview. Production persistence remains gated by MIS-301.
+The event carries the consent source, version, and timestamp metadata. Provider
+sends and campaign audience eligibility remain separately gated.
 
 ## Other phone collection
 
@@ -61,28 +62,26 @@ not a marketing-SMS opt-in source. Its CRM preview always emits
 `marketingSmsOptIn: false`. This keeps placement follow-up separate from the
 canonical `/contactanos` subscription flow.
 
-## Telnyx resubmission update
+## Telnyx replacement campaign
 
-After the refresh site is public on the branded domain, update the campaign to
-describe one digital opt-in method:
+The previous `TELNYX_FAILED` campaign cannot be edited. Create a new campaign
+only after both digital consent paths are live and evidenced:
 
-> Subscribers opt in at https://www.aitusainstitute.com/contactanos. The form
-> has an optional mobile-phone field and a separate optional SMS checkbox that
-> is unchecked by default. The disclosure identifies AIT USA Institute, the
-> message categories, variable frequency, message/data rates, STOP, HELP, and
-> that consent is not a condition of purchase or receiving services. The form
-> links to the live Privacy Policy and Terms and Conditions and can be submitted
-> without selecting SMS consent. AIT USA Institute records the consent source,
-> timestamp, and disclosure version. Only contacts who affirmatively select the
-> checkbox are eligible for the SMS program.
+1. `/contactanos`: separate marketing SMS opt-in, up to 8 messages per month.
+2. Post-placement result save/confirmation flow: separate service SMS opt-in,
+   with variable frequency based on the student's activity. This second path is
+   implemented under MIS-397.
 
-Do not claim verbal marketing consent in the first resubmission. Do not submit
-the campaign until the branded URLs are live and the production consent record
-path is approved and verified.
+The campaign may be technically registered as low-volume mixed messaging, but
+recipient eligibility remains purpose-specific. Do not claim verbal consent.
+Do not submit until the branded URLs, evidence screenshots, consent ledger,
+STOP/HELP behavior, and production event path are approved and verified. The
+exact provider field manifest is in
+`docs/telnyx-10dlc-replacement-campaign-manifest.md`.
 
 ## Pre-launch evidence
 
-1. Legal review of the final Privacy and Terms copy.
+1. Business-owner and counsel review of the final Privacy and Terms copy.
 2. Live branded URLs return the intended pages.
 3. Footer and form links resolve correctly.
 4. Phone remains optional and the SMS checkbox remains optional and unchecked.
@@ -90,4 +89,5 @@ path is approved and verified.
 6. Unchecked and absent consent never create SMS permission.
 7. Production CRM storage is enabled only through the MIS-301 approval gate.
 8. STOP/HELP and opt-out behavior is tested before any audience launch.
-9. Telnyx campaign narrative, use case, samples, and public flow are consistent.
+9. Both service and marketing opt-in paths are fully functional and evidenced.
+10. Telnyx campaign narrative, use case, samples, and public flows are consistent.

@@ -55,6 +55,15 @@ export const PRIVACY_DATA_CATEGORIES = Object.freeze({
     guardianConsentRequiredForUnder13: false,
     adminAuditRequired: true,
   }),
+  placement_review_record: Object.freeze({
+    label: "Placement recommendation and review decision",
+    requiredConsentBasis: "contract",
+    storageAllowed: true,
+    retentionClass: "student_record_5y",
+    deletionPolicy: "review_before_delete_academic_record",
+    guardianConsentRequiredForUnder13: false,
+    adminAuditRequired: true,
+  }),
   ai_practice_summary: Object.freeze({
     label: "AI practice safe summary",
     requiredConsentBasis: "explicit",

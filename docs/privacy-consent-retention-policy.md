@@ -3,8 +3,10 @@
 Linear issue: MIS-279
 
 This is the owner-approved launch contract for the AIT USA diagnostic, Portal,
-and Study Buddy data boundaries. It is an operating/product policy and should
-still receive counsel review before a public-domain launch.
+employee placement review, CRM, communications, and Study Buddy data
+boundaries. MIS-396 aligned it with the public Privacy Policy and Terms on
+2026-08-20. It is an operating/product policy and should still receive counsel
+review before production publication.
 
 ## Under-13 launch rule
 
@@ -14,7 +16,7 @@ AIT does not require or store a date of birth for this flow.
 An under-13 learner may:
 
 - complete the full diagnostic anonymously;
-- see the estimated result;
+- see the recommended level;
 - skip questions and provide optional learning context;
 - leave without creating an account.
 
@@ -50,6 +52,22 @@ Guardian account authorization does not automatically grant:
 - advisor-contact permission;
 - SMS or promotional marketing permission.
 
+The production consent ledger must keep these purposes separate and default-off:
+
+- advisor contact;
+- service/placement SMS;
+- marketing SMS;
+- outbound phone calls;
+- future automated or promotional WhatsApp.
+
+Verified email and the Portal remain durable fallbacks. A current or historical
+phone number, an inbound WhatsApp conversation, Terms acceptance, or general
+contact permission never creates SMS or WhatsApp marketing permission.
+
+For an under-13 learner, any permitted phone number and channel consent belongs
+to the verified guardian. AIT does not seek marketing consent directly from a
+child.
+
 Each is a separate, default-off decision. Declining one cannot block the
 anonymous diagnostic or access to an already-authorized saved result.
 
@@ -63,6 +81,7 @@ checkbox.
 - `portal_profile_summary`
 - `attendance_record`
 - `lesson_progress_summary`
+- `placement_review_record`
 - `ai_practice_summary`
 - `ai_audio_raw`
 - `ai_transcript_raw`
@@ -94,14 +113,45 @@ zero-retention/no-store boundary, not a deferred storage decision.
 
 - Unclaimed age-13-plus anonymous attempts: 7 days.
 - Under-13 pre-consent attempts: browser session only.
-- Claimed raw diagnostic answers: purge no later than 30 days after claim.
-- Saved result summaries: account-owned until deletion or unlinking.
+- Claimed raw diagnostic answers and writing: purge no later than 30 days after
+  final review, with a 90-day maximum after claim when review never completes.
+- Recommended/confirmed level, reviewer decision, rationale, and audit:
+  5 years after the last educational or account activity.
+- CRM contact, opportunity, and communication records: 5 years after the last
+  meaningful interaction, unless an active relationship, legal hold, or other
+  documented obligation requires longer.
+- Portal profile: account lifecycle plus 2 years.
+- Attendance and financial/academic records: up to 7 years when operationally
+  or legally required.
 - Safe Study Buddy summaries: at most 1 year and deletable on verified request.
 - Raw Study Buddy audio, full transcript, and complete conversation: no-store.
 - Consumed/expired email challenges: purge through the existing short-lived
   challenge-retention job.
-- Consent/security audit evidence: retain only for the approved operational or
-  legal need; it must not contain raw answers, writing, audio, or transcripts.
+- Consent proof and messaging eligibility records: up to 5 years after the last
+  message, withdrawal, or expiration.
+- Delivery metadata: up to 2 years. Security/access logs: normally 12 months.
+- A minimal suppression record may remain longer when necessary to honor STOP,
+  wrong-number, deletion, or do-not-contact requests. It must not contain raw
+  answers, writing, audio, transcripts, or message bodies.
+
+Five years is therefore the default for durable relationship and placement
+records, not a blanket retention rule. Deletion requests remain subject to
+documented academic, accounting, fraud, dispute, security, and legal-hold
+exceptions. Data should be deleted or deidentified when its approved purpose
+ends.
+
+## Marketing and retargeting boundary
+
+- A prior student or lead may receive marketing SMS only when the consent
+  ledger contains an active, versioned `marketing_sms` opt-in for that number.
+- A first promotional SMS cannot be used to ask a historical contact for SMS
+  consent.
+- Service SMS permission cannot be reused for promotions.
+- Promotional email must follow the commercial-email identification and
+  unsubscribe requirements that apply to it.
+- Before enabling cookie-based retargeting or targeted advertising, AIT must
+  publish the applicable notice and controls and honor statutory opt-out or
+  consent requirements. This policy does not pre-authorize a future ad stack.
 
 The verified guardian can review the linked child profile, revoke future use,
 withdraw optional permissions, unlink the profile, and request deletion. A

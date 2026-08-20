@@ -70,13 +70,13 @@ const site = {
     contact: "/contactanos",
   },
   smsConsent: {
-    disclosureVersion: "aitusa-sms-consent-2026-07-17-v1",
+    disclosureVersion: "aitusa-sms-consent-marketing-2026-08-20-v2",
     contactPermission:
-      "Autorizo a AIT USA Institute a responder esta solicitud por teléfono, correo electrónico o WhatsApp. Esta autorización no incluye mensajes de texto promocionales.",
+      "Autorizo a AIT USA Institute a responder esta solicitud por teléfono, correo electrónico o una conversación individual por WhatsApp. Esta autorización no incluye SMS promocionales ni mensajes automatizados o promocionales de WhatsApp.",
     checkboxLabel:
-      "Sí, deseo recibir mensajes de texto de AIT USA Institute.",
+      "Sí, quiero recibir mensajes de texto promocionales recurrentes de AIT USA Institute.",
     disclosure:
-      "Al marcar esta casilla, acepto recibir mensajes de texto de AIT USA Institute sobre consultas, inscripción, clases, exámenes de ubicación, recordatorios y promociones. La frecuencia de los mensajes puede variar. Pueden aplicarse tarifas de mensajes y datos. Responde STOP para cancelar y HELP para obtener ayuda. El consentimiento no es una condición para comprar ni recibir servicios.",
+      "Al marcar esta casilla, acepto recibir mensajes de texto promocionales recurrentes de AIT USA Institute, incluidos anuncios de programas, fechas de inscripción, eventos y ofertas, mediante sistemas automatizados. Hasta 8 mensajes al mes. Pueden aplicarse tarifas de mensajes y datos. Responde STOP para cancelar y HELP para obtener ayuda. El consentimiento no es una condición para comprar ni recibir servicios. No compartimos información móvil con terceros o afiliados para sus fines promocionales o de marketing.",
   },
   twitterHandle: "@AiTUSA_Institute",
   seoTitle:
