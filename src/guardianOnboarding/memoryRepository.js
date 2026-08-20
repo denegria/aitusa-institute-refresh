@@ -50,6 +50,7 @@ export function createMemoryGuardianRepository() {
         },
         child,
         result: {
+          attemptId: input.attempt.id,
           status: input.result.resultStatus,
           recommendedLevelKey: input.result.recommendedLevelKey,
           recommendedLevelLabel: input.result.recommendedLevelLabel,

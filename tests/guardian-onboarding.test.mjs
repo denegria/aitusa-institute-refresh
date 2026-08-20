@@ -107,6 +107,7 @@ describe("MIS-279 guardian onboarding", () => {
     );
     assert.equal(receipt.consent.permissions.aiPracticeApproved, true);
     assert.equal(receipt.consent.permissions.marketingSmsOptIn, false);
+    assert.match(receipt.result.attemptId, /^[0-9a-f-]{36}$/);
     assert.equal(repository.inspect().persisted.length, 1);
   });
 

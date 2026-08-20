@@ -87,14 +87,15 @@ describe("MIS-279 privacy policy gate", () => {
     assert.equal(teenager.allowed, true);
   });
 
-  it("allows an under-13 learner to test and view a result without identity", () => {
-    for (const action of ["take_diagnostic", "view_result"]) {
-      const result = evaluateGuardianAccess({ ageBand: "under_13", action });
-      assert.equal(result.allowed, true);
-      assert.equal(result.guardianRequired, false);
-      assert.equal(result.retention, "session_only");
-      assert.equal(result.identityCollectionAllowed, false);
-    }
+  it("allows an under-13 learner to test anonymously but gates the result on guardian consent", () => {
+    const diagnostic = evaluateGuardianAccess({ ageBand: "under_13", action: "take_diagnostic" });
+    assert.equal(diagnostic.allowed, true);
+    assert.equal(diagnostic.guardianRequired, false);
+    assert.equal(diagnostic.retention, "session_only");
+    assert.equal(diagnostic.identityCollectionAllowed, false);
+    const result = evaluateGuardianAccess({ ageBand: "under_13", action: "view_result" });
+    assert.equal(result.allowed, false);
+    assert.equal(result.reason, "verified_guardian_consent_required");
   });
 
   it("requires a guardian-owned verified consent record before durable child access", () => {

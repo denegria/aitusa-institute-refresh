@@ -186,9 +186,9 @@ export function createNeonGuardianRepository(database) {
         select aw.id as account_id, aw.first_name as guardian_first_name, aw.primary_email,
           cw.id as child_profile_id, cw.first_name as child_first_name, cw.age_band, cw.status as child_status,
           rw.receipt_code, rw.policy_version, rw.permissions,
-          rr.id as result_id, aw.id as claimed_account_id,
+          rr.id as result_id, a.id as attempt_id, aw.id as claimed_account_id,
           rr.result_status, rr.recommended_level_key, rr.recommended_level_label
-        from account_write aw, child_write cw, receipt_write rw, result_write rr, challenge_update cu
+        from account_write aw, child_write cw, attempt_write a, receipt_write rw, result_write rr, challenge_update cu
       `);
       const row = resultRows(rows)[0];
       if (!row) {
@@ -215,7 +215,7 @@ export function createNeonGuardianRepository(database) {
         select a.id as account_id, a.first_name as guardian_first_name, a.primary_email,
           c.id as child_profile_id, c.first_name as child_first_name, c.age_band, c.status as child_status,
           r.receipt_code, r.policy_version, r.permissions,
-          dr.id as result_id, a.id as claimed_account_id,
+          dr.id as result_id, da.id as attempt_id, a.id as claimed_account_id,
           dr.result_status, dr.recommended_level_key, dr.recommended_level_label
         from guardian_consent_receipts r
         join portal_accounts a on a.id = r.guardian_account_id
@@ -309,6 +309,7 @@ function toReceipt(row) {
     child: { id: childId, firstName: row.child_first_name, ageBand: row.age_band, status: row.child_status },
     result: {
       id: row.result_id,
+      attemptId: row.attempt_id ?? row.attemptId,
       status: row.result_status,
       recommendedLevelKey: row.recommended_level_key,
       recommendedLevelLabel: row.recommended_level_label,

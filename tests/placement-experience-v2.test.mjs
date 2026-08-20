@@ -13,7 +13,7 @@ const styles = await readFile(
 
 describe("MIS-339 placement diagnostic V2 interaction shell", () => {
   it("starts anonymously and renders one question screen instead of contact fields", () => {
-    assert.match(component, /Sin registro/);
+    assert.match(component, /Comenzar examen/);
     assert.match(component, /data-diagnostic-screen="question"/);
     assert.match(component, /flatQuestions\[questionIndex\]/);
     assert.doesNotMatch(component, /function StudentFields/);
@@ -51,18 +51,17 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
   });
 
   it("exposes the guardian boundary and passwordless Study Buddy conversion", () => {
-    assert.match(component, /practica 3–5 minutos/);
-    assert.match(component, /cinco\s+turnos/);
-    assert.match(component, /Puede completar el examen y ver su resultado/);
+    assert.match(component, /práctica personalizada de cinco minutos/);
+    assert.match(component, /cinco turnos cortos/);
+    assert.match(component, /Para ver y guardar el resultado/);
     assert.match(component, /Continuar como menor de 13/);
     assert.match(component, /role="dialog"/);
-    assert.match(component, /No hace falta una cuenta para verlo/);
     assert.match(component, /Este permiso es opcional/);
     assert.match(component, /api\/portal\/guardian-onboarding\/code/);
     assert.match(component, /No pedimos fecha de nacimiento/);
     assert.match(component, /api\/portal\/result-claim\/code/);
-    assert.match(component, /Ahora no/);
-    assert.match(component, /Tu resultado sigue visible/);
+    assert.doesNotMatch(component, /No hace falta una cuenta para verlo/);
+    assert.doesNotMatch(component, /Ahora no/);
   });
 
   it("keeps the result save CTA visible and readable across interaction states", () => {
@@ -71,7 +70,7 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.match(styles, /\.diagnostic-unlock \.button--gold:focus-visible \{/);
     assert.match(styles, /\.diagnostic-unlock \.button--gold:active \{/);
     assert.match(styles, /\.diagnostic-unlock \.button--gold:disabled \{[\s\S]*opacity: 0\.5;/);
-    assert.match(component, /className="button button--gold"[\s\S]*Guardar mi resultado/);
+    assert.match(component, /className="button button--gold"[\s\S]*Verificar y ver mi resultado/);
   });
 
   it("reuses one completion identifier across safe retries", () => {
@@ -81,14 +80,24 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.doesNotMatch(component, /completionId: createAttemptId\(\)/);
   });
 
-  it("captures an explicit optional preference without treating the number as authentication evidence", () => {
-    assert.match(component, /choice === "email"/);
-    assert.match(component, /choice === "none"/);
-    assert.match(component, /No quiero contacto adicional por ahora/);
-    assert.match(component, /\["email", "Email"\], \["sms", "SMS"\], \["whatsapp", "WhatsApp"\], \["phone", "Llamada telefónica"\]/);
+  it("requires one explicit advisor preference without treating the number as authentication evidence", () => {
+    for (const channel of ["email", "sms", "whatsapp", "phone"]) {
+      assert.match(component, new RegExp(`value: "${channel}"`));
+    }
+    assert.doesNotMatch(component, /value: "none"/);
+    assert.match(component, /¿Cómo prefieres que un asesor te contacte\?/);
     assert.match(component, /no se usará para iniciar sesión/);
     assert.match(component, /no autoriza marketing/);
-    assert.doesNotMatch(component, /<input checked type="radio" readOnly name="placement-channel"/);
+    assert.match(component, /required\s+type="radio"/);
+  });
+
+  it("gates the academic result until the verified handoff succeeds", () => {
+    assert.match(component, /data-diagnostic-screen="result-gate"/);
+    assert.match(component, /¡Terminaste tu evaluación!/);
+    assert.match(component, /if \(!claimReceipt\)/);
+    assert.match(component, /onClaimed=\{setClaimReceipt\}/);
+    assert.match(component, /¡Nivel desbloqueado!/);
+    assert.match(component, /Comenzar mi práctica personalizada/);
   });
 
   it("keeps one dominant result action and demotes the remaining pathways", () => {

@@ -3326,11 +3326,11 @@ const conversionCtas = {
 
 const placementTest = {
   eyebrow: "AIT Placement Diagnostic",
-  title: "Descubre tu punto de partida sin registrarte",
+  title: "Descubre tu nivel y activa tu próxima misión",
   intro:
-    "Una pregunta a la vez, con progreso claro y libertad para regresar o saltar. Primero recibes una estimación de nivel; después decides si quieres guardarla o hablar con un asesor.",
+    "Completa una pregunta a la vez. Al final, verifica tus datos para guardar tu nivel, desbloquear una práctica personalizada en Study Buddy y continuar con orientación de AIT.",
   privacyNote:
-    "No pedimos nombre, email ni teléfono para completar el examen o ver tu estimación inicial. Para personas de 13 años o más, el avance anónimo puede recuperarse durante siete días; para menores de 13 permanece solo en esta pestaña. Las respuestas nunca se envían al CRM.",
+    "No pedimos datos personales para completar el examen. Para ver y guardar el resultado, solicitamos nombre, email verificado y un canal de contacto preferido. Para menores de 13, un tutor verificado debe completar el proceso. Las respuestas nunca se envían al CRM.",
   crmNote:
     "El resultado es una estimación inicial de AIT. Un asesor confirma contigo el nivel, horario y siguiente paso antes de la inscripción.",
   steps: {
