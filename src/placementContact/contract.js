@@ -1,8 +1,8 @@
 import { createHash } from "node:crypto";
 
 export const PLACEMENT_CONTACT_DISCLOSURE = Object.freeze({
-  version: "aitusa-placement-contact-2026-08-20-v1",
-  text: "Elige si AIT USA puede contactarte sobre tu resultado. Email, llamadas y cada tipo de mensaje requieren permisos separados. Responder STOP cancela mensajes SMS autorizados.",
+  version: "aitusa-placement-contact-2026-08-20-v2",
+  text: "Elige cómo prefieres que AIT USA te contacte sobre tu resultado. Guardar un teléfono no lo verifica para iniciar sesión. Email, llamadas, SMS de servicio y contacto individual por WhatsApp requieren permisos separados. Esto no autoriza marketing.",
 });
 export const PLACEMENT_CHANNELS = Object.freeze(["email", "sms", "whatsapp", "phone"]);
 export const WHATSAPP_OUTBOUND_ENABLED = false;
@@ -16,18 +16,31 @@ export function validatePlacementContactPreference(input = {}) {
   const consent = input.consents || {};
   const whatsappRequested = consent.whatsapp === true;
   const needsMobile = ["sms", "whatsapp", "phone"].includes(preferredChannel) || whatsappRequested;
-  if (needsMobile && !/^\+[1-9]\d{7,14}$/.test(mobile || "")) errors.push("placement_contact_mobile_e164_required");
-  if (needsMobile && input.verifiedMobile !== true) errors.push("placement_contact_mobile_verification_required");
-  if (preferredChannel === "whatsapp" && WHATSAPP_OUTBOUND_ENABLED !== true) errors.push("placement_contact_whatsapp_unavailable");
+  const normalizedMobile = needsMobile ? normalizeMobile(mobile) : null;
+  if (needsMobile && !normalizedMobile) errors.push("placement_contact_mobile_e164_required");
   if (input.ageBand === "under_13" && (input.guardianOwned !== true || input.guardianVerified !== true)) errors.push("placement_contact_guardian_required");
+  if (preferredChannel === "email" && consent.email !== true) errors.push("placement_contact_email_consent_required");
+  if (preferredChannel === "sms" && consent.serviceSms !== true) errors.push("placement_contact_service_sms_consent_required");
+  if (preferredChannel === "phone" && consent.phone !== true) errors.push("placement_contact_phone_consent_required");
+  if (preferredChannel === "whatsapp" && consent.whatsapp !== true) errors.push("placement_contact_whatsapp_consent_required");
+  if (consent.email === true && preferredChannel !== "email") errors.push("placement_contact_email_channel_mismatch");
   if (consent.serviceSms === true && preferredChannel !== "sms") errors.push("placement_contact_service_sms_channel_mismatch");
+  if (consent.phone === true && preferredChannel !== "phone") errors.push("placement_contact_phone_channel_mismatch");
+  if (consent.whatsapp === true && preferredChannel !== "whatsapp") errors.push("placement_contact_whatsapp_channel_mismatch");
   if (consent.marketingSms === true && consent.serviceSms !== true) errors.push("placement_contact_marketing_sms_requires_service_choice");
   return errors.length ? { ok: false, errors } : { ok: true, preference: {
-    preferredChannel, mobile, verifiedMobile: needsMobile, verifiedEmail: input.verifiedEmail === true,
+    preferredChannel, mobile: normalizedMobile, verifiedMobile: needsMobile && input.verifiedMobile === true, verifiedEmail: input.verifiedEmail === true,
     guardianOwned: input.guardianOwned === true, disclosureVersion: PLACEMENT_CONTACT_DISCLOSURE.version,
     disclosureHash: placementContactDisclosureHash, sourceUrl: safeSourceUrl(input.sourceUrl), optInAction: "explicit_checkbox",
     consents: { email: consent.email === true, serviceSms: consent.serviceSms === true, marketingSms: consent.marketingSms === true, phone: consent.phone === true, whatsapp: whatsappRequested },
-  }};
+}};
+}
+function normalizeMobile(value) {
+  if (!value) return null;
+  const trimmed = value.trim();
+  const digits = trimmed.replace(/\D/g, "");
+  const candidate = trimmed.startsWith("+") ? `+${digits}` : digits.length === 10 ? `+1${digits}` : digits.length === 11 && digits.startsWith("1") ? `+${digits}` : null;
+  return candidate && /^\+[1-9]\d{7,14}$/.test(candidate) ? candidate : null;
 }
 function safeSourceUrl(value) { try { const url = new URL(value || "https://aitusa.example/placement-test/"); return url.pathname; } catch { return "/placement-test/"; } }
 

@@ -1022,13 +1022,15 @@ function AdultResultClaimPanel({ attemptId, enabled }) {
 
 function ContactPreferencePanel({ attemptId }) {
   const [choice, setChoice] = useState("");
+  const [mobile, setMobile] = useState("");
   const [allowed, setAllowed] = useState(false);
   const [saved, setSaved] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const save = async (event) => {
     event.preventDefault();
-    if (busy || !choice || (choice === "email" && !allowed)) return;
+    const needsMobile = ["sms", "whatsapp", "phone"].includes(choice);
+    if (busy || !choice || (choice !== "none" && !allowed) || (needsMobile && !mobile.trim())) return;
     if (choice === "none") {
       setSaved("none");
       setError("");
@@ -1036,24 +1038,39 @@ function ContactPreferencePanel({ attemptId }) {
     }
     setBusy(true); setError("");
     try {
-      const response = await fetch("/api/portal/placement-contact-preferences", { method: "POST", credentials: "same-origin", headers: { "content-type": "application/json" }, body: JSON.stringify({ attemptId, preferredChannel: "email", consents: { email: true }, sourceUrl: window.location.href }) });
+      const consents = {
+        email: choice === "email",
+        serviceSms: choice === "sms",
+        marketingSms: false,
+        phone: choice === "phone",
+        whatsapp: choice === "whatsapp",
+      };
+      const response = await fetch("/api/portal/placement-contact-preferences", { method: "POST", credentials: "same-origin", headers: { "content-type": "application/json" }, body: JSON.stringify({ attemptId, preferredChannel: choice, mobile: needsMobile ? mobile : undefined, consents, sourceUrl: window.location.href }) });
       const body = await response.json(); if (!response.ok || body.ok !== true) throw new Error(body.error || "placement_contact_unavailable");
-      setSaved("email");
+      setSaved(choice);
     } catch { setError("No pudimos guardar esta preferencia. Tu resultado permanece guardado."); } finally { setBusy(false); }
   };
   return <form className="diagnostic-claim-form" onSubmit={save}>
     <fieldset disabled={saved || busy}>
       <legend>Preferencia de contacto (opcional)</legend>
-      <label className="diagnostic-claim-check"><input checked={choice === "email"} type="radio" name="placement-channel" value="email" onChange={() => setChoice("email")} /><span>Quiero que AIT USA me contacte por email.</span></label>
+      {[["email", "Email"], ["sms", "SMS"], ["whatsapp", "WhatsApp"], ["phone", "Llamada telefónica"]].map(([value, label]) => <label className="diagnostic-claim-check" key={value}><input checked={choice === value} type="radio" name="placement-channel" value={value} onChange={() => { setChoice(value); setAllowed(false); }} /><span>{label}</span></label>)}
       <label className="diagnostic-claim-check"><input checked={choice === "none"} type="radio" name="placement-channel" value="none" onChange={() => { setChoice("none"); setAllowed(false); }} /><span>No quiero contacto adicional por ahora.</span></label>
-      <small>SMS, WhatsApp y llamadas estarán disponibles solo después de verificar la propiedad del número. Elegir email no autoriza esos canales ni marketing.</small>
-      {choice === "email" ? <label className="diagnostic-claim-check"><input checked={allowed} type="checkbox" onChange={(event) => setAllowed(event.target.checked)} /><span>Autorizo que AIT USA me contacte por email sobre mi resultado.</span></label> : null}
+      {["sms", "whatsapp", "phone"].includes(choice) ? <label>Teléfono móvil<input type="tel" inputMode="tel" autoComplete="tel" value={mobile} onChange={(event) => setMobile(event.target.value)} placeholder="+1 732 555 0123" required /><small>Incluye el código de país. Guardaremos este número como información de contacto; no se usará para iniciar sesión.</small></label> : null}
+      {choice !== "none" && choice ? <label className="diagnostic-claim-check"><input checked={allowed} type="checkbox" onChange={(event) => setAllowed(event.target.checked)} /><span>{contactPermissionCopy(choice)}</span></label> : null}
+      <small>Esta preferencia no autoriza marketing. WhatsApp se limita al contacto individual de un asesor; no activa mensajes automatizados.</small>
     </fieldset>
     {error ? <p className="diagnostic-claim-error" role="alert">{error}</p> : null}
-    {saved === "email" ? <p role="status">Preferencia de email guardada.</p> : null}
+    {saved && saved !== "none" ? <p role="status">Preferencia de contacto guardada.</p> : null}
     {saved === "none" ? <p role="status">No guardamos una preferencia de contacto adicional.</p> : null}
-    {!saved ? <button className="button button--ghost" disabled={!choice || (choice === "email" && !allowed) || busy} type="submit">{busy ? "Guardando…" : choice === "none" ? "Continuar sin contacto" : "Guardar preferencia"}</button> : null}
+    {!saved ? <button className="button button--ghost" disabled={!choice || (choice !== "none" && !allowed) || (["sms", "whatsapp", "phone"].includes(choice) && !mobile.trim()) || busy} type="submit">{busy ? "Guardando…" : choice === "none" ? "Continuar sin contacto" : "Guardar preferencia"}</button> : null}
   </form>;
+}
+
+function contactPermissionCopy(choice) {
+  if (choice === "email") return "Autorizo que AIT USA me contacte por email sobre mi resultado.";
+  if (choice === "sms") return "Autorizo SMS de servicio sobre mi resultado. Pueden aplicar tarifas; responde STOP para cancelar.";
+  if (choice === "phone") return "Autorizo que un asesor de AIT USA me llame sobre mi resultado.";
+  return "Autorizo que un asesor de AIT USA me contacte individualmente por WhatsApp sobre mi resultado.";
 }
 
 function ResultScreen({
