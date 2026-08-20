@@ -169,6 +169,31 @@ describe("MIS-341 authenticated portal routes", () => {
     assert.equal(denied.headers.get("set-cookie"), null);
   });
 
+  it("returns only an allowlisted employee review path after verification", async () => {
+    const handler = createPortalAuthVerifyHandler({
+      isConfigured: () => true,
+      getService: () => ({
+        async verifySignInCode() {
+          return { sessionData: "sealed-session-fixture" };
+        },
+      }),
+    });
+    const reviewId = "00000000-0000-4000-8000-000000000001";
+    const accepted = await handler(jsonRequest("https://example.com/api/portal/auth/verify", {
+      email: "reviewer@example.com",
+      code: "123456",
+      returnTo: `/employee/placement-reviews?review=${reviewId}`,
+    }));
+    assert.equal((await accepted.json()).portalHref, `/employee/placement-reviews?review=${reviewId}`);
+
+    const rejected = await handler(jsonRequest("https://example.com/api/portal/auth/verify", {
+      email: "reviewer@example.com",
+      code: "123456",
+      returnTo: "https://evil.example/employee/placement-reviews",
+    }));
+    assert.equal((await rejected.json()).portalHref, "/portal/");
+  });
+
   it("clears the sealed cookie and redirects a native sign-out form", async () => {
     const revocations = [];
     const signOut = createPortalSignOutHandler({

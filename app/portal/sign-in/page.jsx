@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { SignInExperience } from "./SignInExperience.jsx";
 import { isPortalPrototypeAvailable } from "../../../src/portal/portalAvailability.js";
+import { sanitizePortalReturnTo } from "../../../src/portalAuth/returnTo.js";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,8 @@ export const metadata = {
   },
 };
 
-export default function PortalSignInPage() {
+export default async function PortalSignInPage({ searchParams }) {
   if (!isPortalPrototypeAvailable()) notFound();
-  return <SignInExperience />;
+  const params = await searchParams;
+  return <SignInExperience returnTo={sanitizePortalReturnTo(params?.returnTo)} />;
 }

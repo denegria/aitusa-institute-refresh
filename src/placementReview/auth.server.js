@@ -6,7 +6,7 @@ import { PlacementReviewError } from "./errors.js";
 export async function resolvePlacementReviewActor(request, { resolveSnapshot = resolveAuthenticatedPortalSnapshot, database = getPortalDatabase() } = {}) {
   const snapshot = await resolveSnapshot(request);
   const accountId = snapshot?.account?.accountId;
-  if (!accountId) throw new PlacementReviewError("placement_review_forbidden", 403);
+  if (!accountId) throw new PlacementReviewError("placement_review_unauthenticated", 401);
   const result = await database.execute(sql`
     select business_unit, role from employee_review_roles
     where portal_account_id = ${accountId}::uuid and active = true limit 1

@@ -19,7 +19,7 @@ const ERROR_COPY = Object.freeze({
   cross_origin_request_forbidden: "Actualiza la página e intenta otra vez.",
 });
 
-export function SignInExperience() {
+export function SignInExperience({ returnTo = "/portal/" }) {
   const [step, setStep] = useState("email");
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
@@ -68,6 +68,7 @@ export function SignInExperience() {
       const response = await postJson("/api/portal/auth/verify", {
         email: email.trim().toLowerCase(),
         code: code.replace(/\D/g, ""),
+        returnTo,
       });
       if (!response.ok) throw new Error(response.error || "verification_failed");
       window.location.assign(response.portalHref || "/portal/");

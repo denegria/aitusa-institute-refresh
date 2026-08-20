@@ -5,6 +5,7 @@ import { createPlacementReviewService } from "../src/placementReview/service.js"
 import { PLACEMENT_REVIEW_COPY } from "../src/placementReview/contract.js";
 import { buildPlacementReviewCrmEnvelope, validatePlacementReviewCrmEnvelope } from "../src/placementReview/crmEnvelope.js";
 import { assertTrustedEmployeeOrigin } from "../src/placementReview/http.server.js";
+import { sanitizePortalReturnTo } from "../src/portalAuth/returnTo.js";
 
 const ids = ["00000000-0000-4000-8000-000000000001", "00000000-0000-4000-8000-000000000002", "00000000-0000-4000-8000-000000000003", "00000000-0000-4000-8000-000000000004", "00000000-0000-4000-8000-000000000005", "00000000-0000-4000-8000-000000000006", "00000000-0000-4000-8000-000000000007"];
 function fixture() { let i = 0; const repository = createMemoryPlacementReviewRepository(); return { repository, service: createPlacementReviewService({ repository, createId: () => ids[i++] }), actor: { accountId: "00000000-0000-4000-8000-000000000099", role: "senior", businessUnit: "ait_usa" } }; }
@@ -51,6 +52,15 @@ describe("MIS-395 placement review state machine", () => {
     assert.doesNotThrow(() => assertTrustedEmployeeOrigin(request("https://staff.aitusa.example")));
     assert.throws(() => assertTrustedEmployeeOrigin(request("https://evil-staff.aitusa.example")), /cross_origin_request_forbidden/);
     assert.throws(() => assertTrustedEmployeeOrigin(request("https://staff.aitusa.example.evil.example")), /cross_origin_request_forbidden/);
+  });
+  it("allowlists only opaque employee-review return paths", () => {
+    const reviewPath = `/employee/placement-reviews?review=${ids[0]}`;
+    assert.equal(sanitizePortalReturnTo(reviewPath), reviewPath);
+    assert.equal(sanitizePortalReturnTo("/employee/placement-reviews"), "/employee/placement-reviews");
+    assert.equal(sanitizePortalReturnTo("//evil.example/employee/placement-reviews"), "/portal/");
+    assert.equal(sanitizePortalReturnTo("https://evil.example/employee/placement-reviews"), "/portal/");
+    assert.equal(sanitizePortalReturnTo("/employee/placement-reviews?review=guessable"), "/portal/");
+    assert.equal(sanitizePortalReturnTo(`${reviewPath}&next=/admin`), "/portal/");
   });
   it("builds only the canonical CRM envelope allowlist", () => {
     const event = buildPlacementReviewCrmEnvelope({ review: { id: ids[0], resultId: ids[1], attemptId: ids[2], correlationId: ids[2], status: "adjusted", revision: 2, finalLevel: "Nivel 4", recommendedLevel: "must-not-export", reviewerRationale: "must-not-export" }, eventType: "placement_review_adjusted", occurredAt: "2026-08-20T12:00:00.000Z", consent: { communicationPreference: "email", advisorContactEmail: true, verifiedEmail: true, rawAnswers: "must-not-export" } });

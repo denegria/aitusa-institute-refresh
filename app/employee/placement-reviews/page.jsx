@@ -1,8 +1,9 @@
 import { headers } from "next/headers";
 import { randomUUID } from "node:crypto";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getPlacementReviewService } from "../../../src/placementReview/runtime.server.js";
 import { resolvePlacementReviewActor } from "../../../src/placementReview/auth.server.js";
+import { PlacementReviewError } from "../../../src/placementReview/errors.js";
 import { isOpaqueReviewId, PLACEMENT_REVIEW_COPY } from "../../../src/placementReview/contract.js";
 import styles from "./placement-reviews.module.css";
 
@@ -13,16 +14,26 @@ export default async function PlacementReviewsPage({ searchParams }) {
   const params = await searchParams;
   const reviewId = typeof params?.review === "string" ? params.review : null;
   if (reviewId && !isOpaqueReviewId(reviewId)) notFound();
+  let actor;
   try {
     const requestHeaders = await headers();
     const request = new Request("https://employee.aitusa.local/employee/placement-reviews", { headers: requestHeaders });
-    const actor = await resolvePlacementReviewActor(request);
+    actor = await resolvePlacementReviewActor(request);
+  } catch (error) {
+    if (error instanceof PlacementReviewError && error.code === "placement_review_unauthenticated") {
+      const returnTo = reviewId ? `/employee/placement-reviews?review=${encodeURIComponent(reviewId)}` : "/employee/placement-reviews";
+      redirect(`/portal/sign-in/?returnTo=${encodeURIComponent(returnTo)}`);
+    }
+    // Authenticated-but-unauthorized access remains indistinguishable from a missing route.
+    notFound();
+  }
+  try {
     const service = getPlacementReviewService();
     const reviews = await service.listReviews(actor);
     const selected = reviewId ? await service.getReview(reviewId, actor) : reviews[0] || null;
     return <ReviewSurface reviews={reviews} selected={selected} />;
   } catch {
-    // Employee access is deliberately indistinguishable from a missing route.
+    // Missing, cross-business-unit, and unavailable reviews remain fail-closed.
     notFound();
   }
 }

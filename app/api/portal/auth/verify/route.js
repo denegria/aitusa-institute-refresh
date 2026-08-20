@@ -11,6 +11,7 @@ import {
 } from "../../../../../src/portalAuth/runtime.server.js";
 import { serializePortalSessionCookie } from "../../../../../src/portalClaim/session.server.js";
 import { getPortalPrototypeGateResponse } from "../../../../../src/portal/portalAvailability.js";
+import { sanitizePortalReturnTo } from "../../../../../src/portalAuth/returnTo.js";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -33,15 +34,16 @@ export function createPortalAuthVerifyHandler({
         );
       }
 
+      const body = await parsePortalClaimJson(request);
       const authenticated = await getService().verifySignInCode(
-        await parsePortalClaimJson(request),
+        body,
         getRequestMetadata(request),
       );
       return portalClaimJson(
         {
           ok: true,
           authenticated: true,
-          portalHref: "/portal/",
+          portalHref: sanitizePortalReturnTo(body.returnTo),
         },
         {
           cookie: serializeSessionCookie(authenticated.sessionData),
