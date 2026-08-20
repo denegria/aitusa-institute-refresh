@@ -1437,3 +1437,12 @@ and closeout evidence are recorded in
   no production academic decision performed by automation.
 
 ---
+## 2026-08-20 — Placement contact choice correction
+
+- **User workflow/problem:** After claiming a saved placement result, the contact panel looked like a choice but preselected email and disabled every alternative. The student could not explicitly decline additional contact.
+- **Interaction model:** One focused, optional decision with no default: `Email` or `No additional contact for now`. The email consent checkbox appears only after email is selected. Unsupported mobile channels are explained in one compact note instead of rendered as disabled choices.
+- **Visual direction:** Preserve the current placement-result card, typography, spacing, and navy/gold/warm-white system. This is a state/clarity correction, not a redesign.
+- **Locked behavior:** No SMS, WhatsApp, or phone preference without verified mobile ownership. No provider send. A declined optional preference performs no database or CRM write. Email requires a separate explicit checkbox before save.
+- **Non-goals:** Adding phone capture, mobile OTP, Telnyx, WhatsApp automation, marketing consent, or a general Portal preference center.
+- **Viewports:** Primary 1440x900; regression 390x844.
+- **Evidence:** Component contract tests, placement-contact validation tests, production build, and rendered staging checks at both viewports.

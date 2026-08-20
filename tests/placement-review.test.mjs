@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { describe, it } from "node:test";
 import { createMemoryPlacementReviewRepository } from "../src/placementReview/memoryRepository.js";
 import { createPlacementReviewService } from "../src/placementReview/service.js";
@@ -89,6 +90,17 @@ describe("MIS-395 placement review state machine", () => {
     const result = await service.reconcileClaimedReviews({ resultId: ids[0] });
     assert.deepEqual(result, { scanned: 1, created: 1, replayed: 0, failed: 0 });
     assert.equal(writes[0].correlationId, "claim-correlation-fixture");
+  });
+
+  it("passes an actual placement_reviews composite to the CRM payload function", async () => {
+    const source = await readFile(new URL("../src/placementReview/neonRepository.server.js", import.meta.url), "utf8");
+    const createReview = source.slice(
+      source.indexOf("async createReview"),
+      source.indexOf("async listClaimedResultsMissingReviews"),
+    );
+    assert.match(createReview, /select inserted::placement_reviews as review, false as replayed/);
+    assert.match(createReview, /placement_crm_payload\(selected\.review,/);
+    assert.doesNotMatch(createReview, /placement_crm_payload\(review,/);
   });
   it("normalizes a missing or expired Portal session into the employee sign-in boundary", async () => {
     await assert.rejects(

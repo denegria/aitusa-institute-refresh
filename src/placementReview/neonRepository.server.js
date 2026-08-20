@@ -17,20 +17,20 @@ export function createNeonPlacementReviewRepository(database) {
           values (${input.id}::uuid, ${input.resultId}::uuid, ${input.attemptId}::uuid, ${input.correlationId}, ${input.businessUnit}, ${input.recommendedLevel}, 'pending', 1, ${input.occurredAt}::timestamptz, ${input.occurredAt}::timestamptz)
           on conflict (result_id) do nothing returning *
         ), selected as (
-          select *, false as replayed from inserted union all
-          select review.*, true as replayed from placement_reviews review where review.result_id = ${input.resultId}::uuid and not exists (select 1 from inserted)
+          select inserted::placement_reviews as review, false as replayed from inserted union all
+          select review, true as replayed from placement_reviews review where review.result_id = ${input.resultId}::uuid and not exists (select 1 from inserted)
         ), audit_write as (
           insert into placement_review_events (id, review_id, event_type, status, revision, final_level, actor_account_id, occurred_at)
-          select ${input.eventId}::uuid, id, ${eventType}, status, revision, null, null, ${input.occurredAt}::timestamptz from selected where replayed = false
+          select ${input.eventId}::uuid, (selected.review).id, ${eventType}, (selected.review).status, (selected.review).revision, null, null, ${input.occurredAt}::timestamptz from selected where replayed = false
         ), outbox_write as (
           insert into crm_outbox (id, event_type, idempotency_key, correlation_id, payload, status, attempt_count, next_attempt_at, created_at)
           select
-            ${input.outboxId}::uuid, ${eventType}, 'placement-review:' || review.id::text || ':revision:' || review.revision::text || ':' || ${eventType}, review.correlation_id,
-            placement_crm_payload(review, ${eventType}, ${input.occurredAt}::timestamptz),
+            ${input.outboxId}::uuid, ${eventType}, 'placement-review:' || (selected.review).id::text || ':revision:' || (selected.review).revision::text || ':' || ${eventType}, (selected.review).correlation_id,
+            placement_crm_payload(selected.review, ${eventType}, ${input.occurredAt}::timestamptz),
             'pending', 0, ${input.occurredAt}::timestamptz, ${input.occurredAt}::timestamptz
-          from selected review where review.replayed = false
+          from selected where selected.replayed = false
           on conflict (idempotency_key) do nothing
-        ) select * from selected
+        ) select (selected.review).*, selected.replayed from selected
       `);
       const row = rows(result)[0]; if (!row) throw new Error("placement_review_create_failed");
       return { review: normalize(row), replayed: toBool(row.replayed) };

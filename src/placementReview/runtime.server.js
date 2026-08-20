@@ -14,8 +14,11 @@ export function getPlacementReviewService() {
 export async function reconcileClaimedPlacementReviewsBestEffort(input = {}) {
   if (!isPlacementReviewConfigured()) return { scanned: 0, created: 0, replayed: 0, failed: 0, unavailable: true };
   try {
-    return await getPlacementReviewService().reconcileClaimedReviews(input);
+    const result = await getPlacementReviewService().reconcileClaimedReviews(input);
+    if (result.failed > 0) console.error("placement_review_reconciliation_failed");
+    return result;
   } catch {
+    console.error("placement_review_reconciliation_failed");
     return { scanned: 0, created: 0, replayed: 0, failed: 1 };
   }
 }

@@ -1021,30 +1021,38 @@ function AdultResultClaimPanel({ attemptId, enabled }) {
 }
 
 function ContactPreferencePanel({ attemptId }) {
+  const [choice, setChoice] = useState("");
   const [allowed, setAllowed] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const save = async (event) => {
-    event.preventDefault(); if (busy || !allowed) return;
+    event.preventDefault();
+    if (busy || !choice || (choice === "email" && !allowed)) return;
+    if (choice === "none") {
+      setSaved("none");
+      setError("");
+      return;
+    }
     setBusy(true); setError("");
     try {
       const response = await fetch("/api/portal/placement-contact-preferences", { method: "POST", credentials: "same-origin", headers: { "content-type": "application/json" }, body: JSON.stringify({ attemptId, preferredChannel: "email", consents: { email: true }, sourceUrl: window.location.href }) });
       const body = await response.json(); if (!response.ok || body.ok !== true) throw new Error(body.error || "placement_contact_unavailable");
-      setSaved(true);
+      setSaved("email");
     } catch { setError("No pudimos guardar esta preferencia. Tu resultado permanece guardado."); } finally { setBusy(false); }
   };
   return <form className="diagnostic-claim-form" onSubmit={save}>
     <fieldset disabled={saved || busy}>
       <legend>Preferencia de contacto (opcional)</legend>
-      <label className="diagnostic-claim-check"><input checked type="radio" readOnly name="placement-channel" /><span>Email</span></label>
-      <label className="diagnostic-claim-check"><input disabled type="radio" name="placement-channel" /><span>SMS — disponible cuando completemos la verificación del número y el servicio SMS.</span></label>
-      <label className="diagnostic-claim-check"><input disabled type="radio" name="placement-channel" /><span>WhatsApp — los mensajes automáticos no están habilitados.</span></label>
-      <label className="diagnostic-claim-check"><input disabled type="radio" name="placement-channel" /><span>Llamada — disponible después de verificar un número.</span></label>
-      <label className="diagnostic-claim-check"><input checked={allowed} type="checkbox" onChange={(event) => setAllowed(event.target.checked)} /><span>Autorizo que AIT USA me contacte por email sobre mi resultado. No autoriza SMS, marketing, llamadas ni WhatsApp.</span></label>
+      <label className="diagnostic-claim-check"><input checked={choice === "email"} type="radio" name="placement-channel" value="email" onChange={() => setChoice("email")} /><span>Quiero que AIT USA me contacte por email.</span></label>
+      <label className="diagnostic-claim-check"><input checked={choice === "none"} type="radio" name="placement-channel" value="none" onChange={() => { setChoice("none"); setAllowed(false); }} /><span>No quiero contacto adicional por ahora.</span></label>
+      <small>SMS, WhatsApp y llamadas estarán disponibles solo después de verificar la propiedad del número. Elegir email no autoriza esos canales ni marketing.</small>
+      {choice === "email" ? <label className="diagnostic-claim-check"><input checked={allowed} type="checkbox" onChange={(event) => setAllowed(event.target.checked)} /><span>Autorizo que AIT USA me contacte por email sobre mi resultado.</span></label> : null}
     </fieldset>
     {error ? <p className="diagnostic-claim-error" role="alert">{error}</p> : null}
-    {saved ? <p role="status">Preferencia de email guardada.</p> : <button className="button button--ghost" disabled={!allowed || busy} type="submit">{busy ? "Guardando…" : "Guardar preferencia"}</button>}
+    {saved === "email" ? <p role="status">Preferencia de email guardada.</p> : null}
+    {saved === "none" ? <p role="status">No guardamos una preferencia de contacto adicional.</p> : null}
+    {!saved ? <button className="button button--ghost" disabled={!choice || (choice === "email" && !allowed) || busy} type="submit">{busy ? "Guardando…" : choice === "none" ? "Continuar sin contacto" : "Guardar preferencia"}</button> : null}
   </form>;
 }
 

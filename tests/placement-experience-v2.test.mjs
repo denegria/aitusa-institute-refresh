@@ -81,6 +81,14 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.doesNotMatch(component, /completionId: createAttemptId\(\)/);
   });
 
+  it("requires an explicit optional contact choice without pretending mobile verification exists", () => {
+    assert.match(component, /choice === "email"/);
+    assert.match(component, /choice === "none"/);
+    assert.match(component, /No quiero contacto adicional por ahora/);
+    assert.match(component, /SMS, WhatsApp y llamadas estarán disponibles solo después de verificar/);
+    assert.doesNotMatch(component, /<input checked type="radio" readOnly name="placement-channel"/);
+  });
+
   it("keeps one dominant result action and demotes the remaining pathways", () => {
     assert.match(component, /className="diagnostic-result__support"/);
     assert.match(component, /className="diagnostic-result__support-link"[\s\S]*Confirmar con un asesor/);
