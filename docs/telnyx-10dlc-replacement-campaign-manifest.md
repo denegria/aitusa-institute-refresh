@@ -23,6 +23,30 @@ and screenshots exactly.
 Telnyx does not allow a rejected campaign to be edited. The replacement is a
 new paid registration after the implementation/evidence gates below pass.
 
+## 2026-08-20 staging evidence update
+
+- Integrated staging commit: `c430596074ee2e100caf08db29606151593b1114`.
+- Ready deployment: `dpl_86dEEgxecuHhfwKJTbEWEgZ5qPMA`.
+- Public contact path exercised at the protected staging branch URL with a
+  synthetic email-only submission: phone absent, required contact permission
+  checked, marketing SMS unchecked, and the submit action succeeded.
+- Desktop evidence SHA-256:
+  `896bd041fdd682ce792fdbd45c8c65782b0ec62616f43ec108d8b35289849079`.
+- Mobile consent-panel evidence SHA-256:
+  `786dcac3b2f03a42a591c8906b5066d3e6c576b227f8fe20f2797f9e96863643`.
+- Both files are attached to MIS-396. The mobile capture shows the separate
+  unchecked marketing control, full disclosure, Privacy/Terms links, and the
+  submit action at a 390 x 844 viewport.
+- No WhatsApp link was opened, no provider message was sent, and no phone
+  number was supplied.
+- Telnyx campaign `4b30019f-4241-e60d-49d6-7a47e4c0a70c` remains rejected and
+  unchanged. It was **not edited, replaced, or resubmitted** during this update.
+
+This staging evidence does not satisfy the production/branded-URL checkboxes
+below. Capture the equivalent production evidence after the final production
+gate, then perform the authenticated brand-enum check before creating any new
+campaign.
+
 ## Campaign selection
 
 - `brandId`: retrieve from the approved AIT USA brand at submission time.
