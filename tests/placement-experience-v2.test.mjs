@@ -81,11 +81,13 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.doesNotMatch(component, /completionId: createAttemptId\(\)/);
   });
 
-  it("requires an explicit optional contact choice without pretending mobile verification exists", () => {
+  it("captures an explicit optional preference without treating the number as authentication evidence", () => {
     assert.match(component, /choice === "email"/);
     assert.match(component, /choice === "none"/);
     assert.match(component, /No quiero contacto adicional por ahora/);
-    assert.match(component, /SMS, WhatsApp y llamadas estarán disponibles solo después de verificar/);
+    assert.match(component, /\["email", "Email"\], \["sms", "SMS"\], \["whatsapp", "WhatsApp"\], \["phone", "Llamada telefónica"\]/);
+    assert.match(component, /no se usará para iniciar sesión/);
+    assert.match(component, /no autoriza marketing/);
     assert.doesNotMatch(component, /<input checked type="radio" readOnly name="placement-channel"/);
   });
 
