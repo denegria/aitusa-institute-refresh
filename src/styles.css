@@ -4056,8 +4056,11 @@ textarea {
   box-sizing: border-box;
   flex: 0 0 auto;
   width: 17px;
+  min-width: 17px;
   height: 17px;
+  min-height: 17px;
   margin: 0;
+  padding: 0;
   border: 2px solid rgba(255, 255, 255, 0.78);
   border-radius: 50%;
   background: #fff;
