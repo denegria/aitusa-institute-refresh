@@ -29,7 +29,7 @@ export function createMemoryPlacementReviewRepository() {
       review.status = status; review.revision += 1; review.updatedAt = input.occurredAt;
       if (input.action === "confirm") review.finalLevel = review.recommendedLevel;
       if (input.action === "adjust") review.finalLevel = input.finalLevel;
-      mutations.set(mutationKey, true); events.push(eventFor(review, input.eventId, input.action, input.occurredAt, input.actor));
+      mutations.set(mutationKey, true); events.push(eventFor(review, input.eventId, input.action, input.occurredAt, input.actor, input.internalRationale));
       outbox.push(buildPlacementReviewCrmEnvelope({ review, eventType: placementReviewEventType(input.action), occurredAt: input.occurredAt }));
       return { review: clone(review), replayed: false };
     },
@@ -37,6 +37,6 @@ export function createMemoryPlacementReviewRepository() {
   };
 }
 
-function eventFor(review, id, action, occurredAt, actor) {
-  return { id, reviewId: review.id, eventType: placementReviewEventType(action), status: review.status, revision: review.revision, finalLevel: review.finalLevel, actorAccountId: actor?.accountId || null, occurredAt };
+function eventFor(review, id, action, occurredAt, actor, internalRationale = null) {
+  return { id, reviewId: review.id, eventType: placementReviewEventType(action), status: review.status, revision: review.revision, finalLevel: review.finalLevel, actorAccountId: actor?.accountId || null, internalRationale, occurredAt };
 }

@@ -270,6 +270,34 @@ export function createPortalAuthService({
       return snapshot;
     },
 
+    async resolveAuthenticatedIdentity(sessionData) {
+      if (!sessionData) {
+        throw new PortalClaimError("portal_session_required", 401);
+      }
+      let identity;
+      try {
+        identity = await authProvider.authenticateSession(sessionData);
+      } catch (error) {
+        if (
+          error instanceof PortalClaimError &&
+          error.code === "identity_provider_unavailable"
+        ) {
+          throw error;
+        }
+        throw new PortalClaimError("portal_session_invalid", 401);
+      }
+      if (!isVerifiedIdentity(identity)) {
+        throw new PortalClaimError("portal_session_invalid", 401);
+      }
+      const account = await repository.getActivePortalIdentity(
+        toPortalIdentity(identity),
+      );
+      if (!account) {
+        throw new PortalClaimError("portal_session_invalid", 401);
+      }
+      return { state: "authenticated", account };
+    },
+
     async resolveAuthorizedStudyBuddyContext(sessionData) {
       if (!sessionData) {
         throw new PortalClaimError("portal_session_required", 401);

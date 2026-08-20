@@ -35,6 +35,18 @@ export async function resolveAuthenticatedPortalSnapshot(request) {
   })(request);
 }
 
+export async function resolveAuthenticatedPortalIdentity(request) {
+  if (!isPortalAuthServiceConfigured()) {
+    throw new PortalClaimError("portal_auth_unavailable", 503);
+  }
+  if (!request?.headers || typeof request.headers.get !== "function") {
+    throw new PortalClaimError("portal_request_invalid", 400);
+  }
+  return getPortalAuthService().resolveAuthenticatedIdentity(
+    readPortalSessionCookie(request),
+  );
+}
+
 export async function resolveAuthorizedStudyBuddyContext(request) {
   if (!isPortalAuthServiceConfigured()) {
     throw new PortalClaimError("portal_auth_unavailable", 503);

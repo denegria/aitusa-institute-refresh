@@ -1,10 +1,7 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { site } from "../../src/content.js";
 import { GuardianPrivacyControls } from "./GuardianPrivacyControls.jsx";
 
-export function PortalDashboard({ model }) {
+export function PortalDashboard({ model, section = "home" }) {
   const advisorHref = `${site.whatsappHref}?text=${encodeURIComponent(
     `Hola AIT USA, guardé mi resultado de ubicación${
       model.result?.recommendedLevelLabel
@@ -44,11 +41,11 @@ export function PortalDashboard({ model }) {
       </header>
 
       <div className="portal-shell">
-        <PortalNavigation items={model.navigation} />
+        <PortalNavigation items={model.navigation} activeId={section} />
 
-        <main className="portal-main" id="portal-main" tabIndex={-1}>
+        <main className="portal-main" id="portal-main" tabIndex={-1} data-section={section}>
           {model.welcome ? (
-            <section className="portal-welcome" aria-label="Resultado guardado">
+            <section className="portal-welcome" aria-label="Resultado guardado" hidden={section !== "home"}>
               <span className="portal-welcome__icon" aria-hidden="true">
                 <PortalIcon name="check" />
               </span>
@@ -59,7 +56,9 @@ export function PortalDashboard({ model }) {
             </section>
           ) : null}
 
-          <section className="portal-hero" id="inicio" aria-labelledby="portal-title">
+          {section !== "home" ? <PortalSectionHeading section={section} /> : null}
+
+          <section className="portal-hero" id="inicio" aria-labelledby="portal-title" hidden={section !== "home"}>
             <div className="portal-hero__copy">
               <p className="portal-eyebrow">Tu siguiente paso</p>
               <h1 id="portal-title">
@@ -85,6 +84,7 @@ export function PortalDashboard({ model }) {
           <section
             className="portal-priority-grid portal-priority-grid--result"
             aria-label="Resultado guardado"
+            hidden={!['home', 'results'].includes(section)}
           >
             <ResultCard result={model.result} />
           </section>
@@ -93,6 +93,7 @@ export function PortalDashboard({ model }) {
             className="portal-section portal-section--courses"
             id="cursos"
             aria-labelledby="portal-course-title"
+            hidden={!['home', 'courses'].includes(section)}
           >
             <div className="portal-section__heading">
               <div>
@@ -178,15 +179,17 @@ export function PortalDashboard({ model }) {
             className="portal-practice-section"
             id="estudiar"
             aria-label="Práctica guiada"
+            hidden={section !== "study"}
           >
             <PracticeMissionCard practice={model.practice} />
           </section>
 
-          <div className="portal-detail-grid">
+          <div className="portal-detail-grid" hidden={section !== "attendance"}>
             <section
               className="portal-panel"
               id="historial-practica"
               aria-labelledby="portal-history-title"
+              hidden
             >
               <div className="portal-panel__heading">
                 <span className="portal-panel__icon" aria-hidden="true">
@@ -251,7 +254,7 @@ export function PortalDashboard({ model }) {
             </section>
           </div>
 
-          <section className="portal-support" aria-labelledby="portal-support-title">
+          <section className="portal-support" aria-labelledby="portal-support-title" hidden={section !== "home"}>
             <div>
               <p className="portal-eyebrow">Estamos contigo</p>
               <h2 id="portal-support-title">{model.advisor.label}</h2>
@@ -267,7 +270,7 @@ export function PortalDashboard({ model }) {
             </a>
           </section>
 
-          <section className="portal-account-panel" id="cuenta" aria-labelledby="portal-account-title">
+          <section className="portal-account-panel" id="cuenta" aria-labelledby="portal-account-title" hidden={section !== "account"}>
             <div>
               <p className="portal-eyebrow">Cuenta</p>
               <h2 id="portal-account-title">Acceso sin contraseña</h2>
@@ -284,7 +287,7 @@ export function PortalDashboard({ model }) {
           </section>
 
           {model.guardianChild ? (
-            <section className="portal-account-panel" id="privacidad-tutor" aria-labelledby="portal-guardian-title">
+            <section className="portal-account-panel" id="privacidad-tutor" aria-labelledby="portal-guardian-title" hidden={section !== "account"}>
               <div>
                 <p className="portal-eyebrow">Privacidad del menor</p>
                 <h2 id="portal-guardian-title">Autorización y perfil vinculado</h2>
@@ -340,53 +343,15 @@ export function PortalAccessState({ model }) {
   );
 }
 
-function PortalNavigation({ items }) {
-  const [activeId, setActiveId] = useState("inicio");
-
-  useEffect(() => {
-    const ids = items
-      .map((item) => item.id)
-      .filter((id) => document.getElementById(id));
-    const hashId = window.location.hash.slice(1);
-    if (ids.includes(hashId)) setActiveId(hashId);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible?.target?.id) setActiveId(visible.target.id);
-      },
-      {
-        rootMargin: "-12% 0px -68% 0px",
-        threshold: [0, 0.2, 0.5],
-      },
-    );
-    ids.forEach((id) => observer.observe(document.getElementById(id)));
-    const syncBottomSection = () => {
-      if (
-        window.scrollY + window.innerHeight >=
-        document.documentElement.scrollHeight - 8
-      ) {
-        setActiveId(ids.at(-1) || "inicio");
-      }
-    };
-    window.addEventListener("scroll", syncBottomSection, { passive: true });
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", syncBottomSection);
-    };
-  }, [items]);
-
+function PortalNavigation({ items, activeId }) {
   return (
     <nav className="portal-nav" aria-label="Portal">
       <div className="portal-nav__rail-label">Tu espacio</div>
       {items.map((item) => (
         <a
           className={`portal-nav__item${activeId === item.id ? " is-active" : ""}`}
-          href={`#${item.id}`}
-          aria-current={activeId === item.id ? "location" : undefined}
-          onClick={() => setActiveId(item.id)}
+          href={item.href}
+          aria-current={activeId === item.id ? "page" : undefined}
           key={item.id}
         >
           <PortalIcon name={item.icon} />
@@ -402,6 +367,17 @@ function PortalNavigation({ items }) {
       </div>
     </nav>
   );
+}
+
+function PortalSectionHeading({ section }) {
+  const copy = {
+    results: ["Tu ubicación", "Mi nivel", "Consulta la recomendación actual y el estado de confirmación académica."],
+    courses: ["Ruta de aprendizaje", "Mis cursos", "Revisa el programa recomendado y el próximo paso de inscripción."],
+    attendance: ["Seguimiento académico", "Asistencia", "Tu información de curso y asistencia aparecerá aquí cuando esté conectada."],
+    study: ["Práctica guiada", "Estudiar", "Continúa tu práctica desde un espacio enfocado."],
+    account: ["Acceso y privacidad", "Mi cuenta", "Administra la sesión y los permisos vinculados a tu Portal."],
+  }[section] || ["Portal estudiantil", "Tu espacio", "Continúa con tu ruta de aprendizaje."];
+  return <header className="portal-route-heading"><p className="portal-eyebrow">{copy[0]}</p><h1>{copy[1]}</h1><span>{copy[2]}</span></header>;
 }
 
 function PracticeMissionCard({ practice }) {
@@ -486,19 +462,36 @@ function ResultCard({ result }) {
     );
   }
 
+  const confirmed = ["confirmed", "adjusted"].includes(result.placementReviewStatus);
+  const additional = result.placementReviewStatus === "additional_review_required";
+  const displayLevel = confirmed && result.finalLevel
+    ? result.finalLevel
+    : result.recommendedLevelLabel;
+  const eyebrow = confirmed
+    ? "Nivel confirmado por AIT"
+    : additional
+      ? "Revisión adicional requerida"
+      : "Nivel recomendado";
+  const status = confirmed ? "Confirmado" : additional ? "En revisión" : "Pendiente";
+  const note = confirmed
+    ? "AIT revisó tu evidencia y confirmó este nivel como tu punto de partida."
+    : additional
+      ? "AIT necesita una revisión adicional. Tu resultado sigue guardado y no necesitas repetir el examen todavía."
+      : "Pendiente de confirmación. AIT revisará la evidencia antes de cerrar tu nivel final.";
+
   return (
     <article className="portal-result-card" id="resultado">
       <div className="portal-result-card__heading">
         <div>
-          <p className="portal-eyebrow">Estimación de ubicación</p>
-          <h2>{result.recommendedLevelLabel}</h2>
+          <p className="portal-eyebrow">{eyebrow}</p>
+          <h2>{displayLevel}</h2>
         </div>
         <span className="portal-result-card__status">
-          <PortalIcon name="check" /> Guardado
+          <PortalIcon name={confirmed ? "check" : "history"} /> {status}
         </span>
       </div>
       <p className="portal-result-card__note">
-        Punto de partida recomendado. Un asesor confirma el nivel final.
+        {note}
       </p>
       <dl className="portal-result-card__facts">
         <div>
@@ -511,7 +504,7 @@ function ResultCard({ result }) {
         </div>
         <div>
           <dt>Estado</dt>
-          <dd>Orientativo</dd>
+          <dd>{status}</dd>
         </div>
       </dl>
     </article>

@@ -1,10 +1,10 @@
 import { sql } from "drizzle-orm";
 import { getPortalDatabase } from "../diagnostic/db.server.js";
 import { PortalClaimError } from "../portalClaim/errors.js";
-import { resolveAuthenticatedPortalSnapshot } from "../portalAuth/sessionResolver.server.js";
+import { resolveAuthenticatedPortalIdentity } from "../portalAuth/sessionResolver.server.js";
 import { PlacementReviewError } from "./errors.js";
 
-export async function resolvePlacementReviewActor(request, { resolveSnapshot = resolveAuthenticatedPortalSnapshot, database = getPortalDatabase() } = {}) {
+export async function resolvePlacementReviewActor(request, { resolveSnapshot = resolveAuthenticatedPortalIdentity, database = getPortalDatabase() } = {}) {
   let snapshot;
   try {
     snapshot = await resolveSnapshot(request);
@@ -24,5 +24,10 @@ export async function resolvePlacementReviewActor(request, { resolveSnapshot = r
   if (!row || row.business_unit !== "ait_usa" || !["senior", "admin"].includes(row.role)) {
     throw new PlacementReviewError("placement_review_forbidden", 403);
   }
-  return { accountId, businessUnit: row.business_unit, role: row.role };
+  return {
+    accountId,
+    businessUnit: row.business_unit,
+    role: row.role,
+    firstName: snapshot.account.firstName || "Equipo AIT",
+  };
 }

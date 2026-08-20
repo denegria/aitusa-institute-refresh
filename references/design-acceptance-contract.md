@@ -1297,3 +1297,93 @@ and closeout evidence are recorded in
 - Independent visual review of the candidate, exact staging deployment/live QA,
   then an authorized fast-forward of the complete staging history to `main`
   followed by production smoke QA. No manual platform deployment.
+# AIT USA Employee + Student Portal V1 — 2026-08-20
+
+## User workflow and problem
+
+- An authorized AIT employee needs a real operations dashboard: see workload,
+  open one placement submission, inspect the academic evidence, make one
+  deliberate decision, and understand the audit/CRM state without leaving the
+  employee portal.
+- A student needs a real learning dashboard: see the current academic status
+  and navigate to courses, attendance, study, and account areas without one
+  very long anchor-scrolling page.
+- Current failures: the employee review is a thin, visually disconnected page;
+  its POST actions can strand the reviewer on raw JSON; the student Portal
+  places every concern on one document.
+
+## Selected interaction model and visual direction
+
+- Faithful-reference mode using the captured production student Portal at
+  `docs/qa/portal-redesign/source-student-1440x900.png` as the visual source of
+  truth for shared chrome and tokens.
+- Keep the existing AIT navy/gold/warm-white design language, real AIT logo,
+  Plus Jakarta Sans typography, card radii, border treatment, and calm academic
+  tone. Do not introduce a second design system.
+- Employee: a dedicated `/employee` shell with overview and review-workspace
+  routes. The review workspace uses an independently scrolling queue and
+  evidence/detail pane so the primary desktop viewport is operational rather
+  than a stacked document.
+- Student: a dedicated `/portal` shell with routed dashboard, results, courses,
+  attendance, study, and account areas. The root is an overview; each major
+  concern has its own route.
+
+## Locked behavior, security, and content
+
+- Preserve passwordless Portal auth, opaque exact-review deep links, AIT USA
+  business-unit scoping, and senior/admin reviewer authorization. Missing,
+  cross-business-unit, and unauthorized reviews remain fail-closed.
+- The employee evidence view may render only the authorized submission's test
+  questions, selected answers, correctness, score summary, self-assessment,
+  writing sample, recommendation, and audit events. No evidence is copied into
+  CRM, URLs, logs, generic analytics, or client-side storage.
+- Employee mutations retain exact-origin checks, opaque mutation IDs,
+  optimistic revision checks, idempotency, immutable audit rows, and atomic CRM
+  outbox writes. Failures render a bounded in-portal message; raw API JSON is
+  never the reviewer's terminal experience.
+- Internal rationale is required for final adjustment and additional-review
+  decisions, bounded to 1,000 characters, stored only in the AIT USA review
+  audit, and excluded from the CRM envelope.
+- Only `denegriconsulting@gmail.com` is currently provisioned. The portal must
+  not infer or provision coordinator accounts. Role management is admin-only;
+  a read-only team surface may expose active roles without contact data beyond
+  the authorized employee directory.
+- Confirmed/adjusted level remains visible in the student Portal; pending and
+  additional-review states use the locked Spanish placement copy.
+
+## Responsive and accessibility contract
+
+- Primary CSS viewports: 1440x900 and 390x844. Regression viewports: 1024x768
+  and 430x932.
+- Desktop shells occupy the viewport beneath the top bar. Core overview cards
+  and the active review decision fit without page-length stacking; queue/detail
+  regions may scroll independently without nested horizontal scrolling.
+- Mobile collapses the sidebar into reachable navigation, turns the review
+  workspace into a clear queue-to-detail flow, preserves natural document
+  scrolling, and keeps every interactive target at least 44px.
+- Preserve one H1 per route, ordered headings, visible focus, keyboard access,
+  meaningful empty/loading/error states, reduced-motion behavior, no clipped
+  content, and no page-level horizontal overflow.
+
+## Non-goals
+
+- No standalone employee application, new identity provider, CRM academic-data
+  mirror, provider/Telnyx send, course-management backend, attendance backend,
+  billing, or invented coordinator access.
+- Courses and attendance may truthfully communicate not-yet-connected states;
+  they must not display fabricated enrollment or attendance data.
+
+## Required closeout evidence
+
+- Focused auth, RBAC, route, review-transition, evidence-shaping, audit,
+  idempotency, and student-view-model tests; full `npm run validate`; production
+  build; `git diff --check`.
+- Browser interaction proof for employee navigation, queue/detail selection,
+  error handling, and student routed navigation at primary desktop/mobile plus
+  regression overflow checks.
+- Side-by-side visual comparison against the captured student Portal source at
+  the same viewport and state; final `design-qa.md` must pass.
+- Staging and production deployment readiness, live route/runtime smoke, and
+  no production academic decision performed by automation.
+
+---

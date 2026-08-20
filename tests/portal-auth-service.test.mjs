@@ -134,6 +134,14 @@ function fixture({
       });
       return snapshot ? structuredClone(snapshot) : null;
     },
+    async getActivePortalIdentity(value) {
+      repositoryCalls.push({ type: "identity", identity: structuredClone(value) });
+      if (!snapshot?.account) return null;
+      return {
+        accountId: "00000000-0000-4000-8000-000000000001",
+        ...structuredClone(snapshot.account),
+      };
+    },
   };
   return {
     authEventCalls,
@@ -294,6 +302,14 @@ describe("MIS-341 authenticated portal service", () => {
       type: "session",
       sessionData: "sealed-session-fixture",
     });
+  });
+
+  it("resolves employee identity without loading the student dashboard snapshot", async () => {
+    const active = fixture();
+    const identitySnapshot = await active.service.resolveAuthenticatedIdentity("sealed-session-fixture");
+    assert.equal(identitySnapshot.account.accountId, "00000000-0000-4000-8000-000000000001");
+    assert.deepEqual(active.repositoryCalls.map((call) => call.type), ["identity"]);
+    assert.equal(active.repositoryCalls.some((call) => call.type === "snapshot"), false);
   });
 
   it("rejects missing or inactive sessions without returning account state", async () => {

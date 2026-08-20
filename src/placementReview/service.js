@@ -20,7 +20,7 @@ export function createPlacementReviewService({ repository, now = () => new Date(
     if (!isOpaqueReviewId(value)) throw new PlacementReviewError(code, 422);
   }
 
-  async function transition({ reviewId, actor, action, mutationId, expectedRevision, finalLevel = null }) {
+  async function transition({ reviewId, actor, action, mutationId, expectedRevision, finalLevel = null, internalRationale = null }) {
     await requireActor(actor);
     requireId(reviewId);
     if (!isOpaqueReviewId(mutationId)) throw new PlacementReviewError("placement_review_mutation_id_invalid", 422);
@@ -28,10 +28,16 @@ export function createPlacementReviewService({ repository, now = () => new Date(
     if (action === "adjust" && (typeof finalLevel !== "string" || finalLevel.trim().length < 1 || finalLevel.trim().length > 120)) {
       throw new PlacementReviewError("placement_review_final_level_invalid", 422);
     }
+    const rationale = typeof internalRationale === "string" ? internalRationale.trim() : "";
+    if (["adjust", "requestAdditionalReview"].includes(action) && (rationale.length < 1 || rationale.length > 1000)) {
+      throw new PlacementReviewError("placement_review_rationale_invalid", 422);
+    }
+    if (rationale.length > 1000) throw new PlacementReviewError("placement_review_rationale_invalid", 422);
     const at = now().toISOString();
     const result = await repository.transition({
       reviewId, actor, action, mutationId, expectedRevision,
       finalLevel: finalLevel?.trim() || null, occurredAt: at,
+      internalRationale: rationale || null,
       eventId: createId(),
       outboxId: createId(),
     });
@@ -60,6 +66,16 @@ export function createPlacementReviewService({ repository, now = () => new Date(
       if (!review || review.businessUnit !== actor.businessUnit) throw new PlacementReviewError("placement_review_not_found", 404);
       return safeReview(review);
     },
+    async getReviewDetail(reviewId, actor) {
+      await requireActor(actor); requireId(reviewId);
+      const review = await repository.getDetailById(reviewId);
+      if (!review || review.businessUnit !== actor.businessUnit) throw new PlacementReviewError("placement_review_not_found", 404);
+      return safeReviewDetail(review);
+    },
+    async listActiveReviewers(actor) {
+      await requireActor(actor);
+      return repository.listActiveRoles(actor.businessUnit);
+    },
     startReview(input) { return transition({ ...input, action: "start" }); },
     confirmReview(input) { return transition({ ...input, action: "confirm" }); },
     adjustReview(input) { return transition({ ...input, action: "adjust" }); },
@@ -75,6 +91,10 @@ export function safeReview(review, replayed = false) {
     createdAt: review.createdAt, updatedAt: review.updatedAt,
     replayed,
   };
+}
+
+export function safeReviewDetail(review) {
+  return { ...safeReview(review), evidence: review.evidence, events: review.events };
 }
 
 export function placementReviewEventType(action) {

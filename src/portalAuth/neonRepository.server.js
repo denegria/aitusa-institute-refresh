@@ -231,6 +231,33 @@ export function createNeonPortalAuthRepository(database) {
       };
     },
 
+    async getActivePortalIdentity(identity) {
+      const result = await database.execute(sql`
+        with matching_accounts as (
+          select id, status, account_type, first_name, primary_email, preferred_language
+          from portal_accounts
+          where workos_user_id = ${identity.providerUserId}
+            and lower(primary_email) = ${identity.email.trim().toLowerCase()}
+            and status = 'active'
+          order by id
+          limit 2
+        )
+        select * from matching_accounts
+        where (select count(*) from matching_accounts) = 1
+        limit 1
+      `);
+      const row = rows(result)[0];
+      if (!row) return null;
+      return {
+        accountId: row.id,
+        status: row.status,
+        accountType: row.account_type,
+        firstName: row.first_name,
+        email: row.primary_email,
+        preferredLanguage: row.preferred_language,
+      };
+    },
+
     async getActivePortalSnapshot(identity) {
       const result = await database.execute(sql`
         with matching_accounts as (

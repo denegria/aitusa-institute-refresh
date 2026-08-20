@@ -43,7 +43,11 @@ describe("MIS-341 authenticated portal view model", () => {
     assert.equal(model.course.eyebrow, "Inglés intermedio");
     assert.deepEqual(
       model.navigation.map((item) => item.label),
-      ["Inicio", "Mis cursos", "Asistencia", "Estudiar", "Cuenta"],
+      ["Inicio", "Mi nivel", "Mis cursos", "Asistencia", "Estudiar", "Cuenta"],
+    );
+    assert.deepEqual(
+      model.navigation.map((item) => item.href),
+      ["/portal/", "/portal/results/", "/portal/courses/", "/portal/attendance/", "/portal/study/", "/portal/account/"],
     );
   });
 

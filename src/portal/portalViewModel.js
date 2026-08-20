@@ -19,11 +19,12 @@ const COURSE_BY_LEVEL = Object.freeze({
 const FALLBACK_COURSE = COURSE_BY_LEVEL.basic;
 
 export const PORTAL_NAVIGATION = Object.freeze([
-  Object.freeze({ id: "inicio", label: "Inicio", icon: "home" }),
-  Object.freeze({ id: "cursos", label: "Mis cursos", icon: "courses" }),
-  Object.freeze({ id: "asistencia", label: "Asistencia", icon: "calendar" }),
-  Object.freeze({ id: "estudiar", label: "Estudiar", icon: "study" }),
-  Object.freeze({ id: "cuenta", label: "Cuenta", icon: "account" }),
+  Object.freeze({ id: "home", label: "Inicio", icon: "home", href: "/portal/" }),
+  Object.freeze({ id: "results", label: "Mi nivel", icon: "spark", href: "/portal/results/" }),
+  Object.freeze({ id: "courses", label: "Mis cursos", icon: "courses", href: "/portal/courses/" }),
+  Object.freeze({ id: "attendance", label: "Asistencia", icon: "calendar", href: "/portal/attendance/" }),
+  Object.freeze({ id: "study", label: "Estudiar", icon: "study", href: "/portal/study/" }),
+  Object.freeze({ id: "account", label: "Cuenta", icon: "account", href: "/portal/account/" }),
 ]);
 
 export function createAuthenticatedPortalViewModel(snapshot, { welcome = false } = {}) {

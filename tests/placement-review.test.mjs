@@ -42,12 +42,20 @@ describe("MIS-395 placement review state machine", () => {
     const { service, repository, actor } = fixture();
     const review = await service.createReview({ resultId: ids[0], attemptId: ids[1], recommendedLevel: "Nivel 3", correlationId: ids[1] });
     await service.startReview({ reviewId: review.id, actor, expectedRevision: 1, mutationId: ids[2] });
-    const adjusted = await service.adjustReview({ reviewId: review.id, actor, expectedRevision: 2, mutationId: ids[3], finalLevel: "Nivel 4" });
-    const replay = await service.adjustReview({ reviewId: review.id, actor, expectedRevision: 2, mutationId: ids[3], finalLevel: "Nivel 4" });
+    const adjusted = await service.adjustReview({ reviewId: review.id, actor, expectedRevision: 2, mutationId: ids[3], finalLevel: "Nivel 4", internalRationale: "La evidencia escrita respalda el ajuste." });
+    const replay = await service.adjustReview({ reviewId: review.id, actor, expectedRevision: 2, mutationId: ids[3], finalLevel: "Nivel 4", internalRationale: "La evidencia escrita respalda el ajuste." });
     assert.equal(adjusted.status, "adjusted"); assert.equal(adjusted.finalLevel, "Nivel 4"); assert.equal(replay.replayed, true);
     const outbox = repository._inspect().outbox;
     assert.equal(outbox.length, 3); assert.match(outbox.at(-1).idempotencyKey, /revision:3:placement_review_adjusted$/);
+    assert.equal(repository._inspect().events.at(-1).internalRationale, "La evidencia escrita respalda el ajuste.");
     assert.equal(JSON.stringify(outbox.at(-1)).match(/answer|writing|rationale|email@/i), null);
+  });
+  it("requires a bounded internal rationale for adjustment and additional review", async () => {
+    const { service, actor } = fixture();
+    const review = await service.createReview({ resultId: ids[0], attemptId: ids[1], recommendedLevel: "Nivel 3" });
+    await service.startReview({ reviewId: review.id, actor, expectedRevision: 1, mutationId: ids[2] });
+    await assert.rejects(() => service.adjustReview({ reviewId: review.id, actor, expectedRevision: 2, mutationId: ids[3], finalLevel: "Nivel 4" }), /placement_review_rationale_invalid/);
+    await assert.rejects(() => service.requestAdditionalReview({ reviewId: review.id, actor, expectedRevision: 2, mutationId: ids[4], internalRationale: "" }), /placement_review_rationale_invalid/);
   });
   it("uses an exact Origin comparison for employee mutations", () => {
     const request = (origin) => new Request("https://staff.aitusa.example/api", { headers: { origin, host: "staff.aitusa.example", "x-forwarded-proto": "https" } });
@@ -120,5 +128,12 @@ describe("MIS-395 placement review state machine", () => {
     assert.match(constructor, /'occurredAt', event_occurred_at/);
     assert.doesNotMatch(constructor, /'occurredAt', occurred_at/);
     assert.match(migration, /UPDATE "crm_outbox" outbox[\s\S]*SET "payload" = placement_crm_payload\(review, 'placement_review_created', outbox\."created_at"\)[\s\S]*outbox\."status" IN \('pending', 'retry_wait', 'dead_letter'\)/);
+  });
+  it("ships the additive internal-rationale migration without changing the CRM payload", async () => {
+    const fs = await import("node:fs/promises");
+    const migration = await fs.readFile(new URL("../drizzle/0007_employee_portal_v1.sql", import.meta.url), "utf8");
+    assert.match(migration, /ADD COLUMN IF NOT EXISTS "internal_rationale" text/);
+    assert.match(migration, /char_length\("internal_rationale"\) between 1 and 1000/);
+    assert.doesNotMatch(migration, /crm_outbox|placement_crm_payload/);
   });
 });
