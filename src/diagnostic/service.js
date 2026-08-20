@@ -280,7 +280,10 @@ export function createDiagnosticService({
     },
 
     async mintClaimToken({ attemptId, resumeCredential }) {
-      await authorize(attemptId, resumeCredential);
+      const attempt = await authorize(attemptId, resumeCredential);
+      if (attempt.status === "claimed") {
+        throw new DiagnosticDomainError("attempt_already_claimed", 409);
+      }
       const token = createToken();
       const currentTime = now();
       const claim = await repository.createClaim({

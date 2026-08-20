@@ -79,6 +79,7 @@ function buildServerResumeSnapshot(body, questionCount) {
     goal: body.goal || body.result?.crmPayloadPreview?.placement?.goal || "",
     writingSample: "",
     result: body.result || null,
+    resultClaimed: body.attempt.status === "claimed",
   };
 }
 
@@ -907,6 +908,13 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed }) {
         },
       );
       const tokenBody = await tokenResponse.json();
+      if (
+        tokenResponse.status === 409 &&
+        tokenBody.error === "attempt_already_claimed"
+      ) {
+        onClaimed?.({ alreadyClaimed: true, portalHref: "/portal/" });
+        return;
+      }
       if (!tokenResponse.ok || tokenBody.ok !== true) {
         throw new Error(tokenBody.error || "claim_token_unavailable");
       }
@@ -1132,11 +1140,14 @@ function ResultScreen({
   goal,
   onRestart,
   result,
+  resultClaimed,
   skippedCount,
   submission,
   syncNotice,
 }) {
-  const [claimReceipt, setClaimReceipt] = useState(null);
+  const [claimReceipt, setClaimReceipt] = useState(() =>
+    resultClaimed ? { alreadyClaimed: true, portalHref: "/portal/" } : null,
+  );
   const recommendation = result?.recommendation;
   const scores = result?.scores || {};
   if (!recommendation) return null;
@@ -1299,6 +1310,7 @@ export function PlacementExperience() {
   const [error, setError] = useState("");
   const [syncNotice, setSyncNotice] = useState("");
   const [result, setResult] = useState(null);
+  const [resultClaimed, setResultClaimed] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -1469,6 +1481,7 @@ export function PlacementExperience() {
     setGoal("");
     setWritingSample("");
     setResult(null);
+    setResultClaimed(false);
     setError("");
     setResumeSnapshot(null);
     setDirection("forward");
@@ -1500,6 +1513,7 @@ export function PlacementExperience() {
     setWritingSample(resumeSnapshot.writingSample || "");
     setSyncNotice(resumeSnapshot.syncNotice || "");
     setResult(resumeSnapshot.result || null);
+    setResultClaimed(resumeSnapshot.resultClaimed === true);
     setDirection("forward");
     setScreen(
       ["question", "review", "reflection", "goal", "result"].includes(resumeSnapshot.screen)
@@ -1699,6 +1713,7 @@ export function PlacementExperience() {
         if (!response.ok || body.ok !== true) throw new Error("placement_api_rejected");
       }
       setResult(body);
+      setResultClaimed(false);
       setScreen("result");
       sessionStorage.removeItem(SESSION_KEY);
       window.dispatchEvent(new CustomEvent("aitusa:placement-ready", {
@@ -1724,6 +1739,7 @@ export function PlacementExperience() {
     sessionStorage.removeItem(SESSION_KEY);
     setScreen("intro");
     setResult(null);
+    setResultClaimed(false);
     setResumeSnapshot(null);
     setDurable(false);
     setSyncNotice("");
@@ -1800,6 +1816,7 @@ export function PlacementExperience() {
           goal={goal}
           onRestart={restart}
           result={result}
+          resultClaimed={resultClaimed}
           skippedCount={skipped.length}
           submission={{ selectedAnswers: answers, selfAssessment, goal, writingSample }}
           syncNotice={syncNotice}
