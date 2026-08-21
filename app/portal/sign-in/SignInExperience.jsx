@@ -7,7 +7,7 @@ const ERROR_COPY = Object.freeze({
   magic_auth_code_invalid: "Ese código no es válido o ya venció. Solicita uno nuevo.",
   magic_auth_rate_limited: "Espera un momento antes de solicitar otro código.",
   portal_account_not_found:
-    "No pudimos completar el acceso. Revisa el email o comienza con el examen de ubicación.",
+    "No pudimos completar el acceso. Revisa el email o comienza con el Placement Test.",
   portal_account_unavailable:
     "No pudimos completar el acceso. Revisa el email o solicita ayuda a un asesor.",
   portal_sign_in_invalid:
@@ -230,10 +230,10 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
           <div className="portal-signin__new-student">
             <div>
               <strong>¿Primera vez aquí?</strong>
-              <span>Haz el examen, conoce tu nivel y guarda el resultado para crear tu acceso.</span>
+              <span>Completa el Placement Test, conoce tu punto de partida y guarda el resultado para crear tu acceso.</span>
             </div>
             <a className="portal-button portal-button--quiet" href="/placement-test/">
-              Comenzar examen
+              Comenzar el Placement Test
             </a>
           </div>
         ) : null}

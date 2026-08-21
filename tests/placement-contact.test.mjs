@@ -32,11 +32,12 @@ describe("MIS-397 channel-specific placement contact consent", () => {
     const fs = await import("node:fs/promises");
     const migration = await fs.readFile(new URL("../drizzle/0008_unverified_contact_numbers.sql", import.meta.url), "utf8");
     const route = await fs.readFile(new URL("../app/api/portal/placement-contact-preferences/route.js", import.meta.url), "utf8");
+    const saver = await fs.readFile(new URL("../src/placementContact/save.server.js", import.meta.url), "utf8");
     assert.match(migration, /DROP CONSTRAINT IF EXISTS "placement_contact_preferences_mobile_check"/);
     assert.match(migration, /or "mobile_e164" ~ '\^\\\\\+\[1-9\]/);
     assert.doesNotMatch(migration, /"verified_mobile" = true/);
-    assert.match(route, /verifiedMobile: false/);
-    assert.doesNotMatch(route, /input\.verifiedMobile/);
+    assert.match(saver, /verifiedMobile: false/);
+    assert.doesNotMatch(saver, /input\.verifiedMobile/);
   });
   it("records independent WhatsApp consent and a privacy-safe replacement audit", async () => {
     const fs = await import("node:fs/promises");

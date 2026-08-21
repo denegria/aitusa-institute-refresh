@@ -3,9 +3,9 @@ import { SiteHeader } from "../../_components/site/SiteChrome";
 import { placementTest, site } from "../../../src/content";
 
 export const metadata = {
-  title: "Examen de ubicación | AiT USA Institute",
+  title: "Placement Test | AiT USA Institute",
   description:
-    "Completa una evaluación inicial de inglés y recibe una recomendación orientativa antes de confirmar tu nivel con un asesor.",
+    "Completa el Placement Test de inglés y recibe una recomendación inicial antes de confirmar tu nivel con un asesor.",
   alternates: { canonical: "/placement-test/" },
 };
 

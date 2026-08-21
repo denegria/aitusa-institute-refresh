@@ -70,7 +70,7 @@ const FEEDBACK = Object.freeze({
   support_recommended: Object.freeze({
     eyebrow: "Pausa útil",
     title: "Un asesor puede ayudarte a continuar",
-    detail: "Tu resultado sigue guardado y no necesitas repetir el examen.",
+    detail: "Tu resultado sigue guardado y no necesitas repetir el Placement Test.",
   }),
 });
 
@@ -85,8 +85,8 @@ const RECOVERY = Object.freeze({
   missing_result: recovery(
     "Primero tu ubicación",
     "Necesitamos un punto de partida",
-    "Completa el examen para preparar una práctica acorde con tu resultado guardado.",
-    "Hacer examen",
+    "Completa el Placement Test para preparar una práctica acorde con tu resultado guardado.",
+    "Hacer el Placement Test",
     "/placement-test/",
   ),
   trial_consumed: recovery(
@@ -113,7 +113,7 @@ const RECOVERY = Object.freeze({
   provider_disabled: recovery(
     "Práctica temporalmente pausada",
     "Study Buddy todavía no está disponible",
-    "Tu resultado sigue guardado. No necesitas repetir el examen y no se realizó ninguna llamada de IA.",
+    "Tu resultado sigue guardado. No necesitas repetir el Placement Test y no se realizó ninguna llamada de IA.",
     "Volver al portal",
     "/portal/",
   ),

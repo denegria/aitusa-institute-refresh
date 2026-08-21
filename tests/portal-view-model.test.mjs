@@ -104,9 +104,10 @@ describe("MIS-341 authenticated portal view model", () => {
       permissions: {
         aiPracticeApproved: true,
         advisorContactApproved: false,
-        marketingSmsOptIn: false,
-      },
-    });
+         marketingSmsOptIn: false,
+       },
+       contactPreference: null,
+     });
     assert.equal(JSON.stringify(model.guardianChild).includes("must-not-pass"), false);
   });
 

@@ -50,6 +50,7 @@ export function createAuthenticatedPortalViewModel(snapshot, { welcome = false }
     greeting: timeGreeting(new Date()),
     navigation: PORTAL_NAVIGATION,
     result,
+    contactPreference: normalizeContactPreference(snapshot.contactPreference),
     course,
     practice,
     advisor,
@@ -76,6 +77,17 @@ function normalizeGuardianChild(child) {
       advisorContactApproved: child.permissions?.advisorContactApproved === true,
       marketingSmsOptIn: false,
     },
+    contactPreference: normalizeContactPreference(child.contactPreference),
+  };
+}
+
+function normalizeContactPreference(preference) {
+  const allowedChannels = new Set(["email", "sms", "whatsapp", "phone"]);
+  if (!allowedChannels.has(preference?.preferredChannel)) return null;
+  return {
+    preferredChannel: preference.preferredChannel,
+    verifiedMobile: preference.verifiedMobile === true,
+    occurredAt: preference.occurredAt || null,
   };
 }
 
@@ -186,11 +198,11 @@ function normalizePractice(practice, result) {
       eligible: false,
       reason: "placement_result_required",
       status: "locked",
-      headline: "Completa tu examen de ubicación",
+      headline: "Completa el Placement Test",
       summary: "Necesitamos un punto de partida antes de preparar tu práctica.",
       href: "/placement-test/",
-      actionLabel: "Hacer examen",
-      statusLabel: "Primero completa tu ubicación",
+      actionLabel: "Hacer el Placement Test",
+      statusLabel: "Primero completa el Placement Test",
     };
   }
 
@@ -257,7 +269,7 @@ function practiceDeniedState(reason) {
       status: "unavailable",
       headline: "La práctica no está disponible ahora",
       summary:
-        "Tu resultado sigue guardado. Intenta de nuevo más tarde; no necesitas repetir el examen.",
+        "Tu resultado sigue guardado. Intenta de nuevo más tarde; no necesitas repetir el Placement Test.",
       href: "/portal/",
       actionLabel: "Intentar de nuevo",
       statusLabel: "Servicio temporalmente pausado",

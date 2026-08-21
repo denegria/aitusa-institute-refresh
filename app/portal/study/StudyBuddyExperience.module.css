@@ -129,9 +129,9 @@
   line-height: 1.03;
 }
 
-.context h1 { color: #fffdf9; font-size: clamp(2rem, 4vw, 3.35rem); }
+.context h1 { color: #fffdf9; font-size: clamp(1.875rem, 4vw, 2.25rem); }
 .card h1,
-.card h2 { font-size: clamp(2rem, 5vw, 3.7rem); }
+.card h2 { font-size: clamp(1.375rem, 3vw, 1.625rem); }
 .context > p,
 .card > p,
 .turnHeading p,
@@ -285,7 +285,7 @@
   .privacyNote { margin-top: 0.9rem; }
   .card { padding: 1.35rem; border-radius: 24px; }
   .card h1,
-  .card h2 { font-size: clamp(1.85rem, 10vw, 2.7rem); }
+  .card h2 { font-size: clamp(1.375rem, 7vw, 1.625rem); }
   .progress { margin-bottom: 1.5rem; }
   .answerActions,
   .feedbackActions { flex-direction: column-reverse; }

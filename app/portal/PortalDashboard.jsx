@@ -1,9 +1,16 @@
 import { site } from "../../src/content.js";
 import { GuardianPrivacyControls } from "./GuardianPrivacyControls.jsx";
 
+const CONTACT_CHANNEL_LABELS = Object.freeze({
+  email: "Email",
+  sms: "SMS de servicio",
+  whatsapp: "WhatsApp",
+  phone: "Llamada telefónica",
+});
+
 export function PortalDashboard({ model, section = "home" }) {
   const advisorHref = `${site.whatsappHref}?text=${encodeURIComponent(
-    `Hola AIT USA, guardé mi resultado de ubicación${
+    `Hola AIT USA, guardé el resultado de mi Placement Test${
       model.result?.recommendedLevelLabel
         ? ` (${model.result.recommendedLevelLabel})`
         : ""
@@ -67,7 +74,7 @@ export function PortalDashboard({ model, section = "home" }) {
               <p>
                 {model.result
                   ? "Tu punto de partida está listo. Revisa la recomendación o continúa con la próxima acción disponible."
-                  : "Completa el examen de ubicación para recibir un punto de partida antes de elegir tu curso."}
+                  : "Completa el Placement Test para recibir un punto de partida antes de elegir tu curso."}
               </p>
             </div>
             <div className="portal-hero__signal" aria-label="Estado de tu ruta">
@@ -76,7 +83,7 @@ export function PortalDashboard({ model, section = "home" }) {
               </span>
               <div>
                 <small>{model.result ? "Ruta activa" : "Ruta por iniciar"}</small>
-                <strong>{model.result ? "Resultado guardado" : "Examen pendiente"}</strong>
+                <strong>{model.result ? "Resultado guardado" : "Placement Test pendiente"}</strong>
               </div>
             </div>
           </section>
@@ -122,7 +129,7 @@ export function PortalDashboard({ model, section = "home" }) {
                   ? "Ver programa"
                   : model.result
                     ? "Hablar con un asesor"
-                    : "Hacer examen"}{" "}
+                    : "Hacer el Placement Test"}{" "}
                 <PortalIcon name="arrow" />
               </a>
             </div>
@@ -137,14 +144,14 @@ export function PortalDashboard({ model, section = "home" }) {
                     ? model.course.eyebrow
                     : model.result
                       ? "Nivel por confirmar"
-                      : "Ubicación pendiente"}
+                      : "Placement Test pendiente"}
                 </span>
                 <h3>
                   {model.course
                     ? model.course.title
                     : model.result
                     ? model.result.finalLevel || "Tu resultado está guardado para revisión"
-                      : "Completa el examen antes de elegir un nivel"}
+                      : "Completa el Placement Test antes de elegir un nivel"}
                 </h3>
                 <p>
                   {model.result
@@ -170,7 +177,7 @@ export function PortalDashboard({ model, section = "home" }) {
                   ? "Explorar curso"
                   : model.result
                     ? "Confirmar recomendación"
-                    : "Hacer examen"}
+                    : "Hacer el Placement Test"}
               </a>
             </div>
           </section>
@@ -278,6 +285,13 @@ export function PortalDashboard({ model, section = "home" }) {
                 {model.account.email} · Tu sesión usa un código seguro enviado por
                 email.
               </p>
+              {model.contactPreference ? (
+                <p className="portal-account-panel__contact-record">
+                  <strong>Orientación sobre tu resultado:</strong>{" "}
+                  {CONTACT_CHANNEL_LABELS[model.contactPreference.preferredChannel] || "Canal registrado"}.
+                  {model.contactPreference.verifiedMobile ? " Teléfono confirmado para contacto; no se usa para iniciar sesión." : " Registro de servicio guardado."}
+                </p>
+              ) : null}
             </div>
             <form action="/api/portal/sign-out" method="post">
               <button className="portal-signout" type="submit">
@@ -292,6 +306,11 @@ export function PortalDashboard({ model, section = "home" }) {
                 <p className="portal-eyebrow">Privacidad del menor</p>
                 <h2 id="portal-guardian-title">Autorización y perfil vinculado</h2>
                 <p>Estos controles solo están disponibles para el adulto con el email verificado.</p>
+                <p className="portal-guardian-summary__service-copy">
+                  La información de contacto del adulto gestiona el resultado del Placement Test del menor,
+                  las opciones de curso y los próximos pasos de inscripción. Es un contacto de servicio;
+                  el permiso de marketing permanece separado.
+                </p>
               </div>
               <GuardianPrivacyControls child={model.guardianChild} />
             </section>
@@ -371,7 +390,7 @@ function PortalNavigation({ items, activeId }) {
 
 function PortalSectionHeading({ section }) {
   const copy = {
-    results: ["Tu ubicación", "Mi nivel", "Consulta la recomendación actual y el estado de confirmación académica."],
+    results: ["Tu Placement Test", "Mi nivel", "Consulta la recomendación actual y el estado de confirmación académica."],
     courses: ["Ruta de aprendizaje", "Mis cursos", "Revisa el programa recomendado y el próximo paso de inscripción."],
     attendance: ["Seguimiento académico", "Asistencia", "Tu información de curso y asistencia aparecerá aquí cuando esté conectada."],
     study: ["Práctica guiada", "Estudiar", "Continúa tu práctica desde un espacio enfocado."],
@@ -452,11 +471,11 @@ function ResultCard({ result }) {
         className="portal-result-card portal-result-card--empty"
         id="resultado"
       >
-        <p className="portal-eyebrow">Tu ubicación</p>
+        <p className="portal-eyebrow">Tu Placement Test</p>
         <h2>Descubre tu punto de partida</h2>
-        <p>Completa el examen antes de crear tu ruta de práctica.</p>
+        <p>Completa el Placement Test antes de crear tu ruta de práctica.</p>
         <a className="portal-button portal-button--primary" href="/placement-test/">
-          Hacer examen <PortalIcon name="arrow" />
+          Hacer el Placement Test <PortalIcon name="arrow" />
         </a>
       </article>
     );
@@ -476,7 +495,7 @@ function ResultCard({ result }) {
   const note = confirmed
     ? "AIT revisó tu evidencia y confirmó este nivel como tu punto de partida."
     : additional
-      ? "AIT necesita una revisión adicional. Tu resultado sigue guardado y no necesitas repetir el examen todavía."
+      ? "AIT necesita una revisión adicional. Tu resultado sigue guardado y no necesitas repetir el Placement Test todavía."
       : "Pendiente de confirmación. AIT revisará la evidencia antes de cerrar tu nivel final.";
 
   return (
