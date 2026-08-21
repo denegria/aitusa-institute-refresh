@@ -877,22 +877,22 @@ function GuardianClaimPanel({ onClaimed, onStepChange, submission }) {
   );
 }
 
-function ResultClaimPanel({ ageBand, attemptId, enabled, onClaimed, onStepChange, submission }) {
+function ResultClaimPanel({ ageBand, attemptId, enabled, onClaimed, onStepChange, qaFixture, submission }) {
   return ageBand === "under_13"
     ? <GuardianClaimPanel onClaimed={onClaimed} onStepChange={onStepChange} submission={submission} />
-    : <AdultResultClaimPanel attemptId={attemptId} enabled={enabled} onClaimed={onClaimed} onStepChange={onStepChange} />;
+    : <AdultResultClaimPanel attemptId={attemptId} enabled={enabled} onClaimed={onClaimed} onStepChange={onStepChange} qaFixture={qaFixture} />;
 }
 
-function AdultResultClaimPanel({ attemptId, enabled, onClaimed, onStepChange }) {
-  const [step, setStep] = useState("details");
-  const [firstName, setFirstName] = useState("");
-  const [email, setEmail] = useState("");
-  const [preferredChannel, setPreferredChannel] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [contactAllowed, setContactAllowed] = useState(false);
-  const [code, setCode] = useState("");
-  const [claimId, setClaimId] = useState("");
-  const [challengeId, setChallengeId] = useState("");
+function AdultResultClaimPanel({ attemptId, enabled, onClaimed, onStepChange, qaFixture }) {
+  const [step, setStep] = useState(qaFixture?.state === "otp" ? "code" : "details");
+  const [firstName, setFirstName] = useState(qaFixture?.firstName || "");
+  const [email, setEmail] = useState(qaFixture?.email || "");
+  const [preferredChannel, setPreferredChannel] = useState(qaFixture?.channel || "");
+  const [mobile, setMobile] = useState(qaFixture?.mobile || "");
+  const [contactAllowed, setContactAllowed] = useState(Boolean(qaFixture));
+  const [code, setCode] = useState(qaFixture?.code || "");
+  const [claimId, setClaimId] = useState(qaFixture?.claimId || "");
+  const [challengeId, setChallengeId] = useState(qaFixture?.challengeId || "");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [receipt, setReceipt] = useState(null);
@@ -920,6 +920,12 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed, onStepChange }) 
   const requestCode = async (event) => {
     event.preventDefault();
     if (!enabled || busy) return;
+    if (qaFixture) {
+      setClaimId(qaFixture.claimId);
+      setChallengeId(qaFixture.challengeId);
+      setStep("code");
+      return;
+    }
     setBusy(true);
     setError("");
     const nextClaimId = createAttemptId();
@@ -974,6 +980,10 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed, onStepChange }) 
   const verifyCode = async (event) => {
     event.preventDefault();
     if (busy) return;
+    if (qaFixture) {
+      onClaimed?.(qaFixture.receipt);
+      return;
+    }
     setBusy(true);
     setError("");
     try {
@@ -1031,6 +1041,10 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed, onStepChange }) 
   const retryContactPreference = async (event) => {
     event.preventDefault();
     if (busy || !receipt) return;
+    if (qaFixture) {
+      onClaimed?.(qaFixture.receipt);
+      return;
+    }
     setBusy(true);
     setError("");
     try {
@@ -1182,14 +1196,19 @@ function ResultScreen({
   onRestart,
   result,
   resultClaimed,
+  qaFixture,
   skippedCount,
   submission,
   syncNotice,
 }) {
   const [claimReceipt, setClaimReceipt] = useState(() =>
-    resultClaimed ? { alreadyClaimed: true, portalHref: "/portal/" } : null,
+    qaFixture?.state === "result" || qaFixture?.state === "study"
+      ? qaFixture.receipt
+      : resultClaimed
+        ? { alreadyClaimed: true, portalHref: "/portal/" }
+        : null,
   );
-  const [claimStep, setClaimStep] = useState("details");
+  const [claimStep, setClaimStep] = useState(qaFixture?.state === "otp" ? "code" : "details");
   const recommendation = result?.recommendation;
   const scores = result?.scores || {};
   if (!recommendation) return null;
@@ -1216,6 +1235,7 @@ function ResultScreen({
           enabled={ageBand === "under_13" ? Boolean(submission) : durable && Boolean(attemptId)}
           onClaimed={setClaimReceipt}
           onStepChange={setClaimStep}
+          qaFixture={qaFixture}
           submission={submission}
         />
       </section>
@@ -1231,12 +1251,12 @@ function ResultScreen({
         <h2>{recommendation.level}</h2>
         <p>Este es tu nivel recomendado; un asesor de AIT lo confirmará contigo antes de la inscripción.</p>
         <div className="diagnostic-result__actions">
-          <a className="button button--gold" href={claimReceipt?.portalHref || "/portal/?welcome=1"}>Abrir mi Portal</a>
+          <a className="button button--gold" href={qaFixture ? "#qa-portal" : claimReceipt?.portalHref || "/portal/?welcome=1"}>Abrir mi Portal</a>
           <a
             className="button button--ghost"
-            href={result.advisorHandoff?.href || site.whatsappHref}
+            href={qaFixture ? "#qa-advisor" : result.advisorHandoff?.href || site.whatsappHref}
             rel="noreferrer"
-            target="_blank"
+            target={qaFixture ? undefined : "_blank"}
           >
             Hablar con un asesor
           </a>
@@ -1296,7 +1316,7 @@ function ResultScreen({
               <h3>Empezar práctica</h3>
               <p>Tu Portal tiene una práctica disponible para este resultado.</p>
             </div>
-            <a className="button button--gold" href="/portal/study/">Empezar práctica</a>
+            <a className="button button--gold" href={qaFixture ? "#qa-study" : "/portal/study/"}>Empezar práctica</a>
           </div>
         ) : null}
       </div>
@@ -1304,6 +1324,30 @@ function ResultScreen({
         Repetir el Placement Test
       </button>
     </section>
+  );
+}
+
+export function PlacementQaFixture({ fixture }) {
+  return (
+    <div className="section-inner diagnostic-shell" data-placement-form data-placement-qa-fixture>
+      <div className="diagnostic-shell__brand" aria-hidden="true">
+        <span>AIT USA Placement Test</span>
+      </div>
+      <ResultScreen
+        ageBand="age_13_plus"
+        attemptId="qa-attempt-0001"
+        completedCount={fixture.result.scores.answeredQuestionCount}
+        durable
+        goal="Mejorar mi inglés para estudiar y trabajar"
+        onRestart={() => {}}
+        qaFixture={fixture}
+        result={fixture.result}
+        resultClaimed={fixture.state === "result" || fixture.state === "study"}
+        skippedCount={fixture.result.scores.skippedQuestionCount}
+        submission={null}
+        syncNotice=""
+      />
+    </div>
   );
 }
 

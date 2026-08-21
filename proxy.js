@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server.js";
 import { getPortalPrototypeGateResponse } from "./src/portal/portalAvailability.js";
 import {
+  getPlacementQaFixtureGateResponse,
+  isPlacementQaFixturePath,
+} from "./src/diagnostic/qaFixture.js";
+import {
   CANONICAL_ORIGIN,
   getLegacyDestination,
   isLegacyGonePath,
@@ -50,6 +54,10 @@ export function proxy(request) {
 
   if (isLegacyEnglishHost) {
     return NextResponse.redirect(redirectUrl(request, pathname, true), 308);
+  }
+
+  if (isPlacementQaFixturePath(pathname)) {
+    return getPlacementQaFixtureGateResponse() || NextResponse.next();
   }
 
   if (pathname === "/portal" || pathname.startsWith("/portal/") || pathname.startsWith("/api/portal/")) {
