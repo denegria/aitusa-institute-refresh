@@ -134,7 +134,7 @@ function ProgressHeader({ question, questionIndex, questionCount }) {
       <div
         className="diagnostic-progress__track"
         role="progressbar"
-        aria-label="Progreso del examen"
+        aria-label="Progreso de la prueba de nivel"
         aria-valuemin="1"
         aria-valuemax={questionCount}
         aria-valuenow={questionIndex + 1}
@@ -203,7 +203,7 @@ function Under13Dialog({ onContinue, onClose, triggerRef }) {
         <p className="eyebrow-chip">Información importante</p>
         <h2 id="under13-title">¿El estudiante es menor de 13?</h2>
         <p id="under13-description">
-          Puede completar el examen. Para ver y guardar el resultado, un padre,
+          Puede completar la prueba de nivel. Para ver y guardar el resultado, un padre,
           madre o tutor debe verificar su email y crear el perfil mínimo.
         </p>
         <div className="placement-dialog__actions">
@@ -230,30 +230,34 @@ function IntroScreen({ busy, error, resumeSnapshot, onStart, onResume }) {
 
   return (
     <section className="diagnostic-intro" data-diagnostic-screen="intro">
-      <div>
-        <p className="eyebrow-chip">Evaluación inicial</p>
-        <h2>Descubre tu punto de partida</h2>
-        <p className="diagnostic-lead">
-          Completa 62 preguntas a tu ritmo. Al terminar, guarda tu nivel y
-          desbloquea una práctica personalizada de cinco minutos.
-        </p>
-      </div>
-      <div className="diagnostic-intro__actions">
-        {resumeSnapshot ? (
-          <>
+      {resumeSnapshot ? (
+        <>
+          <div className="diagnostic-intro__resume-copy">
+            <p className="eyebrow-chip">Progreso guardado</p>
+            <h2>Continúa tu prueba</h2>
+            <p className="diagnostic-lead">
+              Encontramos tu progreso guardado. Continúa donde quedaste o empieza de nuevo.
+            </p>
+          </div>
+          <div className="diagnostic-intro__actions">
             <button className="button button--primary" type="button" onClick={onResume}>
-              Continuar donde quedé
+              Continuar mi prueba
             </button>
-            <button
-              className="button button--ghost"
-              type="button"
-              onClick={() => onStart("age_13_plus")}
-            >
+            <button className="button button--ghost" type="button" onClick={() => onStart("age_13_plus")}>
               Empezar de nuevo
             </button>
-          </>
-        ) : (
-          <>
+          </div>
+        </>
+      ) : (
+        <>
+          <div>
+            <h2>Descubre tu punto de partida</h2>
+            <p className="diagnostic-lead">
+              Completa 62 preguntas a tu ritmo. Puedes omitir preguntas y
+              revisar tus respuestas antes de terminar.
+            </p>
+          </div>
+          <div className="diagnostic-intro__actions">
             <button
               className="button button--primary"
               disabled={busy}
@@ -271,36 +275,25 @@ function IntroScreen({ busy, error, resumeSnapshot, onStart, onResume }) {
             >
               ¿El estudiante es menor de 13?
             </button>
-          </>
-        )}
-      </div>
-      {error ? (
-        <div className="diagnostic-error" role="alert">
-          <strong>No pudimos activar el respaldo de siete días.</strong>
-          <span>{error}</span>
-        </div>
-      ) : null}
-      <div className="diagnostic-intro__facts" aria-label="Detalles del examen">
-        <article>
-          <strong>10–15 min</strong>
-          <span>Tiempo aproximado</span>
-        </article>
-        <article>
-          <strong>Resultado guardado</strong>
-          <span>Verifica tus datos al terminar</span>
-        </article>
-        <article>
-          <strong>Sin presión</strong>
-          <span>No mostramos errores durante el examen</span>
-        </article>
-      </div>
-      <div className="diagnostic-trust">
-        <span aria-hidden="true">✓</span>
-        <p>
-          Esta es una recomendación de ubicación de AIT. Un asesor confirma el
-          nivel final antes de la inscripción.
-        </p>
-      </div>
+          </div>
+          {error ? (
+            <div className="diagnostic-error" role="alert">
+              <strong>No pudimos activar el respaldo de siete días.</strong>
+              <span>{error}</span>
+            </div>
+          ) : null}
+          <div className="diagnostic-intro__facts" aria-label="Detalles de la prueba de nivel">
+            <article>
+              <strong>10–15 min</strong>
+              <span>Tiempo aproximado</span>
+            </article>
+            <article>
+              <strong>Sin presión</strong>
+              <span>No mostramos errores durante la prueba</span>
+            </article>
+          </div>
+        </>
+      )}
       {under13Open ? (
         <Under13Dialog
           onClose={() => setUnder13Open(false)}
@@ -361,7 +354,7 @@ function QuestionScreen({
           })}
         </div>
       </fieldset>
-      <nav className="diagnostic-question-nav" aria-label="Navegación del examen">
+      <nav className="diagnostic-question-nav" aria-label="Navegación de la prueba de nivel">
         <button className="diagnostic-text-action" type="button" onClick={onBack}>
           <span aria-hidden="true">←</span> Atrás
         </button>
@@ -531,7 +524,7 @@ function getClaimAttribution() {
 function claimErrorMessage(code) {
   return {
     passwordless_claim_unavailable:
-      "El acceso sin contraseña todavía no está configurado. Tu evaluación quedó guardada y puedes intentarlo de nuevo.",
+      "El acceso sin contraseña todavía no está configurado. Tu Placement Test quedó guardado y puedes intentarlo de nuevo.",
     magic_auth_rate_limited:
       "Ya enviamos varios códigos. Espera un minuto antes de solicitar otro.",
     magic_auth_code_invalid:
@@ -545,7 +538,7 @@ function claimErrorMessage(code) {
     claim_finalize_pending:
       "Tu email quedó verificado, pero todavía no pudimos guardar el resultado. Intenta completar el guardado otra vez.",
     guardian_onboarding_unavailable:
-      "El acceso para tutores todavía no está disponible. La evaluación quedó guardada en esta sesión.",
+      "El acceso para tutores todavía no está disponible. El Placement Test quedó guardado en esta sesión.",
     guardian_attestation_required:
       "El adulto debe confirmar que es el padre, madre o tutor autorizado.",
     guardian_notice_acceptance_required:
@@ -554,7 +547,7 @@ function claimErrorMessage(code) {
       "El código venció. Solicita uno nuevo para continuar.",
     guardian_email_verification_required:
       "Primero verifica el email del adulto.",
-  }[code] || "No pudimos completar este paso. Tu evaluación sigue guardada; inténtalo de nuevo.";
+  }[code] || "No pudimos completar este paso. Tu Placement Test sigue guardado; inténtalo de nuevo.";
 }
 
 const PLACEMENT_CONTACT_CHANNELS = Object.freeze([
@@ -578,18 +571,21 @@ function contactConsents(channel) {
   };
 }
 
+function contactPreferencePayload({ channel, mobile }) {
+  return {
+    preferredChannel: channel,
+    mobile: channelNeedsMobile(channel) ? mobile : undefined,
+    consents: contactConsents(channel),
+    sourceUrl: window.location.href,
+  };
+}
+
 async function savePlacementContactPreference({ attemptId, channel, mobile }) {
   const response = await fetch("/api/portal/placement-contact-preferences", {
     method: "POST",
     credentials: "same-origin",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({
-      attemptId,
-      preferredChannel: channel,
-      mobile: channelNeedsMobile(channel) ? mobile : undefined,
-      consents: contactConsents(channel),
-      sourceUrl: window.location.href,
-    }),
+    body: JSON.stringify({ attemptId, ...contactPreferencePayload({ channel, mobile }) }),
   });
   const body = await response.json();
   if (!response.ok || body.ok !== true) {
@@ -643,12 +639,12 @@ function ContactPreferenceFields({ allowed, channel, mobile, onAllowedChange, on
           <span>{contactPermissionCopy(channel)}</span>
         </label>
       ) : null}
-      <small>Solo usaremos este canal para orientarte sobre tu resultado. Esta elección no autoriza marketing ni envía mensajes ahora.</small>
+      <small>Esta autorización es necesaria para orientarte sobre tu resultado y próximos pasos. Solo usaremos este canal para ese servicio; no autoriza marketing ni envía mensajes ahora.</small>
     </fieldset>
   );
 }
 
-function GuardianClaimPanel({ onClaimed, submission }) {
+function GuardianClaimPanel({ onClaimed, onStepChange, submission }) {
   const [step, setStep] = useState("details");
   const [requestId, setRequestId] = useState("");
   const [challengeId, setChallengeId] = useState("");
@@ -665,6 +661,10 @@ function GuardianClaimPanel({ onClaimed, submission }) {
   const [receipt, setReceipt] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    onStepChange?.(step);
+  }, [onStepChange, step]);
 
   const requestCode = async (event) => {
     event.preventDefault();
@@ -731,20 +731,32 @@ function GuardianClaimPanel({ onClaimed, submission }) {
         method: "POST",
         credentials: "same-origin",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ challengeId, requestId, childFirstName, submission }),
+        body: JSON.stringify({
+          challengeId,
+          requestId,
+          childFirstName,
+          submission,
+          contactPreference: contactPreferencePayload({ channel: preferredChannel, mobile }),
+        }),
       });
       const body = await response.json();
       if (!response.ok || body.ok !== true) throw new Error(body.error || "guardian_finalize_conflict");
       setReceipt(body);
-      try {
-        await savePlacementContactPreference({ attemptId: body.result?.attemptId, channel: preferredChannel, mobile });
-      } catch {
+      if (body.contactPreferencePending === true) {
         setStep("contact-retry");
-        setError("La cuenta del tutor y el resultado ya quedaron guardados. Solo falta guardar la preferencia de contacto.");
+        setError("No pudimos guardar la preferencia todavía. Tu cuenta y resultado están seguros; puedes entrar al Portal o reintentarlo.");
         return;
       }
+      if (body.contactPreferenceSaved !== true) {
+        try {
+          await savePlacementContactPreference({ attemptId: body.result?.attemptId, channel: preferredChannel, mobile });
+        } catch {
+          setStep("contact-retry");
+          setError("No pudimos guardar la preferencia todavía. Tu cuenta y resultado están seguros; puedes entrar al Portal o reintentarlo.");
+          return;
+        }
+      }
       setStep("success");
-      onClaimed?.({ ...body, preferredChannel });
     } catch (saveError) {
       setError(claimErrorMessage(saveError.message));
     } finally {
@@ -760,7 +772,6 @@ function GuardianClaimPanel({ onClaimed, submission }) {
     try {
       await savePlacementContactPreference({ attemptId: receipt.result?.attemptId, channel: preferredChannel, mobile });
       setStep("success");
-      onClaimed?.({ ...receipt, preferredChannel });
     } catch {
       setError("Aún no pudimos guardar la preferencia. La cuenta y el resultado permanecen seguros; inténtalo otra vez.");
     } finally {
@@ -779,6 +790,12 @@ function GuardianClaimPanel({ onClaimed, submission }) {
               AIT guardará el resultado en tu cuenta y creará un perfil vinculado
               con solo el nombre del menor y la banda “menor de 13”. No pedimos fecha
               de nacimiento ni email del menor.
+            </p>
+            <p className="diagnostic-guardian-service-copy">
+              La información de contacto del adulto se usará para gestionar el
+              resultado del Placement Test del menor, revisar opciones de curso y
+              acompañar los próximos pasos de inscripción. Es un contacto de servicio;
+              no autoriza comunicaciones de marketing.
             </p>
           </div>
           <label>Tu nombre<input autoComplete="given-name" maxLength={80} required type="text" value={guardianFirstName} onChange={(event) => setGuardianFirstName(event.target.value)} /></label>
@@ -818,12 +835,12 @@ function GuardianClaimPanel({ onClaimed, submission }) {
       ) : null}
       {step === "code" ? (
         <form className="diagnostic-claim-form" onSubmit={verifyCode}>
-          <div><p className="section-kicker">Email del tutor</p><h3>Escribe el código de 6 dígitos</h3><p>Lo enviamos a {guardianEmail}.</p></div>
+          <div><p className="section-kicker">Código de acceso</p><h3>Verifica tu email</h3><p>Escribe el código de 6 dígitos enviado a {guardianEmail}. Vence en 10 minutos.</p></div>
           <label>Código<input autoComplete="one-time-code" inputMode="numeric" maxLength={6} minLength={6} pattern="[0-9]{6}" required type="text" value={code} onChange={(event) => setCode(event.target.value.replace(/\D/g, ""))} /></label>
           {error ? <p className="diagnostic-claim-error" role="alert">{error}</p> : null}
           <div className="diagnostic-claim-form__actions">
-            <button className="button button--gold" disabled={busy} type="submit">{busy ? "Verificando…" : "Verificar email"}</button>
-            <button className="diagnostic-unlock__later" disabled={busy} type="button" onClick={() => setStep("details")}>Cambiar email</button>
+            <button className="button button--gold" disabled={busy} type="submit">{busy ? "Verificando…" : "Verificar y ver el resultado"}</button>
+            <button className="diagnostic-unlock__later" disabled={busy} type="button" onClick={() => setStep("details")}>Usar otro email</button>
           </div>
         </form>
       ) : null}
@@ -840,30 +857,33 @@ function GuardianClaimPanel({ onClaimed, submission }) {
       ) : null}
       {step === "success" ? (
         <div className="diagnostic-claim-success" role="status">
-          <p className="section-kicker">Autorización guardada</p>
-          <h3>El perfil de {receipt?.child?.firstName} está vinculado</h3>
-          <p>Comprobante: {receipt?.consent?.receiptCode}. Los permisos opcionales permanecen separados.</p>
-          <a className="button button--gold" href={receipt?.portalHref || "/portal/"}>Abrir el Portal del tutor</a>
+          <p className="section-kicker">Email verificado</p>
+          <h3>Tu acceso está listo</h3>
+          <p>
+            {guardianFirstName ? `${guardianFirstName}, ` : ""}tu email quedó verificado y el resultado del menor está vinculado de forma segura.
+            Comprobante: {receipt?.consent?.receiptCode}. Los permisos opcionales permanecen separados.
+          </p>
+          <a className="button button--gold" href={receipt?.portalHref || "/portal/"}>Ir al Portal</a>
         </div>
       ) : null}
       {step === "contact-retry" ? (
-        <form className="diagnostic-claim-form" onSubmit={retryGuardianContact}>
-          <div><p className="section-kicker">Resultado guardado</p><h3>Completa la preferencia del tutor</h3><p>No hace falta verificar el email otra vez.</p></div>
+        <form className="diagnostic-claim-form diagnostic-claim-form--retry" onSubmit={retryGuardianContact}>
+          <div><p className="section-kicker">Preferencia de contacto</p><h3>Cuenta lista</h3><p>Tu resultado está guardado y solo queda guardar tu preferencia de contacto. Tu cuenta permanece segura y puedes entrar al Portal ahora.</p></div>
           {error ? <p className="diagnostic-claim-error" role="alert">{error}</p> : null}
-          <div className="diagnostic-claim-form__actions"><button className="button button--gold" disabled={busy} type="submit">{busy ? "Guardando…" : "Guardar y ver el resultado"}</button></div>
+          <div className="diagnostic-claim-form__actions"><button className="button button--gold" disabled={busy} type="submit">{busy ? "Guardando…" : "Reintentar preferencia"}</button><a className="button button--ghost" href={receipt?.portalHref || "/portal/?welcome=1"}>Ir al Portal</a></div>
         </form>
       ) : null}
     </div>
   );
 }
 
-function ResultClaimPanel({ ageBand, attemptId, enabled, onClaimed, submission }) {
+function ResultClaimPanel({ ageBand, attemptId, enabled, onClaimed, onStepChange, submission }) {
   return ageBand === "under_13"
-    ? <GuardianClaimPanel onClaimed={onClaimed} submission={submission} />
-    : <AdultResultClaimPanel attemptId={attemptId} enabled={enabled} onClaimed={onClaimed} />;
+    ? <GuardianClaimPanel onClaimed={onClaimed} onStepChange={onStepChange} submission={submission} />
+    : <AdultResultClaimPanel attemptId={attemptId} enabled={enabled} onClaimed={onClaimed} onStepChange={onStepChange} />;
 }
 
-function AdultResultClaimPanel({ attemptId, enabled, onClaimed }) {
+function AdultResultClaimPanel({ attemptId, enabled, onClaimed, onStepChange }) {
   const [step, setStep] = useState("details");
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
@@ -877,8 +897,13 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed }) {
   const [error, setError] = useState("");
   const [receipt, setReceipt] = useState(null);
 
+  useEffect(() => {
+    onStepChange?.(step);
+  }, [onStepChange, step]);
+
   const revealResult = (claimed) => {
     setStep("success");
+    setReceipt(claimed);
     window.dispatchEvent(
       new CustomEvent("aitusa:placement-claimed", {
         detail: {
@@ -890,7 +915,6 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed }) {
         },
       }),
     );
-    onClaimed?.({ ...claimed, preferredChannel });
   };
 
   const requestCode = async (event) => {
@@ -929,6 +953,7 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed }) {
           firstName,
           email,
           advisorContactRequested: false,
+          contactPreference: contactPreferencePayload({ channel: preferredChannel, mobile }),
           attribution: getClaimAttribution(),
         }),
       });
@@ -956,7 +981,12 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed }) {
         method: "POST",
         credentials: "same-origin",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ challengeId, claimId, code }),
+        body: JSON.stringify({
+          challengeId,
+          claimId,
+          code,
+          contactPreference: contactPreferencePayload({ channel: preferredChannel, mobile }),
+        }),
       });
       let body = await response.json();
       if (body.error === "claim_finalize_pending" && body.retryable === true) {
@@ -964,7 +994,11 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed }) {
           method: "POST",
           credentials: "same-origin",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ challengeId, claimId }),
+          body: JSON.stringify({
+            challengeId,
+            claimId,
+            contactPreference: contactPreferencePayload({ channel: preferredChannel, mobile }),
+          }),
         });
         body = await response.json();
       }
@@ -972,12 +1006,19 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed }) {
         throw new Error(body.error || "portal_claim_failed");
       }
       setReceipt(body);
-      try {
-        await savePlacementContactPreference({ attemptId, channel: preferredChannel, mobile });
-      } catch {
+      if (body.contactPreferencePending === true) {
         setStep("contact-retry");
-        setError("Tu cuenta y resultado ya quedaron guardados. Solo falta guardar cómo prefieres que AIT te contacte.");
+        setError("No pudimos guardar la preferencia todavía. Tu cuenta y resultado están seguros; puedes entrar al Portal o reintentarlo.");
         return;
+      }
+      if (body.contactPreferenceSaved !== true) {
+        try {
+          await savePlacementContactPreference({ attemptId, channel: preferredChannel, mobile });
+        } catch {
+          setStep("contact-retry");
+          setError("No pudimos guardar la preferencia todavía. Tu cuenta y resultado están seguros; puedes entrar al Portal o reintentarlo.");
+          return;
+        }
       }
       revealResult(body);
     } catch (verifyError) {
@@ -1007,9 +1048,9 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed }) {
       {step === "details" ? (
         <form className="diagnostic-claim-form diagnostic-claim-form--contact" onSubmit={requestCode}>
           <div>
-            <p className="section-kicker">Datos para tu Portal</p>
-            <h3>Guarda y desbloquea tu resultado</h3>
-            <p>Tu email protege el acceso. Tú eliges cómo quieres recibir orientación de AIT.</p>
+            <p className="section-kicker">Guarda tu resultado</p>
+            <h3>Crea tu acceso</h3>
+            <p>Verifica tu email y elige cómo quieres recibir orientación de AIT.</p>
           </div>
           <label>
             Nombre
@@ -1055,14 +1096,14 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed }) {
               {busy ? "Enviando…" : "Verificar y ver mi resultado"}
             </button>
           </div>
-          {!enabled ? <small>El respaldo seguro del intento no está disponible. Recarga la página para reintentar sin repetir la evaluación.</small> : null}
+          {!enabled ? <small>El respaldo seguro del intento no está disponible. Recarga la página para reintentar sin repetir el Placement Test.</small> : null}
         </form>
       ) : null}
       {step === "code" ? (
         <form className="diagnostic-claim-form" onSubmit={verifyCode}>
           <div>
-            <p className="section-kicker">Revisa tu email</p>
-            <h3>Verifica y abre tu resultado</h3>
+            <p className="section-kicker">Código de acceso</p>
+            <h3>Verifica tu email</h3>
             <p>Escribe el código de 6 dígitos enviado a {email}. Vence en 10 minutos.</p>
           </div>
           <label>
@@ -1082,7 +1123,7 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed }) {
           {error ? <p className="diagnostic-claim-error" role="alert">{error}</p> : null}
           <div className="diagnostic-claim-form__actions">
             <button className="button button--gold" disabled={busy} type="submit">
-              {busy ? "Verificando…" : "Ver mi resultado"}
+              {busy ? "Verificando…" : "Verificar y ver mi resultado"}
             </button>
             <button
               className="diagnostic-unlock__later"
@@ -1090,34 +1131,34 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed }) {
               type="button"
               onClick={() => setStep("details")}
             >
-              Cambiar email
+              Usar otro email
             </button>
           </div>
         </form>
       ) : null}
       {step === "contact-retry" ? (
-        <form className="diagnostic-claim-form" onSubmit={retryContactPreference}>
+        <form className="diagnostic-claim-form diagnostic-claim-form--retry" onSubmit={retryContactPreference}>
           <div>
-            <p className="section-kicker">Resultado guardado</p>
-            <h3>Completa tu preferencia de contacto</h3>
-            <p>No necesitas otro código. Reintentaremos solamente este último paso.</p>
+            <p className="section-kicker">Preferencia de contacto</p>
+            <h3>Cuenta lista</h3>
+            <p>Tu resultado está guardado y solo queda guardar tu preferencia de contacto. Tu cuenta permanece segura y puedes entrar al Portal ahora.</p>
           </div>
           {error ? <p className="diagnostic-claim-error" role="alert">{error}</p> : null}
           <div className="diagnostic-claim-form__actions">
-            <button className="button button--gold" disabled={busy} type="submit">{busy ? "Guardando…" : "Guardar y ver mi resultado"}</button>
+            <button className="button button--gold" disabled={busy} type="submit">{busy ? "Guardando…" : "Reintentar preferencia"}</button>
+            <a className="button button--ghost" href={receipt?.portalHref || "/portal/?welcome=1"}>Ir al Portal</a>
           </div>
         </form>
       ) : null}
       {step === "success" ? (
         <div className="diagnostic-claim-success" role="status">
-          <p className="section-kicker">Resultado guardado</p>
-          <h3>Tu cuenta ya está lista, {receipt?.account?.firstName}</h3>
+          <p className="section-kicker">Email verificado</p>
+          <h3>Tu acceso está listo</h3>
           <p>
-            Tu email quedó verificado y tu resultado está vinculado de forma
-            segura. No necesitas crear una contraseña.
+            {receipt?.account?.firstName ? `${receipt.account.firstName}, ` : ""}tu email quedó verificado y tu resultado está vinculado de forma segura. No necesitas crear una contraseña.
           </p>
           <a className="button button--gold" href={receipt?.portalHref || "/portal/"}>
-            Abrir mi portal
+            Ir al Portal
           </a>
         </div>
       ) : null}
@@ -1148,6 +1189,7 @@ function ResultScreen({
   const [claimReceipt, setClaimReceipt] = useState(() =>
     resultClaimed ? { alreadyClaimed: true, portalHref: "/portal/" } : null,
   );
+  const [claimStep, setClaimStep] = useState("details");
   const recommendation = result?.recommendation;
   const scores = result?.scores || {};
   if (!recommendation) return null;
@@ -1158,13 +1200,13 @@ function ResultScreen({
         <div className="diagnostic-gate-heading">
           <span className="diagnostic-complete__mark" aria-hidden="true">✓</span>
           <div>
-            <p className="eyebrow-chip">Evaluación completada</p>
-            <h2>Tu resultado está listo</h2>
-            <p>Verifica tus datos para verlo y desbloquear tu práctica en Study Buddy.</p>
+            <p className="eyebrow-chip">Placement Test completado</p>
+            <h2>Resultado listo</h2>
+            <p>{claimStep === "code" ? "Solo falta verificar tu email para ver tu resultado." : "Verifica tu email y elige cómo quieres recibir orientación sobre tu resultado y próximos pasos."}</p>
           </div>
         </div>
         <ol className="diagnostic-handoff-progress" aria-label="Progreso para ver el resultado">
-          <li className="is-complete"><span>✓</span><strong>Evaluación</strong></li>
+          <li className="is-complete"><span>✓</span><strong>Placement Test</strong></li>
           <li className="is-current" aria-current="step"><span>2</span><strong>Datos</strong></li>
           <li><span>3</span><strong>Resultado</strong></li>
         </ol>
@@ -1173,98 +1215,94 @@ function ResultScreen({
           attemptId={attemptId}
           enabled={ageBand === "under_13" ? Boolean(submission) : durable && Boolean(attemptId)}
           onClaimed={setClaimReceipt}
+          onStepChange={setClaimStep}
           submission={submission}
         />
       </section>
     );
   }
 
+  const practiceEligible = claimReceipt?.practiceEligible === true || result?.practiceEligible === true;
+
   return (
     <section className="diagnostic-result" data-diagnostic-screen="result">
       <div className="diagnostic-result__hero">
-        <p className="eyebrow-chip">¡Nivel desbloqueado!</p>
-        <span className="diagnostic-result__label">Pendiente de confirmación</span>
+        <p className="eyebrow-chip">Resultado del Placement Test</p>
         <h2>{recommendation.level}</h2>
-        <p>{recommendation.recommendation || recommendation.copy}</p>
-      </div>
-      <div className="diagnostic-study-unlock">
-        <div>
-          <p className="section-kicker">Misión 2 desbloqueada</p>
-          <h3>Empieza con cinco minutos de práctica</h3>
-          <p>Study Buddy adapta tu primera actividad al nivel que acabas de obtener.</p>
-        </div>
-        <a className="button button--gold" href="/portal/study/">Comenzar mi práctica personalizada</a>
-      </div>
-      <div className="diagnostic-result__metrics">
-        <article>
-          <strong>{scores.quizScore}</strong>
-          <span>respuestas correctas de {scores.quizQuestionCount}</span>
-        </article>
-        <article>
-          <strong>{completedCount}</strong>
-          <span>preguntas respondidas</span>
-        </article>
-        <article>
-          <strong>{skippedCount}</strong>
-          <span>preguntas sin responder</span>
-        </article>
-      </div>
-      <div className="diagnostic-result__explanation">
-        <h3>Qué significa</h3>
-        <p><strong>Ruta sugerida:</strong> {recommendation.bestFit}</p>
-        <p><strong>Tu objetivo:</strong> {goal}</p>
-        {scores.borderlineReviewRequired ? (
-          <p>
-            <strong>Revisión recomendada:</strong> quedaste a una respuesta del
-            siguiente nivel. El asesor puede usar tu escritura y contexto para
-            confirmar si avanzas.
-          </p>
-        ) : null}
-        <p>
-          <strong>Confirmación académica:</strong> un asesor revisa esta
-          recomendación contigo antes de definir nivel, horario e inscripción.
-        </p>
-        {scores.answerKeyStatus === "approved" ? (
-          <p className="diagnostic-result__provisional">
-            La recomendación usa bloques consecutivos aprobados por AIT. Un
-            resultado limítrofe o de Nivel 6 se revisa con la escritura y el
-            contexto del estudiante; no representa una certificación CEFR.
-          </p>
-        ) : (
-          <p className="diagnostic-result__provisional">
-            Este resultado usa la regla académica disponible cuando completaste
-            el examen. Un asesor confirma tu nivel antes de la inscripción.
-          </p>
-        )}
-        {syncNotice ? (
-          <p className="diagnostic-result__provisional">{syncNotice}</p>
-        ) : null}
-      </div>
-      <ol className="diagnostic-mission-path" aria-label="Tu ruta después de la evaluación">
-        <li className="is-complete"><span>✓</span><div><strong>Descubre tu nivel</strong><small>Completado</small></div></li>
-        <li className="is-current"><span>2</span><div><strong>Primera práctica</strong><small>5 minutos en Study Buddy</small></div></li>
-        <li><span>3</span><div><strong>Nivel confirmado</strong><small>Revisión académica de AIT</small></div></li>
-        <li><span>4</span><div><strong>Curso y horario</strong><small>Elige cómo continuar</small></div></li>
-      </ol>
-      <div className="diagnostic-result__support" aria-label="Otras formas de continuar">
-        <p>¿Prefieres decidir con ayuda?</p>
-        <div className="diagnostic-result__support-links">
+        <p>Este es tu nivel recomendado; un asesor de AIT lo confirmará contigo antes de la inscripción.</p>
+        <div className="diagnostic-result__actions">
+          <a className="button button--gold" href={claimReceipt?.portalHref || "/portal/?welcome=1"}>Abrir mi Portal</a>
           <a
-            className="diagnostic-result__support-link"
+            className="button button--ghost"
             href={result.advisorHandoff?.href || site.whatsappHref}
             rel="noreferrer"
             target="_blank"
           >
-            Confirmar con un asesor
-          </a>
-          <a className="diagnostic-result__support-link" href="/cursos/">
-            Ver cursos
+            Hablar con un asesor
           </a>
         </div>
-        <button className="diagnostic-text-action" type="button" onClick={onRestart}>
-          Volver a empezar
-        </button>
       </div>
+      <div className="diagnostic-result__details">
+        <div className="diagnostic-result__metrics">
+          <h3>Detalles del Placement Test</h3>
+          <div className="diagnostic-result__metrics-grid">
+            <article>
+              <strong>{scores.quizScore}</strong>
+              <span>respuestas correctas de {scores.quizQuestionCount}</span>
+            </article>
+            <article>
+              <strong>{completedCount}</strong>
+              <span>preguntas respondidas</span>
+            </article>
+            <article>
+              <strong>{skippedCount}</strong>
+              <span>preguntas sin responder</span>
+            </article>
+          </div>
+        </div>
+        <div className="diagnostic-result__explanation">
+          <h3>Cómo interpretar tu resultado</h3>
+          <p>{recommendation.recommendation || recommendation.copy}</p>
+          {goal ? <p><strong>Tu objetivo:</strong> {goal}</p> : null}
+          {scores.borderlineReviewRequired ? (
+            <p>
+              <strong>Revisión recomendada:</strong> quedaste a una respuesta del
+              siguiente nivel. El asesor puede usar tu escritura y contexto para
+              confirmar si avanzas.
+            </p>
+          ) : null}
+          <p>
+            <strong>Confirmación académica:</strong> un asesor revisa esta
+            recomendación contigo antes de definir nivel, horario e inscripción.
+          </p>
+          {scores.answerKeyStatus === "approved" ? (
+            <p className="diagnostic-result__provisional">
+              La recomendación usa bloques consecutivos aprobados por AIT. Un
+              resultado limítrofe o de Nivel 6 se revisa con la escritura y el
+              contexto del estudiante; no representa una certificación CEFR.
+            </p>
+          ) : (
+            <p className="diagnostic-result__provisional">
+              Este resultado usa la regla académica disponible cuando completaste
+              el Placement Test. Un asesor confirma tu nivel antes de la inscripción.
+            </p>
+          )}
+          {syncNotice ? <p className="diagnostic-result__provisional">{syncNotice}</p> : null}
+        </div>
+        {practiceEligible ? (
+          <div className="diagnostic-study-unlock">
+            <div>
+              <p className="section-kicker">Study Buddy</p>
+              <h3>Empezar práctica</h3>
+              <p>Tu Portal tiene una práctica disponible para este resultado.</p>
+            </div>
+            <a className="button button--gold" href="/portal/study/">Empezar práctica</a>
+          </div>
+        ) : null}
+      </div>
+      <button className="diagnostic-text-action" type="button" onClick={onRestart}>
+        Repetir el Placement Test
+      </button>
     </section>
   );
 }
@@ -1750,8 +1788,7 @@ export function PlacementExperience() {
   return (
     <div className="section-inner diagnostic-shell" data-placement-form>
       <div className="diagnostic-shell__brand" aria-hidden="true">
-        <span>AIT</span>
-        <small>Placement Diagnostic</small>
+        <span>AIT USA Placement Test</span>
       </div>
       {screen === "intro" ? (
         <IntroScreen

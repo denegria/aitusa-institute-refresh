@@ -35,7 +35,8 @@
 
 .portal-page {
   background: var(--portal-navy-950);
-  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
 }
 
 .portal-page a,
@@ -346,7 +347,8 @@
   margin: 0 auto;
   max-width: 1240px;
   min-width: 0;
-  min-height: calc(100vh - 76px);
+  min-height: calc(100svh - 76px);
+  min-height: calc(100dvh - 76px);
   padding: 38px 38px 32px;
   width: 100%;
 }
@@ -357,7 +359,7 @@
 
 .portal-route-heading h1 {
   color: var(--portal-navy-950);
-  font-size: clamp(34px, 4vw, 50px);
+  font-size: clamp(1.875rem, 4vw, 2.25rem);
   font-weight: 500;
   letter-spacing: -0.04em;
   line-height: 1.05;
@@ -449,7 +451,7 @@
 .portal-hero h1 {
   color: var(--portal-navy-950);
   font-family: "Plus Jakarta Sans", "Segoe UI Variable Display", "Segoe UI", sans-serif;
-  font-size: clamp(36px, 4vw, 54px);
+  font-size: clamp(1.875rem, 4vw, 2.25rem);
   font-weight: 500;
   letter-spacing: -0.04em;
   line-height: 1.02;
@@ -1163,6 +1165,12 @@
   overflow-wrap: anywhere;
 }
 
+.portal-account-panel__contact-record {
+  border-left: 3px solid var(--portal-gold);
+  margin-top: 10px !important;
+  padding-left: 10px;
+}
+
 .portal-signout {
   background: transparent;
   border: 1px solid #ccd5e4;
@@ -1271,8 +1279,8 @@
   display: grid;
   grid-template-rows: 68px minmax(0, 1fr);
   justify-items: center;
-  min-height: 100vh;
   min-height: 100svh;
+  min-height: 100dvh;
   padding: 0 18px 18px;
   position: relative;
 }
@@ -1371,7 +1379,7 @@
 .portal-access h1 {
   color: var(--portal-navy-950);
   font-family: "Plus Jakarta Sans", "Segoe UI Variable Display", "Segoe UI", sans-serif;
-  font-size: 39px;
+  font-size: 32px;
   font-weight: 500;
   letter-spacing: -0.04em;
   line-height: 1.05;
@@ -1857,7 +1865,7 @@
   }
 
   .portal-result-card h2 {
-    font-size: 27px;
+    font-size: 26px;
   }
 
   .portal-section__heading {
@@ -1914,7 +1922,7 @@
   }
 
   .portal-access h1 {
-    font-size: 34px;
+    font-size: 30px;
   }
 
   .portal-signin__new-student {

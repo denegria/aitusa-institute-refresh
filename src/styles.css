@@ -2952,6 +2952,10 @@ textarea {
   --accent: #c4932d;
   --ink: #0f172a;
   --ink-soft: #475569;
+  display: flex;
+  min-height: calc(100svh - 92px);
+  min-height: calc(100dvh - 92px);
+  flex-direction: column;
   background: #001a3d;
 }
 
@@ -2993,14 +2997,20 @@ textarea {
 }
 
 .placement-page__app {
-  min-height: 0;
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  min-height: max(0px, calc(100svh - 92px - 56px));
+  min-height: max(0px, calc(100dvh - 92px - 56px));
   padding-block: 18px 12px;
   background: #001a3d;
 }
 
 .diagnostic-shell {
   position: relative;
+  flex: 0 0 auto;
   display: grid;
+  margin-block: auto;
   width: min(1040px, calc(100% - 32px));
   min-height: 620px;
   overflow: visible;
@@ -3107,7 +3117,7 @@ textarea {
   margin: 0;
   color: var(--blue-deep);
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 4vw, 2.6rem);
+  font-size: clamp(1.875rem, 4vw, 2.6rem);
   line-height: 1.04;
 }
 
@@ -3213,11 +3223,6 @@ textarea {
 .diagnostic-handoff-progress .is-current > span {
   border-color: var(--gold);
   box-shadow: 0 0 0 5px rgba(196, 147, 45, 0.14);
-}
-
-.diagnostic-result--gate:has(.diagnostic-contact-choice__grid input:checked) .diagnostic-gate-heading,
-.diagnostic-result--gate:has(.diagnostic-contact-choice__grid input:checked) .diagnostic-handoff-progress {
-  display: none;
 }
 
 .diagnostic-value-preview {
@@ -3811,7 +3816,65 @@ textarea {
   line-height: 1.6;
 }
 
-.diagnostic-result__metrics {
+.diagnostic-intro__resume-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.diagnostic-resume-status {
+  margin: 4px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.diagnostic-result__hero h2 {
+  margin: 10px 0 0;
+  color: var(--blue-deep);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 2.6rem);
+  line-height: 1.04;
+}
+
+.diagnostic-result__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.diagnostic-result__actions .button {
+  min-height: 44px;
+}
+
+.diagnostic-result__actions .button--gold {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--blue-deep);
+  box-shadow: 0 10px 24px rgba(196, 147, 45, 0.2);
+}
+
+.diagnostic-result__actions .button--gold:hover,
+.diagnostic-result__actions .button--gold:focus-visible {
+  border-color: #d9b45d;
+  background: #d9b45d;
+  color: var(--blue-deep);
+}
+
+.diagnostic-result__details {
+  display: grid;
+  gap: 24px;
+}
+
+.diagnostic-result__details h3 {
+  margin: 0 0 12px;
+  color: var(--blue-deep);
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  line-height: 1.12;
+}
+
+.diagnostic-result__metrics-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   overflow: hidden;
@@ -3819,23 +3882,23 @@ textarea {
   border-radius: 12px;
 }
 
-.diagnostic-result__metrics article {
+.diagnostic-result__metrics-grid article {
   display: grid;
   gap: 4px;
   padding: 17px 18px;
 }
 
-.diagnostic-result__metrics article + article {
+.diagnostic-result__metrics-grid article + article {
   border-left: 1px solid rgba(0, 26, 61, 0.12);
 }
 
-.diagnostic-result__metrics strong {
+.diagnostic-result__metrics-grid strong {
   color: var(--blue-deep);
   font-family: var(--font-display);
   font-size: 1.9rem;
 }
 
-.diagnostic-result__metrics span {
+.diagnostic-result__metrics-grid span {
   color: var(--ink-soft);
   font-size: 0.75rem;
   line-height: 1.35;
@@ -3978,6 +4041,36 @@ textarea {
   gap: 14px;
 }
 
+.diagnostic-claim-form > div:first-child {
+  display: grid;
+  gap: 8px;
+}
+
+.diagnostic-claim-form > div:first-child h3,
+.diagnostic-claim-success h3 {
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(1.375rem, 3vw, 1.625rem);
+  line-height: 1.12;
+}
+
+.diagnostic-claim-form > div:first-child p:not(.section-kicker),
+.diagnostic-claim-success > p:not(.section-kicker) {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.diagnostic-claim-form .section-kicker,
+.diagnostic-claim-success .section-kicker {
+  margin: 0;
+  color: var(--gold);
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
 .diagnostic-claim-form > div:first-child,
 .diagnostic-claim-form > small,
 .diagnostic-claim-check,
@@ -4021,7 +4114,7 @@ textarea {
 .diagnostic-contact-choice > legend {
   margin-bottom: 4px;
   color: #fff;
-  font-size: 0.8rem;
+  font-size: 0.9375rem;
   font-weight: 850;
 }
 
@@ -4088,7 +4181,7 @@ textarea {
 .diagnostic-contact-choice > small,
 .diagnostic-contact-mobile small {
   color: rgba(255, 255, 255, 0.68);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   line-height: 1.4;
 }
 
@@ -4423,7 +4516,8 @@ textarea {
   }
 
   .section.placement-page__app {
-    min-height: 0;
+    min-height: max(0px, calc(100svh - 72px - 54px));
+    min-height: max(0px, calc(100dvh - 72px - 54px));
     padding-block: 12px 8px;
   }
 
@@ -4436,6 +4530,12 @@ textarea {
   .diagnostic-shell__brand {
     top: 12px;
     left: 16px;
+  }
+
+  .diagnostic-shell:has(.diagnostic-result) .diagnostic-shell__brand {
+    position: static;
+    display: flex;
+    margin: 12px 16px 0;
   }
 
   .diagnostic-intro,
@@ -4452,10 +4552,6 @@ textarea {
     gap: 8px;
     width: calc(100% - 20px);
     padding-top: 20px;
-  }
-
-  .diagnostic-shell:has(.diagnostic-result--gate) .diagnostic-shell__brand {
-    display: none;
   }
 
   .diagnostic-gate-heading {
@@ -4475,13 +4571,18 @@ textarea {
   }
 
   .diagnostic-gate-heading h2 {
-    font-size: 1.35rem;
+    font-size: clamp(1.75rem, 8vw, 2rem);
+    line-height: 1.04;
+  }
+
+  .diagnostic-shell:has(.diagnostic-result) .diagnostic-result {
+    padding-top: 12px;
   }
 
   .diagnostic-gate-heading p:last-child {
-    margin-top: 2px;
-    font-size: 0.7rem;
-    line-height: 1.32;
+    margin-top: 8px;
+    font-size: 0.9375rem;
+    line-height: 1.45;
   }
 
   .diagnostic-handoff-progress li {
@@ -4526,6 +4627,11 @@ textarea {
   .diagnostic-goal h2,
   .diagnostic-result h2 {
     font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .diagnostic-intro__resume-copy h2 {
+    font-size: clamp(1.875rem, 8vw, 2.25rem);
+    line-height: 1.04;
   }
 
   .diagnostic-lead,
@@ -4651,7 +4757,7 @@ textarea {
     width: 100%;
   }
 
-  .diagnostic-result__metrics {
+  .diagnostic-result__metrics-grid {
     grid-template-columns: 1fr;
   }
 
@@ -4690,19 +4796,33 @@ textarea {
     white-space: normal;
   }
 
-  .diagnostic-result__metrics article {
+  .diagnostic-result__metrics-grid article {
     grid-template-columns: 74px minmax(0, 1fr);
     align-items: center;
     padding: 12px 14px;
   }
 
-  .diagnostic-result__metrics article + article {
+  .diagnostic-result__metrics-grid article + article {
     border-top: 1px solid rgba(0, 26, 61, 0.12);
     border-left: 0;
   }
 
-  .diagnostic-result__metrics strong {
+  .diagnostic-result__metrics-grid strong {
     font-size: 1.55rem;
+  }
+
+  .diagnostic-result__hero h2 {
+    font-size: clamp(1.875rem, 8vw, 2.25rem);
+    line-height: 1.04;
+  }
+
+  .diagnostic-result__actions {
+    display: grid;
+    gap: 12px;
+  }
+
+  .diagnostic-result__actions .button {
+    width: 100%;
   }
 
   .diagnostic-unlock {
@@ -4725,10 +4845,6 @@ textarea {
 
   .diagnostic-claim-form > div:first-child p {
     margin-top: 5px;
-  }
-
-  .diagnostic-claim-form--contact > div:first-child p:not(.section-kicker) {
-    display: none;
   }
 
   .diagnostic-claim-form > label:not(.diagnostic-claim-check):only-of-type {
@@ -4777,6 +4893,62 @@ textarea {
     justify-content: flex-start;
     width: 100%;
     padding-inline: 0;
+  }
+
+  .diagnostic-result--gate:has(.diagnostic-claim-form--retry) {
+    gap: 16px;
+    padding-block: 24px 22px;
+  }
+
+  .diagnostic-claim-form--retry {
+    gap: 16px;
+    padding: 8px 0 4px;
+  }
+
+  .diagnostic-unlock:has(.diagnostic-claim-form--retry) {
+    padding: 24px 16px 24px;
+  }
+
+  .diagnostic-claim-form--retry > div:first-child p:not(.section-kicker) {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .diagnostic-claim-form--retry .diagnostic-claim-form__actions {
+    gap: 14px;
+  }
+
+  .diagnostic-claim-form--retry .diagnostic-claim-form__actions .button {
+    min-height: 52px;
+  }
+
+  .diagnostic-claim-form--contact {
+    gap: 16px 12px;
+  }
+
+  .diagnostic-claim-form--contact > div:first-child {
+    gap: 6px;
+  }
+
+  .diagnostic-claim-form--contact > div:first-child p:not(.section-kicker) {
+    display: block;
+  }
+
+  .diagnostic-claim-form > div:first-child h3,
+  .diagnostic-claim-success h3 {
+    font-size: clamp(1.375rem, 6vw, 1.625rem);
+  }
+
+  .diagnostic-claim-form > div:first-child p:not(.section-kicker),
+  .diagnostic-claim-success > p:not(.section-kicker) {
+    font-size: 0.9375rem;
+  }
+
+  .diagnostic-contact-choice > small,
+  .diagnostic-contact-mobile small,
+  .diagnostic-claim-form > small {
+    font-size: 0.75rem;
+    line-height: 1.45;
   }
 }
 

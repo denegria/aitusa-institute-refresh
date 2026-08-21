@@ -363,10 +363,13 @@ export function createNeonPortalAuthRepository(database) {
           latest.result_copy_version,
           latest.placement_review_status,
           latest.placement_final_level,
-          latest.goal,
-          latest.completed_at,
-          latest.advisor_contact_requested,
-          account_consent.decision as account_consent_decision,
+           latest.goal,
+           latest.completed_at,
+           latest.advisor_contact_requested,
+           contact_preference.preferred_channel as contact_preferred_channel,
+           contact_preference.verified_mobile as contact_verified_mobile,
+           contact_preference.occurred_at as contact_occurred_at,
+           account_consent.decision as account_consent_decision,
           account_consent.policy_version as account_consent_policy_version,
           account_consent.occurred_at as account_consent_occurred_at,
           advisor_consent.decision as advisor_consent_decision,
@@ -377,9 +380,12 @@ export function createNeonPortalAuthRepository(database) {
           guardian_child.child_profile_id,
           guardian_child.child_first_name,
           guardian_child.child_status,
-          guardian_child.receipt_code,
-          guardian_child.guardian_policy_version,
-          guardian_child.guardian_permissions,
+           guardian_child.receipt_code,
+           guardian_child.guardian_policy_version,
+           guardian_child.guardian_permissions,
+           guardian_child.contact_preferred_channel,
+           guardian_child.contact_verified_mobile,
+           guardian_child.contact_occurred_at,
           practice_history.items as recent_practice
         from single_account account
         left join lateral (
@@ -466,6 +472,17 @@ export function createNeonPortalAuthRepository(database) {
         ) advisor_consent on true
         left join lateral (
           select
+            preference.preferred_channel,
+            preference.verified_mobile,
+            preference.occurred_at
+          from placement_contact_preferences preference
+          where preference.account_id = account.id
+            and preference.attempt_id = latest.attempt_id
+          order by preference.occurred_at desc
+          limit 1
+        ) contact_preference on true
+        left join lateral (
+          select
             outbox.status,
             outbox.delivered_at
           from crm_outbox outbox
@@ -476,16 +493,27 @@ export function createNeonPortalAuthRepository(database) {
         ) delivery on true
         left join lateral (
           select child.id as child_profile_id, child.first_name as child_first_name,
-            child.status as child_status, receipt.receipt_code,
-            receipt.policy_version as guardian_policy_version,
-            receipt.permissions as guardian_permissions
+             child.status as child_status, receipt.receipt_code,
+             receipt.policy_version as guardian_policy_version,
+             receipt.permissions as guardian_permissions,
+             child_contact_preference.preferred_channel as contact_preferred_channel,
+             child_contact_preference.verified_mobile as contact_verified_mobile,
+             child_contact_preference.occurred_at as contact_occurred_at
           from guardian_child_links link
           join child_profiles child on child.id = link.child_profile_id
-          join guardian_consent_receipts receipt
-            on receipt.child_profile_id = child.id
-           and receipt.guardian_account_id = account.id
-          where link.guardian_account_id = account.id
-            and link.status = 'active'
+           join guardian_consent_receipts receipt
+             on receipt.child_profile_id = child.id
+            and receipt.guardian_account_id = account.id
+           left join lateral (
+             select preference.preferred_channel, preference.verified_mobile, preference.occurred_at
+             from placement_contact_preferences preference
+             where preference.account_id = account.id
+               and preference.attempt_id = latest.attempt_id
+             order by preference.occurred_at desc
+             limit 1
+           ) child_contact_preference on true
+           where link.guardian_account_id = account.id
+             and link.status = 'active'
             and child.status in ('active', 'deletion_requested')
           order by link.linked_at desc
           limit 1
@@ -615,6 +643,13 @@ export function toSafePortalSnapshot(row) {
         deliveredAt: toIso(row.outbox_delivered_at),
       },
     },
+    contactPreference: row.contact_preferred_channel
+      ? {
+          preferredChannel: row.contact_preferred_channel,
+          verifiedMobile: row.contact_verified_mobile === true,
+          occurredAt: toIso(row.contact_occurred_at),
+        }
+      : null,
     practice: {
       eligible: false,
       reason: "feature_not_approved",
@@ -625,10 +660,17 @@ export function toSafePortalSnapshot(row) {
           id: row.child_profile_id,
           firstName: row.child_first_name,
           status: row.child_status,
-          receiptCode: row.receipt_code,
-          policyVersion: row.guardian_policy_version,
-          permissions: normalizeJsonObject(row.guardian_permissions),
-        }
+           receiptCode: row.receipt_code,
+           policyVersion: row.guardian_policy_version,
+           permissions: normalizeJsonObject(row.guardian_permissions),
+           contactPreference: row.contact_preferred_channel
+             ? {
+                 preferredChannel: row.contact_preferred_channel,
+                 verifiedMobile: row.contact_verified_mobile === true,
+                 occurredAt: toIso(row.contact_occurred_at),
+               }
+             : null,
+         }
       : null,
   };
 }

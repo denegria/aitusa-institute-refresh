@@ -2,6 +2,13 @@
 
 import { useState } from "react";
 
+const CONTACT_CHANNEL_LABELS = Object.freeze({
+  email: "Email",
+  sms: "SMS de servicio",
+  whatsapp: "WhatsApp",
+  phone: "Llamada telefónica",
+});
+
 export function GuardianPrivacyControls({ child }) {
   const [status, setStatus] = useState(child.status);
   const [busyAction, setBusyAction] = useState("");
@@ -47,9 +54,23 @@ export function GuardianPrivacyControls({ child }) {
       </div>
       <ul>
         <li>Study Buddy: {child.permissions.aiPracticeApproved ? "autorizado" : "no autorizado"}</li>
-        <li>Contacto por email: {child.permissions.advisorContactApproved ? "autorizado" : "no autorizado"}</li>
+        <li>Orientación del asesor: {child.permissions.advisorContactApproved ? "autorizada" : "no autorizada"}</li>
+        <li>
+          Canal de orientación: {CONTACT_CHANNEL_LABELS[child.contactPreference?.preferredChannel] || "No registrado"}
+        </li>
+        {child.contactPreference ? (
+          <li>
+            Registro de servicio: guardado{child.contactPreference.verifiedMobile ? " · teléfono confirmado para contacto, no para iniciar sesión" : ""}
+          </li>
+        ) : null}
         <li>SMS promocional: no autorizado</li>
       </ul>
+      <p className="portal-guardian-controls__service-copy">
+        La información de contacto del adulto se usa para gestionar el resultado de
+        el Placement Test del menor, revisar opciones de curso y acompañar los
+        próximos pasos de inscripción. Es un contacto de servicio y no autoriza
+        marketing.
+      </p>
       {status === "active" ? (
         <div className="portal-guardian-controls__actions">
           <button disabled={Boolean(busyAction)} type="button" onClick={() => applyAction("withdraw_consent")}>

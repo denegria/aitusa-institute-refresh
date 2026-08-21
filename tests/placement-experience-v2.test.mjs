@@ -51,8 +51,9 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
   });
 
   it("exposes the guardian boundary and passwordless Study Buddy conversion", () => {
-    assert.match(component, /práctica personalizada de cinco minutos/);
-    assert.match(component, /práctica personalizada de cinco minutos/);
+    assert.match(component, /Progreso guardado/);
+    assert.match(component, /Continúa tu prueba/);
+    assert.match(component, /Continuar mi prueba/);
     assert.match(component, /Para ver y guardar el resultado/);
     assert.match(component, /Continuar como menor de 13/);
     assert.match(component, /role="dialog"/);
@@ -62,6 +63,8 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.match(component, /api\/portal\/result-claim\/code/);
     assert.doesNotMatch(component, /No hace falta una cuenta para verlo/);
     assert.doesNotMatch(component, /Ahora no/);
+    assert.match(component, /opciones de curso/);
+    assert.match(component, /no autoriza comunicaciones de marketing/);
   });
 
   it("keeps the result save CTA visible and readable across interaction states", () => {
@@ -93,21 +96,28 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
 
   it("gates the academic result until the verified handoff succeeds", () => {
     assert.match(component, /data-diagnostic-screen="result-gate"/);
-    assert.match(component, /Tu resultado está listo/);
+    assert.match(component, /Resultado listo/);
     assert.match(component, /if \(!claimReceipt\)/);
     assert.match(component, /onClaimed=\{setClaimReceipt\}/);
-    assert.match(component, /¡Nivel desbloqueado!/);
-    assert.match(component, /Comenzar mi práctica personalizada/);
+    assert.match(component, /Resultado del Placement Test/);
+    assert.match(component, /Código de acceso/);
+    assert.match(component, /Verificar y ver mi resultado/);
+    assert.match(component, /Solo falta verificar tu email para ver tu resultado/);
+    assert.match(component, /Abrir mi Portal/);
+    assert.match(component, /diagnostic-claim-form--retry/);
+    assert.match(component, /Tu acceso está listo/);
     assert.match(component, /resultClaimed: body\.attempt\.status === "claimed"/);
     assert.match(component, /attempt_already_claimed/);
   });
 
   it("keeps one dominant result action and demotes the remaining pathways", () => {
-    assert.match(component, /className="diagnostic-result__support"/);
-    assert.match(component, /className="diagnostic-result__support-link"[\s\S]*Confirmar con un asesor/);
-    assert.match(component, /className="diagnostic-result__support-link" href="\/cursos\/"/);
-    assert.doesNotMatch(component, /diagnostic-result__actions/);
-    assert.match(styles, /\.diagnostic-result__support \{[\s\S]*grid-template-columns: auto minmax\(0, 1fr\) auto;/);
+    assert.match(component, /className="diagnostic-result__actions"/);
+    assert.match(component, /Hablar con un asesor/);
+    assert.match(component, /Abrir mi Portal/);
+    assert.match(styles, /\.diagnostic-result__actions \.button--gold \{[\s\S]*background: var\(--gold\);/);
+    assert.doesNotMatch(component, /Misión 2 desbloqueada/);
+    assert.doesNotMatch(component, /diagnostic-mission-path/);
+    assert.match(styles, /\.diagnostic-result__actions \{[\s\S]*gap: 12px;/);
   });
 
   it("uses the institutional navy, gold, and warm-surface system", () => {

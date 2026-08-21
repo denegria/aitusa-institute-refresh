@@ -28,6 +28,10 @@ const authRepository = await readFile(
   new URL("../src/portalAuth/neonRepository.server.js", import.meta.url),
   "utf8",
 );
+const claimVerifyRoute = await readFile(
+  new URL("../app/api/portal/result-claim/verify/route.js", import.meta.url),
+  "utf8",
+);
 const guardianRepository = await readFile(
   new URL("../src/guardianOnboarding/neonRepository.server.js", import.meta.url),
   "utf8",
@@ -132,9 +136,13 @@ describe("MIS-338 result claim contracts", () => {
     assert.match(component, /data-diagnostic-screen="result-gate"/);
     assert.match(component, /Verificar y ver mi resultado/);
     assert.match(component, /savePlacementContactPreference/);
+    assert.match(component, /contactPreference: contactPreferencePayload/);
+    assert.match(claimVerifyRoute, /savePlacementContactPreferenceForAccount/);
+    assert.match(claimVerifyRoute, /contactPreferencePending/);
     assert.match(component, /advisorContactRequested: false/);
     assert.match(component, /onClaimed\?\./);
     assert.doesNotMatch(component, /Ahora no/);
+    assert.doesNotMatch(component, /Placement Diagnostic/);
     assert.doesNotMatch(component, /El contacto con un asesor es opcional/);
     assert.doesNotMatch(component, /type="password"/);
   });
