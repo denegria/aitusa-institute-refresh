@@ -160,4 +160,17 @@ describe("MIS-338 result claim contracts", () => {
     assert.match(guardianRepository, /getReceipt[\s\S]+not exists \([\s\S]+employee_review_roles/);
     assert.match(guardianRepository, /manageChild[\s\S]+not exists \([\s\S]+employee_review_roles/);
   });
+
+  it("binds only a pre-provisioned employee placeholder after verified email OTP", () => {
+    const employeeResolution = authRepository.slice(
+      authRepository.indexOf("async getActiveEmployeeIdentity"),
+      authRepository.indexOf("async getActivePortalSnapshot"),
+    );
+    assert.match(employeeResolution, /employee_review_roles/);
+    assert.match(employeeResolution, /role\.business_unit = 'ait_usa'/);
+    assert.match(employeeResolution, /role\.role in \('senior', 'admin'\)/);
+    assert.match(employeeResolution, /account\.workos_user_id like 'pending_employee:%'/);
+    assert.match(employeeResolution, /other\.workos_user_id = \$\{identity\.providerUserId\}/);
+    assert.match(employeeResolution, /where \(select count\(\*\) from eligible_accounts\) = 1/);
+  });
 });

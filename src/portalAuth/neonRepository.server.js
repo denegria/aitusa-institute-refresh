@@ -280,9 +280,10 @@ export function createNeonPortalAuthRepository(database) {
 
     async getActiveEmployeeIdentity(identity) {
       const result = await database.execute(sql`
-        with matching_accounts as (
+        with eligible_accounts as materialized (
           select account.id, account.status, account.account_type,
-            account.first_name, account.primary_email, account.preferred_language,
+            account.workos_user_id, account.first_name, account.primary_email,
+            account.preferred_language,
             role.business_unit, role.role
           from portal_accounts account
           join employee_review_roles role
@@ -290,14 +291,39 @@ export function createNeonPortalAuthRepository(database) {
            and role.active = true
            and role.business_unit = 'ait_usa'
            and role.role in ('senior', 'admin')
-          where account.workos_user_id = ${identity.providerUserId}
-            and lower(account.primary_email) = ${identity.email.trim().toLowerCase()}
+          where lower(account.primary_email) = ${identity.email.trim().toLowerCase()}
             and account.status = 'active'
           order by account.id
           limit 2
+        ), single_account as (
+          select * from eligible_accounts
+          where (select count(*) from eligible_accounts) = 1
+        ), resolved_existing as (
+          select account.id
+          from single_account account
+          where account.workos_user_id = ${identity.providerUserId}
+        ), bound_pending as (
+          update portal_accounts account
+          set workos_user_id = ${identity.providerUserId},
+              updated_at = now(),
+              last_signed_in_at = now()
+          from single_account candidate
+          where account.id = candidate.id
+            and account.workos_user_id like 'pending_employee:%'
+            and not exists (
+              select 1 from portal_accounts other
+              where other.workos_user_id = ${identity.providerUserId}
+                and other.id <> candidate.id
+            )
+          returning account.id
+        ), resolved_account as (
+          select id from resolved_existing
+          union all
+          select id from bound_pending
         )
-        select * from matching_accounts
-        where (select count(*) from matching_accounts) = 1
+        select candidate.*
+        from single_account candidate
+        join resolved_account resolved on resolved.id = candidate.id
         limit 1
       `);
       const row = rows(result)[0];

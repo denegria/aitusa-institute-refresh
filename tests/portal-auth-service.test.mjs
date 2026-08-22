@@ -520,6 +520,128 @@ describe("MIS-341 authenticated portal service", () => {
 });
 
 describe("WorkOS portal auth adapter", () => {
+  it("refreshes an expired access token and returns the rotated sealed session", async () => {
+    const calls = [];
+    const provider = createWorkOSAuthProvider({
+      apiKey: "test-api-key",
+      clientId: "test-client-id",
+      cookiePassword: "workos-cookie-password-test-32-bytes",
+      workosClient: {
+        userManagement: {
+          loadSealedSession(input) {
+            calls.push({ type: "load", input });
+            return {
+              async authenticate() {
+                calls.push({ type: "authenticate" });
+                return { authenticated: false, reason: "invalid_jwt" };
+              },
+              async refresh() {
+                calls.push({ type: "refresh" });
+                return {
+                  authenticated: true,
+                  sealedSession: "sealed-session-rotated",
+                };
+              },
+            };
+          },
+        },
+      },
+    });
+
+    assert.deepEqual(await provider.maintainSession("sealed-session-expired"), {
+      sessionData: "sealed-session-rotated",
+      refreshed: true,
+    });
+    assert.deepEqual(calls, [
+      {
+        type: "load",
+        input: {
+          sessionData: "sealed-session-expired",
+          cookiePassword: "workos-cookie-password-test-32-bytes",
+        },
+      },
+      { type: "authenticate" },
+      { type: "refresh" },
+    ]);
+  });
+
+  it("rejects a terminal refresh result instead of retaining a revoked session", async () => {
+    const provider = createWorkOSAuthProvider({
+      apiKey: "test-api-key",
+      clientId: "test-client-id",
+      cookiePassword: "workos-cookie-password-test-32-bytes",
+      workosClient: {
+        userManagement: {
+          loadSealedSession() {
+            return {
+              async authenticate() {
+                return { authenticated: false, reason: "invalid_jwt" };
+              },
+              async refresh() {
+                return { authenticated: false, reason: "invalid_grant" };
+              },
+            };
+          },
+        },
+      },
+    });
+
+    await assert.rejects(
+      provider.maintainSession("sealed-session-revoked"),
+      (error) => error.code === "portal_session_invalid" && error.status === 401,
+    );
+  });
+
+  it("maps malformed sealed sessions to a terminal invalid-session error", async () => {
+    const provider = createWorkOSAuthProvider({
+      apiKey: "test-api-key",
+      clientId: "test-client-id",
+      cookiePassword: "workos-cookie-password-test-32-bytes",
+      workosClient: {
+        userManagement: {
+          loadSealedSession() {
+            throw new Error("malformed sealed session");
+          },
+        },
+      },
+    });
+
+    await assert.rejects(
+      provider.maintainSession("sealed-session-malformed"),
+      (error) => error.code === "portal_session_invalid" && error.status === 401,
+    );
+  });
+
+  it("retains refreshability across transient 408, 429, and 5xx failures", async () => {
+    for (const status of [408, 429, 503]) {
+      const provider = createWorkOSAuthProvider({
+        apiKey: "test-api-key",
+        clientId: "test-client-id",
+        cookiePassword: "workos-cookie-password-test-32-bytes",
+        workosClient: {
+          userManagement: {
+            loadSealedSession() {
+              return {
+                async authenticate() {
+                  return { authenticated: false, reason: "invalid_jwt" };
+                },
+                async refresh() {
+                  throw Object.assign(new Error("provider unavailable"), { status });
+                },
+              };
+            },
+          },
+        },
+      });
+
+      await assert.rejects(
+        provider.maintainSession("sealed-session-expired"),
+        (error) =>
+          error.code === "identity_provider_unavailable" && error.status === 503,
+      );
+    }
+  });
+
   it("resolves and revokes the exact provider session", async () => {
     const calls = [];
     const provider = createWorkOSAuthProvider({
