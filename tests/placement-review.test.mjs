@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { describe, it } from "node:test";
+import { PgDialect } from "drizzle-orm/pg-core";
 import { createMemoryPlacementReviewRepository } from "../src/placementReview/memoryRepository.js";
+import { createNeonPlacementReviewRepository } from "../src/placementReview/neonRepository.server.js";
 import { createPlacementReviewService } from "../src/placementReview/service.js";
 import { PLACEMENT_REVIEW_COPY } from "../src/placementReview/contract.js";
 import { buildPlacementReviewCrmEnvelope, validatePlacementReviewCrmEnvelope } from "../src/placementReview/crmEnvelope.js";
@@ -101,6 +103,36 @@ describe("MIS-395 placement review state machine", () => {
     assert.match(createReview, /select inserted::placement_reviews as review, false as replayed/);
     assert.match(createReview, /placement_crm_payload\(selected\.review,/);
     assert.doesNotMatch(createReview, /placement_crm_payload\(review,/);
+  });
+  it("binds absent final levels and rationales as SQL null parameters", async () => {
+    const dialect = new PgDialect();
+    let calls = 0;
+    let compiled;
+    const repository = createNeonPlacementReviewRepository({
+      async execute(query) {
+        calls += 1;
+        if (calls === 1) return [];
+        if (calls === 2) return [{
+          id: ids[0], result_id: ids[1], attempt_id: ids[2],
+          correlation_id: ids[2], business_unit: "ait_usa",
+          recommended_level: "Nivel 3", final_level: undefined,
+          status: "pending", revision: 1,
+          created_at: "2026-08-20T12:00:00.000Z",
+          updated_at: "2026-08-20T12:00:00.000Z",
+        }];
+        compiled = dialect.sqlToQuery(query);
+        return [];
+      },
+    });
+    await assert.rejects(() => repository.transition({
+      reviewId: ids[0], actor: { accountId: ids[6] }, action: "start",
+      mutationId: ids[3], expectedRevision: 1, finalLevel: null,
+      occurredAt: "2026-08-20T12:00:00.000Z", internalRationale: null,
+      eventId: ids[4], outboxId: ids[5],
+    }), /placement_review_revision_conflict/);
+    assert.match(compiled.sql, /final_level = \$\d+/);
+    assert.doesNotMatch(compiled.sql, /final_level =\s*,/);
+    assert.equal(compiled.params.filter((value) => value === null).length, 2);
   });
   it("normalizes a missing or expired Portal session into the employee sign-in boundary", async () => {
     await assert.rejects(
