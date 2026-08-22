@@ -11,6 +11,8 @@ import {
 } from "../app/api/portal/sign-out/route.js";
 import { PortalClaimError } from "../src/portalClaim/errors.js";
 import { serializeExpiredPortalSessionCookie } from "../src/portalClaim/session.server.js";
+import { NextRequest } from "next/server.js";
+import { forwardWithMaintainedPortalSession } from "../proxy.js";
 
 function jsonRequest(url, body, headers = {}) {
   return new Request(url, {
@@ -24,6 +26,72 @@ function jsonRequest(url, body, headers = {}) {
 }
 
 describe("MIS-341 authenticated portal routes", () => {
+  it("forwards a refreshed sealed session into the current request and response", async () => {
+    const response = await forwardWithMaintainedPortalSession(
+      new NextRequest("https://example.com/portal/", {
+        headers: { cookie: "aitusa_portal_session=sealed-session-expired" },
+      }),
+      {
+        isConfigured: () => true,
+        maintainSession: async (sessionData) => {
+          assert.equal(sessionData, "sealed-session-expired");
+          return { sessionData: "sealed-session-rotated", refreshed: true };
+        },
+      },
+    );
+
+    assert.match(
+      response.headers.get("x-middleware-request-cookie"),
+      /aitusa_portal_session=sealed-session-rotated/,
+    );
+    const setCookie = response.headers.get("set-cookie");
+    assert.match(setCookie, /aitusa_portal_session=sealed-session-rotated/);
+    assert.match(setCookie, /HttpOnly/);
+    assert.match(setCookie, /SameSite=Lax/i);
+    assert.match(setCookie, /Max-Age=2592000/);
+  });
+
+  it("preserves the existing sealed cookie when refresh cannot complete", async () => {
+    const response = await forwardWithMaintainedPortalSession(
+      new NextRequest("https://example.com/employee/", {
+        headers: { cookie: "aitusa_portal_session=sealed-session-expired" },
+      }),
+      {
+        isConfigured: () => true,
+        maintainSession: async () => {
+          throw new PortalClaimError("identity_provider_unavailable", 503);
+        },
+      },
+    );
+
+    assert.equal(response.headers.get("set-cookie"), null);
+  });
+
+  it("clears a terminally invalid sealed session from this request and browser", async () => {
+    const response = await forwardWithMaintainedPortalSession(
+      new NextRequest("https://example.com/portal/", {
+        headers: { cookie: "aitusa_portal_session=sealed-session-revoked; theme=gold" },
+      }),
+      {
+        isConfigured: () => true,
+        maintainSession: async () => {
+          throw new PortalClaimError("portal_session_invalid", 401);
+        },
+      },
+    );
+
+    assert.doesNotMatch(
+      response.headers.get("x-middleware-request-cookie"),
+      /aitusa_portal_session/,
+    );
+    assert.match(response.headers.get("x-middleware-request-cookie"), /theme=gold/);
+    const setCookie = response.headers.get("set-cookie");
+    assert.match(setCookie, /^aitusa_portal_session=;/);
+    assert.match(setCookie, /Max-Age=0/);
+    assert.match(setCookie, /Expires=Thu, 01 Jan 1970 00:00:00 GMT/);
+    assert.match(setCookie, /HttpOnly/);
+  });
+
   it("keeps returning-user code requests generic", async () => {
     const inputs = [];
     const handler = createPortalAuthCodeHandler({

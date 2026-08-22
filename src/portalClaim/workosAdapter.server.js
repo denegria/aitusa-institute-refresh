@@ -14,6 +14,41 @@ export function createWorkOSAuthProvider({
   const workos = workosClient || new WorkOS(apiKey, { clientId });
 
   return {
+    async maintainSession(sessionData) {
+      if (typeof sessionData !== "string" || !sessionData) {
+        throw new PortalClaimError("portal_session_invalid", 401);
+      }
+      try {
+        const session = workos.userManagement.loadSealedSession({
+          sessionData,
+          cookiePassword,
+        });
+        const authenticated = await session.authenticate();
+        if (authenticated.authenticated === true) {
+          return { sessionData, refreshed: false };
+        }
+        if (authenticated.reason !== "invalid_jwt") {
+          throw new PortalClaimError("portal_session_invalid", 401);
+        }
+
+        const refreshed = await session.refresh();
+        if (
+          refreshed.authenticated !== true ||
+          typeof refreshed.sealedSession !== "string" ||
+          !refreshed.sealedSession
+        ) {
+          throw new PortalClaimError("portal_session_invalid", 401);
+        }
+        return { sessionData: refreshed.sealedSession, refreshed: true };
+      } catch (error) {
+        if (error instanceof PortalClaimError) throw error;
+        if (isIdentityProviderUnavailable(error)) {
+          throw new PortalClaimError("identity_provider_unavailable", 503);
+        }
+        throw new PortalClaimError("portal_session_invalid", 401);
+      }
+    },
+
     async sendCode({ email, ipAddress, userAgent }) {
       try {
         const magicAuth = await workos.userManagement.createMagicAuth({
@@ -134,7 +169,7 @@ function isIdentityProviderUnavailable(error, seen = new Set()) {
   seen.add(error);
 
   const status = Number(error.status ?? error.statusCode ?? 0);
-  if (status === 429 || status >= 500) return true;
+  if (status === 408 || status === 429 || status >= 500) return true;
 
   const code = typeof error.code === "string" ? error.code.toUpperCase() : "";
   if (
