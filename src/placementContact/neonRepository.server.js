@@ -22,15 +22,15 @@ export function createNeonPlacementContactRepository(database) {
           limit 1
         ), inserted as (
           insert into placement_contact_preferences (id, account_id, attempt_id, preferred_channel, mobile_e164, verified_mobile, verified_email, guardian_owned, disclosure_version, disclosure_hash, source_url, opt_in_action, occurred_at)
-          select ${id}::uuid, ${accountId}::uuid, owned.id, ${preference.preferredChannel}, ${preference.mobile}, ${preference.verifiedMobile}, ${preference.verifiedEmail}, ${preference.guardianOwned}, ${preference.disclosureVersion}, ${preference.disclosureHash}, ${preference.sourceUrl}, ${preference.optInAction}, ${occurredAt}::timestamptz from owned_attempt owned
+          select ${id}::uuid, ${accountId}::uuid, owned.id, ${preference.preferredChannel}, ${preference.mobile}, ${preference.verifiedMobile}::boolean, ${preference.verifiedEmail}::boolean, ${preference.guardianOwned}::boolean, ${preference.disclosureVersion}, ${preference.disclosureHash}, ${preference.sourceUrl}, ${preference.optInAction}, ${occurredAt}::timestamptz from owned_attempt owned
           returning id, attempt_id
         ), consents as (
           insert into placement_channel_consents (id, preference_id, channel, purpose, decision, disclosure_version, disclosure_hash, source_url, opt_in_action, occurred_at)
-          select md5(inserted.id::text || ':email')::uuid, inserted.id, 'email', 'advisor_contact', ${preference.consents.email}, ${preference.disclosureVersion}, ${preference.disclosureHash}, ${preference.sourceUrl}, ${preference.optInAction}, ${occurredAt}::timestamptz from inserted
-          union all select md5(inserted.id::text || ':sms-service')::uuid, inserted.id, 'sms', 'service_sms', ${preference.consents.serviceSms}, ${preference.disclosureVersion}, ${preference.disclosureHash}, ${preference.sourceUrl}, ${preference.optInAction}, ${occurredAt}::timestamptz from inserted
-          union all select md5(inserted.id::text || ':sms-marketing')::uuid, inserted.id, 'sms', 'marketing_sms', ${preference.consents.marketingSms}, ${preference.disclosureVersion}, ${preference.disclosureHash}, ${preference.sourceUrl}, ${preference.optInAction}, ${occurredAt}::timestamptz from inserted
-          union all select md5(inserted.id::text || ':phone')::uuid, inserted.id, 'phone', 'phone_call', ${preference.consents.phone}, ${preference.disclosureVersion}, ${preference.disclosureHash}, ${preference.sourceUrl}, ${preference.optInAction}, ${occurredAt}::timestamptz from inserted
-          union all select md5(inserted.id::text || ':whatsapp')::uuid, inserted.id, 'whatsapp', 'whatsapp_contact', ${preference.consents.whatsapp}, ${preference.disclosureVersion}, ${preference.disclosureHash}, ${preference.sourceUrl}, ${preference.optInAction}, ${occurredAt}::timestamptz from inserted
+          select md5(inserted.id::text || ':email')::uuid, inserted.id, 'email', 'advisor_contact', ${preference.consents.email}::boolean, ${preference.disclosureVersion}, ${preference.disclosureHash}, ${preference.sourceUrl}, ${preference.optInAction}, ${occurredAt}::timestamptz from inserted
+          union all select md5(inserted.id::text || ':sms-service')::uuid, inserted.id, 'sms', 'service_sms', ${preference.consents.serviceSms}::boolean, ${preference.disclosureVersion}, ${preference.disclosureHash}, ${preference.sourceUrl}, ${preference.optInAction}, ${occurredAt}::timestamptz from inserted
+          union all select md5(inserted.id::text || ':sms-marketing')::uuid, inserted.id, 'sms', 'marketing_sms', ${preference.consents.marketingSms}::boolean, ${preference.disclosureVersion}, ${preference.disclosureHash}, ${preference.sourceUrl}, ${preference.optInAction}, ${occurredAt}::timestamptz from inserted
+          union all select md5(inserted.id::text || ':phone')::uuid, inserted.id, 'phone', 'phone_call', ${preference.consents.phone}::boolean, ${preference.disclosureVersion}, ${preference.disclosureHash}, ${preference.sourceUrl}, ${preference.optInAction}, ${occurredAt}::timestamptz from inserted
+          union all select md5(inserted.id::text || ':whatsapp')::uuid, inserted.id, 'whatsapp', 'whatsapp_contact', ${preference.consents.whatsapp}::boolean, ${preference.disclosureVersion}, ${preference.disclosureHash}, ${preference.sourceUrl}, ${preference.optInAction}, ${occurredAt}::timestamptz from inserted
           returning preference_id
         ), change_audit as (
           insert into placement_contact_change_audits (id, account_id, attempt_id, previous_preference_id, replacement_preference_id, previous_channel, replacement_channel, change_reason, occurred_at)
@@ -98,17 +98,17 @@ export function createNeonPlacementContactRepository(database) {
               'contact', jsonb_strip_nulls(jsonb_build_object(
                 'firstName', context.first_name,
                 'email', context.primary_email,
-                'phone', ${preference.mobile}
+                'phone', ${preference.mobile}::text
               )),
               'consent', jsonb_build_object(
-                'email', ${preference.consents.email},
-                'sms', ${preference.consents.serviceSms},
-                'whatsapp', ${preference.consents.whatsapp},
-                'advisorContactEmail', ${preference.consents.email},
+                'email', ${preference.consents.email}::boolean,
+                'sms', ${preference.consents.serviceSms}::boolean,
+                'whatsapp', ${preference.consents.whatsapp}::boolean,
+                'advisorContactEmail', ${preference.consents.email}::boolean,
                 'advisorContact', true,
-                'serviceSms', ${preference.consents.serviceSms},
+                'serviceSms', ${preference.consents.serviceSms}::boolean,
                 'marketingSms', false,
-                'policyVersion', ${preference.disclosureVersion},
+                'policyVersion', ${preference.disclosureVersion}::text,
                 'consentedAt', ${occurredAt}::timestamptz
               ),
               'placement', jsonb_build_object(
@@ -116,9 +116,9 @@ export function createNeonPlacementContactRepository(database) {
                 'resultStatus', context.result_status,
                 'recommendedLevelKey', context.recommended_level_key,
                 'recommendedLevelLabel', context.recommended_level_label,
-                'communicationPreference', ${preference.preferredChannel},
-                'verifiedEmail', ${preference.verifiedEmail},
-                'verifiedMobile', ${preference.verifiedMobile},
+                'communicationPreference', ${preference.preferredChannel}::text,
+                'verifiedEmail', ${preference.verifiedEmail}::boolean,
+                'verifiedMobile', ${preference.verifiedMobile}::boolean,
                 'answeredQuestionCount', context.answered_question_count,
                 'skippedQuestionCount', context.skipped_question_count,
                 'advisorConfirmationRequired', context.advisor_confirmation_required = 1,
