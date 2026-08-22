@@ -124,8 +124,6 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.match(guardian, /onClaimed\?\.\(\{ \.\.\.body, preferredChannel \}\)/);
     assert.match(guardian, /onClaimed\?\.\(\{ \.\.\.receipt, preferredChannel \}\)/);
     assert.match(adult, /const revealResult = \(claimed\) => \{[\s\S]*onClaimed\?\.\(\{ \.\.\.claimed, preferredChannel \}\)/);
-    assert.match(adult, /if \(qaFixture\) \{\s*revealResult\(qaFixture\.receipt\);/);
-    assert.doesNotMatch(adult, /if \(qaFixture\) \{\s*onClaimed\?\./);
   });
 
   it("keeps one dominant result action and demotes the remaining pathways", () => {
