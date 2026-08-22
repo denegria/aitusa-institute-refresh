@@ -383,9 +383,9 @@ export function createNeonPortalAuthRepository(database) {
            guardian_child.receipt_code,
            guardian_child.guardian_policy_version,
            guardian_child.guardian_permissions,
-           guardian_child.contact_preferred_channel,
-           guardian_child.contact_verified_mobile,
-           guardian_child.contact_occurred_at,
+           guardian_child.guardian_contact_preferred_channel,
+           guardian_child.guardian_contact_verified_mobile,
+           guardian_child.guardian_contact_occurred_at,
           practice_history.items as recent_practice
         from single_account account
         left join lateral (
@@ -496,9 +496,9 @@ export function createNeonPortalAuthRepository(database) {
              child.status as child_status, receipt.receipt_code,
              receipt.policy_version as guardian_policy_version,
              receipt.permissions as guardian_permissions,
-             child_contact_preference.preferred_channel as contact_preferred_channel,
-             child_contact_preference.verified_mobile as contact_verified_mobile,
-             child_contact_preference.occurred_at as contact_occurred_at
+             child_contact_preference.preferred_channel as guardian_contact_preferred_channel,
+             child_contact_preference.verified_mobile as guardian_contact_verified_mobile,
+             child_contact_preference.occurred_at as guardian_contact_occurred_at
           from guardian_child_links link
           join child_profiles child on child.id = link.child_profile_id
            join guardian_consent_receipts receipt
@@ -663,11 +663,11 @@ export function toSafePortalSnapshot(row) {
            receiptCode: row.receipt_code,
            policyVersion: row.guardian_policy_version,
            permissions: normalizeJsonObject(row.guardian_permissions),
-           contactPreference: row.contact_preferred_channel
+           contactPreference: row.guardian_contact_preferred_channel
              ? {
-                 preferredChannel: row.contact_preferred_channel,
-                 verifiedMobile: row.contact_verified_mobile === true,
-                 occurredAt: toIso(row.contact_occurred_at),
+                 preferredChannel: row.guardian_contact_preferred_channel,
+                 verifiedMobile: row.guardian_contact_verified_mobile === true,
+                 occurredAt: toIso(row.guardian_contact_occurred_at),
                }
              : null,
          }

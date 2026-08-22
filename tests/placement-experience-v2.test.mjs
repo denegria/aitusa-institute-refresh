@@ -110,6 +110,24 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.match(component, /attempt_already_claimed/);
   });
 
+  it("reveals the result through the same adult and guardian success handoff used by production", () => {
+    const guardian = component.slice(
+      component.indexOf("function GuardianClaimPanel"),
+      component.indexOf("function ResultClaimPanel"),
+    );
+    const adult = component.slice(
+      component.indexOf("function AdultResultClaimPanel"),
+      component.indexOf("function contactPermissionCopy"),
+    );
+
+    assert.equal((guardian.match(/onClaimed\?\./g) || []).length, 2);
+    assert.match(guardian, /onClaimed\?\.\(\{ \.\.\.body, preferredChannel \}\)/);
+    assert.match(guardian, /onClaimed\?\.\(\{ \.\.\.receipt, preferredChannel \}\)/);
+    assert.match(adult, /const revealResult = \(claimed\) => \{[\s\S]*onClaimed\?\.\(\{ \.\.\.claimed, preferredChannel \}\)/);
+    assert.match(adult, /if \(qaFixture\) \{\s*revealResult\(qaFixture\.receipt\);/);
+    assert.doesNotMatch(adult, /if \(qaFixture\) \{\s*onClaimed\?\./);
+  });
+
   it("keeps one dominant result action and demotes the remaining pathways", () => {
     assert.match(component, /className="diagnostic-result__actions"/);
     assert.match(component, /Hablar con un asesor/);

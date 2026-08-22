@@ -757,6 +757,7 @@ function GuardianClaimPanel({ onClaimed, onStepChange, submission }) {
         }
       }
       setStep("success");
+      onClaimed?.({ ...body, preferredChannel });
     } catch (saveError) {
       setError(claimErrorMessage(saveError.message));
     } finally {
@@ -772,6 +773,7 @@ function GuardianClaimPanel({ onClaimed, onStepChange, submission }) {
     try {
       await savePlacementContactPreference({ attemptId: receipt.result?.attemptId, channel: preferredChannel, mobile });
       setStep("success");
+      onClaimed?.({ ...receipt, preferredChannel });
     } catch {
       setError("Aún no pudimos guardar la preferencia. La cuenta y el resultado permanecen seguros; inténtalo otra vez.");
     } finally {
@@ -915,6 +917,7 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed, onStepChange }) 
         },
       }),
     );
+    onClaimed?.({ ...claimed, preferredChannel });
   };
 
   const requestCode = async (event) => {
