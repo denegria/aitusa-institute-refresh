@@ -80,7 +80,8 @@ describe("MIS-400 placement QA fixture", () => {
     assert.match(component, /export function PlacementQaFixture/);
     assert.match(component, /qaFixture\?\.state === "otp" \? "code" : "details"/);
     assert.match(component, /if \(qaFixture\) \{[\s\S]*setStep\("code"\);[\s\S]*return;/);
-    assert.match(component, /if \(qaFixture\) \{[\s\S]*onClaimed\?\.\(qaFixture\.receipt\);[\s\S]*return;/);
+    assert.match(component, /if \(qaFixture\) \{[\s\S]*revealResult\(qaFixture\.receipt\);[\s\S]*return;/);
+    assert.doesNotMatch(component, /if \(qaFixture\) \{[\s\S]*onClaimed\?\.\(qaFixture\.receipt\);[\s\S]*return;/);
     assert.match(component, /qaFixture \? "#qa-portal"/);
     assert.match(component, /qaFixture \? "#qa-advisor"/);
     assert.match(component, /qaFixture \? "#qa-study"/);

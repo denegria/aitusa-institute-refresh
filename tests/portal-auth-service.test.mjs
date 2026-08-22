@@ -171,6 +171,36 @@ function fixture({
 }
 
 describe("MIS-341 authenticated portal service", () => {
+  it("keeps account and guardian-child contact preferences independently mapped", () => {
+    const snapshot = toSafePortalSnapshot({
+      account_id: "00000000-0000-4000-8000-000000000001",
+      account_type: "guardian",
+      first_name: "Ana",
+      primary_email: "guardian@example.com",
+      preferred_language: "es",
+      contact_preferred_channel: "email",
+      contact_verified_mobile: false,
+      contact_occurred_at: "2026-08-22T01:00:00.000Z",
+      child_profile_id: "00000000-0000-4000-8000-000000000002",
+      child_first_name: "Luz",
+      child_status: "active",
+      guardian_contact_preferred_channel: "whatsapp",
+      guardian_contact_verified_mobile: true,
+      guardian_contact_occurred_at: "2026-08-22T02:00:00.000Z",
+    });
+
+    assert.deepEqual(snapshot.contactPreference, {
+      preferredChannel: "email",
+      verifiedMobile: false,
+      occurredAt: "2026-08-22T01:00:00.000Z",
+    });
+    assert.deepEqual(snapshot.guardianChild.contactPreference, {
+      preferredChannel: "whatsapp",
+      verifiedMobile: true,
+      occurredAt: "2026-08-22T02:00:00.000Z",
+    });
+  });
+
   it("returns the same code-request response without exposing provider delivery state", async () => {
     const available = fixture();
     const unknown = fixture({ hasActiveAccount: false });
