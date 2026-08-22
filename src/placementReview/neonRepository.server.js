@@ -154,10 +154,10 @@ export function createNeonPlacementReviewRepository(database) {
       const nextStatus = transitionTarget(current.status, input.action);
       if (!nextStatus) throw new PlacementReviewError("placement_review_transition_invalid", 409);
       const eventType = placementReviewEventType(input.action);
-      const nextFinal = input.action === "confirm" ? current.recommendedLevel : input.action === "adjust" ? input.finalLevel : current.finalLevel;
+      const nextFinal = input.action === "confirm" ? current.recommendedLevel : input.action === "adjust" ? input.finalLevel : current.finalLevel ?? null;
       const result = await database.execute(sql`
         with updated as (
-          update placement_reviews set status = ${nextStatus}, final_level = ${nextFinal}, revision = revision + 1, updated_at = ${input.occurredAt}::timestamptz
+          update placement_reviews set status = ${nextStatus}, final_level = ${sql.param(nextFinal)}, revision = revision + 1, updated_at = ${input.occurredAt}::timestamptz
           where id = ${input.reviewId}::uuid and revision = ${input.expectedRevision} and status = ${current.status}
           returning *
         ), mutation_write as (
@@ -165,7 +165,7 @@ export function createNeonPlacementReviewRepository(database) {
           select id, ${input.mutationId}, revision, ${input.occurredAt}::timestamptz from updated
         ), audit_write as (
           insert into placement_review_events (id, review_id, event_type, status, revision, final_level, actor_account_id, internal_rationale, occurred_at)
-          select ${input.eventId}::uuid, id, ${eventType}, status, revision, final_level, ${input.actor.accountId}::uuid, ${input.internalRationale}, ${input.occurredAt}::timestamptz from updated
+          select ${input.eventId}::uuid, id, ${eventType}, status, revision, final_level, ${input.actor.accountId}::uuid, ${sql.param(input.internalRationale ?? null)}, ${input.occurredAt}::timestamptz from updated
         ), outbox_write as (
           insert into crm_outbox (id, event_type, idempotency_key, correlation_id, payload, status, attempt_count, next_attempt_at, created_at)
           select
