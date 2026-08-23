@@ -885,6 +885,75 @@ function ResultClaimPanel({ ageBand, attemptId, enabled, onClaimed, onStepChange
     : <AdultResultClaimPanel attemptId={attemptId} enabled={enabled} onClaimed={onClaimed} onStepChange={onStepChange} />;
 }
 
+function PasswordSetupCard() {
+  const [status, setStatus] = useState("idle");
+  const [dismissed, setDismissed] = useState(false);
+
+  if (dismissed) return null;
+
+  const requestSetup = async () => {
+    if (status === "requesting") return;
+    setStatus("requesting");
+    try {
+      const response = await fetch("/api/portal/auth/password-setup", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "content-type": "application/json" },
+        body: "{}",
+      });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok || body.ok !== true) {
+        throw new Error(body.error || "password_setup_unavailable");
+      }
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <aside className="diagnostic-password-setup" aria-labelledby="password-setup-title">
+      <div>
+        <p className="section-kicker">Acceso para la próxima vez</p>
+        <h3 id="password-setup-title">Crea una contraseña para entrar más rápido</h3>
+        <p>
+          Te enviaremos un enlace seguro al email que acabas de verificar. WorkOS
+          protege la contraseña; AIT nunca la guarda ni puede verla.
+        </p>
+      </div>
+      {status === "sent" ? (
+        <div className="diagnostic-password-setup__status" role="status">
+          <strong>Revisa tu email</strong>
+          <span>El enlace seguro te permitirá crear o restablecer tu contraseña.</span>
+        </div>
+      ) : (
+        <div className="diagnostic-password-setup__actions">
+          <button
+            className="button button--ghost"
+            disabled={status === "requesting"}
+            type="button"
+            onClick={requestSetup}
+          >
+            {status === "requesting" ? "Enviando…" : "Crear contraseña"}
+          </button>
+          <button
+            className="diagnostic-text-action"
+            type="button"
+            onClick={() => setDismissed(true)}
+          >
+            Ahora no
+          </button>
+        </div>
+      )}
+      {status === "error" ? (
+        <p className="diagnostic-claim-error" role="alert">
+          No pudimos enviar el enlace ahora. Tu resultado y acceso al Portal siguen listos; puedes hacerlo después desde la pantalla de acceso.
+        </p>
+      ) : null}
+    </aside>
+  );
+}
+
 function AdultResultClaimPanel({ attemptId, enabled, onClaimed, onStepChange }) {
   const [step, setStep] = useState("details");
   const [firstName, setFirstName] = useState("");
@@ -1246,6 +1315,7 @@ function ResultScreen({
         </div>
       </div>
       <div className="diagnostic-result__details">
+        {claimReceipt?.alreadyClaimed !== true ? <PasswordSetupCard /> : null}
         <div className="diagnostic-result__metrics">
           <h3>Detalles del Placement Test</h3>
           <div className="diagnostic-result__metrics-grid">

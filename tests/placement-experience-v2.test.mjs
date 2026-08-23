@@ -50,7 +50,7 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.doesNotMatch(component, /question\.answer/);
   });
 
-  it("exposes the guardian boundary and passwordless Study Buddy conversion", () => {
+  it("exposes the guardian boundary and optional post-claim password setup", () => {
     assert.match(component, /Progreso guardado/);
     assert.match(component, /Continúa tu prueba/);
     assert.match(component, /Continuar mi prueba/);
@@ -62,7 +62,9 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.match(component, /No pedimos fecha de nacimiento/);
     assert.match(component, /api\/portal\/result-claim\/code/);
     assert.doesNotMatch(component, /No hace falta una cuenta para verlo/);
-    assert.doesNotMatch(component, /Ahora no/);
+    assert.match(component, /Crea una contraseña para entrar más rápido/);
+    assert.match(component, /Ahora no/);
+    assert.match(component, /api\/portal\/auth\/password-setup/);
     assert.match(component, /opciones de curso/);
     assert.match(component, /no autoriza comunicaciones de marketing/);
   });

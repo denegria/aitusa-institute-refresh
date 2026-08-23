@@ -1,93 +1,44 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { site } from "../../../src/content";
 
-const sections = [
-  ["Inicio", "inicio"],
-  ["Método", "metodo"],
-  ["Experiencias", "experiencia"],
-  ["Cursos", "cursos"],
-  ["Sedes", "sedes"],
-  ["Contacto", "contacto"],
+const primaryNavigation = [
+  { label: "Inicio", href: "/", page: "home" },
+  { label: "Cursos", href: "/cursos/", page: "courses" },
+  { label: "Examen de nivel", href: "/placement-test/", page: "placement" },
 ];
-const readingSectionIds = [...sections.map(([, id]) => id), "libros", "faq"];
-
-const getDocumentTop = (node) => node.getBoundingClientRect().top + window.scrollY;
 
 export function SiteHeader({ activePage = "home" }) {
   const [open, setOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("inicio");
+  const menuButton = useRef(null);
+  const navigation = useRef(null);
 
   useEffect(() => {
-    if (activePage !== "home") return undefined;
-
-    let frameRequested = false;
-    const update = () => {
-      const nodes = readingSectionIds
-        .map((id) => document.getElementById(id))
-        .filter(Boolean)
-        .sort((a, b) => getDocumentTop(a) - getDocumentTop(b));
-      if (!nodes.length) return;
-
-      const readingLine = window.scrollY + Math.min(window.innerHeight * 0.32, 280);
-      let current = nodes[0];
-      for (const node of nodes) {
-        if (getDocumentTop(node) <= readingLine) current = node;
-      }
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 8) {
-        current = nodes.at(-1);
-      }
-      setActiveSection(current.id);
-      frameRequested = false;
-    };
-    const requestUpdate = () => {
-      if (frameRequested) return;
-      frameRequested = true;
-      window.requestAnimationFrame(update);
-    };
-
-    update();
-    window.addEventListener("scroll", requestUpdate, { passive: true });
-    window.addEventListener("resize", requestUpdate);
-    window.addEventListener("hashchange", requestUpdate);
-    return () => {
-      window.removeEventListener("scroll", requestUpdate);
-      window.removeEventListener("resize", requestUpdate);
-      window.removeEventListener("hashchange", requestUpdate);
-    };
-  }, [activePage]);
-
-  useEffect(() => {
+    if (!open) return undefined;
     const onKeyDown = (event) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key !== "Escape") return;
+      setOpen(false);
+      window.requestAnimationFrame(() => menuButton.current?.focus());
+    };
+    const onPointerDown = (event) => {
+      if (
+        menuButton.current?.contains(event.target) ||
+        navigation.current?.contains(event.target)
+      ) {
+        return;
+      }
+      setOpen(false);
     };
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, []);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [open]);
 
   const closeMenu = () => setOpen(false);
-
-  const navigateToSection = (event, id) => {
-    if (activePage !== "home") {
-      closeMenu();
-      return;
-    }
-
-    const target = document.getElementById(id);
-    if (!target) {
-      closeMenu();
-      return;
-    }
-
-    event.preventDefault();
-    const headerHeight = document.querySelector(".site-header")?.getBoundingClientRect().height || 0;
-    const targetTop = getDocumentTop(target) - headerHeight - 12;
-    window.history.pushState(null, "", `#${id}`);
-    window.scrollTo({ top: Math.max(0, targetTop), behavior: "instant" });
-    setActiveSection(id);
-    closeMenu();
-  };
 
   return (
     <>
@@ -101,6 +52,7 @@ export function SiteHeader({ activePage = "home" }) {
           </span>
         </a>
         <button
+          ref={menuButton}
           className="menu-toggle"
           type="button"
           aria-expanded={open}
@@ -112,27 +64,15 @@ export function SiteHeader({ activePage = "home" }) {
           <i className="menu-toggle__close" data-lucide="x" aria-hidden="true" />
         </button>
         <nav
+          ref={navigation}
           className={`site-nav${open ? " is-open" : ""}`}
           id="site-nav"
           aria-label="Navegación principal"
         >
-          {sections.map(([label, id]) => {
-            const href =
-              activePage === "home"
-                ? `#${id}`
-                : id === "inicio"
-                  ? "/"
-                  : id === "cursos"
-                    ? "/cursos/"
-                    : `/#${id}`;
-            const current =
-              activePage === "courses" && id === "cursos"
-                ? "page"
-                : activePage === "home" && activeSection === id
-                  ? "location"
-                  : undefined;
+          {primaryNavigation.map(({ label, href, page }) => {
+            const current = activePage === page ? "page" : undefined;
             return (
-              <a key={id} href={href} aria-current={current} onClick={(event) => navigateToSection(event, id)}>
+              <a key={href} href={href} aria-current={current} onClick={closeMenu}>
                 {label}
               </a>
             );
