@@ -3,10 +3,16 @@ import { readFile } from "node:fs/promises";
 import { describe, it } from "node:test";
 import { createPortalPasswordHandler } from "../app/api/portal/auth/password/route.js";
 import { createPortalPasswordResetHandler } from "../app/api/portal/auth/password-reset/route.js";
+import { createPortalPasswordResetConfirmHandler } from "../app/api/portal/auth/password-reset/confirm/route.js";
 import { createPortalPasswordSetupHandler } from "../app/api/portal/auth/password-setup/route.js";
+import { createPortalPasswordResetStartHandler } from "../app/portal/reset-password/start/route.js";
 import { createPortalAuthService } from "../src/portalAuth/service.js";
 import { PortalClaimError } from "../src/portalClaim/errors.js";
 import { createWorkOSAuthProvider } from "../src/portalClaim/workosAdapter.server.js";
+import {
+  sealPortalPasswordResetToken,
+  unsealPortalPasswordResetToken,
+} from "../src/portalAuth/passwordResetSession.server.js";
 
 const identity = Object.freeze({
   providerUserId: "workos-user-fixture",
@@ -19,6 +25,7 @@ function serviceFixture({
   employee = false,
   passwordError = null,
   resetError = null,
+  resetConfirmError = null,
   reservationAllowed = true,
 } = {}) {
   const calls = [];
@@ -64,6 +71,15 @@ function serviceFixture({
       calls.push({ type: "reset", input: structuredClone(input) });
       if (resetError) throw resetError;
       return { accepted: true };
+    },
+    async confirmPasswordReset(input) {
+      calls.push({
+        type: "reset-confirm",
+        tokenLength: input.token.length,
+        credentialLength: input.password.length,
+      });
+      if (resetConfirmError) throw resetConfirmError;
+      return { completed: true };
     },
     async authenticateSession(sessionData) {
       calls.push({ type: "session", sessionData });
@@ -189,6 +205,30 @@ describe("MIS-403 provider-owned password service", () => {
       { type: "reset", input: { email: "student@example.com" } },
     );
   });
+
+  it("confirms a reset through WorkOS without persisting token or credential material", async () => {
+    const fixture = serviceFixture();
+    const token = "provider-reset-token-fixture";
+    const credential = ["synthetic", "credential"].join("-");
+    assert.deepEqual(
+      await fixture.service.confirmPasswordReset(
+        token,
+        { password: credential, confirmation: credential },
+        { ipAddress: "192.0.2.30" },
+      ),
+      { completed: true },
+    );
+    assert.deepEqual(
+      fixture.calls.find((call) => call.type === "reset-confirm"),
+      {
+        type: "reset-confirm",
+        tokenLength: token.length,
+        credentialLength: credential.length,
+      },
+    );
+    assert.doesNotMatch(JSON.stringify(fixture.calls), new RegExp(token));
+    assert.doesNotMatch(JSON.stringify(fixture.calls), new RegExp(credential));
+  });
 });
 
 describe("MIS-403 WorkOS password adapter", () => {
@@ -223,6 +263,19 @@ describe("MIS-403 WorkOS password adapter", () => {
               passwordResetUrl: "https://provider.example/reset/not-returned",
             };
           },
+          async resetPassword(input) {
+            calls.push({
+              type: "reset-confirm",
+              tokenLength: input.token.length,
+              credentialLength: input.newPassword.length,
+            });
+            return {
+              user: {
+                id: "workos-user-fixture",
+                email: "student@example.com",
+              },
+            };
+          },
         },
       },
     });
@@ -238,11 +291,73 @@ describe("MIS-403 WorkOS password adapter", () => {
     assert.deepEqual(await provider.sendPasswordReset({ email: identity.email }), {
       accepted: true,
     });
+    assert.deepEqual(
+      await provider.confirmPasswordReset({
+        token: "provider-reset-token-fixture",
+        password: ["synthetic", "credential"].join("-"),
+      }),
+      { completed: true },
+    );
     assert.deepEqual(calls, [
       { type: "authenticate", email: "student@example.com", clientId: "test-client-id" },
       { type: "seal" },
       { type: "reset", input: { email: "student@example.com" } },
+      { type: "reset-confirm", tokenLength: 28, credentialLength: 20 },
     ]);
+  });
+});
+
+describe("MIS-403 password reset token boundary", () => {
+  it("encrypts the provider token and rejects expired or tampered reset cookies", () => {
+    const secret = "portal-password-reset-cookie-secret-32-bytes";
+    const token = "provider-reset-token-fixture";
+    const now = new Date("2026-08-23T02:00:00.000Z");
+    const sealed = sealPortalPasswordResetToken(token, {
+      secret,
+      now: () => now,
+      random: () => Buffer.alloc(12, 7),
+    });
+
+    assert.doesNotMatch(sealed, new RegExp(token));
+    assert.equal(
+      unsealPortalPasswordResetToken(sealed, { secret, now: () => now }),
+      token,
+    );
+    assert.equal(
+      unsealPortalPasswordResetToken(sealed, {
+        secret,
+        now: () => new Date("2026-08-23T02:16:00.000Z"),
+      }),
+      null,
+    );
+    assert.equal(
+      unsealPortalPasswordResetToken(`${sealed.slice(0, -1)}x`, {
+        secret,
+        now: () => now,
+      }),
+      null,
+    );
+  });
+
+  it("removes the provider token from the visible URL before rendering the form", async () => {
+    const token = "provider-reset-token-fixture";
+    const handler = createPortalPasswordResetStartHandler({
+      getGateResponse: () => null,
+      sealToken: (value) => {
+        assert.equal(value, token);
+        return "encrypted-reset-cookie";
+      },
+      serializeCookie: (value) =>
+        `aitusa_password_reset=${value}; Path=/; HttpOnly; SameSite=Lax`,
+    });
+    const response = await handler(
+      new Request(`https://example.com/portal/reset-password/start?token=${token}`),
+    );
+    assert.equal(response.status, 303);
+    assert.equal(response.headers.get("location"), "https://example.com/portal/reset-password/");
+    assert.match(response.headers.get("set-cookie"), /HttpOnly/);
+    assert.doesNotMatch(response.headers.get("set-cookie"), new RegExp(token));
+    assert.equal(response.headers.get("referrer-policy"), "no-referrer");
   });
 });
 
@@ -305,6 +420,37 @@ describe("MIS-403 password HTTP boundaries", () => {
     assert.equal(response.status, 202);
     assert.deepEqual(calls, ["sealed-session-fixture"]);
   });
+
+  it("confirms the password with the encrypted reset cookie and clears stale sessions", async () => {
+    const calls = [];
+    const handler = createPortalPasswordResetConfirmHandler({
+      isConfigured: () => true,
+      getGateResponse: () => null,
+      readResetCookie: () => "encrypted-reset-cookie",
+      unsealToken: (value) => {
+        assert.equal(value, "encrypted-reset-cookie");
+        return "provider-reset-token-fixture";
+      },
+      expireResetCookie: () => "aitusa_password_reset=; Max-Age=0; HttpOnly",
+      expireSessionCookie: () => "aitusa_portal_session=; Max-Age=0; HttpOnly",
+      getService: () => ({
+        async confirmPasswordReset(token, input) {
+          calls.push({ tokenLength: token.length, credentialLength: input.password.length });
+          return { completed: true };
+        },
+      }),
+    });
+    const credential = ["synthetic", "credential"].join("-");
+    const response = await handler(jsonRequest(
+      "/api/portal/auth/password-reset/confirm",
+      { password: credential, confirmation: credential },
+    ));
+    assert.equal(response.status, 200);
+    assert.deepEqual(await response.json(), { ok: true, completed: true });
+    assert.deepEqual(calls, [{ tokenLength: 28, credentialLength: 20 }]);
+    assert.match(response.headers.get("set-cookie"), /aitusa_password_reset=.*Max-Age=0/);
+    assert.match(response.headers.get("set-cookie"), /aitusa_portal_session=.*Max-Age=0/);
+  });
 });
 
 describe("MIS-403 password UX and schema contract", () => {
@@ -317,6 +463,14 @@ describe("MIS-403 password UX and schema contract", () => {
       new URL("../app/_components/site/PlacementExperience.jsx", import.meta.url),
       "utf8",
     );
+    const reset = await readFile(
+      new URL("../app/portal/reset-password/PasswordResetExperience.jsx", import.meta.url),
+      "utf8",
+    );
+    const resetSession = await readFile(
+      new URL("../src/portalAuth/passwordResetSession.server.js", import.meta.url),
+      "utf8",
+    );
     assert.match(signIn, /type="password"/);
     assert.match(signIn, /Código por email/);
     assert.match(signIn, /Olvidé mi contraseña/);
@@ -326,6 +480,11 @@ describe("MIS-403 password UX and schema contract", () => {
     assert.match(placement, /\/api\/portal\/auth\/password-setup/);
     assert.match(placement, /Ahora no/);
     assert.match(placement, /claimReceipt\?\.alreadyClaimed !== true/);
+    assert.match(reset, /autoComplete="new-password"/);
+    assert.match(reset, /Guardar contraseña/);
+    assert.doesNotMatch(reset, /useSearchParams|localStorage|sessionStorage/);
+    assert.match(resetSession, /aes-256-gcm/);
+    assert.match(resetSession, /HttpOnly/);
   });
 
   it("keeps the database event constraint synchronized", async () => {

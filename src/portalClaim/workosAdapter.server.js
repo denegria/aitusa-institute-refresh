@@ -121,6 +121,22 @@ export function createWorkOSAuthProvider({
       }
     },
 
+    async confirmPasswordReset({ token, password }) {
+      try {
+        const response = await workos.userManagement.resetPassword({
+          token,
+          newPassword: password,
+        });
+        if (!response?.user?.id || !response.user.email) {
+          throw new PortalClaimError("password_reset_invalid", 422);
+        }
+        return { completed: true };
+      } catch (error) {
+        if (error instanceof PortalClaimError) throw error;
+        throw mapWorkOSError(error, "password_reset_invalid");
+      }
+    },
+
     async authenticateSession(sessionData) {
       try {
         const response =
@@ -210,6 +226,9 @@ function mapWorkOSError(error, fallbackCode) {
   }
   if (fallbackCode === "password_auth_invalid") {
     return new PortalClaimError(fallbackCode, 401);
+  }
+  if (fallbackCode === "password_reset_invalid") {
+    return new PortalClaimError(fallbackCode, 422);
   }
   return new PortalClaimError(fallbackCode, 503);
 }

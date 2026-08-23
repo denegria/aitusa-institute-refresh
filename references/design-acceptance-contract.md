@@ -1,3 +1,50 @@
+# AIT USA Password Reset Confirmation — MIS-403
+
+## User workflow and problem
+
+- A student or employee who requests password setup/reset must land on a clear,
+  secure password form instead of falling through to the Placement Test.
+- The application uses the WorkOS API with custom sign-in surfaces, so the
+  hosted AuthKit reset handoff cannot resume through the current initiate-login
+  route.
+
+## Interaction model and visual direction
+
+- One focused confirmation card: new password, confirmation, one primary
+  action, then an explicit success state with student and employee sign-in
+  destinations.
+- Reuse the existing Portal access shell, typography, navy/gold palette,
+  spacing, focus treatment, and trust copy. Reference mode: inspiration mode
+  constrained by the shipped student/employee sign-in surfaces.
+
+## Locked behavior, security, and non-goals
+
+- WorkOS remains the credential owner and performs the password reset.
+- The provider token is captured by a same-origin start route, encrypted into a
+  short-lived HttpOnly/Secure cookie, and removed from the visible URL before
+  the form renders. It is never stored in Portal DB, logs, analytics, React
+  state, localStorage, or sessionStorage.
+- Reset confirmation is exact-origin, rate-limited, no-store, and clears both
+  the reset cookie and stale Portal session after success because WorkOS revokes
+  active sessions on password reset.
+- Error copy must not expose provider internals or account existence.
+- Non-goals: WorkOS email-template cleanup (MIS-404), hosted-AuthKit OAuth
+  migration, password policy changes, production provider configuration, or a
+  broader Portal redesign.
+
+## Responsive and evidence contract
+
+- Primary CSS viewports: 1440x900 and 390x844.
+- Regression CSS viewports: 1024x768 and 430x932.
+- Both password fields and the primary action remain at least 44px, keyboard
+  focus is visible, error/success states are announced, and no horizontal
+  overflow is introduced.
+- Required evidence: token/cookie unit tests, provider/service/route tests,
+  focused rendered checks, full repository validation, production build, and a
+  real staging email proof using an established QA account.
+
+---
+
 # AIT USA Result Claim + Portal Entry Hotfix — 2026-08-20
 
 ## User workflow and problem
