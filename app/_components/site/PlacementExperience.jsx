@@ -93,6 +93,36 @@ function serverSnapshotMatchesLocal(serverSnapshot, localSnapshot) {
   );
 }
 
+async function readDiagnosticJson(response, stage) {
+  try {
+    return await response.json();
+  } catch {
+    const error = new Error("diagnostic_response_unreadable");
+    error.stage = stage;
+    throw error;
+  }
+}
+
+function reportDiagnosticClientFailure(stage, error, recovered = false) {
+  const knownCode = typeof error?.message === "string" &&
+    /^[a-z0-9_]{1,80}$/.test(error.message)
+    ? error.message
+    : "diagnostic_client_failure";
+  const detail = { stage, code: knownCode, recovered };
+  try {
+    console.warn("aitusa_placement_submission", detail);
+  } catch {
+    // Diagnostic completion and recovery must not depend on client telemetry.
+  }
+  try {
+    window.dispatchEvent(new CustomEvent("aitusa:placement-client-failure", {
+      detail,
+    }));
+  } catch {
+    // Diagnostic completion and recovery must not depend on client telemetry.
+  }
+}
+
 const BOOK_PATH = Object.freeze([
   Object.freeze({ key: "level-1", label: "Level 1", book: "Intro Book" }),
   Object.freeze({ key: "level-2", label: "Level 2", book: "Book 1" }),
@@ -1831,11 +1861,15 @@ export function PlacementExperience() {
       consent: { advisorHandoff: false },
     };
 
+    let body = null;
+    let completionRevision = null;
+    let storageConfirmed = false;
+    let failureStage = "answer_sync";
     try {
       await syncQueue.current;
-      let body;
       if (durableRef.current && !syncFailedRef.current) {
         if (!completionIdRef.current) completionIdRef.current = createAttemptId();
+        failureStage = "completion_request";
         const response = await fetch(
           `/api/diagnostic/attempts/${encodeURIComponent(attemptIdRef.current)}/complete`,
           {
@@ -1851,29 +1885,93 @@ export function PlacementExperience() {
             }),
           },
         );
-        const completed = await response.json();
+        failureStage = "completion_response";
+        const completed = await readDiagnosticJson(response, failureStage);
         if (!response.ok || completed.ok !== true) {
-          throw new Error(completed.error || "diagnostic_completion_failed");
+          const error = new Error(completed.error || "diagnostic_completion_failed");
+          error.stage = "completion_rejected";
+          throw error;
         }
-        revisionRef.current = completed.attempt.revision;
-        setServerRevision(completed.attempt.revision);
+        completionRevision = completed.attempt.revision;
         body = completed.result;
       } else {
+        failureStage = "fallback_request";
         const response = await fetch("/api/placement-test", {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify(payload),
         });
-        body = await response.json();
-        if (!response.ok || body.ok !== true) throw new Error("placement_api_rejected");
+        failureStage = "fallback_response";
+        body = await readDiagnosticJson(response, failureStage);
+        if (!response.ok || body.ok !== true) {
+          const error = new Error("placement_api_rejected");
+          error.stage = "fallback_rejected";
+          throw error;
+        }
       }
-      setResult(body);
-      setResultClaimed(false);
-      setScreen("result");
+      if (!body?.recommendation) {
+        const error = new Error("diagnostic_result_missing");
+        error.stage = `${failureStage}_invalid`;
+        throw error;
+      }
+    } catch (submissionError) {
+      failureStage = submissionError?.stage || failureStage;
+      if (durableRef.current && !syncFailedRef.current) {
+        try {
+          const response = await fetch("/api/diagnostic/attempts/resume", {
+            cache: "no-store",
+            credentials: "same-origin",
+          });
+          const snapshotBody = await readDiagnosticJson(
+            response,
+            "completion_reconciliation_response",
+          );
+          storageConfirmed = response.ok &&
+            snapshotBody?.ok === true &&
+            snapshotBody?.durable === true;
+          const recovered = response.ok
+            ? buildServerResumeSnapshot(snapshotBody, flatQuestions.length)
+            : null;
+          if (recovered?.result) {
+            body = recovered.result;
+            completionRevision = recovered.serverRevision;
+            reportDiagnosticClientFailure(failureStage, submissionError, true);
+          }
+        } catch (recoveryError) {
+          reportDiagnosticClientFailure(
+            recoveryError?.stage || "completion_reconciliation",
+            recoveryError,
+          );
+        }
+      }
+      if (!body) {
+        reportDiagnosticClientFailure(failureStage, submissionError);
+        setError(
+          storageConfirmed
+            ? "No pudimos confirmar el resultado. Tus respuestas permanecen guardadas; inténtalo nuevamente."
+            : "No pudimos verificar el resultado. Tus respuestas siguen en esta pestaña; inténtalo nuevamente.",
+        );
+        setBusy(false);
+        return;
+      }
+    }
+
+    if (Number.isInteger(completionRevision)) {
+      revisionRef.current = completionRevision;
+      setServerRevision(completionRevision);
+    }
+    setResult(body);
+    setResultClaimed(false);
+    setScreen("result");
+    try {
       sessionStorage.removeItem(SESSION_KEY);
+    } catch (cleanupError) {
+      reportDiagnosticClientFailure("client_cleanup", cleanupError, true);
+    }
+    try {
       window.dispatchEvent(new CustomEvent("aitusa:placement-ready", {
         detail: {
-          attemptId,
+          attemptId: attemptIdRef.current,
           goal,
           recommendation: body.recommendation,
           answeredQuestionCount: flatQuestions.length - skipped.length,
@@ -1883,11 +1981,10 @@ export function PlacementExperience() {
           submittedAt: new Date().toISOString(),
         },
       }));
-    } catch {
-      setError("No se envió ni guardó información. Revisa tu conexión e inténtalo de nuevo.");
-    } finally {
-      setBusy(false);
+    } catch (eventError) {
+      reportDiagnosticClientFailure("client_event", eventError, true);
     }
+    setBusy(false);
   };
 
   const restart = () => {
