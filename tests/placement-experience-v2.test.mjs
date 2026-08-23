@@ -85,6 +85,24 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.doesNotMatch(component, /completionId: createAttemptId\(\)/);
   });
 
+  it("reconciles an ambiguous completion against the durable server snapshot", () => {
+    assert.match(
+      component,
+      /catch \(submissionError\)[\s\S]*fetch\("\/api\/diagnostic\/attempts\/resume"/,
+    );
+    assert.match(component, /if \(recovered\?\.result\)/);
+    assert.match(component, /reportDiagnosticClientFailure\(failureStage, submissionError, true\)/);
+    assert.match(component, /No pudimos confirmar el resultado\. Tus respuestas permanecen guardadas/);
+    assert.match(component, /No pudimos verificar el resultado\. Tus respuestas siguen en esta pestaña/);
+    assert.doesNotMatch(component, /No se envió ni guardó información/);
+  });
+
+  it("does not turn post-completion browser cleanup into a false submission failure", () => {
+    assert.match(component, /setScreen\("result"\);[\s\S]*try \{[\s\S]*sessionStorage\.removeItem/);
+    assert.match(component, /reportDiagnosticClientFailure\("client_cleanup", cleanupError, true\)/);
+    assert.match(component, /reportDiagnosticClientFailure\("client_event", eventError, true\)/);
+  });
+
   it("requires one explicit advisor preference without treating the number as authentication evidence", () => {
     for (const channel of ["email", "sms", "whatsapp", "phone"]) {
       assert.match(component, new RegExp(`value: "${channel}"`));
