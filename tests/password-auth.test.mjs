@@ -354,7 +354,7 @@ describe("MIS-403 password reset token boundary", () => {
       new Request(`https://example.com/portal/reset-password/start?token=${token}`),
     );
     assert.equal(response.status, 303);
-    assert.equal(response.headers.get("location"), "https://example.com/portal/reset-password/");
+    assert.equal(response.headers.get("location"), "https://example.com/portal/reset-password");
     assert.match(response.headers.get("set-cookie"), /HttpOnly/);
     assert.doesNotMatch(response.headers.get("set-cookie"), new RegExp(token));
     assert.equal(response.headers.get("referrer-policy"), "no-referrer");
