@@ -62,4 +62,11 @@ export const PORTAL_AUTH_SECURITY = Object.freeze({
     emailBudget: 3,
     ipBudget: 20,
   }),
+  passwordResetConfirm: Object.freeze({
+    windowMinutes: 15,
+    emailCooldownSeconds: 0,
+    ipCooldownSeconds: 0,
+    emailBudget: 8,
+    ipBudget: 30,
+  }),
 });

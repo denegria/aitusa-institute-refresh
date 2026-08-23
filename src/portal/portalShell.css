@@ -1553,6 +1553,20 @@
   line-height: 1.55 !important;
 }
 
+.portal-reset__actions {
+  display: grid;
+  gap: 10px;
+}
+
+.portal-reset__actions .portal-button,
+.portal-reset__request-link {
+  width: 100%;
+}
+
+.portal-reset__request-link {
+  margin-top: 12px;
+}
+
 .portal-signin__trust {
   align-items: flex-start;
   background: #f8f3e9;

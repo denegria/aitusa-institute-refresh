@@ -33,6 +33,20 @@ export function validatePortalPasswordResetRequest(input = {}) {
   };
 }
 
+export function validatePortalPasswordResetConfirmRequest(input = {}) {
+  const password = typeof input.password === "string" ? input.password : "";
+  const confirmation =
+    typeof input.confirmation === "string" ? input.confirmation : "";
+  if (
+    password.length < 10 ||
+    password.length > 256 ||
+    password !== confirmation
+  ) {
+    throw new PortalClaimError("password_reset_invalid", 422);
+  }
+  return { password };
+}
+
 function normalizeAudience(value) {
   return value === "employee" ? "employee" : "student";
 }

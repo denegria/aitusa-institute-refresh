@@ -8,6 +8,7 @@ import {
   waitForGenericCodeResponse,
 } from "./security.js";
 import {
+  validatePortalPasswordResetConfirmRequest,
   validatePortalPasswordResetRequest,
   validatePortalPasswordSignInRequest,
   validatePortalSignInCodeRequest,
@@ -383,6 +384,59 @@ export function createPortalAuthService({
         });
       }
       return { ...GENERIC_PASSWORD_RESET_RESPONSE };
+    },
+
+    async confirmPasswordReset(token, input, requestMetadata = {}) {
+      const request = validatePortalPasswordResetConfirmRequest(input);
+      if (typeof token !== "string" || token.length < 16 || token.length > 2048) {
+        throw new PortalClaimError("password_reset_invalid", 422);
+      }
+      const identifiers = hashIdentifiers({
+        email: token,
+        ipAddress: requestMetadata.ipAddress,
+      });
+      const reservation = await reserveAttempt(
+        "password_reset_request",
+        identifiers,
+        security.passwordResetConfirm,
+      );
+      if (!reservation.allowed) {
+        throw new PortalClaimError("password_reset_rate_limited", 429);
+      }
+
+      let outcome = "backend_error";
+      try {
+        try {
+          await authProvider.confirmPasswordReset({
+            token,
+            password: request.password,
+          });
+        } catch (error) {
+          outcome =
+            error instanceof PortalClaimError &&
+            error.code === "identity_provider_unavailable"
+              ? "provider_unavailable"
+              : error instanceof PortalClaimError &&
+                  error.code === "password_reset_rate_limited"
+                ? "rate_limited"
+                : "invalid";
+          if (
+            error instanceof PortalClaimError &&
+            [
+              "identity_provider_unavailable",
+              "password_reset_rate_limited",
+            ].includes(error.code)
+          ) {
+            throw error;
+          }
+          throw new PortalClaimError("password_reset_invalid", 422);
+        }
+        outcome = "success";
+        return { completed: true };
+      } finally {
+        await completeAttempt(reservation, outcome);
+        reportOutcome("password_reset_request", outcome);
+      }
     },
 
     async requestAuthenticatedPasswordSetup(sessionData, requestMetadata = {}) {
