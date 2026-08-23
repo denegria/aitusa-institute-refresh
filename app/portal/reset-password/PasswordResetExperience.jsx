@@ -21,6 +21,7 @@ export function PasswordResetExperience({ initialError = "" }) {
   const [confirmation, setConfirmation] = useState("");
   const [status, setStatus] = useState(initialError ? "error" : "idle");
   const [error, setError] = useState(initialError ? errorCopy(initialError) : "");
+  const [destination, setDestination] = useState(null);
 
   const busy = status === "submitting";
   const completed = status === "completed";
@@ -48,6 +49,7 @@ export function PasswordResetExperience({ initialError = "" }) {
       });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(payload.error || "password_reset_unavailable");
+      setDestination(resetDestination(payload));
       setPassword("");
       setConfirmation("");
       setStatus("completed");
@@ -84,17 +86,21 @@ export function PasswordResetExperience({ initialError = "" }) {
         </h1>
         <p>
           {completed
-            ? "WorkOS protegió tu nueva contraseña y cerró las sesiones anteriores. Entra nuevamente al portal que necesitas."
+            ? "WorkOS protegió tu nueva contraseña y cerró las sesiones anteriores. Entra nuevamente con tu nueva contraseña."
             : "Usa al menos 10 caracteres. Una frase larga y única suele ser más fácil de recordar y más segura."}
         </p>
 
         {completed ? (
           <div className="portal-reset__actions">
-            <a className="portal-button portal-button--primary" href="/portal/sign-in/">
-              Entrar al Portal estudiantil
-            </a>
-            <a className="portal-button portal-button--quiet" href="/employee/sign-in/">
-              Acceso de empleados
+            <a
+              className="portal-button portal-button--primary"
+              href={destination?.portalHref || "/"}
+            >
+              {destination?.audience === "student"
+                ? "Entrar a mi Portal"
+                : destination?.audience === "employee"
+                  ? "Entrar al Portal de empleados"
+                  : "Volver al sitio"}
             </a>
           </div>
         ) : (
@@ -165,4 +171,14 @@ export function PasswordResetExperience({ initialError = "" }) {
 
 function errorCopy(code) {
   return ERROR_COPY[code] || ERROR_COPY.password_reset_unavailable;
+}
+
+function resetDestination(payload) {
+  if (payload?.audience === "student" && payload.portalHref === "/portal/sign-in/") {
+    return { audience: "student", portalHref: payload.portalHref };
+  }
+  if (payload?.audience === "employee" && payload.portalHref === "/employee/sign-in/") {
+    return { audience: "employee", portalHref: payload.portalHref };
+  }
+  return { audience: null, portalHref: "/" };
 }

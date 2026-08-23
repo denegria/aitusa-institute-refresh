@@ -406,11 +406,15 @@ export function createPortalAuthService({
 
       let outcome = "backend_error";
       try {
+        let reset;
         try {
-          await authProvider.confirmPasswordReset({
+          reset = await authProvider.confirmPasswordReset({
             token,
             password: request.password,
           });
+          if (!isVerifiedIdentity(reset?.identity)) {
+            throw new PortalClaimError("password_reset_invalid", 422);
+          }
         } catch (error) {
           outcome =
             error instanceof PortalClaimError &&
@@ -431,8 +435,36 @@ export function createPortalAuthService({
           }
           throw new PortalClaimError("password_reset_invalid", 422);
         }
+
+        let studentSnapshot;
+        let employeeSnapshot;
+        try {
+          const portalIdentity = toPortalIdentity(reset.identity);
+          [studentSnapshot, employeeSnapshot] = await Promise.all([
+            repository.getActivePortalSnapshot(portalIdentity),
+            repository.getActiveEmployeeIdentity(portalIdentity),
+          ]);
+        } catch {
+          outcome = "account_resolution_failed";
+          return { completed: true, audience: null, portalHref: "/" };
+        }
+        if (Boolean(studentSnapshot) === Boolean(employeeSnapshot)) {
+          outcome = "account_unavailable";
+          return { completed: true, audience: null, portalHref: "/" };
+        }
+
         outcome = "success";
-        return { completed: true };
+        return studentSnapshot
+          ? {
+              completed: true,
+              audience: "student",
+              portalHref: "/portal/sign-in/",
+            }
+          : {
+              completed: true,
+              audience: "employee",
+              portalHref: "/employee/sign-in/",
+            };
       } finally {
         await completeAttempt(reservation, outcome);
         reportOutcome("password_reset_request", outcome);
