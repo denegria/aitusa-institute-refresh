@@ -17,7 +17,7 @@ export function createPortalPasswordResetStartHandler({
     if (gateResponse) return gateResponse;
 
     const requestUrl = new URL(request.url);
-    const cleanUrl = new URL("/portal/reset-password/", requestUrl);
+    const cleanUrl = new URL("/portal/reset-password", requestUrl);
     const token = requestUrl.searchParams.get("token");
     const headers = new Headers({
       "cache-control": "no-store, private",
