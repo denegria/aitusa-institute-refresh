@@ -79,7 +79,7 @@ function serviceFixture({
         credentialLength: input.password.length,
       });
       if (resetConfirmError) throw resetConfirmError;
-      return { completed: true };
+      return { completed: true, identity };
     },
     async authenticateSession(sessionData) {
       calls.push({ type: "session", sessionData });
@@ -216,7 +216,11 @@ describe("MIS-403 provider-owned password service", () => {
         { password: credential, confirmation: credential },
         { ipAddress: "192.0.2.30" },
       ),
-      { completed: true },
+      {
+        completed: true,
+        audience: "student",
+        portalHref: "/portal/sign-in/",
+      },
     );
     assert.deepEqual(
       fixture.calls.find((call) => call.type === "reset-confirm"),
@@ -228,6 +232,34 @@ describe("MIS-403 provider-owned password service", () => {
     );
     assert.doesNotMatch(JSON.stringify(fixture.calls), new RegExp(token));
     assert.doesNotMatch(JSON.stringify(fixture.calls), new RegExp(credential));
+  });
+
+  it("returns only the employee destination for an employee reset", async () => {
+    const fixture = serviceFixture({ employee: true });
+    const credential = ["synthetic", "credential"].join("-");
+    assert.deepEqual(
+      await fixture.service.confirmPasswordReset(
+        "provider-reset-token-fixture",
+        { password: credential, confirmation: credential },
+      ),
+      {
+        completed: true,
+        audience: "employee",
+        portalHref: "/employee/sign-in/",
+      },
+    );
+  });
+
+  it("falls back to the site instead of exposing a portal chooser", async () => {
+    const fixture = serviceFixture({ active: false });
+    const credential = ["synthetic", "credential"].join("-");
+    assert.deepEqual(
+      await fixture.service.confirmPasswordReset(
+        "provider-reset-token-fixture",
+        { password: credential, confirmation: credential },
+      ),
+      { completed: true, audience: null, portalHref: "/" },
+    );
   });
 });
 
@@ -296,7 +328,7 @@ describe("MIS-403 WorkOS password adapter", () => {
         token: "provider-reset-token-fixture",
         password: ["synthetic", "credential"].join("-"),
       }),
-      { completed: true },
+      { completed: true, identity },
     );
     assert.deepEqual(calls, [
       { type: "authenticate", email: "student@example.com", clientId: "test-client-id" },
@@ -436,7 +468,11 @@ describe("MIS-403 password HTTP boundaries", () => {
       getService: () => ({
         async confirmPasswordReset(token, input) {
           calls.push({ tokenLength: token.length, credentialLength: input.password.length });
-          return { completed: true };
+          return {
+            completed: true,
+            audience: "student",
+            portalHref: "/portal/sign-in/",
+          };
         },
       }),
     });
@@ -446,7 +482,12 @@ describe("MIS-403 password HTTP boundaries", () => {
       { password: credential, confirmation: credential },
     ));
     assert.equal(response.status, 200);
-    assert.deepEqual(await response.json(), { ok: true, completed: true });
+    assert.deepEqual(await response.json(), {
+      ok: true,
+      completed: true,
+      audience: "student",
+      portalHref: "/portal/sign-in/",
+    });
     assert.deepEqual(calls, [{ tokenLength: 28, credentialLength: 20 }]);
     assert.match(response.headers.get("set-cookie"), /aitusa_password_reset=.*Max-Age=0/);
     assert.match(response.headers.get("set-cookie"), /aitusa_portal_session=.*Max-Age=0/);
@@ -482,6 +523,9 @@ describe("MIS-403 password UX and schema contract", () => {
     assert.match(placement, /claimReceipt\?\.alreadyClaimed !== true/);
     assert.match(reset, /autoComplete="new-password"/);
     assert.match(reset, /Guardar contraseña/);
+    assert.match(reset, /Entrar a mi Portal/);
+    assert.match(reset, /Entrar al Portal de empleados/);
+    assert.doesNotMatch(reset, /Entrar al Portal estudiantil/);
     assert.doesNotMatch(reset, /useSearchParams|localStorage|sessionStorage/);
     assert.match(resetSession, /aes-256-gcm/);
     assert.match(resetSession, /HttpOnly/);

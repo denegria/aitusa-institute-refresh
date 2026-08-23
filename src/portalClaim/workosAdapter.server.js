@@ -130,7 +130,14 @@ export function createWorkOSAuthProvider({
         if (!response?.user?.id || !response.user.email) {
           throw new PortalClaimError("password_reset_invalid", 422);
         }
-        return { completed: true };
+        return {
+          completed: true,
+          identity: {
+            providerUserId: response.user.id,
+            email: response.user.email.trim().toLowerCase(),
+            emailVerified: true,
+          },
+        };
       } catch (error) {
         if (error instanceof PortalClaimError) throw error;
         throw mapWorkOSError(error, "password_reset_invalid");
