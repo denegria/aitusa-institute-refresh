@@ -13,6 +13,17 @@ import { PortalClaimError } from "../src/portalClaim/errors.js";
 import { serializeExpiredPortalSessionCookie } from "../src/portalClaim/session.server.js";
 import { NextRequest } from "next/server.js";
 import { forwardWithMaintainedPortalSession } from "../proxy.js";
+import {
+  PORTAL_MAINTAINED_IDENTITY_HEADER,
+  readMaintainedPortalIdentity,
+} from "../src/portalAuth/maintainedSession.server.js";
+
+const sessionContextSecret = "portal-session-context-secret-with-32-bytes";
+const maintainedIdentity = Object.freeze({
+  providerUserId: "workos-user-fixture",
+  email: "student@example.com",
+  emailVerified: true,
+});
 
 function jsonRequest(url, body, headers = {}) {
   return new Request(url, {
@@ -35,8 +46,14 @@ describe("MIS-341 authenticated portal routes", () => {
         isConfigured: () => true,
         maintainSession: async (sessionData) => {
           assert.equal(sessionData, "sealed-session-expired");
-          return { sessionData: "sealed-session-rotated", refreshed: true };
+          return {
+            sessionData: "sealed-session-rotated",
+            refreshed: true,
+            identity: maintainedIdentity,
+          };
         },
+        getSessionContextSecret: () => sessionContextSecret,
+        observeMaintenance: () => {},
       },
     );
 
@@ -49,6 +66,63 @@ describe("MIS-341 authenticated portal routes", () => {
     assert.match(setCookie, /HttpOnly/);
     assert.match(setCookie, /SameSite=Lax/i);
     assert.match(setCookie, /Max-Age=2592000/);
+    assert.equal(response.headers.get(PORTAL_MAINTAINED_IDENTITY_HEADER), null);
+    const context = response.headers.get(
+      `x-middleware-request-${PORTAL_MAINTAINED_IDENTITY_HEADER}`,
+    );
+    assert.deepEqual(
+      readMaintainedPortalIdentity(
+        new Request("https://example.com/portal/", {
+          headers: { [PORTAL_MAINTAINED_IDENTITY_HEADER]: context },
+        }),
+        sessionContextSecret,
+      ),
+      maintainedIdentity,
+    );
+  });
+
+  it("forwards verified identity context without rotating a still-valid cookie", async () => {
+    const response = await forwardWithMaintainedPortalSession(
+      new NextRequest("https://example.com/portal/", {
+        headers: { cookie: "aitusa_portal_session=sealed-session-valid" },
+      }),
+      {
+        isConfigured: () => true,
+        maintainSession: async () => ({
+          sessionData: "sealed-session-valid",
+          refreshed: false,
+          identity: maintainedIdentity,
+        }),
+        getSessionContextSecret: () => sessionContextSecret,
+        observeMaintenance: () => {},
+      },
+    );
+
+    assert.equal(response.headers.get("set-cookie"), null);
+    assert.match(
+      response.headers.get("x-middleware-request-cookie"),
+      /aitusa_portal_session=sealed-session-valid/,
+    );
+    assert.ok(
+      response.headers.get(
+        `x-middleware-request-${PORTAL_MAINTAINED_IDENTITY_HEADER}`,
+      ),
+    );
+  });
+
+  it("strips client-supplied maintained identity context without a session", async () => {
+    const response = await forwardWithMaintainedPortalSession(
+      new NextRequest("https://example.com/portal/", {
+        headers: { [PORTAL_MAINTAINED_IDENTITY_HEADER]: "spoofed" },
+      }),
+    );
+
+    assert.equal(
+      response.headers.get(
+        `x-middleware-request-${PORTAL_MAINTAINED_IDENTITY_HEADER}`,
+      ),
+      null,
+    );
   });
 
   it("preserves the existing sealed cookie when refresh cannot complete", async () => {
@@ -61,6 +135,7 @@ describe("MIS-341 authenticated portal routes", () => {
         maintainSession: async () => {
           throw new PortalClaimError("identity_provider_unavailable", 503);
         },
+        observeMaintenance: () => {},
       },
     );
 
@@ -77,6 +152,7 @@ describe("MIS-341 authenticated portal routes", () => {
         maintainSession: async () => {
           throw new PortalClaimError("portal_session_invalid", 401);
         },
+        observeMaintenance: () => {},
       },
     );
 

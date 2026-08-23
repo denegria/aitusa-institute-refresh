@@ -124,6 +124,32 @@ export function createPortalAuthService({
     return snapshot;
   }
 
+  async function resolvePortalSnapshotForIdentity(identity) {
+    if (!isVerifiedIdentity(identity)) {
+      throw new PortalClaimError("portal_session_invalid", 401);
+    }
+    const snapshot = await repository.getActivePortalSnapshot(
+      toPortalIdentity(identity),
+    );
+    if (!snapshot) {
+      throw new PortalClaimError("portal_session_invalid", 401);
+    }
+    return snapshot;
+  }
+
+  async function resolvePortalIdentityForIdentity(identity) {
+    if (!isVerifiedIdentity(identity)) {
+      throw new PortalClaimError("portal_session_invalid", 401);
+    }
+    const account = await repository.getActivePortalIdentity(
+      toPortalIdentity(identity),
+    );
+    if (!account) {
+      throw new PortalClaimError("portal_session_invalid", 401);
+    }
+    return { state: "authenticated", account };
+  }
+
   return {
     async requestSignInCode(input, requestMetadata = {}) {
       const request = validatePortalSignInCodeRequest(input);
@@ -538,17 +564,11 @@ export function createPortalAuthService({
         throw new PortalClaimError("portal_session_invalid", 401);
       }
 
-      if (!isVerifiedIdentity(identity)) {
-        throw new PortalClaimError("portal_session_invalid", 401);
-      }
+      return resolvePortalSnapshotForIdentity(identity);
+    },
 
-      const snapshot = await repository.getActivePortalSnapshot(
-        toPortalIdentity(identity),
-      );
-      if (!snapshot) {
-        throw new PortalClaimError("portal_session_invalid", 401);
-      }
-      return snapshot;
+    async resolveMaintainedSession(identity) {
+      return resolvePortalSnapshotForIdentity(identity);
     },
 
     async resolveAuthenticatedIdentity(sessionData) {
@@ -567,16 +587,11 @@ export function createPortalAuthService({
         }
         throw new PortalClaimError("portal_session_invalid", 401);
       }
-      if (!isVerifiedIdentity(identity)) {
-        throw new PortalClaimError("portal_session_invalid", 401);
-      }
-      const account = await repository.getActivePortalIdentity(
-        toPortalIdentity(identity),
-      );
-      if (!account) {
-        throw new PortalClaimError("portal_session_invalid", 401);
-      }
-      return { state: "authenticated", account };
+      return resolvePortalIdentityForIdentity(identity);
+    },
+
+    async resolveMaintainedIdentity(identity) {
+      return resolvePortalIdentityForIdentity(identity);
     },
 
     async resolveAuthorizedStudyBuddyContext(sessionData) {

@@ -4,6 +4,10 @@ import { toSafePortalSnapshot } from "../src/portalAuth/neonRepository.server.js
 import { createPortalAuthService } from "../src/portalAuth/service.js";
 import { createPortalSessionResolver } from "../src/portalAuth/sessionResolver.server.js";
 import { createWorkOSAuthProvider } from "../src/portalClaim/workosAdapter.server.js";
+import {
+  PORTAL_MAINTAINED_IDENTITY_HEADER,
+  serializeMaintainedPortalIdentity,
+} from "../src/portalAuth/maintainedSession.server.js";
 
 const identity = Object.freeze({
   providerUserId: "workos-user-fixture",
@@ -369,6 +373,30 @@ describe("MIS-341 authenticated portal service", () => {
     });
   });
 
+  it("reuses the signed middleware identity without authenticating the cookie twice", async () => {
+    const active = fixture();
+    const sessionContextSecret = "portal-session-context-secret-with-32-bytes";
+    const resolve = createPortalSessionResolver({
+      service: active.service,
+      sessionContextSecret,
+    });
+    const snapshot = await resolve(
+      new Request("https://example.com/portal/", {
+        headers: {
+          cookie: "aitusa_portal_session=sealed-session-fixture",
+          [PORTAL_MAINTAINED_IDENTITY_HEADER]: serializeMaintainedPortalIdentity(
+            identity,
+            sessionContextSecret,
+          ),
+        },
+      }),
+    );
+
+    assert.deepEqual(snapshot, safeSnapshot());
+    assert.equal(active.providerCalls.length, 0);
+    assert.deepEqual(active.repositoryCalls.map((call) => call.type), ["snapshot"]);
+  });
+
   it("resolves employee identity without loading the student dashboard snapshot", async () => {
     const active = fixture();
     const identitySnapshot = await active.service.resolveAuthenticatedIdentity("sealed-session-fixture");
@@ -520,6 +548,42 @@ describe("MIS-341 authenticated portal service", () => {
 });
 
 describe("WorkOS portal auth adapter", () => {
+  it("returns the verified identity for a still-valid sealed session", async () => {
+    const provider = createWorkOSAuthProvider({
+      apiKey: "test-api-key",
+      clientId: "test-client-id",
+      cookiePassword: "workos-cookie-password-test-32-bytes",
+      workosClient: {
+        userManagement: {
+          loadSealedSession() {
+            return {
+              async authenticate() {
+                return {
+                  authenticated: true,
+                  sessionId: "provider-session-fixture",
+                  user: {
+                    id: "workos-user-fixture",
+                    email: " Student@Example.com ",
+                    emailVerified: true,
+                  },
+                };
+              },
+              async refresh() {
+                throw new Error("valid sessions must not refresh");
+              },
+            };
+          },
+        },
+      },
+    });
+
+    assert.deepEqual(await provider.maintainSession("sealed-session-valid"), {
+      sessionData: "sealed-session-valid",
+      refreshed: false,
+      identity,
+    });
+  });
+
   it("refreshes an expired access token and returns the rotated sealed session", async () => {
     const calls = [];
     const provider = createWorkOSAuthProvider({
@@ -540,6 +604,12 @@ describe("WorkOS portal auth adapter", () => {
                 return {
                   authenticated: true,
                   sealedSession: "sealed-session-rotated",
+                  sessionId: "provider-session-fixture",
+                  user: {
+                    id: "workos-user-fixture",
+                    email: " Student@Example.com ",
+                    emailVerified: true,
+                  },
                 };
               },
             };
@@ -551,6 +621,7 @@ describe("WorkOS portal auth adapter", () => {
     assert.deepEqual(await provider.maintainSession("sealed-session-expired"), {
       sessionData: "sealed-session-rotated",
       refreshed: true,
+      identity,
     });
     assert.deepEqual(calls, [
       {

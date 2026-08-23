@@ -25,10 +25,16 @@ export function createWorkOSAuthProvider({
         });
         const authenticated = await session.authenticate();
         if (authenticated.authenticated === true) {
-          return { sessionData, refreshed: false };
+          return {
+            sessionData,
+            refreshed: false,
+            identity: maintainedIdentity(authenticated),
+          };
         }
         if (authenticated.reason !== "invalid_jwt") {
-          throw new PortalClaimError("portal_session_invalid", 401);
+          throw new PortalClaimError("portal_session_invalid", 401, {
+            reason: authenticated.reason || "authentication_failed",
+          });
         }
 
         const refreshed = await session.refresh();
@@ -37,15 +43,30 @@ export function createWorkOSAuthProvider({
           typeof refreshed.sealedSession !== "string" ||
           !refreshed.sealedSession
         ) {
-          throw new PortalClaimError("portal_session_invalid", 401);
+          if (refreshed.retryable === true) {
+            throw new PortalClaimError("identity_provider_unavailable", 503, {
+              reason: refreshed.reason || "refresh_retryable",
+            });
+          }
+          throw new PortalClaimError("portal_session_invalid", 401, {
+            reason: refreshed.reason || "refresh_failed",
+          });
         }
-        return { sessionData: refreshed.sealedSession, refreshed: true };
+        return {
+          sessionData: refreshed.sealedSession,
+          refreshed: true,
+          identity: maintainedIdentity(refreshed),
+        };
       } catch (error) {
         if (error instanceof PortalClaimError) throw error;
         if (isIdentityProviderUnavailable(error)) {
-          throw new PortalClaimError("identity_provider_unavailable", 503);
+          throw new PortalClaimError("identity_provider_unavailable", 503, {
+            reason: "provider_unavailable",
+          });
         }
-        throw new PortalClaimError("portal_session_invalid", 401);
+        throw new PortalClaimError("portal_session_invalid", 401, {
+          reason: "session_unreadable",
+        });
       }
     },
 
@@ -238,6 +259,25 @@ function mapWorkOSError(error, fallbackCode) {
     return new PortalClaimError(fallbackCode, 422);
   }
   return new PortalClaimError(fallbackCode, 503);
+}
+
+function maintainedIdentity(response) {
+  const user = response?.user;
+  if (
+    !response?.sessionId ||
+    !user?.id ||
+    !user.email ||
+    user.emailVerified !== true
+  ) {
+    throw new PortalClaimError("portal_session_invalid", 401, {
+      reason: "verified_identity_missing",
+    });
+  }
+  return {
+    providerUserId: user.id,
+    email: user.email.trim().toLowerCase(),
+    emailVerified: true,
+  };
 }
 
 function isIdentityProviderUnavailable(error, seen = new Set()) {
