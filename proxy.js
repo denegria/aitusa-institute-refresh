@@ -13,6 +13,10 @@ import {
   maintainPortalSession,
 } from "./src/portalAuth/sessionRuntime.server.js";
 import {
+  PORTAL_MAINTAINED_IDENTITY_HEADER,
+  serializeMaintainedPortalIdentity,
+} from "./src/portalAuth/maintainedSession.server.js";
+import {
   CANONICAL_ORIGIN,
   getLegacyDestination,
   isLegacyGonePath,
@@ -60,30 +64,51 @@ export async function forwardWithMaintainedPortalSession(
   {
     isConfigured = isPortalSessionProviderConfigured,
     maintainSession = maintainPortalSession,
+    getSessionContextSecret = () => process.env.PORTAL_AUTH_HASH_SECRET,
+    observeMaintenance = observePortalSessionMaintenance,
   } = {},
 ) {
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.delete(PORTAL_MAINTAINED_IDENTITY_HEADER);
   const current = request.cookies.get(PORTAL_SESSION_COOKIE_NAME)?.value;
-  if (!current || !isConfigured()) return NextResponse.next();
+  if (!current || !isConfigured()) {
+    return NextResponse.next({ request: { headers: requestHeaders } });
+  }
 
   try {
     const maintained = await maintainSession(current);
-    if (!maintained?.refreshed || !maintained.sessionData) {
-      return NextResponse.next();
+    if (!maintained?.sessionData || !maintained.identity) {
+      throw Object.assign(new Error("portal_session_invalid"), {
+        code: "portal_session_invalid",
+        status: 401,
+        details: { reason: "maintained_identity_missing" },
+      });
     }
 
     request.cookies.set(PORTAL_SESSION_COOKIE_NAME, maintained.sessionData);
+    requestHeaders.set("cookie", request.headers.get("cookie") || "");
+    requestHeaders.set(
+      PORTAL_MAINTAINED_IDENTITY_HEADER,
+      serializeMaintainedPortalIdentity(
+        maintained.identity,
+        getSessionContextSecret(),
+      ),
+    );
     const response = NextResponse.next({
-      request: { headers: new Headers(request.headers) },
+      request: { headers: requestHeaders },
     });
-    response.cookies.set({
-      name: PORTAL_SESSION_COOKIE_NAME,
-      value: maintained.sessionData,
-      path: "/",
-      maxAge: PORTAL_SESSION_MAX_AGE_SECONDS,
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-    });
+    if (maintained.refreshed) {
+      response.cookies.set({
+        name: PORTAL_SESSION_COOKIE_NAME,
+        value: maintained.sessionData,
+        path: "/",
+        maxAge: PORTAL_SESSION_MAX_AGE_SECONDS,
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+      });
+      observeMaintenance({ outcome: "refreshed", reason: "invalid_jwt" });
+    }
     return response;
   } catch (error) {
     if (
@@ -92,12 +117,17 @@ export async function forwardWithMaintainedPortalSession(
     ) {
       // Preserve the sealed cookie while WorkOS is transiently unavailable so
       // its refresh token can be retried on a later request.
-      return NextResponse.next();
+      observeMaintenance({
+        outcome: "preserved",
+        reason: safeMaintenanceReason(error),
+      });
+      return NextResponse.next({ request: { headers: requestHeaders } });
     }
 
     request.cookies.delete(PORTAL_SESSION_COOKIE_NAME);
+    requestHeaders.set("cookie", request.headers.get("cookie") || "");
     const response = NextResponse.next({
-      request: { headers: new Headers(request.headers) },
+      request: { headers: requestHeaders },
     });
     response.cookies.set({
       name: PORTAL_SESSION_COOKIE_NAME,
@@ -109,8 +139,23 @@ export async function forwardWithMaintainedPortalSession(
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
     });
+    observeMaintenance({
+      outcome: "cleared",
+      reason: safeMaintenanceReason(error),
+    });
     return response;
   }
+}
+
+function safeMaintenanceReason(error) {
+  const reason = error?.details?.reason || error?.code || "unknown";
+  return /^[a-z0-9_]{1,80}$/.test(String(reason))
+    ? String(reason)
+    : "unknown";
+}
+
+function observePortalSessionMaintenance(event) {
+  console.info("aitusa_portal_session_maintenance", event);
 }
 
 export function proxy(request) {
