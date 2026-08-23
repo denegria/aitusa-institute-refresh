@@ -1441,6 +1441,41 @@
   gap: 10px;
 }
 
+.portal-signin__methods {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  margin-bottom: 14px;
+  padding: 4px;
+  border: 1px solid #d8deea;
+  border-radius: 13px;
+  background: #eef1f6;
+}
+
+.portal-signin__methods button {
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--portal-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.portal-signin__methods button[aria-pressed="true"] {
+  background: #fff;
+  color: var(--portal-navy-950);
+  box-shadow: 0 3px 10px rgba(0, 26, 61, 0.1);
+}
+
+.portal-signin__methods button:focus-visible {
+  outline: 3px solid rgba(79, 132, 246, 0.34);
+  outline-offset: 2px;
+}
+
 .portal-signin__form label {
   color: var(--portal-navy-900);
   font-size: 12px;
@@ -1505,6 +1540,17 @@
   font-size: 12px !important;
   margin: 12px 0 0 !important;
   padding: 11px 12px;
+}
+
+.portal-signin__notice {
+  margin: 12px 0 0 !important;
+  padding: 11px 12px;
+  border: 1px solid #b8dfd1;
+  border-radius: 11px;
+  background: #eefaf5;
+  color: #176b4d !important;
+  font-size: 12px !important;
+  line-height: 1.55 !important;
 }
 
 .portal-signin__trust {

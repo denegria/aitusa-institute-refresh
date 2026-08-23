@@ -21,6 +21,13 @@
     "heading": "Entra a tu Portal"
   },
   {
+    "surface": "employee-entry",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/employee/sign-in/",
+    "file": "employee-entry-desktop.png",
+    "heading": "Entra al Portal de empleados"
+  },
+  {
     "surface": "homepage",
     "viewport": "mobile",
     "url": "http://127.0.0.1:3000/",
@@ -40,5 +47,12 @@
     "url": "http://127.0.0.1:3000/portal/sign-in/",
     "file": "portal-entry-mobile.png",
     "heading": "Entra a tu Portal"
+  },
+  {
+    "surface": "employee-entry",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/employee/sign-in/",
+    "file": "employee-entry-mobile.png",
+    "heading": "Entra al Portal de empleados"
   }
 ]

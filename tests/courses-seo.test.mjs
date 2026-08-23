@@ -228,7 +228,7 @@ describe("AIT USA native course routes and SEO contract", () => {
 
   it("keeps the Spanish course navigation canonical and current", async () => {
     const chrome = await readFile("app/_components/site/SiteChrome.jsx", "utf8");
-    assert.match(chrome, /id === "cursos"[\s\S]*?"\/cursos\//);
-    assert.match(chrome, /activePage === "courses" && id === "cursos"[\s\S]*?"page"/);
+    assert.match(chrome, /label: "Cursos", href: "\/cursos\/", page: "courses"/);
+    assert.match(chrome, /const current = activePage === page \? "page"/);
   });
 });

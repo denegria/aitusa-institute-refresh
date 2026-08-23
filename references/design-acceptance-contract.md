@@ -1477,3 +1477,32 @@ and closeout evidence are recorded in
 - **Locked behavior:** preserve result durability, email-only Portal identity, required advisor channel, conditional unverified mobile capture, explicit channel permission, guardian boundaries, CRM event ordering, marketing-off defaults, and provider-send suppression.
 - **Non-goals:** no phone authentication, no consent bypass, no result leakage before claim, no new offer, no points/streaks/false urgency, and no restructuring of assessment scoring or academic review.
 - **Evidence:** focused placement and result-claim contracts, full validation/build, responsive staging browser evidence at all four viewports, production deployment readiness, read-only production smoke, and Linear MIS-399 closeout.
+
+---
+## 2026-08-23 — Launch global navigation — MIS-393
+
+- **User workflow/problem:** Public visitors need a predictable route-first header that moves between the school overview, course catalog, and placement test without returning secondary pages to unrelated homepage anchors.
+- **Selected interaction model:** One shared three-destination global navigation: `Inicio`, `Cursos`, and `Examen de nivel`. The Portal remains a separate account utility and `Llámanos` remains the conversion utility.
+- **Why this is clearer:** The header mirrors the launch funnel, removes six competing section links, and avoids inventing Method or Locations pages solely to satisfy an obsolete navigation draft.
+- **Visual direction:** Current AIT white/navy/gold header, logo, typography, iconography, height, and call action. This is an information-architecture correction, not a header redesign.
+- **Locked behavior:** All three navigation entries use real routes; `Cursos` goes directly to `/cursos/`; the Portal icon goes to `/portal/sign-in/`; mobile exposes the same hierarchy; route-semantic active state uses `aria-current="page"`.
+- **Interaction requirements:** Escape and outside click close the mobile menu; focus returns to the trigger when Escape closes it; following a route closes it; focus remains visible; no background scroll or header collision is introduced.
+- **Non-goals:** No course dropdown, new Method/Locations route, page-content redesign, placement/auth/guardian/CRM/Study Buddy change, or production promotion.
+- **Primary CSS viewports:** 1366x768 desktop and 390x844 mobile. Regression viewports: 360x800, 768x1024, and 1024x768.
+- **Content growth:** The launch header is locked to three destinations. Additional destinations require a new IA decision rather than silently compressing the header.
+- **Evidence:** focused component/route tests, full validation/build, keyboard checks, deterministic browser evidence at all five widths, staging deployment, and live staging QA.
+
+---
+## 2026-08-23 — Provider-owned password access — MIS-403
+
+- **User workflow/problem:** Returning students and employees need a familiar email-and-password option without losing the existing one-time-code fallback, audience separation, or provider-owned credential boundary. A newly verified placement claimant should be able to establish easier return access without delaying the result.
+- **Selected interaction model:** The student and employee sign-in cards begin with email/password and offer `Usar un código por email` as a parallel method. `Olvidé mi contraseña` starts the provider-owned reset lifecycle. After result unlock, one optional setup card can send the verified claimant into the same secure password-setup lifecycle.
+- **Why this is clearer:** Email remains the single account identifier, both sign-in methods resolve the same WorkOS identity, and password setup is presented at a high-intent moment without adding another required placement step.
+- **Visual direction:** Inspiration mode constrained by the shipped AIT Portal access card and placement unlocked-result surface. Preserve navy/gold/warm-white, Plus Jakarta Sans, restrained radii, one dominant action, and current trust framing.
+- **Locked security:** WorkOS owns password values, verification, reset tokens, and lifecycle. Portal DB and AIT CRM store no password or reset material. Same-origin protection, generic account responses, attempt budgets, sealed sessions, revocation, active-account checks, employee role/business-unit authorization, student/employee separation, and guardian ownership remain fail-closed.
+- **Post-placement behavior:** The card appears only after successful OTP claim and result unlock. `Crear contraseña` requests a provider-owned setup/reset email; `Ahora no` dismisses the card locally for the current rendered flow. Neither action gates the result, Study Buddy, Portal, CRM delivery, or consent writes.
+- **Provider constraint:** Existing Magic Auth users must attach/use a password on the same WorkOS user ID. A staging provider proof of no duplicate identity is required. If provider behavior cannot prove that contract, password setup is blocked rather than implemented with a local credential store.
+- **Error/state contract:** Wrong password, ineligible account, and unknown account share generic copy. Rate limit and provider-unavailable states are bounded. Reset requests always return an enumeration-safe accepted response. Password reset may revoke existing provider sessions and the UI must explain that the user can sign in again.
+- **Non-goals:** Custom usernames, local password storage, password visibility/logging, phone auth, new account self-provisioning, employee/student crossover, redesigned Portal dashboards, or production promotion.
+- **Primary CSS viewports:** 1440x900 and 390x844. Regression viewports: 1024x768 and 430x932.
+- **Evidence:** provider-adapter/service/route/component tests; cross-audience and inactive-account checks; full validation/build; browser proof for both sign-in methods, reset, and optional post-placement setup; independent security review; staging provider identity proof; final funnel regression.

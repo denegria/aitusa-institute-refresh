@@ -3874,6 +3874,64 @@ textarea {
   line-height: 1.12;
 }
 
+.diagnostic-password-setup {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px 24px;
+  align-items: center;
+  padding: 20px 22px;
+  border: 1px solid rgba(196, 147, 45, 0.34);
+  border-radius: 14px;
+  background: #fbf8f0;
+}
+
+.diagnostic-password-setup h3 {
+  margin: 4px 0 0;
+}
+
+.diagnostic-password-setup p:not(.section-kicker):not(.diagnostic-claim-error) {
+  max-width: 64ch;
+  margin: 7px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.diagnostic-password-setup__actions {
+  display: grid;
+  gap: 4px;
+  justify-items: stretch;
+  min-width: 180px;
+}
+
+.diagnostic-password-setup__actions .diagnostic-text-action {
+  margin: 0;
+}
+
+.diagnostic-password-setup__status {
+  display: grid;
+  gap: 3px;
+  max-width: 260px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #e9f7f1;
+  color: #176b4d;
+}
+
+.diagnostic-password-setup__status strong {
+  font-size: 0.82rem;
+}
+
+.diagnostic-password-setup__status span {
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.diagnostic-password-setup > .diagnostic-claim-error {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
 .diagnostic-result__metrics-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -4789,6 +4847,17 @@ textarea {
   .diagnostic-study-unlock {
     grid-template-columns: 1fr;
     padding: 18px;
+  }
+
+  .diagnostic-password-setup {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .diagnostic-password-setup__actions,
+  .diagnostic-password-setup__status {
+    width: 100%;
+    max-width: none;
   }
 
   .diagnostic-study-unlock .button {
@@ -6389,7 +6458,7 @@ textarea {
   }
 
   .site-nav {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 
   .hero__copy {

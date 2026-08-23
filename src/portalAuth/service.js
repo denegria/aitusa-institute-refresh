@@ -8,6 +8,8 @@ import {
   waitForGenericCodeResponse,
 } from "./security.js";
 import {
+  validatePortalPasswordResetRequest,
+  validatePortalPasswordSignInRequest,
   validatePortalSignInCodeRequest,
   validatePortalSignInVerifyRequest,
 } from "./validation.js";
@@ -16,6 +18,10 @@ const GENERIC_CODE_RESPONSE = Object.freeze({
   accepted: true,
   delivery: "email",
   codeLength: 6,
+});
+const GENERIC_PASSWORD_RESET_RESPONSE = Object.freeze({
+  accepted: true,
+  delivery: "email",
 });
 
 export function createPortalAuthService({
@@ -92,6 +98,29 @@ export function createPortalAuthService({
       // Sign-out must always clear the local cookie even when audit persistence
       // is temporarily unavailable.
     }
+  }
+
+  async function resolveAudienceSnapshot(request, verified) {
+    if (!isVerifiedIdentityForEmail(verified?.identity, request.email)) {
+      throw new PortalClaimError("portal_sign_in_invalid", 401);
+    }
+    if (
+      typeof verified.sessionData !== "string" ||
+      verified.sessionData.length === 0
+    ) {
+      throw new PortalClaimError("portal_sign_in_invalid", 401);
+    }
+
+    let snapshot;
+    try {
+      snapshot = request.audience === "employee"
+        ? await repository.getActiveEmployeeIdentity(toPortalIdentity(verified.identity))
+        : await repository.getActivePortalSnapshot(toPortalIdentity(verified.identity));
+    } catch {
+      throw new PortalClaimError("portal_auth_unavailable", 503);
+    }
+    if (!snapshot) throw new PortalClaimError("portal_sign_in_invalid", 401);
+    return snapshot;
   }
 
   return {
@@ -242,6 +271,169 @@ export function createPortalAuthService({
       }
     },
 
+    async signInWithPassword(input, requestMetadata = {}) {
+      const request = validatePortalPasswordSignInRequest(input);
+      const identifiers = hashIdentifiers({
+        email: request.email,
+        ipAddress: requestMetadata.ipAddress,
+      });
+      const reservation = await reserveAttempt(
+        "password_verify",
+        identifiers,
+        security.passwordVerify,
+      );
+      if (!reservation.allowed) {
+        throw new PortalClaimError("portal_sign_in_invalid", 401);
+      }
+
+      let outcome = "backend_error";
+      let funnelCorrelationId = null;
+      try {
+        let verified;
+        try {
+          verified = await authProvider.authenticatePassword({
+            email: request.email,
+            password: request.password,
+            ...requestMetadata,
+          });
+        } catch (error) {
+          const publicError = publicPasswordError(error);
+          outcome = publicError.code === "identity_provider_unavailable"
+            ? "provider_unavailable"
+            : publicError.code === "password_auth_rate_limited"
+              ? "rate_limited"
+              : "invalid";
+          throw publicError;
+        }
+
+        const snapshot = await resolveAudienceSnapshot(request, verified);
+        outcome = "success";
+        try {
+          if (request.audience === "student") {
+            funnelCorrelationId = await repository.getActiveFunnelCorrelationForIdentity?.(
+              toPortalIdentity(verified.identity),
+            ) ?? null;
+          }
+        } catch {
+          // Authentication is authoritative; telemetry correlation is optional.
+        }
+        return {
+          sessionData: verified.sessionData,
+          snapshot,
+          audience: request.audience,
+        };
+      } finally {
+        await completeAttempt(reservation, outcome);
+        reportOutcome("password_verify", outcome);
+        if (reservation?.id) await emitLedger(ledger, {
+          eventName: outcome === "success" ? "portal_auth_success" : "portal_auth_failure",
+          idempotencyKey: `portal-auth-password:${reservation.id}`,
+          correlationId: outcome === "success" ? funnelCorrelationId ?? reservation.id : reservation.id,
+          source: "portal_auth",
+          safeOutcomeCode: toFunnelAuthOutcome(outcome), occurredAt: now().toISOString(),
+        });
+      }
+    },
+
+    async requestPasswordReset(input, requestMetadata = {}) {
+      const request = validatePortalPasswordResetRequest(input);
+      const identifiers = hashIdentifiers({
+        email: request.email,
+        ipAddress: requestMetadata.ipAddress,
+      });
+      let reservation = null;
+      let outcome = "backend_error";
+      let envelopeStartedAt;
+
+      try {
+        reservation = await reserveAttempt(
+          "password_reset_request",
+          identifiers,
+          security.passwordReset,
+        );
+        envelopeStartedAt = monotonicNow();
+        if (!reservation.allowed) {
+          outcome = "rate_limited";
+        } else if (
+          !(await repository.hasActivePortalAccountByEmail(request.email, request.audience))
+        ) {
+          outcome = "account_unavailable";
+        } else {
+          try {
+            await authProvider.sendPasswordReset({ email: request.email });
+            outcome = "provider_dispatched";
+          } catch (error) {
+            outcome = error instanceof PortalClaimError &&
+              error.code === "identity_provider_unavailable"
+              ? "provider_unavailable"
+              : "provider_error";
+          }
+        }
+      } catch {
+        outcome = "backend_error";
+      } finally {
+        if (envelopeStartedAt === undefined) envelopeStartedAt = monotonicNow();
+        await completeAttempt(reservation, outcome);
+        reportOutcome("password_reset_request", outcome);
+        await waitForGenericCodeResponse({
+          startedAt: envelopeStartedAt,
+          monotonicNow,
+          sleep,
+          minimumMs: security.minimumCodeResponseMs,
+        });
+      }
+      return { ...GENERIC_PASSWORD_RESET_RESPONSE };
+    },
+
+    async requestAuthenticatedPasswordSetup(sessionData, requestMetadata = {}) {
+      if (!sessionData) throw new PortalClaimError("portal_session_required", 401);
+      let identity;
+      try {
+        identity = await authProvider.authenticateSession(sessionData);
+      } catch (error) {
+        if (error instanceof PortalClaimError && error.code === "identity_provider_unavailable") {
+          throw error;
+        }
+        throw new PortalClaimError("portal_session_invalid", 401);
+      }
+      if (!isVerifiedIdentity(identity)) {
+        throw new PortalClaimError("portal_session_invalid", 401);
+      }
+      const account = await repository.getActivePortalIdentity(toPortalIdentity(identity));
+      if (!account) throw new PortalClaimError("portal_session_invalid", 401);
+
+      const identifiers = hashIdentifiers({
+        email: identity.email,
+        ipAddress: requestMetadata.ipAddress,
+      });
+      const reservation = await reserveAttempt(
+        "password_reset_request",
+        identifiers,
+        security.passwordReset,
+      );
+      if (!reservation.allowed) {
+        await completeAttempt(reservation, "rate_limited");
+        reportOutcome("password_reset_request", "rate_limited");
+        throw new PortalClaimError("password_setup_rate_limited", 429);
+      }
+
+      let outcome = "provider_error";
+      try {
+        await authProvider.sendPasswordReset({ email: identity.email });
+        outcome = "provider_dispatched";
+        return { ...GENERIC_PASSWORD_RESET_RESPONSE };
+      } catch (error) {
+        outcome = error instanceof PortalClaimError &&
+          error.code === "identity_provider_unavailable"
+          ? "provider_unavailable"
+          : "provider_error";
+        throw new PortalClaimError("password_setup_unavailable", 503);
+      } finally {
+        await completeAttempt(reservation, outcome);
+        reportOutcome("password_reset_request", outcome);
+      }
+    },
+
     async resolveAuthenticatedSession(sessionData) {
       if (!sessionData) {
         throw new PortalClaimError("portal_session_required", 401);
@@ -384,6 +576,16 @@ function publicVerificationError(error) {
     ["identity_provider_unavailable", "magic_auth_rate_limited"].includes(
       error.code,
     )
+  ) {
+    return error;
+  }
+  return new PortalClaimError("portal_sign_in_invalid", 401);
+}
+
+function publicPasswordError(error) {
+  if (
+    error instanceof PortalClaimError &&
+    ["identity_provider_unavailable", "password_auth_rate_limited"].includes(error.code)
   ) {
     return error;
   }

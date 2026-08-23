@@ -1,4 +1,9 @@
-const SAFE_EVENT_TYPES = new Set(["code_request", "code_verify"]);
+const SAFE_EVENT_TYPES = new Set([
+  "code_request",
+  "code_verify",
+  "password_verify",
+  "password_reset_request",
+]);
 const SAFE_OUTCOMES = new Set([
   "account_unavailable",
   "backend_error",

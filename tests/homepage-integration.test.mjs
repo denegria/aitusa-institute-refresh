@@ -128,14 +128,16 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(source, /<iframe|<svg/);
   });
 
-  it("tracks active homepage sections and preserves the mobile menu keyboard escape", async () => {
+  it("uses the approved route-first navigation and preserves mobile close behavior", async () => {
     const { chrome } = await readSources();
-    assert.match(chrome, /setActiveSection/);
-    assert.match(chrome, /readingSectionIds[\s\S]*"faq"/);
-    assert.match(chrome, /window\.requestAnimationFrame\(update\)/);
-    assert.match(chrome, /window\.addEventListener\("scroll"/);
+    assert.match(chrome, /label: "Inicio", href: "\/", page: "home"/);
+    assert.match(chrome, /label: "Cursos", href: "\/cursos\/", page: "courses"/);
+    assert.match(chrome, /label: "Examen de nivel", href: "\/placement-test\/", page: "placement"/);
+    assert.doesNotMatch(chrome, /href: "#|`\/#\$\{/);
     assert.match(chrome, /aria-current=\{current\}/);
-    assert.match(chrome, /event\.key === "Escape"/);
+    assert.match(chrome, /event\.key !== "Escape"/);
+    assert.match(chrome, /document\.addEventListener\("pointerdown"/);
+    assert.match(chrome, /menuButton\.current\?\.focus/);
   });
 
   it("offers a discreet global returning-student path without changing account rules", async () => {
@@ -278,7 +280,7 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(sections, /books-showcase/);
     assert.match(content, /intro-book-portada\.avif/);
     assert.match(sections, /chapter-accent chapter-accent--mobile/);
-    assert.match(chrome, /readingSectionIds/);
+    assert.doesNotMatch(chrome, /readingSectionIds/);
     assert.match(
       styles,
       /Final design-lock polish:[\s\S]*mobile chapter marker[\s\S]*grid-template-areas:\s*"intro intro"\s*"media reasons"/,
@@ -306,9 +308,10 @@ describe("homepage React integration", () => {
     );
   });
 
-  it("keeps the book route in the section-reading order", async () => {
-    const chrome = await readFile("app/_components/site/SiteChrome.jsx", "utf8");
-    assert.match(chrome, /readingSectionIds = .*"libros", "faq"/);
+  it("keeps books discoverable on the homepage without expanding the launch menu", async () => {
+    const { chrome, sections } = await readSources();
+    assert.match(sections, /className="section books-section" id="libros"/);
+    assert.doesNotMatch(chrome, /href: "\/#libros"/);
   });
 
   it("presents the books as one featured Intro cover and an ordered two-row curriculum", async () => {

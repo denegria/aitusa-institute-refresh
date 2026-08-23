@@ -1,6 +1,6 @@
 # AIT USA Diagnostic Service Operations
 
-Status: MIS-337/MIS-338/MIS-341 implementation contract
+Status: MIS-337/MIS-338/MIS-341/MIS-403 implementation contract
 Environment: dedicated AIT USA Portal database only
 Production: separately approval-gated
 
@@ -44,6 +44,16 @@ and must never use a `NEXT_PUBLIC_` prefix.
   without revealing whether an account exists.
 - `POST /api/portal/auth/verify`: verify the six-digit code and establish the
   sealed Portal session only after an active account is resolved.
+- `POST /api/portal/auth/password`: authenticate an email/password through
+  WorkOS and establish the same sealed Portal session after the same active
+  account and audience authorization checks.
+- `POST /api/portal/auth/password-reset`: request WorkOS-owned password setup
+  or recovery using one enumeration-safe response. The route never receives or
+  returns a reset token.
+- `POST /api/portal/auth/password-setup`: let an already authenticated result
+  claimant request the same WorkOS-owned setup/recovery email. The server
+  derives the email and audience from the sealed session; the browser cannot
+  choose the target identity.
 - `POST /api/portal/sign-out`: revoke the WorkOS session when available and
   always expire the local Portal cookie.
 - `GET /api/cron/portal-retention`: run the bounded daily purge.
@@ -69,6 +79,9 @@ The checked-in migrations are:
 - `drizzle/0000_diagnostic_foundation.sql`
 - `drizzle/0001_result_claim_accounts.sql`
 - `drizzle/0002_portal_auth_security.sql`
+- `drizzle/0003_study_buddy_runtime.sql` through
+  `drizzle/0010_require_mobile_for_verification.sql`
+- `drizzle/0011_password_auth_events.sql`
 
 Drizzle schema source is `src/diagnostic/schema.js`.
 
@@ -91,6 +104,13 @@ the staging branch for production or at AIT CRM.
 `PORTAL_PRODUCTION_ENABLED=true` is the final application gate and must remain
 absent or false until the production database migration, WorkOS configuration,
 guardian settings, and rollback checks are approved.
+
+WorkOS remains the only credential owner. Email is the username; password and
+Magic Auth resolve to the same provider identity. The Portal database stores
+only bounded hashed auth-event identifiers and never stores passwords, reset
+tokens, or provider session material outside the sealed cookie. Employee and
+student routes share the provider but preserve separate audience and role
+authorization checks.
 
 ## Failure behavior
 

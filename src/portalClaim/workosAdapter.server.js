@@ -80,26 +80,44 @@ export function createWorkOSAuthProvider({
             ...(ipAddress ? { ipAddress } : {}),
             ...(userAgent ? { userAgent } : {}),
           });
-        const user = authenticationResponse.user;
-        if (!user?.id || !user.email || user.emailVerified !== true) {
-          throw new PortalClaimError("verified_identity_invalid", 409);
-        }
-        const sessionData =
-          await workos.userManagement.sealSessionDataFromAuthenticationResponse({
-            authenticationResponse,
-            cookiePassword,
-          });
-        return {
-          identity: {
-            providerUserId: user.id,
-            email: user.email.trim().toLowerCase(),
-            emailVerified: true,
-          },
-          sessionData,
-        };
+        return verifiedSessionFromAuthenticationResponse(
+          workos,
+          authenticationResponse,
+          cookiePassword,
+        );
       } catch (error) {
         if (error instanceof PortalClaimError) throw error;
         throw mapWorkOSError(error, "magic_auth_code_invalid");
+      }
+    },
+
+    async authenticatePassword({ email, password, ipAddress, userAgent }) {
+      try {
+        const authenticationResponse =
+          await workos.userManagement.authenticateWithPassword({
+            clientId,
+            email,
+            password,
+            ...(ipAddress ? { ipAddress } : {}),
+            ...(userAgent ? { userAgent } : {}),
+          });
+        return verifiedSessionFromAuthenticationResponse(
+          workos,
+          authenticationResponse,
+          cookiePassword,
+        );
+      } catch (error) {
+        if (error instanceof PortalClaimError) throw error;
+        throw mapWorkOSError(error, "password_auth_invalid");
+      }
+    },
+
+    async sendPasswordReset({ email }) {
+      try {
+        await workos.userManagement.createPasswordReset({ email });
+        return { accepted: true };
+      } catch (error) {
+        throw mapWorkOSError(error, "password_reset_delivery_failed");
       }
     },
 
@@ -150,16 +168,48 @@ export function createWorkOSAuthProvider({
   };
 }
 
+async function verifiedSessionFromAuthenticationResponse(
+  workos,
+  authenticationResponse,
+  cookiePassword,
+) {
+  const user = authenticationResponse?.user;
+  if (!user?.id || !user.email || user.emailVerified !== true) {
+    throw new PortalClaimError("verified_identity_invalid", 409);
+  }
+  const sessionData =
+    await workos.userManagement.sealSessionDataFromAuthenticationResponse({
+      authenticationResponse,
+      cookiePassword,
+    });
+  return {
+    identity: {
+      providerUserId: user.id,
+      email: user.email.trim().toLowerCase(),
+      emailVerified: true,
+    },
+    sessionData,
+  };
+}
+
 function mapWorkOSError(error, fallbackCode) {
   const status = Number(error?.status ?? error?.statusCode ?? 0);
   if (status === 429) {
-    return new PortalClaimError("magic_auth_rate_limited", 429);
+    const rateLimitCode = fallbackCode.startsWith("password_")
+      ? fallbackCode === "password_auth_invalid"
+        ? "password_auth_rate_limited"
+        : "password_reset_rate_limited"
+      : "magic_auth_rate_limited";
+    return new PortalClaimError(rateLimitCode, 429);
   }
   if (isIdentityProviderUnavailable(error)) {
     return new PortalClaimError("identity_provider_unavailable", 503);
   }
   if (fallbackCode === "magic_auth_code_invalid") {
     return new PortalClaimError(fallbackCode, 422);
+  }
+  if (fallbackCode === "password_auth_invalid") {
+    return new PortalClaimError(fallbackCode, 401);
   }
   return new PortalClaimError(fallbackCode, 503);
 }

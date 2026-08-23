@@ -11,9 +11,15 @@ const ERROR_COPY = Object.freeze({
   portal_account_unavailable:
     "No pudimos completar el acceso. Revisa el email o solicita ayuda a un asesor.",
   portal_sign_in_invalid:
-    "Ese código no es válido, ya venció o no corresponde a una cuenta activa.",
+    "No pudimos completar el acceso. Revisa tus datos o usa un código por email.",
   passwordless_sign_in_unavailable:
     "El acceso por email no está disponible en este momento. Intenta de nuevo.",
+  password_sign_in_unavailable:
+    "El acceso con contraseña no está disponible en este momento. Usa un código por email.",
+  password_auth_rate_limited:
+    "Demasiados intentos. Espera un momento o usa un código por email.",
+  password_reset_unavailable:
+    "No pudimos iniciar la recuperación. Intenta de nuevo dentro de unos minutos.",
   identity_provider_unavailable:
     "El acceso por email no está disponible en este momento. Intenta de nuevo.",
   cross_origin_request_forbidden: "Actualiza la página e intenta otra vez.",
@@ -21,8 +27,10 @@ const ERROR_COPY = Object.freeze({
 
 export function SignInExperience({ audience = "student", returnTo = "/portal/" }) {
   const employee = audience === "employee";
+  const [method, setMethod] = useState("password");
   const [step, setStep] = useState("email");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
@@ -62,6 +70,42 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
     }
   }
 
+  async function signInWithPassword(event) {
+    event.preventDefault();
+    setStatus("verifying_password");
+    setError("");
+    try {
+      const response = await postJson("/api/portal/auth/password", {
+        email: email.trim().toLowerCase(),
+        password,
+        audience,
+        returnTo,
+      });
+      if (!response.ok) throw new Error(response.error || "portal_sign_in_invalid");
+      window.location.assign(response.portalHref || "/portal/");
+    } catch (requestError) {
+      setStatus("error");
+      setError(errorCopy(requestError.message));
+    }
+  }
+
+  async function requestPasswordReset() {
+    if (!emailInput.current?.reportValidity()) return;
+    setStatus("requesting_reset");
+    setError("");
+    try {
+      const response = await postJson("/api/portal/auth/password-reset", {
+        email: email.trim().toLowerCase(),
+        audience,
+      });
+      if (!response.ok) throw new Error(response.error || "password_reset_unavailable");
+      setStatus("reset_requested");
+    } catch (requestError) {
+      setStatus("error");
+      setError(errorCopy(requestError.message));
+    }
+  }
+
   async function verifyCode(event) {
     event.preventDefault();
     setStatus("verifying");
@@ -90,15 +134,37 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
     requestAnimationFrame(() => emailInput.current?.focus());
   }
 
+  function chooseMethod(nextMethod) {
+    setMethod(nextMethod);
+    setStep("email");
+    setCode("");
+    setPassword("");
+    setError("");
+    setStatus("idle");
+    setCooldownSeconds(0);
+    requestAnimationFrame(() => emailInput.current?.focus());
+  }
+
   const statusMessage =
     status === "sending_code"
       ? "Solicitando código."
-      : status === "verifying"
-        ? "Verificando código."
-      : status === "code_sent"
-        ? "Código solicitado. Revisa tu email."
-        : "";
-  const busy = status === "sending_code" || status === "verifying";
+      : status === "verifying_password"
+        ? "Verificando acceso."
+        : status === "requesting_reset"
+          ? "Solicitando recuperación."
+          : status === "reset_requested"
+            ? "Solicitud aceptada. Revisa tu email para crear o restablecer tu contraseña."
+            : status === "verifying"
+              ? "Verificando código."
+              : status === "code_sent"
+                ? "Código solicitado. Revisa tu email."
+                : "";
+  const busy = [
+    "sending_code",
+    "verifying",
+    "verifying_password",
+    "requesting_reset",
+  ].includes(status);
 
   return (
     <main className="portal-access portal-signin">
@@ -121,26 +187,100 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
       </header>
 
       <section className="portal-access__card" aria-labelledby="portal-signin-title">
-        <div className="portal-signin__progress" aria-label={`Paso ${step === "email" ? 1 : 2} de 2`}>
-          <span className="is-complete">1</span>
-          <i />
-          <span className={step === "code" ? "is-complete" : ""}>2</span>
-        </div>
-        <p className="portal-eyebrow">Acceso sin contraseña</p>
+        {method === "code" && step === "code" ? (
+          <div className="portal-signin__progress" aria-label="Paso 2 de 2">
+            <span className="is-complete">1</span>
+            <i />
+            <span className="is-complete">2</span>
+          </div>
+        ) : null}
+        <p className="portal-eyebrow">Acceso seguro</p>
         <h1 id="portal-signin-title">
-          {step === "email"
-            ? employee ? "Entra al Portal de empleados" : "Entra a tu Portal"
-            : "Revisa tu email"}
+          {method === "code" && step === "code"
+            ? "Revisa tu email"
+            : employee
+              ? "Entra al Portal de empleados"
+              : "Entra a tu Portal"}
         </h1>
         <p>
-          {step === "email"
-            ? employee
-              ? "Acceso exclusivo para personal autorizado de AIT USA. Usa tu email de empleado y recibirás un código de seis dígitos."
-              : "Este acceso es para estudiantes que ya guardaron un resultado. Usa el mismo email y, si corresponde a una cuenta activa, recibirás un código de seis dígitos."
-            : `Si ${maskEmail(email)} corresponde a una cuenta activa, recibirás un código que vence en 10 minutos.`}
+          {method === "code" && step === "code"
+            ? `Si ${maskEmail(email)} corresponde a una cuenta activa, recibirás un código que vence en 10 minutos.`
+            : method === "password"
+              ? employee
+                ? "Acceso exclusivo para personal autorizado. Usa tu email de empleado y contraseña."
+                : "Usa el email con el que guardaste tu resultado y tu contraseña."
+              : employee
+                ? "Usa tu email de empleado y recibirás un código de seis dígitos."
+                : "Usa el email con el que guardaste tu resultado y recibirás un código de seis dígitos."}
         </p>
 
         {step === "email" ? (
+          <div className="portal-signin__methods" aria-label="Método de acceso">
+            <button
+              aria-pressed={method === "password"}
+              type="button"
+              onClick={() => chooseMethod("password")}
+            >
+              Contraseña
+            </button>
+            <button
+              aria-pressed={method === "code"}
+              type="button"
+              onClick={() => chooseMethod("code")}
+            >
+              Código por email
+            </button>
+          </div>
+        ) : null}
+
+        {method === "password" ? (
+          <form className="portal-signin__form" onSubmit={signInWithPassword}>
+            <label htmlFor="portal-email">Email</label>
+            <input
+              id="portal-email"
+              ref={emailInput}
+              name="email"
+              type="email"
+              autoComplete="email"
+              inputMode="email"
+              placeholder="tu@email.com"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              required
+              disabled={busy}
+            />
+            <label htmlFor="portal-password">Contraseña</label>
+            <input
+              id="portal-password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+              disabled={busy}
+            />
+            <button
+              className="portal-button portal-button--primary"
+              type="submit"
+              disabled={busy}
+            >
+              {status === "verifying_password"
+                ? "Entrando…"
+                : employee
+                  ? "Entrar al portal de empleados"
+                  : "Entrar a mi portal"}
+            </button>
+            <button
+              className="portal-signin__change"
+              type="button"
+              disabled={busy}
+              onClick={requestPasswordReset}
+            >
+              {status === "requesting_reset" ? "Solicitando…" : "Olvidé mi contraseña"}
+            </button>
+          </form>
+        ) : step === "email" ? (
           <form className="portal-signin__form" onSubmit={requestCode}>
             <label htmlFor="portal-email">Email</label>
             <input
@@ -216,6 +356,12 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
           {statusMessage}
         </p>
 
+        {status === "reset_requested" ? (
+          <p className="portal-signin__notice" role="status">
+            Si el email corresponde a una cuenta activa, recibirás un enlace seguro para crear o restablecer tu contraseña.
+          </p>
+        ) : null}
+
         {error ? (
           <p className="portal-signin__error" role="alert">
             {error}
@@ -224,7 +370,11 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
 
         <div className="portal-signin__trust">
           <span aria-hidden="true">✓</span>
-          <p>Recibirás un código seguro por email. No necesitas recordar una contraseña.</p>
+          <p>
+            {method === "password"
+              ? "WorkOS protege tu contraseña. AIT nunca la guarda ni puede verla."
+              : "Recibirás un código seguro por email. No necesitas recordar una contraseña."}
+          </p>
         </div>
         {step === "email" && !employee ? (
           <div className="portal-signin__new-student">

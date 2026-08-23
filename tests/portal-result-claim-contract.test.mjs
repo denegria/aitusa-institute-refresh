@@ -141,7 +141,9 @@ describe("MIS-338 result claim contracts", () => {
     assert.match(claimVerifyRoute, /contactPreferencePending/);
     assert.match(component, /advisorContactRequested: false/);
     assert.match(component, /onClaimed\?\./);
-    assert.doesNotMatch(component, /Ahora no/);
+    assert.match(component, /claimReceipt\?\.alreadyClaimed !== true \? <PasswordSetupCard \/> : null/);
+    assert.match(component, /Crea una contraseña para entrar más rápido/);
+    assert.match(component, /Ahora no/);
     assert.doesNotMatch(component, /Placement Diagnostic/);
     assert.doesNotMatch(component, /El contacto con un asesor es opcional/);
     assert.doesNotMatch(component, /type="password"/);

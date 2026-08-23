@@ -98,6 +98,7 @@ try {
     { name: "homepage", pathname: "/", selector: "main h1", anchor: null },
     { name: "method", pathname: "/#metodo", selector: "#metodo", anchor: "#metodo" },
     { name: "portal-entry", pathname: "/portal/sign-in/", selector: "#portal-signin-title", anchor: null },
+    { name: "employee-entry", pathname: "/employee/sign-in/", selector: "#portal-signin-title", anchor: null },
   ];
   const evidence = [];
 
@@ -150,6 +151,90 @@ try {
         throw new Error(`homepage portal entry is missing or incorrect: ${layout.portalLink}`);
       }
 
+      if (surface.name === "homepage" && viewport.mobile) {
+        await evaluate(`document.querySelector('.menu-toggle')?.click()`);
+        await sleep(50);
+        const openedMenu = await evaluate(`(() => {
+          const trigger = document.querySelector('.menu-toggle');
+          const links = Array.from(document.querySelectorAll('#site-nav a')).map((link) => ({
+            label: link.textContent.trim(),
+            href: link.getAttribute('href'),
+          }));
+          return {
+            expanded: trigger?.getAttribute('aria-expanded'),
+            open: document.querySelector('#site-nav')?.classList.contains('is-open'),
+            links,
+          };
+        })()`);
+        const expectedLinks = [
+          { label: "Inicio", href: "/" },
+          { label: "Cursos", href: "/cursos/" },
+          { label: "Examen de nivel", href: "/placement-test/" },
+        ];
+        if (
+          openedMenu.expanded !== "true" ||
+          !openedMenu.open ||
+          JSON.stringify(openedMenu.links) !== JSON.stringify(expectedLinks)
+        ) {
+          throw new Error(`mobile menu contract failed: ${JSON.stringify(openedMenu)}`);
+        }
+        await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape" });
+        await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape", code: "Escape" });
+        await sleep(50);
+        const escapedMenu = await evaluate(`(() => ({
+          expanded: document.querySelector('.menu-toggle')?.getAttribute('aria-expanded'),
+          focused: document.activeElement?.classList.contains('menu-toggle') || false,
+        }))()`);
+        if (escapedMenu.expanded !== "false" || !escapedMenu.focused) {
+          throw new Error(`mobile menu Escape contract failed: ${JSON.stringify(escapedMenu)}`);
+        }
+        await evaluate(`document.querySelector('.menu-toggle')?.click()`);
+        await sleep(50);
+        await evaluate(`document.querySelector('main')?.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }))`);
+        await sleep(50);
+        const outsideMenu = await evaluate(`document.querySelector('.menu-toggle')?.getAttribute('aria-expanded')`);
+        if (outsideMenu !== "false") {
+          throw new Error(`mobile menu outside-click contract failed: ${outsideMenu}`);
+        }
+      }
+
+      if (surface.name === "portal-entry" || surface.name === "employee-entry") {
+        const employee = surface.name === "employee-entry";
+        const passwordState = await evaluate(`(() => ({
+          heading: document.querySelector('#portal-signin-title')?.textContent?.trim(),
+          password: Boolean(document.querySelector('input[type="password"]')),
+          passwordSelected: document.querySelector('.portal-signin__methods button')?.getAttribute('aria-pressed'),
+          newStudent: Boolean(document.querySelector('.portal-signin__new-student')),
+        }))()`);
+        if (
+          !passwordState.password ||
+          passwordState.passwordSelected !== "true" ||
+          passwordState.newStudent === employee ||
+          (employee && passwordState.heading !== "Entra al Portal de empleados") ||
+          (!employee && passwordState.heading !== "Entra a tu Portal")
+        ) {
+          throw new Error(`${surface.name} password contract failed: ${JSON.stringify(passwordState)}`);
+        }
+        await evaluate(`(() => {
+          const buttons = Array.from(document.querySelectorAll('.portal-signin__methods button'));
+          buttons.find((button) => button.textContent.includes('Código'))?.click();
+        })()`);
+        await sleep(50);
+        const codeState = await evaluate(`(() => {
+          const buttons = Array.from(document.querySelectorAll('.portal-signin__methods button'));
+          return {
+            password: Boolean(document.querySelector('input[type="password"]')),
+            codeSelected: buttons[1]?.getAttribute('aria-pressed'),
+            copy: document.querySelector('.portal-access__card > p:not(.portal-eyebrow)')?.textContent?.trim(),
+          };
+        })()`);
+        if (codeState.password || codeState.codeSelected !== "true" || !codeState.copy?.includes("código de seis dígitos")) {
+          throw new Error(`${surface.name} code fallback contract failed: ${JSON.stringify(codeState)}`);
+        }
+        await evaluate(`document.querySelector('.portal-signin__methods button')?.click()`);
+        await sleep(50);
+      }
+
       const screenshot = await send("Page.captureScreenshot", { format: "png", captureBeyondViewport: false }, 30000);
       const filename = `${surface.name}-${viewport.name}.png`;
       await writeFile(path.join(outputDir, filename), Buffer.from(screenshot.data, "base64"));
@@ -169,5 +254,10 @@ try {
       sleep(3000),
     ]);
   }
-  await rm(profileDir, { recursive: true, force: true });
+  await rm(profileDir, {
+    recursive: true,
+    force: true,
+    maxRetries: 5,
+    retryDelay: 100,
+  });
 }
