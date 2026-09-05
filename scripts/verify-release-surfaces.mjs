@@ -29,6 +29,9 @@ const browser = spawn(chrome, [
   "--disable-dev-shm-usage",
   "--hide-scrollbars",
   "--disable-extensions",
+  "--disable-background-networking",
+  "--no-first-run",
+  "--no-default-browser-check",
   `--remote-debugging-port=${port}`,
   `--user-data-dir=${profileDir}`,
   "about:blank",
@@ -40,9 +43,11 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 try {
   let webSocketUrl;
-  for (let attempt = 0; attempt < 60; attempt += 1) {
+  const startupDeadline = Date.now() + 30000;
+  while (Date.now() < startupDeadline) {
+    if (browser.exitCode !== null) break;
     try {
-      const response = await fetch(`http://127.0.0.1:${port}/json/list`);
+      const response = await fetch(`http://127.0.0.1:${port}/json/list`, { signal: AbortSignal.timeout(1000) });
       const targets = await response.json();
       webSocketUrl = targets.find((target) => target.type === "page")?.webSocketDebuggerUrl;
       if (webSocketUrl) break;
