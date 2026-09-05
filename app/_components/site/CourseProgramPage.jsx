@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { conversionCtas, programs, site } from "../../../src/content";
 import { SiteFooter, SiteHeader } from "./SiteChrome";
+import { CourseQuickFacts } from "./CourseQuickFacts";
+import { CatalogReturnLink } from "./CatalogReturnLink";
+import { CallbackDialog } from "./InteractiveSections";
 
 const defaultSectionCopy = {
   outcomes: {
@@ -82,13 +85,14 @@ function CourseHero({ program, editorial }) {
       <div className="section-inner course-program-hero__main">
         <div className="course-program-hero__copy">
           <nav className="course-breadcrumb" aria-label="Ruta de navegación">
-            <a href="/cursos/">Cursos</a>
+            <CatalogReturnLink slug={program.slug} />
             <i data-lucide="chevron-right" aria-hidden="true" />
             <span aria-current="page">{program.title}</span>
           </nav>
           <p className="section-kicker">{editorial.eyebrow}</p>
           <h1 id="course-program-title">{program.title}</h1>
           <p className="course-program-hero__lead">{editorial.lead}</p>
+          <CourseQuickFacts slug={program.slug} />
           <div className="course-program-hero__actions">
             <a
               className="button button--primary"
@@ -108,11 +112,13 @@ function CourseHero({ program, editorial }) {
             </a>
           </div>
           <p className="course-program-hero__note">
+            {englishProgram ? <span className="placement-effort">Prueba de inglés: 62 preguntas · 10–15 minutos. </span> : null}
             {editorial.heroNote ||
               (englishProgram
                 ? "Evaluación inicial sin compromiso. Tu grupo se confirma antes de la inscripción."
                 : "Admisiones confirma el punto de inicio, el grupo y el horario antes de comenzar.")}
           </p>
+          <CallbackDialog defaultSubject={program.slug} />
         </div>
         <figure className="course-program-hero__media">
           <Image

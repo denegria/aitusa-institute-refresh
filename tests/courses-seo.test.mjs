@@ -192,10 +192,10 @@ describe("AIT USA native course routes and SEO contract", () => {
     const source = await readFile("app/_components/site/CourseSections.jsx", "utf8");
     const page = await readFile("app/_components/site/CoursesPage.jsx", "utf8");
 
-    assert.doesNotMatch(source, /OfferingsSection|course-detail-stack|<details|<summary|filter-bar/);
+    assert.doesNotMatch(source, /OfferingsSection|course-detail-stack|filter-bar/);
     assert.match(source, /role="tablist"/);
     assert.match(source, /Todos los cursos/);
-    assert.match(source, /useState\(allOfferingsKey\)/);
+    assert.match(source, /useState\(normalizeCatalogGroup\(initialGroup\)\)/);
     assert.match(source, /role="tabpanel"/);
     assert.doesNotMatch(source, /catalog-nav/);
     assert.match(source, /data-course-detail-link=\{program\.slug\}/);

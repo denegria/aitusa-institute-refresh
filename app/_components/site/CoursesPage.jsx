@@ -1,17 +1,14 @@
 import { programs, site } from "../../../src/content";
 import { getCourseMetaDescription } from "../../../src/seo/courseMetadata";
 import { CourseCatalog } from "./CourseSections";
-import { FaqSection, FinalCtaSection } from "./PublicSections";
 import { SiteFooter, SiteHeader } from "./SiteChrome";
 
-export function CoursesPage() {
+export function CoursesPage({ initialGroup }) {
   return (
     <>
       <SiteHeader activePage="courses" />
       <main id="main-content">
-        <CourseCatalog />
-        <FinalCtaSection />
-        <FaqSection />
+        <CourseCatalog initialGroup={initialGroup} />
       </main>
       <SiteFooter />
     </>

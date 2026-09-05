@@ -7,8 +7,12 @@ import { spawn } from "node:child_process";
 
 const baseUrl = (process.env.VERIFY_BASE_URL || "http://127.0.0.1:3000").replace(/\/$/, "");
 const outputDir = path.resolve(process.env.VERIFY_SCREENSHOTS_DIR || "artifacts/release-surfaces");
-const chrome = ["/usr/bin/google-chrome-stable", "/usr/bin/google-chrome", "/usr/bin/chromium", "/usr/bin/chromium-browser"]
-  .find(existsSync);
+const chrome = [
+  process.env.VERIFY_CHROME_PATH,
+  "/usr/bin/google-chrome-stable", "/usr/bin/google-chrome", "/usr/bin/chromium", "/usr/bin/chromium-browser",
+  "C:/Program Files/Google/Chrome/Application/chrome.exe",
+  "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
+].find((candidate) => candidate && existsSync(candidate));
 
 if (!chrome) throw new Error("Chrome or Chromium is required for release-surface verification.");
 await mkdir(outputDir, { recursive: true });
@@ -28,7 +32,7 @@ const browser = spawn(chrome, [
   `--remote-debugging-port=${port}`,
   `--user-data-dir=${profileDir}`,
   "about:blank",
-], { stdio: ["ignore", "ignore", "pipe"] });
+], { stdio: ["ignore", "ignore", "pipe"], windowsHide: true });
 
 let browserError = "";
 browser.stderr.on("data", (chunk) => { browserError += chunk.toString(); });
@@ -97,6 +101,9 @@ try {
   const surfaces = [
     { name: "homepage", pathname: "/", selector: "main h1", anchor: null },
     { name: "method", pathname: "/#metodo", selector: "#metodo", anchor: "#metodo" },
+    { name: "catalog", pathname: "/cursos/", selector: "#catalog-title", anchor: null },
+    { name: "catalog-computing", pathname: "/cursos/?grupo=digital-technical", selector: "#catalog-subgroup-digital-technical", anchor: null },
+    { name: "course-office", pathname: "/cursos/computacion-oficina/?grupo=digital-technical", selector: "#course-program-title", anchor: null },
     { name: "portal-entry", pathname: "/portal/sign-in/", selector: "#portal-signin-title", anchor: null },
     { name: "employee-entry", pathname: "/employee/sign-in/", selector: "#portal-signin-title", anchor: null },
   ];
@@ -130,10 +137,10 @@ try {
 
       await evaluate(`(() => {
         const style = document.createElement('style');
-        style.textContent = '*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important}';
+        style.textContent = 'html{scroll-behavior:auto!important}*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important}';
         document.head.appendChild(style);
         const target = ${surface.anchor ? `document.querySelector(${JSON.stringify(surface.anchor)})` : "null"};
-        if (target) target.scrollIntoView({ block: 'start' }); else window.scrollTo(0, 0);
+        if (target) target.scrollIntoView({ block: 'start', behavior: 'instant' }); else window.scrollTo({top:0,behavior:'instant'});
         document.querySelectorAll('video').forEach((video) => video.pause());
       })()`);
       await sleep(300);
@@ -149,6 +156,97 @@ try {
       }
       if (surface.name === "homepage" && layout.portalLink !== "/portal/sign-in/") {
         throw new Error(`homepage portal entry is missing or incorrect: ${layout.portalLink}`);
+      }
+
+      if (surface.name === "catalog-computing") {
+        const catalogState = await evaluate(`(() => ({
+          selected: document.querySelector('.catalog-tabs [aria-selected="true"]')?.textContent,
+          count: document.querySelector('.catalog-result-count')?.textContent,
+          placement: document.querySelectorAll('main a[href*="placement-test"]').length,
+          tabs: [...document.querySelectorAll('.catalog-tabs button')].map(button => {
+            const rect = button.getBoundingClientRect();
+            return { left: rect.left, right: rect.right, height: rect.height };
+          })
+        }))()`);
+        if (catalogState.selected !== "Computación" || catalogState.count !== "2 cursos" || catalogState.placement !== 0 ||
+            catalogState.tabs.some(tab => tab.left < 0 || tab.right > viewport.width || tab.height < 44)) {
+          throw new Error(`catalog discovery contract failed: ${JSON.stringify(catalogState)}`);
+        }
+        // Exercise native history and keyboard state without sending any forms.
+        await evaluate(`document.querySelector('#catalog-tab-english-paths').click()`);
+        await sleep(150);
+        const englishState = await evaluate(`(() => ({
+          url: location.search,
+          placement: document.querySelectorAll('main a[href*="placement-test"]').length,
+          copy: document.querySelector('#orientacion-catalogo').textContent
+        }))()`);
+        if (!englishState.url.includes("grupo=english-paths") || englishState.placement !== 1 ||
+            !englishState.copy.includes("62 preguntas") || !englishState.copy.includes("10–15 minutos")) {
+          throw new Error("English guidance lost its context or assessment effort.");
+        }
+        await evaluate(`document.querySelector('#catalog-tab-english-paths').focus()`);
+        await send("Input.dispatchKeyEvent", { type: "keyDown", key: "ArrowRight", code: "ArrowRight" });
+        await send("Input.dispatchKeyEvent", { type: "keyUp", key: "ArrowRight", code: "ArrowRight" });
+        await sleep(150);
+        const keyboardState = await evaluate(`(() => ({
+          selected: document.querySelector('.catalog-tabs [aria-selected="true"]')?.id,
+          focused: document.activeElement.id
+        }))()`);
+        if (keyboardState.selected !== "catalog-tab-academic-support" || keyboardState.focused !== keyboardState.selected) {
+          throw new Error(`Catalog keyboard navigation failed: ${JSON.stringify(keyboardState)}`);
+        }
+        const history = await send("Page.getNavigationHistory");
+        await send("Page.navigateToHistoryEntry", { entryId: history.entries[history.currentIndex - 1].id });
+        await sleep(300);
+        if (await evaluate(`document.querySelector('.catalog-tabs [aria-selected="true"]')?.id`) !== "catalog-tab-english-paths") {
+          throw new Error("Browser Back did not restore the English filter.");
+        }
+        await evaluate(`document.querySelector('#catalog-tab-digital-technical').click()`);
+        await sleep(150);
+        await evaluate(`document.querySelector('[data-course-detail-link="computacion-oficina"]').scrollIntoView({block:'center',behavior:'instant'})`);
+        const beforeDetailY = await evaluate("scrollY");
+        await evaluate(`document.querySelector('[data-course-detail-link="computacion-oficina"]').click()`);
+        for (let attempt = 0; attempt < 50; attempt += 1) {
+          if (await evaluate(`Boolean(document.querySelector('#course-program-title'))`)) break;
+          await sleep(100);
+        }
+        if (!await evaluate(`location.pathname.includes('computacion-oficina') && location.search.includes('digital-technical')`)) {
+          throw new Error("Course handoff lost the selected category.");
+        }
+        const courseHistory = await send("Page.getNavigationHistory");
+        await send("Page.navigateToHistoryEntry", { entryId: courseHistory.entries[courseHistory.currentIndex - 1].id });
+        await sleep(600);
+        const restored = await evaluate(`(() => ({selected:document.querySelector('.catalog-tabs [aria-selected="true"]')?.textContent,y:scrollY}))()`);
+        if (restored.selected !== "Computación" || Math.abs(restored.y - beforeDetailY) > 100) {
+          throw new Error(`Course Back failed to restore category and scroll: ${JSON.stringify({beforeDetailY,...restored})}`);
+        }
+        await evaluate("window.scrollTo({top:0,behavior:'instant'})");
+      }
+
+      if (surface.name === "course-office") {
+        const readingOrder = await evaluate(`(() => ({
+          title:document.querySelector('#course-program-title').getBoundingClientRect().top,
+          facts:document.querySelector('.course-quick-facts').getBoundingClientRect().top
+        }))()`);
+        if (readingOrder.facts <= readingOrder.title) throw new Error("Course facts appear before the course title.");
+        await evaluate(`document.querySelector('[data-callback-dialog-open]').click()`);
+        await sleep(150);
+        const inquiry = await evaluate(`(() => ({
+          subject: document.querySelector('dialog[open] select[name="programa"]')?.value,
+          consent: document.querySelector('dialog[open] [name="contactPermission"]')?.checked,
+          close: Boolean(document.querySelector('dialog[open] [data-callback-dialog-close]'))
+        }))()`);
+        if (inquiry.subject !== "computacion-oficina" || inquiry.consent !== false || !inquiry.close) {
+          throw new Error(`Course inquiry context failed: ${JSON.stringify(inquiry)}`);
+        }
+        await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27, nativeVirtualKeyCode: 27 });
+        await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27, nativeVirtualKeyCode: 27 });
+        await sleep(150);
+        const closedInquiry = await evaluate(`(() => ({open:Boolean(document.querySelector('dialog[open]')),focusReturned:document.activeElement.hasAttribute('data-callback-dialog-open')}))()`);
+        if (closedInquiry.open || !closedInquiry.focusReturned) {
+          throw new Error(`Inquiry Escape/focus return failed: ${JSON.stringify(closedInquiry)}`);
+        }
+        await evaluate("window.scrollTo({top:0,behavior:'instant'})");
       }
 
       if (surface.name === "homepage" && viewport.mobile) {
@@ -178,8 +276,8 @@ try {
         ) {
           throw new Error(`mobile menu contract failed: ${JSON.stringify(openedMenu)}`);
         }
-        await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape" });
-        await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape", code: "Escape" });
+        await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27, nativeVirtualKeyCode: 27 });
+        await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27, nativeVirtualKeyCode: 27 });
         await sleep(50);
         const escapedMenu = await evaluate(`(() => ({
           expanded: document.querySelector('.menu-toggle')?.getAttribute('aria-expanded'),

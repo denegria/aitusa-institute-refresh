@@ -3020,8 +3020,8 @@ const institutionalProof = [
     label: "Estudiantes guiados",
   },
   {
-    value: `${publishedLocationCount} Sedes`,
-    label: "Publicadas en el mapa de sedes",
+    value: `${publishedLocationCount} Puntos de atención`,
+    label: "Sedes, atención con cita y coordinación administrativa",
   },
   {
     value: "Alcance Internacional",

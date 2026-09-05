@@ -12,10 +12,12 @@ import {
 } from "../../../src/content";
 import { CallbackDialog, FaqList, MethodVideo } from "./InteractiveSections";
 import { LocationExplorer } from "./LocationExplorer";
+import Link from "next/link";
+import { catalogChoices, catalogHref } from "../../../src/courseDiscovery";
 
 export function HeroSection() {
   return (
-    <section className="hero" id="inicio">
+    <section className="hero prospect-hero" id="inicio">
       <div className="hero__main">
         <aside className="hero__spain-launch" aria-label="AIT USA ya está en España">
           <span className="hero__spain-launch__pulse" aria-hidden="true" />
@@ -36,7 +38,12 @@ export function HeroSection() {
             </h1>
             {painHero.headlineAccent ? <p className="hero__headline-accent">{painHero.headlineAccent}</p> : null}
           </div>
-          <nav className="hero__modalities" aria-label="Formatos de clase">
+          <p className="hero__offer-summary">Inglés en Nueva Jersey y online. También GED, matemáticas, computación y español.</p>
+          <div className="hero__actions">
+            <Link className="button button--primary" href="/cursos/">Ver cursos <span aria-hidden="true">→</span></Link>
+            <a className="hero__help" href="#contacto">Pedir orientación</a>
+          </div>
+          <nav className="hero__modalities" aria-label="Formatos de inglés">
             <a href="/cursos/ingles-jovenes-adultos/"><i data-lucide="users-round" aria-hidden="true" /><span>Presencial</span></a>
             <a href="/cursos/ingles-online-adultos/"><i data-lucide="laptop" aria-hidden="true" /><span>Online</span></a>
             <a href="/cursos/ingles-hibrido-adultos/"><i data-lucide="monitor-smartphone" aria-hidden="true" /><span>Híbrido</span></a>
@@ -135,6 +142,35 @@ export function MethodSection() {
   );
 }
 
+export function StudyGoalsSection() {
+  return (
+    <section className="section study-goals" id="elige-tu-curso" aria-labelledby="study-goals-title">
+      <div className="section-inner">
+        <header className="section-heading">
+          <p className="section-kicker">Tu objetivo es el punto de partida</p>
+          <h2 id="study-goals-title">¿Qué quieres aprender?</h2>
+          <p>Elige tu meta y compara los cursos, su duración y lo que necesitas para empezar.</p>
+        </header>
+        <div className="study-goals__grid">
+          {catalogChoices.map((choice) => (
+            <Link className="study-goal" href={catalogHref(choice.key)} key={choice.key}>
+              <i data-lucide={choice.icon} aria-hidden="true" />
+              <span className="study-goal__label">{choice.label}</span>
+              <h3>{choice.goal}</h3>
+              <p>{choice.description}</p>
+              <span className="study-goal__cta">Comparar opciones <span aria-hidden="true">→</span></span>
+            </Link>
+          ))}
+        </div>
+        <div className="study-goals__notes">
+          <p><strong>¿Buscas una sede?</strong> Revisa las sedes de Nueva Jersey, los puntos con cita previa y la coordinación administrativa en Nueva York. <a href="#sedes">Ver ubicaciones</a>.</p>
+          <p><strong>Ciudadanía:</strong> información en preparación; aún no es un curso publicado. <Link href="/ciudadania/">Consultar el estado</Link>.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 const supportingPrograms = [
   {
     label: "GED",
@@ -168,7 +204,7 @@ const supportingPrograms = [
   },
   {
     label: "Ciudadanía",
-    description: "Consulta la ruta de preparación cívica disponible para tu objetivo.",
+    description: "Información en preparación. Aún no es un curso publicado; consulta el estado con admisiones.",
     href: "/ciudadania/",
     cta: "Consultar ciudadanía",
   },
@@ -344,15 +380,16 @@ export function FinalCtaSection() {
           <div className="section-heading section-heading--framed">
             <p className="section-kicker">Empieza aquí</p>
             <h2 id="contacto-title">¿Listo para empezar?</h2>
-            <p>Haz el examen de ubicación y te ayudamos a elegir tu nivel, horario y modalidad. La orientación inicial es gratuita.</p>
+            <p>Cuéntanos qué quieres estudiar y te ayudamos a elegir curso, horario y modalidad. La orientación inicial es gratuita.</p>
           </div>
           <div className="final-cta-conversion">
+            <CallbackDialog primary />
             <div className="final-cta-actions">
-              <a className="button button--primary" href={conversionCtas.placement?.href || "/placement-test/"}>
-                Encuentra tu nivel<i data-lucide="arrow-right" aria-hidden="true" />
+              <a className="hero__help" href={conversionCtas.placement?.href || "/placement-test/"}>
+                Conoce tu nivel de inglés<i data-lucide="arrow-right" aria-hidden="true" />
               </a>
             </div>
-            <CallbackDialog />
+            <p className="placement-effort">Prueba de inglés: 62 preguntas · 10–15 minutos.</p>
           </div>
         </div>
       </div>

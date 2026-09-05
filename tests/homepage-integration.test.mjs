@@ -12,25 +12,25 @@ const readSources = async () => ({
 });
 
 describe("homepage React integration", () => {
-  it("keeps the homepage in one proof-led React funnel sequence", async () => {
+  it("offers a course choice before the method and proof chapters", async () => {
     const { page } = await readSources();
     const method = page.indexOf("<MethodSection");
     const testimonials = page.indexOf("<TestimonialsSection");
     const proof = page.indexOf("<ProofStories");
     const offerings = page.indexOf("<OfferingPathSection");
-    const supportingCourses = page.indexOf("<SupportingCoursesSection");
+    const studyGoals = page.indexOf("<StudyGoalsSection");
     const locations = page.indexOf("<LocationsSection");
     const books = page.indexOf("<BooksSection");
     const faq = page.indexOf("<FaqSection");
     const finalCta = page.indexOf("<FinalCtaSection");
 
-    assert.ok(method >= 0);
+    assert.ok(studyGoals > page.indexOf("<HeroSection"));
+    assert.ok(method > studyGoals);
     assert.ok(testimonials > method);
     assert.ok(proof > method);
     assert.ok(proof > testimonials);
     assert.ok(offerings > proof);
-    assert.ok(supportingCourses > offerings);
-    assert.ok(locations > supportingCourses);
+    assert.ok(locations > offerings);
     assert.ok(books > locations);
     assert.ok(faq > books);
     assert.ok(finalCta > faq);
@@ -77,14 +77,16 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(source, /supporting-course-card__icon|program\.icon/);
   });
 
-  it("uses placement as the primary final conversion and callback as the sole secondary action", async () => {
+  it("labels the English assessment and offers course-aware guidance", async () => {
     const { sections, interactive } = await readSources();
     const source = `${sections}\n${interactive}`;
 
     assert.match(source, /¿Listo para empezar\?/);
-    assert.match(source, /Encuentra tu nivel/);
+    assert.match(source, /Conoce tu nivel de inglés/);
+    assert.match(source, /62 preguntas · 10–15 minutos/);
     assert.match(source, /final-cta-contact-row/);
-    assert.match(source, /Solicitar llamada/);
+    assert.match(source, /Solicitar orientación/);
+    assert.match(source, /name="programa"/);
     assert.match(source, /<dialog/);
     assert.match(source, /name="nombre"/);
     assert.match(source, /name="telefono"/);
@@ -172,7 +174,8 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(hero, /España es nuestra próxima parada|Muy pronto|Próximamente/);
     assert.doesNotMatch(hero, /hero__conversion/);
     assert.doesNotMatch(hero, /hero__summary|hero__objections/);
-    assert.equal((hero.match(/className="button button--/g) || []).length, 0);
+    assert.equal((hero.match(/className="button button--/g) || []).length, 1);
+    assert.match(hero, /href="\/cursos\/">Ver cursos/);
     assert.match(method, /method-story__intro-copy/);
     assert.doesNotMatch(method, /method-story__promise|method-story__bridge/);
     assert.match(method, /method-story__questions/);
@@ -190,9 +193,9 @@ describe("homepage React integration", () => {
     assert.equal(publishedLocationCount, 7);
     assert.deepEqual(
       institutionalProof.map((proof) => proof.value),
-      ["Desde 2004", "+1,000", `${publishedLocationCount} Sedes`, "Alcance Internacional"],
+      ["Desde 2004", "+1,000", `${publishedLocationCount} Puntos de atención`, "Alcance Internacional"],
     );
-    assert.equal(institutionalProof[2].label, "Publicadas en el mapa de sedes");
+    assert.equal(institutionalProof[2].label, "Sedes, atención con cita y coordinación administrativa");
     assert.doesNotMatch(institutionalProof.map((proof) => proof.value).join(" "), /4 sedes/);
     assert.match(institutionalProof.at(-1).label, /EE\. UU\., Centroamérica, Sudamérica y Europa/);
     assert.match(sections, /className="hero__institutional-band"/);

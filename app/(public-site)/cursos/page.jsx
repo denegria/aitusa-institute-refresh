@@ -63,7 +63,8 @@ const catalogSchema = {
   }),
 };
 
-export default function CourseCatalogPage() {
+export default async function CourseCatalogPage({ searchParams }) {
+  const { grupo } = await searchParams;
   return (
     <>
       <script
@@ -71,7 +72,7 @@ export default function CourseCatalogPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(catalogSchema) }}
       />
-      <CoursesPage />
+      <CoursesPage initialGroup={grupo} />
     </>
   );
 }

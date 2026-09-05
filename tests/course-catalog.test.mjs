@@ -10,8 +10,8 @@ describe("course catalog editorial component", () => {
     const englishPrograms = englishGroup.programs.map((slug) => programs.find((program) => program.slug === slug));
 
     assert.match(source, /const primaryGroupKey = "english-paths"/);
-    assert.match(source, /useState\(allOfferingsKey\)/);
-    assert.match(source, /primaryPrograms\.map/);
+    assert.match(source, /useState\(normalizeCatalogGroup\(initialGroup\)\)/);
+    assert.match(source, /visibleGroups\.map/);
     assert.match(source, /visibleInformationRoutes/);
     assert.match(source, /\{program\.cta\}/);
     assert.deepEqual(englishPrograms.map((program) => program.title), [
@@ -24,7 +24,7 @@ describe("course catalog editorial component", () => {
 
   it("keeps the tablist roving keyboard contract and uses optimized card images", async () => {
     const source = await readFile("app/_components/site/CourseSections.jsx", "utf8");
-    const styles = await readFile("src/styles.css", "utf8");
+    const styles = await readFile("src/course-discovery.css", "utf8");
 
     assert.match(source, /import Image from "next\/image"/);
     assert.match(source, /width=\{1200\}/);
@@ -35,12 +35,7 @@ describe("course catalog editorial component", () => {
     assert.match(source, /tabIndex=\{activeTab === .* \? 0 : -1\}/);
     assert.match(source, /ArrowRight/);
     assert.match(source, /requestAnimationFrame/);
-    assert.match(styles, /\.course-catalog \.catalog-tabs\s*\{[\s\S]*flex-wrap: wrap;[\s\S]*overflow-x: visible;/);
-    assert.match(styles, /@media \(max-width: 719px\)[\s\S]*\.course-catalog \.catalog-tabs\s*\{[\s\S]*flex-wrap: nowrap;[\s\S]*overflow-x: auto;/);
-    assert.match(styles, /\.course-catalog \.catalog-tabs button\s*\{[\s\S]*min-height: 44px;/);
-    assert.match(styles, /\.course-catalog \{[\s\S]*padding-block: clamp\(28px, 3\.4vw, 40px\)/);
-    assert.match(styles, /\.course-catalog__intro-copy h1 \{[\s\S]*font-size: clamp\(2\.2rem, 3\.6vw, 3\.35rem\)/);
-    assert.match(styles, /\.course-catalog__intro-media \{[\s\S]*min-height: 248px;[\s\S]*max-height: 320px;/);
-    assert.doesNotMatch(styles, /\.course-catalog__intro-copy h1 \{[\s\S]*font-size: clamp\(2\.7rem, 5\.6vw, 5\.6rem\)/);
+    assert.match(styles, /@media \(max-width: 719px\)[\s\S]*\.prospect-catalog \.catalog-tabs\s*\{[^}]*flex-wrap: wrap;[^}]*overflow-x: visible;/);
+    assert.match(styles, /\.prospect-catalog \.catalog-tabs button\s*\{[^}]*min-height: 44px;/);
   });
 });

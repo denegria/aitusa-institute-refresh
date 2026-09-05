@@ -7,7 +7,7 @@ import {
   LocationsSection,
   MethodSection,
   OfferingPathSection,
-  SupportingCoursesSection,
+  StudyGoalsSection,
 } from "../_components/site/PublicSections";
 import { SiteFooter, SiteHeader } from "../_components/site/SiteChrome";
 import { site } from "../../src/content";
@@ -83,11 +83,11 @@ export default function HomePage() {
       <SiteHeader activePage="home" />
       <main id="main-content" className="home-page">
         <HeroSection />
+        <StudyGoalsSection />
         <MethodSection />
         <TestimonialsSection />
         <ProofStories />
         <OfferingPathSection />
-        <SupportingCoursesSection />
         <LocationsSection />
         <BooksSection />
         <FaqSection />

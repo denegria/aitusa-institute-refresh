@@ -1,54 +1,31 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { catalogInformationRoutes, courseCatalog, programs } from "../../../src/content";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { catalogInformationRoutes, courseCatalog, programs, site } from "../../../src/content";
+import { catalogChoices, catalogHref, courseComparison, courseInquiryHref, normalizeCatalogGroup } from "../../../src/courseDiscovery";
+import { CallbackDialog, FaqList } from "./InteractiveSections";
+import { CourseQuickFacts } from "./CourseQuickFacts";
 
 const allOfferingsKey = "all-offerings";
 const primaryGroupKey = "english-paths";
 
-function getPrograms(slugs) {
-  return slugs
-    .map((slug) => programs.find((program) => program.slug === slug))
-    .filter(Boolean);
-}
-
-function getInformationRoutes(keys) {
-  return keys
-    .map((key) => catalogInformationRoutes.find((route) => route.key === key))
-    .filter(Boolean);
-}
-
-function ProgramCard({ program, featured = false }) {
+function ProgramCard({ program, activeTab }) {
+  const facts = courseComparison[program.slug];
   return (
-    <article className={`program-card${featured ? " program-card--featured" : ""}`} data-category={program.category}>
-      <div className="program-card__identity">
-        <p className="eyebrow-chip">{program.mode}</p>
-        <h3>{program.title}</h3>
-      </div>
-      <Image
-        className="program-card__image"
-        src={program.image}
-        alt={program.imageAlt}
-        width={1200}
-        height={900}
-        sizes="(max-width: 719px) calc(100vw - 32px), (max-width: 1040px) 44vw, 28vw"
-      />
+    <article className="program-card" id={`curso-${program.slug}`} data-category={program.category}>
+      <Image className="program-card__image" src={program.image} alt={program.imageAlt}
+        width={1200} height={900} sizes="(max-width: 719px) calc(100vw - 32px), (max-width: 1040px) 44vw, 30vw" />
       <div className="program-card__body">
-        <p>{program.summary}</p>
-        <dl className="program-meta">
-          <div><dt>Ideal para</dt><dd>{program.bestFor}</dd></div>
-          <div><dt>Audiencia</dt><dd>{program.audience}</dd></div>
-        </dl>
+        <h3>{program.title}</h3>
+        <p>{facts.fit}</p>
+        <CourseQuickFacts slug={program.slug} />
         <div className="button-row">
-          <a
-            className="button button--primary"
-            href={`/cursos/${program.slug}/`}
-            data-course-detail-link={program.slug}
-            aria-label={`${program.cta}: ${program.title}`}
-          >
+          <Link className="button button--primary" href={`/cursos/${program.slug}/?grupo=${activeTab}`}
+            data-course-detail-link={program.slug} aria-label={`${program.cta}: ${program.title}`}>
             {program.cta}
-          </a>
+          </Link>
         </div>
       </div>
     </article>
@@ -57,223 +34,110 @@ function ProgramCard({ program, featured = false }) {
 
 function InformationRouteCard({ route }) {
   return (
-    <article className="program-card program-card--informational" data-category="information">
-      <div className="program-card__identity">
-        <p className="eyebrow-chip">{route.label}</p>
-        <h3>{route.title}</h3>
-      </div>
-      <Image
-        className="program-card__image"
-        src={route.image}
-        alt={route.imageAlt}
-        width={1200}
-        height={900}
-        sizes="(max-width: 719px) calc(100vw - 32px), (max-width: 1040px) 44vw, 28vw"
-      />
-      <div className="program-card__body">
-        <p>{route.summary}</p>
-        <p className="program-card__note">{route.note}</p>
-        <div className="button-row">
-          <a
-            className="button button--primary"
-            href={route.href}
-            data-information-route-link={route.key}
-            aria-label={`${route.cta}: ${route.title}`}
-          >
-            {route.cta}
-          </a>
-        </div>
-      </div>
+    <article className="catalog-information" data-category="information">
+      <p className="section-kicker">{route.label}</p>
+      <h3>{route.title}</h3>
+      <p>{route.note}</p>
+      <Link href={route.href} data-information-route-link={route.key}>{route.cta} →</Link>
     </article>
   );
 }
 
-function ProgramGrid({ programsToRender, featured = false, supporting = false }) {
-  return (
-    <div className={`program-grid${featured ? " program-grid--featured" : ""}${supporting ? " program-grid--supporting" : ""}`}>
-      {programsToRender.map((program) => (
-        <ProgramCard program={program} featured={featured} key={program.slug} />
-      ))}
-    </div>
-  );
-}
-
-function InformationRouteGrid({ routes }) {
-  return (
-    <div className="program-grid program-grid--supporting">
-      {routes.map((route) => <InformationRouteCard route={route} key={route.key} />)}
-    </div>
-  );
-}
-
-function CatalogGroup({ group }) {
-  const groupPrograms = getPrograms(group.programs);
-  const groupInformationRoutes = getInformationRoutes(group.informationRoutes || []);
-  const isPrimary = group.key === primaryGroupKey;
-
-  return (
-    <section className={`catalog-subgroup${isPrimary ? " catalog-subgroup--primary" : ""}`} aria-labelledby={`catalog-subgroup-${group.key}`}>
-      <div className="catalog-subgroup__heading">
-        <p className="section-kicker">{isPrimary ? "Tres formas de estudiar inglés" : "También puedes elegir"}</p>
-        <h3 id={`catalog-subgroup-${group.key}`}>{group.title}</h3>
-        <p>{group.description}</p>
-      </div>
-      <ProgramGrid programsToRender={groupPrograms} featured={isPrimary} supporting={!isPrimary} />
-      {groupInformationRoutes.length ? <InformationRouteGrid routes={groupInformationRoutes} /> : null}
-    </section>
-  );
-}
-
-export function CourseCatalog() {
-  const [activeTab, setActiveTab] = useState(allOfferingsKey);
+export function CourseCatalog({ initialGroup = allOfferingsKey }) {
+  const [activeTab, setActiveTab] = useState(normalizeCatalogGroup(initialGroup));
+  useEffect(() => {
+    const restore = () => setActiveTab(normalizeCatalogGroup(new URLSearchParams(window.location.search).get("grupo")));
+    restore();
+    window.addEventListener("popstate", restore);
+    return () => window.removeEventListener("popstate", restore);
+  }, []);
   const activeGroup = courseCatalog.find((group) => group.key === activeTab);
-  const primaryGroup = courseCatalog.find((group) => group.key === primaryGroupKey);
-  const primaryPrograms = getPrograms(primaryGroup?.programs || []);
-  const visiblePrograms = activeGroup
-    ? getPrograms(activeGroup.programs)
-    : courseCatalog.flatMap((group) => getPrograms(group.programs));
-  const visibleInformationRoutes = activeGroup
-    ? getInformationRoutes(activeGroup.informationRoutes || [])
-    : courseCatalog.flatMap((group) => getInformationRoutes(group.informationRoutes || []));
-  const activeTabId = `catalog-tab-${activeTab}`;
-  const panelId = "catalog-panel";
-  const formatSummary = [...new Set(visiblePrograms.map((program) => program.mode))].join(" · ");
+  const visibleGroups = activeGroup ? [activeGroup] : courseCatalog;
+  const visibleCount = visibleGroups.reduce((count, group) => count + group.programs.length, 0);
+  const visibleInformationRoutes = visibleGroups.flatMap((group) => group.informationRoutes || []);
+  const englishSelected = activeTab === primaryGroupKey;
+  const context = catalogChoices.find((choice) => choice.key === activeTab)?.label || "Todos los cursos";
+
+  function selectTab(key) {
+    if (key === activeTab) return;
+    window.history.pushState(null, "", catalogHref(key));
+    setActiveTab(key);
+  }
 
   function handleTabKeyDown(event) {
-    if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
-
+    if (!["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) return;
     event.preventDefault();
-    const tabKeys = [allOfferingsKey, ...courseCatalog.map((group) => group.key)];
-    const currentIndex = tabKeys.indexOf(activeTab);
-    const nextIndex = event.key === 'Home'
-      ? 0
-      : event.key === 'End'
-        ? tabKeys.length - 1
-        : (currentIndex + (event.key === 'ArrowRight' ? 1 : -1) + tabKeys.length) % tabKeys.length;
-    const nextKey = tabKeys[nextIndex];
-
-    setActiveTab(nextKey);
-    window.requestAnimationFrame(() => document.getElementById(`catalog-tab-${nextKey}`)?.focus());
+    const keys = [allOfferingsKey, ...catalogChoices.map((choice) => choice.key)];
+    const index = keys.indexOf(activeTab);
+    const next = event.key === "Home" ? 0 : event.key === "End" ? keys.length - 1
+      : (index + (event.key === "ArrowRight" ? 1 : -1) + keys.length) % keys.length;
+    selectTab(keys[next]);
+    window.requestAnimationFrame(() => document.getElementById(`catalog-tab-${keys[next]}`)?.focus());
   }
 
   return (
-    <section className="section section--soft course-catalog" id="catalogo-detallado" aria-labelledby="catalog-title">
-      <div className="section-inner">
-        <div className="course-catalog__intro">
-          <div className="course-catalog__intro-copy">
-            <p className="section-kicker">Catálogo detallado</p>
-            <h1 id="catalog-title">Elige una ruta que puedas sostener.</h1>
-            <p className="course-catalog__lead">
-              Compara cómo se estudia, para quién encaja y qué siguiente paso tiene cada programa de AiT USA.
-            </p>
-            <div className="course-catalog__decision-guide">
-              <p className="course-catalog__guide-label">Empieza por tu forma de estudiar</p>
-              <div className="course-catalog__route-list">
-                {primaryPrograms.map((program) => (
-                  <a href={`/cursos/${program.slug}/`} className="course-catalog__route" key={program.slug}>
-                    <span className="course-catalog__route-mode">{program.mode}</span>
-                    <strong>{program.title}</strong>
-                    <span>{program.bestFor}</span>
-                  </a>
-                ))}
-              </div>
+    <>
+      <section className="section course-catalog prospect-catalog" id="catalogo-detallado" aria-labelledby="catalog-title">
+        <div className="section-inner">
+          <header className="course-catalog__intro">
+            <div className="course-catalog__intro-copy">
+              <p className="section-kicker">AIT USA · Catálogo de cursos</p>
+              <h1 id="catalog-title">Encuentra el curso para tu objetivo.</h1>
+              <p className="course-catalog__lead">Compara para quién es, dónde se estudia y qué necesitas para empezar. Después confirma tu grupo con admisiones.</p>
+              <p className="catalog-location-note">Inglés presencial en Nueva Jersey y opciones online. La sede, el horario y el cupo se confirman para cada programa.</p>
             </div>
+            <a className="catalog-help-link" href="#orientacion-catalogo">¿Necesitas ayuda para elegir? ↓</a>
+          </header>
+          <div className="catalog-tabs" role="tablist" aria-label="Filtrar cursos por objetivo">
+            {[{ key: allOfferingsKey, label: "Todos" }, ...catalogChoices].map((choice) => (
+              <button type="button" id={`catalog-tab-${choice.key}`} role="tab"
+                aria-selected={activeTab === choice.key} aria-controls="catalog-panel"
+                tabIndex={activeTab === choice.key ? 0 : -1}
+                onClick={() => selectTab(choice.key)} onKeyDown={handleTabKeyDown} key={choice.key}>
+                {choice.label}
+              </button>
+            ))}
           </div>
-          {primaryPrograms[0] ? (
-            <figure className="course-catalog__intro-media">
-              <Image
-                src={primaryPrograms[0].image}
-                alt={primaryPrograms[0].imageAlt}
-                width={1448}
-                height={1086}
-                sizes="(max-width: 719px) calc(100vw - 32px), (max-width: 1040px) 44vw, 38vw"
-                priority
-              />
-              <figcaption>
-                <span>Ruta principal</span>
-                <strong>{primaryPrograms[0].title} · {primaryPrograms[0].mode}</strong>
-              </figcaption>
-            </figure>
-          ) : null}
-        </div>
-
-        <div className="catalog-tabs" role="tablist" aria-label="Filtrar el catálogo por tipo de ruta">
-          <button
-            type="button"
-            id={`catalog-tab-${allOfferingsKey}`}
-            role="tab"
-            aria-selected={activeTab === allOfferingsKey}
-            aria-controls={panelId}
-            tabIndex={activeTab === allOfferingsKey ? 0 : -1}
-            onClick={() => setActiveTab(allOfferingsKey)}
-            onKeyDown={handleTabKeyDown}
-          >
-            Todos los cursos
-          </button>
-          {courseCatalog.map((group) => (
-            <button
-              type="button"
-              id={`catalog-tab-${group.key}`}
-              role="tab"
-              aria-selected={activeTab === group.key}
-              aria-controls={panelId}
-              tabIndex={activeTab === group.key ? 0 : -1}
-              onClick={() => setActiveTab(group.key)}
-              onKeyDown={handleTabKeyDown}
-              key={group.key}
-            >
-              {group.title}
-            </button>
-          ))}
-        </div>
-
-        <div className="catalog-panel__layout">
-          <section
-            className="catalog-panel"
-            id={panelId}
-            role="tabpanel"
-            aria-labelledby={activeTabId}
-            tabIndex={0}
-          >
-            {activeGroup ? (
-              <>
-                <div className="catalog-group__heading">
-                  <p className="section-kicker">{activeGroup.key === primaryGroupKey ? "Ruta principal" : "Programas de apoyo"}</p>
-                  <h2>{activeGroup.title}</h2>
-                  <p>{activeGroup.description}</p>
+          <p className="catalog-result-count" role="status" aria-live="polite" aria-atomic="true">
+            {visibleCount} cursos{visibleInformationRoutes.length ? ` · ${visibleInformationRoutes.length} ruta informativa, sin curso publicado` : ""}
+          </p>
+          <section className="catalog-panel" id="catalog-panel" role="tabpanel" aria-labelledby={`catalog-tab-${activeTab}`} tabIndex={0}>
+            {visibleGroups.map((group) => (
+              <section className="catalog-subgroup" aria-labelledby={`catalog-subgroup-${group.key}`} key={group.key}>
+                <header className="catalog-subgroup__heading">
+                  <h2 id={`catalog-subgroup-${group.key}`}>{catalogChoices.find((choice) => choice.key === group.key)?.label}</h2>
+                  <p>{catalogChoices.find((choice) => choice.key === group.key)?.description}</p>
+                </header>
+                <div className={`program-grid${group.programs.length < 3 ? " program-grid--supporting" : ""}`}>
+                  {group.programs.map((slug) => <ProgramCard key={slug} program={programs.find((program) => program.slug === slug)} activeTab={activeTab} />)}
                 </div>
-                <ProgramGrid
-                  programsToRender={visiblePrograms}
-                  featured={activeGroup.key === primaryGroupKey}
-                  supporting={activeGroup.key !== primaryGroupKey}
-                />
-                {visibleInformationRoutes.length ? <InformationRouteGrid routes={visibleInformationRoutes} /> : null}
-              </>
-            ) : (
-              <div className="catalog-group-list">
-                {courseCatalog.map((group) => <CatalogGroup group={group} key={group.key} />)}
-              </div>
-            )}
+                {(group.informationRoutes || []).map((key) => <InformationRouteCard key={key} route={catalogInformationRoutes.find((route) => route.key === key)} />)}
+              </section>
+            ))}
           </section>
-
-          <aside className="course-catalog__fact-card" aria-labelledby="catalog-facts-title">
-            <p className="section-kicker">Para decidir con claridad</p>
-            <h2 id="catalog-facts-title">Mira primero el formato, el objetivo y el estado.</h2>
-            <p>Las tarjetas reúnen los datos publicados para comparar programas y rutas informativas sin adivinar qué aplica.</p>
-            <dl>
-              <div>
-                <dt>Rutas visibles</dt>
-                <dd>{visiblePrograms.length + visibleInformationRoutes.length}</dd>
-              </div>
-              <div>
-                <dt>Formatos</dt>
-                <dd>{formatSummary}</dd>
-              </div>
-            </dl>
-            <p className="course-catalog__fact-note">Cada botón lleva a la ficha publicada o a una página informativa con su estado claro.</p>
-          </aside>
         </div>
-      </div>
-    </section>
+      </section>
+      <section className="section catalog-guidance" id="orientacion-catalogo" aria-labelledby="catalog-guidance-title">
+        <div className="section-inner">
+          <div className="section-heading">
+            <p className="section-kicker">Tu siguiente paso · {context}</p>
+            <h2 id="catalog-guidance-title">{englishSelected ? "Empieza por conocer tu nivel de inglés." : "Elige con ayuda de admisiones."}</h2>
+            <p>{englishSelected
+              ? "La prueba de nivel tiene 62 preguntas y toma unos 10–15 minutos. Es una orientación inicial; admisiones confirma tu nivel, horario y grupo."
+              : "Cuéntanos qué quieres aprender y tu disponibilidad. Te ayudamos a confirmar duración, requisitos, sede o modalidad, horario y costo antes de inscribirte."}</p>
+          </div>
+          <div className="button-row">
+            {englishSelected ? <Link className="button button--primary" href="/placement-test/">Conocer mi nivel de inglés</Link> : null}
+            <a className={`button button--${englishSelected ? "secondary" : "primary"}`} href={courseInquiryHref(site.whatsappHref, context)} target="_blank" rel="noreferrer">Consultar por WhatsApp</a>
+          </div>
+          <CallbackDialog key={activeTab} defaultSubject="" subjectGroup={activeTab} />
+          <details className="catalog-confirmation">
+            <summary>¿Qué necesito confirmar antes de inscribirme?</summary>
+            <p>Elige una ficha para ver el contenido y los horarios publicados. Admisiones confirma el grupo activo, la sede o plataforma, requisitos, materiales y costo. Las duraciones estimadas dependen de tu punto de partida y práctica.</p>
+          </details>
+          {englishSelected ? <div className="catalog-english-faq"><h3>Preguntas sobre estudiar inglés</h3><FaqList /></div> : null}
+        </div>
+      </section>
+    </>
   );
 }

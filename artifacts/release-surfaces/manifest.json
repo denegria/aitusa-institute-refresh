@@ -14,6 +14,27 @@
     "heading": "Nuestra filosofíaPrimero comprendes. Después hablas.Durante más de 20 años hemos escuchado las necesidades y frustracion"
   },
   {
+    "surface": "catalog",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/cursos/",
+    "file": "catalog-desktop.png",
+    "heading": "Encuentra el curso para tu objetivo."
+  },
+  {
+    "surface": "catalog-computing",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/cursos/?grupo=digital-technical",
+    "file": "catalog-computing-desktop.png",
+    "heading": "Computación"
+  },
+  {
+    "surface": "course-office",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/cursos/computacion-oficina/?grupo=digital-technical",
+    "file": "course-office-desktop.png",
+    "heading": "Computación para oficina"
+  },
+  {
     "surface": "portal-entry",
     "viewport": "desktop",
     "url": "http://127.0.0.1:3000/portal/sign-in/",
@@ -40,6 +61,27 @@
     "url": "http://127.0.0.1:3000/#metodo",
     "file": "method-mobile.png",
     "heading": "Nuestra filosofíaPrimero comprendes. Después hablas.Durante más de 20 años hemos escuchado las necesidades y frustracion"
+  },
+  {
+    "surface": "catalog",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/cursos/",
+    "file": "catalog-mobile.png",
+    "heading": "Encuentra el curso para tu objetivo."
+  },
+  {
+    "surface": "catalog-computing",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/cursos/?grupo=digital-technical",
+    "file": "catalog-computing-mobile.png",
+    "heading": "Computación"
+  },
+  {
+    "surface": "course-office",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/cursos/computacion-oficina/?grupo=digital-technical",
+    "file": "course-office-mobile.png",
+    "heading": "Computación para oficina"
   },
   {
     "surface": "portal-entry",

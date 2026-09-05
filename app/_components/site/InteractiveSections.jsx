@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { communityGallery, faqs, site, testimonials } from "../../../src/content";
+import { useEffect, useId, useRef, useState } from "react";
+import { communityGallery, courseCatalog, faqs, programs, site, testimonials } from "../../../src/content";
+import { courseComparison } from "../../../src/courseDiscovery";
 
 const COMMUNITY_TAB_CYCLE_MS = 8000;
 const COMMUNITY_PHOTO_CYCLE_MS = 2600;
@@ -240,6 +241,7 @@ export function ProofStories() {
   const [hoverPaused, setHoverPaused] = useState(false);
   const [focusPaused, setFocusPaused] = useState(false);
   const [interactionPaused, setInteractionPaused] = useState(false);
+  const [manuallyPaused, setManuallyPaused] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [showAllGraduations, setShowAllGraduations] = useState(false);
 
@@ -314,7 +316,7 @@ export function ProofStories() {
   }, []);
 
   useEffect(() => {
-    if (!isInView || hoverPaused || focusPaused || interactionPaused || prefersReducedMotion) return undefined;
+    if (!isInView || hoverPaused || focusPaused || interactionPaused || manuallyPaused || prefersReducedMotion) return undefined;
     const timer = window.setInterval(() => {
       setActiveTab((currentTab) => {
         const currentIndex = communityGallery.tabs.findIndex((tab) => tab.id === currentTab);
@@ -323,7 +325,7 @@ export function ProofStories() {
       setActivePhotoIndex(0);
     }, COMMUNITY_TAB_CYCLE_MS);
     return () => window.clearInterval(timer);
-  }, [focusPaused, hoverPaused, interactionPaused, isInView, prefersReducedMotion]);
+  }, [focusPaused, hoverPaused, interactionPaused, manuallyPaused, isInView, prefersReducedMotion]);
 
   useEffect(() => {
     if (
@@ -332,6 +334,7 @@ export function ProofStories() {
       || hoverPaused
       || focusPaused
       || interactionPaused
+      || manuallyPaused
       || prefersReducedMotion
     ) return undefined;
 
@@ -339,17 +342,7 @@ export function ProofStories() {
       setMediaCycleIndex((index) => index + 1);
     }, COMMUNITY_PHOTO_CYCLE_MS);
     return () => window.clearInterval(timer);
-  }, [focusPaused, hoverPaused, interactionPaused, isInView, photoAutoRotates, prefersReducedMotion]);
-
-  useEffect(() => {
-    if (!isInView) return;
-    const activeTabButton = document.getElementById(`community-tab-${activeTab}`);
-    activeTabButton?.scrollIntoView({
-      behavior: prefersReducedMotion ? "auto" : "smooth",
-      block: "nearest",
-      inline: "center",
-    });
-  }, [activeTab, isInView, prefersReducedMotion]);
+  }, [focusPaused, hoverPaused, interactionPaused, manuallyPaused, isInView, photoAutoRotates, prefersReducedMotion]);
 
   useEffect(() => {
     window.lucide?.createIcons?.();
@@ -429,9 +422,9 @@ export function ProofStories() {
         </header>
 
         <div
-          className={`community-proof__tabs${isInView && !hoverPaused && !focusPaused && !interactionPaused && !prefersReducedMotion ? " is-auto-cycling" : ""}`}
+          className={`community-proof__tabs${isInView && !hoverPaused && !focusPaused && !interactionPaused && !manuallyPaused && !prefersReducedMotion ? " is-auto-cycling" : ""}`}
           role="tablist"
-          aria-label="Explorar experiencias de AIT; las pestañas avanzan automáticamente"
+          aria-label="Explorar experiencias de AIT"
           style={{ "--community-cycle-duration": `${COMMUNITY_TAB_CYCLE_MS}ms`, "--reveal-order": 1 }}
         >
           {communityGallery.tabs.map((tab, index) => (
@@ -452,6 +445,11 @@ export function ProofStories() {
           ))}
         </div>
 
+        {!prefersReducedMotion ? (
+          <button className="community-pause" type="button" aria-pressed={manuallyPaused} onClick={() => setManuallyPaused((paused) => !paused)}>
+            {manuallyPaused ? "Reanudar galería automática" : "Pausar galería automática"}
+          </button>
+        ) : <p className="community-pause-note">Galería sin avance automático. Elige una categoría para explorar.</p>}
         <div
           className="community-proof__stage"
           id="community-proof-panel"
@@ -636,7 +634,10 @@ export function FaqList() {
   );
 }
 
-export function CallbackDialog() {
+export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offerings", primary = false }) {
+  const dialogId = useId();
+  const group = courseCatalog.find((item) => item.key === subjectGroup);
+  const subjectOptions = group ? programs.filter((program) => group.programs.includes(program.slug)) : programs;
   const dialogRef = useRef(null);
   const triggerRef = useRef(null);
   const startedAt = useRef(new Date().toISOString());
@@ -675,10 +676,14 @@ export function CallbackDialog() {
     }
 
     const name = String(formData.get("nombre") || "").trim();
+    const subject = String(formData.get("programa") || "");
+    const program = programs.find((item) => item.slug === subject);
+    const subjectLabel = program?.title || "Orientación para elegir curso";
     const location = String(formData.get("ubicacion") || "Sin ubicación indicada");
     const preferredSchedule = String(formData.get("mejorHorario") || "Prefiero coordinar");
     const message = [
-      "Hola AIT USA, quiero coordinar una llamada.",
+      "Hola AIT USA, quiero recibir orientación.",
+      `Programa: ${subjectLabel}`,
       `Nombre: ${name || "Sin nombre"}`,
       `Sede o modalidad: ${location}`,
       `Mejor momento: ${preferredSchedule}`,
@@ -694,12 +699,12 @@ export function CallbackDialog() {
         phone,
         email,
         city: location === "Sin ubicación indicada" ? "" : location,
-        interest: location === "Online" ? "ingles-online" : "ingles-presencial",
+        interest: courseComparison[subject]?.interest || "otro",
         preferredSchedule,
-        message: "Solicitud de llamada desde la página principal.",
+        message: `Solicitud de orientación sobre ${subjectLabel}.`,
       },
       source: {
-        path: `${window.location.pathname || "/"}#contacto`,
+        path: window.location.pathname || "/",
         referrer: document.referrer || undefined,
       },
       consent: {
@@ -725,7 +730,7 @@ export function CallbackDialog() {
       if (!response.ok || !body.ok) throw new Error("invalid_submission");
       submissionId.current = globalThis.crypto?.randomUUID?.() || `callback-${Date.now()}`;
       setStatus({
-        text: "Recibimos tu solicitud de llamada. Un asesor podrá darle seguimiento. ",
+        text: "Recibimos tu solicitud de orientación. Un asesor podrá contactarte por teléfono o email. ",
         href: body.advisorHandoff.href,
         label: "Abrir WhatsApp",
       });
@@ -744,21 +749,21 @@ export function CallbackDialog() {
     <>
       <div className="final-cta-contact-row" aria-label="Otra forma de contactarnos">
         <button
-          className="final-cta-contact-link"
+          className={primary ? "button button--primary" : "final-cta-contact-link"}
           type="button"
           aria-haspopup="dialog"
-          aria-controls="callback-dialog"
+          aria-controls={dialogId}
           data-callback-dialog-open
           onClick={openDialog}
         >
           <i data-lucide="phone-call" aria-hidden="true" />
-          <span>Solicitar llamada</span>
+          <span>Solicitar orientación</span>
         </button>
       </div>
       <dialog
         className="callback-dialog"
-        id="callback-dialog"
-        aria-labelledby="callback-dialog-title"
+        id={dialogId}
+        aria-labelledby={`${dialogId}-title`}
         ref={dialogRef}
         data-callback-dialog
         onClose={closeCleanup}
@@ -770,19 +775,32 @@ export function CallbackDialog() {
           <header className="callback-dialog__header">
             <div>
               <p className="section-kicker">Una alternativa simple</p>
-              <h3 id="callback-dialog-title">Solicita una llamada</h3>
+              <h3 id={`${dialogId}-title`}>Solicita orientación</h3>
             </div>
-            <button className="callback-dialog__close" type="button" aria-label="Cerrar solicitud de llamada" data-callback-dialog-close onClick={closeDialog}>
+            <button className="callback-dialog__close" type="button" aria-label="Cerrar solicitud de orientación" data-callback-dialog-close onClick={closeDialog}>
               <i data-lucide="x" aria-hidden="true" />
             </button>
           </header>
           <div className="callback-dialog__content">
-            <p>Déjanos lo esencial para coordinar una llamada. Te preguntaremos el resto cuando hablemos.</p>
+            <p>Indica tu curso y un teléfono o email para que admisiones pueda contactarte. Te ayudaremos a confirmar requisitos y disponibilidad.</p>
             <form className="lead-form" data-lead-form onSubmit={submit} aria-busy={busy}>
               <div className="form-grid callback-form-grid">
+                <label>Curso de interés
+                  <select name="programa" required defaultValue={defaultSubject}>
+                    <option value="" disabled>Selecciona un curso</option>
+                    {subjectOptions.map((program) => <option value={program.slug} key={program.slug}>{program.title}</option>)}
+                    <option value="orientacion">Necesito ayuda para elegir</option>
+                  </select>
+                </label>
                 <label>Nombre<input name="nombre" type="text" autoComplete="name" required /></label>
-                <label>Teléfono<input name="telefono" type="tel" inputMode="tel" autoComplete="tel" /></label>
-                <label>Email<input name="email" type="email" autoComplete="email" /><small>Escribe un teléfono o un email.</small></label>
+                <label>Teléfono<input name="telefono" type="tel" inputMode="tel" autoComplete="tel" onInput={(event) => {
+                  event.currentTarget.form.elements.namedItem("telefono")?.setCustomValidity("");
+                  event.currentTarget.form.elements.namedItem("email")?.setCustomValidity("");
+                }} /></label>
+                <label>Email<input name="email" type="email" autoComplete="email" onInput={(event) => {
+                  event.currentTarget.form.elements.namedItem("telefono")?.setCustomValidity("");
+                  event.currentTarget.form.elements.namedItem("email")?.setCustomValidity("");
+                }} /><small>Escribe un teléfono o un email.</small></label>
                 <label>
                   Sede o modalidad preferida
                   <select name="ubicacion" required defaultValue="">
@@ -796,7 +814,7 @@ export function CallbackDialog() {
                   </select>
                 </label>
                 <label>
-                  Mejor momento para llamarte
+                  Mejor momento para contactarte
                   <select name="mejorHorario" required defaultValue="">
                     <option value="">Selecciona una opción</option>
                     <option value="Mañana">Mañana</option>
@@ -818,7 +836,7 @@ export function CallbackDialog() {
               <p className="callback-privacy">
                 Consulta nuestra <a href={site.legalLinks.privacy}>Política de Privacidad</a>.
               </p>
-              <button className="button button--primary" type="submit" data-lead-submit disabled={busy}>Solicitar llamada</button>
+              <button className="button button--primary" type="submit" data-lead-submit disabled={busy}>Solicitar orientación</button>
               <p className="form-status" data-form-status aria-live="polite">
                 {status?.text}
                 {status?.href ? <a href={status.href} target="_blank" rel="noreferrer">{status.label}</a> : null}
