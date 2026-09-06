@@ -4,7 +4,7 @@
   background:
     radial-gradient(circle at 10% 5%, rgba(29, 78, 216, 0.1), transparent 30%),
     linear-gradient(180deg, #f7f9ff 0%, #ffffff 36%, #f3f6fc 100%);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body, Arial), Helvetica, sans-serif;
 }
 .header {
   position: sticky;
@@ -77,7 +77,7 @@
 .statusAction {
   border-radius: 999px;
   color: #fff !important;
-  background: #1747c8;
+  background: #001a3d;
   box-shadow: 0 10px 26px rgba(23, 71, 200, 0.2);
 }
 
@@ -282,6 +282,26 @@
   border-radius: 24px;
   background: #fff;
   box-shadow: 0 28px 70px rgba(28, 48, 91, 0.1);
+}
+
+.contactForm h2 { margin: 0 0 12px; font-size: 1.5rem; color: #001a3d; }
+.formHint { color: #475569; font-size: .94rem; line-height: 1.55; margin-bottom: 24px; }
+.optionalDetails { margin-top: 20px; color: #475569; font-size: .9rem; line-height: 1.6; }
+.optionalDetails summary { min-height: 44px; padding-block: 10px; color: #001a3d; font-weight: 750; cursor: pointer; }
+.optionalDetails[open] > .formGrid { margin-top: 16px; }
+.directContact { display: grid; gap: 4px; margin-top: 24px; }
+.directContact a { display: inline-flex; align-items: center; min-height: 44px; color: #174ea6; font-size: .92rem; font-weight: 750; text-underline-offset: 4px; }
+.legalToc details { display: grid; }
+.legalToc summary { min-height: 44px; padding-block: 10px; font-weight: 800; color: #001a3d; cursor: pointer; }
+.legalToc details a { display: block; padding-block: 12px; }
+.pageShell :focus-visible { outline: 3px solid #174ea6; outline-offset: 3px; }
+
+@media (max-width: 719px) {
+  .contactMain { padding-top: 32px; }
+  .contactIntro h1 { font-size: 2.2rem; line-height: 1.12; }
+  .contactIntro .trustList { display: none; }
+  .directContact { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; margin-top: 16px; }
+  .contactIntro .optionalDetails { margin-top: 12px; }
 }
 
 .formGrid {

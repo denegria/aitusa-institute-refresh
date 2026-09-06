@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useId, useRef, useState } from "react";
-import { communityGallery, courseCatalog, faqs, programs, site, testimonials } from "../../../src/content";
-import { courseComparison } from "../../../src/courseDiscovery";
+import { communityGallery, courseCatalog, faqs, site, testimonials } from "../../../src/content";
+import { admissionContext, admissionMessage, admissionOptions } from "../../../src/admissions.js";
 
 const COMMUNITY_TAB_CYCLE_MS = 8000;
 const COMMUNITY_PHOTO_CYCLE_MS = 2600;
@@ -188,10 +188,7 @@ export function TestimonialsSection() {
               <i data-lucide="x" aria-hidden="true" />
             </button>
             <div className="proof-dialog__media">
-              <div
-                className="proof-dialog__video-frame"
-                style={{ aspectRatio: `${activeStory.videoWidth || 16} / ${activeStory.videoHeight || 9}` }}
-              >
+              <div className="proof-dialog__video-frame">
                 <video
                   key={activeStory.video}
                   controls
@@ -202,6 +199,7 @@ export function TestimonialsSection() {
                   width={activeStory.videoWidth || 16}
                   height={activeStory.videoHeight || 9}
                   aria-label={shortLabels[activeStory.name] || activeStory.name}
+                  aria-describedby="testimonial-dialog-description"
                   data-testimonial-dialog-video
                 />
               </div>
@@ -210,7 +208,8 @@ export function TestimonialsSection() {
               <div className="proof-dialog__copy">
                 <span>{activeStory.result} · {activeStory.duration || ""}</span>
                 <h3 id="testimonial-dialog-title">{shortLabels[activeStory.name] || activeStory.name}</h3>
-                <p>{activeStory.headline || activeStory.text}</p>
+                <p id="testimonial-dialog-description">{activeStory.headline || activeStory.text}</p>
+                <p className="video-access-note">Subtítulos y transcripción aún no disponibles.</p>
               </div>
               <div className="proof-dialog__nav" aria-label="Cambiar testimonio">
                 <button type="button" onClick={() => setActiveStoryIndex((activeStoryIndex - 1 + orderedStories.length) % orderedStories.length)}>
@@ -637,7 +636,7 @@ export function FaqList() {
 export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offerings", primary = false }) {
   const dialogId = useId();
   const group = courseCatalog.find((item) => item.key === subjectGroup);
-  const subjectOptions = group ? programs.filter((program) => group.programs.includes(program.slug)) : programs;
+  const subjectOptions = group ? admissionOptions.filter((program) => group.programs.includes(program.slug)) : admissionOptions;
   const dialogRef = useRef(null);
   const triggerRef = useRef(null);
   const startedAt = useRef(new Date().toISOString());
@@ -677,8 +676,8 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
 
     const name = String(formData.get("nombre") || "").trim();
     const subject = String(formData.get("programa") || "");
-    const program = programs.find((item) => item.slug === subject);
-    const subjectLabel = program?.title || "Orientación para elegir curso";
+    const context = admissionContext(subject);
+    const subjectLabel = context.title;
     const location = String(formData.get("ubicacion") || "Sin ubicación indicada");
     const preferredSchedule = String(formData.get("mejorHorario") || "Prefiero coordinar");
     const message = [
@@ -699,9 +698,9 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
         phone,
         email,
         city: location === "Sin ubicación indicada" ? "" : location,
-        interest: courseComparison[subject]?.interest || "otro",
+        interest: context.interest,
         preferredSchedule,
-        message: `Solicitud de orientación sobre ${subjectLabel}.`,
+        message: admissionMessage(subject),
       },
       source: {
         path: window.location.pathname || "/",
@@ -718,7 +717,7 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
       submittedAt: new Date().toISOString(),
     };
 
-    setStatus({ text: "Preparando tu solicitud de forma segura…" });
+    setStatus({ text: "Enviando tu solicitud…" });
     setBusy(true);
     try {
       const response = await fetch("/api/leads/contact", {
@@ -736,7 +735,7 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
       });
     } catch {
       setStatus({
-        text: "No pudimos preparar la solicitud. ",
+        text: "No pudimos confirmar la recepción de tu solicitud. Reintenta o ",
         href: fallbackUrl,
         label: "Escribir directamente por WhatsApp",
       });
@@ -774,7 +773,7 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
         <div className="callback-dialog__shell">
           <header className="callback-dialog__header">
             <div>
-              <p className="section-kicker">Una alternativa simple</p>
+              <p className="section-kicker">Admisiones</p>
               <h3 id={`${dialogId}-title`}>Solicita orientación</h3>
             </div>
             <button className="callback-dialog__close" type="button" aria-label="Cerrar solicitud de orientación" data-callback-dialog-close onClick={closeDialog}>
@@ -802,9 +801,9 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
                   event.currentTarget.form.elements.namedItem("email")?.setCustomValidity("");
                 }} /><small>Escribe un teléfono o un email.</small></label>
                 <label>
-                  Sede o modalidad preferida
-                  <select name="ubicacion" required defaultValue="">
-                    <option value="">Selecciona una opción</option>
+                  Sede o modalidad preferida (opcional)
+                  <select name="ubicacion" defaultValue="">
+                    <option value="">Sin preferencia</option>
                     <option value="Bound Brook">Bound Brook</option>
                     <option value="Plainfield">Plainfield</option>
                     <option value="Piscataway">Piscataway</option>

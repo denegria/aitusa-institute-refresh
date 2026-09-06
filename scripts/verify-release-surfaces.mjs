@@ -109,6 +109,12 @@ try {
     { name: "catalog", pathname: "/cursos/", selector: "#catalog-title", anchor: null },
     { name: "catalog-computing", pathname: "/cursos/?grupo=digital-technical", selector: "#catalog-subgroup-digital-technical", anchor: null },
     { name: "course-office", pathname: "/cursos/computacion-oficina/?grupo=digital-technical", selector: "#course-program-title", anchor: null },
+    ...["ingles-jovenes-adultos", "ingles-hibrido-adultos", "ingles-online-adultos", "ged", "tutorias-matematicas", "computacion-basica", "espanol-extranjeros"].map(slug => ({ name: `course-${slug}`, pathname: `/cursos/${slug}/`, selector: "#course-program-title", anchor: null })),
+    { name: "contact", pathname: "/contactanos/?curso=espanol-extranjeros", selector: "main h1", anchor: null },
+    { name: "citizenship", pathname: "/ciudadania/", selector: "#citizenship-page-title", anchor: null },
+    { name: "privacy", pathname: "/privacy-policy/", selector: "main h1", anchor: null },
+    { name: "terms", pathname: "/terms-and-conditions/", selector: "main h1", anchor: null },
+    { name: "placement", pathname: "/placement-test/", selector: "main h1", anchor: null },
     { name: "portal-entry", pathname: "/portal/sign-in/", selector: "#portal-signin-title", anchor: null },
     { name: "employee-entry", pathname: "/employee/sign-in/", selector: "#portal-signin-title", anchor: null },
   ];
@@ -234,22 +240,26 @@ try {
           facts:document.querySelector('.course-quick-facts').getBoundingClientRect().top
         }))()`);
         if (readingOrder.facts <= readingOrder.title) throw new Error("Course facts appear before the course title.");
-        await evaluate(`document.querySelector('[data-callback-dialog-open]').click()`);
-        await sleep(150);
-        const inquiry = await evaluate(`(() => ({
-          subject: document.querySelector('dialog[open] select[name="programa"]')?.value,
-          consent: document.querySelector('dialog[open] [name="contactPermission"]')?.checked,
-          close: Boolean(document.querySelector('dialog[open] [data-callback-dialog-close]'))
-        }))()`);
-        if (inquiry.subject !== "computacion-oficina" || inquiry.consent !== false || !inquiry.close) {
-          throw new Error(`Course inquiry context failed: ${JSON.stringify(inquiry)}`);
+        await evaluate(`document.querySelector('.course-program-hero__actions a[href*="contactanos"]').click()`);
+        for (let attempt = 0; attempt < 50; attempt += 1) {
+          if (await evaluate(`Boolean(document.querySelector('select[name="course"]'))`)) break;
+          await sleep(100);
         }
-        await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27, nativeVirtualKeyCode: 27 });
-        await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27, nativeVirtualKeyCode: 27 });
-        await sleep(150);
-        const closedInquiry = await evaluate(`(() => ({open:Boolean(document.querySelector('dialog[open]')),focusReturned:document.activeElement.hasAttribute('data-callback-dialog-open')}))()`);
-        if (closedInquiry.open || !closedInquiry.focusReturned) {
-          throw new Error(`Inquiry Escape/focus return failed: ${JSON.stringify(closedInquiry)}`);
+        const inquiry = await evaluate(`(() => ({
+          path: location.pathname,
+          subject: document.querySelector('select[name="course"]')?.value,
+          options: document.querySelectorAll('select[name="course"] option').length,
+          consent: document.querySelector('[name="contactPermission"]')?.checked,
+          sms: document.querySelector('[name="smsConsent"]')?.checked
+        }))()`);
+        if (!inquiry.path.includes('contactanos') || inquiry.subject !== "computacion-oficina" || inquiry.options !== 9 || inquiry.consent !== false || inquiry.sms !== false) {
+          throw new Error(`Course-to-contact handoff failed: ${JSON.stringify(inquiry)}`);
+        }
+        const contactHistory = await send("Page.getNavigationHistory");
+        await send("Page.navigateToHistoryEntry", { entryId: contactHistory.entries[contactHistory.currentIndex - 1].id });
+        for (let attempt = 0; attempt < 50; attempt += 1) {
+          if (await evaluate(`Boolean(document.querySelector('#course-program-title'))`)) break;
+          await sleep(100);
         }
         await evaluate("window.scrollTo({top:0,behavior:'instant'})");
       }
@@ -272,6 +282,8 @@ try {
         const expectedLinks = [
           { label: "Inicio", href: "/" },
           { label: "Cursos", href: "/cursos/" },
+          { label: "Sedes", href: "/#sedes" },
+          { label: "Orientación", href: "/contactanos/" },
           { label: "Examen de nivel", href: "/placement-test/" },
         ];
         if (

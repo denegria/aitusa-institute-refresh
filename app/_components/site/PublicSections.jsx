@@ -326,6 +326,7 @@ export function BooksSection() {
         <header className="section-heading section-heading--framed books-section__heading">
           <p className="section-kicker">Ruta Graphic Concept</p>
           <h2 id="books-title">Nuestros libros.</h2>
+          <p>Explora los materiales Graphic Concept y <a href="/cursos/ingles-jovenes-adultos/#niveles">conoce la ruta de aprendizaje por niveles</a>. Admisiones confirma los materiales que corresponden a tu grupo.</p>
         </header>
         <div className="books-gallery" aria-label="Colección de libros de AIT USA Institute">
           <figure className="books-gallery__intro">

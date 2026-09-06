@@ -1,6 +1,9 @@
 import { ContactForm } from "../../_components/ContactForm.jsx";
 import { SiteFooter, SiteHeader } from "../../_components/site/SiteChrome.jsx";
 import styles from "../../_components/public.module.css";
+import { admissionContext } from "../../../src/admissions.js";
+import { site } from "../../../src/content.js";
+import { courseInquiryHref } from "../../../src/courseDiscovery.js";
 
 export const metadata = {
   title: "Contáctanos | AIT USA Institute",
@@ -9,26 +12,36 @@ export const metadata = {
   alternates: { canonical: "https://www.aitusainstitute.com/contactanos" },
 };
 
-export default function ContactPage() {
+export default async function ContactPage({ searchParams }) {
+  const context = admissionContext((await searchParams)?.curso);
   return (
     <div className={styles.pageShell}>
       <SiteHeader activePage="contact" />
       <main id="main-content" className={styles.contactMain}>
         <div className={styles.contactLayout}>
           <section className={styles.contactIntro}>
-            <p className={styles.eyebrow}>Respuesta humana</p>
-            <h1>Cuéntanos qué necesitas.</h1>
+            <p className={styles.eyebrow}>Orientación de admisiones</p>
+            <h1>Encuentra tu próximo paso.</h1>
             <p>
-              Te ayudamos a elegir programa, nivel, modalidad y horario. Tu teléfono es opcional y
-              recibir mensajes de texto promocionales siempre requiere una elección separada.
+              Te ayudamos a elegir curso, revisar tu punto de partida y confirmar costo, sede y horario antes de inscribirte.
             </p>
             <ul className={styles.trustList}>
-              <li>El formulario funciona aunque no aceptes mensajes SMS.</li>
-              <li>Guardamos tu solicitud de forma segura para que un asesor pueda darle seguimiento.</li>
-              <li>Tú decides si abres y envías la conversación preparada por WhatsApp.</li>
+              <li>Compara las opciones que encajan con tu objetivo.</li>
+              <li>Consulta requisitos, materiales y grupos disponibles.</li>
             </ul>
+            <nav className={styles.directContact} aria-label="Contacto directo">
+              <a href={courseInquiryHref(site.whatsappHref, context.slug === "orientacion" ? "elegir un curso" : context.title)} target="_blank" rel="noreferrer">Escribir por WhatsApp</a>
+              <a href={site.phoneHref}>Llamar al {site.phone}</a>
+              <a href={site.emailHref}>Enviar un correo</a>
+              <a href="/#sedes">Ver sedes y direcciones</a>
+            </nav>
+            <details className={styles.optionalDetails}>
+              <summary>Qué ocurre al enviar el formulario</summary>
+              <p>Guardamos tu solicitud de forma segura para que un asesor pueda darle seguimiento. También podrás abrir WhatsApp y enviar la conversación preparada.</p>
+              <p>El formulario funciona aunque no aceptes mensajes SMS. El consentimiento promocional es opcional y separado.</p>
+            </details>
           </section>
-          <ContactForm />
+          <ContactForm key={context.slug} courseSlug={context.slug} />
         </div>
       </main>
       <SiteFooter />

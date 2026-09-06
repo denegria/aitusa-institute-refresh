@@ -84,11 +84,11 @@ export default function HomePage() {
       <main id="main-content" className="home-page">
         <HeroSection />
         <StudyGoalsSection />
+        <OfferingPathSection />
+        <LocationsSection />
         <MethodSection />
         <TestimonialsSection />
         <ProofStories />
-        <OfferingPathSection />
-        <LocationsSection />
         <BooksSection />
         <FaqSection />
         <FinalCtaSection />

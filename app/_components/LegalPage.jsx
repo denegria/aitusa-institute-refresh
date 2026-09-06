@@ -20,11 +20,13 @@ export function LegalPage({ policy }) {
 
         <div className={styles.legalLayout}>
           <aside className={styles.legalToc} aria-label={`Contenido de ${policy.title}`}>
-            <strong>En esta página</strong>
+            <details>
+            <summary>En esta página</summary>
             {policy.sections.map((section) => (
               <a key={section.id} href={`#${section.id}`}>{section.title}</a>
             ))}
             <a href="#contacto-legal">Contacto</a>
+            </details>
           </aside>
 
           <article className={styles.legalArticle}>
@@ -40,8 +42,8 @@ export function LegalPage({ policy }) {
               </section>
             ))}
 
-            <section className={styles.englishSummary} aria-labelledby="english-summary">
-              <p className={styles.eyebrow}>For carrier and compliance review</p>
+            <section className={styles.englishSummary} aria-labelledby="english-summary" lang="en">
+              <p className={styles.eyebrow}>English summary</p>
               <h2 id="english-summary">{policy.englishSummary.title}</h2>
               {policy.englishSummary.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             </section>

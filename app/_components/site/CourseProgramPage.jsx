@@ -3,7 +3,8 @@ import { conversionCtas, programs, site } from "../../../src/content";
 import { SiteFooter, SiteHeader } from "./SiteChrome";
 import { CourseQuickFacts } from "./CourseQuickFacts";
 import { CatalogReturnLink } from "./CatalogReturnLink";
-import { CallbackDialog } from "./InteractiveSections";
+import { contactCourseHref } from "../../../src/admissions.js";
+import { courseComparison, courseInquiryHref } from "../../../src/courseDiscovery.js";
 
 const defaultSectionCopy = {
   outcomes: {
@@ -49,36 +50,12 @@ function isEnglishProgram(program) {
   return program.category === "ingles";
 }
 
-function defaultProgramInquiryCta(program) {
-  return {
-    label: `Consultar ${program.title.toLowerCase()}`,
-    href: conversionCtas.advisor.href,
-    external: true,
-  };
-}
-
 function externalLinkProps(link) {
   return link?.external ? { target: "_blank", rel: "noreferrer" } : {};
 }
 
 function CourseHero({ program, editorial }) {
   const englishProgram = isEnglishProgram(program);
-  const primaryCta = {
-    ...(englishProgram
-      ? {
-          label: editorial.closing?.primaryLabel || conversionCtas.placement.label,
-          href: conversionCtas.placement.href,
-          external: false,
-        }
-      : defaultProgramInquiryCta(program)),
-    ...editorial.primaryCta,
-  };
-  const advisorCta = {
-    label: "Hablar con admisiones",
-    href: conversionCtas.advisor.href,
-    external: true,
-    ...editorial.advisorCta,
-  };
 
   return (
     <section className="course-program-hero" aria-labelledby="course-program-title">
@@ -92,33 +69,42 @@ function CourseHero({ program, editorial }) {
           <p className="section-kicker">{editorial.eyebrow}</p>
           <h1 id="course-program-title">{program.title}</h1>
           <p className="course-program-hero__lead">{editorial.lead}</p>
-          <CourseQuickFacts slug={program.slug} />
           <div className="course-program-hero__actions">
             <a
               className="button button--primary"
-              href={primaryCta.href}
-              {...externalLinkProps(primaryCta)}
+              href={contactCourseHref(program.slug)}
             >
-              {primaryCta.label}
+              Solicitar orientación
               <i data-lucide="arrow-right" aria-hidden="true" />
             </a>
             <a
               className="course-program-text-link"
-              href={advisorCta.href}
-              {...externalLinkProps(advisorCta)}
+              href={courseInquiryHref(site.whatsappHref, program.title)}
+              target="_blank" rel="noreferrer"
             >
-              {advisorCta.label}
+              Consultar por WhatsApp
               <i data-lucide="message-circle" aria-hidden="true" />
             </a>
           </div>
           <p className="course-program-hero__note">
-            {englishProgram ? <span className="placement-effort">Prueba de inglés: 62 preguntas · 10–15 minutos. </span> : null}
-            {editorial.heroNote ||
-              (englishProgram
-                ? "Evaluación inicial sin compromiso. Tu grupo se confirma antes de la inscripción."
-                : "Admisiones confirma el punto de inicio, el grupo y el horario antes de comenzar.")}
+            {editorial.heroNote || "Admisiones confirma el punto de inicio, el grupo y el horario antes de comenzar."}
           </p>
-          <CallbackDialog defaultSubject={program.slug} />
+          <nav className="course-decision-nav" aria-label="Explorar este curso">
+            <a href="#horarios">Horarios y requisitos</a>
+            <a href={`#${editorial.sectionCopy?.pathway?.id || "niveles"}`}>Qué aprenderás</a>
+            <a href="#preguntas">Preguntas frecuentes</a>
+          </nav>
+          <CourseQuickFacts slug={program.slug} />
+          {englishProgram ? (
+            <p className="course-assessment-option"><a href={conversionCtas.placement.href}>Explorar mi nivel de inglés</a><span>Opcional antes de consultar · 62 preguntas · 10–15 minutos.</span></p>
+          ) : null}
+          {program.slug === "espanol-extranjeros" ? (
+            <details className="course-language-summary" lang="en">
+              <summary>New to Spanish? Read the English overview</summary>
+              <p>Practice Spanish online for everyday life, study or work. Your starting level, group and time zone are confirmed with admissions. Duration depends on your level, goals and study frequency.</p>
+              <a href={contactCourseHref(program.slug)}>Ask about the Spanish course</a>
+            </details>
+          ) : null}
         </div>
         <figure className="course-program-hero__media">
           <Image
@@ -191,6 +177,7 @@ function CoursePathway({ pathway, copy = defaultSectionCopy.pathway }) {
               {...externalLinkProps(copy)}
             >
               {copy.actionLabel}
+              {copy.external && !copy.actionLabel.includes("WhatsApp") ? " · WhatsApp" : ""}
               <i data-lucide="arrow-right" aria-hidden="true" />
             </a>
           ) : null}
@@ -250,16 +237,37 @@ function CourseMethod({ method }) {
   );
 }
 
-function CourseLogistics({ editorial, copy = defaultSectionCopy.logistics }) {
+function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logistics }) {
   return (
     <section className="course-program-section course-program-logistics" id="horarios" aria-labelledby="course-logistics-title">
       <div className="section-inner">
         <header className="course-program-heading section-heading--framed">
           <p className="section-kicker">{copy.eyebrow}</p>
-          <h2 id="course-logistics-title">{copy.title}</h2>
+          <h2 id="course-logistics-title">Organiza tu semana y tu inicio.</h2>
           <p>{copy.text}</p>
         </header>
         <div className="course-logistics-layout">
+          <div className="course-schedule-panel">
+            <p className="course-schedule-panel__label">{copy.scheduleLabel}</p>
+            <dl>
+              {editorial.schedule.map((group) => (
+                <div key={group.label}>
+                  <dt>{group.label}</dt>
+                  <dd>{group.times.join(" · ")}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="course-schedule-panel__note">{editorial.logisticsNote}</p>
+            <a
+              className="course-program-text-link"
+              href={courseInquiryHref(site.whatsappHref, program.title)}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Confirmar horario por WhatsApp
+              <i data-lucide="arrow-right" aria-hidden="true" />
+            </a>
+          </div>
           <div
             className="course-format-list"
             aria-label={copy.formatsLabel || "Modalidades disponibles"}
@@ -274,27 +282,10 @@ function CourseLogistics({ editorial, copy = defaultSectionCopy.logistics }) {
               </article>
             ))}
           </div>
-          <div className="course-schedule-panel">
-            <p className="course-schedule-panel__label">{copy.scheduleLabel}</p>
-            <dl>
-              {editorial.schedule.map((group) => (
-                <div key={group.label}>
-                  <dt>{group.label}</dt>
-                  <dd>{group.times.join(" · ")}</dd>
-                </div>
-              ))}
-            </dl>
-            <p className="course-schedule-panel__note">{editorial.logisticsNote}</p>
-            <a
-              className="course-program-text-link"
-              href={conversionCtas.advisor.href}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {copy.actionLabel}
-              <i data-lucide="arrow-right" aria-hidden="true" />
-            </a>
-          </div>
+        </div>
+        <div className="course-admissions-facts">
+          <div><h3>Requisitos para empezar</h3><p>{courseComparison[program.slug].requirements}</p></div>
+          <div><h3>Costo y próximo grupo</h3><p>Solicita el costo total, los materiales incluidos y la próxima fecha disponible antes de inscribirte.</p><a href={contactCourseHref(program.slug)}>Consultar costo y disponibilidad</a></div>
         </div>
       </div>
     </section>
@@ -334,7 +325,7 @@ function CourseStory({ story }) {
           </video>
           <figcaption>{story.videoLabel}</figcaption>
           <p id={videoDescriptionId}>
-            <strong>Alternativa de texto:</strong> {story.text}
+            <strong>Sobre esta entrevista:</strong> {story.text}
           </p>
           <p id={transcriptNoteId}>
             No hay subtítulos ni una transcripción verificable disponible para este video.
@@ -396,47 +387,29 @@ function CourseRelated({ program }) {
 }
 
 function CourseClosing({ closing, program }) {
-  const englishProgram = isEnglishProgram(program);
-  const primaryCta = {
-    ...(englishProgram
-      ? {
-          label: closing.primaryLabel || conversionCtas.placement.label,
-          href: conversionCtas.placement.href,
-          external: false,
-        }
-      : defaultProgramInquiryCta(program)),
-    ...closing.primaryCta,
-  };
-  const advisorCta = {
-    label: closing.advisorLabel,
-    href: site.whatsappHref,
-    external: true,
-    ...closing.advisorCta,
-  };
 
   return (
     <section className="course-program-closing" aria-labelledby="course-closing-title">
       <div className="section-inner course-program-closing__layout">
         <div>
           <p className="section-kicker">{closing.eyebrow}</p>
-          <h2 id="course-closing-title">{closing.title}</h2>
-          <p>{closing.text}</p>
+          <h2 id="course-closing-title">Da el siguiente paso con orientación.</h2>
+          <p>Cuéntanos tu objetivo y disponibilidad. Admisiones te ayudará a confirmar requisitos, costo y grupo para {program.title.toLowerCase()}.</p>
         </div>
         <div className="course-program-closing__actions">
           <a
             className="button button--primary"
-            href={primaryCta.href}
-            {...externalLinkProps(primaryCta)}
+            href={contactCourseHref(program.slug)}
           >
-            {primaryCta.label}
+            Solicitar orientación
             <i data-lucide="arrow-right" aria-hidden="true" />
           </a>
           <a
             className="course-program-text-link"
-            href={advisorCta.href}
-            {...externalLinkProps(advisorCta)}
+            href={courseInquiryHref(site.whatsappHref, program.title)}
+            target="_blank" rel="noreferrer"
           >
-            {advisorCta.label}
+            Consultar por WhatsApp
           </a>
         </div>
       </div>
@@ -462,6 +435,9 @@ export function CourseProgramPage({ program }) {
         id="main-content"
       >
         <CourseHero program={program} editorial={editorial} />
+        {editorial.formats?.length && editorial.schedule?.length ? (
+          <CourseLogistics program={program} editorial={editorial} copy={editorial.sectionCopy?.logistics} />
+        ) : null}
         {editorial.outcomes?.length ? (
           <CourseOutcomes
             outcomes={editorial.outcomes}
@@ -475,12 +451,6 @@ export function CourseProgramPage({ program }) {
           />
         ) : null}
         {editorial.method ? <CourseMethod method={editorial.method} /> : null}
-        {editorial.formats?.length && editorial.schedule?.length ? (
-          <CourseLogistics
-            editorial={editorial}
-            copy={editorial.sectionCopy?.logistics}
-          />
-        ) : null}
         {editorial.story ? <CourseStory story={editorial.story} /> : null}
         {editorial.faqs?.length ? (
           <CourseFaq faqs={editorial.faqs} copy={editorial.sectionCopy?.faq} />

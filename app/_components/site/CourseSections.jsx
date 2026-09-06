@@ -83,7 +83,7 @@ export function CourseCatalog({ initialGroup = allOfferingsKey }) {
             <div className="course-catalog__intro-copy">
               <p className="section-kicker">AIT USA · Catálogo de cursos</p>
               <h1 id="catalog-title">Encuentra el curso para tu objetivo.</h1>
-              <p className="course-catalog__lead">Compara para quién es, dónde se estudia y qué necesitas para empezar. Después confirma tu grupo con admisiones.</p>
+              <p className="course-catalog__lead">Elige tu objetivo, compara los cursos y confirma tu grupo con admisiones.</p>
               <p className="catalog-location-note">Inglés presencial en Nueva Jersey y opciones online. La sede, el horario y el cupo se confirman para cada programa.</p>
             </div>
             <a className="catalog-help-link" href="#orientacion-catalogo">¿Necesitas ayuda para elegir? ↓</a>
@@ -107,6 +107,7 @@ export function CourseCatalog({ initialGroup = allOfferingsKey }) {
                 <header className="catalog-subgroup__heading">
                   <h2 id={`catalog-subgroup-${group.key}`}>{catalogChoices.find((choice) => choice.key === group.key)?.label}</h2>
                   <p>{catalogChoices.find((choice) => choice.key === group.key)?.description}</p>
+                  {group.key === "digital-technical" ? <p>¿Empiezas desde cero? Revisa computación básica. Si ya manejas tareas digitales y buscas Word, Excel o PowerPoint, compara la ruta de oficina con admisiones.</p> : null}
                 </header>
                 <div className={`program-grid${group.programs.length < 3 ? " program-grid--supporting" : ""}`}>
                   {group.programs.map((slug) => <ProgramCard key={slug} program={programs.find((program) => program.slug === slug)} activeTab={activeTab} />)}
@@ -121,16 +122,14 @@ export function CourseCatalog({ initialGroup = allOfferingsKey }) {
         <div className="section-inner">
           <div className="section-heading">
             <p className="section-kicker">Tu siguiente paso · {context}</p>
-            <h2 id="catalog-guidance-title">{englishSelected ? "Empieza por conocer tu nivel de inglés." : "Elige con ayuda de admisiones."}</h2>
-            <p>{englishSelected
-              ? "La prueba de nivel tiene 62 preguntas y toma unos 10–15 minutos. Es una orientación inicial; admisiones confirma tu nivel, horario y grupo."
-              : "Cuéntanos qué quieres aprender y tu disponibilidad. Te ayudamos a confirmar duración, requisitos, sede o modalidad, horario y costo antes de inscribirte."}</p>
+            <h2 id="catalog-guidance-title">Elige con ayuda de admisiones.</h2>
+            <p>Cuéntanos qué quieres aprender y tu disponibilidad. Te ayudamos a confirmar duración, requisitos, sede o modalidad, horario y costo antes de inscribirte.</p>
           </div>
           <div className="button-row">
-            {englishSelected ? <Link className="button button--primary" href="/placement-test/">Conocer mi nivel de inglés</Link> : null}
-            <a className={`button button--${englishSelected ? "secondary" : "primary"}`} href={courseInquiryHref(site.whatsappHref, context)} target="_blank" rel="noreferrer">Consultar por WhatsApp</a>
+            <CallbackDialog key={activeTab} defaultSubject="" subjectGroup={activeTab} primary />
+            <a className="course-program-text-link" href={courseInquiryHref(site.whatsappHref, context)} target="_blank" rel="noreferrer">Consultar por WhatsApp</a>
           </div>
-          <CallbackDialog key={activeTab} defaultSubject="" subjectGroup={activeTab} />
+          {englishSelected ? <p className="course-assessment-option"><Link href="/placement-test/">Explorar mi nivel de inglés</Link><span>Opcional antes de consultar · 62 preguntas · 10–15 minutos.</span></p> : null}
           <details className="catalog-confirmation">
             <summary>¿Qué necesito confirmar antes de inscribirme?</summary>
             <p>Elige una ficha para ver el contenido y los horarios publicados. Admisiones confirma el grupo activo, la sede o plataforma, requisitos, materiales y costo. Las duraciones estimadas dependen de tu punto de partida y práctica.</p>

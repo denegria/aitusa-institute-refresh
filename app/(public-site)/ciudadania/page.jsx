@@ -5,7 +5,7 @@ import { site } from "../../../src/content";
 const pageUrl = new URL("/ciudadania/", site.canonical).toString();
 
 export const metadata = {
-  title: "Ciudadanía | Página informativa en preparación | AiT USA Institute",
+  title: "Información sobre ciudadanía | AiT USA Institute",
   description:
     "Conoce la página informativa en preparación de AiT USA Institute sobre apoyo para tu proceso de ciudadanía. Los detalles del programa se confirman directamente con el instituto.",
   alternates: {
@@ -20,7 +20,7 @@ export const metadata = {
     locale: "es_US",
     url: "/ciudadania/",
     siteName: site.name,
-    title: "Ciudadanía | Página informativa en preparación | AiT USA Institute",
+    title: "Información sobre ciudadanía | AiT USA Institute",
     description:
       "Una guía inicial para conversar con AiT USA Institute sobre apoyo de preparación cívica. Los detalles se confirman directamente con el instituto.",
     images: [{ url: site.images.adultEnglish, alt: "Estudiantes adultos conversando en un espacio de aprendizaje." }],
@@ -40,7 +40,7 @@ const pageSchema = {
   "@type": "WebPage",
   "@id": `${pageUrl}#webpage`,
   url: pageUrl,
-  name: "Ciudadanía | Página informativa en preparación | AiT USA Institute",
+  name: "Información sobre ciudadanía | AiT USA Institute",
   description:
     "Página informativa en preparación para conversar con AiT USA Institute sobre apoyo de preparación cívica.",
   isPartOf: {
@@ -86,14 +86,13 @@ export default function CitizenshipInformationPage() {
                 <span aria-current="page">Ciudadanía</span>
               </nav>
               <p className="section-kicker">Página informativa en preparación</p>
-              <h1 id="citizenship-page-title">Empieza con una conversación clara sobre tu próximo paso.</h1>
+              <h1 id="citizenship-page-title">Información sobre ciudadanía</h1>
               <p className="course-program-hero__lead">
-                Esta página abre una ruta para preguntar por apoyo de preparación cívica. Antes de asumir
-                detalles, conversemos sobre tu objetivo y confirmemos qué información aplica a tu caso.
+                Consulta con AiT USA si hay apoyo de preparación cívica disponible. Los detalles de una oferta académica formal todavía están por confirmar.
               </p>
               <div className="course-program-hero__actions">
-                <a className="button button--primary" href={site.whatsappHref} target="_blank" rel="noreferrer">
-                  Hablar con AiT USA
+                <a className="button button--primary" href={`${site.whatsappHref}?text=${encodeURIComponent("Hola AIT USA, quiero saber si hay apoyo de preparación cívica disponible y cuáles son los próximos pasos.")}`} target="_blank" rel="noreferrer">
+                  Consultar por WhatsApp
                   <i data-lucide="message-circle" aria-hidden="true" />
                 </a>
                 <a className="course-program-text-link" href={site.legalLinks.contact}>
@@ -121,99 +120,28 @@ export default function CitizenshipInformationPage() {
               </figcaption>
             </figure>
           </div>
-          <div className="course-program-ledger">
-            <dl className="section-inner" aria-label="Estado de esta página">
-              <div><dt>Propósito</dt><dd>Abrir una conversación informada</dd></div>
-              <div><dt>Estado</dt><dd>Detalles del programa por confirmar</dd></div>
-              <div><dt>Próximo paso</dt><dd>Contactar al instituto directamente</dd></div>
-            </dl>
-          </div>
         </section>
 
-        <section className="course-program-section course-program-outcomes" aria-labelledby="citizenship-conversation-title">
+        <section className="course-program-section citizenship-resources" aria-labelledby="citizenship-resources-title">
           <div className="section-inner">
-            <header className="course-program-heading section-heading--framed">
-              <p className="section-kicker">Una conversación, no una promesa</p>
-              <h2 id="citizenship-conversation-title">Aclara lo esencial antes de decidir.</h2>
-              <p>
-                La información pública disponible todavía no confirma una oferta académica formal. Esta
-                página no presenta un curso, una inscripción ni un resultado garantizado.
-              </p>
-            </header>
-            <ol className="course-outcome-list">
-              {questionsToConfirm.map((question, index) => (
-                <li key={question}>
-                  <span aria-hidden="true">0{index + 1}</span>
-                  <h3>{["Ubica la conversación", "Confirma lo disponible", "Elige fuentes correctas"][index]}</h3>
-                  <p>{question}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        <section className="course-program-section course-program-pathway" aria-labelledby="citizenship-boundary-title">
-          <div className="section-inner course-program-pathway__layout">
-            <header className="course-program-heading">
-              <p className="section-kicker">Límite importante</p>
-              <h2 id="citizenship-boundary-title">Prepararte e informarte no sustituye orientación legal.</h2>
-              <p>
-                Los requisitos y decisiones de inmigración dependen de circunstancias individuales y de fuentes
-                oficiales. Esta página no evalúa elegibilidad ni recomienda qué presentar.
-              </p>
-              <a className="course-program-text-link" href="https://www.uscis.gov/citizenship" target="_blank" rel="noreferrer">
-                Consultar información oficial de USCIS
-                <i data-lucide="external-link" aria-hidden="true" />
-              </a>
-            </header>
-            <ol className="course-pathway-list">
-              <li>
-                <div className="course-pathway-list__marker" aria-hidden="true"><span>1</span></div>
-                <div><p className="course-pathway-list__eyebrow">Antes de contactar</p><h3>Define tu pregunta.</h3><p>Anota qué necesitas aclarar para que la conversación sea concreta.</p></div>
-              </li>
-              <li>
-                <div className="course-pathway-list__marker" aria-hidden="true"><span>2</span></div>
-                <div><p className="course-pathway-list__eyebrow">Con el instituto</p><h3>Confirma la información actual.</h3><p>Pregunta directamente por cualquier apoyo, disponibilidad y siguientes pasos que estén vigentes.</p></div>
-              </li>
-              <li>
-                <div className="course-pathway-list__marker" aria-hidden="true"><span>3</span></div>
-                <div><p className="course-pathway-list__eyebrow">Para tu caso</p><h3>Usa fuentes autorizadas.</h3><p>Revisa los requisitos con USCIS y, cuando corresponda, con un profesional legal autorizado.</p></div>
-              </li>
-            </ol>
-          </div>
-        </section>
-
-        <section className="course-program-section course-program-faq" aria-labelledby="citizenship-review-title">
-          <div className="section-inner course-program-faq__layout">
-            <header className="course-program-heading">
-              <p className="section-kicker">Para completar esta página</p>
-              <h2 id="citizenship-review-title">Detalles que AiT USA debe confirmar antes de publicar una oferta.</h2>
-              <p>Estos puntos se muestran de forma visible para que esta página de muestra no se interprete como una promesa de servicio.</p>
-            </header>
-            <div className="course-faq-list" role="list" aria-label="Detalles pendientes de confirmación">
-              {reviewGaps.map((gap) => (
-                <div key={gap} role="listitem">
-                  <p><strong>{gap}</strong></p>
-                  <p>Pendiente de confirmación por AiT USA Institute.</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="course-program-closing" aria-labelledby="citizenship-closing-title">
-          <div className="section-inner course-program-closing__layout">
-            <div>
-              <p className="section-kicker">Siguiente paso</p>
-              <h2 id="citizenship-closing-title">Haz una pregunta directa y recibe información confirmada.</h2>
-              <p>La conversación es el siguiente paso seguro mientras se confirman los detalles de esta ruta.</p>
-            </div>
-            <div className="course-program-closing__actions">
-              <a className="button button--primary" href={site.whatsappHref} target="_blank" rel="noreferrer">
-                Contactar por WhatsApp
-                <i data-lucide="message-circle" aria-hidden="true" />
-              </a>
-              <a className="course-program-text-link" href="/cursos/">Explorar cursos publicados</a>
+            <p className="section-kicker">Fuentes y próximos pasos</p>
+            <h2 id="citizenship-resources-title">Aclara tu pregunta antes de decidir.</h2>
+            <div className="citizenship-resource-grid">
+              <article>
+                <h3>Consulta la información oficial</h3>
+                <p>Esta página no evalúa elegibilidad ni recomienda qué presentar. Revisa los requisitos con USCIS y, cuando corresponda, con un profesional legal autorizado.</p>
+                <a className="course-program-text-link" href="https://www.uscis.gov/citizenship" target="_blank" rel="noreferrer">Consultar información oficial de USCIS</a>
+              </article>
+              <article>
+                <h3>Pregunta al instituto</h3>
+                <ul>{questionsToConfirm.map((question) => <li key={question}>{question}</li>)}</ul>
+                <details>
+                  <summary>Detalles de la oferta por confirmar</summary>
+                  <ul>{reviewGaps.map((gap) => <li key={gap}>{gap}</li>)}</ul>
+                  <p>Esta página no abre inscripciones ni garantiza un resultado.</p>
+                </details>
+                <a className="course-program-text-link" href="/cursos/">Explorar cursos publicados</a>
+              </article>
             </div>
           </div>
         </section>

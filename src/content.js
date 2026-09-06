@@ -868,7 +868,7 @@ const allCourseRecords = [
         "Una ruta para practicar español útil en situaciones de estudio, trabajo y vida diaria con acompañamiento remoto.",
       heroImage: site.images.spanish,
       heroImageAlt:
-        "Persona adulta practicando conversación durante una clase de idioma online.",
+        "Personas adultas conversando en un aula de idiomas.",
       heroNote:
         "El grupo, el nivel inicial y la zona horaria se confirman con admisiones.",
       primaryCta: {
@@ -988,7 +988,7 @@ const allCourseRecords = [
         },
       ],
       logisticsNote:
-        "AIT no muestra actualmente un bloque público detallado para esta ruta. Admisiones debe confirmar nivel, zona horaria, plataforma y disponibilidad antes de la inscripción.",
+        "Confirma tu nivel, horario, zona horaria, plataforma y grupo disponible con admisiones antes de inscribirte.",
       sectionCopy: {
         outcomes: {
           eyebrow: "Comunicación útil",
@@ -1001,7 +1001,7 @@ const allCourseRecords = [
           eyebrow: "Ruta de aprendizaje",
           title: "Tu objetivo y experiencia previa definen dónde empezar.",
           text:
-            "No publicamos una duración ni un nivel final garantizados. El punto de partida se confirma antes de comenzar.",
+            "Tu ruta depende del nivel inicial, la frecuencia y tus objetivos. Confirma el punto de partida antes de comenzar; la duración y el nivel final no están garantizados.",
           actionLabel: "Consultar mi punto de partida",
           actionHref: admissionsCourseHref("mi punto de partida para español online"),
           external: true,
@@ -1010,7 +1010,7 @@ const allCourseRecords = [
           eyebrow: "Modalidad y coordinación",
           title: "Confirma el horario en tu zona antes de organizar la semana.",
           text:
-            "AIT identifica la ruta como online, pero la disponibilidad concreta debe validarse con admisiones.",
+            "El curso es online. Consulta el grupo disponible y el horario que corresponde a tu zona.",
           formatsLabel: "Claves de la modalidad online",
           scheduleLabel: "Disponibilidad",
           actionLabel: "Confirmar horario online",
@@ -1031,7 +1031,7 @@ const allCourseRecords = [
         {
           question: "¿Necesito saber español antes de empezar?",
           answer:
-            "No publicamos un requisito único. Comparte tu experiencia previa para que admisiones pueda orientar el punto de entrada.",
+            "Comparte tu experiencia previa para que admisiones pueda orientarte y confirmar los requisitos del grupo.",
         },
         {
           question: "¿Qué tipo de español se practica?",
@@ -1046,7 +1046,7 @@ const allCourseRecords = [
         {
           question: "¿Cuánto dura el curso?",
           answer:
-            "No publicamos una duración garantizada. El tiempo depende del punto de inicio, la frecuencia, la práctica y la meta del estudiante.",
+            "La duración depende del punto de inicio, la frecuencia, la práctica y tu meta; no hay un plazo garantizado.",
         },
         {
           question: "¿Cómo sé si el grupo es adecuado para mí?",
@@ -1251,7 +1251,7 @@ const allCourseRecords = [
           icon: "book-open-check",
           title: "Preparación presencial",
           text:
-            "AIT publica el programa como preparación presencial; confirma la sede correspondiente al grupo activo.",
+            "La preparación es presencial. Consulta la sede del grupo disponible.",
         },
         {
           icon: "calendar-days",
@@ -1317,7 +1317,7 @@ const allCourseRecords = [
         {
           question: "¿Cuánto dura la preparación?",
           answer:
-            "AIT publica una duración estimada de seis meses. No es una garantía: el tiempo real depende de tu base académica, asistencia, práctica y resultados.",
+            "La duración estimada es de seis meses. Tu avance depende de tu base académica, asistencia, práctica y resultados.",
         },
         {
           question: "¿Cuántas clases hay por semana?",
@@ -1332,7 +1332,7 @@ const allCourseRecords = [
         {
           question: "¿La inscripción al curso incluye el examen oficial?",
           answer:
-            "No lo asumimos. La preparación, el registro oficial y las tarifas del examen son pasos distintos; admisiones puede explicar únicamente qué incluye el programa de AIT.",
+            "La preparación, el registro oficial y las tarifas del examen son pasos distintos. Pregunta a admisiones qué incluye el programa de AIT y qué debes gestionar por separado.",
         },
       ],
       closing: {
@@ -1520,11 +1520,11 @@ const allCourseRecords = [
           icon: "calendar-days",
           title: "Sesión coordinada",
           text:
-            "No se asume un bloque fijo: materia, nivel y horario se validan antes de empezar.",
+            "Coordina la materia, el nivel y el horario antes de empezar.",
         },
       ],
       logisticsNote:
-        "AIT no publica un horario único para todas las tutorías. Comparte la materia, el nivel y la fecha objetivo para confirmar tutor y modalidad.",
+        "Comparte la materia, el nivel y la fecha objetivo para confirmar tutor, modalidad y horario.",
       sectionCopy: {
         outcomes: {
           eyebrow: "Refuerzo con foco",
@@ -1546,7 +1546,7 @@ const allCourseRecords = [
           eyebrow: "Modalidad y horario",
           title: "El formato depende de la materia, el tutor y la disponibilidad.",
           text:
-            "Presencial u online se confirma caso por caso; no publicamos disponibilidad automática.",
+            "Las sesiones presenciales y online se coordinan según tu materia, el tutor y la disponibilidad.",
           formatsLabel: "Opciones de coordinación",
           scheduleLabel: "Horario",
           actionLabel: "Confirmar tutoría disponible",
@@ -1577,7 +1577,7 @@ const allCourseRecords = [
         {
           question: "¿Hay un horario fijo?",
           answer:
-            "No se publica un bloque único. El horario se confirma según materia, nivel, modalidad y disponibilidad.",
+            "El horario se coordina según materia, nivel, modalidad y disponibilidad.",
         },
         {
           question: "¿La tutoría garantiza mejorar una nota?",
@@ -1785,7 +1785,7 @@ const allCourseRecords = [
           icon: "calendar-days",
           title: "Bloques publicados",
           text:
-            "AIT publica opciones de mañana, noche y sábado, sujetas a grupo y cupo.",
+            "Consulta las opciones de mañana, noche y sábado según el grupo disponible.",
         },
       ],
       logisticsNote:
@@ -1827,7 +1827,7 @@ const allCourseRecords = [
         {
           question: "¿Necesito experiencia previa?",
           answer:
-            "No se publica un requisito previo. El curso está descrito para principiantes, pero conviene explicar qué tareas ya puedes hacer.",
+            "El curso está pensado para principiantes. Comparte las tareas que ya puedes hacer y confirma los requisitos del grupo.",
         },
         {
           question: "¿Se trabaja con Windows o Mac?",
@@ -1992,7 +1992,7 @@ const allCourseRecords = [
           title: "Microsoft Word",
           text:
             "Crea y da formato a cartas, informes, recibos, memos, hojas de vida, flyers y otros documentos.",
-          focus: "Documentos",
+          focus: "Documentos · 4 semanas estimadas",
         },
         {
           stage: "Módulo 02",
@@ -2000,7 +2000,7 @@ const allCourseRecords = [
           title: "Microsoft Excel",
           text:
             "Organiza datos, aplica operaciones y convierte información en tablas y gráficos comprensibles.",
-          focus: "Datos",
+          focus: "Datos · 8 semanas estimadas",
         },
         {
           stage: "Módulo 03",
@@ -2008,7 +2008,7 @@ const allCourseRecords = [
           title: "Microsoft PowerPoint",
           text:
             "Construye presentaciones con texto, imágenes y una secuencia clara para comunicar proyectos.",
-          focus: "Presentaciones",
+          focus: "Presentaciones · 4 semanas estimadas",
         },
       ],
       method: {
@@ -2058,11 +2058,11 @@ const allCourseRecords = [
           icon: "calendar-days",
           title: "Bloques publicados",
           text:
-            "AIT publica opciones de mañana, noche y sábado, sujetas a grupo y cupo.",
+            "Consulta las opciones de mañana, noche y sábado según el grupo disponible.",
         },
       ],
       logisticsNote:
-        "AIT publica estimaciones de cuatro semanas para Word y PowerPoint y ocho para Excel. Son referencias, no garantías; confirma módulo, versión, grupo y horario vigente.",
+        "Las duraciones estimadas son cuatro semanas para Word y PowerPoint y ocho para Excel. Son referencias, no garantías; confirma módulo, versión, grupo y horario vigente.",
       sectionCopy: {
         outcomes: {
           eyebrow: "Trabajo visible",
@@ -2105,12 +2105,12 @@ const allCourseRecords = [
         {
           question: "¿Debo empezar por Word?",
           answer:
-            "No se publica una secuencia obligatoria. Tu base digital y la disponibilidad del módulo ayudan a decidir el punto de entrada.",
+            "Tu base digital y la disponibilidad del módulo ayudan a decidir el punto de entrada. Consulta qué módulo te conviene cursar primero.",
         },
         {
           question: "¿Cuánto dura cada módulo?",
           answer:
-            "AIT publica estimaciones de cuatro semanas para Word, ocho para Excel y cuatro para PowerPoint. No son garantías y deben confirmarse con el grupo vigente.",
+            "Las duraciones estimadas son cuatro semanas para Word, ocho para Excel y cuatro para PowerPoint. El calendario final se confirma con el grupo vigente.",
         },
         {
           question: "¿Qué se practica en Excel?",
@@ -2354,7 +2354,7 @@ const hybridEnglishProgram = {
         eyebrow: "Encuentros y apoyo remoto",
         title: "Confirma la combinación que realmente está activa.",
         text:
-          "La disponibilidad depende del grupo, la sede, el nivel y el horario; no asumimos una alternancia automática.",
+          "La combinación de encuentros presenciales y remotos depende del grupo, la sede, el nivel y el horario. Consulta cómo se organiza tu grupo.",
         formatsLabel: "Claves de la ruta híbrida",
         scheduleLabel: "Bloques publicados",
         actionLabel: "Confirmar mi combinación",

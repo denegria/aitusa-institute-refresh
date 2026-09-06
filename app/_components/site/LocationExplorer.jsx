@@ -12,19 +12,16 @@ const mapFocus = {
   "north-plainfield": { x: 80, y: 30, targetX: 78, targetY: 50, scale: 2.05 },
 };
 
-function MapPin({ location, index, selected, onSelect }) {
+function MapPin({ location, index, selected }) {
   const id = location.mapKey || `location-${index + 1}`;
   return (
-    <button
+    <span
       className={`real-map-pin real-map-pin--${id}${selected ? " is-active" : ""}`}
-      type="button"
-      aria-label={`Enfocar ${location.city} en el mapa`}
-      aria-pressed={selected}
-      onClick={() => onSelect(index, true)}
+      aria-hidden="true"
     >
       <i data-lucide="map-pin" aria-hidden="true" />
       <strong>{String(index + 1).padStart(2, "0")}</strong>
-    </button>
+    </span>
   );
 }
 
@@ -151,6 +148,13 @@ export function LocationExplorer({ locations, hours, hoursTitle, hoursEyebrow = 
   return (
     <div className="location-explorer">
       <div className="real-map-card">
+        <label className="location-selector">
+          Elige una sede para ver su dirección
+          <select value={selectedIndex === null ? "" : selectedIndex} onChange={(event) => selectLocation(Number(event.target.value), true)}>
+            <option value="" disabled>Ver todas las sedes</option>
+            {locations.map((location, index) => <option key={location.mapKey} value={index}>{location.city}{location.status === "limited" ? " · Con cita" : location.status === "headquarters" ? " · Administrativo" : ""}</option>)}
+          </select>
+        </label>
         <div className="real-map-card__frame" data-map-focused={focus ? "true" : "false"}>
           <div className="real-map-card__stage" style={{ transform: stageTransform }}>
             <Image
@@ -160,14 +164,13 @@ export function LocationExplorer({ locations, hours, hoursTitle, hoursEyebrow = 
               fill
               sizes="(max-width: 1040px) calc(100vw - 28px), 50vw"
             />
-            <div className="real-map-card__pins" aria-label="Sedes marcadas en el mapa">
+            <div className="real-map-card__pins" aria-hidden="true">
               {locations.map((location, index) => mapFocus[location.mapKey] ? (
                 <MapPin
                   key={location.mapKey}
                   location={location}
                   index={index}
                   selected={selectedIndex === index}
-                  onSelect={selectLocation}
                 />
               ) : null)}
             </div>
@@ -225,6 +228,13 @@ export function LocationExplorer({ locations, hours, hoursTitle, hoursEyebrow = 
             />
           ))}
         </div>
+        {selectedLocation && selectedLocation.mapKey !== "bound-brook" ? (
+          <section className="location-selected-hours" aria-labelledby="selected-hours-title">
+            <h3 id="selected-hours-title">Horario en {selectedLocation.city.split(",")[0]}</h3>
+            <p>Consulta el horario de atención y la disponibilidad de esta ubicación antes de visitarla.</p>
+            <a href={`${whatsappHref}?text=${encodeURIComponent(`Hola AIT USA, quiero confirmar el horario de atención en ${selectedLocation.city}.`)}`} target="_blank" rel="noreferrer">Confirmar por WhatsApp</a>
+          </section>
+        ) : (
         <section className="location-hours-panel" aria-labelledby="location-hours-title">
           <div className="location-hours-panel__header">
             <span className="location-hours-panel__heading">
@@ -239,6 +249,7 @@ export function LocationExplorer({ locations, hours, hoursTitle, hoursEyebrow = 
             <ul>{hours.map((group) => <ScheduleGroup key={group.label} group={group} />)}</ul>
           </div>
         </section>
+        )}
       </div>
     </div>
   );

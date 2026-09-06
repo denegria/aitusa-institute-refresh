@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
+import { admissionContext, admissionMessage, admissionOptions } from "../../src/admissions.js";
+import { courseInquiryHref } from "../../src/courseDiscovery.js";
 import {
   CONTACT_PERMISSION_COPY_ES,
   SMS_CONSENT_COPY_ES,
@@ -10,20 +12,12 @@ import {
 } from "../../src/legal/publicLegalContent.js";
 import styles from "./public.module.css";
 
-const interests = [
-  ["ingles-presencial", "Inglés presencial"],
-  ["ingles-hibrido", "Inglés híbrido"],
-  ["ingles-online", "Inglés online"],
-  ["ged", "GED"],
-  ["computacion", "Computación"],
-  ["otro", "Otro"],
-];
-
-export function ContactForm() {
+export function ContactForm({ courseSlug = "orientacion" }) {
   const startedAt = useRef(new Date().toISOString());
   const submissionId = useRef(globalThis.crypto?.randomUUID?.() || `contact-${Date.now()}`);
   const phoneRef = useRef(null);
   const emailRef = useRef(null);
+  const [selectedCourse, setSelectedCourse] = useState(admissionContext(courseSlug).slug);
   const [status, setStatus] = useState({ state: "idle", message: "", href: "" });
 
   async function handleSubmit(event) {
@@ -50,7 +44,7 @@ export function ContactForm() {
       return;
     }
 
-    setStatus({ state: "submitting", message: "Preparando tu solicitud de forma segura…", href: "" });
+    setStatus({ state: "submitting", message: "Enviando tu solicitud…", href: "" });
 
     const submittedAt = new Date().toISOString();
     const payload = {
@@ -61,10 +55,10 @@ export function ContactForm() {
         phone,
         email,
         city: String(data.get("city") || "").trim(),
-        interest: String(data.get("interest") || "").trim(),
+        interest: admissionContext(data.get("course")).interest,
         preferredMode: String(data.get("preferredMode") || "").trim(),
         preferredSchedule: String(data.get("preferredSchedule") || "").trim(),
-        message: String(data.get("message") || "").trim(),
+        message: admissionMessage(data.get("course"), data.get("message") || ""),
       },
       source: {
         path: "/contactanos",
@@ -108,15 +102,24 @@ export function ContactForm() {
       setStatus({
         state: "error",
         message:
-          "No pudimos preparar el mensaje. Puedes escribir directamente por WhatsApp o llamarnos.",
-        href: "https://wa.me/17323790593",
+          "No pudimos confirmar la recepción de tu solicitud. Reintenta o escríbenos por WhatsApp.",
+        href: courseInquiryHref("https://wa.me/17323790593", admissionContext(data.get("course")).title),
       });
     }
   }
 
   return (
-    <form className={styles.contactForm} data-lead-form onSubmit={handleSubmit} noValidate={false}>
+    <form className={styles.contactForm} data-lead-form onSubmit={handleSubmit} aria-busy={status.state === "submitting"}>
+      <h2>Solicitar orientación</h2>
+      <p id="contact-method-hint" className={styles.formHint}>Deja tu nombre y un teléfono o correo electrónico. Te ayudaremos a confirmar curso, costo y disponibilidad.</p>
       <div className={styles.formGrid}>
+        <label className={styles.fullField}>
+          Curso de interés
+          <select name="course" required value={selectedCourse} onChange={(event) => setSelectedCourse(event.target.value)}>
+            {admissionOptions.map(({ slug, title }) => <option value={slug} key={slug}>{title}</option>)}
+            <option value="orientacion">Necesito ayuda para elegir</option>
+          </select>
+        </label>
         <label>
           Nombre completo
           <input name="name" autoComplete="name" required />
@@ -128,6 +131,7 @@ export function ContactForm() {
             name="email"
             type="email"
             autoComplete="email"
+            aria-describedby="contact-method-hint"
             onInput={(event) => {
               event.currentTarget.setCustomValidity("");
               phoneRef.current?.setCustomValidity("");
@@ -142,6 +146,7 @@ export function ContactForm() {
             type="tel"
             inputMode="tel"
             autoComplete="tel"
+            aria-describedby="contact-method-hint"
             onInput={(event) => {
               event.currentTarget.setCustomValidity("");
               emailRef.current?.setCustomValidity("");
@@ -149,16 +154,13 @@ export function ContactForm() {
           />
           <small>No recibirás SMS promocionales salvo que marques la casilla separada.</small>
         </label>
+      </div>
+      <details className={styles.optionalDetails}>
+        <summary>Añadir ubicación, modalidad o una pregunta (opcional)</summary>
+        <div className={styles.formGrid}>
         <label>
           Ciudad / País <span className={styles.optional}>(opcional)</span>
           <input name="city" autoComplete="address-level2" />
-        </label>
-        <label>
-          Programa de interés
-          <select name="interest" required defaultValue="">
-            <option value="" disabled>Selecciona una opción</option>
-            {interests.map(([value, label]) => <option value={value} key={value}>{label}</option>)}
-          </select>
         </label>
         <label>
           Modalidad preferida <span className={styles.optional}>(opcional)</span>
@@ -171,9 +173,10 @@ export function ContactForm() {
         </label>
         <label className={styles.fullField}>
           Horario o pregunta <span className={styles.optional}>(opcional)</span>
-          <textarea name="message" rows="4" maxLength="800" />
+          <textarea name="message" rows="4" maxLength={799 - admissionMessage(selectedCourse).length} />
         </label>
       </div>
+      </details>
 
       <label className={styles.honeypot} aria-hidden="true">
         Sitio web de empresa
@@ -207,7 +210,7 @@ export function ContactForm() {
       </fieldset>
 
       <button className={styles.primaryButton} type="submit" disabled={status.state === "submitting"}>
-        {status.state === "submitting" ? "Preparando…" : "Preparar conversación con un asesor"}
+        {status.state === "submitting" ? "Enviando…" : "Solicitar orientación"}
       </button>
 
       <div className={styles.formStatus} data-state={status.state} aria-live="polite">

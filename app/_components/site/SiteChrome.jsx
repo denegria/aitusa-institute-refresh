@@ -6,6 +6,8 @@ import { site } from "../../../src/content";
 const primaryNavigation = [
   { label: "Inicio", href: "/", page: "home" },
   { label: "Cursos", href: "/cursos/", page: "courses" },
+  { label: "Sedes", href: "/#sedes", page: "locations" },
+  { label: "Orientación", href: "/contactanos/", page: "contact" },
   { label: "Examen de nivel", href: "/placement-test/", page: "placement" },
 ];
 

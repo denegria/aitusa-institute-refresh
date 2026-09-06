@@ -264,7 +264,7 @@ function IntroScreen({ busy, error, resumeSnapshot, onStart, onResume }) {
         <>
           <div className="diagnostic-intro__resume-copy">
             <p className="eyebrow-chip">Progreso guardado</p>
-            <h2>Continúa tu prueba</h2>
+            <h1>Continúa tu prueba de inglés</h1>
             <p className="diagnostic-lead">
               Encontramos tu progreso guardado. Continúa donde quedaste o empieza de nuevo.
             </p>
@@ -281,11 +281,12 @@ function IntroScreen({ busy, error, resumeSnapshot, onStart, onResume }) {
       ) : (
         <>
           <div>
-            <h2>Descubre tu punto de partida</h2>
+            <h1>Prueba de nivel de inglés</h1>
             <p className="diagnostic-lead">
               Completa 62 preguntas a tu ritmo. Puedes omitir preguntas y
               revisar tus respuestas antes de terminar.
             </p>
+            <p className="diagnostic-intro__expectations">Para ver tu resultado, al terminar se te pedirá verificar un correo y guardarlo en una cuenta. Un asesor confirma tu nivel antes de la inscripción. También puedes <a href="/contactanos/">pedir orientación sin hacer la prueba</a>.</p>
           </div>
           <div className="diagnostic-intro__actions">
             <button

@@ -78,6 +78,6 @@ export const courseComparison = {
 
 export function courseInquiryHref(baseHref, title) {
   const url = new URL(baseHref);
-  url.searchParams.set("text", `Hola AIT USA, quiero orientación sobre ${title}. Quisiera confirmar duración, requisitos, modalidad, sede y horario disponibles.`);
+  url.searchParams.set("text", `Hola AIT USA, quiero orientación sobre ${title}. Quisiera confirmar costo, duración, requisitos, materiales, modalidad, sede y próximo grupo disponible.`);
   return url.toString();
 }
