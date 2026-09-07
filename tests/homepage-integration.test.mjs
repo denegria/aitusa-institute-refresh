@@ -32,7 +32,8 @@ describe("homepage React integration", () => {
     assert.ok(offerings > studyGoals);
     assert.ok(locations > offerings);
     assert.ok(method > locations);
-    assert.ok(books > proof);
+    assert.ok(books > method);
+    assert.ok(books < testimonials);
     assert.ok(faq > books);
     assert.ok(finalCta > faq);
     assert.doesNotMatch(page, /dangerouslySetInnerHTML[\s\S]*legacy|src\/main\.js/);

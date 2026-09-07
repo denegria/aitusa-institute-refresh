@@ -240,9 +240,8 @@ export function ProofStories() {
   const [hoverPaused, setHoverPaused] = useState(false);
   const [focusPaused, setFocusPaused] = useState(false);
   const [interactionPaused, setInteractionPaused] = useState(false);
-  const [manuallyPaused, setManuallyPaused] = useState(false);
+  const [manuallyPaused, setManuallyPaused] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [showAllGraduations, setShowAllGraduations] = useState(false);
 
   const tabMeta = {
     graduations: {
@@ -272,15 +271,6 @@ export function ProofStories() {
   }).filter((item) => item.photo);
   const lightboxPhotos = communityGallery[lightboxTab] || communityGallery.graduations;
   const activePhoto = lightboxPhotos[activePhotoIndex] || lightboxPhotos[0];
-  const featuredGraduationIds = ["0031", "0022", "0033", "0028"];
-  const graduationWall = showAllGraduations
-    ? communityGallery.graduations.map((photo, index) => ({ photo, index }))
-    : featuredGraduationIds
-        .map((id) => {
-          const index = communityGallery.graduations.findIndex((photo) => photo.id === id);
-          return { photo: communityGallery.graduations[index], index };
-        })
-        .filter(({ photo }) => photo);
 
   const pauseAfterInteraction = () => {
     setInteractionPaused(true);
@@ -345,7 +335,7 @@ export function ProofStories() {
 
   useEffect(() => {
     window.lucide?.createIcons?.();
-  }, [activePhotoIndex, activeTab, mediaCycleIndex, showAllGraduations]);
+  }, [activePhotoIndex, activeTab, mediaCycleIndex]);
 
   useEffect(
     () => () => {
@@ -444,11 +434,6 @@ export function ProofStories() {
           ))}
         </div>
 
-        {!prefersReducedMotion ? (
-          <button className="community-pause" type="button" aria-pressed={manuallyPaused} onClick={() => setManuallyPaused((paused) => !paused)}>
-            {manuallyPaused ? "Reanudar galería automática" : "Pausar galería automática"}
-          </button>
-        ) : <p className="community-pause-note">Galería sin avance automático. Elige una categoría para explorar.</p>}
         <div
           className="community-proof__stage"
           id="community-proof-panel"
@@ -523,48 +508,17 @@ export function ProofStories() {
           </aside>
         ) : null}
 
-        <section className="community-proof__graduations" aria-labelledby="graduation-wall-title" style={{ "--reveal-order": 3 }}>
-          <div className="community-proof__graduation-heading">
-            <h3 id="graduation-wall-title">Graduaciones recientes</h3>
-          </div>
-
-          <div className={`community-proof__wall${showAllGraduations ? " is-expanded" : ""}`}>
-            {graduationWall.map(({ photo, index }) => (
-              <button
-                className="community-proof__wall-tile"
-                type="button"
-                key={photo.id}
-                style={{ "--tile-order": index }}
-                onClick={(event) => {
-                  const trigger = event.currentTarget;
-                  selectTab("graduations");
-                  setActivePhotoIndex(index);
-                  window.requestAnimationFrame(() => openPhoto(index, trigger, "graduations"));
-                }}
-                aria-label={`Ampliar: ${photo.alt}`}
-              >
-                <Image
-                  src={photo.src}
-                  alt=""
-                  fill
-                  className={communityPhotoClassName(photo)}
-                  sizes="(max-width: 719px) 50vw, (max-width: 1040px) 25vw, 17vw"
-                  style={{ objectPosition: photo.position }}
-                />
-              </button>
-            ))}
-          </div>
-
-          <button
-            className="community-proof__graduation-action"
-            type="button"
-            aria-expanded={showAllGraduations}
-            onClick={() => setShowAllGraduations((value) => !value)}
-          >
-            <span>{showAllGraduations ? "Ver graduaciones destacadas" : "Ver todas las graduaciones recientes"}</span>
-            <i data-lucide={showAllGraduations ? "arrow-up" : "arrow-right"} aria-hidden="true" />
+        <div className="community-proof__toolbar">
+          <button className="home-secondary-button" type="button" onClick={(event) => openPhoto(0, event.currentTarget)}>
+            Ver las {photosForTab.length} fotografías de {tabMeta[activeTab].eyebrow.toLowerCase()}
+            <i data-lucide="arrow-right" aria-hidden="true" />
           </button>
-        </section>
+          {!prefersReducedMotion ? (
+            <button className="community-pause" type="button" aria-pressed={!manuallyPaused} onClick={() => setManuallyPaused((paused) => !paused)}>
+              {manuallyPaused ? "Activar avance automático" : "Pausar avance automático"}
+            </button>
+          ) : <p className="community-pause-note">Galería sin avance automático. Elige una categoría para explorar.</p>}
+        </div>
 
         <dialog
           className="community-lightbox"
@@ -595,6 +549,7 @@ export function ProofStories() {
                   <div>
                     <span>{tabMeta[lightboxTab]?.eyebrow || "Experiencia AIT"}</span>
                     <p id="community-lightbox-title">{activePhoto.alt}</p>
+                    <p className="community-lightbox__count" aria-live="polite">Fotografía {activePhotoIndex + 1} de {lightboxPhotos.length}</p>
                   </div>
                   <nav aria-label="Cambiar fotografía">
                     <button type="button" onClick={showPreviousPhoto} aria-label="Fotografía anterior"><i data-lucide="arrow-left" aria-hidden="true" /></button>
@@ -755,7 +710,7 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
           data-callback-dialog-open
           onClick={openDialog}
         >
-          <i data-lucide="phone-call" aria-hidden="true" />
+          <i data-lucide="message-circle" aria-hidden="true" />
           <span>Solicitar orientación</span>
         </button>
       </div>

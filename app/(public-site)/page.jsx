@@ -87,9 +87,9 @@ export default function HomePage() {
         <OfferingPathSection />
         <LocationsSection />
         <MethodSection />
+        <BooksSection />
         <TestimonialsSection />
         <ProofStories />
-        <BooksSection />
         <FaqSection />
         <FinalCtaSection />
       </main>

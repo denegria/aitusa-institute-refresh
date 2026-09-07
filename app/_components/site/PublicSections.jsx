@@ -118,18 +118,7 @@ export function MethodSection() {
             {solutionCharacteristics.map((item) => (
               <li key={item.key}>
                 <span className="method-reason__icon" aria-hidden="true">
-                  {item.iconImage ? (
-                    <img
-                      className="method-reason__icon-image"
-                      src={item.iconImage}
-                      alt=""
-                      width="320"
-                      height="320"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  ) : null}
-                  <i className="method-reason__icon-fallback" data-lucide={item.icon || "circle-check"} />
+                  <i data-lucide={item.icon || "circle-check"} />
                 </span>
                 <div><h4>{item.title}</h4><p>{item.body}</p></div>
               </li>
@@ -137,6 +126,7 @@ export function MethodSection() {
           </ul>
           <MethodVideo narrative={methodNarrative} />
         </section>
+        <a className="home-text-link method-orientation-link" href="#contacto">Encuentra tu curso con orientación de admisiones <span aria-hidden="true">→</span></a>
       </div>
     </section>
   );

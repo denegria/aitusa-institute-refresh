@@ -70,10 +70,10 @@ describe("homepage community gallery", () => {
     assert.match(source, /className="proof-dialog testimonial-dialog"/);
     assert.match(source, /className="community-lightbox"/);
     assert.match(source, /Array\.from\(\{ length: sidePhotoCount \}/);
-    assert.match(source, /featuredGraduationIds = \["0031", "0022", "0033", "0028"\]/);
-    assert.match(source, /communityGallery\.graduations\.findIndex/);
+    assert.match(source, /openPhoto\(0, event\.currentTarget\)/);
+    assert.match(source, /Ver las \{photosForTab.length\} fotografías de/);
     assert.match(source, /communityGallery\.serviceNote/);
-    assert.match(source, /Ver todas las graduaciones recientes/);
+    assert.doesNotMatch(source, /className="community-proof__graduations"/);
     assert.doesNotMatch(source, /community-proof__explore/);
     assert.match(source, /querySelector\("video"\)\?\.pause\(\)/);
     assert.match(source, /triggerRef\.current\?\.focus\(\)/);
@@ -102,6 +102,7 @@ describe("homepage community gallery", () => {
     assert.match(source, /interactionPaused/);
     assert.match(source, /hoverPaused/);
     assert.match(source, /focusPaused/);
+    assert.match(source, /manuallyPaused, setManuallyPaused\] = useState\(true\)/);
     assert.match(styles, /\.community-proof__stage\s*\{[\s\S]*grid-template-columns: minmax\(0, 1\.78fr\) minmax\(250px, 1fr\)/);
     assert.match(styles, /\.community-proof__mosaic\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)[\s\S]*grid-template-rows: repeat\(2, minmax\(0, 1fr\)\)/);
     assert.match(styles, /\.community-proof__mosaic--single\s*\{[\s\S]*grid-template-rows: minmax\(0, 1fr\)/);

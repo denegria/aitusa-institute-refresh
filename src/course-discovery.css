@@ -1,78 +1,4 @@
-/* Prospect journey: preserve AIT's navy, gold and real classroom imagery. */
-.home-page #inicio.prospect-hero .hero__main {
-  height: auto;
-  min-height: max(600px, calc(100svh - 220px));
-  overflow: visible;
-}
-.home-page #inicio.prospect-hero .hero__copy {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 88px 20px 48px clamp(24px, 3.2vw, 46px);
-}
-.home-page #inicio.prospect-hero .hero__title-block {
-  width: 100%;
-  max-width: 540px;
-  padding: 0;
-  transform: none;
-  align-self: auto;
-}
-.home-page #inicio.prospect-hero .hero__kicker { color: #815b16; font-size: .78rem; line-height: 1.5; }
-.home-page #inicio.prospect-hero h1 { margin-top: 16px; font-size: clamp(2.8rem, 4.2vw, 4.6rem); }
-.home-page #inicio.prospect-hero h1 span { white-space: normal; }
-.home-page #inicio.prospect-hero .hero__offer-summary {
-  max-width: 440px;
-  margin: 0;
-  color: #334155;
-  font-size: 1rem;
-  line-height: 1.6;
-}
-.hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
-.hero__help { color: #123f84; font-weight: 700; text-underline-offset: 4px; padding-block: 12px; }
-.home-page #inicio.prospect-hero .hero__modalities {
-  display: flex;
-  flex-wrap: wrap;
-  position: static;
-  align-self: auto;
-  margin: 0;
-  padding: 0;
-  gap: 14px;
-}
-.home-page #inicio.prospect-hero .hero__modalities a { font-size: .83rem; min-height: 44px; padding: 0; color: #123f84; }
-.home-page #inicio.prospect-hero .hero__modalities a + a::before { display: none; }
-.home-page #inicio.prospect-hero .hero__institutional-fact strong { font-size: clamp(1rem, 1.6vw, 1.6rem); white-space: normal; }
-.study-goals {
-  display: grid;
-  align-items: center;
-  min-height: calc(100svh - 88px);
-  padding-block: clamp(56px, 8svh, 96px);
-  background: #f4f7fc;
-}
-.study-goals .section-heading { max-width: 740px; margin-bottom: 36px; }
-.study-goals__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-.study-goal {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 26px 22px;
-  border: 1px solid #cbd5e1;
-  border-top: 3px solid #bd8b2e;
-  border-radius: 12px;
-  background: white;
-  text-decoration: none;
-}
-.study-goal:hover { border-color: #174ea6; background: #fafdff; }
-.study-goal > svg { width: 28px; height: 28px; color: #174ea6; margin-bottom: 22px; }
-.study-goal__label { font-size: .8rem; font-weight: 800; color: #815b16; }
-.study-goal h3 { font-size: 1.25rem; line-height: 1.25; margin: 10px 0; color: #001a3d; }
-.study-goal p { color: #475569; font-size: .94rem; margin: 0 0 24px; }
-.study-goal__cta { margin-top: auto; font-weight: 750; font-size: .88rem; color: #174ea6; }
-.study-goals__notes { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; margin-top: 26px; font-size: .88rem; color: #475569; }
-.study-goals__notes p { margin: 0; }
-.study-goals__notes a { font-weight: 700; color: #174ea6; text-underline-offset: 3px; }
-
+/* Course discovery and catalog presentation. Homepage rules live in homepage.css. */
 .prospect-catalog { min-height: calc(100svh - 88px); }
 .prospect-catalog .course-catalog__intro {
   display: flex;
@@ -118,16 +44,10 @@
 .course-program-hero__copy > .course-quick-facts { margin-top: 24px; }
 .course-program-hero__copy > .final-cta-contact-row { justify-content: flex-start; margin-top: 12px; }
 .placement-effort { display: block; font-size: .88rem; line-height: 1.5; }
-.community-pause { display: block; margin: 12px 0 22px; padding: 10px 16px; min-height: 44px; border: 1px solid #94a3b8; border-radius: 8px; background: white; color: #001a3d; font-weight: 700; font-size: .88rem; }
-.community-pause-note { color: #334155; font-size: .85rem; }
-.home-page .community-proof__tabs { flex-wrap: wrap; overflow-x: visible; }
-.home-page .community-proof__tabs button { white-space: normal; }
-.study-goal:focus-visible, .prospect-catalog :focus-visible, .catalog-guidance :focus-visible, .community-pause:focus-visible { outline: 3px solid #174ea6; outline-offset: 4px; }
+.prospect-catalog :focus-visible, .catalog-guidance :focus-visible { outline: 3px solid #174ea6; outline-offset: 4px; }
 
 @media (max-width: 1040px) {
-  .study-goals__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .prospect-catalog .program-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .home-page #inicio.prospect-hero .hero__copy { padding-top: 86px; }
 }
 @media (max-width: 719px) {
   /* Keep visual order identical to reading/focus order as quick facts are added. */
@@ -137,22 +57,6 @@
   .course-program-hero .course-program-hero__lead { margin-top: 20px; }
   .course-program-hero .course-program-hero__actions { margin-top: 24px; }
   .course-program-hero .course-program-hero__note { margin-top: 16px; text-align: left; }
-  .home-page #inicio.prospect-hero .hero__main { min-height: 0; grid-template-rows: auto auto; }
-  .home-page #inicio.prospect-hero .hero__copy { padding: 80px 20px 24px; gap: 16px; }
-  .home-page #inicio.prospect-hero h1 { font-size: clamp(2.65rem, 11vw, 3.5rem); line-height: 1.04; }
-  .home-page #inicio.prospect-hero .hero__kicker { font-size: .73rem; }
-  .home-page #inicio.prospect-hero .hero__offer-summary { font-size: .95rem; }
-  .home-page #inicio.prospect-hero .hero__actions { gap: 14px; }
-  .home-page #inicio.prospect-hero .hero__modalities { gap: 20px; }
-  .home-page #inicio.prospect-hero .hero__visual { min-height: 280px; height: 36svh; }
-  .home-page #inicio.prospect-hero .hero__institutional-inner { min-height: 152px; }
-  .home-page #inicio.prospect-hero .hero__institutional-fact { min-height: 76px; }
-  .study-goals { padding-block: 48px; }
-  .study-goals__grid { grid-template-columns: 1fr; gap: 12px; }
-  .study-goal { padding: 22px; }
-  .study-goal > svg { margin-bottom: 14px; }
-  .study-goal p { margin-bottom: 18px; }
-  .study-goals__notes { grid-template-columns: 1fr; gap: 20px; }
   .prospect-catalog .course-catalog__intro { gap: 8px; margin-bottom: 20px; }
   .prospect-catalog .course-catalog__intro-copy h1 { font-size: 2.1rem; }
   .prospect-catalog .catalog-tabs { flex-wrap: wrap; overflow-x: visible; border-radius: 12px; }
