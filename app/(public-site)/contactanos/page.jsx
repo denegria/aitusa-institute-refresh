@@ -23,8 +23,9 @@ export default async function ContactPage({ searchParams }) {
             <p className={styles.eyebrow}>Orientación de admisiones</p>
             <h1>Encuentra tu próximo paso.</h1>
             <p>
-              Te ayudamos a elegir curso, revisar tu punto de partida y confirmar costo, sede y horario antes de inscribirte.
+              Confirma tu curso, costo y horario con un asesor antes de inscribirte.
             </p>
+            <a className={styles.formJump} href="#solicitar-orientacion">Completar el formulario <span aria-hidden="true">↓</span></a>
             <ul className={styles.trustList}>
               <li>Compara las opciones que encajan con tu objetivo.</li>
               <li>Consulta requisitos, materiales y grupos disponibles.</li>

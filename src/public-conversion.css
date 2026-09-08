@@ -57,3 +57,16 @@
   .site-header .brand { flex: 0 0 auto; }
   .course-decision-nav a { width: 100%; }
 }
+
+/* Shared acquisition controls; keep portal buttons outside this scope. */
+:is(.course-program-page, .prospect-catalog, .catalog-guidance) .button {
+  min-height: 48px; padding: 12px 20px; border-radius: 8px;
+  box-shadow: none; transform: none; font-size: 1rem; line-height: 1.4;
+}
+:is(.course-program-page, .prospect-catalog, .catalog-guidance) .button:hover { transform: none; box-shadow: none; }
+.catalog-guidance { min-height: 0; }
+@media (max-width: 719px) {
+  .course-program-hero .course-program-hero__copy > .course-quick-facts { gap: 10px; margin-block: 16px; }
+  .course-program-hero .course-quick-facts > div { padding-top: 8px; }
+  .course-program-hero .course-program-hero__lead { margin-top: 14px; }
+}

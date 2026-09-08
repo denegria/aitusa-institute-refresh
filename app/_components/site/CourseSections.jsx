@@ -83,8 +83,8 @@ export function CourseCatalog({ initialGroup = allOfferingsKey }) {
             <div className="course-catalog__intro-copy">
               <p className="section-kicker">AIT USA · Catálogo de cursos</p>
               <h1 id="catalog-title">Encuentra el curso para tu objetivo.</h1>
-              <p className="course-catalog__lead">Elige tu objetivo, compara los cursos y confirma tu grupo con admisiones.</p>
-              <p className="catalog-location-note">Inglés presencial en Nueva Jersey y opciones online. La sede, el horario y el cupo se confirman para cada programa.</p>
+              <p className="course-catalog__lead">Compara cursos y encuentra tu próximo paso.</p>
+              <p className="catalog-location-note">Inglés en Nueva Jersey y online. Confirma sede, horario y cupo con admisiones.</p>
             </div>
             <a className="catalog-help-link" href="#orientacion-catalogo">¿Necesitas ayuda para elegir? ↓</a>
           </header>

@@ -109,9 +109,9 @@ export function ContactForm({ courseSlug = "orientacion" }) {
   }
 
   return (
-    <form className={styles.contactForm} data-lead-form onSubmit={handleSubmit} aria-busy={status.state === "submitting"}>
+    <form id="solicitar-orientacion" tabIndex={-1} className={styles.contactForm} data-lead-form onSubmit={handleSubmit} aria-busy={status.state === "submitting"}>
       <h2>Solicitar orientación</h2>
-      <p id="contact-method-hint" className={styles.formHint}>Deja tu nombre y un teléfono o correo electrónico. Te ayudaremos a confirmar curso, costo y disponibilidad.</p>
+      <p id="contact-method-hint" className={styles.formHint}>Deja tu nombre y al menos una forma de contacto: correo electrónico o teléfono. No necesitas completar ambos.</p>
       <div className={styles.formGrid}>
         <label className={styles.fullField}>
           Curso de interés
@@ -125,7 +125,7 @@ export function ContactForm({ courseSlug = "orientacion" }) {
           <input name="name" autoComplete="name" required />
         </label>
         <label>
-          Correo electrónico
+          Correo electrónico <span className={styles.optional}>(si prefieres correo)</span>
           <input
             ref={emailRef}
             name="email"
@@ -139,7 +139,7 @@ export function ContactForm({ courseSlug = "orientacion" }) {
           />
         </label>
         <label>
-          Teléfono móvil <span className={styles.optional}>(opcional)</span>
+          Teléfono móvil <span className={styles.optional}>(si prefieres teléfono)</span>
           <input
             ref={phoneRef}
             name="phone"

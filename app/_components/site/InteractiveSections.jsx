@@ -126,6 +126,7 @@ export function TestimonialsSection() {
           {orderedStories.map((story, index) => (
             <button
               className="testimonial-card"
+              id={story.name === "Eric" ? "testimonio-eric" : undefined}
               type="button"
               key={story.video}
               onClick={(event) => openStory(index, event.currentTarget)}

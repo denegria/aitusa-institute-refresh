@@ -9,7 +9,9 @@ import {
   productOfferings,
   site,
   solutionCharacteristics,
+  testimonials,
 } from "../../../src/content";
+import Image from "next/image";
 import { CallbackDialog, FaqList, MethodVideo } from "./InteractiveSections";
 import { LocationExplorer } from "./LocationExplorer";
 import Link from "next/link";
@@ -161,6 +163,25 @@ export function StudyGoalsSection() {
   );
 }
 
+export function LearnerProofPreview() {
+  const story = testimonials.find((item) => item.name === "Eric");
+  if (!story) return null;
+  return (
+    <aside className="learner-proof" aria-labelledby="learner-proof-title">
+      <div className="section-inner learner-proof__inner">
+        <Image src={story.videoPoster} alt={story.imageAlt} width={144} height={160}
+          sizes="(max-width: 719px) 96px, 144px" style={{ objectPosition: story.posterPosition }} />
+        <div>
+          <p className="section-kicker">La experiencia de un estudiante</p>
+          <h2 id="learner-proof-title">Conoce a {story.name}.</h2>
+          <p>{story.headline}</p>
+          <a className="home-text-link" href="#testimonio-eric">Ver su entrevista en inglés · {story.duration} <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
 const supportingPrograms = [
   {
     label: "GED",
@@ -206,10 +227,10 @@ export function OfferingPathSection() {
       <div className="section-inner offer-path">
         <div className="section-heading section-heading--framed">
           <p className="section-kicker">Presencial, híbrido u online</p>
-          <h2>¿Cómo quieres estudiar?</h2>
+          <h2>¿Cómo quieres estudiar inglés?</h2>
           <p className="offer-path__intro">
             <span className="offer-path__intro-full">
-              Compara las clases presenciales, híbridas y online para elegir cómo quieres estudiar.
+              Compara las clases de inglés presenciales, híbridas y online.
             </span>
             <span className="offer-path__intro-compact">
               Compara presencial, híbrido y online.
