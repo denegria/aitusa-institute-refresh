@@ -106,6 +106,7 @@ try {
   const surfaces = [
     { name: "homepage", pathname: "/", selector: "main h1", anchor: null },
     { name: "method", pathname: "/#metodo", selector: "#metodo", anchor: "#metodo" },
+    { name: "faq", pathname: "/#faq", selector: "#faq", anchor: "#faq" },
     { name: "catalog", pathname: "/cursos/", selector: "#catalog-title", anchor: null },
     { name: "catalog-computing", pathname: "/cursos/?grupo=digital-technical", selector: "#catalog-subgroup-digital-technical", anchor: null },
     { name: "course-office", pathname: "/cursos/computacion-oficina/?grupo=digital-technical", selector: "#course-program-title", anchor: null },
@@ -167,6 +168,22 @@ try {
       }
       if (surface.name === "homepage" && layout.portalLink !== "/portal/sign-in/") {
         throw new Error(`homepage portal entry is missing or incorrect: ${layout.portalLink}`);
+      }
+
+      if (surface.name === "faq") {
+        const faqLayout = await evaluate(`(() => {
+          const heading = document.querySelector('#faq .section-heading').getBoundingClientRect();
+          const list = document.querySelector('#faq .faq-list').getBoundingClientRect();
+          return { overlaps: heading.left < list.right && heading.right > list.left && heading.top < list.bottom && heading.bottom > list.top };
+        })()`);
+        if (faqLayout.overlaps) throw new Error(`FAQ heading overlaps questions on ${viewport.name}`);
+        await evaluate(`document.querySelector('#faq summary').click()`);
+        await sleep(150);
+        const expandedFaq = await evaluate(`(() => {
+          const [first, next] = document.querySelectorAll('#faq details');
+          return { open: first.open, separated: next.getBoundingClientRect().top >= first.getBoundingClientRect().bottom };
+        })()`);
+        if (!expandedFaq.open || !expandedFaq.separated) throw new Error(`FAQ expansion layout failed on ${viewport.name}`);
       }
 
       if (surface.name === "catalog-computing") {

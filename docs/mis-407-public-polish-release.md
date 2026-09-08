@@ -48,3 +48,15 @@ The deployed student preview's long link wrapped the duration and detached its a
 - Fresh proof screenshots reviewed at 320, 390, 768, 1024 and 1440px. The action fits cleanly at narrow widths.
 - Live baseline: workspace `artifacts/aitusa-review-20260908/live-before/`; final local candidate: `final-proof-local/`, `live-polish-local-release/`, `live-polish-validate.log`.
 - Staging push remains authorized; production remains untouched and unapproved.
+
+## User-reported corrections (Telegram 21417)
+
+The earlier broad visual acceptance missed the mobile FAQ overlap and removed question separators; the neutral Spain announcement also lost the approved production character.
+
+- FAQ: clear the inherited `top: 118px` offset by returning its heading to static flow. Heading and accordion cards no longer overlap.
+- Three-question transition: restore gold vertical separators on desktop and horizontal separators on mobile, with deliberate spacing.
+- Spain: remove the refresh overrides and reuse production's navy/blue/gold gradient, gold eyebrow, light announcement text and decorative pulse/orbit, including existing reduced-motion handling. Hero course/admissions improvements remain intact.
+- Add the FAQ to the maintained desktop/mobile release suite, checking heading/list intersection and expanded-answer separation. Required suite now captures 40 surfaces.
+- Full validation passed: 357 tests, asset/repository gates and production build. All 40 release checks passed. Focused checks at 320/390/430/768/1024/1440 passed for banner fit, question separators, FAQ heading layout and answer expansion (24 screenshots).
+- Reference: actual live production banner and actual staging before-fix captures. Workspace evidence: `artifacts/aitusa-review-20260908/corrections-prod-banner/`, `corrections-before/`, `corrections-local/`, `corrections-release-local/`, `corrections-validate.log`.
+- Final Git-triggered staging deployment/live evidence recorded on MIS-407. Production remains excluded. No form/provider/CRM writes or auth changes.
