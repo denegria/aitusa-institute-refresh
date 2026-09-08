@@ -175,7 +175,8 @@ export function LearnerProofPreview() {
           <p className="section-kicker">La experiencia de un estudiante</p>
           <h2 id="learner-proof-title">Conoce a {story.name}.</h2>
           <p>{story.headline}</p>
-          <a className="home-text-link" href="#testimonio-eric">Ver su entrevista en inglés · {story.duration} <span aria-hidden="true">→</span></a>
+          <p className="learner-proof__meta">En inglés · {story.duration}</p>
+          <a className="home-text-link" href="#testimonio-eric">Ver entrevista <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </aside>

@@ -368,6 +368,7 @@
 #main-content.home-page .learner-proof h2 { font-size: 1.75rem; margin: 8px 0; line-height: 1.15; }
 #main-content.home-page .learner-proof p { margin: 0; max-width: 620px; color: var(--home-muted); }
 #main-content.home-page .learner-proof .section-kicker { color: var(--home-gold-text); font-size: .75rem; }
+#main-content.home-page .learner-proof .learner-proof__meta { margin-top: 8px; font-size: .8125rem; }
 #main-content.home-page .learner-proof .home-text-link { margin-top: 4px; }
 #main-content.home-page #testimonio-eric { scroll-margin-top: 12px; }
 @media (max-width: 719px) {

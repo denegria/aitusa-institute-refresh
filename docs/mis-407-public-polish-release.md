@@ -36,5 +36,15 @@ Compared with pre-polish staging at the same desktop/mobile sizes:
 
 - Deployment URL: https://aitusa-institute-refresh-git-staging-alvaros-projects-efb8ae58.vercel.app/
 - Exact final SHA, CI and READY receipt: recorded on MIS-407 after Git-triggered deployment.
-- Current staging browser access redirects to Vercel login; no protection/auth configuration changed. Local screenshots are not full live QA. Retain candidate worktree while live browser QA is blocked.
+- Initial browser access redirected to Vercel login. Follow-up live review obtained temporary Vercel share access without changing protection/auth configuration. The 20 live route/viewports had no horizontal overflow or broken images; live proof/form keyboard shortcuts passed at 390 and 1440px. Final post-deploy live receipt is recorded on MIS-407.
 - Sentry status: no separate Sentry scan or production monitoring certification; local browser runtime exception checks passed. No student/lead data captured.
+
+## Live-review follow-up (Telegram 21412)
+
+The deployed student preview's long link wrapped the duration and detached its arrow on mobile. Separate the existing language/duration metadata from the shorter “Ver entrevista” action. No content facts, media, navigation target or application logic changed.
+
+- `npm run validate`: 357 tests and production build passed again.
+- `npm run verify:release-surfaces`: 38 local production-build screenshots/checks passed again.
+- Fresh proof screenshots reviewed at 320, 390, 768, 1024 and 1440px. The action fits cleanly at narrow widths.
+- Live baseline: workspace `artifacts/aitusa-review-20260908/live-before/`; final local candidate: `final-proof-local/`, `live-polish-local-release/`, `live-polish-validate.log`.
+- Staging push remains authorized; production remains untouched and unapproved.
