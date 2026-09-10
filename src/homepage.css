@@ -124,20 +124,6 @@
   & :is(.home-text-link, .hero__help) { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding-block: 10px; color: var(--home-blue); font-weight: 700; text-underline-offset: 5px; }
   & :is(a, button, select, summary, input):focus-visible { outline: 3px solid var(--home-blue); outline-offset: 4px; }
 
-  /* Preserve the approved hero media and production Spain announcement. */
-  & #inicio.prospect-hero .hero__main { height: auto; min-height: max(600px, calc(100svh - 220px)); grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; background: white; }
-  & #inicio.prospect-hero .hero__copy { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 24px; padding: 88px 24px 48px max(var(--home-gutter), calc((100vw - var(--home-width)) / 2)); }
-  & #inicio.prospect-hero .hero__title-block { width: 100%; max-width: 550px; padding: 0; transform: none; align-self: auto; }
-  & #inicio.prospect-hero h1 { margin: 14px 0 0; font-size: clamp(2.75rem, 4.3vw, 4rem); line-height: 1.06; letter-spacing: -.04em; }
-  & #inicio.prospect-hero h1 span { white-space: normal; }
-  & #inicio.prospect-hero .hero__kicker { color: var(--home-gold-text); font-size: .8125rem; line-height: 1.5; }
-  & #inicio.prospect-hero .hero__offer-summary { max-width: 440px; margin: 0; color: var(--home-muted); font-size: 1rem; line-height: 1.65; }
-  & #inicio .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
-  & #inicio.prospect-hero .hero__modalities { display: flex; flex-wrap: wrap; position: static; align-self: auto; width: auto; margin: 0; padding: 0; gap: 20px; background: transparent; }
-  & #inicio.prospect-hero .hero__modalities a { font-size: .875rem; min-height: 44px; padding: 0; color: var(--home-blue); }
-  & #inicio.prospect-hero .hero__modalities a + a::before { display: none; }
-  & #inicio .hero__institutional-inner { width: min(var(--home-width), calc(100% - var(--home-gutter) * 2)); }
-  & #inicio.prospect-hero .hero__institutional-fact strong { font-size: clamp(1rem, 1.6vw, 1.5rem); white-space: normal; }
 
   /* Decision cards share spacing, typography and action affordances. */
   & #elige-tu-curso { background: var(--home-soft); }
@@ -277,10 +263,6 @@
   #main-content.home-page {
     --home-gutter: 24px;
     & .study-goals__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    & #inicio.prospect-hero .hero__main { grid-template-columns: 1fr; grid-template-rows: auto auto; min-height: 0; }
-    & #inicio.prospect-hero .hero__copy { grid-column: 1; grid-row: 1; padding: 94px 24px 32px; }
-    & #inicio.prospect-hero .hero__title-block { max-width: 650px; }
-    & #inicio.prospect-hero .hero__visual { grid-column: 1; grid-row: 2; min-height: 320px; height: 40svh; max-height: 440px; }
     & #cursos .offer-node { padding: 24px; }
     & #metodo .method-story__community-inner { grid-template-columns: 1fr; gap: 24px; }
     & #metodo .method-story__conclusion { gap: 24px 40px; }
@@ -295,16 +277,6 @@
     --home-chapter-space: 40px;
     & > :is(#elige-tu-curso, #cursos, #sedes, #metodo, #testimonios, #experiencia, #faq, #contacto) { min-height: 0; }
     & :is(#elige-tu-curso, #cursos, #sedes, #metodo, #testimonios, #experiencia, #libros, #faq, #contacto) :is(.section-heading, .community-proof__heading) { margin-bottom: 28px; }
-    & #inicio.prospect-hero .hero__main { min-height: 0; grid-template-columns: 1fr; grid-template-rows: auto auto; }
-    & #inicio.prospect-hero .hero__copy { padding: 72px 20px 24px; gap: 18px; }
-    & #inicio.prospect-hero h1 { font-size: clamp(2.5rem, 11vw, 2.75rem); }
-    & #inicio.prospect-hero .hero__headline-emphasis { margin-top: 8px; font-size: .78em; line-height: 1.15; }
-    & #inicio .hero__actions { width: 100%; gap: 8px; }
-    & #inicio :is(.button, .hero__help) { width: 100%; justify-content: center; }
-    & #inicio.prospect-hero .hero__modalities { width: 100%; justify-content: space-between; gap: 12px; }
-    & #inicio.prospect-hero .hero__visual { min-height: 280px; height: 36svh; }
-    & #inicio .hero__institutional-inner { width: 100%; min-height: 152px; }
-    & #inicio.prospect-hero .hero__institutional-fact { min-height: 76px; padding-inline: 16px; }
     & .study-goals__grid { grid-template-columns: 1fr; gap: 12px; }
     & .study-goal { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 6px 12px; padding: 16px; }
     & .study-goal > svg { grid-column: 1; margin: 0; width: 24px; height: 24px; }

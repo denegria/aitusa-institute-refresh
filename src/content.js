@@ -134,6 +134,7 @@ const site = {
     approvedHero: "/assets/hero/approved-concept-1-clean.png",
     approvedHeroDesktop: "/assets/hero/approved-concept-1-soft-fade-2k.png",
     approvedHeroMobile: "/assets/hero/approved-concept-1-classroom.png",
+    classroomHero: "/assets/hero/approved-classroom.webp",
     hero: assetHires("graphic-concept-method.jpg"),
     heroPoster: assetHires("graphic-concept-method.jpg"),
     heroVideo: assetVideo("intro-video-great.mp4"),
@@ -3003,10 +3004,10 @@ const faqs = [
 ];
 
 const painHero = {
-  eyebrow: "Una escuela de inglés diferente para gente con propósito",
-  headline: "Supera el inglés. Exprésate con confianza.",
-  headlineLead: "Supera el inglés.",
-  headlineEmphasis: "Exprésate con confianza.",
+  eyebrow: "Una escuela de inglés para lo que quieres lograr.",
+  headline: "Tu próximo capítulo, en inglés.",
+  headlineLead: "Tu próximo capítulo,",
+  headlineEmphasis: "en inglés.",
   headlineAccent: "",
 };
 

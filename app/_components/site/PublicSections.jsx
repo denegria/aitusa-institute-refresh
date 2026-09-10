@@ -19,56 +19,40 @@ import { catalogChoices, catalogHref } from "../../../src/courseDiscovery";
 
 export function HeroSection() {
   return (
-    <section className="hero prospect-hero" id="inicio">
-      <div className="hero__main">
-        <aside className="hero__spain-launch" aria-label="AIT USA ya está en España">
-          <span className="hero__spain-launch__pulse" aria-hidden="true" />
-          <span className="hero__spain-launch__copy">
-            <span className="hero__spain-launch__eyebrow">AIT USA sigue creciendo</span>
-            <strong>Nos enorgullece anunciar que AIT USA ya está en España.</strong>
-          </span>
-          <span className="hero__spain-launch__orbit" aria-hidden="true"><span /></span>
-        </aside>
-        <div className="hero__copy">
-          <div className="hero__title-block">
-            <p className="hero__kicker">{painHero.eyebrow || ""}</p>
-            <h1>
-              <span className="hero__headline-lead">{painHero.headlineLead || ""}</span>
-              <span className="hero__headline-emphasis">
-                {painHero.headlineEmphasis || painHero.headline || ""}
-              </span>
-            </h1>
-            {painHero.headlineAccent ? <p className="hero__headline-accent">{painHero.headlineAccent}</p> : null}
-          </div>
-          <p className="hero__offer-summary">Inglés en Nueva Jersey y online. También GED, matemáticas, computación y español.</p>
-          <div className="hero__actions">
-            <Link className="button button--primary" href="/cursos/">Ver cursos <span aria-hidden="true">→</span></Link>
-            <a className="hero__help" href="#contacto">Pedir orientación</a>
-          </div>
-          <nav className="hero__modalities" aria-label="Formatos de inglés">
+    <section className="approved-hero" id="inicio" aria-labelledby="home-hero-title">
+      <aside className="approved-hero__spain" aria-label="AIT USA ya está en España">
+        <span className="approved-hero__spain-location"><i data-lucide="map-pin" aria-hidden="true" />MADRID · ESPAÑA</span>
+        <p>¡Hola, España! Bienvenidos a la familia AIT.</p>
+      </aside>
+      <div className="approved-hero__scene">
+        <div className="approved-hero__copy">
+          <p className="approved-hero__eyebrow">{painHero.eyebrow}</p>
+          <h1 id="home-hero-title">
+            <span>Tu próximo </span><span>capítulo, </span><span>en inglés.</span>
+          </h1>
+          <p className="approved-hero__promise">Para conversar, estudiar y trabajar<br className="approved-hero__desktop-break" /> con más confianza.</p>
+          <p className="approved-hero__location">Inglés en Nueva Jersey y online.</p>
+          <Link className="approved-hero__cta" href="/placement-test/">Conoce tu nivel de inglés <i data-lucide="arrow-right" aria-hidden="true" /></Link>
+          <nav className="approved-hero__modalities" aria-label="Formatos de inglés">
             <a href="/cursos/ingles-jovenes-adultos/"><i data-lucide="users-round" aria-hidden="true" /><span>Presencial</span></a>
             <a href="/cursos/ingles-online-adultos/"><i data-lucide="laptop" aria-hidden="true" /><span>Online</span></a>
             <a href="/cursos/ingles-hibrido-adultos/"><i data-lucide="monitor-smartphone" aria-hidden="true" /><span>Híbrido</span></a>
           </nav>
         </div>
-        <figure className="hero__visual">
-          <picture>
-              <source media="(max-width: 1040px)" srcSet={site.images.approvedHeroMobile} />
-              <source media="(min-width: 1041px)" srcSet={site.images.approvedHeroDesktop} />
+        <div className="approved-hero__art" aria-hidden="true">
             <img
-              src={site.images.approvedHeroDesktop}
-              alt="Asesora de AIT USA orientando a una estudiante adulta en un salón de inglés."
-              width="2304"
-              height="1536"
+              src={site.images.classroomHero}
+              alt=""
+              width="1756"
+              height="896"
               fetchPriority="high"
             />
-          </picture>
-        </figure>
+        </div>
       </div>
-      <aside className="hero__institutional-band" aria-label="Trayectoria de AIT USA Institute">
-        <div className="hero__institutional-inner">
+      <aside className="approved-hero__facts" aria-label="Trayectoria de AIT USA Institute">
+        <div className="approved-hero__facts-inner">
           {institutionalProof.map((proof) => (
-            <article className="hero__institutional-fact" key={proof.value}>
+            <article className="approved-hero__fact" key={proof.value}>
               <strong>{proof.value}</strong>
               <span>{proof.label}</span>
             </article>

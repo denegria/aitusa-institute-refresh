@@ -169,15 +169,15 @@ describe("homepage React integration", () => {
       sections.indexOf("export function MethodSection"),
       sections.indexOf("const supportingPrograms"),
     );
-    assert.match(hero, /hero__title-block/);
-    assert.match(hero, /hero__modalities/);
-    assert.match(hero, /hero__spain-launch/);
-    assert.match(hero, /Nos enorgullece anunciar que AIT USA ya está en España/);
+    assert.match(hero, /id="home-hero-title"/);
+    assert.match(hero, /approved-hero__modalities/);
+    assert.match(hero, /approved-hero__spain/);
+    assert.match(hero, /¡Hola, España! Bienvenidos a la familia AIT\./);
     assert.doesNotMatch(hero, /España es nuestra próxima parada|Muy pronto|Próximamente/);
     assert.doesNotMatch(hero, /hero__conversion/);
     assert.doesNotMatch(hero, /hero__summary|hero__objections/);
-    assert.equal((hero.match(/className="button button--/g) || []).length, 1);
-    assert.match(hero, /href="\/cursos\/">Ver cursos/);
+    assert.equal((hero.match(/className="approved-hero__cta"/g) || []).length, 1);
+    assert.match(hero, /href="\/placement-test\/">Conoce tu nivel de inglés/);
     assert.match(method, /method-story__intro-copy/);
     assert.doesNotMatch(method, /method-story__promise|method-story__bridge/);
     assert.match(method, /method-story__questions/);
@@ -189,7 +189,7 @@ describe("homepage React integration", () => {
     const { sections } = await readSources();
     const publishedLocationCount = locations.filter((location) => location.status !== "online").length + 1;
 
-    assert.equal(painHero.eyebrow, "Una escuela de inglés diferente para gente con propósito");
+    assert.equal(painHero.eyebrow, "Una escuela de inglés para lo que quieres lograr.");
     assert.equal(institutionalProof.length, 4);
     assert.equal(headquarters.status, "headquarters");
     assert.equal(publishedLocationCount, 7);
@@ -200,17 +200,13 @@ describe("homepage React integration", () => {
     assert.equal(institutionalProof[2].label, "Sedes, atención con cita y coordinación administrativa");
     assert.doesNotMatch(institutionalProof.map((proof) => proof.value).join(" "), /4 sedes/);
     assert.match(institutionalProof.at(-1).label, /EE\. UU\., Centroamérica, Sudamérica y Europa/);
-    assert.match(sections, /className="hero__institutional-band"/);
+    assert.match(sections, /className="approved-hero__facts"/);
     assert.match(sections, /institutionalProof\.map/);
   });
 
   it("preserves the accepted responsive and semantic visual rules", async () => {
     const { sections, interactive, styles } = await readSources();
     const launchPolish = styles.slice(styles.lastIndexOf("/* MIS-394 launch-week homepage polish"));
-    assert.match(styles, /\.hero__kicker\s*\{[\s\S]*color: #c28a26/);
-    assert.match(styles, /\.hero__modalities svg\s*\{[\s\S]*color: #c28a26/);
-    assert.match(styles, /\.hero__spain-launch\s*\{[\s\S]*animation: heroSpainLaunchSweep/);
-    assert.match(styles, /heroSpainLaunchPulse/);
     assert.match(styles, /method-story__conclusion \.method-reasons\s*\{[\s\S]*transform: translateY/);
     assert.match(styles, /method-reason__icon::before/);
     assert.match(launchPolish, /method-reason__icon::before\s*\{[\s\S]*content: none/);
@@ -223,10 +219,9 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(interactive, /flag: "[🇦-🇿]/u);
     assert.match(launchPolish, /\.country-proof__flags\s*\{[\s\S]*display: flex/);
     assert.match(launchPolish, /supporting-course-card__link\s*\{[\s\S]*border: 1px solid[\s\S]*border-radius: 6px/);
-    assert.match(sections, /Nos enorgullece anunciar que AIT USA ya está en España\./);
+    assert.match(sections, /¡Hola, España! Bienvenidos a la familia AIT\./);
     assert.doesNotMatch(sections, /España es nuestra próxima parada|Muy pronto, una nueva comunidad|Próximamente en España/);
     assert.doesNotMatch(sections, /supporting-course-card__status|>Curso de apoyo</);
-    assert.match(styles, /\.hero__headline-emphasis\s*\{[\s\S]*text-transform: none/);
     assert.match(styles, /\.community-proof__tabs\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
     assert.match(styles, /\.home-page \.real-map-pin\s*\{[\s\S]*width: 44px;[\s\S]*height: 44px/);
     assert.match(styles, /\.final-cta-contact-link\s*\{[\s\S]*min-height: 44px/);
