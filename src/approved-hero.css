@@ -14,16 +14,15 @@
 .site-header:has(+ .home-page) .brand { gap: 12px; }
 .site-header:has(+ .home-page) .brand img { width: 62px; height: 62px; object-fit: contain; box-shadow: none; }
 .site-header:has(+ .home-page) .brand > span { display: block; }
-.site-header:has(+ .home-page) .brand strong { font-size: 1.5rem; line-height: 1.15; letter-spacing: -.04em; color: #000b70; }
-.site-header:has(+ .home-page) .brand small { display: block; font-size: 1.375rem; font-weight: 700; line-height: 1.3; letter-spacing: 0; color: #ee7900; }
+.site-header:has(+ .home-page) .brand strong { font-size: 1.5rem; line-height: 1.15; letter-spacing: -.04em; }
+.site-header:has(+ .home-page) .brand small { display: block; font-size: 1.375rem; font-weight: 700; line-height: 1.3; letter-spacing: 0; }
 .site-header:has(+ .home-page) .site-nav { gap: 6px clamp(16px, 1.7vw, 28px); justify-content: center; }
-.site-header:has(+ .home-page) .site-nav a { padding: 10px 0; color: #001ee6; font-size: 0.9375rem; border-radius: 0; background: none; }
+.site-header:has(+ .home-page) .site-nav a { padding: 10px 0; font-size: 0.9375rem; border-radius: 0; background: none; }
 .site-header:has(+ .home-page) .site-nav a::after { display: none; }
-.site-header:has(+ .home-page) .site-nav a[aria-current="page"] { text-decoration: underline; text-decoration-color: #f18a00; text-underline-offset: 12px; text-decoration-thickness: 2px; }
-.site-header:has(+ .home-page) .student-portal-entry { width: 46px; height: 46px; border: 1px solid #ccd3e3; color: #ee7900; background: #fff; }
-.site-header:has(+ .home-page) .student-portal-entry svg { color: #ee7900; }
-.site-header:has(+ .home-page) .header-cta { padding: 10px 0; color: #001ee6; font-size: 1.0625rem; background: none; border: 0; box-shadow: none; }
-.site-header:has(+ .home-page) .header-cta svg { color: #ee7900; width: 24px; height: 24px; }
+.site-header:has(+ .home-page) .site-nav a[aria-current="page"] { text-decoration: underline; text-decoration-color: #c4932d; text-underline-offset: 12px; text-decoration-thickness: 2px; }
+.site-header:has(+ .home-page) .student-portal-entry { width: 46px; height: 46px; border: 1px solid #ccd3e3; background: #fff; }
+.site-header:has(+ .home-page) .header-cta { padding: 10px 0; font-size: 1.0625rem; background: none; border: 0; box-shadow: none; }
+.site-header:has(+ .home-page) .header-cta svg { width: 24px; height: 24px; }
 .site-header:has(+ .home-page) :is(a, button):focus-visible { outline: 3px solid #174ea6; outline-offset: 4px; }
 
 #main-content.home-page #inicio.approved-hero {
@@ -99,6 +98,30 @@
   .site-header:has(+ .home-page) .site-nav { justify-content: stretch; gap: 0; }
   .site-header:has(+ .home-page) .site-nav a { padding: 14px 20px; min-height: 48px; }
   .site-header:has(+ .home-page) .site-nav a[aria-current="page"] { text-underline-offset: 6px; }
+}
+/* The desktop viewport chapter includes the header, ribbon and trust facts.
+   Auto rows reserve their real content height; the scene gets the remainder.
+   Minimum sizing lets short windows or enlarged text grow without clipping. */
+@media (min-width: 1041px) {
+  .site-header:has(+ .home-page) { min-height: 76px; padding-block: 7px; }
+  .site-header:has(+ .home-page) .brand img { width: 54px; height: 54px; }
+  #main-content.home-page #inicio.approved-hero {
+    min-height: calc(100svh - 76px);
+    display: grid;
+    grid-template-rows: auto minmax(min-content, 1fr) auto;
+  }
+  .approved-hero__spain { min-height: clamp(56px, 7svh, 73px); padding-block: 10px; }
+  .approved-hero__scene { min-height: 0; }
+  .approved-hero__copy { padding-block: clamp(16px, 3svh, 40px); }
+  .approved-hero__eyebrow { max-width: 450px; margin-bottom: 12px; }
+  #main-content.home-page #home-hero-title { font-size: clamp(3rem, min(5.35vw, 8svh), 5.625rem); }
+  .approved-hero__promise { margin-top: 14px; font-size: clamp(1.125rem, 2.2svh, 1.375rem); }
+  .approved-hero__location { margin-top: 8px; font-size: 1.125rem; }
+  .approved-hero__cta { min-height: 52px; margin-top: 16px; padding-block: 12px; font-size: 1.0625rem; }
+  .approved-hero__modalities { margin-top: 14px; }
+  .approved-hero__modalities a { min-height: 44px; }
+  .approved-hero__facts { padding-block: 12px; }
+  .approved-hero__fact strong { font-size: 1.25rem; line-height: 1.15; }
 }
 /* Font-relative containment also switches to the stacked composition when
    visitors enlarge text, keeping copy away from the people and bright glass. */

@@ -102,6 +102,11 @@ try {
   const viewports = [
     { name: "desktop", width: 1440, height: 1000, mobile: false, scale: 1 },
     { name: "mobile", width: 390, height: 844, mobile: true, scale: 2 },
+    { name: "laptop", width: 1366, height: 768, mobile: false, scale: 1, homepageOnly: true },
+    { name: "desktop-900", width: 1440, height: 900, mobile: false, scale: 1, homepageOnly: true },
+    { name: "short-desktop", width: 1280, height: 720, mobile: false, scale: 1, homepageOnly: true },
+    { name: "wide-desktop", width: 1648, height: 920, mobile: false, scale: 1, homepageOnly: true },
+    { name: "short-window", width: 1280, height: 600, mobile: false, scale: 1, homepageOnly: true },
   ];
   const surfaces = [
     { name: "homepage", pathname: "/", selector: "main h1", anchor: null },
@@ -129,6 +134,7 @@ try {
       mobile: viewport.mobile,
     });
     for (const surface of surfaces) {
+      if (viewport.homepageOnly && surface.name !== "homepage") continue;
       const url = `${baseUrl}${surface.pathname}`;
       const navigation = await send("Page.navigate", { url }, 30000);
       if (navigation.errorText) throw new Error(`${surface.name} navigation failed: ${navigation.errorText}`);
@@ -367,10 +373,40 @@ try {
         await sleep(50);
       }
 
+      let opening;
+      if (surface.name === "homepage") {
+        opening = await evaluate(`(() => {
+          const rect = (selector) => {
+            const box = document.querySelector(selector).getBoundingClientRect();
+            return { top: box.top, bottom: box.bottom, height: box.height };
+          };
+          return {
+            header: rect('.site-header'), ribbon: rect('.approved-hero__spain'),
+            scene: rect('.approved-hero__scene'), facts: rect('.approved-hero__facts'),
+            factCount: document.querySelectorAll('.approved-hero__fact').length,
+            cta: rect('.approved-hero__cta'),
+            wordmarkColor: getComputedStyle(document.querySelector('.brand small')).color,
+            factBoxes: [...document.querySelectorAll('.approved-hero__fact')].map(element => {
+              const box = element.getBoundingClientRect();
+              return { top: box.top, bottom: box.bottom, text: element.textContent.trim() };
+            })
+          };
+        })()`);
+        if (opening.factCount !== 4 || opening.cta.height < 44 ||
+            opening.cta.top < opening.scene.top || opening.cta.bottom > opening.scene.bottom ||
+            opening.factBoxes.some(fact => !fact.text || fact.top < opening.facts.top || fact.bottom > opening.facts.bottom) ||
+            opening.wordmarkColor !== "rgb(138, 100, 18)") {
+          throw new Error(`Homepage content or brand contract failed on ${viewport.name}: ${JSON.stringify(opening)}`);
+        }
+        // Short windows may scroll; normal laptop/desktop openings must fit whole.
+        if (viewport.width >= 1041 && viewport.height >= 720 && opening.facts.bottom > viewport.height + 1) {
+          throw new Error(`Opening exceeds ${viewport.name} viewport: ${JSON.stringify(opening)}`);
+        }
+      }
       const screenshot = await send("Page.captureScreenshot", { format: "png", captureBeyondViewport: false }, 30000);
       const filename = `${surface.name}-${viewport.name}.png`;
       await writeFile(path.join(outputDir, filename), Buffer.from(screenshot.data, "base64"));
-      evidence.push({ surface: surface.name, viewport: viewport.name, url, file: filename, heading: layout.heading });
+      evidence.push({ surface: surface.name, viewport: viewport.name, url, file: filename, heading: layout.heading, ...(opening ? { opening } : {}) });
     }
   }
 
