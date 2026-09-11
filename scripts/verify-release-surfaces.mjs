@@ -107,6 +107,10 @@ try {
     { name: "short-desktop", width: 1280, height: 720, mobile: false, scale: 1, homepageOnly: true },
     { name: "wide-desktop", width: 1648, height: 920, mobile: false, scale: 1, homepageOnly: true },
     { name: "short-window", width: 1280, height: 600, mobile: false, scale: 1, homepageOnly: true },
+    { name: "full-hd", width: 1920, height: 1080, mobile: false, scale: 1, homepageOnly: true },
+    { name: "full-hd-980", width: 1920, height: 980, mobile: false, scale: 1, homepageOnly: true },
+    { name: "full-hd-900", width: 1920, height: 900, mobile: false, scale: 1, homepageOnly: true },
+    { name: "narrow-mobile", width: 320, height: 740, mobile: true, scale: 1, homepageOnly: true },
   ];
   const surfaces = [
     { name: "homepage", pathname: "/", selector: "main h1", anchor: null },
@@ -378,13 +382,18 @@ try {
         opening = await evaluate(`(() => {
           const rect = (selector) => {
             const box = document.querySelector(selector).getBoundingClientRect();
-            return { top: box.top, bottom: box.bottom, height: box.height };
+            return { left: box.left, right: box.right, top: box.top, bottom: box.bottom, height: box.height };
           };
           return {
             header: rect('.site-header'), ribbon: rect('.approved-hero__spain'),
             scene: rect('.approved-hero__scene'), facts: rect('.approved-hero__facts'),
             factCount: document.querySelectorAll('.approved-hero__fact').length,
             cta: rect('.approved-hero__cta'),
+            copy: rect('.approved-hero__copy'),
+            controls: [...document.querySelectorAll('.approved-hero__modalities a')].map(element => {
+              const box = element.getBoundingClientRect();
+              return { href: element.getAttribute('href'), left: box.left, right: box.right, width: box.width, height: box.height };
+            }),
             wordmarkColor: getComputedStyle(document.querySelector('.brand small')).color,
             factBoxes: [...document.querySelectorAll('.approved-hero__fact')].map(element => {
               const box = element.getBoundingClientRect();
@@ -398,6 +407,11 @@ try {
             opening.wordmarkColor !== "rgb(138, 100, 18)") {
           throw new Error(`Homepage content or brand contract failed on ${viewport.name}: ${JSON.stringify(opening)}`);
         }
+        if (opening.controls.length !== 3 || opening.controls.some(control =>
+          !control.href?.startsWith('/cursos/') || control.width < 44 || control.height < 44 ||
+          control.left < 0 || control.right > viewport.width)) {
+          throw new Error(`Delivery links are missing or not usable on ${viewport.name}: ${JSON.stringify(opening.controls)}`);
+        }
         // Short windows may scroll; normal laptop/desktop openings must fit whole.
         if (viewport.width >= 1041 && viewport.height >= 720 && opening.facts.bottom > viewport.height + 1) {
           throw new Error(`Opening exceeds ${viewport.name} viewport: ${JSON.stringify(opening)}`);
@@ -407,6 +421,59 @@ try {
       const filename = `${surface.name}-${viewport.name}.png`;
       await writeFile(path.join(outputDir, filename), Buffer.from(screenshot.data, "base64"));
       evidence.push({ surface: surface.name, viewport: viewport.name, url, file: filename, heading: layout.heading, ...(opening ? { opening } : {}) });
+
+      if (surface.name === "homepage" && viewport.name === "desktop") {
+        const controlStates = [];
+        for (const selector of ['.approved-hero__cta', '.approved-hero__modalities a']) {
+          const readControl = () => evaluate(`(() => {
+            const element = document.querySelector(${JSON.stringify(selector)});
+            const style = getComputedStyle(element);
+            const box = element.getBoundingClientRect();
+            const luminance = color => {
+              const channels = color.match(/[\\d.]+/g).slice(0, 3).map(Number).map(value => {
+                const channel = value / 255;
+                return channel <= .04045 ? channel / 12.92 : ((channel + .055) / 1.055) ** 2.4;
+              });
+              return channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
+            };
+            const foreground = luminance(style.color), background = luminance(style.backgroundColor);
+            return { background: style.backgroundColor, color: style.color,
+              contrast: (Math.max(foreground, background) + .05) / (Math.min(foreground, background) + .05),
+              focusVisible: element.matches(':focus-visible'), outline: style.outlineWidth,
+              x: box.left + box.width / 2, y: box.top + box.height / 2 };
+          })()`);
+          await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: 1, y: 1 });
+          const normal = await readControl();
+          await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: normal.x, y: normal.y });
+          const hovered = await readControl();
+          if (normal.background === hovered.background || normal.contrast < 4.5 || hovered.contrast < 4.5) {
+            throw new Error(`Hero control contrast/highlight failed: ${JSON.stringify({selector, normal, hovered})}`);
+          }
+          await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: 1, y: 1 });
+          // A keyboard event establishes keyboard modality before focusing the target.
+          await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9 });
+          await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9 });
+          await evaluate(`document.querySelector(${JSON.stringify(selector)}).focus()`);
+          const focused = await readControl();
+          if (!focused.focusVisible || parseFloat(focused.outline) < 2 || focused.background === normal.background || focused.contrast < 4.5) {
+            throw new Error(`Hero keyboard highlight failed: ${JSON.stringify({selector, focused})}`);
+          }
+          const stateShot = await send("Page.captureScreenshot", { format: "png", captureBeyondViewport: false });
+          const stateFile = selector.includes('modalities') ? 'homepage-delivery-focus.png' : 'homepage-cta-focus.png';
+          await writeFile(path.join(outputDir, stateFile), Buffer.from(stateShot.data, 'base64'));
+          controlStates.push({ selector, normal, hovered, focused, file: stateFile });
+          await evaluate(`document.activeElement.blur()`);
+        }
+        await writeFile(path.join(outputDir, 'hero-control-states.json'), `${JSON.stringify(controlStates, null, 2)}\n`);
+        await evaluate(`document.querySelector('.approved-hero__cta').click()`);
+        for (let attempt = 0; attempt < 50; attempt += 1) {
+          if (await evaluate(`['/placement-test', '/placement-test/'].includes(location.pathname) && document.querySelector('main h1')?.textContent.includes('Prueba de nivel')`)) break;
+          await sleep(100);
+        }
+        if (!await evaluate(`['/placement-test', '/placement-test/'].includes(location.pathname) && document.querySelector('main h1')?.textContent.includes('Prueba de nivel')`)) {
+          throw new Error('Homepage CTA did not reach the placement-test page.');
+        }
+      }
     }
   }
 
