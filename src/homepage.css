@@ -27,7 +27,7 @@
   --home-shadow-dark: inset 0 1px 0 rgb(255 255 255 / 12%), 0 18px 44px rgb(0 8 24 / 24%);
   --home-shadow-dark-hover: inset 0 1px 0 rgb(255 255 255 / 16%), 0 24px 52px rgb(0 8 24 / 30%);
   --home-seam-shadow: inset 0 22px 28px -32px var(--home-seam);
-  --home-accent-seam-shadow: inset 0 22px 30px -32px rgb(217 180 93 / 78%);
+  --home-accent-seam-shadow: inset 0 20px 28px -24px rgb(217 180 93 / 50%);
   --home-width: 1180px;
   --home-gutter: 32px;
   --home-heading: clamp(2.125rem, 3.4vw, 3rem);
@@ -280,7 +280,7 @@
     & :is(.hero__help, .home-text-link, .books-section__heading a):hover { color: white; }
     & :is(a, button):focus-visible { outline-color: var(--home-gold-light); }
   }
-  & #faq { background: var(--home-soft); border-top: 12px solid var(--home-gold-accent); box-shadow: var(--home-accent-seam-shadow); }
+  & #faq { background: var(--home-soft); border-top: 4px solid var(--home-gold-accent); box-shadow: var(--home-accent-seam-shadow); }
   & #faq, & #contacto { min-height: 0; }
   & #faq .faq-layout { align-items: start; gap: 48px; }
   /* Clear the legacy sticky top offset when the heading is in normal flow. */
