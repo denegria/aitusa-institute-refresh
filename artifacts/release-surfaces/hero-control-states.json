@@ -1,0 +1,64 @@
+[
+  {
+    "selector": ".approved-hero__cta",
+    "normal": {
+      "background": "rgba(196, 147, 45, 0.88)",
+      "color": "rgb(0, 26, 61)",
+      "contrast": 6.2202862716828236,
+      "focusVisible": false,
+      "outline": "3px",
+      "x": 221,
+      "y": 627.421875
+    },
+    "hovered": {
+      "background": "rgba(217, 180, 93, 0.96)",
+      "color": "rgb(0, 26, 61)",
+      "contrast": 8.75363307174451,
+      "focusVisible": false,
+      "outline": "3px",
+      "x": 221,
+      "y": 625.421875
+    },
+    "focused": {
+      "background": "rgba(217, 180, 93, 0.96)",
+      "color": "rgb(0, 26, 61)",
+      "contrast": 8.75363307174451,
+      "focusVisible": true,
+      "outline": "3px",
+      "x": 221,
+      "y": 625.421875
+    },
+    "file": "homepage-cta-focus.png"
+  },
+  {
+    "selector": ".approved-hero__modalities a",
+    "normal": {
+      "background": "rgba(0, 26, 61, 0.56)",
+      "color": "rgb(255, 255, 255)",
+      "contrast": 17.281928371564508,
+      "focusVisible": false,
+      "outline": "3px",
+      "x": 120.546875,
+      "y": 695.59375
+    },
+    "hovered": {
+      "background": "rgba(242, 247, 255, 0.92)",
+      "color": "rgb(0, 26, 61)",
+      "contrast": 16.06705391735027,
+      "focusVisible": false,
+      "outline": "3px",
+      "x": 120.546875,
+      "y": 693.59375
+    },
+    "focused": {
+      "background": "rgba(242, 247, 255, 0.92)",
+      "color": "rgb(0, 26, 61)",
+      "contrast": 16.06705391735027,
+      "focusVisible": true,
+      "outline": "2px",
+      "x": 120.546875,
+      "y": 693.59375
+    },
+    "file": "homepage-delivery-focus.png"
+  }
+]

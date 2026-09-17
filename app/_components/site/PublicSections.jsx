@@ -9,7 +9,6 @@ import {
   productOfferings,
   site,
   solutionCharacteristics,
-  testimonials,
 } from "../../../src/content";
 import Image from "next/image";
 import { CallbackDialog, FaqList, MethodVideo } from "./InteractiveSections";
@@ -28,7 +27,7 @@ export function HeroSection() {
         <div className="approved-hero__copy">
           <p className="approved-hero__eyebrow">{painHero.eyebrow}</p>
           <h1 id="home-hero-title">
-            <span>Tu próximo </span><span>capítulo, </span><span>en inglés.</span>
+            <span>Tu próximo capítulo,</span><span>en inglés.</span>
           </h1>
           <p className="approved-hero__promise">Para conversar, estudiar y trabajar<br className="approved-hero__desktop-break" /> con más confianza.</p>
           <p className="approved-hero__location">Inglés en Nueva Jersey y online.</p>
@@ -38,6 +37,9 @@ export function HeroSection() {
             <a href="/cursos/ingles-online-adultos/"><i data-lucide="laptop" aria-hidden="true" /><span>Online</span></a>
             <a href="/cursos/ingles-hibrido-adultos/"><i data-lucide="monitor-smartphone" aria-hidden="true" /><span>Híbrido</span></a>
           </nav>
+          <a className="approved-hero__alternate" href="#elige-tu-curso">
+            ¿Buscas otra meta académica? <span aria-hidden="true">Ver programas</span>
+          </a>
         </div>
         <div className="approved-hero__art" aria-hidden="true">
             <img
@@ -104,7 +106,17 @@ export function MethodSection() {
             {solutionCharacteristics.map((item) => (
               <li key={item.key}>
                 <span className="method-reason__icon" aria-hidden="true">
-                  <i data-lucide={item.icon || "circle-check"} />
+                  {item.iconImage ? (
+                    <Image
+                      className="method-reason__icon-image"
+                      src={item.iconImage}
+                      alt=""
+                      width={64}
+                      height={64}
+                    />
+                  ) : (
+                    <i data-lucide={item.icon || "circle-check"} />
+                  )}
                 </span>
                 <div><h4>{item.title}</h4><p>{item.body}</p></div>
               </li>
@@ -119,22 +131,24 @@ export function MethodSection() {
 }
 
 export function StudyGoalsSection() {
+  const secondaryChoices = catalogChoices.filter((choice) => choice.key !== "english-paths");
+
   return (
     <section className="section study-goals" id="elige-tu-curso" aria-labelledby="study-goals-title">
       <div className="section-inner">
         <header className="section-heading">
-          <p className="section-kicker">Tu objetivo es el punto de partida</p>
-          <h2 id="study-goals-title">¿Qué quieres aprender?</h2>
-          <p>Elige tu meta y compara los cursos, su duración y lo que necesitas para empezar.</p>
+          <p className="section-kicker">Otros caminos en AIT USA</p>
+          <h2 id="study-goals-title">¿Buscas una meta diferente al inglés?</h2>
+          <p>Encuentra una ruta clara para tu meta académica, digital o de español.</p>
         </header>
         <div className="study-goals__grid">
-          {catalogChoices.map((choice) => (
+          {secondaryChoices.map((choice) => (
             <Link className="study-goal" href={catalogHref(choice.key)} key={choice.key}>
-              <i data-lucide={choice.icon} aria-hidden="true" />
-              <span className="study-goal__label">{choice.label}</span>
+              <span className="study-goal__icon" aria-hidden="true"><i data-lucide={choice.icon} /></span>
+              <span className="study-goal__label">Programa complementario</span>
               <h3>{choice.goal}</h3>
               <p>{choice.description}</p>
-              <span className="study-goal__cta">Comparar opciones <span aria-hidden="true">→</span></span>
+              <span className="study-goal__cta">{choice.label} <span aria-hidden="true">→</span></span>
             </Link>
           ))}
         </div>
@@ -144,26 +158,6 @@ export function StudyGoalsSection() {
         </div>
       </div>
     </section>
-  );
-}
-
-export function LearnerProofPreview() {
-  const story = testimonials.find((item) => item.name === "Eric");
-  if (!story) return null;
-  return (
-    <aside className="learner-proof" aria-labelledby="learner-proof-title">
-      <div className="section-inner learner-proof__inner">
-        <Image src={story.videoPoster} alt={story.imageAlt} width={144} height={160}
-          sizes="(max-width: 719px) 96px, 144px" style={{ objectPosition: story.posterPosition }} />
-        <div>
-          <p className="section-kicker">La experiencia de un estudiante</p>
-          <h2 id="learner-proof-title">Conoce a {story.name}.</h2>
-          <p>{story.headline}</p>
-          <p className="learner-proof__meta">En inglés · {story.duration}</p>
-          <a className="home-text-link" href="#testimonio-eric">Ver entrevista <span aria-hidden="true">→</span></a>
-        </div>
-      </div>
-    </aside>
   );
 }
 
@@ -322,7 +316,7 @@ export function BooksSection() {
         <header className="section-heading section-heading--framed books-section__heading">
           <p className="section-kicker">Ruta Graphic Concept</p>
           <h2 id="books-title">Nuestros libros.</h2>
-          <p>Explora los materiales Graphic Concept y <a href="/cursos/ingles-jovenes-adultos/#niveles">conoce la ruta de aprendizaje por niveles</a>. Admisiones confirma los materiales que corresponden a tu grupo.</p>
+          <p>La colección acompaña la ruta Graphic Concept. <a href="/cursos/ingles-jovenes-adultos/#niveles">Conoce la progresión por niveles</a> y confirma con admisiones qué materiales corresponden a tu grupo.</p>
         </header>
         <div className="books-gallery" aria-label="Colección de libros de AIT USA Institute">
           <figure className="books-gallery__intro">

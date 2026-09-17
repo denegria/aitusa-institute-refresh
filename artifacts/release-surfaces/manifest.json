@@ -4,7 +4,98 @@
     "viewport": "desktop",
     "url": "http://127.0.0.1:3000/",
     "file": "homepage-desktop.png",
-    "heading": "Supera el inglés.Exprésate con confianza."
+    "heading": "Tu próximo capítulo,en inglés.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1440,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1440,
+        "top": 76,
+        "bottom": 146,
+        "height": 70
+      },
+      "scene": {
+        "left": 0,
+        "right": 1440,
+        "top": 146,
+        "bottom": 885.46875,
+        "height": 739.46875
+      },
+      "facts": {
+        "left": 0,
+        "right": 1440,
+        "top": 885.46875,
+        "bottom": 1000,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 48,
+        "right": 394,
+        "top": 601.25,
+        "bottom": 653.59375,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 48,
+        "right": 1392,
+        "top": 244.171875,
+        "bottom": 775.28125,
+        "height": 531.109375
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 48,
+          "right": 193.09375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 199.09375,
+          "right": 316.390625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 322.390625,
+          "right": 445.6875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 897.46875,
+          "bottom": 988,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 897.46875,
+          "bottom": 988,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 897.46875,
+          "bottom": 988,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        },
+        {
+          "top": 897.46875,
+          "bottom": 988,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        }
+      ]
+    }
   },
   {
     "surface": "method",
@@ -12,6 +103,13 @@
     "url": "http://127.0.0.1:3000/#metodo",
     "file": "method-desktop.png",
     "heading": "Nuestra filosofíaPrimero comprendes. Después hablas.Durante más de 20 años hemos escuchado las necesidades y frustracion"
+  },
+  {
+    "surface": "faq",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/#faq",
+    "file": "faq-desktop.png",
+    "heading": "Preguntas frecuentes¿Todavía tienes dudas?Aquí respondemos dudas sobre tu nivel, la práctica, los horarios y las modalid"
   },
   {
     "surface": "catalog",
@@ -35,6 +133,90 @@
     "heading": "Computación para oficina"
   },
   {
+    "surface": "course-ingles-jovenes-adultos",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/cursos/ingles-jovenes-adultos/",
+    "file": "course-ingles-jovenes-adultos-desktop.png",
+    "heading": "Inglés presencial"
+  },
+  {
+    "surface": "course-ingles-hibrido-adultos",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/cursos/ingles-hibrido-adultos/",
+    "file": "course-ingles-hibrido-adultos-desktop.png",
+    "heading": "Inglés híbrido"
+  },
+  {
+    "surface": "course-ingles-online-adultos",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/cursos/ingles-online-adultos/",
+    "file": "course-ingles-online-adultos-desktop.png",
+    "heading": "Inglés online"
+  },
+  {
+    "surface": "course-ged",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/cursos/ged/",
+    "file": "course-ged-desktop.png",
+    "heading": "GED"
+  },
+  {
+    "surface": "course-tutorias-matematicas",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/cursos/tutorias-matematicas/",
+    "file": "course-tutorias-matematicas-desktop.png",
+    "heading": "Tutorías en matemáticas"
+  },
+  {
+    "surface": "course-computacion-basica",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/cursos/computacion-basica/",
+    "file": "course-computacion-basica-desktop.png",
+    "heading": "Computación básica"
+  },
+  {
+    "surface": "course-espanol-extranjeros",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/cursos/espanol-extranjeros/",
+    "file": "course-espanol-extranjeros-desktop.png",
+    "heading": "Español para extranjeros"
+  },
+  {
+    "surface": "contact",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/contactanos/?curso=espanol-extranjeros",
+    "file": "contact-desktop.png",
+    "heading": "Encuentra tu próximo paso."
+  },
+  {
+    "surface": "citizenship",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/ciudadania/",
+    "file": "citizenship-desktop.png",
+    "heading": "Información sobre ciudadanía"
+  },
+  {
+    "surface": "privacy",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/privacy-policy/",
+    "file": "privacy-desktop.png",
+    "heading": "Política de Privacidad"
+  },
+  {
+    "surface": "terms",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/terms-and-conditions/",
+    "file": "terms-desktop.png",
+    "heading": "Términos y Condiciones"
+  },
+  {
+    "surface": "placement",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3000/placement-test/",
+    "file": "placement-desktop.png",
+    "heading": "Prueba de nivel de inglés"
+  },
+  {
     "surface": "portal-entry",
     "viewport": "desktop",
     "url": "http://127.0.0.1:3000/portal/sign-in/",
@@ -53,7 +235,98 @@
     "viewport": "mobile",
     "url": "http://127.0.0.1:3000/",
     "file": "homepage-mobile.png",
-    "heading": "Supera el inglés.Exprésate con confianza."
+    "heading": "Tu próximo capítulo,en inglés.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 390,
+        "top": 0,
+        "bottom": 72,
+        "height": 72
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 390,
+        "top": 72,
+        "bottom": 188,
+        "height": 116
+      },
+      "scene": {
+        "left": 0,
+        "right": 390,
+        "top": 188,
+        "bottom": 1023.46875,
+        "height": 835.46875
+      },
+      "facts": {
+        "left": 0,
+        "right": 390,
+        "top": 1023.46875,
+        "bottom": 1291.28125,
+        "height": 267.8125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 24,
+        "right": 366,
+        "top": 547.09375,
+        "bottom": 603.09375,
+        "height": 56
+      },
+      "copy": {
+        "left": 24,
+        "right": 366,
+        "top": 188,
+        "bottom": 750.46875,
+        "height": 562.46875
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 24,
+          "right": 134,
+          "width": 110,
+          "height": 61.6875
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 140,
+          "right": 250,
+          "width": 110,
+          "height": 61.6875
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 256,
+          "right": 366,
+          "width": 110,
+          "height": 61.6875
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 1049.46875,
+          "bottom": 1139.46875,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 1049.46875,
+          "bottom": 1139.46875,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 1163.46875,
+          "bottom": 1265.28125,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        },
+        {
+          "top": 1163.46875,
+          "bottom": 1265.28125,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        }
+      ]
+    }
   },
   {
     "surface": "method",
@@ -61,6 +334,13 @@
     "url": "http://127.0.0.1:3000/#metodo",
     "file": "method-mobile.png",
     "heading": "Nuestra filosofíaPrimero comprendes. Después hablas.Durante más de 20 años hemos escuchado las necesidades y frustracion"
+  },
+  {
+    "surface": "faq",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/#faq",
+    "file": "faq-mobile.png",
+    "heading": "Preguntas frecuentes¿Todavía tienes dudas?Aquí respondemos dudas sobre tu nivel, la práctica, los horarios y las modalid"
   },
   {
     "surface": "catalog",
@@ -84,6 +364,90 @@
     "heading": "Computación para oficina"
   },
   {
+    "surface": "course-ingles-jovenes-adultos",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/cursos/ingles-jovenes-adultos/",
+    "file": "course-ingles-jovenes-adultos-mobile.png",
+    "heading": "Inglés presencial"
+  },
+  {
+    "surface": "course-ingles-hibrido-adultos",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/cursos/ingles-hibrido-adultos/",
+    "file": "course-ingles-hibrido-adultos-mobile.png",
+    "heading": "Inglés híbrido"
+  },
+  {
+    "surface": "course-ingles-online-adultos",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/cursos/ingles-online-adultos/",
+    "file": "course-ingles-online-adultos-mobile.png",
+    "heading": "Inglés online"
+  },
+  {
+    "surface": "course-ged",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/cursos/ged/",
+    "file": "course-ged-mobile.png",
+    "heading": "GED"
+  },
+  {
+    "surface": "course-tutorias-matematicas",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/cursos/tutorias-matematicas/",
+    "file": "course-tutorias-matematicas-mobile.png",
+    "heading": "Tutorías en matemáticas"
+  },
+  {
+    "surface": "course-computacion-basica",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/cursos/computacion-basica/",
+    "file": "course-computacion-basica-mobile.png",
+    "heading": "Computación básica"
+  },
+  {
+    "surface": "course-espanol-extranjeros",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/cursos/espanol-extranjeros/",
+    "file": "course-espanol-extranjeros-mobile.png",
+    "heading": "Español para extranjeros"
+  },
+  {
+    "surface": "contact",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/contactanos/?curso=espanol-extranjeros",
+    "file": "contact-mobile.png",
+    "heading": "Encuentra tu próximo paso."
+  },
+  {
+    "surface": "citizenship",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/ciudadania/",
+    "file": "citizenship-mobile.png",
+    "heading": "Información sobre ciudadanía"
+  },
+  {
+    "surface": "privacy",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/privacy-policy/",
+    "file": "privacy-mobile.png",
+    "heading": "Política de Privacidad"
+  },
+  {
+    "surface": "terms",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/terms-and-conditions/",
+    "file": "terms-mobile.png",
+    "heading": "Términos y Condiciones"
+  },
+  {
+    "surface": "placement",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3000/placement-test/",
+    "file": "placement-mobile.png",
+    "heading": "Prueba de nivel de inglés"
+  },
+  {
     "surface": "portal-entry",
     "viewport": "mobile",
     "url": "http://127.0.0.1:3000/portal/sign-in/",
@@ -96,5 +460,887 @@
     "url": "http://127.0.0.1:3000/employee/sign-in/",
     "file": "employee-entry-mobile.png",
     "heading": "Entra al Portal de empleados"
+  },
+  {
+    "surface": "homepage",
+    "viewport": "laptop",
+    "url": "http://127.0.0.1:3000/",
+    "file": "homepage-laptop.png",
+    "heading": "Tu próximo capítulo,en inglés.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1366,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1366,
+        "top": 76,
+        "bottom": 132,
+        "height": 56
+      },
+      "scene": {
+        "left": 0,
+        "right": 1366,
+        "top": 132,
+        "bottom": 653.46875,
+        "height": 521.46875
+      },
+      "facts": {
+        "left": 0,
+        "right": 1366,
+        "top": 653.46875,
+        "bottom": 768,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 48,
+        "right": 394,
+        "top": 456.328125,
+        "bottom": 508.671875,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 48,
+        "right": 1318,
+        "top": 143.09375,
+        "bottom": 630.359375,
+        "height": 487.265625
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 48,
+          "right": 193.09375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 199.09375,
+          "right": 316.390625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 322.390625,
+          "right": 445.6875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 665.46875,
+          "bottom": 756,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 665.46875,
+          "bottom": 756,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 665.46875,
+          "bottom": 756,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        },
+        {
+          "top": 665.46875,
+          "bottom": 756,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        }
+      ]
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "desktop-900",
+    "url": "http://127.0.0.1:3000/",
+    "file": "homepage-desktop-900.png",
+    "heading": "Tu próximo capítulo,en inglés.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1440,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1440,
+        "top": 76,
+        "bottom": 139,
+        "height": 63
+      },
+      "scene": {
+        "left": 0,
+        "right": 1440,
+        "top": 139,
+        "bottom": 785.46875,
+        "height": 646.46875
+      },
+      "facts": {
+        "left": 0,
+        "right": 1440,
+        "top": 785.46875,
+        "bottom": 900,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 48,
+        "right": 394,
+        "top": 538.421875,
+        "bottom": 590.765625,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 48,
+        "right": 1392,
+        "top": 200,
+        "bottom": 712.453125,
+        "height": 512.453125
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 48,
+          "right": 193.09375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 199.09375,
+          "right": 316.390625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 322.390625,
+          "right": 445.6875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 797.46875,
+          "bottom": 888,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 797.46875,
+          "bottom": 888,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 797.46875,
+          "bottom": 888,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        },
+        {
+          "top": 797.46875,
+          "bottom": 888,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        }
+      ]
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "short-desktop",
+    "url": "http://127.0.0.1:3000/",
+    "file": "homepage-short-desktop.png",
+    "heading": "Tu próximo capítulo,en inglés.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1280,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1280,
+        "top": 76,
+        "bottom": 132,
+        "height": 56
+      },
+      "scene": {
+        "left": 0,
+        "right": 1280,
+        "top": 132,
+        "bottom": 605.46875,
+        "height": 473.46875
+      },
+      "facts": {
+        "left": 0,
+        "right": 1280,
+        "top": 605.46875,
+        "bottom": 720,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 48,
+        "right": 394,
+        "top": 441.078125,
+        "bottom": 493.421875,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 48,
+        "right": 1232,
+        "top": 148.34375,
+        "bottom": 597.109375,
+        "height": 448.765625
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 48,
+          "right": 193.09375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 199.09375,
+          "right": 316.390625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 322.390625,
+          "right": 445.6875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 617.46875,
+          "bottom": 708,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 617.46875,
+          "bottom": 708,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 617.46875,
+          "bottom": 708,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        },
+        {
+          "top": 617.46875,
+          "bottom": 708,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        }
+      ]
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "wide-desktop",
+    "url": "http://127.0.0.1:3000/",
+    "file": "homepage-wide-desktop.png",
+    "heading": "Tu próximo capítulo,en inglés.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1648,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1648,
+        "top": 76,
+        "bottom": 140.390625,
+        "height": 64.390625
+      },
+      "scene": {
+        "left": 0,
+        "right": 1648,
+        "top": 140.390625,
+        "bottom": 805.46875,
+        "height": 665.078125
+      },
+      "facts": {
+        "left": 0,
+        "right": 1648,
+        "top": 805.46875,
+        "bottom": 920,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 48,
+        "right": 394,
+        "top": 551.015625,
+        "bottom": 603.359375,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 48,
+        "right": 1600,
+        "top": 208.796875,
+        "bottom": 725.046875,
+        "height": 516.25
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 48,
+          "right": 193.09375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 199.09375,
+          "right": 316.390625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 322.390625,
+          "right": 445.6875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 817.46875,
+          "bottom": 908,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 817.46875,
+          "bottom": 908,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 817.46875,
+          "bottom": 908,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        },
+        {
+          "top": 817.46875,
+          "bottom": 908,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        }
+      ]
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "short-window",
+    "url": "http://127.0.0.1:3000/",
+    "file": "homepage-short-window.png",
+    "heading": "Tu próximo capítulo,en inglés.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1280,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1280,
+        "top": 76,
+        "bottom": 132,
+        "height": 56
+      },
+      "scene": {
+        "left": 0,
+        "right": 1280,
+        "top": 132,
+        "bottom": 580.765625,
+        "height": 448.765625
+      },
+      "facts": {
+        "left": 0,
+        "right": 1280,
+        "top": 580.765625,
+        "bottom": 695.296875,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 48,
+        "right": 394,
+        "top": 428.734375,
+        "bottom": 481.078125,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 48,
+        "right": 1232,
+        "top": 136,
+        "bottom": 584.765625,
+        "height": 448.765625
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 48,
+          "right": 193.09375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 199.09375,
+          "right": 316.390625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 322.390625,
+          "right": 445.6875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 592.765625,
+          "bottom": 683.296875,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 592.765625,
+          "bottom": 683.296875,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 592.765625,
+          "bottom": 683.296875,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        },
+        {
+          "top": 592.765625,
+          "bottom": 683.296875,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        }
+      ]
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "full-hd",
+    "url": "http://127.0.0.1:3000/",
+    "file": "homepage-full-hd.png",
+    "heading": "Tu próximo capítulo,en inglés.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1920,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1920,
+        "top": 76,
+        "bottom": 149,
+        "height": 73
+      },
+      "scene": {
+        "left": 0,
+        "right": 1920,
+        "top": 149,
+        "bottom": 965.46875,
+        "height": 816.46875
+      },
+      "facts": {
+        "left": 0,
+        "right": 1920,
+        "top": 965.46875,
+        "bottom": 1080,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 120,
+        "right": 466,
+        "top": 653.609375,
+        "bottom": 705.953125,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 120,
+        "right": 1800,
+        "top": 274.8125,
+        "bottom": 827.640625,
+        "height": 552.828125
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 120,
+          "right": 265.09375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 271.09375,
+          "right": 388.390625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 394.390625,
+          "right": 517.6875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 977.46875,
+          "bottom": 1068,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 977.46875,
+          "bottom": 1068,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 977.46875,
+          "bottom": 1068,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        },
+        {
+          "top": 977.46875,
+          "bottom": 1068,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        }
+      ]
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "full-hd-980",
+    "url": "http://127.0.0.1:3000/",
+    "file": "homepage-full-hd-980.png",
+    "heading": "Tu próximo capítulo,en inglés.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1920,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1920,
+        "top": 76,
+        "bottom": 144.59375,
+        "height": 68.59375
+      },
+      "scene": {
+        "left": 0,
+        "right": 1920,
+        "top": 144.59375,
+        "bottom": 865.46875,
+        "height": 720.875
+      },
+      "facts": {
+        "left": 0,
+        "right": 1920,
+        "top": 865.46875,
+        "bottom": 980,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 120,
+        "right": 466,
+        "top": 589.796875,
+        "bottom": 642.140625,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 120,
+        "right": 1800,
+        "top": 234.21875,
+        "bottom": 763.828125,
+        "height": 529.609375
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 120,
+          "right": 265.09375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 271.09375,
+          "right": 388.390625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 394.390625,
+          "right": 517.6875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 877.46875,
+          "bottom": 968,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 877.46875,
+          "bottom": 968,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 877.46875,
+          "bottom": 968,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        },
+        {
+          "top": 877.46875,
+          "bottom": 968,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        }
+      ]
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "full-hd-900",
+    "url": "http://127.0.0.1:3000/",
+    "file": "homepage-full-hd-900.png",
+    "heading": "Tu próximo capítulo,en inglés.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1920,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1920,
+        "top": 76,
+        "bottom": 139,
+        "height": 63
+      },
+      "scene": {
+        "left": 0,
+        "right": 1920,
+        "top": 139,
+        "bottom": 785.46875,
+        "height": 646.46875
+      },
+      "facts": {
+        "left": 0,
+        "right": 1920,
+        "top": 785.46875,
+        "bottom": 900,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 120,
+        "right": 466,
+        "top": 538.421875,
+        "bottom": 590.765625,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 120,
+        "right": 1800,
+        "top": 200,
+        "bottom": 712.453125,
+        "height": 512.453125
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 120,
+          "right": 265.09375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 271.09375,
+          "right": 388.390625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 394.390625,
+          "right": 517.6875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 797.46875,
+          "bottom": 888,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 797.46875,
+          "bottom": 888,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 797.46875,
+          "bottom": 888,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        },
+        {
+          "top": 797.46875,
+          "bottom": 888,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        }
+      ]
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "narrow-mobile",
+    "url": "http://127.0.0.1:3000/",
+    "file": "homepage-narrow-mobile.png",
+    "heading": "Tu próximo capítulo,en inglés.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 320,
+        "top": 0,
+        "bottom": 72,
+        "height": 72
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 320,
+        "top": 72,
+        "bottom": 188,
+        "height": 116
+      },
+      "scene": {
+        "left": 0,
+        "right": 320,
+        "top": 188,
+        "bottom": 1022.15625,
+        "height": 834.15625
+      },
+      "facts": {
+        "left": 0,
+        "right": 320,
+        "top": 1022.15625,
+        "bottom": 1305.90625,
+        "height": 283.75
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 24,
+        "right": 296,
+        "top": 547.09375,
+        "bottom": 603.09375,
+        "height": 56
+      },
+      "copy": {
+        "left": 24,
+        "right": 296,
+        "top": 188,
+        "bottom": 772.15625,
+        "height": 584.15625
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 24,
+          "right": 110.65625,
+          "width": 86.65625,
+          "height": 61.6875
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 116.65625,
+          "right": 203.328125,
+          "width": 86.671875,
+          "height": 61.6875
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 209.328125,
+          "right": 296,
+          "width": 86.671875,
+          "height": 61.6875
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 1048.15625,
+          "bottom": 1138.15625,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 1048.15625,
+          "bottom": 1138.15625,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 1162.15625,
+          "bottom": 1279.90625,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        },
+        {
+          "top": 1162.15625,
+          "bottom": 1279.90625,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        }
+      ]
+    }
   }
 ]

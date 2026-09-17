@@ -25,16 +25,16 @@ describe("homepage React integration", () => {
     const finalCta = page.indexOf("<FinalCtaSection");
 
     assert.ok(studyGoals > page.indexOf("<HeroSection"));
+    assert.ok(offerings > page.indexOf("<HeroSection"));
+    assert.ok(studyGoals > offerings);
     assert.ok(method > studyGoals);
     assert.ok(testimonials > method);
     assert.ok(proof > method);
     assert.ok(proof > testimonials);
-    assert.ok(offerings > studyGoals);
-    assert.ok(locations > offerings);
-    assert.ok(method > locations);
     assert.ok(books > method);
     assert.ok(books < testimonials);
-    assert.ok(faq > books);
+    assert.ok(locations > proof);
+    assert.ok(faq > locations);
     assert.ok(finalCta > faq);
     assert.doesNotMatch(page, /dangerouslySetInnerHTML[\s\S]*legacy|src\/main\.js/);
   });

@@ -157,6 +157,22 @@ try {
       }
       if (!state?.found) throw new Error(`${surface.name} did not render ${surface.selector}: ${JSON.stringify(state)}`);
 
+      // A production navigation can report `complete` before Next's stylesheet
+      // links have settled in a fresh headless profile. Wait for the shared
+      // wordmark token so layout assertions never measure browser defaults.
+      const styleDeadline = Date.now() + 10000;
+      let stylesReady = false;
+      while (Date.now() < styleDeadline) {
+        stylesReady = await evaluate(`(() => {
+          const wordmark = document.querySelector('.brand small');
+          return getComputedStyle(document.body).margin === '0px' &&
+            (!wordmark || getComputedStyle(wordmark).color === 'rgb(138, 100, 18)');
+        })()`);
+        if (stylesReady) break;
+        await sleep(100);
+      }
+      if (!stylesReady) throw new Error(`${surface.name} styles did not become ready on ${viewport.name}`);
+
       await evaluate(`(() => {
         const style = document.createElement('style');
         style.textContent = 'html{scroll-behavior:auto!important}*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important}';

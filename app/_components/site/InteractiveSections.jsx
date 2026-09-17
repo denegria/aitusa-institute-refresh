@@ -241,7 +241,6 @@ export function ProofStories() {
   const [hoverPaused, setHoverPaused] = useState(false);
   const [focusPaused, setFocusPaused] = useState(false);
   const [interactionPaused, setInteractionPaused] = useState(false);
-  const [manuallyPaused, setManuallyPaused] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const tabMeta = {
@@ -265,7 +264,9 @@ export function ProofStories() {
     ? mediaCycleIndex % photosForTab.length
     : 0;
   const activePhotoCycle = photosForTab[activePhotoCycleIndex] || communityGallery.graduations[0];
-  const sidePhotoCount = activeTab === "classroom" ? 1 : 2;
+  const visiblePhotoCount = Math.min(photosForTab.length, 3);
+  const galleryLayout = visiblePhotoCount <= 1 ? "single" : visiblePhotoCount === 2 ? "pair" : "mosaic";
+  const sidePhotoCount = Math.max(visiblePhotoCount - 1, 0);
   const sidePhotos = Array.from({ length: sidePhotoCount }, (_, offset) => {
     const index = photosForTab.length ? (activePhotoCycleIndex + offset + 1) % photosForTab.length : 0;
     return { photo: photosForTab[index], index };
@@ -306,7 +307,7 @@ export function ProofStories() {
   }, []);
 
   useEffect(() => {
-    if (!isInView || hoverPaused || focusPaused || interactionPaused || manuallyPaused || prefersReducedMotion) return undefined;
+    if (!isInView || hoverPaused || focusPaused || interactionPaused || prefersReducedMotion) return undefined;
     const timer = window.setInterval(() => {
       setActiveTab((currentTab) => {
         const currentIndex = communityGallery.tabs.findIndex((tab) => tab.id === currentTab);
@@ -315,7 +316,7 @@ export function ProofStories() {
       setActivePhotoIndex(0);
     }, COMMUNITY_TAB_CYCLE_MS);
     return () => window.clearInterval(timer);
-  }, [focusPaused, hoverPaused, interactionPaused, manuallyPaused, isInView, prefersReducedMotion]);
+  }, [focusPaused, hoverPaused, interactionPaused, isInView, prefersReducedMotion]);
 
   useEffect(() => {
     if (
@@ -324,7 +325,6 @@ export function ProofStories() {
       || hoverPaused
       || focusPaused
       || interactionPaused
-      || manuallyPaused
       || prefersReducedMotion
     ) return undefined;
 
@@ -332,7 +332,7 @@ export function ProofStories() {
       setMediaCycleIndex((index) => index + 1);
     }, COMMUNITY_PHOTO_CYCLE_MS);
     return () => window.clearInterval(timer);
-  }, [focusPaused, hoverPaused, interactionPaused, manuallyPaused, isInView, photoAutoRotates, prefersReducedMotion]);
+  }, [focusPaused, hoverPaused, interactionPaused, isInView, photoAutoRotates, prefersReducedMotion]);
 
   useEffect(() => {
     window.lucide?.createIcons?.();
@@ -412,7 +412,7 @@ export function ProofStories() {
         </header>
 
         <div
-          className={`community-proof__tabs${isInView && !hoverPaused && !focusPaused && !interactionPaused && !manuallyPaused && !prefersReducedMotion ? " is-auto-cycling" : ""}`}
+          className={`community-proof__tabs${isInView && !hoverPaused && !focusPaused && !interactionPaused && !prefersReducedMotion ? " is-auto-cycling" : ""}`}
           role="tablist"
           aria-label="Explorar experiencias de AIT"
           style={{ "--community-cycle-duration": `${COMMUNITY_TAB_CYCLE_MS}ms`, "--reveal-order": 1 }}
@@ -436,7 +436,7 @@ export function ProofStories() {
         </div>
 
         <div
-          className="community-proof__stage"
+          className={`community-proof__stage community-proof__stage--${galleryLayout}`}
           id="community-proof-panel"
           role="tabpanel"
           aria-labelledby={`community-tab-${activeTab}`}
@@ -470,33 +470,35 @@ export function ProofStories() {
               ) : null}
             </button>
 
-          <div
-            className={`community-proof__mosaic${sidePhotos.length === 1 ? " community-proof__mosaic--single" : ""}`}
-            aria-label={`Selección de ${tabMeta[activeTab].eyebrow.toLowerCase()}`}
-          >
-            {sidePhotos.map(({ photo, index }, tileIndex) => (
-                  <button
-                    className="community-proof__tile"
-                    type="button"
-                    key={`${activeTab}-${mediaCycleIndex}-${photo.id}`}
-                    style={{ "--tile-order": tileIndex }}
-                    onClick={(event) => {
-                      pauseAfterInteraction();
-                      openPhoto(index, event.currentTarget);
-                    }}
-                    aria-label={`Ampliar: ${photo.alt}`}
-                  >
-                    <Image
-                      src={photo.src}
-                      alt=""
-                      fill
-                      className={communityPhotoClassName(photo)}
-                      sizes="(max-width: 719px) 44vw, 24vw"
-                      style={{ objectPosition: photo.position }}
-                    />
-                  </button>
-                ))}
-          </div>
+          {sidePhotos.length ? (
+            <div
+              className={`community-proof__mosaic${sidePhotos.length === 1 ? " community-proof__mosaic--single" : ""}`}
+              aria-label={`Selección de ${tabMeta[activeTab].eyebrow.toLowerCase()}`}
+            >
+              {sidePhotos.map(({ photo, index }, tileIndex) => (
+                <button
+                  className="community-proof__tile"
+                  type="button"
+                  key={`${activeTab}-${mediaCycleIndex}-${photo.id}`}
+                  style={{ "--tile-order": tileIndex }}
+                  onClick={(event) => {
+                    pauseAfterInteraction();
+                    openPhoto(index, event.currentTarget);
+                  }}
+                  aria-label={`Ampliar: ${photo.alt}`}
+                >
+                  <Image
+                    src={photo.src}
+                    alt=""
+                    fill
+                    className={communityPhotoClassName(photo)}
+                    sizes="(max-width: 719px) 44vw, 24vw"
+                    style={{ objectPosition: photo.position }}
+                  />
+                </button>
+              ))}
+            </div>
+          ) : null}
         </div>
 
         {activeTab === "community-service" ? (
@@ -514,11 +516,7 @@ export function ProofStories() {
             Ver las {photosForTab.length} fotografías de {tabMeta[activeTab].eyebrow.toLowerCase()}
             <i data-lucide="arrow-right" aria-hidden="true" />
           </button>
-          {!prefersReducedMotion ? (
-            <button className="community-pause" type="button" aria-pressed={!manuallyPaused} onClick={() => setManuallyPaused((paused) => !paused)}>
-              {manuallyPaused ? "Activar avance automático" : "Pausar avance automático"}
-            </button>
-          ) : <p className="community-pause-note">Galería sin avance automático. Elige una categoría para explorar.</p>}
+          {prefersReducedMotion ? <p className="community-pause-note">Elige una categoría para explorar la galería.</p> : null}
         </div>
 
         <dialog

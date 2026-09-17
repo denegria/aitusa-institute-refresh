@@ -102,7 +102,7 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="section-inner site-footer__compact">
         <div className="site-footer__link-rows">
-          <div className="site-footer__group">
+          <div className="site-footer__group site-footer__group--contact">
             <p className="site-footer__group-label" id="footer-contact-label">Contacto</p>
             <div className="site-footer__contact" aria-labelledby="footer-contact-label">
               <a href={site.phoneHref} aria-label={`Llamar a ${site.phone}`}>
@@ -119,15 +119,21 @@ export function SiteFooter() {
               </a>
             </div>
           </div>
-          <div className="site-footer__group">
-            <p className="site-footer__group-label" id="footer-nav-label">Explora</p>
-            <nav className="site-footer__nav" aria-labelledby="footer-nav-label">
-              <a href="/cursos/"><span>Cursos</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
-              <a href="/placement-test/"><span>Examen de nivel</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
-              <a href="/portal/sign-in/"><span>Portal estudiantil</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
-              <a href="/employee/sign-in/"><span>Acceso de empleados</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
-              <a href={site.legalLinks.contact}><span>Contacto</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
-            </nav>
+          <div className="site-footer__directory">
+            <div className="site-footer__group">
+              <p className="site-footer__group-label" id="footer-nav-label">Explora</p>
+              <nav className="site-footer__nav" aria-labelledby="footer-nav-label">
+                <a href="/placement-test/"><span>Examen de nivel</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
+                <a href={site.legalLinks.contact}><span>Contacto</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
+              </nav>
+            </div>
+            <div className="site-footer__group">
+              <p className="site-footer__group-label" id="footer-access-label">Accesos</p>
+              <nav className="site-footer__nav" aria-labelledby="footer-access-label">
+                <a href="/portal/sign-in/"><span>Portal estudiantil</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
+                <a href="/employee/sign-in/"><span>Acceso de empleados</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
+              </nav>
+            </div>
           </div>
         </div>
         <div className="site-footer__legal">

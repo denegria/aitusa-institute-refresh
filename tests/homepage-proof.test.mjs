@@ -92,7 +92,10 @@ describe("homepage community gallery", () => {
     assert.match(source, /COMMUNITY_TAB_CYCLE_MS = 8000/);
     assert.match(source, /COMMUNITY_PHOTO_CYCLE_MS = 2600/);
     assert.match(source, /activeTab, setActiveTab] = useState\("classroom"\)/);
-    assert.match(source, /activeTab === "classroom" \? 1 : 2/);
+    assert.match(source, /visiblePhotoCount = Math\.min\(photosForTab\.length, 3\)/);
+    assert.match(source, /visiblePhotoCount <= 1 \? "single" : visiblePhotoCount === 2 \? "pair" : "mosaic"/);
+    assert.match(source, /sidePhotoCount = Math\.max\(visiblePhotoCount - 1, 0\)/);
+    assert.match(source, /community-proof__stage--\$\{galleryLayout\}/);
     assert.match(source, /community-proof__mosaic--single/);
     assert.match(source, /activeTab === "graduations" \|\| activeTab === "celebrations"/);
     assert.match(source, /setMediaCycleIndex\(\(index\) => index \+ 1\)/);
@@ -102,7 +105,8 @@ describe("homepage community gallery", () => {
     assert.match(source, /interactionPaused/);
     assert.match(source, /hoverPaused/);
     assert.match(source, /focusPaused/);
-    assert.match(source, /manuallyPaused, setManuallyPaused\] = useState\(true\)/);
+    assert.doesNotMatch(source, /manuallyPaused/);
+    assert.doesNotMatch(source, /Pausar avance automático|Activar avance automático/);
     assert.match(styles, /\.community-proof__stage\s*\{[\s\S]*grid-template-columns: minmax\(0, 1\.78fr\) minmax\(250px, 1fr\)/);
     assert.match(styles, /\.community-proof__mosaic\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)[\s\S]*grid-template-rows: repeat\(2, minmax\(0, 1fr\)\)/);
     assert.match(styles, /\.community-proof__mosaic--single\s*\{[\s\S]*grid-template-rows: minmax\(0, 1fr\)/);

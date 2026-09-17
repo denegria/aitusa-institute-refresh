@@ -1,0 +1,25 @@
+# Homepage Redesign Release Packet — 2026-09-16
+
+- Issue: Explicit Alvaro request — approved staging homepage redesign.
+- Brief/reference: Homepage only; preserve the accepted header and hero composition, make English modality the primary decision, move secondary programs below it, reuse the stronger production storytelling sequence, and keep the portal preview-gated.
+- Baseline source: `origin/staging` at `7547bebaf9365b4e5f7b5c5f75ad9cdb3c3aaefe` (freshly verified against GitHub on 2026-09-16).
+- Compared deployments:
+  - Staging baseline: `https://aitusa-institute-refresh-git-staging-alvaros-projects-efb8ae58.vercel.app` — deployment `dpl_Hceip9s26NxUuTn7fV2itrxqdrKp`, READY.
+  - Production reference: `https://aitusa-institute-refresh-git-main-alvaros-projects-efb8ae58.vercel.app` — deployment `dpl_Ap3jruGRqB7Qo55SUTVQJhTc7k2q`, READY.
+- Candidate commit: This release commit, created directly from the freshly fetched `origin/staging` baseline above.
+- Candidate structure: Hero → English modality decision → secondary programs → Method → Graphic Concept books → testimonials → community proof → locations → FAQ → final CTA.
+- Validation:
+  - `npm run validate` — repository policy passed; asset integrity passed (`132` references, `0` missing, `0` orphaned); full Node suite passed (`357/357`); final Turbopack build failed because the worktree has no local `node_modules` and Turbopack rejects the temporary junction to the canonical checkout as outside the filesystem root.
+  - `npm run build -- --webpack` — passed after the final CSS changes with all routes generated.
+  - `node --test tests/homepage-proof.test.mjs tests/homepage-integration.test.mjs` — passed (`19/19`) after the final footer and modality-card corrections.
+  - `VERIFY_BASE_URL=http://127.0.0.1:3000 npm run verify:release-surfaces` — passed (`49` screenshots) after the final production build.
+  - `git diff --check` — passed; only Windows line-ending notices were emitted.
+- Visual evidence:
+  - Deterministic route matrix: `artifacts/release-surfaces/`.
+  - Exact manual checks include homepage at `1920×1080` and `390×844`, Method at `1920×1080` and `390×844`, and portal sign-in at `1920×1080` and `390×844`.
+  - No horizontal overflow or browser console/runtime warnings or errors were observed in the final local browser pass.
+- Deployment URL: Pending — local candidate only.
+- Sentry status: Unavailable for the local candidate; no remote Sentry write or authenticated production action was performed. Browser runtime evidence was privacy-safe and no forms or student data were submitted.
+- Approval state: Owner reviewed the local candidate and explicitly authorized a staging push. Production promotion remains unauthorized.
+- Safety: No dependency installation, production data write, provider send, manual deploy, production promotion, authentication change, billing action, or customer-data access was performed. The authorized staging Git push is the only external release action.
+- Residual risk: Standard Turbopack validation still requires local dependencies inside this worktree (or owner-approved installation). Live staging QA remains required after the Git-triggered deployment finishes.

@@ -8,7 +8,6 @@ import {
   MethodSection,
   OfferingPathSection,
   StudyGoalsSection,
-  LearnerProofPreview,
 } from "../_components/site/PublicSections";
 import { SiteFooter, SiteHeader } from "../_components/site/SiteChrome";
 import { site } from "../../src/content";
@@ -84,14 +83,13 @@ export default function HomePage() {
       <SiteHeader activePage="home" />
       <main id="main-content" className="home-page">
         <HeroSection />
-        <StudyGoalsSection />
-        <LearnerProofPreview />
         <OfferingPathSection />
-        <LocationsSection />
+        <StudyGoalsSection />
         <MethodSection />
         <BooksSection />
         <TestimonialsSection />
         <ProofStories />
+        <LocationsSection />
         <FaqSection />
         <FinalCtaSection />
       </main>
