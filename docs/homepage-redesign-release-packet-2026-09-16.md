@@ -9,18 +9,20 @@
 - Candidate commit: This release commit, created directly from the freshly fetched `origin/staging` baseline above.
 - Candidate structure: Hero → English modality decision → secondary programs → Method → Graphic Concept books → testimonials → community proof → locations → FAQ → final CTA.
 - Follow-up refinement: Move the Method video below the subsection headline's starting edge, restore a clear 32px/18px heading-to-point hierarchy, remove the legacy upward pull on the three outcomes, reduce Method density on mobile, and give the narrow-screen secondary-program link an intentional centered wrap. No broader palette or component-system changes were made during the advisory uniformity audit.
+- Uniformity follow-up: Apply the approved homepage-wide visual system without reopening the structure or copy: one cool/warm palette rule, 16px feature cards, 12px content cards, 8px controls, shared light/dark borders, shared elevation recipes, cool-toned Sedes surfaces, one established gold for map pins and location markers, explicit inherited text colors, a fine gold seam into the warm Método story, and a deliberate 12px gold transition band between the cool Sedes and FAQ chapters.
 - Validation:
   - `npm run validate` — repository policy passed; asset integrity passed (`132` references, `0` missing, `0` orphaned); full Node suite passed (`357/357`); final Turbopack build failed because the worktree has no local `node_modules` and Turbopack rejects the temporary junction to the canonical checkout as outside the filesystem root.
   - `npm run build -- --webpack` — passed after the final CSS changes with all routes generated.
   - `node --test tests/homepage-proof.test.mjs tests/homepage-integration.test.mjs` — passed (`19/19`) after the final footer and modality-card corrections.
   - `VERIFY_BASE_URL=http://127.0.0.1:3000 npm run verify:release-surfaces` — passed (`49` screenshots) after the final production build.
   - Follow-up browser QA — Method verified at `1920×1080` and `390×844`; zero horizontal overflow and zero browser console errors; the mobile Method chapter is approximately `120px` shorter than the approved staging checkpoint.
+  - Uniformity browser QA — homepage manually verified at the normal desktop viewport, `390×844`, and `320×844`; zero horizontal overflow and zero browser console warnings or errors. The complete `49`-screenshot release-surface matrix passed again after the final token and component-state refinements.
   - `git diff --check` — passed; only Windows line-ending notices were emitted.
 - Visual evidence:
   - Deterministic route matrix: `artifacts/release-surfaces/`.
   - Exact manual checks include homepage at `1920×1080` and `390×844`, Method at `1920×1080` and `390×844`, and portal sign-in at `1920×1080` and `390×844`.
   - No horizontal overflow or browser console/runtime warnings or errors were observed in the final local browser pass.
-- Deployment URL: Pending — local candidate only.
+- Deployment URL: Git-triggered staging alias `https://aitusa-institute-refresh-git-staging-alvaros-projects-efb8ae58.vercel.app`; the exact immutable deployment is verified after the authorized push completes.
 - Sentry status: Unavailable for the local candidate; no remote Sentry write or authenticated production action was performed. Browser runtime evidence was privacy-safe and no forms or student data were submitted.
 - Approval state: Owner reviewed the local candidate and explicitly authorized a staging push. Production promotion remains unauthorized.
 - Safety: No dependency installation, production data write, provider send, manual deploy, production promotion, authentication change, billing action, or customer-data access was performed. The authorized staging Git push is the only external release action.
