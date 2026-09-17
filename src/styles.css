@@ -16622,7 +16622,7 @@ textarea {
 
 @media (min-width: 1041px) {
   .home-page #metodo .method-story__conclusion .method-reasons {
-    transform: translateY(-44px);
+    transform: none;
   }
 }
 
@@ -16801,19 +16801,19 @@ textarea {
   }
 
   .home-page #metodo .method-story__conclusion .method-reasons li {
-    grid-template-columns: 52px minmax(0, 1fr);
+    grid-template-columns: 46px minmax(0, 1fr);
     gap: 14px;
     align-items: center;
   }
 
   .home-page #metodo .method-story__conclusion .method-reason__icon {
-    width: 50px;
-    height: 50px;
+    width: 46px;
+    height: 46px;
   }
 
   .home-page #metodo .method-story__conclusion .method-reason__icon-image {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
   }
 
   .country-proof {

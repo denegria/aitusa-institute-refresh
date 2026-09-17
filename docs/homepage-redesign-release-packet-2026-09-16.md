@@ -8,11 +8,13 @@
   - Production reference: `https://aitusa-institute-refresh-git-main-alvaros-projects-efb8ae58.vercel.app` — deployment `dpl_Ap3jruGRqB7Qo55SUTVQJhTc7k2q`, READY.
 - Candidate commit: This release commit, created directly from the freshly fetched `origin/staging` baseline above.
 - Candidate structure: Hero → English modality decision → secondary programs → Method → Graphic Concept books → testimonials → community proof → locations → FAQ → final CTA.
+- Follow-up refinement: Move the Method video below the subsection headline's starting edge, restore a clear 32px/18px heading-to-point hierarchy, remove the legacy upward pull on the three outcomes, reduce Method density on mobile, and give the narrow-screen secondary-program link an intentional centered wrap. No broader palette or component-system changes were made during the advisory uniformity audit.
 - Validation:
   - `npm run validate` — repository policy passed; asset integrity passed (`132` references, `0` missing, `0` orphaned); full Node suite passed (`357/357`); final Turbopack build failed because the worktree has no local `node_modules` and Turbopack rejects the temporary junction to the canonical checkout as outside the filesystem root.
   - `npm run build -- --webpack` — passed after the final CSS changes with all routes generated.
   - `node --test tests/homepage-proof.test.mjs tests/homepage-integration.test.mjs` — passed (`19/19`) after the final footer and modality-card corrections.
   - `VERIFY_BASE_URL=http://127.0.0.1:3000 npm run verify:release-surfaces` — passed (`49` screenshots) after the final production build.
+  - Follow-up browser QA — Method verified at `1920×1080` and `390×844`; zero horizontal overflow and zero browser console errors; the mobile Method chapter is approximately `120px` shorter than the approved staging checkpoint.
   - `git diff --check` — passed; only Windows line-ending notices were emitted.
 - Visual evidence:
   - Deterministic route matrix: `artifacts/release-surfaces/`.

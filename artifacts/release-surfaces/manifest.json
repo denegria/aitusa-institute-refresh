@@ -1270,14 +1270,14 @@
         "left": 0,
         "right": 320,
         "top": 188,
-        "bottom": 1022.15625,
-        "height": 834.15625
+        "bottom": 1019.96875,
+        "height": 831.96875
       },
       "facts": {
         "left": 0,
         "right": 320,
-        "top": 1022.15625,
-        "bottom": 1305.90625,
+        "top": 1019.96875,
+        "bottom": 1303.71875,
         "height": 283.75
       },
       "factCount": 4,
@@ -1292,8 +1292,8 @@
         "left": 24,
         "right": 296,
         "top": 188,
-        "bottom": 772.15625,
-        "height": 584.15625
+        "bottom": 769.96875,
+        "height": 581.96875
       },
       "controls": [
         {
@@ -1321,23 +1321,23 @@
       "wordmarkColor": "rgb(138, 100, 18)",
       "factBoxes": [
         {
-          "top": 1048.15625,
-          "bottom": 1138.15625,
+          "top": 1045.96875,
+          "bottom": 1135.96875,
           "text": "Desde 2004Educación en Nueva Jersey"
         },
         {
-          "top": 1048.15625,
-          "bottom": 1138.15625,
+          "top": 1045.96875,
+          "bottom": 1135.96875,
           "text": "+1,000Estudiantes guiados"
         },
         {
-          "top": 1162.15625,
-          "bottom": 1279.90625,
+          "top": 1159.96875,
+          "bottom": 1277.71875,
           "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
         },
         {
-          "top": 1162.15625,
-          "bottom": 1279.90625,
+          "top": 1159.96875,
+          "bottom": 1277.71875,
           "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
         }
       ]

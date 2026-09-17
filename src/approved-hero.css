@@ -194,6 +194,15 @@
   .approved-hero__fact strong { font-size: 1.25rem; line-height: 1.2; }
   .approved-hero__fact span { font-size: 0.6875rem; line-height: 1.45; }
 }
+@media (max-width: 374px) {
+  .approved-hero__alternate {
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    line-height: 1.4;
+    text-align: center;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .approved-hero__spain, .approved-hero__spain::before, .approved-hero__spain-location::after { animation: none; }
   .approved-hero__cta, .approved-hero__modalities a { transition: none; transform: none; }
