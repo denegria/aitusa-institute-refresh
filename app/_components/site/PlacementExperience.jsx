@@ -1354,6 +1354,7 @@ function ResultScreen({
         <h2>{recommendation.level}</h2>
         <p>Este es tu nivel recomendado; un asesor de AIT lo confirmará contigo antes de la inscripción.</p>
         <div className="diagnostic-result__actions">
+          <a className="button button--gold" href={qaFixture ? "#qa-registration" : "/inscribete/?curso=english_program"}>Inscribirme</a>
           <a className="button button--gold" href={qaFixture ? "#qa-portal" : claimReceipt?.portalHref || "/portal/?welcome=1"}>Abrir mi Portal</a>
           <a
             className="button button--ghost"

@@ -32,6 +32,7 @@ export function HeroSection() {
           <p className="approved-hero__promise">Para conversar, estudiar y trabajar<br className="approved-hero__desktop-break" /> con más confianza.</p>
           <p className="approved-hero__location">Inglés en Nueva Jersey y online.</p>
           <Link className="approved-hero__cta" href="/placement-test/">Conoce tu nivel de inglés <i data-lucide="arrow-right" aria-hidden="true" /></Link>
+          <Link className="approved-hero__alternate approved-hero__registration" href="/inscribete/">Ya sé cómo quiero estudiar <span aria-hidden="true">Inscribirme →</span></Link>
           <nav className="approved-hero__modalities" aria-label="Formatos de inglés">
             <a href="/cursos/ingles-jovenes-adultos/"><i data-lucide="users-round" aria-hidden="true" /><span>Presencial</span></a>
             <a href="/cursos/ingles-online-adultos/"><i data-lucide="laptop" aria-hidden="true" /><span>Online</span></a>
@@ -376,6 +377,7 @@ export function FinalCtaSection() {
           <div className="final-cta-conversion">
             <CallbackDialog primary />
             <div className="final-cta-actions">
+              <a className="button button--primary" href="/inscribete/">Inscribirme ahora<i data-lucide="arrow-right" aria-hidden="true" /></a>
               <a className="hero__help" href={conversionCtas.placement?.href || "/placement-test/"}>
                 Conoce tu nivel de inglés<i data-lucide="arrow-right" aria-hidden="true" />
               </a>

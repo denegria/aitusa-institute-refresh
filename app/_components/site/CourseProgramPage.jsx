@@ -70,8 +70,14 @@ function CourseHero({ program, editorial }) {
           <h1 id="course-program-title">{program.title}</h1>
           <p className="course-program-hero__lead">{editorial.lead}</p>
           <div className="course-program-hero__actions">
+            {englishProgram ? (
+              <a className="button button--primary" href={`/inscribete/?curso=${encodeURIComponent(program.slug)}`}>
+                Inscribirme
+                <i data-lucide="arrow-right" aria-hidden="true" />
+              </a>
+            ) : null}
             <a
-              className="button button--primary"
+              className={englishProgram ? "button button--ghost" : "button button--primary"}
               href={contactCourseHref(program.slug)}
             >
               Solicitar orientación

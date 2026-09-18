@@ -9,6 +9,7 @@ const primaryNavigation = [
   { label: "Sedes", href: "/#sedes", page: "locations" },
   { label: "Orientación", href: "/contactanos/", page: "contact" },
   { label: "Examen de nivel", href: "/placement-test/", page: "placement" },
+  { label: "Inscríbete", href: "/inscribete/", page: "registration" },
 ];
 
 export function SiteHeader({ activePage = "home" }) {
@@ -88,9 +89,9 @@ export function SiteHeader({ activePage = "home" }) {
         >
           <i data-lucide="user-round" aria-hidden="true" />
         </a>
-        <a className="header-cta" href={site.phoneHref}>
-          <i data-lucide="phone" aria-hidden="true" />
-          Llámanos
+        <a className="header-cta" href="/inscribete/">
+          <i data-lucide="arrow-right" aria-hidden="true" />
+          Inscríbete
         </a>
       </header>
     </>
@@ -124,6 +125,7 @@ export function SiteFooter() {
               <p className="site-footer__group-label" id="footer-nav-label">Explora</p>
               <nav className="site-footer__nav" aria-labelledby="footer-nav-label">
                 <a href="/placement-test/"><span>Examen de nivel</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
+                <a href="/inscribete/"><span>Inscríbete</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
                 <a href={site.legalLinks.contact}><span>Contacto</span><i data-lucide="arrow-right" aria-hidden="true" /></a>
               </nav>
             </div>

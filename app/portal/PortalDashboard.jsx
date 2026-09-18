@@ -132,6 +132,11 @@ export function PortalDashboard({ model, section = "home" }) {
                     : "Hacer el Placement Test"}{" "}
                 <PortalIcon name="arrow" />
               </a>
+              {model.result ? (
+                <a className="portal-button portal-button--primary" href="/inscribete/?curso=english_program">
+                  Inscribirme <PortalIcon name="arrow" />
+                </a>
+              ) : null}
             </div>
 
             <div className="portal-course-card">
@@ -526,6 +531,11 @@ function ResultCard({ result }) {
           <dd>{status}</dd>
         </div>
       </dl>
+      {confirmed ? (
+        <a className="portal-button portal-button--primary" href="/inscribete/?curso=english_program">
+          Continuar a inscripción <PortalIcon name="arrow" />
+        </a>
+      ) : null}
     </article>
   );
 }

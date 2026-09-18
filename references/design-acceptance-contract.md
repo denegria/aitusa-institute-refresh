@@ -558,6 +558,105 @@ height turns a simple three-way decision into a 1.3-viewport card stack.
 - Every compact arrow-only action retains the complete existing CTA as its
   accessible name.
 
+---
+
+# MIS-421 Public Registration Funnel Contract
+
+## User workflow and problem
+
+- A prospective student should move from any relevant AIT USA context into one
+  trustworthy registration journey without creating an account first or
+  re-entering verified Portal information.
+- The current site sends enrollment intent to placement, contact, or WhatsApp
+  surfaces, but it has no canonical checkout path and cannot show an
+  authoritative price, fulfillment mode, or payment-verification state.
+
+## Reference mode and visual direction
+
+- **Inspiration mode:** preserve the accepted staging site's navy, cream, gold,
+  editorial typography, rounded decision cards, and Portal trust language. No
+  external visual is a faithful implementation reference.
+- Use a focused three-step registration workspace rather than a field wall:
+  `Tu ruta` → `Estudiante y pago` → `Revisar y pagar`.
+- Desktop uses a calm two-column composition with the active form at left and a
+  sticky authoritative order summary at right. Mobile collapses to one column
+  with the summary immediately before the primary action.
+
+## Locked behavior, ownership, and states
+
+- AIT CRM owns catalog prices, country eligibility, identity matching,
+  registration/payment-request creation, fulfillment policy, provider handoff,
+  and payment truth. Browser amounts and contact IDs are ignored.
+- The site owns validated course context, optional Portal prefill, consent and
+  presentation, a signed payment-return state, and user-facing recovery.
+- Public checkout is available for the approved English registration/book
+  bundle. Other course contexts enter this same funnel and receive an honest
+  advisor path instead of a guessed price.
+- US in-person means physical pickup; US online means physical shipment and is
+  the only state that requests a shipping address; outside the US means digital
+  fulfillment.
+- Guest, authenticated student, and separate payer paths share the same CRM
+  orchestration. Existing identities must resolve without duplicate Contacts;
+  ambiguous identities stop for advisor review.
+- Back/refresh preserves a safe session-scoped draft and one stable
+  idempotency key. Payment URLs are never persisted server-side or in durable
+  browser storage.
+- Redirects are never proof of payment. Return states remain `Verificando`
+  until CRM reports a verified transaction. Explicit failed, cancelled,
+  unavailable, advisor-required, and resumable states remain honest.
+- English surfaces present both `Examen de nivel` and `Inscríbete`; after an
+  incomplete placement journey, placement remains the primary action. A
+  completed result may promote registration.
+
+## Action/service boundary
+
+- Public pages and site API routes own context validation, authenticated Portal
+  prefill, signed return state, same-origin request handling, and safe error
+  translation.
+- The site CRM transport owns deadlines, shared-secret and preview-protection
+  headers, and structured responses; it never calculates price.
+- CRM's internal registration route owns service authentication, AIT USA scope,
+  authoritative quote/create/status actions, production fail-closed behavior,
+  and the preview-only fake-provider boundary used for staging smoke.
+- Existing registration, ledger, fulfillment, Dejavoo, callback, and
+  reconciliation services remain the reusable mechanics.
+
+## Explicit non-goals
+
+- No production deployment, real card submission, SPIn terminal flow, refund,
+  subscription/autopay, new pricing table, new database migration, or broad
+  Portal payments experience.
+- No promise that a class section, schedule, or academic level is confirmed at
+  checkout. Section confirmation remains pending unless CRM explicitly says
+  otherwise.
+- No persistent storage of raw registration drafts, checkout URLs, card data,
+  or provider tokens in the site database.
+
+## Responsive and content invariants
+
+- Primary viewports: 390×844 mobile and 1440×900 desktop. Regression viewports:
+  360×800, 430×932, and 1366×768.
+- One H1; visible step name and progress; 44px minimum interactive targets;
+  visible focus; keyboard-operable radios, checkbox, disclosure, and form
+  controls; no nested scrolling or horizontal page overflow.
+- Price lines support the base bundle plus one optional tuition line. Names,
+  addresses, errors, and advisor copy must wrap without clipping. The desktop
+  summary may remain sticky only while it fits naturally in the viewport.
+- The dominant action is singular per step. Back, advisor, placement, and
+  sign-in actions remain visually secondary and never compete with payment.
+
+## Closeout evidence
+
+- CRM contract tests for quote tampering, shared-secret auth, AIT USA scope,
+  duplicate submission, fulfillment policy, one-shot link creation, signed
+  status lookup, and production fail-closed behavior.
+- Site state/transport/route/component tests for guest and Portal prefill,
+  separate payer, safe resume, unsupported context/country, shipping-only
+  address collection, signed return states, and verifying-not-paid behavior.
+- Full validation/build in both repositories plus desktop/mobile browser QA,
+  keyboard/focus checks, zero overflow/console errors, fake-provider staging
+  handoff, synthetic-data cleanup, and exact deployed commit evidence.
+
 ## Selected visual direction
 
 - Institutional decision ledger using the existing white, navy, warm-gold,

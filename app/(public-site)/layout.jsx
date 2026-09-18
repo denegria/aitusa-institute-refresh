@@ -3,6 +3,7 @@ import "../../src/course-discovery.css";
 import "../../src/public-conversion.css";
 import "../../src/homepage.css";
 import "../../src/approved-hero.css";
+import "../../src/registration.css";
 import { IconRuntime } from "../_components/site/IconRuntime";
 
 export default function PublicSiteLayout({ children }) {
