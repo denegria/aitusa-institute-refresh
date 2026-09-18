@@ -5,6 +5,7 @@ export const PORTAL_NAV_ITEMS = Object.freeze([
   Object.freeze({ id: "courses", label: "Mis cursos", area: "courses" }),
   Object.freeze({ id: "attendance", label: "Asistencia", area: "attendance" }),
   Object.freeze({ id: "study", label: "Estudiar", area: "lesson_progress" }),
+  Object.freeze({ id: "payments", label: "Pagos", area: "payments" }),
   Object.freeze({ id: "account", label: "Cuenta", area: "account" }),
 ]);
 
@@ -40,9 +41,9 @@ const FEATURE_CARDS = Object.freeze([
   Object.freeze({
     id: "payments",
     title: "Pagos y recibos",
-    summary: "Bloqueado hasta aprobar MIS-278.",
+    summary: "Consulta saldos del CRM, paga de forma segura y revisa recibos verificados.",
     area: "payments",
-    state: "blocked",
+    state: "ready",
   }),
   Object.freeze({
     id: "ai-practice",

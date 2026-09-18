@@ -1,3 +1,32 @@
+# AIT USA Authenticated Portal Payments — MIS-420
+
+## User workflow and problem
+
+- An authenticated student needs one trustworthy place to understand the current four-week tuition charge, original and remaining amounts, due date, unapplied credit, payment verification state, and receipts.
+- The Portal must allow full or partial payment without exposing card fields or calculating authoritative balances in the browser.
+
+## Interaction model and visual direction
+
+- Add `Pagos` as a first-class Portal destination inside the existing navy/gold shell; preserve the Portal's typography, navigation, spacing, and trust language.
+- Lead with a compact balance-and-credit summary, followed by ledger-backed charge cards and verified receipt history. Each open charge has one fixed-amount secure-payment action with an editable partial amount.
+- Provider return states remain explicit: verifying, confirmed, declined, cancelled, expired, and unavailable. Pending is never presented as paid.
+
+## Locked behavior, permissions, and non-goals
+
+- The authenticated Portal account is resolved server-side and may read or pay only the single matching active AIT USA CRM contact. Missing or ambiguous identity links fail closed to support.
+- CRM owns balances, overdue state, minimum/maximum validation, fixed payment requests, transaction verification, credits, and receipts. The browser does not infer financial transitions.
+- The original due date and stored service-period anchor remain immutable after payment. Unapplied credit is displayed separately and is not silently allocated by the Portal.
+- Checkout uses Dejavoo hosted payment pages; no card fields, card data, provider credentials, internal contact IDs, or raw callback payloads enter the Portal.
+- Non-goals: automatic credit allocation, recurring billing, payment plans, staff collections changes, Portal auth redesign, or production promotion.
+
+## Responsive and evidence contract
+
+- Primary CSS viewports: 1440x900 and 390x844; regression viewports: 1024x768 and 430x932.
+- Controls remain at least 44px, amount/error/return states are announced, focus is visible, and no horizontal overflow is introduced.
+- Required evidence: self-only authorization tests, exact-cent limit/idempotency tests, payment-state tests, focused Portal route/UI tests, full validation in both repositories, staging deployments, preview checkout return proof, zero false confirmation, runtime checks, and exact-ID synthetic cleanup.
+
+---
+
 # AIT USA Password Reset Confirmation — MIS-403
 
 ## User workflow and problem

@@ -7,8 +7,10 @@ import { resolveAuthenticatedPortalSnapshot } from "../../src/portalAuth/session
 import { getStudyBuddyRuntime } from "../../src/aiStudyBuddy/runtime.server.js";
 import { safePracticeResult } from "../../src/aiStudyBuddy/studyBuddyContract.js";
 import { toPortalPracticeState } from "../../src/aiStudyBuddy/practiceExperience.js";
+import { callPortalPaymentsCrm } from "../../src/portalPayments/crm.server.js";
+import { portalPaymentsUnavailable, safePortalPaymentsSnapshot } from "../../src/portalPayments/contract.js";
 
-export const PORTAL_SECTIONS = Object.freeze(["home", "results", "courses", "attendance", "account"]);
+export const PORTAL_SECTIONS = Object.freeze(["home", "results", "courses", "attendance", "payments", "account"]);
 
 export async function PortalRoute({ section = "home", searchParams }) {
   if (!PORTAL_SECTIONS.includes(section) || !isPortalPrototypeAvailable()) notFound();
@@ -16,11 +18,26 @@ export async function PortalRoute({ section = "home", searchParams }) {
   try {
     const snapshot = await resolveAuthenticatedPortalSnapshot(await portalRequest(section));
     const studyBuddyRuntime = getStudyBuddyRuntime();
-    const eligibility = studyBuddyRuntime.service ? await studyBuddyRuntime.service.eligibility(snapshot) : safePracticeResult("provider_disabled");
-    const model = createAuthenticatedPortalViewModel({ ...snapshot, practice: toPortalPracticeState(eligibility, snapshot.result) }, { welcome: section === "home" && params?.welcome === "1" && Boolean(snapshot.result) });
-    return <PortalDashboard model={model} section={section} />;
+    const [eligibility, payments] = await Promise.all([
+      studyBuddyRuntime.service ? studyBuddyRuntime.service.eligibility(snapshot) : safePracticeResult("provider_disabled"),
+      section === "payments" ? loadPortalPayments(snapshot.account) : Promise.resolve(portalPaymentsUnavailable()),
+    ]);
+    const model = createAuthenticatedPortalViewModel({ ...snapshot, payments, practice: toPortalPracticeState(eligibility, snapshot.result) }, { welcome: section === "home" && params?.welcome === "1" && Boolean(snapshot.result) });
+    const paymentKind = params?.payment === "failed" ? "declined" : params?.payment;
+    const paymentReturn = ["return", "declined", "cancelled"].includes(paymentKind)
+      ? { kind: paymentKind, state: typeof params?.state === "string" ? params.state : "" }
+      : null;
+    return <PortalDashboard model={model} section={section} paymentReturn={paymentReturn} />;
   } catch (error) {
     return <PortalAccessState model={createPortalAccessViewModel(error?.code || "portal_unexpected_error")} />;
+  }
+}
+
+async function loadPortalPayments(account) {
+  try {
+    return safePortalPaymentsSnapshot(await callPortalPaymentsCrm("snapshot", account));
+  } catch (error) {
+    return portalPaymentsUnavailable(error?.code);
   }
 }
 

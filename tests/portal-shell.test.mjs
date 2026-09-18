@@ -9,7 +9,7 @@ describe("MIS-276 portal shell model", () => {
     assert.equal(model.state, "ready");
     assert.deepEqual(
       model.navItems.map((item) => item.label),
-      ["Inicio", "Mis cursos", "Asistencia", "Estudiar", "Cuenta"],
+      ["Inicio", "Mis cursos", "Asistencia", "Estudiar", "Pagos", "Cuenta"],
     );
   });
 
@@ -23,12 +23,13 @@ describe("MIS-276 portal shell model", () => {
     assert.equal(study.access.reason, "privacy_gate_required");
   });
 
-  it("keeps payment and AI cards blocked even when privacy gate is satisfied", () => {
+  it("opens payment cards while AI remains blocked", () => {
     const model = createPortalShellModel("guardianActive");
     const payments = model.cards.find((card) => card.id === "payments");
     const ai = model.cards.find((card) => card.id === "ai-practice");
 
-    assert.equal(payments.access.reason, "feature_not_approved");
+    assert.equal(payments.access.allowed, true);
+    assert.equal(payments.state, "ready");
     assert.equal(ai.access.reason, "feature_not_approved");
   });
 

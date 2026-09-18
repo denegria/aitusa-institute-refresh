@@ -90,7 +90,7 @@ export function canAccessArea(session, area) {
       : denied("teacher_role_required");
   }
 
-  if (area === "payments" || area === "ai_practice") {
+  if (area === "ai_practice") {
     return denied("feature_not_approved");
   }
 

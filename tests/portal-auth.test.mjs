@@ -106,13 +106,10 @@ describe("MIS-271 portal auth boundary prototype", () => {
     assert.deepEqual(canAccessArea(session, "courses"), { allowed: true });
   });
 
-  it("keeps unapproved payment and AI areas blocked", () => {
+  it("opens approved payments while keeping unfinished AI blocked", () => {
     const session = resolvePortalSession("guardianActive");
 
-    assert.deepEqual(canAccessArea(session, "payments"), {
-      allowed: false,
-      reason: "feature_not_approved",
-    });
+    assert.deepEqual(canAccessArea(session, "payments"), { allowed: true });
     assert.deepEqual(canAccessArea(session, "ai_practice"), {
       allowed: false,
       reason: "feature_not_approved",

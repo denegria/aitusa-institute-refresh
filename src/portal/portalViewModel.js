@@ -23,6 +23,7 @@ export const PORTAL_NAVIGATION = Object.freeze([
   Object.freeze({ id: "results", label: "Mi nivel", icon: "spark", href: "/portal/results/" }),
   Object.freeze({ id: "courses", label: "Mis cursos", icon: "courses", href: "/portal/courses/" }),
   Object.freeze({ id: "attendance", label: "Asistencia", icon: "calendar", href: "/portal/attendance/" }),
+  Object.freeze({ id: "payments", label: "Pagos", icon: "payments", href: "/portal/payments/" }),
   Object.freeze({ id: "study", label: "Estudiar", icon: "study", href: "/portal/study/" }),
   Object.freeze({ id: "account", label: "Cuenta", icon: "account", href: "/portal/account/" }),
 ]);
@@ -54,6 +55,7 @@ export function createAuthenticatedPortalViewModel(snapshot, { welcome = false }
     course,
     practice,
     advisor,
+    payments: snapshot.payments || { state: "unavailable", charges: [], receipts: [], paymentRequests: [], unappliedCredit: { amount: "0.00", currency: "USD" } },
     enrollment: normalizeEnrollment(snapshot.enrollment),
     recentPractice: Array.isArray(snapshot.recentPractice)
       ? snapshot.recentPractice.map(normalizePracticeSummary).slice(0, 3)

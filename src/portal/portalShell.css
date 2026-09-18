@@ -383,6 +383,94 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
+.portal-payments {
+  display: grid;
+  gap: 22px;
+}
+
+.portal-payment-notice,
+.portal-payment-error,
+.portal-payments-state,
+.portal-payments-empty {
+  border: 1px solid rgba(15, 35, 62, 0.12);
+  border-radius: 18px;
+  padding: 18px 20px;
+}
+
+.portal-payment-notice { background: #eef5ff; border-color: #b8d1ee; }
+.portal-payment-notice--confirmed { background: #edf8f0; border-color: #acd8b7; }
+.portal-payment-notice--declined,
+.portal-payment-error { background: #fff0ed; border-color: #e9b7ab; color: #7c2418; }
+.portal-payment-notice--cancelled,
+.portal-payment-notice--expired { background: #fff8e8; border-color: #e8d09a; }
+.portal-payment-notice strong,
+.portal-payments-state strong,
+.portal-payments-empty strong { color: var(--portal-navy-950); display: block; font-size: 17px; }
+.portal-payment-notice p,
+.portal-payments-state p,
+.portal-payments-empty p { line-height: 1.6; margin: 6px 0 0; }
+
+.portal-balance-hero {
+  align-items: stretch;
+  background: linear-gradient(135deg, var(--portal-navy-950), #17365b);
+  border-radius: 24px;
+  color: #fff;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1.35fr) minmax(240px, .65fr);
+  padding: 26px;
+}
+.portal-balance-hero h2 { color: #fff; font-size: clamp(1.65rem, 3vw, 2.2rem); margin: 5px 0 10px; }
+.portal-balance-hero > div > p:last-child { color: rgba(255,255,255,.76); line-height: 1.65; margin: 0; max-width: 620px; }
+.portal-credit-card { align-content: center; background: rgba(255,255,255,.09); border: 1px solid rgba(224,187,102,.5); border-radius: 18px; display: grid; gap: 4px; padding: 20px; }
+.portal-credit-card span { color: var(--portal-gold-light); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.portal-credit-card strong { color: #fff; font-size: 2rem; }
+.portal-credit-card small { color: rgba(255,255,255,.68); line-height: 1.45; }
+
+.portal-charge-list,
+.portal-receipts { background: #fff; border: 1px solid rgba(15,35,62,.1); border-radius: 22px; box-shadow: 0 16px 40px rgba(15,35,62,.06); padding: 24px; }
+.portal-payments-heading { align-items: end; display: flex; justify-content: space-between; margin-bottom: 18px; }
+.portal-payments-heading h2 { color: var(--portal-navy-950); font-size: 1.5rem; margin: 3px 0 0; }
+.portal-payments-heading > span { background: var(--portal-canvas); border-radius: 999px; color: var(--portal-muted); font-size: 12px; font-weight: 800; padding: 7px 11px; }
+.portal-charge-card { border: 1px solid rgba(15,35,62,.12); border-radius: 18px; padding: 20px; }
+.portal-charge-card + .portal-charge-card { margin-top: 14px; }
+.portal-charge-card--overdue { border-color: #d9a094; }
+.portal-charge-card--paid { background: #f4f8f5; border-color: #bad5c0; }
+.portal-charge-card__top { align-items: start; display: flex; gap: 16px; justify-content: space-between; }
+.portal-charge-card__top h3 { color: var(--portal-navy-950); font-size: 1.15rem; margin: 6px 0 0; }
+.portal-charge-card__top > strong { color: var(--portal-navy-950); font-size: 1.55rem; white-space: nowrap; }
+.portal-charge-card__state { color: #806018; font-size: 11px; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
+.portal-charge-card--overdue .portal-charge-card__state { color: #9c2f20; }
+.portal-charge-card--paid .portal-charge-card__state { color: #21723a; }
+.portal-charge-facts { display: grid; gap: 10px; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 18px 0; }
+.portal-charge-facts div { background: var(--portal-canvas); border-radius: 12px; padding: 11px; }
+.portal-charge-facts dt { color: var(--portal-muted); font-size: 11px; font-weight: 700; }
+.portal-charge-facts dd { color: var(--portal-navy-950); font-size: 13px; font-weight: 800; margin: 4px 0 0; }
+.portal-payment-form { border-top: 1px solid rgba(15,35,62,.1); padding-top: 18px; }
+.portal-payment-form > label { color: var(--portal-navy-950); display: block; font-size: 12px; font-weight: 800; margin-bottom: 8px; }
+.portal-payment-form__row { align-items: center; display: grid; gap: 10px; grid-template-columns: auto minmax(0, 160px) minmax(180px, max-content); }
+.portal-payment-form__row > span { font-weight: 800; }
+.portal-payment-form input { border: 1px solid #aab4c2; border-radius: 11px; font: inherit; min-height: 46px; padding: 10px 12px; width: 100%; }
+.portal-payment-form input:focus-visible { outline: 3px solid rgba(196,147,45,.4); outline-offset: 2px; }
+.portal-payment-form small { color: var(--portal-muted); display: block; line-height: 1.5; margin-top: 8px; }
+.portal-receipts ul { list-style: none; margin: 0; padding: 0; }
+.portal-receipts li { align-items: center; border-top: 1px solid rgba(15,35,62,.09); display: flex; justify-content: space-between; min-height: 62px; }
+.portal-receipts li:first-child { border-top: 0; }
+.portal-receipts li div { display: grid; gap: 3px; }
+.portal-receipts time,
+.portal-receipts__empty { color: var(--portal-muted); font-size: 13px; }
+.portal-receipts li > span { color: var(--portal-navy-950); font-weight: 850; }
+
+@media (max-width: 760px) {
+  .portal-balance-hero { grid-template-columns: 1fr; padding: 20px; }
+  .portal-charge-list,
+  .portal-receipts { border-radius: 18px; padding: 18px; }
+  .portal-charge-card__top { display: grid; }
+  .portal-charge-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .portal-payment-form__row { grid-template-columns: auto minmax(0, 1fr); }
+  .portal-payment-form__row .portal-button { grid-column: 1 / -1; width: 100%; }
+}
+
 .portal-welcome {
   align-items: flex-start;
   animation: portal-rise 420ms both;
