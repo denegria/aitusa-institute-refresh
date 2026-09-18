@@ -22,6 +22,8 @@ describe("MIS-421 registration experience", () => {
 
   it("collects shipping only for the authoritative shipment mode", () => {
     assert.match(component, /deliveryMode === "shipment"/);
+    assert.match(component, /mode === "shipment"/);
+    assert.match(component, /Envío a domicilio/);
     assert.match(component, /Solo la pedimos para estudiantes online dentro de Estados Unidos/);
   });
 
