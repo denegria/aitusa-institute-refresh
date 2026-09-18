@@ -3,12 +3,20 @@ import { afterEach, describe, it } from 'node:test';
 
 import { safePaymentStatus, safePortalPaymentsSnapshot } from '../src/portalPayments/contract.js';
 import { callPortalPaymentsCrm } from '../src/portalPayments/crm.server.js';
+import { formatPortalPaymentDate } from '../src/portalPayments/format.js';
 import { createPortalPaymentReturnState, readPortalPaymentReturnState } from '../src/portalPayments/returnState.server.js';
 
 const originalEnv = { ...process.env };
 afterEach(() => { process.env = { ...originalEnv }; });
 
 describe('MIS-420 portal payment contract', () => {
+  it('formats CRM date-only and ISO timestamp values without crashing server rendering', () => {
+    assert.equal(formatPortalPaymentDate('2026-10-02'), '2 oct 2026');
+    assert.equal(formatPortalPaymentDate('2026-10-02T00:00:00.000Z'), '2 oct 2026');
+    assert.equal(formatPortalPaymentDate(new Date('2026-10-02T17:30:00.000Z')), '2 oct 2026');
+    assert.equal(formatPortalPaymentDate('not-a-date'), 'Sin fecha');
+  });
+
   it('normalizes only safe CRM fields and keeps pending verifying', () => {
     const result = safePortalPaymentsSnapshot({ result: {
       student: { name: 'Student', email: 'student@example.com', internalContactId: 'must-not-pass' },

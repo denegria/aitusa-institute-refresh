@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { formatPortalPaymentDate } from '../../src/portalPayments/format.js';
 
 const STATE_COPY = Object.freeze({
   verifying: ['Estamos verificando tu pago', 'No mostraremos el saldo como pagado hasta que AIT USA confirme la transacción.'],
@@ -12,11 +13,6 @@ const STATE_COPY = Object.freeze({
 
 function money(value, currency = 'USD') {
   return new Intl.NumberFormat('es-US', { style: 'currency', currency }).format(Number(value || 0));
-}
-
-function date(value) {
-  if (!value) return 'Sin fecha';
-  return new Intl.DateTimeFormat('es-US', { dateStyle: 'medium', timeZone: 'UTC' }).format(new Date(`${value}T00:00:00Z`));
 }
 
 export function PortalPaymentsPanel({ payments, paymentReturn = null }) {
@@ -121,8 +117,8 @@ export function PortalPaymentsPanel({ payments, paymentReturn = null }) {
             <dl className="portal-charge-facts">
               <div><dt>Original</dt><dd>{money(charge.originalAmount, charge.currency)}</dd></div>
               <div><dt>Aplicado</dt><dd>{money(charge.appliedAmount, charge.currency)}</dd></div>
-              <div><dt>Vence</dt><dd>{date(charge.originalDueDate)}</dd></div>
-              <div><dt>Próximo período</dt><dd>{date(charge.upcomingPeriodStart)}</dd></div>
+              <div><dt>Vence</dt><dd>{formatPortalPaymentDate(charge.originalDueDate)}</dd></div>
+              <div><dt>Próximo período</dt><dd>{formatPortalPaymentDate(charge.upcomingPeriodStart)}</dd></div>
             </dl>
             {charge.state !== 'paid' ? (
               <form className="portal-payment-form" onSubmit={(event) => startPayment(event, charge)}>
@@ -139,7 +135,7 @@ export function PortalPaymentsPanel({ payments, paymentReturn = null }) {
 
       <section className="portal-receipts" aria-labelledby="portal-receipts-title">
         <div className="portal-payments-heading"><div><p className="portal-eyebrow">Historial</p><h2 id="portal-receipts-title">Recibos verificados</h2></div></div>
-        {payments.receipts.length ? <ul>{payments.receipts.map((receipt) => <li key={receipt.id}><div><strong>{receipt.number}</strong><time>{date(receipt.issueDate)}</time></div><span>{money(receipt.total, receipt.currency)}</span></li>)}</ul> : <p className="portal-receipts__empty">Todavía no hay recibos verificados.</p>}
+        {payments.receipts.length ? <ul>{payments.receipts.map((receipt) => <li key={receipt.id}><div><strong>{receipt.number}</strong><time>{formatPortalPaymentDate(receipt.issueDate)}</time></div><span>{money(receipt.total, receipt.currency)}</span></li>)}</ul> : <p className="portal-receipts__empty">Todavía no hay recibos verificados.</p>}
       </section>
     </div>
   );
