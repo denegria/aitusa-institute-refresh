@@ -1,26 +1,26 @@
 /* Homepage composition and shared visual tokens. Kept separate from catalog and
    admissions styles so light/dark surfaces share one explicit contract. */
 .home-page {
-  --home-navy: #001a3d;
-  --home-blue: #174ea6;
-  --home-gold: #b5872c;
-  --home-gold-text: #785615;
-  --home-gold-light: #e6bd68;
-  --home-gold-accent: #d9b45d;
-  --home-muted: #475569;
-  --home-paper: #f7f2e8;
-  --home-soft: #f4f7fc;
+  --home-navy: var(--site-navy);
+  --home-blue: var(--site-blue);
+  --home-gold: var(--site-gold);
+  --home-gold-text: var(--site-gold-text);
+  --home-gold-light: var(--site-gold-light);
+  --home-gold-accent: var(--site-gold-accent);
+  --home-muted: var(--site-muted);
+  --home-paper: var(--site-paper);
+  --home-soft: var(--site-soft);
   --home-soft-strong: #edf3fb;
-  --home-border: #cbd5e1;
-  --home-card-border: rgb(0 26 61 / 14%);
+  --home-border: var(--site-border);
+  --home-card-border: var(--site-card-border);
   --home-dark-border: rgb(255 255 255 / 28%);
   --home-gold-border: rgb(230 189 104 / 88%);
   --home-gold-soft: #fffaf0;
   --home-seam: rgb(181 135 44 / 72%);
   --home-on-dark: #dce6f2;
   --home-radius: 12px;
-  --home-feature-radius: 16px;
-  --home-control-radius: 8px;
+  --home-feature-radius: var(--site-feature-radius);
+  --home-control-radius: var(--site-control-radius);
   --home-shadow: 0 8px 24px rgb(0 26 61 / 7%);
   --home-shadow-raised: 0 18px 44px rgb(0 26 61 / 10%);
   --home-shadow-hover: 0 24px 56px rgb(0 26 61 / 14%);

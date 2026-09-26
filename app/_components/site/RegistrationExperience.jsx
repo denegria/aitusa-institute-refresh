@@ -241,7 +241,7 @@ export function RegistrationExperience({
       <section className="registration-intro" aria-labelledby="registration-title">
         <p className="section-kicker">Inscripción segura</p>
         <h1 id="registration-title">Inscríbete en AIT USA</h1>
-        <p className="registration-program">Tu programa <strong>{courseLabel}</strong></p>
+        <p className="registration-program">{courseLabel}</p>
         <p>Elige cómo estudiar, revisa el precio y continúa al pago seguro.</p>
         <ol className="registration-steps" aria-label="Progreso de inscripción">
           {["Tu ruta", "Estudiante y pago", "Revisar y pagar"].map((label, index) => (
@@ -254,7 +254,6 @@ export function RegistrationExperience({
           <strong>Sin datos de tarjeta en AIT</strong>
           <span>El pago se completa en la página alojada del proveedor.</span>
         </div>
-        <div className="registration-classroom" aria-hidden="true" />
       </section>
 
       <section className="registration-card" aria-live="polite">
@@ -278,7 +277,7 @@ export function RegistrationExperience({
         {draft.step === 2 && !quoteLoading && hasReviewableQuote(quote) ? (
           <form onSubmit={continueToReview}>
             <FormHeading number="02" title="¿Quién estudia y quién paga?" text="Completa los datos para preparar tu inscripción. Si ya tienes cuenta, podemos adelantar tu nombre y email." />
-            <div className="registration-price-preview"><span>{courseLabel}</span><strong>Total hoy: {money(quote.quote.total, quote.quote.currency)}</strong></div>
+            <dl className="registration-price-preview"><div><dt>Programa</dt><dd>{courseLabel}</dd></div><div><dt>Total hoy</dt><dd>{money(quote.quote.total, quote.quote.currency)}</dd></div></dl>
             <IdentityFields legend="Datos del estudiante" prefix="student" value={draft.student} update={update} />
             <label className="registration-check"><input type="checkbox" checked={draft.separatePayer} onChange={(event) => update("separatePayer", event.target.checked)} /><span><strong>Otra persona realizará el pago</strong><small>El estudiante y la persona que paga quedarán vinculados por separado.</small></span></label>
             {draft.separatePayer ? <IdentityFields legend="Datos de la persona que paga" prefix="payer" value={draft.payer} update={update} /> : null}
