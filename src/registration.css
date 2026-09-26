@@ -94,6 +94,14 @@
 .registration-trust span,
 .registration-fulfillment p { color: var(--ink-soft); font-size: .88rem; }
 
+.registration-classroom {
+  height: 152px;
+  margin-top: 16px;
+  border-radius: 17px;
+  background: url('/assets/hero/approved-classroom.webp') center 55% / cover no-repeat;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, .12);
+}
+
 .registration-card,
 .registration-status {
   min-width: 0;
@@ -239,7 +247,7 @@
   .registration-steps { grid-template-columns: repeat(3, 1fr); gap: 5px; margin: 15px 0 8px; }
   .registration-steps li { align-items: flex-start; gap: 7px; font-size: .72rem; }
   .registration-steps span { flex: 0 0 28px; width: 28px; height: 28px; }
-  .registration-trust { display: none; }
+  .registration-trust, .registration-classroom { display: none; }
   .registration-card { padding: 22px 18px; border-radius: 20px; }
   .registration-form-heading { margin-bottom: 18px; }
   .registration-form-heading p { margin-top: 5px; }

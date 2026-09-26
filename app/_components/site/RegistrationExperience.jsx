@@ -254,6 +254,7 @@ export function RegistrationExperience({
           <strong>Sin datos de tarjeta en AIT</strong>
           <span>El pago se completa en la página alojada del proveedor.</span>
         </div>
+        <div className="registration-classroom" aria-hidden="true" />
       </section>
 
       <section className="registration-card" aria-live="polite">
