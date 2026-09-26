@@ -30,7 +30,23 @@ function idempotencyKey() {
 }
 
 function money(value, currency = "USD") {
-  return new Intl.NumberFormat("es-US", { style: "currency", currency }).format(Number(value || 0));
+  return new Intl.NumberFormat("es-US", { style: "currency", currency }).format(Number(value));
+}
+
+function hasReviewableQuote(result) {
+  return result?.state === "quoted" && result.quote &&
+    Array.isArray(result.quote.lines) && result.quote.lines.length > 0 &&
+    Number.isFinite(Number(result.quote.total)) && Number(result.quote.total) > 0 &&
+    typeof result.quote.currency === "string" && result.quote.currency.length === 3 &&
+    result.fulfillment?.deliveryMode;
+}
+
+function learnerLineLabel(line) {
+  const labels = {
+    registration_book_bundle: "Inscripción y libro",
+    tuition_prepayment_four_week: "Anticipo de cuatro semanas de matrícula",
+  };
+  return labels[line.code] || line.label;
 }
 
 function mergeDraft(saved, programCode) {
@@ -55,14 +71,39 @@ export function RegistrationExperience({
   const [draft, setDraft] = useState(() => ({ ...INITIAL_DRAFT, programCode }));
   const [ready, setReady] = useState(false);
   const [quote, setQuote] = useState(null);
+  const [quoteLoading, setQuoteLoading] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [paymentState, setPaymentState] = useState(null);
 
   useEffect(() => {
+    let active = true;
     let saved = null;
     try { saved = JSON.parse(sessionStorage.getItem(REGISTRATION_DRAFT_KEY) || "null"); } catch { saved = null; }
-    setDraft(mergeDraft(saved, programCode));
+    const restored = mergeDraft(saved, programCode);
+    setDraft(restored);
+    if (restored.step > 1 && !returnToken) {
+      setQuoteLoading(true);
+      request("/api/registration/quote/", restored)
+        .then((result) => {
+          if (!active) return;
+          if (result.state === "advisor_required") {
+            setQuote(result);
+            setDraft((current) => ({ ...current, step: 1 }));
+          } else if (hasReviewableQuote(result)) {
+            setQuote(result);
+          } else {
+            throw new Error("No pudimos actualizar el precio. Confirma tu ruta para intentarlo de nuevo.");
+          }
+        })
+        .catch((reason) => {
+          if (!active) return;
+          setQuote(null);
+          setError(reason.message || "No pudimos actualizar el precio. Confirma tu ruta para intentarlo de nuevo.");
+          setDraft((current) => ({ ...current, step: 1 }));
+        })
+        .finally(() => { if (active) setQuoteLoading(false); });
+    }
     setReady(true);
     fetch("/api/registration/prefill/", { cache: "no-store" })
       .then((response) => response.ok ? response.json() : null)
@@ -77,7 +118,8 @@ export function RegistrationExperience({
           },
         }));
       }).catch(() => {});
-  }, [programCode]);
+    return () => { active = false; };
+  }, [programCode, returnToken]);
 
   useEffect(() => {
     if (!ready || returnToken) return;
@@ -92,6 +134,7 @@ export function RegistrationExperience({
   }, [returnToken]);
 
   function update(path, value) {
+    if (["residenceCountryCode", "billingCountryCode", "learningModality", "includeTuitionPrepayment"].includes(path)) setQuote(null);
     setDraft((current) => {
       if (!path.includes(".")) return { ...current, [path]: value };
       const [group, field] = path.split(".");
@@ -112,13 +155,15 @@ export function RegistrationExperience({
 
   async function quoteRoute(event) {
     event.preventDefault();
-    setBusy(true); setError("");
+    setBusy(true); setError(""); setQuote(null);
     try {
       const result = await request("/api/registration/quote/", draft);
       if (result.state === "advisor_required") {
         setQuote(result); setDraft((current) => ({ ...current, step: 1 }));
-      } else {
+      } else if (hasReviewableQuote(result)) {
         setQuote(result); setDraft((current) => ({ ...current, step: 2 }));
+      } else {
+        throw new Error("No pudimos confirmar el precio. Inténtalo de nuevo.");
       }
     } catch (reason) { setError(reason.message); }
     finally { setBusy(false); }
@@ -127,6 +172,10 @@ export function RegistrationExperience({
   function continueToReview(event) {
     event.preventDefault();
     setError("");
+    if (!hasReviewableQuote(quote)) {
+      setError("Actualiza el precio antes de continuar.");
+      return;
+    }
     if (!draft.student.name || (!draft.student.email && !draft.student.phone)) {
       setError("Escribe el nombre del estudiante y al menos un email o teléfono.");
       return;
@@ -146,6 +195,10 @@ export function RegistrationExperience({
   }
 
   async function beginCheckout() {
+    if (!hasReviewableQuote(quote)) {
+      setError("Actualiza el precio antes de ir al pago seguro.");
+      return;
+    }
     setBusy(true); setError("");
     try {
       const result = await request("/api/registration/checkout/", {
@@ -187,8 +240,9 @@ export function RegistrationExperience({
     <div className="registration-shell" data-registration-funnel>
       <section className="registration-intro" aria-labelledby="registration-title">
         <p className="section-kicker">Inscripción segura</p>
-        <h1 id="registration-title">Empieza tu ruta en AIT USA</h1>
-        <p>Confirma modalidad, datos y precio antes de abrir el pago seguro. AIT verifica el pago en su servidor; una redirección nunca cuenta como pago.</p>
+        <h1 id="registration-title">Inscríbete en AIT USA</h1>
+        <p className="registration-program">Tu programa <strong>{courseLabel}</strong></p>
+        <p>Elige cómo estudiar, revisa el precio y continúa al pago seguro.</p>
         <ol className="registration-steps" aria-label="Progreso de inscripción">
           {["Tu ruta", "Estudiante y pago", "Revisar y pagar"].map((label, index) => (
             <li key={label} className={draft.step === index + 1 ? "is-current" : draft.step > index + 1 ? "is-complete" : ""}>
@@ -206,21 +260,24 @@ export function RegistrationExperience({
         <label className="registration-honeypot" aria-hidden="true">Sitio web<input autoComplete="off" tabIndex={-1} value={draft.website} onChange={(event) => update("website", event.target.value)} /></label>
         {draft.step === 1 ? (
           <form onSubmit={quoteRoute}>
-            <FormHeading number="01" title="Elige cómo estudiar" text={`Ruta seleccionada: ${courseLabel}. El precio final siempre lo calcula CRM.`} />
+            <FormHeading number="01" title="Elige cómo estudiar" text="Confirma dónde vives y la modalidad que prefieres." />
             <div className="registration-field-grid">
               <label>País de residencia<select value={draft.residenceCountryCode} onChange={(event) => { update("residenceCountryCode", event.target.value); update("billingCountryCode", event.target.value); }}>{COUNTRIES.map(([code, label]) => <option value={code} key={code}>{label}</option>)}</select></label>
               <label>Modalidad<select value={draft.learningModality} onChange={(event) => update("learningModality", event.target.value)}><option value="in_person">Presencial</option><option value="online">Online</option></select></label>
             </div>
-            <label className="registration-check"><input type="checkbox" checked={draft.includeTuitionPrepayment} onChange={(event) => update("includeTuitionPrepayment", event.target.checked)} /><span><strong>Agregar las primeras cuatro semanas de matrícula</strong><small>Opcional. Se muestra como crédito no aplicado hasta confirmar tu grupo.</small></span></label>
+            <label className="registration-check"><input type="checkbox" checked={draft.includeTuitionPrepayment} onChange={(event) => update("includeTuitionPrepayment", event.target.checked)} /><span><strong>Agregar las primeras cuatro semanas de matrícula</strong><small>Opcional. Verás el total actualizado antes de pagar. Este importe queda como crédito hasta confirmar tu grupo.</small></span></label>
             {quote?.state === "advisor_required" ? <AdvisorState /> : null}
             <FormError error={error} />
             <button className="button button--primary registration-next" disabled={busy || !ready} type="submit">{busy ? "Calculando…" : "Ver precio y continuar"}</button>
           </form>
         ) : null}
 
-        {draft.step === 2 ? (
+        {draft.step > 1 && quoteLoading ? <div className="registration-quote-loading" role="status">Actualizando el precio de tu inscripción…</div> : null}
+
+        {draft.step === 2 && !quoteLoading && hasReviewableQuote(quote) ? (
           <form onSubmit={continueToReview}>
-            <FormHeading number="02" title="¿Quién estudia y quién paga?" text="Si ya entraste al Portal, usamos tu nombre y email como ayuda. CRM vuelve a verificar la identidad." />
+            <FormHeading number="02" title="¿Quién estudia y quién paga?" text="Completa los datos para preparar tu inscripción. Si ya tienes cuenta, podemos adelantar tu nombre y email." />
+            <div className="registration-price-preview"><span>{courseLabel}</span><strong>Total hoy: {money(quote.quote.total, quote.quote.currency)}</strong></div>
             <IdentityFields legend="Datos del estudiante" prefix="student" value={draft.student} update={update} />
             <label className="registration-check"><input type="checkbox" checked={draft.separatePayer} onChange={(event) => update("separatePayer", event.target.checked)} /><span><strong>Otra persona realizará el pago</strong><small>El estudiante y la persona que paga quedarán vinculados por separado.</small></span></label>
             {draft.separatePayer ? <IdentityFields legend="Datos de la persona que paga" prefix="payer" value={draft.payer} update={update} /> : null}
@@ -230,14 +287,14 @@ export function RegistrationExperience({
           </form>
         ) : null}
 
-        {draft.step === 3 ? (
+        {draft.step === 3 && !quoteLoading && hasReviewableQuote(quote) ? (
           <div>
-            <FormHeading number="03" title="Revisa antes de pagar" text="El monto y los conceptos vienen del CRM. AIT no acepta importes enviados por el navegador." />
+            <FormHeading number="03" title="Revisa antes de pagar" text={`Confirma los datos de ${courseLabel} y el total antes de abrir el pago seguro.`} />
             <QuoteSummary quote={quote?.quote} fulfillment={quote?.fulfillment} />
-            <dl className="registration-review"><div><dt>Estudiante</dt><dd>{draft.student.name}<br /><small>{draft.student.email || draft.student.phone}</small></dd></div><div><dt>Modalidad</dt><dd>{draft.learningModality === "online" ? "Online" : "Presencial"}</dd></div></dl>
+            <dl className="registration-review"><div><dt>Programa</dt><dd>{courseLabel}</dd></div><div><dt>Estudiante</dt><dd>{draft.student.name}<br /><small>{draft.student.email || draft.student.phone}</small></dd></div><div><dt>Modalidad</dt><dd>{draft.learningModality === "online" ? "Online" : "Presencial"}</dd></div></dl>
             <p className="registration-legal">Al continuar, serás enviado al pago seguro. La inscripción queda pendiente hasta que AIT confirme el pago directamente con el proveedor.</p>
             <FormError error={error} />
-            <div className="registration-actions"><button className="button button--ghost" type="button" onClick={() => update("step", 2)}>Atrás</button><button className="button button--primary" type="button" disabled={busy} onClick={beginCheckout}>{busy ? "Preparando pago…" : "Ir al pago seguro"}</button></div>
+            <div className="registration-actions"><button className="button button--ghost" type="button" onClick={() => update("step", 2)}>Atrás</button><button className="button button--primary" type="button" disabled={busy || !hasReviewableQuote(quote)} onClick={beginCheckout}>{busy ? "Preparando pago…" : "Ir al pago seguro"}</button></div>
           </div>
         ) : null}
       </section>
@@ -257,7 +314,7 @@ function FulfillmentNote({ mode }) {
       : { title: "Recogida en sede", copy: "Tu libro físico se recoge en AIT USA. No pedimos dirección de envío." };
   return <div className="registration-fulfillment"><strong>{note.title}</strong><p>{note.copy}</p></div>;
 }
-function QuoteSummary({ quote, fulfillment }) { return <div className="registration-quote"><ul>{quote?.lines?.map((line) => <li key={line.code}><span>{line.label}</span><strong>{money(line.amount, line.currency)}</strong></li>)}</ul><div className="registration-quote__total"><span>Total</span><strong>{money(quote?.total, quote?.currency)}</strong></div><FulfillmentNote mode={fulfillment?.deliveryMode} /></div>; }
+function QuoteSummary({ quote, fulfillment }) { return <div className="registration-quote"><ul>{quote?.lines?.map((line) => <li key={line.code}><span>{learnerLineLabel(line)}</span><strong>{money(line.amount, line.currency)}</strong></li>)}</ul><div className="registration-quote__total"><span>Total</span><strong>{money(quote?.total, quote?.currency)}</strong></div><FulfillmentNote mode={fulfillment?.deliveryMode} /></div>; }
 function AdvisorState() { return <div className="registration-advisor" role="status"><strong>Un asesor debe confirmar esta ruta</strong><p>No mostraremos un precio ni abriremos un pago hasta confirmar el programa o la región.</p><a className="button button--ghost" href="/contactanos/">Hablar con admisiones</a></div>; }
 
 function PaymentStatusPanel({ state, redirectState, busy, error, onVerify, onRestart }) {
