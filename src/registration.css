@@ -1,15 +1,25 @@
 .registration-page {
+  /* Exact student/employee portal palette, scoped away from the public homepage. */
+  --site-blue: #8a6412;
+  --site-gold: #c4932d;
+  --site-gold-text: #8a6412;
+  --site-gold-light: #d9b45d;
+  --site-paper: #f7f2e8;
+  --site-soft: #f7f2e8;
+  --site-border: #d9d1c3;
+  --site-card-border: #d9d1c3;
+  --registration-surface: #fffdf9;
   min-height: calc(100svh - 76px);
   padding: 46px 0 84px;
-  background: linear-gradient(180deg, var(--site-paper), #f8fafc 56%, var(--site-soft));
+  background: var(--site-paper);
   color: var(--site-navy);
 }
 .registration-page .section-kicker { color: var(--site-gold-text); }
 .registration-page .button { min-height: 48px; padding: 12px 20px; border-radius: var(--site-control-radius); box-shadow: none; transform: none; font-size: 1rem; font-weight: 700; }
-.registration-page .button--primary { border-color: var(--site-navy); background: var(--site-navy); color: #fff; }
-.registration-page .button--primary:hover { border-color: #123f78; background: #123f78; transform: none; }
-.registration-page .button--ghost { border-color: var(--site-card-border); background: #fff; color: var(--site-navy); }
-.registration-page :is(a, button, select, input):focus-visible { outline: 3px solid var(--site-blue); outline-offset: 3px; }
+.registration-page .button--primary { border-color: var(--site-gold); background: var(--site-gold); color: var(--site-navy); }
+.registration-page .button--primary:hover { border-color: var(--site-gold-light); background: var(--site-gold-light); transform: none; }
+.registration-page .button--ghost { border-color: var(--site-border); background: var(--registration-surface); color: var(--site-navy); }
+.registration-page :is(a, button, select, input):focus-visible { outline: 3px solid var(--site-gold); outline-offset: 3px; }
 
 .registration-shell {
   min-width: 0;
@@ -64,7 +74,7 @@
   align-items: center;
   gap: 8px;
   max-width: 130px;
-  color: #64748b;
+  color: var(--site-muted);
   font-size: .79rem;
   font-weight: 700;
   line-height: 1.25;
@@ -78,11 +88,11 @@
   place-items: center;
   border: 1px solid var(--site-border);
   border-radius: 50%;
-  background: #fff;
+  background: var(--registration-surface);
 }
 
 .registration-steps .is-current { color: var(--site-navy); }
-.registration-steps .is-current span { border-color: var(--site-navy); background: var(--site-navy); color: white; }
+.registration-steps .is-current span { border-color: var(--site-gold); background: var(--site-gold); color: var(--site-navy); }
 .registration-steps .is-complete span { border-color: var(--site-gold); color: var(--site-gold-text); }
 
 .registration-fulfillment {
@@ -98,8 +108,8 @@
   padding: clamp(24px, 3vw, 38px);
   border: 1px solid var(--site-card-border);
   border-radius: var(--site-feature-radius);
-  background: #fff;
-  box-shadow: 0 18px 44px rgb(0 26 61 / 8%);
+  background: var(--registration-surface);
+  box-shadow: 0 12px 36px rgb(19 43 81 / 6%);
 }
 .registration-card--route { width: min(760px, 100%); margin: 0 auto; }
 .registration-checkout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(310px, 340px); align-items: start; gap: 28px; }
@@ -146,12 +156,12 @@
   padding: 11px 13px;
   border: 1px solid var(--site-border);
   border-radius: var(--site-control-radius);
-  background: #fff;
+  background: var(--registration-surface);
   color: var(--site-navy);
 }
 
 .registration-field-grid input:focus,
-.registration-field-grid select:focus { border-color: var(--site-blue); outline: 3px solid var(--site-blue); outline-offset: 2px; }
+.registration-field-grid select:focus { border-color: var(--site-gold); outline: 3px solid var(--site-gold); outline-offset: 2px; }
 
 .registration-fieldset { margin: 0 0 24px; padding: 0; border: 0; }
 .registration-fieldset legend { margin-bottom: 14px; color: var(--site-navy); font-size: 1rem; font-weight: 800; }
@@ -166,7 +176,7 @@
   border-block: 1px solid var(--site-border);
 }
 
-.registration-check input { flex: 0 0 20px; width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--site-navy); }
+.registration-check input { flex: 0 0 20px; width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--site-gold); }
 .registration-check span { display: grid; gap: 3px; }
 .registration-check small { color: var(--site-muted); }
 
@@ -174,12 +184,12 @@
 .registration-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--site-border); }
 .registration-actions .button--primary { min-width: 190px; }
 
-.registration-order { position: sticky; top: 96px; padding: 30px; border: 1px solid #14345c; border-radius: var(--site-feature-radius); background: var(--site-navy); color: #fff; box-shadow: 0 20px 45px rgb(0 26 61 / 16%); }
+.registration-order { position: sticky; top: 96px; padding: 30px; border: 1px solid #062a55; border-radius: var(--site-feature-radius); background: var(--site-navy); color: #fff; box-shadow: 0 20px 45px rgb(0 26 61 / 16%); }
 .registration-order__eyebrow { margin: 0 0 7px; color: var(--site-gold-light); font-size: .75rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
 .registration-order h2 { margin: 0; color: #fff; font-size: 1.4rem; line-height: 1.2; }
 .registration-order__program { margin: 14px 0 22px; color: #dce6f2; font-size: .92rem; overflow-wrap: anywhere; }
 .registration-order__secure { margin: 21px 0 0; padding-top: 16px; border-top: 1px solid rgb(255 255 255 / 22%); color: #dce6f2; font-size: .8rem; line-height: 1.5; }
-.registration-quote-loading { width: min(760px, 100%); margin: 0 auto; padding: 30px; border: 1px solid var(--site-card-border); border-radius: var(--site-feature-radius); background: #fff; color: var(--site-navy); font-weight: 700; }
+.registration-quote-loading { width: min(760px, 100%); margin: 0 auto; padding: 30px; border: 1px solid var(--site-card-border); border-radius: var(--site-feature-radius); background: var(--registration-surface); color: var(--site-navy); font-weight: 700; }
 
 .registration-error {
   margin: 18px 0 0;

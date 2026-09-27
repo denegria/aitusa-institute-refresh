@@ -609,6 +609,12 @@ height turns a simple three-way decision into a 1.3-viewport card stack.
 - **Non-goals:** New price calculations, changed product eligibility, payment collection on the site, broader orientation/course page redesign, and production promotion.
 - **Evidence:** Matching old/new screenshots for route choice, two-line-item checkout form, and review at 1440×900/390×844; check 360×800 and 1024×768; quote/reload guard, build/tests, live staging verification. Report the known unrelated broad release-surface gate separately.
 
+## MIS-427 portal-palette correction — 2026-09-27
+
+- **Owner direction/reference:** Keep the approved checkout composition and itemized CRM quote, but match the shipped student and employee portals' actual color system, not an approximation of the homepage. Reference the portal shell and employee dashboard: navy `#001a3d`, secondary navy `#062a55`, gold `#c4932d`, light gold `#d9b45d`, warm canvas `#f7f2e8`, ivory surface `#fffdf9`, warm border `#d9d1c3`, and dark gold text `#8a6412`.
+- **Visual acceptance:** Registration has the warm portal canvas rather than a cool blue-gray gradient; its form and status surfaces are ivory with warm borders; the primary action is portal gold with navy text; active step, focus, and total accents follow portal gold. The dark-navy itemized summary remains one coherent checkout surface. Preserve the public-site header rather than restyling unrelated routes.
+- **Locked behavior/non-goals:** No price, checkout, CRM, copy, flow, portal, or production changes. Validate desktop and mobile rendered steps and live staging quote/reload states; capture matched comparison screenshots.
+
 ## User workflow and problem
 
 - A prospective student should move from any relevant AIT USA context into one
