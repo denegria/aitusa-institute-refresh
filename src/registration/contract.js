@@ -46,7 +46,7 @@ export function registrationSelectionForContext(value) {
 export function isPricedRegistrationChoice(programCode, learningModality, residenceCountryCode = "US", billingCountryCode = residenceCountryCode) {
   const isUs = residenceCountryCode === "US" && billingCountryCode === "US";
   if (programCode === "english_program") {
-    return ["in_person", "online"].includes(learningModality) || (learningModality === "hybrid" && isUs);
+    return learningModality === "online" || (["in_person", "hybrid"].includes(learningModality) && isUs);
   }
   return US_PUBLIC_PROGRAM_CODES.has(programCode) && learningModality === "in_person" && isUs;
 }

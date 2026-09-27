@@ -24,7 +24,9 @@ describe("MIS-421 public registration contract", () => {
     assert.equal(isPricedRegistrationChoice("english_program", "in_person"), true);
     assert.equal(isPricedRegistrationChoice("english_program", "online"), true);
     assert.equal(isPricedRegistrationChoice("english_program", "hybrid"), true);
+    assert.equal(isPricedRegistrationChoice("english_program", "in_person", "CO"), false);
     assert.equal(isPricedRegistrationChoice("english_program", "hybrid", "CO"), false);
+    assert.equal(isPricedRegistrationChoice("english_program", "online", "CO"), true);
     for (const course of ["ged", "espanol-extranjeros", "tutorias-matematicas", "computacion-basica", "computacion-oficina"]) {
       assert.equal(isPricedRegistrationChoice(course, "in_person", "US"), true, course);
       assert.equal(isPricedRegistrationChoice(course, "in_person", "CO"), false, course);

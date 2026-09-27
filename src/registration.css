@@ -137,9 +137,9 @@
   gap: 18px;
 }
 
-.registration-field-grid--route.is-priced { grid-template-columns: 1.12fr 1fr .88fr; }
-.registration-field-grid--route.is-hybrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.registration-field-grid--route.is-advisor { grid-template-columns: 1fr; }
+.registration-field-grid--route.is-online { grid-template-columns: 1.12fr 1fr .88fr; }
+.registration-field-grid--route.is-dual { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.registration-field-grid--route.is-single { grid-template-columns: 1fr; }
 
 .registration-field-grid label {
   display: grid;
@@ -276,7 +276,7 @@
   .registration-review { grid-template-columns: 1fr; }
   .registration-card--route .registration-field-grid--route { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .registration-card--route .registration-field-grid--route > label:first-child { grid-column: 1 / -1; }
-  .registration-card--route .registration-field-grid--route.is-hybrid > label:last-child { grid-column: 1 / -1; }
+  .registration-card--route .registration-field-grid--route.is-dual > label:last-child { grid-column: 1 / -1; }
   .registration-check { margin: 18px 0; }
   .registration-actions { display: grid; grid-template-columns: 1fr; }
   .registration-actions .button { width: 100%; }
@@ -287,7 +287,7 @@
   .registration-shell { padding-inline: 16px; }
   .registration-card--route .registration-field-grid--route { grid-template-columns: 1fr; }
   .registration-card--route .registration-field-grid--route > label:first-child,
-  .registration-card--route .registration-field-grid--route.is-hybrid > label:last-child { grid-column: auto; }
+  .registration-card--route .registration-field-grid--route.is-dual > label:last-child { grid-column: auto; }
   .registration-order { padding-inline: 19px; }
   .registration-quote li { font-size: .86rem; }
 }

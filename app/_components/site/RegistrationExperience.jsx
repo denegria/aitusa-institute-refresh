@@ -98,6 +98,15 @@ export function RegistrationExperience({
     }
     if (restored.programCode !== "english_program") restored.learningModality = "in_person";
     else if (!["in_person", "hybrid", "online"].includes(restored.learningModality)) restored.learningModality = initialLearningModality;
+    if (restored.programCode !== "english_program" || restored.learningModality !== "online") {
+      if (restored.residenceCountryCode !== "US" || restored.billingCountryCode !== "US") {
+        restored.step = 1;
+        restored.includeTuitionPrepayment = false;
+        restored.idempotencyKey = idempotencyKey();
+      }
+      restored.residenceCountryCode = "US";
+      restored.billingCountryCode = "US";
+    }
     if (!isPricedRegistrationChoice(restored.programCode, restored.learningModality, restored.residenceCountryCode, restored.billingCountryCode)) {
       restored.step = 1;
       restored.includeTuitionPrepayment = false;
@@ -159,6 +168,13 @@ export function RegistrationExperience({
     if (["residenceCountryCode", "billingCountryCode", "learningModality", "includeTuitionPrepayment"].includes(path)) setQuote(null);
     setDraft((current) => {
       if (path === "residenceCountryCode" || path === "billingCountryCode") return { ...current, [path]: value, includeTuitionPrepayment: false };
+      if (path === "learningModality") return {
+        ...current,
+        learningModality: value,
+        residenceCountryCode: value === "online" ? current.residenceCountryCode : "US",
+        billingCountryCode: value === "online" ? current.billingCountryCode : "US",
+        includeTuitionPrepayment: value !== "online" && current.residenceCountryCode !== "US" ? false : current.includeTuitionPrepayment,
+      };
       if (!path.includes(".")) return { ...current, [path]: value };
       const [group, field] = path.split(".");
       return { ...current, [group]: { ...current[group], [field]: value } };
@@ -171,6 +187,8 @@ export function RegistrationExperience({
       ...current,
       programCode,
       learningModality: "in_person",
+      residenceCountryCode: "US",
+      billingCountryCode: "US",
       includeTuitionPrepayment: false,
       idempotencyKey: idempotencyKey(),
       step: 1,
@@ -308,12 +326,12 @@ export function RegistrationExperience({
       {draft.step === 1 ? (
         <section className="registration-card registration-card--route" aria-labelledby="registration-title">
           <form onSubmit={quoteRoute}>
-            <div className={`registration-field-grid registration-field-grid--route ${draft.programCode === "english_program" ? "is-priced" : "is-hybrid"}`}>
+            <div className={`registration-field-grid registration-field-grid--route ${draft.programCode !== "english_program" ? "is-single" : draft.learningModality === "online" ? "is-online" : "is-dual"}`}>
               <label>Curso<select value={draft.programCode} disabled={busy || quoteLoading} onChange={(event) => selectCourse(event.target.value)}>{courseOptions.map(({ code, label }) => <option value={code} key={code}>{label}</option>)}</select></label>
-              <label>País de residencia<select value={draft.residenceCountryCode} disabled={busy || quoteLoading} onChange={(event) => { update("residenceCountryCode", event.target.value); update("billingCountryCode", event.target.value); }}>{COUNTRIES.map(([code, label]) => <option value={code} key={code}>{label}</option>)}</select></label>
               {draft.programCode === "english_program" ? <>
                 <label>Modalidad<select value={draft.learningModality} disabled={busy || quoteLoading} onChange={(event) => update("learningModality", event.target.value)}><option value="in_person">Presencial</option><option value="hybrid">Híbrido</option><option value="online">Online</option></select></label>
               </> : null}
+              {draft.programCode === "english_program" && draft.learningModality === "online" ? <label>País de residencia<select value={draft.residenceCountryCode} disabled={busy || quoteLoading} onChange={(event) => { update("residenceCountryCode", event.target.value); update("billingCountryCode", event.target.value); }}>{COUNTRIES.map(([code, label]) => <option value={code} key={code}>{label}</option>)}</select></label> : null}
             </div>
             {pricedRoute ? <label className="registration-check"><input type="checkbox" checked={draft.includeTuitionPrepayment} disabled={busy || quoteLoading} onChange={(event) => update("includeTuitionPrepayment", event.target.checked)} /><span><strong>Anticipar cuatro semanas de matrícula</strong><small>Opcional. Se muestra por separado y queda como crédito al confirmar tu grupo.</small></span></label> : null}
             {quote?.state === "advisor_required" ? <AdvisorState course={inquiryCourse} /> : null}
