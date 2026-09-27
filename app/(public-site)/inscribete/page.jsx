@@ -6,7 +6,7 @@ import { ENGLISH_PROGRAM_SLUGS, registrationSelectionForContext } from "../../..
 export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Inscríbete | AIT USA Institute",
-  description: "Elige un curso en AIT USA. Revisa el precio de inglés presencial u online, o consulta con admisiones para las demás rutas.",
+  description: "Elige un curso en AIT USA, revisa el precio y completa tu inscripción de forma segura.",
   alternates: { canonical: "/inscribete/" },
 };
 

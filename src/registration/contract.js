@@ -4,6 +4,9 @@ export const ENGLISH_PROGRAM_SLUGS = Object.freeze(new Set([
   "ingles-online-adultos",
   "ingles-hibrido-adultos",
 ]));
+export const US_PUBLIC_PROGRAM_CODES = Object.freeze(new Set([
+  "espanol-extranjeros", "ged", "tutorias-matematicas", "computacion-basica", "computacion-oficina",
+]));
 
 export class RegistrationExperienceError extends Error {
   constructor(code, status = 400, message = "No pudimos continuar con la inscripción.") {
@@ -40,8 +43,12 @@ export function registrationSelectionForContext(value) {
   };
 }
 
-export function isPricedRegistrationChoice(programCode, learningModality) {
-  return programCode === "english_program" && ["in_person", "online"].includes(learningModality);
+export function isPricedRegistrationChoice(programCode, learningModality, residenceCountryCode = "US", billingCountryCode = residenceCountryCode) {
+  const isUs = residenceCountryCode === "US" && billingCountryCode === "US";
+  if (programCode === "english_program") {
+    return ["in_person", "online"].includes(learningModality) || (learningModality === "hybrid" && isUs);
+  }
+  return US_PUBLIC_PROGRAM_CODES.has(programCode) && learningModality === "in_person" && isUs;
 }
 
 export function safeRegistrationResponse(payload = {}) {

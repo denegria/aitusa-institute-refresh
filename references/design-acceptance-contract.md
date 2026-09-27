@@ -635,6 +635,13 @@ height turns a simple three-way decision into a 1.3-viewport card stack.
 - **Pricing boundary:** Current CRM quote accepts English `in_person` and `online`; English `hybrid` returns `learning_modality_invalid`, while non-English programs return `advisor_required`. Never map Hybrid to a different payable mode or fabricate a price. For Hybrid and non-English choices, present a clear admissions handoff to the matching course inquiry; reserve the price/review/payment flow and optional tuition prepayment for CRM-quotable English routes. Re-quote on changes and refresh, and keep course-specific entry context from being silently overwritten by an old saved draft.
 - **Acceptance:** General and course-link entry, course changes, English modality gating, safe handoff, quote integrity, persisted review, 1440×900/1024×768/390×844/360×800 layout, no overflow, keyboard focus, and matched live before/after captures. Production remains an explicit gate.
 
+## MIS-427 US course checkout correction — 2026-09-27
+
+- **Owner clarification (supersedes the pricing boundary immediately above):** Every published course offered in the US uses the same CRM-owned $95 registration/book bundle and optional $195 four-week tuition prepayment. English Hybrid uses in-person book pickup. Do not divert these US selections to a contact form; each follows the same details, itemized review, and payment path.
+- **Modality/geography:** Only English exposes a modality choice; other listed courses are in-person. Existing non-US English pricing remains unchanged. Non-US checkout for the newly enabled courses and Hybrid is not authorized by this clarification and remains advisor-led until regional rules are defined.
+- **Placement:** English may register before the test, then be directed to it after confirmed payment. An authenticated adult student with an existing Portal result carries that recommendation/final level into the registration record only when account email matches the student. AIT—not the student—confirms the final level before class assignment. Non-English courses are not presented as requiring English placement.
+- **Data boundary:** The site derives placement from the authenticated Portal snapshot server-side; the browser cannot submit a level as authority. CRM persists the selected program and optional verified placement context with the planned registration. No card collection or production promotion in this pass.
+
 ## User workflow and problem
 
 - A prospective student should move from any relevant AIT USA context into one
@@ -662,12 +669,12 @@ height turns a simple three-way decision into a 1.3-viewport card stack.
   and payment truth. Browser amounts and contact IDs are ignored.
 - The site owns validated course context, optional Portal prefill, consent and
   presentation, a signed payment-return state, and user-facing recovery.
-- Public checkout is available for the approved English registration/book
-  bundle. Other course contexts enter this same funnel and receive an honest
-  advisor path instead of a guessed price.
-- US in-person means physical pickup; US online means physical shipment and is
-  the only state that requests a shipping address; outside the US means digital
-  fulfillment.
+- Public checkout uses the same approved registration/book bundle for every
+  listed US course; English also supports its existing non-US quote paths.
+  Unsupported regional/course combinations receive an honest advisor path.
+- US in-person and Hybrid mean physical pickup; US online means physical
+  shipment and is the only state that requests a shipping address. Existing
+  non-US English online fulfillment remains digital.
 - Guest, authenticated student, and separate payer paths share the same CRM
   orchestration. Existing identities must resolve without duplicate Contacts;
   ambiguous identities stop for advisor review.

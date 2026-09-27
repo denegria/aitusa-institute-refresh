@@ -84,6 +84,7 @@ export function RegistrationExperience({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [paymentState, setPaymentState] = useState(null);
+  const [portalPlacement, setPortalPlacement] = useState(null);
 
   useEffect(() => {
     let active = true;
@@ -97,7 +98,7 @@ export function RegistrationExperience({
     }
     if (restored.programCode !== "english_program") restored.learningModality = "in_person";
     else if (!["in_person", "hybrid", "online"].includes(restored.learningModality)) restored.learningModality = initialLearningModality;
-    if (!isPricedRegistrationChoice(restored.programCode, restored.learningModality)) {
+    if (!isPricedRegistrationChoice(restored.programCode, restored.learningModality, restored.residenceCountryCode, restored.billingCountryCode)) {
       restored.step = 1;
       restored.includeTuitionPrepayment = false;
     }
@@ -129,6 +130,7 @@ export function RegistrationExperience({
       .then((response) => response.ok ? response.json() : null)
       .then((body) => {
         if (!body?.authenticated || !body.student) return;
+        setPortalPlacement(body.placement ? { ...body.placement, email: body.student.email } : null);
         setDraft((current) => ({
           ...current,
           student: {
@@ -156,7 +158,7 @@ export function RegistrationExperience({
   function update(path, value) {
     if (["residenceCountryCode", "billingCountryCode", "learningModality", "includeTuitionPrepayment"].includes(path)) setQuote(null);
     setDraft((current) => {
-      if (path === "learningModality" && value === "hybrid") return { ...current, learningModality: value, includeTuitionPrepayment: false };
+      if (path === "residenceCountryCode" || path === "billingCountryCode") return { ...current, [path]: value, includeTuitionPrepayment: false };
       if (!path.includes(".")) return { ...current, [path]: value };
       const [group, field] = path.split(".");
       return { ...current, [group]: { ...current[group], [field]: value } };
@@ -188,7 +190,7 @@ export function RegistrationExperience({
 
   async function quoteRoute(event) {
     event.preventDefault();
-    if (!isPricedRegistrationChoice(draft.programCode, draft.learningModality)) return;
+    if (!isPricedRegistrationChoice(draft.programCode, draft.learningModality, draft.residenceCountryCode, draft.billingCountryCode)) return;
     setBusy(true); setError(""); setQuote(null);
     try {
       const result = await request("/api/registration/quote/", draft);
@@ -277,11 +279,14 @@ export function RegistrationExperience({
   const courseLabel = draft.programCode === "english_program"
     ? draft.learningModality === "online" ? "Inglés online" : draft.learningModality === "hybrid" ? "Inglés híbrido" : "Inglés presencial"
     : courseOptions.find(({ code }) => code === draft.programCode)?.label || "Curso seleccionado";
-  const pricedRoute = isPricedRegistrationChoice(draft.programCode, draft.learningModality);
+  const pricedRoute = isPricedRegistrationChoice(draft.programCode, draft.learningModality, draft.residenceCountryCode, draft.billingCountryCode);
   const inquiryCourse = draft.programCode === "english_program"
     ? draft.learningModality === "online" ? "ingles-online-adultos" : draft.learningModality === "hybrid" ? "ingles-hibrido-adultos" : "ingles-jovenes-adultos"
     : draft.programCode;
   const inquiryLabel = courseLabel;
+  const linkedPlacement = draft.programCode === "english_program"
+    && portalPlacement?.email?.toLowerCase() === draft.student.email.trim().toLowerCase()
+    ? portalPlacement : null;
   const stepTitles = ["Elige cómo estudiar", "Tus datos", "Revisa antes de pagar"];
   return (
     <div className={`registration-shell registration-shell--step-${draft.step}`} data-registration-funnel>
@@ -303,10 +308,10 @@ export function RegistrationExperience({
       {draft.step === 1 ? (
         <section className="registration-card registration-card--route" aria-labelledby="registration-title">
           <form onSubmit={quoteRoute}>
-            <div className={`registration-field-grid registration-field-grid--route ${pricedRoute ? "is-priced" : draft.programCode === "english_program" ? "is-hybrid" : "is-advisor"}`}>
+            <div className={`registration-field-grid registration-field-grid--route ${draft.programCode === "english_program" ? "is-priced" : "is-hybrid"}`}>
               <label>Curso<select value={draft.programCode} disabled={busy || quoteLoading} onChange={(event) => selectCourse(event.target.value)}>{courseOptions.map(({ code, label }) => <option value={code} key={code}>{label}</option>)}</select></label>
+              <label>País de residencia<select value={draft.residenceCountryCode} disabled={busy || quoteLoading} onChange={(event) => { update("residenceCountryCode", event.target.value); update("billingCountryCode", event.target.value); }}>{COUNTRIES.map(([code, label]) => <option value={code} key={code}>{label}</option>)}</select></label>
               {draft.programCode === "english_program" ? <>
-                {pricedRoute ? <label>País de residencia<select value={draft.residenceCountryCode} disabled={busy || quoteLoading} onChange={(event) => { update("residenceCountryCode", event.target.value); update("billingCountryCode", event.target.value); }}>{COUNTRIES.map(([code, label]) => <option value={code} key={code}>{label}</option>)}</select></label> : null}
                 <label>Modalidad<select value={draft.learningModality} disabled={busy || quoteLoading} onChange={(event) => update("learningModality", event.target.value)}><option value="in_person">Presencial</option><option value="hybrid">Híbrido</option><option value="online">Online</option></select></label>
               </> : null}
             </div>
@@ -314,7 +319,7 @@ export function RegistrationExperience({
             {quote?.state === "advisor_required" ? <AdvisorState course={inquiryCourse} /> : null}
             <FormError error={error} />
             {pricedRoute ? <button className="button button--primary registration-next" disabled={busy || !ready} type="submit">{busy ? "Calculando…" : "Ver precio y continuar"}</button>
-              : <div className="registration-route-handoff"><p>Admisiones confirmará el grupo y el precio de {inquiryLabel}.</p><a className="button button--primary registration-next" href={`/contactanos/?curso=${encodeURIComponent(inquiryCourse)}`}>Consultar inscripción</a></div>}
+              : <div className="registration-route-handoff"><p>Esta combinación de curso y país necesita confirmación de admisiones antes del pago.</p><a className="button button--primary registration-next" href={`/contactanos/?curso=${encodeURIComponent(inquiryCourse)}`}>Consultar inscripción</a></div>}
           </form>
         </section>
       ) : null}
@@ -326,6 +331,10 @@ export function RegistrationExperience({
           <section className="registration-card" aria-labelledby="registration-title">
             <form onSubmit={continueToReview}>
               <IdentityFields legend="Estudiante" prefix="student" value={draft.student} update={update} />
+              {draft.programCode === "english_program" ? <div className="registration-placement-note">
+                {linkedPlacement ? <><strong>{linkedPlacement.status === "confirmed" ? "Nivel confirmado por AIT" : "Nivel recomendado"}</strong><span>{linkedPlacement.levelLabel}{linkedPlacement.status !== "confirmed" ? " · AIT confirmará el nivel final" : ""}</span></>
+                  : <><strong>Prueba de nivel</strong><span>Si aún no la has hecho, podrás completarla después del pago.</span></>}
+              </div> : null}
               <label className="registration-check"><input type="checkbox" checked={draft.separatePayer} onChange={(event) => update("separatePayer", event.target.checked)} /><span><strong>Otra persona realizará el pago</strong><small>El estudiante y la persona que paga quedarán vinculados por separado.</small></span></label>
               {draft.separatePayer ? <IdentityFields legend="Persona que paga" prefix="payer" value={draft.payer} update={update} /> : null}
               {quote?.fulfillment?.deliveryMode === "shipment" ? <AddressFields value={draft.shippingAddress} update={update} /> : null}
@@ -343,11 +352,12 @@ export function RegistrationExperience({
           <section className="registration-card" aria-labelledby="registration-title">
             <dl className="registration-review">
               <div><dt>Estudiante</dt><dd>{draft.student.name}<br /><small>{draft.student.email || draft.student.phone}</small></dd></div>
-              <div><dt>Modalidad</dt><dd>{draft.learningModality === "online" ? "Online" : "Presencial"}</dd></div>
+              <div><dt>Modalidad</dt><dd>{draft.learningModality === "online" ? "Online" : draft.learningModality === "hybrid" ? "Híbrido" : "Presencial"}</dd></div>
+              {draft.programCode === "english_program" ? <div><dt>Nivel</dt><dd>{linkedPlacement?.levelLabel || "Prueba pendiente"}<br /><small>{linkedPlacement?.status === "confirmed" ? "Confirmado por AIT" : linkedPlacement ? "AIT confirmará el nivel final" : "Podrás hacer la prueba después del pago"}</small></dd></div> : null}
               {draft.separatePayer ? <div><dt>Persona que paga</dt><dd>{draft.payer.name}<br /><small>{draft.payer.email || draft.payer.phone}</small></dd></div> : null}
               {quote.fulfillment.deliveryMode === "shipment" ? <div><dt>Envío</dt><dd>{draft.shippingAddress.addressLine1}<br /><small>{draft.shippingAddress.city}, {draft.shippingAddress.state} {draft.shippingAddress.postalCode}</small></dd></div> : null}
             </dl>
-            <p className="registration-legal">El pago se abre en una página segura. Tu inscripción se confirma cuando AIT verifica el pago.</p>
+            <p className="registration-legal">El pago se abre en una página segura. AIT confirma el pago antes de continuar con tu nivel y grupo, si aplica.</p>
             <FormError error={error} />
             <div className="registration-actions"><button className="button button--ghost" type="button" onClick={() => update("step", 2)}>Editar datos</button><button className="button button--primary" type="button" disabled={busy || !reviewable} onClick={beginCheckout}>{busy ? "Preparando pago…" : "Ir al pago seguro"}</button></div>
           </section>
@@ -377,13 +387,14 @@ function PaymentStatusPanel({ state, redirectState, busy, error, onVerify, onRes
   const value = state?.state || "verifying";
   const confirmed = value === "confirmed";
   const stopped = ["failed", "cancelled", "expired"].includes(value);
+  const needsEnglishPlacement = confirmed && state?.programCode === "english_program" && state?.registration?.placement === "not_started";
   return <section className={`registration-status registration-status--${value}`} aria-live="polite">
     <span className="registration-status__mark" aria-hidden="true">{confirmed ? "✓" : stopped ? "!" : "…"}</span>
     <p className="section-kicker">Estado de inscripción</p>
     <h1>{confirmed ? "Pago confirmado" : stopped ? "El pago no quedó confirmado" : "Estamos verificando tu pago"}</h1>
-    <p>{confirmed ? "AIT verificó el pago directamente con el proveedor. Tu inscripción ya puede continuar." : stopped ? "No registramos dinero. Puedes volver a intentarlo o pedir ayuda." : redirectState === "failed" || redirectState === "cancelled" ? "La página de pago regresó sin confirmación. CRM sigue siendo la fuente de verdad." : "La redirección no es una confirmación. Consultamos el estado guardado por CRM."}</p>
+    <p>{confirmed ? needsEnglishPlacement ? "AIT confirmó el pago. Haz la prueba de nivel para continuar; un asesor confirmará tu nivel y grupo." : "AIT confirmó el pago. Tu nivel y grupo, si aplica, se coordinan por separado." : stopped ? "No registramos dinero. Puedes volver a intentarlo o pedir ayuda." : redirectState === "failed" || redirectState === "cancelled" ? "La página de pago regresó sin confirmación. CRM sigue siendo la fuente de verdad." : "La redirección no es una confirmación. Consultamos el estado guardado por CRM."}</p>
     {state?.quote ? <QuoteSummary quote={state.quote} fulfillment={state.fulfillment} /> : null}
     {error ? <FormError error={error} /> : null}
-    <div className="registration-actions">{!confirmed ? <button className="button button--primary" disabled={busy} type="button" onClick={onVerify}>{busy ? "Verificando…" : "Verificar de nuevo"}</button> : <a className="button button--primary" href="/portal/">Ir al Portal</a>}{!confirmed && (stopped || redirectState === "failed" || redirectState === "cancelled") ? <button className="button button--ghost" type="button" onClick={onRestart}>Nueva solicitud</button> : null}<a className="button button--ghost" href="/contactanos/">Necesito ayuda</a></div>
+    <div className="registration-actions">{!confirmed ? <button className="button button--primary" disabled={busy} type="button" onClick={onVerify}>{busy ? "Verificando…" : "Verificar de nuevo"}</button> : needsEnglishPlacement ? <a className="button button--primary" href="/placement-test/">Hacer la prueba de nivel</a> : <a className="button button--primary" href="/portal/">Ir al Portal</a>}{!confirmed && (stopped || redirectState === "failed" || redirectState === "cancelled") ? <button className="button button--ghost" type="button" onClick={onRestart}>Nueva solicitud</button> : null}<a className="button button--ghost" href="/contactanos/">Necesito ayuda</a></div>
   </section>;
 }

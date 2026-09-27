@@ -17,14 +17,19 @@ describe("MIS-421 public registration contract", () => {
     assert.equal(programCodeForContext("ged"), "ged");
   });
 
-  it("preserves course-link format without offering unsupported instant pricing", () => {
+  it("preserves course-link format and US pricing for every offered course", () => {
     assert.deepEqual(registrationSelectionForContext("ingles-online-adultos"), { programCode: "english_program", learningModality: "online" });
     assert.deepEqual(registrationSelectionForContext("ingles-hibrido-adultos"), { programCode: "english_program", learningModality: "hybrid" });
     assert.deepEqual(registrationSelectionForContext("ged"), { programCode: "ged", learningModality: "in_person" });
     assert.equal(isPricedRegistrationChoice("english_program", "in_person"), true);
     assert.equal(isPricedRegistrationChoice("english_program", "online"), true);
-    assert.equal(isPricedRegistrationChoice("english_program", "hybrid"), false);
-    assert.equal(isPricedRegistrationChoice("ged", "in_person"), false);
+    assert.equal(isPricedRegistrationChoice("english_program", "hybrid"), true);
+    assert.equal(isPricedRegistrationChoice("english_program", "hybrid", "CO"), false);
+    for (const course of ["ged", "espanol-extranjeros", "tutorias-matematicas", "computacion-basica", "computacion-oficina"]) {
+      assert.equal(isPricedRegistrationChoice(course, "in_person", "US"), true, course);
+      assert.equal(isPricedRegistrationChoice(course, "in_person", "CO"), false, course);
+      assert.equal(isPricedRegistrationChoice(course, "online", "US"), false, course);
+    }
   });
 
   it("normalizes identities and never accepts browser CRM contact references", () => {

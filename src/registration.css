@@ -167,6 +167,9 @@
 .registration-fieldset { margin: 0 0 24px; padding: 0; border: 0; }
 .registration-fieldset legend { margin-bottom: 14px; color: var(--site-navy); font-size: 1rem; font-weight: 800; }
 .registration-field-help { margin: -8px 0 14px; color: var(--site-muted); font-size: .86rem; }
+.registration-placement-note { display: flex; justify-content: space-between; gap: 12px 24px; margin: 0 0 24px; padding: 14px 0; border-block: 1px solid var(--site-border); font-size: .88rem; }
+.registration-placement-note strong { color: var(--site-navy); }
+.registration-placement-note span { color: var(--site-muted); }
 
 .registration-check {
   display: flex;
@@ -257,6 +260,7 @@
 }
 
 @media (max-width: 600px) {
+  .registration-placement-note { flex-direction: column; }
   .registration-shell { padding: 23px 19px; border-radius: 20px; }
   .registration-intro h1 { font-size: clamp(2rem, 9vw, 2.75rem); }
   .registration-steps { gap: 8px; }
