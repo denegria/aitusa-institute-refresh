@@ -1165,9 +1165,7 @@ function AdultResultClaimPanel({ attemptId, enabled, onClaimed, onStepChange, qa
       {step === "details" ? (
         <form className="diagnostic-claim-form diagnostic-claim-form--contact" onSubmit={requestCode}>
           <div>
-            <p className="section-kicker">Guarda tu resultado</p>
             <h3>Crea tu acceso</h3>
-            <p>Verifica tu email y elige cómo quieres recibir orientación de AIT.</p>
           </div>
           <label>
             Nombre
@@ -1324,7 +1322,7 @@ function ResultScreen({
           <div>
             <p className="eyebrow-chip">Placement Test completado</p>
             <h2>Resultado listo</h2>
-            <p>{claimStep === "code" ? "Solo falta verificar tu email para ver tu resultado." : "Verifica tu email y elige cómo quieres recibir orientación sobre tu resultado y próximos pasos."}</p>
+            <p>{claimStep === "code" ? "Ya casi puedes ver tu resultado." : "Verifica tu email para guardar y ver tu resultado."}</p>
           </div>
         </div>
         <ol className="diagnostic-handoff-progress" aria-label="Progreso para ver el resultado">

@@ -126,10 +126,9 @@ describe("MIS-271 portal auth boundary prototype", () => {
       "utf8",
     );
 
-    assert.match(source, /Usa el email con el que guardaste tu resultado/);
+    assert.match(source, /Usa el email de tu cuenta/);
     assert.match(source, /Comenzar el Placement Test/);
     assert.match(source, /corresponde a una cuenta activa/i);
-    assert.match(source, /Recibirás un código seguro por email/);
     assert.match(source, /Código por email/);
     assert.match(source, /WorkOS protege tu contraseña/);
     assert.match(source, /href="\/contactanos"/);

@@ -200,7 +200,7 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
           {method === "code" && step === "code"
             ? "Revisa tu email"
             : employee
-              ? "Entra al Portal de empleados"
+              ? "Acceso de empleados"
               : "Entra a tu Portal"}
         </h1>
         <p>
@@ -208,11 +208,11 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
             ? `Si ${maskEmail(email)} corresponde a una cuenta activa, recibirás un código que vence en 10 minutos.`
             : method === "password"
               ? employee
-                ? "Acceso exclusivo para personal autorizado. Usa tu email de empleado y contraseña."
-                : "Usa el email con el que guardaste tu resultado y tu contraseña."
+                ? "Usa tu email de trabajo y contraseña."
+                : "Usa el email de tu cuenta y tu contraseña."
               : employee
                 ? "Usa tu email de empleado y recibirás un código de seis dígitos."
-                : "Usa el email con el que guardaste tu resultado y recibirás un código de seis dígitos."}
+                : "Usa el email de tu cuenta y recibirás un código de seis dígitos."}
         </p>
 
         {step === "email" ? (
@@ -269,7 +269,7 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
               {status === "verifying_password"
                 ? "Entrando…"
                 : employee
-                  ? "Entrar al portal de empleados"
+                  ? "Entrar al Portal"
                   : "Entrar a mi portal"}
             </button>
             <button
@@ -329,7 +329,7 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
               type="submit"
               disabled={busy || code.length !== 6}
             >
-              {status === "verifying" ? "Verificando…" : employee ? "Entrar al portal de empleados" : "Entrar a mi portal"}
+              {status === "verifying" ? "Verificando…" : employee ? "Entrar al Portal" : "Entrar a mi portal"}
             </button>
             <div className="portal-signin__secondary-actions">
               <button
@@ -369,24 +369,16 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
           </p>
         ) : null}
 
-        <div className="portal-signin__trust">
-          <span aria-hidden="true">✓</span>
-          <p>
-            {method === "password"
-              ? "WorkOS protege tu contraseña. AIT nunca la guarda ni puede verla."
-              : "Recibirás un código seguro por email. No necesitas recordar una contraseña."}
-          </p>
-        </div>
-        {step === "email" && !employee ? (
-          <div className="portal-signin__new-student">
-            <div>
-              <strong>¿Primera vez aquí?</strong>
-              <span>Completa el Placement Test, conoce tu punto de partida y guarda el resultado para crear tu acceso.</span>
-            </div>
-            <a className="portal-button portal-button--quiet" href="/placement-test/">
-              Comenzar el Placement Test
-            </a>
+        {method === "password" ? (
+          <div className="portal-signin__trust">
+            <span aria-hidden="true">✓</span>
+            <p>WorkOS protege tu contraseña. AIT nunca la guarda ni puede verla.</p>
           </div>
+        ) : null}
+        {step === "email" && !employee ? (
+          <p className="portal-signin__new-student">
+            ¿Primera vez aquí? <a href="/placement-test/">Comenzar el Placement Test</a>
+          </p>
         ) : null}
         <nav className="portal-signin__footer" aria-label="Ayuda y documentos legales">
           <a href="/contactanos">Ayuda</a>

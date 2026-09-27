@@ -54,7 +54,7 @@ describe("MIS-353 focused entry surfaces", () => {
     assert.match(portalStyles, /\.portal-signin__footer a \{[\s\S]*font-size: 12px;/);
     assert.match(portalExperience, /Acceso de empleados/);
     assert.match(employeeSignIn, /audience="employee"/);
-    assert.match(portalExperience, /Acceso exclusivo para personal autorizado/);
+    assert.match(portalExperience, /Usa tu email de trabajo y contraseña/);
   });
 
   it("defines the primary viewport fit and mobile disclosure variants", () => {
