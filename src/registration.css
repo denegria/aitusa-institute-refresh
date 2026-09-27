@@ -170,7 +170,7 @@
 .registration-placement-note { display: flex; justify-content: space-between; gap: 12px 24px; margin: 0 0 24px; padding: 14px 0; border-block: 1px solid var(--site-border); font-size: .88rem; }
 .registration-placement-note strong { color: var(--site-navy); }
 .registration-placement-note span { color: var(--site-muted); }
-.registration-portal-choice { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: -6px 0 24px; padding: 14px 18px; border: 1px solid var(--site-border); border-radius: 14px; background: var(--registration-surface); }
+.registration-portal-choice { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: -6px 0 24px; padding: 14px 0; border-block: 1px solid var(--site-border); }
 .registration-portal-choice p { display: grid; gap: 3px; margin: 0; font-size: .86rem; }
 .registration-portal-choice strong { color: var(--site-navy); }
 .registration-portal-choice span { color: var(--site-muted); }
