@@ -31,6 +31,19 @@ export function programCodeForContext(value) {
     : context;
 }
 
+export function registrationSelectionForContext(value) {
+  const context = String(value || "english_program").trim().toLowerCase();
+  return {
+    programCode: programCodeForContext(context),
+    learningModality: context === "ingles-online-adultos" ? "online"
+      : context === "ingles-hibrido-adultos" ? "hybrid" : "in_person",
+  };
+}
+
+export function isPricedRegistrationChoice(programCode, learningModality) {
+  return programCode === "english_program" && ["in_person", "online"].includes(learningModality);
+}
+
 export function safeRegistrationResponse(payload = {}) {
   if (payload.quote?.status === "advisor_required") {
     return { state: "advisor_required", reason: payload.quote.reason || "advisor_required" };

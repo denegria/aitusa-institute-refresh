@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { REGISTRATION_DRAFT_KEY } from "../../../src/registration/contract.js";
+import { isPricedRegistrationChoice, REGISTRATION_DRAFT_KEY } from "../../../src/registration/contract.js";
 
 const INITIAL_DRAFT = Object.freeze({
   step: 1,
+  entryContext: "general",
   startedAt: 0,
   website: "",
   idempotencyKey: "",
@@ -24,6 +25,7 @@ const COUNTRIES = [
   ["EC", "Ecuador"], ["PE", "Perú"], ["VE", "Venezuela"], ["AR", "Argentina"], ["CL", "Chile"],
   ["ES", "España"], ["FR", "Francia"], ["IT", "Italia"], ["DE", "Alemania"], ["GB", "Reino Unido"],
 ];
+const DEFAULT_COURSE_OPTIONS = [{ code: "english_program", label: "Inglés" }];
 
 function idempotencyKey() {
   return `public:${crypto.randomUUID()}`;
@@ -50,26 +52,32 @@ function learnerLineLabel(line) {
   return labels[line.code] || line.label;
 }
 
-function mergeDraft(saved, programCode) {
+function mergeDraft(saved, initialProgramCode, initialLearningModality, entryContext) {
+  const compatible = saved?.entryContext === entryContext || (entryContext === "general" && !saved?.entryContext);
+  const restored = compatible ? saved : null;
   return {
     ...INITIAL_DRAFT,
-    ...saved,
-    programCode: programCode || saved?.programCode || "english_program",
-    idempotencyKey: saved?.idempotencyKey || idempotencyKey(),
-    startedAt: saved?.startedAt || Date.now(),
-    student: { ...INITIAL_DRAFT.student, ...saved?.student },
-    payer: { ...INITIAL_DRAFT.payer, ...saved?.payer },
-    shippingAddress: { ...INITIAL_DRAFT.shippingAddress, ...saved?.shippingAddress },
+    ...restored,
+    entryContext,
+    programCode: restored?.programCode || initialProgramCode,
+    learningModality: restored?.learningModality || initialLearningModality,
+    idempotencyKey: restored?.idempotencyKey || idempotencyKey(),
+    startedAt: restored?.startedAt || Date.now(),
+    student: { ...INITIAL_DRAFT.student, ...restored?.student },
+    payer: { ...INITIAL_DRAFT.payer, ...restored?.payer },
+    shippingAddress: { ...INITIAL_DRAFT.shippingAddress, ...restored?.shippingAddress },
   };
 }
 
 export function RegistrationExperience({
-  programCode = "english_program",
-  courseLabel = "Inglés",
+  courseOptions = DEFAULT_COURSE_OPTIONS,
+  initialProgramCode = "english_program",
+  initialLearningModality = "in_person",
+  entryContext = "general",
   returnToken = "",
   redirectState = "",
 }) {
-  const [draft, setDraft] = useState(() => ({ ...INITIAL_DRAFT, programCode }));
+  const [draft, setDraft] = useState(() => ({ ...INITIAL_DRAFT, programCode: initialProgramCode, learningModality: initialLearningModality, entryContext }));
   const [ready, setReady] = useState(false);
   const [quote, setQuote] = useState(null);
   const [quoteLoading, setQuoteLoading] = useState(false);
@@ -81,7 +89,18 @@ export function RegistrationExperience({
     let active = true;
     let saved = null;
     try { saved = JSON.parse(sessionStorage.getItem(REGISTRATION_DRAFT_KEY) || "null"); } catch { saved = null; }
-    const restored = mergeDraft(saved, programCode);
+    const restored = mergeDraft(saved, initialProgramCode, initialLearningModality, entryContext);
+    if (!courseOptions.some(({ code }) => code === restored.programCode)) {
+      restored.programCode = initialProgramCode;
+      restored.learningModality = initialLearningModality;
+      restored.step = 1;
+    }
+    if (restored.programCode !== "english_program") restored.learningModality = "in_person";
+    else if (!["in_person", "hybrid", "online"].includes(restored.learningModality)) restored.learningModality = initialLearningModality;
+    if (!isPricedRegistrationChoice(restored.programCode, restored.learningModality)) {
+      restored.step = 1;
+      restored.includeTuitionPrepayment = false;
+    }
     setDraft(restored);
     if (restored.step > 1 && !returnToken) {
       setQuoteLoading(true);
@@ -120,7 +139,7 @@ export function RegistrationExperience({
         }));
       }).catch(() => {});
     return () => { active = false; };
-  }, [programCode, returnToken]);
+  }, [courseOptions, initialProgramCode, initialLearningModality, entryContext, returnToken]);
 
   useEffect(() => {
     if (!ready || returnToken) return;
@@ -137,10 +156,23 @@ export function RegistrationExperience({
   function update(path, value) {
     if (["residenceCountryCode", "billingCountryCode", "learningModality", "includeTuitionPrepayment"].includes(path)) setQuote(null);
     setDraft((current) => {
+      if (path === "learningModality" && value === "hybrid") return { ...current, learningModality: value, includeTuitionPrepayment: false };
       if (!path.includes(".")) return { ...current, [path]: value };
       const [group, field] = path.split(".");
       return { ...current, [group]: { ...current[group], [field]: value } };
     });
+  }
+
+  function selectCourse(programCode) {
+    setQuote(null); setError("");
+    setDraft((current) => ({
+      ...current,
+      programCode,
+      learningModality: "in_person",
+      includeTuitionPrepayment: false,
+      idempotencyKey: idempotencyKey(),
+      step: 1,
+    }));
   }
 
   async function request(path, body) {
@@ -156,6 +188,7 @@ export function RegistrationExperience({
 
   async function quoteRoute(event) {
     event.preventDefault();
+    if (!isPricedRegistrationChoice(draft.programCode, draft.learningModality)) return;
     setBusy(true); setError(""); setQuote(null);
     try {
       const result = await request("/api/registration/quote/", draft);
@@ -204,7 +237,7 @@ export function RegistrationExperience({
     try {
       const result = await request("/api/registration/checkout/", {
         ...draft,
-        sourceReference: `public-site:/inscribete:${programCode}`,
+        sourceReference: `public-site:/inscribete:${draft.programCode}`,
         shippingAddress: quote?.fulfillment?.deliveryMode === "shipment" ? draft.shippingAddress : undefined,
       });
       if (result.state === "advisor_required") {
@@ -230,7 +263,10 @@ export function RegistrationExperience({
 
   function startNewRegistration() {
     sessionStorage.removeItem(REGISTRATION_DRAFT_KEY);
-    window.location.assign(`/inscribete/?curso=${encodeURIComponent(programCode)}`);
+    const course = draft.programCode === "english_program"
+      ? draft.learningModality === "online" ? "ingles-online-adultos" : draft.learningModality === "hybrid" ? "ingles-hibrido-adultos" : "ingles-jovenes-adultos"
+      : draft.programCode;
+    window.location.assign(`/inscribete/?curso=${encodeURIComponent(course)}`);
   }
 
   if (returnToken) {
@@ -238,6 +274,14 @@ export function RegistrationExperience({
   }
 
   const reviewable = hasReviewableQuote(quote);
+  const courseLabel = draft.programCode === "english_program"
+    ? draft.learningModality === "online" ? "Inglés online" : draft.learningModality === "hybrid" ? "Inglés híbrido" : "Inglés presencial"
+    : courseOptions.find(({ code }) => code === draft.programCode)?.label || "Curso seleccionado";
+  const pricedRoute = isPricedRegistrationChoice(draft.programCode, draft.learningModality);
+  const inquiryCourse = draft.programCode === "english_program"
+    ? draft.learningModality === "online" ? "ingles-online-adultos" : draft.learningModality === "hybrid" ? "ingles-hibrido-adultos" : "ingles-jovenes-adultos"
+    : draft.programCode;
+  const inquiryLabel = courseLabel;
   const stepTitles = ["Elige cómo estudiar", "Tus datos", "Revisa antes de pagar"];
   return (
     <div className={`registration-shell registration-shell--step-${draft.step}`} data-registration-funnel>
@@ -259,15 +303,18 @@ export function RegistrationExperience({
       {draft.step === 1 ? (
         <section className="registration-card registration-card--route" aria-labelledby="registration-title">
           <form onSubmit={quoteRoute}>
-            <div className="registration-program"><span>Tu elección</span><strong>{courseLabel}</strong></div>
-            <div className="registration-field-grid">
-              <label>País de residencia<select value={draft.residenceCountryCode} disabled={busy || quoteLoading} onChange={(event) => { update("residenceCountryCode", event.target.value); update("billingCountryCode", event.target.value); }}>{COUNTRIES.map(([code, label]) => <option value={code} key={code}>{label}</option>)}</select></label>
-              <label>Modalidad<select value={draft.learningModality} disabled={busy || quoteLoading} onChange={(event) => update("learningModality", event.target.value)}><option value="in_person">Presencial</option><option value="online">Online</option></select></label>
+            <div className={`registration-field-grid registration-field-grid--route ${pricedRoute ? "is-priced" : draft.programCode === "english_program" ? "is-hybrid" : "is-advisor"}`}>
+              <label>Curso<select value={draft.programCode} disabled={busy || quoteLoading} onChange={(event) => selectCourse(event.target.value)}>{courseOptions.map(({ code, label }) => <option value={code} key={code}>{label}</option>)}</select></label>
+              {draft.programCode === "english_program" ? <>
+                {pricedRoute ? <label>País de residencia<select value={draft.residenceCountryCode} disabled={busy || quoteLoading} onChange={(event) => { update("residenceCountryCode", event.target.value); update("billingCountryCode", event.target.value); }}>{COUNTRIES.map(([code, label]) => <option value={code} key={code}>{label}</option>)}</select></label> : null}
+                <label>Modalidad<select value={draft.learningModality} disabled={busy || quoteLoading} onChange={(event) => update("learningModality", event.target.value)}><option value="in_person">Presencial</option><option value="hybrid">Híbrido</option><option value="online">Online</option></select></label>
+              </> : null}
             </div>
-            <label className="registration-check"><input type="checkbox" checked={draft.includeTuitionPrepayment} disabled={busy || quoteLoading} onChange={(event) => update("includeTuitionPrepayment", event.target.checked)} /><span><strong>Anticipar cuatro semanas de matrícula</strong><small>Opcional. Se muestra por separado y queda como crédito al confirmar tu grupo.</small></span></label>
-            {quote?.state === "advisor_required" ? <AdvisorState /> : null}
+            {pricedRoute ? <label className="registration-check"><input type="checkbox" checked={draft.includeTuitionPrepayment} disabled={busy || quoteLoading} onChange={(event) => update("includeTuitionPrepayment", event.target.checked)} /><span><strong>Anticipar cuatro semanas de matrícula</strong><small>Opcional. Se muestra por separado y queda como crédito al confirmar tu grupo.</small></span></label> : null}
+            {quote?.state === "advisor_required" ? <AdvisorState course={inquiryCourse} /> : null}
             <FormError error={error} />
-            <button className="button button--primary registration-next" disabled={busy || !ready} type="submit">{busy ? "Calculando…" : "Ver precio y continuar"}</button>
+            {pricedRoute ? <button className="button button--primary registration-next" disabled={busy || !ready} type="submit">{busy ? "Calculando…" : "Ver precio y continuar"}</button>
+              : <div className="registration-route-handoff"><p>Admisiones confirmará el grupo y el precio de {inquiryLabel}.</p><a className="button button--primary registration-next" href={`/contactanos/?curso=${encodeURIComponent(inquiryCourse)}`}>Consultar inscripción</a></div>}
           </form>
         </section>
       ) : null}
@@ -324,7 +371,7 @@ function FulfillmentNote({ mode }) {
 }
 function QuoteSummary({ quote, fulfillment }) { return <div className="registration-quote"><ul>{quote?.lines?.map((line) => <li key={line.code}><span>{learnerLineLabel(line)}</span><strong>{money(line.amount, line.currency)}</strong></li>)}</ul><div className="registration-quote__total"><span>Total</span><strong>{money(quote?.total, quote?.currency)}</strong></div><FulfillmentNote mode={fulfillment?.deliveryMode} /></div>; }
 function OrderSummary({ quote, fulfillment, courseLabel, stage }) { return <aside className={`registration-order registration-order--${stage}`} aria-label="Tu pedido"><h2>Tu pedido</h2><p className="registration-order__program">{courseLabel}</p><QuoteSummary quote={quote} fulfillment={fulfillment} /><p className="registration-order__secure">Sin datos de tarjeta en AIT. El pago se abre en la página segura del proveedor.</p></aside>; }
-function AdvisorState() { return <div className="registration-advisor" role="status"><strong>Un asesor debe confirmar esta ruta</strong><p>No mostraremos un precio ni abriremos un pago hasta confirmar el programa o la región.</p><a className="button button--ghost" href="/contactanos/">Hablar con admisiones</a></div>; }
+function AdvisorState({ course }) { return <div className="registration-advisor" role="status"><strong>Un asesor debe confirmar esta ruta</strong><p>No mostraremos un precio ni abriremos un pago hasta confirmar el programa o la región.</p><a className="button button--ghost" href={`/contactanos/?curso=${encodeURIComponent(course)}`}>Hablar con admisiones</a></div>; }
 
 function PaymentStatusPanel({ state, redirectState, busy, error, onVerify, onRestart }) {
   const value = state?.state || "verifying";

@@ -3,8 +3,10 @@ import { describe, it } from "node:test";
 
 import {
   assertPublicRegistrationSubmission,
+  isPricedRegistrationChoice,
   normalizeRegistrationInput,
   programCodeForContext,
+  registrationSelectionForContext,
   safeRegistrationResponse,
 } from "../src/registration/contract.js";
 
@@ -13,6 +15,16 @@ describe("MIS-421 public registration contract", () => {
     assert.equal(programCodeForContext("ingles-online-adultos"), "english_program");
     assert.equal(programCodeForContext("ingles-hibrido-adultos"), "english_program");
     assert.equal(programCodeForContext("ged"), "ged");
+  });
+
+  it("preserves course-link format without offering unsupported instant pricing", () => {
+    assert.deepEqual(registrationSelectionForContext("ingles-online-adultos"), { programCode: "english_program", learningModality: "online" });
+    assert.deepEqual(registrationSelectionForContext("ingles-hibrido-adultos"), { programCode: "english_program", learningModality: "hybrid" });
+    assert.deepEqual(registrationSelectionForContext("ged"), { programCode: "ged", learningModality: "in_person" });
+    assert.equal(isPricedRegistrationChoice("english_program", "in_person"), true);
+    assert.equal(isPricedRegistrationChoice("english_program", "online"), true);
+    assert.equal(isPricedRegistrationChoice("english_program", "hybrid"), false);
+    assert.equal(isPricedRegistrationChoice("ged", "in_person"), false);
   });
 
   it("normalizes identities and never accepts browser CRM contact references", () => {

@@ -68,18 +68,6 @@
   color: var(--site-muted);
 }
 
-.registration-program {
-  display: grid;
-  gap: 4px;
-  margin: 0 0 25px;
-  padding: 0 0 18px;
-  border-bottom: 1px solid var(--site-border);
-  color: var(--site-navy);
-  overflow-wrap: anywhere;
-}
-.registration-program span { color: var(--site-gold-text); font-size: .7rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-.registration-program strong { font-size: 1.22rem; font-weight: 750; line-height: 1.3; }
-
 .registration-steps {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -93,6 +81,7 @@
 .registration-steps li {
   display: flex;
   align-items: center;
+  justify-content: center;
   min-width: 0;
   min-height: 40px;
   gap: 9px;
@@ -148,6 +137,10 @@
   gap: 18px;
 }
 
+.registration-field-grid--route.is-priced { grid-template-columns: 1.12fr 1fr .88fr; }
+.registration-field-grid--route.is-hybrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.registration-field-grid--route.is-advisor { grid-template-columns: 1fr; }
+
 .registration-field-grid label {
   display: grid;
   gap: 7px;
@@ -189,6 +182,9 @@
 .registration-check small { color: var(--site-muted); }
 
 .registration-next { width: 100%; margin-top: 8px; }
+.registration-route-handoff { margin-top: 25px; padding-top: 19px; border-top: 1px solid var(--site-border); }
+.registration-route-handoff p { margin: 0 0 14px; color: var(--site-muted); font-size: .9rem; }
+.registration-route-handoff .button { display: flex; align-items: center; justify-content: center; }
 .registration-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--site-border); }
 .registration-actions .button--primary { min-width: 190px; }
 
@@ -274,7 +270,9 @@
   .registration-order .registration-quote__total { padding: 10px 0 2px; }
   .registration-field-grid,
   .registration-review { grid-template-columns: 1fr; }
-  .registration-card--route .registration-field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .registration-card--route .registration-field-grid--route { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .registration-card--route .registration-field-grid--route > label:first-child { grid-column: 1 / -1; }
+  .registration-card--route .registration-field-grid--route.is-hybrid > label:last-child { grid-column: 1 / -1; }
   .registration-check { margin: 18px 0; }
   .registration-actions { display: grid; grid-template-columns: 1fr; }
   .registration-actions .button { width: 100%; }
@@ -283,7 +281,9 @@
 @media (max-width: 380px) {
   .registration-steps li { gap: 4px; font-size: .67rem; }
   .registration-shell { padding-inline: 16px; }
-  .registration-card--route .registration-field-grid { grid-template-columns: 1fr; }
+  .registration-card--route .registration-field-grid--route { grid-template-columns: 1fr; }
+  .registration-card--route .registration-field-grid--route > label:first-child,
+  .registration-card--route .registration-field-grid--route.is-hybrid > label:last-child { grid-column: auto; }
   .registration-order { padding-inline: 19px; }
   .registration-quote li { font-size: .86rem; }
 }
