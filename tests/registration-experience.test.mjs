@@ -11,9 +11,8 @@ const css = await readFile(new URL("../src/registration.css", import.meta.url), 
 
 describe("MIS-421 registration experience", () => {
   it("keeps the three-step, provider-hosted, redirect-independent flow explicit", () => {
-    assert.match(component, /Tu ruta/);
-    assert.match(component, /Estudiante y pago/);
-    assert.match(component, /Revisar y pagar/);
+    assert.match(component, /\["Ruta", "Datos", "Revisar"\]/);
+    assert.match(component, /aria-current=\{draft\.step === index \+ 1 \? "step"/);
     assert.match(component, /Sin datos de tarjeta en AIT/);
     assert.match(component, /La redirección no es una confirmación/);
     assert.match(component, /sessionStorage/);

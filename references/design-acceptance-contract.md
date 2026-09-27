@@ -622,6 +622,12 @@ height turns a simple three-way decision into a 1.3-viewport card stack.
 - **Locked behavior and scope:** Keep the existing public header and SiteHeader navigation as the Placement Test route does. Replace only the registration route's full SiteFooter with the compact footer; leave other public pages and Placement Test untouched. Preserve quote authority, re-quote on refresh, payment handoff/return semantics, advisor and error states, and no on-site card fields.
 - **Visual/evidence:** At 1440×900, the route-choice workspace should sit centered on the navy canvas; form/review may grow vertically when content demands it. At 390×844 and regression 360×800/1024×768, maintain readable in-card rhythm, ≥44px controls, visible focus, accessible footer links, and no horizontal overflow. Compare the supplied reference with each rendered registration state and capture matched before/after screenshots. Production remains an explicit approval gate.
 
+## MIS-427 editorial and control-density correction — 2026-09-27
+
+- **Owner finding:** The first screen repeats the same instruction in a generic page title, two subordinate headlines, and two explanatory sentences. The loose numbered bubbles look unfinished; the program name reads as unstyled filler; native select fields feel too square for the focused shell.
+- **Selected direction:** One task-specific H1 per step (`Elige cómo estudiar`, `Tus datos`, `Revisa antes de pagar`) under a small `Inscripción` eyebrow. Remove duplicate form headings and their explanatory sentences. Use a compact three-segment progress rail with equal tracks, short labels, aligned numbered circles, and clear current/completed states. Present the selected program as an editorial label/name pair with a single rule, never a highlighted chip or nested card. Round all identity and route controls to the same soft radius and keep gold focus treatment.
+- **Behavior/content locked:** Keep the optional tuition credit explanation, program identity, CRM line-item summary, payment verification truth, error/advisor paths, and provider-hosted payment boundary. Remove only repetitive guidance; do not remove meaningful pricing or trust information. Preserve one H1, semantic fieldsets, accessible step state, and 44px controls at 360/390/1024/1440 widths. Capture route, details, and review at matching viewports before staging and recheck the live quote/reload path afterward.
+
 ## User workflow and problem
 
 - A prospective student should move from any relevant AIT USA context into one
