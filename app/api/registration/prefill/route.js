@@ -9,6 +9,7 @@ export async function GET(request) {
   try {
     const snapshot = await resolveAuthenticatedPortalSnapshot(request);
     const actor = registrationPortalActor(snapshot, snapshot.account?.email);
+    if (!actor.portalAccountId) return registrationJson({ authenticated: false, student: null });
     return registrationJson({
       authenticated: true,
       student: {

@@ -19,6 +19,12 @@ describe("MIS-421 registration experience", () => {
     assert.doesNotMatch(component, /setInterval|cardNumber|cvv|cvc/i);
   });
 
+  it("offers optional Portal sign-in while retaining guest checkout", () => {
+    assert.match(component, /\/portal\/sign-in\/\?returnTo=/);
+    assert.match(component, /continuar como invitado/);
+    assert.match(component, /portalStudentEmail\.toLowerCase\(\) === draft\.student\.email/);
+  });
+
   it("collects shipping only for the authoritative shipment mode", () => {
     assert.match(component, /deliveryMode === "shipment"/);
     assert.match(component, /mode === "shipment"/);

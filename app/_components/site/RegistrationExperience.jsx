@@ -85,6 +85,7 @@ export function RegistrationExperience({
   const [error, setError] = useState("");
   const [paymentState, setPaymentState] = useState(null);
   const [portalPlacement, setPortalPlacement] = useState(null);
+  const [portalStudentEmail, setPortalStudentEmail] = useState("");
 
   useEffect(() => {
     let active = true;
@@ -139,6 +140,7 @@ export function RegistrationExperience({
       .then((response) => response.ok ? response.json() : null)
       .then((body) => {
         if (!body?.authenticated || !body.student) return;
+        setPortalStudentEmail(body.student.email || "");
         setPortalPlacement(body.placement ? { ...body.placement, email: body.student.email } : null);
         setDraft((current) => ({
           ...current,
@@ -232,6 +234,10 @@ export function RegistrationExperience({
     }
     if (!draft.student.name || (!draft.student.email && !draft.student.phone)) {
       setError("Escribe el nombre del estudiante y al menos un email o teléfono.");
+      return;
+    }
+    if (draft.programCode === "english_program" && !draft.student.email.trim()) {
+      setError("Escribe el email del estudiante para vincular su prueba de nivel.");
       return;
     }
     if (draft.separatePayer && (!draft.payer.name || (!draft.payer.email && !draft.payer.phone))) {
@@ -348,7 +354,14 @@ export function RegistrationExperience({
         <div className="registration-checkout">
           <section className="registration-card" aria-labelledby="registration-title">
             <form onSubmit={continueToReview}>
-              <IdentityFields legend="Estudiante" prefix="student" value={draft.student} update={update} />
+              <IdentityFields legend="Estudiante" prefix="student" value={draft.student} update={update} requireEmail={draft.programCode === "english_program"} />
+              <div className="registration-portal-choice">
+                {portalStudentEmail ? <p><strong>Portal conectado</strong><span>{portalStudentEmail.toLowerCase() === draft.student.email.trim().toLowerCase()
+                  ? draft.programCode === "english_program" ? "Tu resultado de nivel podrá vincularse a esta inscripción." : "Tu cuenta quedará vinculada a esta inscripción."
+                  : "El email del estudiante debe coincidir con el de esta cuenta para vincularla a la inscripción."}</span></p>
+                  : <p><strong>¿Ya tienes cuenta del Portal?</strong><span>{draft.programCode === "english_program" ? "Puedes entrar ahora para vincular tu prueba de nivel." : "Puedes entrar ahora para vincular tu cuenta."} También puedes continuar como invitado.</span></p>}
+                {!portalStudentEmail ? <a href={`/portal/sign-in/?returnTo=${encodeURIComponent(entryContext === "general" ? "/inscribete/" : `/inscribete/?curso=${entryContext}`)}`}>Entrar al Portal</a> : null}
+              </div>
               {draft.programCode === "english_program" ? <div className="registration-placement-note">
                 {linkedPlacement ? <><strong>{linkedPlacement.status === "confirmed" ? "Nivel confirmado por AIT" : "Nivel recomendado"}</strong><span>{linkedPlacement.levelLabel}{linkedPlacement.status !== "confirmed" ? " · AIT confirmará el nivel final" : ""}</span></>
                   : <><strong>Prueba de nivel</strong><span>Si aún no la has hecho, podrás completarla después del pago.</span></>}
@@ -387,7 +400,7 @@ export function RegistrationExperience({
 }
 
 function FormError({ error }) { return error ? <p className="registration-error" role="alert">{error}</p> : null; }
-function IdentityFields({ legend, prefix, value, update }) { return <fieldset className="registration-fieldset"><legend>{legend}</legend><div className="registration-field-grid"><label>Nombre completo<input autoComplete="name" value={value.name} onChange={(event) => update(`${prefix}.name`, event.target.value)} /></label><label>Email<input autoComplete="email" type="email" value={value.email} onChange={(event) => update(`${prefix}.email`, event.target.value)} /></label><label>Teléfono<input autoComplete="tel" type="tel" value={value.phone} onChange={(event) => update(`${prefix}.phone`, event.target.value)} /></label></div></fieldset>; }
+function IdentityFields({ legend, prefix, value, update, requireEmail = false }) { return <fieldset className="registration-fieldset"><legend>{legend}</legend><div className="registration-field-grid"><label>Nombre completo<input autoComplete="name" value={value.name} onChange={(event) => update(`${prefix}.name`, event.target.value)} /></label><label>Email{requireEmail ? " del estudiante" : ""}<input autoComplete="email" type="email" required={requireEmail} value={value.email} onChange={(event) => update(`${prefix}.email`, event.target.value)} /></label><label>Teléfono<input autoComplete="tel" type="tel" value={value.phone} onChange={(event) => update(`${prefix}.phone`, event.target.value)} /></label></div></fieldset>; }
 function AddressFields({ value, update }) { return <fieldset className="registration-fieldset"><legend>Dirección para enviar el libro</legend><p className="registration-field-help">Solo la pedimos para estudiantes online dentro de Estados Unidos.</p><div className="registration-field-grid"><label>Nombre de quien recibe<input autoComplete="name" value={value.recipientName} onChange={(event) => update("shippingAddress.recipientName", event.target.value)} /></label><label>Dirección<input autoComplete="address-line1" value={value.addressLine1} onChange={(event) => update("shippingAddress.addressLine1", event.target.value)} /></label><label>Apartamento (opcional)<input autoComplete="address-line2" value={value.addressLine2} onChange={(event) => update("shippingAddress.addressLine2", event.target.value)} /></label><label>Ciudad<input autoComplete="address-level2" value={value.city} onChange={(event) => update("shippingAddress.city", event.target.value)} /></label><label>Estado<input autoComplete="address-level1" maxLength={2} value={value.state} onChange={(event) => update("shippingAddress.state", event.target.value.toUpperCase())} /></label><label>Código postal<input autoComplete="postal-code" value={value.postalCode} onChange={(event) => update("shippingAddress.postalCode", event.target.value)} /></label></div></fieldset>; }
 function FulfillmentNote({ mode }) {
   const note = mode === "digital"
@@ -410,7 +423,7 @@ function PaymentStatusPanel({ state, redirectState, busy, error, onVerify, onRes
     <span className="registration-status__mark" aria-hidden="true">{confirmed ? "✓" : stopped ? "!" : "…"}</span>
     <p className="section-kicker">Estado de inscripción</p>
     <h1>{confirmed ? "Pago confirmado" : stopped ? "El pago no quedó confirmado" : "Estamos verificando tu pago"}</h1>
-    <p>{confirmed ? needsEnglishPlacement ? "AIT confirmó el pago. Haz la prueba de nivel para continuar; un asesor confirmará tu nivel y grupo." : "AIT confirmó el pago. Tu nivel y grupo, si aplica, se coordinan por separado." : stopped ? "No registramos dinero. Puedes volver a intentarlo o pedir ayuda." : redirectState === "failed" || redirectState === "cancelled" ? "La página de pago regresó sin confirmación. CRM sigue siendo la fuente de verdad." : "La redirección no es una confirmación. Consultamos el estado guardado por CRM."}</p>
+    <p>{confirmed ? needsEnglishPlacement ? "AIT confirmó el pago. Haz la prueba de nivel con el mismo email del estudiante para vincular el resultado; un asesor confirmará tu nivel y grupo." : "AIT confirmó el pago. Tu nivel y grupo, si aplica, se coordinan por separado." : stopped ? "No registramos dinero. Puedes volver a intentarlo o pedir ayuda." : redirectState === "failed" || redirectState === "cancelled" ? "La página de pago regresó sin confirmación. CRM sigue siendo la fuente de verdad." : "La redirección no es una confirmación. Consultamos el estado guardado por CRM."}</p>
     {state?.quote ? <QuoteSummary quote={state.quote} fulfillment={state.fulfillment} /> : null}
     {error ? <FormError error={error} /> : null}
     <div className="registration-actions">{!confirmed ? <button className="button button--primary" disabled={busy} type="button" onClick={onVerify}>{busy ? "Verificando…" : "Verificar de nuevo"}</button> : needsEnglishPlacement ? <a className="button button--primary" href="/placement-test/">Hacer la prueba de nivel</a> : <a className="button button--primary" href="/portal/">Ir al Portal</a>}{!confirmed && (stopped || redirectState === "failed" || redirectState === "cancelled") ? <button className="button button--ghost" type="button" onClick={onRestart}>Nueva solicitud</button> : null}<a className="button button--ghost" href="/contactanos/">Necesito ayuda</a></div>

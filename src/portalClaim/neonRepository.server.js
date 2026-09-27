@@ -298,7 +298,9 @@ export function createNeonPortalClaimRepository(database) {
                   'skippedQuestionCount', e.skipped_question_count,
                   'advisorConfirmationRequired', e.advisor_confirmation_required = 1,
                   'scoringContractVersion', e.scoring_contract_version
-                )
+                ) || case when events.event_type = 'result_claimed'
+                  then jsonb_build_object('portalAccountId', au.account_id, 'attemptId', e.attempt_id)
+                  else '{}'::jsonb end
               ),
               'pending',
               0,

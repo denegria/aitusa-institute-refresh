@@ -1,4 +1,5 @@
 import { isOpaqueReviewId } from "../placementReview/contract.js";
+import { ENGLISH_PROGRAM_SLUGS, US_PUBLIC_PROGRAM_CODES } from "../registration/contract.js";
 
 const DEFAULT_PORTAL_HREF = "/portal/";
 const DEFAULT_EMPLOYEE_HREF = "/employee";
@@ -19,7 +20,14 @@ export function sanitizePortalReturnTo(value, audience = "student") {
   }
 
   if (target.origin !== "https://portal-return.local") return fallback;
-  if (audience !== "employee") return fallback;
+  if (audience !== "employee") {
+    if (target.pathname !== "/inscribete/" || target.hash) return fallback;
+    if (!target.search) return "/inscribete/";
+    const courses = target.searchParams.getAll("curso");
+    return courses.length === 1 && [...target.searchParams.keys()].every((key) => key === "curso")
+      && (ENGLISH_PROGRAM_SLUGS.has(courses[0]) || US_PUBLIC_PROGRAM_CODES.has(courses[0]))
+      ? `/inscribete/?curso=${encodeURIComponent(courses[0])}` : fallback;
+  }
   const pathname = target.pathname.replace(/\/$/, "") || "/";
   if (!EMPLOYEE_PATHS.has(pathname)) {
     return fallback;
