@@ -422,6 +422,9 @@ function QuoteSummary({ quote, fulfillment }) { return <div className="registrat
 function OrderSummary({ quote, fulfillment, courseLabel, stage }) {
   const deliveryLabel = fulfillment?.deliveryMode === "digital" ? "Entrega digital"
     : fulfillment?.deliveryMode === "shipment" ? "Envío a domicilio" : "Recogida en sede";
+  const lineCount = quote?.lines?.length ?? 0;
+  const [detailsOpen, setDetailsOpen] = useState(stage === "review" || lineCount > 1);
+  useEffect(() => { setDetailsOpen(stage === "review" || lineCount > 1); }, [stage, lineCount]);
   return <aside className={`registration-order registration-order--${stage}`} aria-label="Tu pedido">
     <div className="registration-order__desktop">
       <h2>Tu pedido</h2>
@@ -429,7 +432,7 @@ function OrderSummary({ quote, fulfillment, courseLabel, stage }) {
       <QuoteSummary quote={quote} fulfillment={fulfillment} />
       <p className="registration-order__secure">Sin datos de tarjeta en AIT. El pago se abre en la página segura del proveedor.</p>
     </div>
-    <details key={`${stage}-${quote?.lines?.length ?? 0}`} className="registration-order__mobile" defaultOpen={stage === "review" || quote?.lines?.length > 1}>
+    <details className="registration-order__mobile" open={detailsOpen} onToggle={(event) => setDetailsOpen(event.currentTarget.open)}>
       <summary>
         <span><strong>Tu pedido</strong><small>{courseLabel} · {deliveryLabel}</small></span>
         <span className="registration-order__mobile-total">
