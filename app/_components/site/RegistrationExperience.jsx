@@ -36,6 +36,7 @@ function money(value, currency = "USD") {
 function hasReviewableQuote(result) {
   return result?.state === "quoted" && result.quote &&
     Array.isArray(result.quote.lines) && result.quote.lines.length > 0 &&
+    result.quote.lines.every((line) => line.amount !== null && line.amount !== undefined && String(line.amount).trim() !== "" && Number.isFinite(Number(line.amount)) && typeof line.currency === "string" && line.currency.length === 3) &&
     Number.isFinite(Number(result.quote.total)) && Number(result.quote.total) > 0 &&
     typeof result.quote.currency === "string" && result.quote.currency.length === 3 &&
     result.fulfillment?.deliveryMode;
@@ -236,73 +237,84 @@ export function RegistrationExperience({
     return <PaymentStatusPanel state={paymentState} redirectState={redirectState} busy={busy} error={error} onVerify={() => verifyPayment()} onRestart={startNewRegistration} />;
   }
 
+  const reviewable = hasReviewableQuote(quote);
   return (
-    <div className="registration-shell" data-registration-funnel>
-      <section className="registration-intro" aria-labelledby="registration-title">
-        <p className="section-kicker">Inscripción segura</p>
-        <h1 id="registration-title">Inscríbete en AIT USA</h1>
-        <p className="registration-program">{courseLabel}</p>
-        <p>Elige cómo estudiar, revisa el precio y continúa al pago seguro.</p>
+    <div className={`registration-shell registration-shell--step-${draft.step}`} data-registration-funnel>
+      <header className="registration-intro">
+        <div className="registration-intro__copy">
+          <p className="section-kicker">Inscripción segura</p>
+          <h1 id="registration-title">Inscríbete en AIT USA</h1>
+          <p>Elige tu ruta, completa tus datos y confirma el total antes del pago seguro.</p>
+        </div>
         <ol className="registration-steps" aria-label="Progreso de inscripción">
           {["Tu ruta", "Estudiante y pago", "Revisar y pagar"].map((label, index) => (
-            <li key={label} className={draft.step === index + 1 ? "is-current" : draft.step > index + 1 ? "is-complete" : ""}>
+            <li key={label} aria-current={draft.step === index + 1 ? "step" : undefined} className={draft.step === index + 1 ? "is-current" : draft.step > index + 1 ? "is-complete" : ""}>
               <span>{index + 1}</span>{label}
             </li>
           ))}
         </ol>
-        <div className="registration-trust">
-          <strong>Sin datos de tarjeta en AIT</strong>
-          <span>El pago se completa en la página alojada del proveedor.</span>
-        </div>
-      </section>
+      </header>
 
-      <section className="registration-card" aria-live="polite">
-        <label className="registration-honeypot" aria-hidden="true">Sitio web<input autoComplete="off" tabIndex={-1} value={draft.website} onChange={(event) => update("website", event.target.value)} /></label>
-        {draft.step === 1 ? (
+      <label className="registration-honeypot" aria-hidden="true">Sitio web<input autoComplete="off" tabIndex={-1} value={draft.website} onChange={(event) => update("website", event.target.value)} /></label>
+      {draft.step === 1 ? (
+        <section className="registration-card registration-card--route" aria-labelledby="registration-title">
           <form onSubmit={quoteRoute}>
-            <FormHeading number="01" title="Elige cómo estudiar" text="Confirma dónde vives y la modalidad que prefieres." />
+            <FormHeading number="01" title="Elige cómo estudiar" text="Confirma tu país y modalidad para ver el precio exacto." />
+            <p className="registration-program">{courseLabel}</p>
             <div className="registration-field-grid">
-              <label>País de residencia<select value={draft.residenceCountryCode} onChange={(event) => { update("residenceCountryCode", event.target.value); update("billingCountryCode", event.target.value); }}>{COUNTRIES.map(([code, label]) => <option value={code} key={code}>{label}</option>)}</select></label>
-              <label>Modalidad<select value={draft.learningModality} onChange={(event) => update("learningModality", event.target.value)}><option value="in_person">Presencial</option><option value="online">Online</option></select></label>
+              <label>País de residencia<select value={draft.residenceCountryCode} disabled={busy || quoteLoading} onChange={(event) => { update("residenceCountryCode", event.target.value); update("billingCountryCode", event.target.value); }}>{COUNTRIES.map(([code, label]) => <option value={code} key={code}>{label}</option>)}</select></label>
+              <label>Modalidad<select value={draft.learningModality} disabled={busy || quoteLoading} onChange={(event) => update("learningModality", event.target.value)}><option value="in_person">Presencial</option><option value="online">Online</option></select></label>
             </div>
-            <label className="registration-check"><input type="checkbox" checked={draft.includeTuitionPrepayment} onChange={(event) => update("includeTuitionPrepayment", event.target.checked)} /><span><strong>Agregar las primeras cuatro semanas de matrícula</strong><small>Opcional. Verás el total actualizado antes de pagar. Este importe queda como crédito hasta confirmar tu grupo.</small></span></label>
+            <label className="registration-check"><input type="checkbox" checked={draft.includeTuitionPrepayment} disabled={busy || quoteLoading} onChange={(event) => update("includeTuitionPrepayment", event.target.checked)} /><span><strong>Agregar las primeras cuatro semanas de matrícula</strong><small>Opcional; aparecerá por separado en el resumen y quedará como crédito al confirmar tu grupo.</small></span></label>
             {quote?.state === "advisor_required" ? <AdvisorState /> : null}
             <FormError error={error} />
             <button className="button button--primary registration-next" disabled={busy || !ready} type="submit">{busy ? "Calculando…" : "Ver precio y continuar"}</button>
           </form>
-        ) : null}
+        </section>
+      ) : null}
 
-        {draft.step > 1 && quoteLoading ? <div className="registration-quote-loading" role="status">Actualizando el precio de tu inscripción…</div> : null}
+      {draft.step > 1 && quoteLoading ? <div className="registration-quote-loading" role="status">Actualizando el precio de tu inscripción…</div> : null}
 
-        {draft.step === 2 && !quoteLoading && hasReviewableQuote(quote) ? (
-          <form onSubmit={continueToReview}>
-            <FormHeading number="02" title="¿Quién estudia y quién paga?" text="Completa los datos para preparar tu inscripción. Si ya tienes cuenta, podemos adelantar tu nombre y email." />
-            <dl className="registration-price-preview"><div><dt>Programa</dt><dd>{courseLabel}</dd></div><div><dt>Total hoy</dt><dd>{money(quote.quote.total, quote.quote.currency)}</dd></div></dl>
-            <IdentityFields legend="Datos del estudiante" prefix="student" value={draft.student} update={update} />
-            <label className="registration-check"><input type="checkbox" checked={draft.separatePayer} onChange={(event) => update("separatePayer", event.target.checked)} /><span><strong>Otra persona realizará el pago</strong><small>El estudiante y la persona que paga quedarán vinculados por separado.</small></span></label>
-            {draft.separatePayer ? <IdentityFields legend="Datos de la persona que paga" prefix="payer" value={draft.payer} update={update} /> : null}
-            {quote?.fulfillment?.deliveryMode === "shipment" ? <AddressFields value={draft.shippingAddress} update={update} /> : <FulfillmentNote mode={quote?.fulfillment?.deliveryMode} />}
+      {draft.step === 2 && !quoteLoading && reviewable ? (
+        <div className="registration-checkout">
+          <section className="registration-card" aria-labelledby="registration-details-title">
+            <form onSubmit={continueToReview}>
+              <FormHeading number="02" title="Datos para tu inscripción" titleId="registration-details-title" text="Completa la información del estudiante. El desglose y el total están en el resumen." />
+              <IdentityFields legend="Datos del estudiante" prefix="student" value={draft.student} update={update} />
+              <label className="registration-check"><input type="checkbox" checked={draft.separatePayer} onChange={(event) => update("separatePayer", event.target.checked)} /><span><strong>Otra persona realizará el pago</strong><small>El estudiante y la persona que paga quedarán vinculados por separado.</small></span></label>
+              {draft.separatePayer ? <IdentityFields legend="Datos de la persona que paga" prefix="payer" value={draft.payer} update={update} /> : null}
+              {quote?.fulfillment?.deliveryMode === "shipment" ? <AddressFields value={draft.shippingAddress} update={update} /> : null}
+              {quote?.fulfillment?.deliveryMode !== "shipment" ? <div className="registration-mobile-fulfillment"><FulfillmentNote mode={quote.fulfillment.deliveryMode} /></div> : null}
+              <FormError error={error} />
+              <div className="registration-actions"><button className="button button--ghost" type="button" onClick={() => update("step", 1)}>Atrás</button><button className="button button--primary" type="submit">Revisar inscripción</button></div>
+            </form>
+          </section>
+          <OrderSummary quote={quote.quote} fulfillment={quote.fulfillment} courseLabel={courseLabel} stage="details" />
+        </div>
+      ) : null}
+
+      {draft.step === 3 && !quoteLoading && reviewable ? (
+        <div className="registration-checkout">
+          <section className="registration-card" aria-labelledby="registration-review-title">
+            <FormHeading number="03" title="Revisa antes de pagar" titleId="registration-review-title" text="Confirma tus datos y el desglose antes de abrir el pago seguro." />
+            <dl className="registration-review">
+              <div><dt>Estudiante</dt><dd>{draft.student.name}<br /><small>{draft.student.email || draft.student.phone}</small></dd></div>
+              <div><dt>Modalidad</dt><dd>{draft.learningModality === "online" ? "Online" : "Presencial"}</dd></div>
+              {draft.separatePayer ? <div><dt>Persona que paga</dt><dd>{draft.payer.name}<br /><small>{draft.payer.email || draft.payer.phone}</small></dd></div> : null}
+              {quote.fulfillment.deliveryMode === "shipment" ? <div><dt>Envío</dt><dd>{draft.shippingAddress.addressLine1}<br /><small>{draft.shippingAddress.city}, {draft.shippingAddress.state} {draft.shippingAddress.postalCode}</small></dd></div> : null}
+            </dl>
+            <p className="registration-legal">El pago se completa en la página segura del proveedor. Tu inscripción queda pendiente hasta que AIT confirme el pago directamente.</p>
             <FormError error={error} />
-            <div className="registration-actions"><button className="button button--ghost" type="button" onClick={() => update("step", 1)}>Atrás</button><button className="button button--primary" type="submit">Revisar inscripción</button></div>
-          </form>
-        ) : null}
-
-        {draft.step === 3 && !quoteLoading && hasReviewableQuote(quote) ? (
-          <div>
-            <FormHeading number="03" title="Revisa antes de pagar" text={`Confirma los datos de ${courseLabel} y el total antes de abrir el pago seguro.`} />
-            <QuoteSummary quote={quote?.quote} fulfillment={quote?.fulfillment} />
-            <dl className="registration-review"><div><dt>Programa</dt><dd>{courseLabel}</dd></div><div><dt>Estudiante</dt><dd>{draft.student.name}<br /><small>{draft.student.email || draft.student.phone}</small></dd></div><div><dt>Modalidad</dt><dd>{draft.learningModality === "online" ? "Online" : "Presencial"}</dd></div></dl>
-            <p className="registration-legal">Al continuar, serás enviado al pago seguro. La inscripción queda pendiente hasta que AIT confirme el pago directamente con el proveedor.</p>
-            <FormError error={error} />
-            <div className="registration-actions"><button className="button button--ghost" type="button" onClick={() => update("step", 2)}>Atrás</button><button className="button button--primary" type="button" disabled={busy || !hasReviewableQuote(quote)} onClick={beginCheckout}>{busy ? "Preparando pago…" : "Ir al pago seguro"}</button></div>
-          </div>
-        ) : null}
-      </section>
+            <div className="registration-actions"><button className="button button--ghost" type="button" onClick={() => update("step", 2)}>Editar datos</button><button className="button button--primary" type="button" disabled={busy || !reviewable} onClick={beginCheckout}>{busy ? "Preparando pago…" : "Ir al pago seguro"}</button></div>
+          </section>
+          <OrderSummary quote={quote.quote} fulfillment={quote.fulfillment} courseLabel={courseLabel} stage="review" />
+        </div>
+      ) : null}
     </div>
   );
 }
 
-function FormHeading({ number, title, text }) { return <header className="registration-form-heading"><span>{number}</span><div><h2>{title}</h2><p>{text}</p></div></header>; }
+function FormHeading({ number, title, titleId, text }) { return <header className="registration-form-heading"><span>{number}</span><div><h2 id={titleId}>{title}</h2><p>{text}</p></div></header>; }
 function FormError({ error }) { return error ? <p className="registration-error" role="alert">{error}</p> : null; }
 function IdentityFields({ legend, prefix, value, update }) { return <fieldset className="registration-fieldset"><legend>{legend}</legend><div className="registration-field-grid"><label>Nombre completo<input autoComplete="name" value={value.name} onChange={(event) => update(`${prefix}.name`, event.target.value)} /></label><label>Email<input autoComplete="email" type="email" value={value.email} onChange={(event) => update(`${prefix}.email`, event.target.value)} /></label><label>Teléfono<input autoComplete="tel" type="tel" value={value.phone} onChange={(event) => update(`${prefix}.phone`, event.target.value)} /></label></div></fieldset>; }
 function AddressFields({ value, update }) { return <fieldset className="registration-fieldset"><legend>Dirección para enviar el libro</legend><p className="registration-field-help">Solo la pedimos para estudiantes online dentro de Estados Unidos.</p><div className="registration-field-grid"><label>Nombre de quien recibe<input autoComplete="name" value={value.recipientName} onChange={(event) => update("shippingAddress.recipientName", event.target.value)} /></label><label>Dirección<input autoComplete="address-line1" value={value.addressLine1} onChange={(event) => update("shippingAddress.addressLine1", event.target.value)} /></label><label>Apartamento (opcional)<input autoComplete="address-line2" value={value.addressLine2} onChange={(event) => update("shippingAddress.addressLine2", event.target.value)} /></label><label>Ciudad<input autoComplete="address-level2" value={value.city} onChange={(event) => update("shippingAddress.city", event.target.value)} /></label><label>Estado<input autoComplete="address-level1" maxLength={2} value={value.state} onChange={(event) => update("shippingAddress.state", event.target.value.toUpperCase())} /></label><label>Código postal<input autoComplete="postal-code" value={value.postalCode} onChange={(event) => update("shippingAddress.postalCode", event.target.value)} /></label></div></fieldset>; }
@@ -315,6 +327,7 @@ function FulfillmentNote({ mode }) {
   return <div className="registration-fulfillment"><strong>{note.title}</strong><p>{note.copy}</p></div>;
 }
 function QuoteSummary({ quote, fulfillment }) { return <div className="registration-quote"><ul>{quote?.lines?.map((line) => <li key={line.code}><span>{learnerLineLabel(line)}</span><strong>{money(line.amount, line.currency)}</strong></li>)}</ul><div className="registration-quote__total"><span>Total</span><strong>{money(quote?.total, quote?.currency)}</strong></div><FulfillmentNote mode={fulfillment?.deliveryMode} /></div>; }
+function OrderSummary({ quote, fulfillment, courseLabel, stage }) { return <aside className={`registration-order registration-order--${stage}`} aria-label="Resumen de inscripción"><p className="registration-order__eyebrow">Tu pedido</p><h2>Resumen de inscripción</h2><p className="registration-order__program">{courseLabel}</p><QuoteSummary quote={quote} fulfillment={fulfillment} /><p className="registration-order__secure">Sin datos de tarjeta en AIT. El pago se abre en la página segura del proveedor.</p></aside>; }
 function AdvisorState() { return <div className="registration-advisor" role="status"><strong>Un asesor debe confirmar esta ruta</strong><p>No mostraremos un precio ni abriremos un pago hasta confirmar el programa o la región.</p><a className="button button--ghost" href="/contactanos/">Hablar con admisiones</a></div>; }
 
 function PaymentStatusPanel({ state, redirectState, busy, error, onVerify, onRestart }) {
