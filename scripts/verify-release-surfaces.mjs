@@ -328,6 +328,7 @@ try {
           { label: "Sedes", href: "/#sedes" },
           { label: "Orientación", href: "/contactanos/" },
           { label: "Examen de nivel", href: "/placement-test/" },
+          { label: "Inscríbete", href: "/inscribete/" },
         ];
         if (
           openedMenu.expanded !== "true" ||

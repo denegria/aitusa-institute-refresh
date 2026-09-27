@@ -404,7 +404,7 @@ function IdentityFields({ legend, prefix, value, update, requireEmail = false, i
     <div className="registration-field-grid">
       <label>Nombre completo<input autoComplete="name" value={value.name} onChange={(event) => update(`${prefix}.name`, event.target.value)} /></label>
       <label>Email{requireEmail ? " del estudiante" : ""}<input autoComplete="email" type="email" required={requireEmail} value={value.email} onChange={(event) => update(`${prefix}.email`, event.target.value)} /></label>
-      <label>Teléfono<input autoComplete="tel" type="tel" value={value.phone} onChange={(event) => update(`${prefix}.phone`, event.target.value)} /></label>
+      <label>Teléfono{requireEmail ? " (opcional)" : ""}<input autoComplete="tel" type="tel" value={value.phone} onChange={(event) => update(`${prefix}.phone`, event.target.value)} /></label>
     </div>
   </fieldset>;
 }
