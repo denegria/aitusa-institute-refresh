@@ -615,6 +615,13 @@ height turns a simple three-way decision into a 1.3-viewport card stack.
 - **Visual acceptance:** Registration has the warm portal canvas rather than a cool blue-gray gradient; its form and status surfaces are ivory with warm borders; the primary action is portal gold with navy text; active step, focus, and total accents follow portal gold. The dark-navy itemized summary remains one coherent checkout surface. Preserve the public-site header rather than restyling unrelated routes.
 - **Locked behavior/non-goals:** No price, checkout, CRM, copy, flow, portal, or production changes. Validate desktop and mobile rendered steps and live staging quote/reload states; capture matched comparison screenshots.
 
+## MIS-427 Placement Test shell reference — 2026-09-27
+
+- **Owner reference:** The supplied Placement Test screenshot is a faithful reference for the registration route's *shell*: a full `#001a3d` canvas, one centered ivory `#fffdf9` application surface with restrained rounding/shadow, gold primary action, and a compact bottom utility footer with Ayuda/Privacidad/Términos. It is not authority to replace the accepted registration fields, progress model, order summary, or checkout composition with the Placement Test's content layout.
+- **Source-to-render map:** Placement navy background → all Register Now steps and payment return states; Placement ivory application card → one outer registration workspace; Placement compact utility footer → the same three links below registration content; Placement gold action → existing registration primary actions. The wide learner/review column and thinner itemized order sidebar remain within the ivory workspace on desktop; mobile stacks the quote above the form without clipping.
+- **Locked behavior and scope:** Keep the existing public header and SiteHeader navigation as the Placement Test route does. Replace only the registration route's full SiteFooter with the compact footer; leave other public pages and Placement Test untouched. Preserve quote authority, re-quote on refresh, payment handoff/return semantics, advisor and error states, and no on-site card fields.
+- **Visual/evidence:** At 1440×900, the route-choice workspace should sit centered on the navy canvas; form/review may grow vertically when content demands it. At 390×844 and regression 360×800/1024×768, maintain readable in-card rhythm, ≥44px controls, visible focus, accessible footer links, and no horizontal overflow. Compare the supplied reference with each rendered registration state and capture matched before/after screenshots. Production remains an explicit approval gate.
+
 ## User workflow and problem
 
 - A prospective student should move from any relevant AIT USA context into one

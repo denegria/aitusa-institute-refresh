@@ -1,5 +1,6 @@
 import { RegistrationExperience } from "../../_components/site/RegistrationExperience";
-import { SiteFooter, SiteHeader } from "../../_components/site/SiteChrome";
+import { SiteHeader } from "../../_components/site/SiteChrome";
+import { site } from "../../../src/content";
 import { programCodeForContext } from "../../../src/registration/contract.js";
 
 export const dynamic = "force-dynamic";
@@ -30,7 +31,11 @@ export default async function RegistrationPage({ searchParams }) {
           redirectState={String(params?.payment || "")}
         />
       </div>
+      <nav className="placement-utility registration-utility" aria-label="Ayuda y documentos legales">
+        <a href={site.legalLinks.contact}>Ayuda</a>
+        <a href={site.legalLinks.privacy}>Privacidad</a>
+        <a href={site.legalLinks.terms}>Términos</a>
+      </nav>
     </main>
-    <SiteFooter />
   </>;
 }
