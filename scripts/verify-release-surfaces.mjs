@@ -369,7 +369,7 @@ try {
           !passwordState.password ||
           passwordState.passwordSelected !== "true" ||
           passwordState.newStudent === employee ||
-          (employee && passwordState.heading !== "Entra al Portal de empleados") ||
+          (employee && passwordState.heading !== "Acceso de empleados") ||
           (!employee && passwordState.heading !== "Entra a tu Portal")
         ) {
           throw new Error(`${surface.name} password contract failed: ${JSON.stringify(passwordState)}`);
