@@ -27,6 +27,7 @@ const ERROR_COPY = Object.freeze({
 
 export function SignInExperience({ audience = "student", returnTo = "/portal/" }) {
   const employee = audience === "employee";
+  const registrationReturn = !employee && returnTo.startsWith("/inscribete/");
   const [method, setMethod] = useState("password");
   const [step, setStep] = useState("email");
   const [email, setEmail] = useState("");
@@ -181,8 +182,8 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
             <small>INSTITUTE</small>
           </span>
         </a>
-        <a className="portal-access__site-link" href="/">
-          Volver al sitio
+        <a className="portal-access__site-link" href={registrationReturn ? returnTo : "/"}>
+          {registrationReturn ? "Volver a inscripción" : "Volver al sitio"}
         </a>
       </header>
 

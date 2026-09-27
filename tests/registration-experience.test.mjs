@@ -1,12 +1,14 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { describe, it } from "node:test";
+import { sanitizePortalReturnTo } from "../src/portalAuth/returnTo.js";
 
 const component = await readFile(new URL("../app/_components/site/RegistrationExperience.jsx", import.meta.url), "utf8");
 const header = await readFile(new URL("../app/_components/site/SiteChrome.jsx", import.meta.url), "utf8");
 const course = await readFile(new URL("../app/_components/site/CourseProgramPage.jsx", import.meta.url), "utf8");
 const placement = await readFile(new URL("../app/_components/site/PlacementExperience.jsx", import.meta.url), "utf8");
 const portal = await readFile(new URL("../app/portal/PortalDashboard.jsx", import.meta.url), "utf8");
+const signIn = await readFile(new URL("../app/portal/sign-in/SignInExperience.jsx", import.meta.url), "utf8");
 const css = await readFile(new URL("../src/registration.css", import.meta.url), "utf8");
 
 describe("MIS-421 registration experience", () => {
@@ -21,8 +23,16 @@ describe("MIS-421 registration experience", () => {
 
   it("offers optional Portal sign-in while retaining guest checkout", () => {
     assert.match(component, /\/portal\/sign-in\/\?returnTo=/);
-    assert.match(component, /continuar como invitado/);
+    assert.match(component, /Entrar al Portal <small>\(opcional\)<\/small>/);
+    assert.match(component, /onClick=\{\(\) => sessionStorage\.setItem\(REGISTRATION_DRAFT_KEY, JSON\.stringify\(draft\)\)\}/);
     assert.match(component, /portalStudentEmail\.toLowerCase\(\) === draft\.student\.email/);
+  });
+
+  it("returns to the selected registration route and offers a way back without signing in", () => {
+    assert.equal(sanitizePortalReturnTo("/inscribete/?curso=ged", "student"), "/inscribete/?curso=ged");
+    assert.equal(sanitizePortalReturnTo("/inscribete/", "student"), "/inscribete/");
+    assert.match(signIn, /registrationReturn \? returnTo : "\/"/);
+    assert.match(signIn, /Volver a inscripción/);
   });
 
   it("collects shipping only for the authoritative shipment mode", () => {

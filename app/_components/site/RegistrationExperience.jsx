@@ -311,7 +311,7 @@ export function RegistrationExperience({
   const linkedPlacement = draft.programCode === "english_program"
     && portalPlacement?.email?.toLowerCase() === draft.student.email.trim().toLowerCase()
     ? portalPlacement : null;
-  const stepTitles = ["Elige cómo estudiar", "Tus datos", "Revisa antes de pagar"];
+  const stepTitles = ["Elige cómo estudiar", "Completa tus datos", "Revisa antes de pagar"];
   return (
     <div className={`registration-shell registration-shell--step-${draft.step}`} data-registration-funnel>
       <header className="registration-intro">
@@ -355,17 +355,16 @@ export function RegistrationExperience({
           <section className="registration-card" aria-labelledby="registration-title">
             <form onSubmit={continueToReview}>
               <IdentityFields legend="Estudiante" prefix="student" value={draft.student} update={update} requireEmail={draft.programCode === "english_program"} intro={<div className="registration-portal-choice">
-                {portalStudentEmail ? <p><strong>Portal conectado</strong><span>{portalStudentEmail.toLowerCase() === draft.student.email.trim().toLowerCase()
-                  ? draft.programCode === "english_program" ? "Tu resultado de nivel podrá vincularse a esta inscripción." : "Tu cuenta quedará vinculada a esta inscripción."
-                  : "El email del estudiante debe coincidir con el de esta cuenta para vincularla a la inscripción."}</span></p>
-                  : <p><strong>¿Ya tienes cuenta del Portal?</strong><span>{draft.programCode === "english_program" ? "Entra para vincular tu prueba de nivel" : "Entra para vincular tu cuenta"}; también puedes continuar como invitado.</span></p>}
-                {!portalStudentEmail ? <a href={`/portal/sign-in/?returnTo=${encodeURIComponent(entryContext === "general" ? "/inscribete/" : `/inscribete/?curso=${entryContext}`)}`}>Entrar al Portal</a> : null}
+                <strong>Estudiante</strong>
+                {portalStudentEmail ? <span>{portalStudentEmail.toLowerCase() === draft.student.email.trim().toLowerCase()
+                  ? "Portal conectado" : `Para vincular tu cuenta, usa ${portalStudentEmail} como email del estudiante.`}</span>
+                  : <a href={`/portal/sign-in/?returnTo=${encodeURIComponent(entryContext === "general" ? "/inscribete/" : `/inscribete/?curso=${entryContext}`)}`} onClick={() => sessionStorage.setItem(REGISTRATION_DRAFT_KEY, JSON.stringify(draft))}>Entrar al Portal <small>(opcional)</small></a>}
               </div>} />
               {draft.programCode === "english_program" ? <div className="registration-placement-note">
                 {linkedPlacement ? <><strong>{linkedPlacement.status === "confirmed" ? "Nivel confirmado por AIT" : "Nivel recomendado"}</strong><span>{linkedPlacement.levelLabel}{linkedPlacement.status !== "confirmed" ? " · AIT confirmará el nivel final" : ""}</span></>
-                  : <><strong>Prueba de nivel</strong><span>Si aún no la has hecho, podrás completarla después del pago.</span></>}
+                  : <><strong>Prueba de nivel pendiente</strong><span>Podrás hacerla después del pago.</span></>}
               </div> : null}
-              <label className="registration-check"><input type="checkbox" checked={draft.separatePayer} onChange={(event) => update("separatePayer", event.target.checked)} /><span><strong>Otra persona realizará el pago</strong><small>El estudiante y la persona que paga quedarán vinculados por separado.</small></span></label>
+              <label className="registration-check"><input type="checkbox" checked={draft.separatePayer} onChange={(event) => update("separatePayer", event.target.checked)} /><span><strong>Otra persona pagará</strong>{draft.separatePayer ? <small>Registraremos sus datos por separado.</small> : null}</span></label>
               {draft.separatePayer ? <IdentityFields legend="Persona que paga" prefix="payer" value={draft.payer} update={update} /> : null}
               {quote?.fulfillment?.deliveryMode === "shipment" ? <AddressFields value={draft.shippingAddress} update={update} /> : null}
               <FormError error={error} />
@@ -399,8 +398,8 @@ export function RegistrationExperience({
 
 function FormError({ error }) { return error ? <p className="registration-error" role="alert">{error}</p> : null; }
 function IdentityFields({ legend, prefix, value, update, requireEmail = false, intro = null }) {
-  return <fieldset className="registration-fieldset">
-    <legend>{legend}</legend>
+  return <fieldset className="registration-fieldset registration-fieldset--identity">
+    <legend className={intro ? "registration-visually-hidden" : undefined}>{legend}</legend>
     {intro}
     <div className="registration-field-grid">
       <label>Nombre completo<input autoComplete="name" value={value.name} onChange={(event) => update(`${prefix}.name`, event.target.value)} /></label>
