@@ -429,7 +429,7 @@ function OrderSummary({ quote, fulfillment, courseLabel, stage }) {
       <QuoteSummary quote={quote} fulfillment={fulfillment} />
       <p className="registration-order__secure">Sin datos de tarjeta en AIT. El pago se abre en la página segura del proveedor.</p>
     </div>
-    <details className="registration-order__mobile" defaultOpen={stage === "review" || quote?.lines?.length > 1}>
+    <details key={`${stage}-${quote?.lines?.length ?? 0}`} className="registration-order__mobile" defaultOpen={stage === "review" || quote?.lines?.length > 1}>
       <summary>
         <span><strong>Tu pedido</strong><small>{courseLabel} · {deliveryLabel}</small></span>
         <span className="registration-order__mobile-total">
