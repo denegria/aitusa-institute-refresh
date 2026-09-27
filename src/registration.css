@@ -267,6 +267,9 @@
   .registration-order__mobile[open] .registration-order__collapse { display: block; }
   .registration-order__mobile .registration-quote { padding: 0 20px 18px; border-top: 1px solid rgb(255 255 255 / 22%); }
   .registration-order__mobile .registration-quote__total { margin-top: 0; }
+  .registration-order--details .registration-order__mobile .registration-quote__total,
+  .registration-order--details .registration-order__mobile .registration-fulfillment { display: none; }
+  .registration-order--details .registration-order__mobile .registration-quote { padding-bottom: 8px; }
   .registration-order__secure { display: none; }
 }
 

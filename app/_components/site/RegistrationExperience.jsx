@@ -358,7 +358,7 @@ export function RegistrationExperience({
                 {portalStudentEmail ? <p><strong>Portal conectado</strong><span>{portalStudentEmail.toLowerCase() === draft.student.email.trim().toLowerCase()
                   ? draft.programCode === "english_program" ? "Tu resultado de nivel podrá vincularse a esta inscripción." : "Tu cuenta quedará vinculada a esta inscripción."
                   : "El email del estudiante debe coincidir con el de esta cuenta para vincularla a la inscripción."}</span></p>
-                  : <p><strong>¿Ya tienes cuenta del Portal?</strong><span>{draft.programCode === "english_program" ? "Puedes entrar ahora para vincular tu prueba de nivel." : "Puedes entrar ahora para vincular tu cuenta."} También puedes continuar como invitado.</span></p>}
+                  : <p><strong>¿Ya tienes cuenta del Portal?</strong><span>{draft.programCode === "english_program" ? "Entra para vincular tu prueba de nivel" : "Entra para vincular tu cuenta"}; también puedes continuar como invitado.</span></p>}
                 {!portalStudentEmail ? <a href={`/portal/sign-in/?returnTo=${encodeURIComponent(entryContext === "general" ? "/inscribete/" : `/inscribete/?curso=${entryContext}`)}`}>Entrar al Portal</a> : null}
               </div>} />
               {draft.programCode === "english_program" ? <div className="registration-placement-note">
