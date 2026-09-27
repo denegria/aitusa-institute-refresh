@@ -354,14 +354,13 @@ export function RegistrationExperience({
         <div className="registration-checkout">
           <section className="registration-card" aria-labelledby="registration-title">
             <form onSubmit={continueToReview}>
-              <IdentityFields legend="Estudiante" prefix="student" value={draft.student} update={update} requireEmail={draft.programCode === "english_program"} />
-              <div className="registration-portal-choice">
+              <IdentityFields legend="Estudiante" prefix="student" value={draft.student} update={update} requireEmail={draft.programCode === "english_program"} intro={<div className="registration-portal-choice">
                 {portalStudentEmail ? <p><strong>Portal conectado</strong><span>{portalStudentEmail.toLowerCase() === draft.student.email.trim().toLowerCase()
                   ? draft.programCode === "english_program" ? "Tu resultado de nivel podrá vincularse a esta inscripción." : "Tu cuenta quedará vinculada a esta inscripción."
                   : "El email del estudiante debe coincidir con el de esta cuenta para vincularla a la inscripción."}</span></p>
                   : <p><strong>¿Ya tienes cuenta del Portal?</strong><span>{draft.programCode === "english_program" ? "Puedes entrar ahora para vincular tu prueba de nivel." : "Puedes entrar ahora para vincular tu cuenta."} También puedes continuar como invitado.</span></p>}
                 {!portalStudentEmail ? <a href={`/portal/sign-in/?returnTo=${encodeURIComponent(entryContext === "general" ? "/inscribete/" : `/inscribete/?curso=${entryContext}`)}`}>Entrar al Portal</a> : null}
-              </div>
+              </div>} />
               {draft.programCode === "english_program" ? <div className="registration-placement-note">
                 {linkedPlacement ? <><strong>{linkedPlacement.status === "confirmed" ? "Nivel confirmado por AIT" : "Nivel recomendado"}</strong><span>{linkedPlacement.levelLabel}{linkedPlacement.status !== "confirmed" ? " · AIT confirmará el nivel final" : ""}</span></>
                   : <><strong>Prueba de nivel</strong><span>Si aún no la has hecho, podrás completarla después del pago.</span></>}
@@ -369,7 +368,6 @@ export function RegistrationExperience({
               <label className="registration-check"><input type="checkbox" checked={draft.separatePayer} onChange={(event) => update("separatePayer", event.target.checked)} /><span><strong>Otra persona realizará el pago</strong><small>El estudiante y la persona que paga quedarán vinculados por separado.</small></span></label>
               {draft.separatePayer ? <IdentityFields legend="Persona que paga" prefix="payer" value={draft.payer} update={update} /> : null}
               {quote?.fulfillment?.deliveryMode === "shipment" ? <AddressFields value={draft.shippingAddress} update={update} /> : null}
-              {quote?.fulfillment?.deliveryMode !== "shipment" ? <div className="registration-mobile-fulfillment"><FulfillmentNote mode={quote.fulfillment.deliveryMode} /></div> : null}
               <FormError error={error} />
               <div className="registration-actions"><button className="button button--ghost" type="button" onClick={() => update("step", 1)}>Atrás</button><button className="button button--primary" type="submit">Revisar inscripción</button></div>
             </form>
@@ -400,7 +398,17 @@ export function RegistrationExperience({
 }
 
 function FormError({ error }) { return error ? <p className="registration-error" role="alert">{error}</p> : null; }
-function IdentityFields({ legend, prefix, value, update, requireEmail = false }) { return <fieldset className="registration-fieldset"><legend>{legend}</legend><div className="registration-field-grid"><label>Nombre completo<input autoComplete="name" value={value.name} onChange={(event) => update(`${prefix}.name`, event.target.value)} /></label><label>Email{requireEmail ? " del estudiante" : ""}<input autoComplete="email" type="email" required={requireEmail} value={value.email} onChange={(event) => update(`${prefix}.email`, event.target.value)} /></label><label>Teléfono<input autoComplete="tel" type="tel" value={value.phone} onChange={(event) => update(`${prefix}.phone`, event.target.value)} /></label></div></fieldset>; }
+function IdentityFields({ legend, prefix, value, update, requireEmail = false, intro = null }) {
+  return <fieldset className="registration-fieldset">
+    <legend>{legend}</legend>
+    {intro}
+    <div className="registration-field-grid">
+      <label>Nombre completo<input autoComplete="name" value={value.name} onChange={(event) => update(`${prefix}.name`, event.target.value)} /></label>
+      <label>Email{requireEmail ? " del estudiante" : ""}<input autoComplete="email" type="email" required={requireEmail} value={value.email} onChange={(event) => update(`${prefix}.email`, event.target.value)} /></label>
+      <label>Teléfono<input autoComplete="tel" type="tel" value={value.phone} onChange={(event) => update(`${prefix}.phone`, event.target.value)} /></label>
+    </div>
+  </fieldset>;
+}
 function AddressFields({ value, update }) { return <fieldset className="registration-fieldset"><legend>Dirección para enviar el libro</legend><p className="registration-field-help">Solo la pedimos para estudiantes online dentro de Estados Unidos.</p><div className="registration-field-grid"><label>Nombre de quien recibe<input autoComplete="name" value={value.recipientName} onChange={(event) => update("shippingAddress.recipientName", event.target.value)} /></label><label>Dirección<input autoComplete="address-line1" value={value.addressLine1} onChange={(event) => update("shippingAddress.addressLine1", event.target.value)} /></label><label>Apartamento (opcional)<input autoComplete="address-line2" value={value.addressLine2} onChange={(event) => update("shippingAddress.addressLine2", event.target.value)} /></label><label>Ciudad<input autoComplete="address-level2" value={value.city} onChange={(event) => update("shippingAddress.city", event.target.value)} /></label><label>Estado<input autoComplete="address-level1" maxLength={2} value={value.state} onChange={(event) => update("shippingAddress.state", event.target.value.toUpperCase())} /></label><label>Código postal<input autoComplete="postal-code" value={value.postalCode} onChange={(event) => update("shippingAddress.postalCode", event.target.value)} /></label></div></fieldset>; }
 function FulfillmentNote({ mode }) {
   const note = mode === "digital"
@@ -411,7 +419,29 @@ function FulfillmentNote({ mode }) {
   return <div className="registration-fulfillment"><strong>{note.title}</strong><p>{note.copy}</p></div>;
 }
 function QuoteSummary({ quote, fulfillment }) { return <div className="registration-quote"><ul>{quote?.lines?.map((line) => <li key={line.code}><span>{learnerLineLabel(line)}</span><strong>{money(line.amount, line.currency)}</strong></li>)}</ul><div className="registration-quote__total"><span>Total</span><strong>{money(quote?.total, quote?.currency)}</strong></div><FulfillmentNote mode={fulfillment?.deliveryMode} /></div>; }
-function OrderSummary({ quote, fulfillment, courseLabel, stage }) { return <aside className={`registration-order registration-order--${stage}`} aria-label="Tu pedido"><h2>Tu pedido</h2><p className="registration-order__program">{courseLabel}</p><QuoteSummary quote={quote} fulfillment={fulfillment} /><p className="registration-order__secure">Sin datos de tarjeta en AIT. El pago se abre en la página segura del proveedor.</p></aside>; }
+function OrderSummary({ quote, fulfillment, courseLabel, stage }) {
+  const deliveryLabel = fulfillment?.deliveryMode === "digital" ? "Entrega digital"
+    : fulfillment?.deliveryMode === "shipment" ? "Envío a domicilio" : "Recogida en sede";
+  return <aside className={`registration-order registration-order--${stage}`} aria-label="Tu pedido">
+    <div className="registration-order__desktop">
+      <h2>Tu pedido</h2>
+      <p className="registration-order__program">{courseLabel}</p>
+      <QuoteSummary quote={quote} fulfillment={fulfillment} />
+      <p className="registration-order__secure">Sin datos de tarjeta en AIT. El pago se abre en la página segura del proveedor.</p>
+    </div>
+    <details className="registration-order__mobile" defaultOpen={stage === "review" || quote?.lines?.length > 1}>
+      <summary>
+        <span><strong>Tu pedido</strong><small>{courseLabel} · {deliveryLabel}</small></span>
+        <span className="registration-order__mobile-total">
+          <strong>{money(quote?.total, quote?.currency)}</strong>
+          <small className="registration-order__expand">Ver detalle</small>
+          <small className="registration-order__collapse">Ocultar detalle</small>
+        </span>
+      </summary>
+      <QuoteSummary quote={quote} fulfillment={fulfillment} />
+    </details>
+  </aside>;
+}
 function AdvisorState({ course }) { return <div className="registration-advisor" role="status"><strong>Un asesor debe confirmar esta ruta</strong><p>No mostraremos un precio ni abriremos un pago hasta confirmar el programa o la región.</p><a className="button button--ghost" href={`/contactanos/?curso=${encodeURIComponent(course)}`}>Hablar con admisiones</a></div>; }
 
 function PaymentStatusPanel({ state, redirectState, busy, error, onVerify, onRestart }) {
