@@ -119,7 +119,7 @@ describe("MIS-339 placement diagnostic V2 interaction shell", () => {
     assert.match(component, /Resultado listo/);
     assert.match(component, /if \(!claimReceipt\)/);
     assert.match(component, /onClaimed=\{setClaimReceipt\}/);
-    assert.match(component, /Resultado del Placement Test/);
+    assert.match(component, /data-diagnostic-screen="result"/);
     assert.match(component, /Código de acceso/);
     assert.match(component, /Verificar y ver mi resultado/);
     assert.match(component, /Ya casi puedes ver tu resultado/);

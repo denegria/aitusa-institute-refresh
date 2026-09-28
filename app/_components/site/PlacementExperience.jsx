@@ -943,44 +943,44 @@ function PasswordSetupCard() {
   };
 
   return (
-    <aside className="diagnostic-password-setup" aria-labelledby="password-setup-title">
-      <div>
-        <p className="section-kicker">Acceso opcional</p>
-        <h3 id="password-setup-title">Crea una contraseña para entrar más rápido</h3>
+    <details className="diagnostic-password-setup">
+      <summary>Configurar contraseña <span>Opcional</span></summary>
+      <div className="diagnostic-password-setup__body">
+        <h3>Crea una contraseña para entrar más rápido</h3>
         <p>
           Tu Portal ya funciona con un código por email. Si quieres, te enviaremos un enlace seguro para crear una contraseña.
         </p>
+        {status === "sent" ? (
+          <div className="diagnostic-password-setup__status" role="status">
+            <strong>Revisa tu email</strong>
+            <span>El enlace seguro te permitirá crear o restablecer tu contraseña.</span>
+          </div>
+        ) : (
+          <div className="diagnostic-password-setup__actions">
+            <button
+              className="button button--ghost"
+              disabled={status === "requesting"}
+              type="button"
+              onClick={requestSetup}
+            >
+              {status === "requesting" ? "Enviando…" : "Crear contraseña"}
+            </button>
+            <button
+              className="diagnostic-text-action"
+              type="button"
+              onClick={() => setDismissed(true)}
+            >
+              Ahora no
+            </button>
+          </div>
+        )}
+        {status === "error" ? (
+          <p className="diagnostic-claim-error" role="alert">
+            No pudimos enviar el enlace ahora. Tu resultado y acceso al Portal siguen listos; puedes hacerlo después desde la pantalla de acceso.
+          </p>
+        ) : null}
       </div>
-      {status === "sent" ? (
-        <div className="diagnostic-password-setup__status" role="status">
-          <strong>Revisa tu email</strong>
-          <span>El enlace seguro te permitirá crear o restablecer tu contraseña.</span>
-        </div>
-      ) : (
-        <div className="diagnostic-password-setup__actions">
-          <button
-            className="button button--ghost"
-            disabled={status === "requesting"}
-            type="button"
-            onClick={requestSetup}
-          >
-            {status === "requesting" ? "Enviando…" : "Crear contraseña"}
-          </button>
-          <button
-            className="diagnostic-text-action"
-            type="button"
-            onClick={() => setDismissed(true)}
-          >
-            Ahora no
-          </button>
-        </div>
-      )}
-      {status === "error" ? (
-        <p className="diagnostic-claim-error" role="alert">
-          No pudimos enviar el enlace ahora. Tu resultado y acceso al Portal siguen listos; puedes hacerlo después desde la pantalla de acceso.
-        </p>
-      ) : null}
-    </aside>
+    </details>
   );
 }
 
@@ -1346,77 +1346,59 @@ function ResultScreen({
 
   return (
     <section className="diagnostic-result diagnostic-result--unlocked" data-diagnostic-screen="result">
-      <div className="diagnostic-result__hero">
-        <p className="eyebrow-chip">Resultado del Placement Test</p>
-        <h2>{recommendation.level}</h2>
-        <p>Este es tu nivel recomendado. AIT confirmará el nivel final antes de asignarte un grupo.</p>
-      </div>
-      <section className="diagnostic-result__next" aria-labelledby="diagnostic-next-title">
-        <p className="section-kicker">Siguiente paso</p>
-        <h3 id="diagnostic-next-title">Continúa tu ruta</h3>
-        <div className="diagnostic-result__actions">
-          <a className="button button--gold" href={qaFixture ? "#qa-registration" : "/inscribete/?curso=english_program"}>Inscribirme</a>
-          {practiceEligible ? <a className="button button--ghost" href={qaFixture ? "#qa-study" : "/portal/study/"}>Practicar con Study Buddy</a> : null}
+      <header className="diagnostic-result__hero">
+        <p className="eyebrow-chip">Tu resultado</p>
+        <div className="diagnostic-result__headline">
+          <h2>{recommendation.level}</h2>
+          <p className="diagnostic-result__score"><strong>{scores.quizScore} / {scores.quizQuestionCount}</strong><span>respuestas correctas</span></p>
         </div>
-      </section>
-      <div className="diagnostic-result__details">
-        <div className="diagnostic-result__explanation">
-          <h3>Qué significa tu resultado</h3>
-          <p>{recommendation.recommendation || recommendation.copy}</p>
-          {goal ? <p><strong>Tu objetivo:</strong> {goal}</p> : null}
-          {scores.borderlineReviewRequired ? (
-            <p>
-              <strong>Revisión recomendada:</strong> quedaste a una respuesta del
-              siguiente nivel. El asesor puede usar tu escritura y contexto para
-              confirmar si avanzas.
-            </p>
-          ) : null}
-          <p>
-            Un asesor revisará esta recomendación contigo antes de confirmar tu grupo y horario.
+        <p className="diagnostic-result__confirmation">Este es tu nivel recomendado. AIT confirmará el nivel final antes de asignarte un grupo.</p>
+      </header>
+      <div className="diagnostic-result__meaning">
+        <p>{recommendation.recommendation || recommendation.copy}</p>
+        {goal ? <p><strong>Tu objetivo:</strong> {goal}</p> : null}
+        {scores.borderlineReviewRequired ? (
+          <p className="diagnostic-result__notice">
+            <strong>Revisión recomendada:</strong> quedaste a una respuesta del
+            siguiente nivel. El asesor puede usar tu escritura y contexto para
+            confirmar si avanzas.
           </p>
-          {scores.answerKeyStatus === "approved" ? (
-            <p className="diagnostic-result__provisional">
-              La recomendación usa bloques consecutivos aprobados por AIT. Si el resultado es limítrofe o de Nivel 6, se revisa tu escritura y contexto. No equivale a una certificación CEFR.
-            </p>
-          ) : (
-            <p className="diagnostic-result__provisional">
-              Este resultado usa la regla académica disponible cuando completaste el Placement Test. AIT confirmará el nivel final.
-            </p>
-          )}
-          {syncNotice ? <p className="diagnostic-result__provisional">{syncNotice}</p> : null}
-        </div>
-        <div className="diagnostic-result__metrics">
-          <h3>Tu prueba en números</h3>
-          <div className="diagnostic-result__metrics-grid">
-            <article>
-              <strong>{scores.quizScore} / {scores.quizQuestionCount}</strong>
-              <span>respuestas correctas</span>
-            </article>
-            <article>
-              <strong>{completedCount}</strong>
-              <span>preguntas respondidas</span>
-            </article>
-            <article>
-              <strong>{skippedCount}</strong>
-              <span>preguntas sin responder</span>
-            </article>
-          </div>
-        </div>
+        ) : null}
+        {syncNotice ? <p className="diagnostic-result__notice">{syncNotice}</p> : null}
       </div>
-      <section className="diagnostic-result__account" aria-labelledby="diagnostic-account-title">
-        <h3 id="diagnostic-account-title">Acceso y ayuda</h3>
-        <div className="diagnostic-result__next-links">
-          <a href={qaFixture ? "#qa-portal" : claimReceipt?.portalHref || "/portal/?welcome=1"}>Abrir mi Portal</a>
-          <a
-            href={qaFixture ? "#qa-advisor" : result.advisorHandoff?.href || site.whatsappHref}
-            rel="noreferrer"
-            target={qaFixture ? undefined : "_blank"}
-          >
-            Hablar con un asesor
-          </a>
-        </div>
+      <div className="diagnostic-result__actions">
+        <a className="button button--gold" href={qaFixture ? "#qa-registration" : "/inscribete/?curso=english_program"}>Inscribirme</a>
+        {practiceEligible ? <a className="diagnostic-result__practice" href={qaFixture ? "#qa-study" : "/portal/study/"}>Practicar con Study Buddy</a> : null}
+      </div>
+      <nav className="diagnostic-result__next-links" aria-label="Otras opciones después del resultado">
+        <a href={qaFixture ? "#qa-portal" : claimReceipt?.portalHref || "/portal/?welcome=1"}>Abrir mi Portal</a>
+        <a
+          href={qaFixture ? "#qa-advisor" : result.advisorHandoff?.href || site.whatsappHref}
+          rel="noreferrer"
+          target={qaFixture ? undefined : "_blank"}
+        >
+          Hablar con un asesor
+        </a>
+      </nav>
+      <div className="diagnostic-result__disclosures">
+        <details className="diagnostic-result__academic">
+          <summary>Cómo se determinó mi nivel</summary>
+          <div className="diagnostic-result__academic-body">
+            <p>Un asesor revisará esta recomendación contigo antes de confirmar tu grupo y horario.</p>
+            {scores.answerKeyStatus === "approved" ? (
+              <p>
+                La recomendación usa bloques consecutivos aprobados por AIT. Si el resultado es limítrofe o de Nivel 6, se revisa tu escritura y contexto. No equivale a una certificación CEFR.
+              </p>
+            ) : (
+              <p>
+                Este resultado usa la regla académica disponible cuando completaste el Placement Test. AIT confirmará el nivel final.
+              </p>
+            )}
+            <p><strong>{completedCount}</strong> preguntas respondidas · <strong>{skippedCount}</strong> preguntas sin responder</p>
+          </div>
+        </details>
         {claimReceipt?.alreadyClaimed !== true ? <PasswordSetupCard /> : null}
-      </section>
+      </div>
       <div className="diagnostic-result__footer">
         <button className="diagnostic-text-action" type="button" onClick={onRestart}>
           Repetir el Placement Test
