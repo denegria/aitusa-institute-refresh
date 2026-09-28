@@ -300,9 +300,10 @@ export function RegistrationExperience({
   }
 
   const reviewable = hasReviewableQuote(quote);
-  const courseLabel = draft.programCode === "english_program"
-    ? draft.learningModality === "online" ? "Inglés online" : draft.learningModality === "hybrid" ? "Inglés híbrido" : "Inglés presencial"
-    : courseOptions.find(({ code }) => code === draft.programCode)?.label || "Curso seleccionado";
+  const courseName = draft.programCode === "english_program"
+    ? "Inglés" : courseOptions.find(({ code }) => code === draft.programCode)?.label || "Curso seleccionado";
+  const modalityLabel = draft.learningModality === "online" ? "Online" : draft.learningModality === "hybrid" ? "Híbrido" : "Presencial";
+  const courseLabel = `${courseName} · ${modalityLabel.toLowerCase()}`;
   const pricedRoute = isPricedRegistrationChoice(draft.programCode, draft.learningModality, draft.residenceCountryCode, draft.billingCountryCode);
   const inquiryCourse = draft.programCode === "english_program"
     ? draft.learningModality === "online" ? "ingles-online-adultos" : draft.learningModality === "hybrid" ? "ingles-hibrido-adultos" : "ingles-jovenes-adultos"
@@ -380,7 +381,8 @@ export function RegistrationExperience({
           <section className="registration-card" aria-labelledby="registration-title">
             <dl className="registration-review">
               <div><dt>Estudiante</dt><dd>{draft.student.name}<br /><small>{draft.student.email || draft.student.phone}</small></dd></div>
-              <div><dt>Modalidad</dt><dd>{draft.learningModality === "online" ? "Online" : draft.learningModality === "hybrid" ? "Híbrido" : "Presencial"}</dd></div>
+              <div><dt>Curso</dt><dd>{courseName}</dd></div>
+              {draft.programCode === "english_program" ? <div><dt>Modalidad</dt><dd>{modalityLabel}</dd></div> : null}
               {draft.programCode === "english_program" ? <div><dt>Nivel</dt><dd>{linkedPlacement?.levelLabel || "Prueba pendiente"}<br /><small>{linkedPlacement?.status === "confirmed" ? "Confirmado por AIT" : linkedPlacement ? "AIT confirmará el nivel final" : "Podrás hacer la prueba después del pago"}</small></dd></div> : null}
               {draft.separatePayer ? <div><dt>Persona que paga</dt><dd>{draft.payer.name}<br /><small>{draft.payer.email || draft.payer.phone}</small></dd></div> : null}
               {quote.fulfillment.deliveryMode === "shipment" ? <div><dt>Envío</dt><dd>{draft.shippingAddress.addressLine1}<br /><small>{draft.shippingAddress.city}, {draft.shippingAddress.state} {draft.shippingAddress.postalCode}</small></dd></div> : null}

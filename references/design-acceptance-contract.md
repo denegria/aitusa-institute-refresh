@@ -1767,3 +1767,12 @@ and closeout evidence are recorded in
 - **Primary CSS viewports:** 390×844 mobile and 1440×900 desktop. Regression: 320×740, 768×1024, and 1024×768; test default and course-preselected states. Natural scroll and content growth remain available.
 - **Hierarchy/spacing invariants:** One clear H1 describing admissions help, concise explanation of who it helps, one prominent form CTA/anchor, form before secondary contact content on mobile, and no repeated large instructional blocks. Form labels and optional/required meaning remain explicit; interactive targets at least 44px; no horizontal overflow or clipped legal text.
 - **Evidence:** Before/after rendered screenshots, selected-course continuity and mobile scroll-position checks, browser console/overflow checks, full `npm run validate`, required `verify:release-surfaces` result with unrelated failures named, exact staging deployment and live QA status, and no live lead submission.
+# AIT USA Register Now review-summary clarity — MIS-427, 2026-09-28
+
+- **Workflow/problem:** Before opening payment, a student must verify the selected course as well as identity, any meaningful modality choice, and the quoted order. The existing review card showed modality but omitted the course.
+- **Interaction model:** Keep the accepted three-step checkout and two-column review. The primary card lists `Curso` by its published name; `Modalidad` is a separate review item only for English, where the learner chose among formats. The order panel uses a compact `Course · modality` line above CRM-authoritative price lines. A fixed in-person course therefore has no redundant modality row in the primary card while its order context remains explicit.
+- **Reference/visual direction:** Inspiration mode from the accepted Register Now staging screen supplied by Alvaro. Preserve the ivory workspace, navy order panel, gold CTA, progress rail, typography, spacing, and column balance.
+- **Locked behavior and non-goals:** No course/modality/quote policy, CRM mapping, fulfillment, checkout, placement, auth, or payment change. Do not shorten or obscure the actual course name or alter price line items. No production promotion.
+- **Responsive/evidence:** Primary 1440×900 and 390×844; regression 360×800 and 1024×768. Verify English and a fixed in-person course on review; no horizontal overflow, clipped course text, changed order amount, or browser error. Run repository validation and release-surface verification; identify any unrelated existing gate failure separately.
+
+---
