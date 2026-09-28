@@ -485,10 +485,10 @@ try {
         await writeFile(path.join(outputDir, 'hero-control-states.json'), `${JSON.stringify(controlStates, null, 2)}\n`);
         await evaluate(`document.querySelector('.approved-hero__cta').click()`);
         for (let attempt = 0; attempt < 50; attempt += 1) {
-          if (await evaluate(`['/placement-test', '/placement-test/'].includes(location.pathname) && document.querySelector('main h1')?.textContent.includes('Prueba de nivel')`)) break;
+          if (await evaluate(`['/placement-test', '/placement-test/'].includes(location.pathname) && document.querySelector('main h1')?.textContent.includes('Conoce tu nivel de inglés')`)) break;
           await sleep(100);
         }
-        if (!await evaluate(`['/placement-test', '/placement-test/'].includes(location.pathname) && document.querySelector('main h1')?.textContent.includes('Prueba de nivel')`)) {
+        if (!await evaluate(`['/placement-test', '/placement-test/'].includes(location.pathname) && document.querySelector('main h1')?.textContent.includes('Conoce tu nivel de inglés')`)) {
           throw new Error('Homepage CTA did not reach the placement-test page.');
         }
       }

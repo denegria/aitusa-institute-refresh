@@ -13,7 +13,7 @@ const styles = await readFile(
 
 describe("MIS-339 placement diagnostic V2 interaction shell", () => {
   it("starts anonymously and renders one question screen instead of contact fields", () => {
-    assert.match(component, /Descubrir mi nivel/);
+    assert.match(component, /Comenzar la prueba/);
     assert.match(component, /data-diagnostic-screen="question"/);
     assert.match(component, /flatQuestions\[questionIndex\]/);
     assert.doesNotMatch(component, /function StudentFields/);

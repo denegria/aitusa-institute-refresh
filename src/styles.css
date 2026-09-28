@@ -3406,6 +3406,18 @@ textarea {
   line-height: 1.65;
 }
 
+.diagnostic-intro__alternative {
+  margin: 10px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.diagnostic-intro__alternative a {
+  color: var(--blue-deep);
+  font-weight: 750;
+}
+
 .diagnostic-intro__facts {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

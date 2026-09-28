@@ -281,12 +281,19 @@ function IntroScreen({ busy, error, resumeSnapshot, onStart, onResume }) {
       ) : (
         <>
           <div>
-            <h1>Prueba de nivel de inglés</h1>
+            <h1>Conoce tu nivel de inglés</h1>
             <p className="diagnostic-lead">
-              Completa 62 preguntas a tu ritmo. Puedes omitir preguntas y
-              revisar tus respuestas antes de terminar.
+              La prueba tiene 62 preguntas. Hazla a tu ritmo: puedes omitir
+              algunas y revisar tus respuestas antes de terminar.
             </p>
-            <p className="diagnostic-intro__expectations">Para ver tu resultado, al terminar se te pedirá verificar un correo y guardarlo en una cuenta. Un asesor confirma tu nivel antes de la inscripción. También puedes <a href="/contactanos/">pedir orientación sin hacer la prueba</a>.</p>
+            <p className="diagnostic-intro__expectations">
+              Para guardar y ver tu resultado, al terminar te pediremos verificar tu
+              correo y crear una cuenta. La recomendación es inicial: AIT confirmará
+              tu nivel y grupo antes de empezar.
+            </p>
+            <p className="diagnostic-intro__alternative">
+              ¿Prefieres hablar con admisiones? <a href="/contactanos/">Pide orientación sin hacer la prueba.</a>
+            </p>
           </div>
           <div className="diagnostic-intro__actions">
             <button
@@ -295,7 +302,7 @@ function IntroScreen({ busy, error, resumeSnapshot, onStart, onResume }) {
               type="button"
               onClick={() => onStart("age_13_plus")}
             >
-              {busy ? "Preparando…" : "Descubrir mi nivel"}
+              {busy ? "Preparando…" : "Comenzar la prueba"}
             </button>
             <button
               className="diagnostic-age-link"
