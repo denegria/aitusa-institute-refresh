@@ -21,17 +21,20 @@ export default async function ContactPage({ searchParams }) {
         <div className={styles.contactLayout}>
           <section className={styles.contactIntro}>
             <p className={styles.eyebrow}>Orientación de admisiones</p>
-            <h1>Encuentra tu próximo paso.</h1>
+            <h1>Hablemos de tu próximo paso.</h1>
             <p>
-              Confirma tu curso, costo y horario con un asesor antes de inscribirte.
+              Si ya tienes un curso en mente o necesitas ayuda para elegir, consulta
+              con admisiones el costo, horario y modalidad antes de inscribirte.
             </p>
-            <a className={styles.formJump} href="#solicitar-orientacion">Completar el formulario <span aria-hidden="true">↓</span></a>
-            <ul className={styles.trustList}>
-              <li>Compara las opciones que encajan con tu objetivo.</li>
-              <li>Consulta requisitos, materiales y grupos disponibles.</li>
-            </ul>
+            <div className={styles.contactActions}>
+              <a className={styles.formJump} href="#solicitar-orientacion">Ir al formulario <span aria-hidden="true">↓</span></a>
+              <a className={styles.whatsappLink} href={courseInquiryHref(site.whatsappHref, context.slug === "orientacion" ? "mi próximo curso" : context.title)} target="_blank" rel="noreferrer">Prefiero WhatsApp <span aria-hidden="true">↗</span></a>
+            </div>
+          </section>
+          <ContactForm key={context.slug} courseSlug={context.slug} />
+          <aside className={styles.contactAside} aria-label="Otras formas de contacto">
+            <h2>Otras formas de contacto</h2>
             <nav className={styles.directContact} aria-label="Contacto directo">
-              <a href={courseInquiryHref(site.whatsappHref, context.slug === "orientacion" ? "elegir un curso" : context.title)} target="_blank" rel="noreferrer">Escribir por WhatsApp</a>
               <a href={site.phoneHref}>Llamar al {site.phone}</a>
               <a href={site.emailHref}>Enviar un correo</a>
               <a href="/#sedes">Ver sedes y direcciones</a>
@@ -41,8 +44,7 @@ export default async function ContactPage({ searchParams }) {
               <p>Guardamos tu solicitud de forma segura para que un asesor pueda darle seguimiento. También podrás abrir WhatsApp y enviar la conversación preparada.</p>
               <p>El formulario funciona aunque no aceptes mensajes SMS. El consentimiento promocional es opcional y separado.</p>
             </details>
-          </section>
-          <ContactForm key={context.slug} courseSlug={context.slug} />
+          </aside>
         </div>
       </main>
       <SiteFooter />

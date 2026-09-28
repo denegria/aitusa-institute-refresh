@@ -251,32 +251,51 @@
 .contactLayout {
   display: grid;
   grid-template-columns: minmax(0, 0.82fr) minmax(520px, 1.18fr);
-  gap: 46px;
+  grid-template-areas: "intro form" "aside form";
+  grid-template-rows: auto 1fr;
+  column-gap: 46px;
   align-items: start;
 }
 
 .contactIntro {
-  position: sticky;
-  top: 118px;
+  grid-area: intro;
 }
 
-.trustList {
-  display: grid;
-  gap: 12px;
+.contactIntro h1 {
+  max-width: 12ch;
+  font-size: clamp(2.75rem, 4vw, 4rem);
+  line-height: 1.04;
+}
+
+.contactIntro > p:not(.eyebrow) {
+  margin-top: 18px;
+  line-height: 1.6;
+}
+
+.contactActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 20px;
+  margin-top: 22px;
+}
+
+.contactAside {
+  grid-area: aside;
   margin-top: 30px;
-  padding: 0;
-  list-style: none;
+  padding-top: 18px;
+  border-top: 1px solid rgba(19, 51, 104, .15);
 }
 
-.trustList li {
-  padding: 14px 16px;
-  border: 1px solid rgba(19, 51, 104, 0.1);
-  border-radius: 14px;
-  color: #3d506d;
-  background: rgba(255, 255, 255, 0.8);
+.contactAside h2 {
+  margin: 0;
+  color: #203858;
+  font-size: 1rem;
+  line-height: 1.4;
 }
 
 .contactForm {
+  grid-area: form;
   padding: 30px;
   border: 1px solid rgba(19, 51, 104, 0.12);
   border-radius: 24px;
@@ -285,11 +304,11 @@
 }
 
 .contactForm h2 { margin: 0 0 12px; font-size: 1.5rem; color: #001a3d; }
-.formHint { color: #475569; font-size: .94rem; line-height: 1.55; margin-bottom: 24px; }
+.formHint { color: #475569; font-size: .94rem; line-height: 1.55; margin-bottom: 20px; }
 .optionalDetails { margin-top: 20px; color: #475569; font-size: .9rem; line-height: 1.6; }
 .optionalDetails summary { min-height: 44px; padding-block: 10px; color: #001a3d; font-weight: 750; cursor: pointer; }
 .optionalDetails[open] > .formGrid { margin-top: 16px; }
-.directContact { display: grid; gap: 4px; margin-top: 24px; }
+.directContact { display: grid; gap: 2px; margin-top: 8px; }
 .directContact a { display: inline-flex; align-items: center; min-height: 44px; color: #174ea6; font-size: .92rem; font-weight: 750; text-underline-offset: 4px; }
 .legalToc details { display: grid; }
 .legalToc summary { min-height: 44px; padding-block: 10px; font-weight: 800; color: #001a3d; cursor: pointer; }
@@ -298,10 +317,8 @@
 
 @media (max-width: 719px) {
   .contactMain { padding-top: 32px; }
-  .contactIntro h1 { font-size: 2.2rem; line-height: 1.12; }
-  .contactIntro .trustList { display: none; }
-  .directContact { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; margin-top: 16px; }
-  .contactIntro .optionalDetails { margin-top: 12px; }
+  .contactIntro h1 { font-size: clamp(2.1rem, 8vw, 2.6rem); line-height: 1.08; }
+  .contactAside { margin-top: 4px; }
 }
 
 .formGrid {
@@ -505,6 +522,12 @@
     grid-template-columns: 1fr;
   }
 
+  .contactLayout {
+    grid-template-areas: "intro" "form" "aside";
+    grid-template-rows: auto;
+    gap: 24px;
+  }
+
   .legalToc,
   .contactIntro {
     position: static;
@@ -607,14 +630,15 @@
 
 /* Admissions shares the public action shape and offers a direct form shortcut. */
 .contactForm .primaryButton, .contactForm .statusAction { border-radius: 8px; box-shadow: none; }
-.formJump { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; margin-top: 16px; color: #174ea6; font-weight: 750; text-underline-offset: 4px; }
+.formJump, .whatsappLink { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: #174ea6; font-weight: 750; text-underline-offset: 4px; }
+.whatsappLink { color: #536682; font-weight: 650; }
 .contactForm { scroll-margin-top: 16px; }
 @media (max-width: 719px) {
   .contactMain { padding-top: 24px; }
-  .contactLayout { gap: 24px; }
-  .contactIntro h1 { font-size: 2.1rem; line-height: 1.12; }
-  .contactIntro > p { margin-top: 12px; font-size: 1rem; line-height: 1.55; }
+  .contactLayout { gap: 16px; }
+  .contactIntro h1 { line-height: 1.08; }
+  .contactIntro > p:not(.eyebrow) { margin-top: 12px; font-size: 1rem; line-height: 1.5; }
   .contactIntro > .eyebrow { margin-top: 0; font-size: .75rem; }
-  .contactIntro .directContact { margin-top: 8px; }
-  .formJump { margin-top: 8px; }
+  .contactActions { margin-top: 12px; }
+  .contactAside { margin-top: 10px; }
 }

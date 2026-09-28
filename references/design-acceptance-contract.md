@@ -1755,3 +1755,15 @@ and closeout evidence are recorded in
 - **Non-goals:** Custom usernames, local password storage, password visibility/logging, phone auth, new account self-provisioning, employee/student crossover, redesigned Portal dashboards, or production promotion.
 - **Primary CSS viewports:** 1440x900 and 390x844. Regression viewports: 1024x768 and 430x932.
 - **Evidence:** provider-adapter/service/route/component tests; cross-audience and inactive-account checks; full validation/build; browser proof for both sign-in methods, reset, and optional post-placement setup; independent security review; staging provider identity proof; final funnel regression.
+
+---
+## 2026-09-28 — Orientation admissions page UX pass
+
+- **User workflow/problem:** A visitor reaches `Orientación` via `/contactanos/`, either undecided or carrying a selected course. On mobile, secondary channels and explanatory content precede the request form, making the principal task feel distant.
+- **Chosen interaction model:** A concise decision-oriented intro leads directly to the existing request form. Direct phone, email, location, and process information become supporting content after the form on mobile and a quiet companion column on desktop. WhatsApp remains a visible alternative, not a competing primary task. A preselected course remains selected.
+- **Visual direction/reference mode:** Inspiration mode using the shipped public-site navy, warm white, blue and gold accents and current typography. Preserve the shared navigation/footer; refine editorial hierarchy, whitespace, and form framing without a site-wide visual reset.
+- **Locked behavior:** Preserve the course query parameter and all eight choices, one-of-email-or-phone validation, required contact permission, separate unchecked optional marketing SMS with full disclosure, honeypot, `/api/leads/contact` payload, receipt/error copy, and WhatsApp handoff. Do not imply a booking or response-time guarantee.
+- **Non-goals:** No new scheduling, pricing, placement, account, CRM, analytics, provider-send, or production behavior; no reduction or concealment of consent information.
+- **Primary CSS viewports:** 390×844 mobile and 1440×900 desktop. Regression: 320×740, 768×1024, and 1024×768; test default and course-preselected states. Natural scroll and content growth remain available.
+- **Hierarchy/spacing invariants:** One clear H1 describing admissions help, concise explanation of who it helps, one prominent form CTA/anchor, form before secondary contact content on mobile, and no repeated large instructional blocks. Form labels and optional/required meaning remain explicit; interactive targets at least 44px; no horizontal overflow or clipped legal text.
+- **Evidence:** Before/after rendered screenshots, selected-course continuity and mobile scroll-position checks, browser console/overflow checks, full `npm run validate`, required `verify:release-surfaces` result with unrelated failures named, exact staging deployment and live QA status, and no live lead submission.
