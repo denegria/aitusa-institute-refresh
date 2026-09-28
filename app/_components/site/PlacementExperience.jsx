@@ -1358,26 +1358,24 @@ function ResultScreen({
             <span>{scores.quizScore} de {scores.quizQuestionCount} correctas</span>
           </p>
         </div>
-        <p className="diagnostic-result__confirmation">AIT confirmará tu nivel final antes de asignarte un grupo.</p>
+        <p className="diagnostic-result__confirmation">Esta recomendación es inicial; AIT confirmará tu nivel y grupo antes de empezar.</p>
       </header>
+      {scores.borderlineReviewRequired || syncNotice ? (
+        <div className="diagnostic-result__notices">
+          {scores.borderlineReviewRequired ? (
+            <p className="diagnostic-result__notice">
+              <strong>Revisión recomendada:</strong> quedaste a una respuesta del
+              siguiente nivel. El asesor puede usar tu escritura y contexto para
+              confirmar si avanzas.
+            </p>
+          ) : null}
+          {syncNotice ? <p className="diagnostic-result__notice">{syncNotice}</p> : null}
+        </div>
+      ) : null}
       <div className="diagnostic-result__actions">
         <a className="button button--gold" href={qaFixture ? "#qa-registration" : "/inscribete/?curso=english_program"}>Inscribirme</a>
-        {practiceEligible ? <a className="diagnostic-result__practice" href={qaFixture ? "#qa-study" : "/portal/study/"}>Practicar con Study Buddy</a> : null}
-      </div>
-      <div className="diagnostic-result__meaning">
-        <p>{recommendation.recommendation || recommendation.copy}</p>
-        {goal ? <p><strong>Tu objetivo:</strong> {goal}</p> : null}
-        {scores.borderlineReviewRequired ? (
-          <p className="diagnostic-result__notice">
-            <strong>Revisión recomendada:</strong> quedaste a una respuesta del
-            siguiente nivel. El asesor puede usar tu escritura y contexto para
-            confirmar si avanzas.
-          </p>
-        ) : null}
-        {syncNotice ? <p className="diagnostic-result__notice">{syncNotice}</p> : null}
       </div>
       <nav className="diagnostic-result__next-links" aria-label="Otras opciones después del resultado">
-        <a href={qaFixture ? "#qa-portal" : claimReceipt?.portalHref || "/portal/?welcome=1"}>Abrir mi Portal</a>
         <a
           href={qaFixture ? "#qa-advisor" : result.advisorHandoff?.href || site.whatsappHref}
           rel="noreferrer"
@@ -1385,19 +1383,22 @@ function ResultScreen({
         >
           Hablar con un asesor
         </a>
+        {practiceEligible ? <a href={qaFixture ? "#qa-study" : "/portal/study/"}>Practicar con Study Buddy</a> : null}
+        <a href={qaFixture ? "#qa-portal" : claimReceipt?.portalHref || "/portal/?welcome=1"}>Abrir mi Portal</a>
       </nav>
       <div className="diagnostic-result__disclosures">
         <details className="diagnostic-result__academic">
-          <summary>Cómo se determinó mi nivel</summary>
+          <summary>Detalles de mi resultado</summary>
           <div className="diagnostic-result__academic-body">
-            <p>Un asesor revisará esta recomendación contigo antes de confirmar tu grupo y horario.</p>
+            <p>{recommendation.recommendation || recommendation.copy}</p>
+            {goal ? <p><strong>Tu objetivo:</strong> {goal}</p> : null}
             {scores.answerKeyStatus === "approved" ? (
               <p>
                 La recomendación usa bloques consecutivos aprobados por AIT. Si el resultado es limítrofe o de Nivel 6, se revisa tu escritura y contexto. No equivale a una certificación CEFR.
               </p>
             ) : (
               <p>
-                Este resultado usa la regla académica disponible cuando completaste el Placement Test. AIT confirmará el nivel final.
+                Este resultado usa la regla académica disponible cuando completaste el Placement Test.
               </p>
             )}
             <p><strong>{completedCount}</strong> preguntas respondidas · <strong>{skippedCount}</strong> preguntas sin responder</p>
