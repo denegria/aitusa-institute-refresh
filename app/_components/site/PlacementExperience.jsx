@@ -1343,17 +1343,27 @@ function ResultScreen({
   }
 
   const practiceEligible = claimReceipt?.practiceEligible === true || result?.practiceEligible === true;
+  const levelMatch = /^((?:Nivel|Level)\s+\d+)\s*\/\s*(.+)$/i.exec(recommendation.level);
+  const levelHeadline = levelMatch?.[1] || recommendation.level;
+  const bookLabel = levelMatch?.[2] || null;
 
   return (
     <section className="diagnostic-result diagnostic-result--unlocked" data-diagnostic-screen="result">
       <header className="diagnostic-result__hero">
-        <p className="eyebrow-chip">Tu resultado</p>
+        <p className="eyebrow-chip">Nivel recomendado</p>
         <div className="diagnostic-result__headline">
-          <h2>{recommendation.level}</h2>
-          <p className="diagnostic-result__score"><strong>{scores.quizScore} / {scores.quizQuestionCount}</strong><span>respuestas correctas</span></p>
+          <h2>{levelHeadline}</h2>
+          <p className="diagnostic-result__meta">
+            {bookLabel ? <strong>{bookLabel}</strong> : null}
+            <span>{scores.quizScore} de {scores.quizQuestionCount} correctas</span>
+          </p>
         </div>
-        <p className="diagnostic-result__confirmation">Este es tu nivel recomendado. AIT confirmará el nivel final antes de asignarte un grupo.</p>
+        <p className="diagnostic-result__confirmation">AIT confirmará tu nivel final antes de asignarte un grupo.</p>
       </header>
+      <div className="diagnostic-result__actions">
+        <a className="button button--gold" href={qaFixture ? "#qa-registration" : "/inscribete/?curso=english_program"}>Inscribirme</a>
+        {practiceEligible ? <a className="diagnostic-result__practice" href={qaFixture ? "#qa-study" : "/portal/study/"}>Practicar con Study Buddy</a> : null}
+      </div>
       <div className="diagnostic-result__meaning">
         <p>{recommendation.recommendation || recommendation.copy}</p>
         {goal ? <p><strong>Tu objetivo:</strong> {goal}</p> : null}
@@ -1365,10 +1375,6 @@ function ResultScreen({
           </p>
         ) : null}
         {syncNotice ? <p className="diagnostic-result__notice">{syncNotice}</p> : null}
-      </div>
-      <div className="diagnostic-result__actions">
-        <a className="button button--gold" href={qaFixture ? "#qa-registration" : "/inscribete/?curso=english_program"}>Inscribirme</a>
-        {practiceEligible ? <a className="diagnostic-result__practice" href={qaFixture ? "#qa-study" : "/portal/study/"}>Practicar con Study Buddy</a> : null}
       </div>
       <nav className="diagnostic-result__next-links" aria-label="Otras opciones después del resultado">
         <a href={qaFixture ? "#qa-portal" : claimReceipt?.portalHref || "/portal/?welcome=1"}>Abrir mi Portal</a>

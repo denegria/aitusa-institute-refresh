@@ -17137,12 +17137,19 @@ textarea {
   display: none;
 }
 
+@media (min-width: 721px) {
+  .diagnostic-shell:has(.diagnostic-result--unlocked) {
+    width: min(880px, calc(100% - 32px));
+    min-height: 0;
+  }
+}
+
 .diagnostic-result--unlocked {
   grid-template-columns: minmax(0, 1fr);
   gap: 0;
-  width: min(740px, calc(100% - 64px));
+  width: min(720px, calc(100% - 64px));
   margin-inline: auto;
-  padding-block: 62px 36px;
+  padding-block: 42px 28px;
 }
 
 .diagnostic-result--unlocked .diagnostic-result__hero {
@@ -17152,43 +17159,40 @@ textarea {
 }
 
 .diagnostic-result__headline {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 24px;
-  margin-top: 20px;
+  display: grid;
+  gap: 7px;
+  margin-top: 17px;
 }
 
 .diagnostic-result--unlocked .diagnostic-result__hero h2 {
   margin: 0;
-  font-size: clamp(2.35rem, 4vw, 3.25rem);
+  font-size: clamp(2.5rem, 4vw, 3.3rem);
 }
 
-.diagnostic-result__score {
-  display: grid;
-  flex: none;
-  gap: 1px;
-  justify-items: end;
+.diagnostic-result__meta {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 11px;
   margin: 0;
-  color: var(--blue-deep);
-}
-
-.diagnostic-result__score strong {
-  font-family: var(--font-display);
-  font-size: 1.55rem;
-  line-height: 1.1;
-  white-space: nowrap;
-}
-
-.diagnostic-result__score span {
   color: var(--ink-soft);
-  font-size: 0.7rem;
-  white-space: nowrap;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.diagnostic-result__meta strong {
+  color: var(--blue-deep);
+  font-size: 0.92rem;
+}
+
+.diagnostic-result__meta strong + span {
+  padding-left: 11px;
+  border-left: 1px solid rgba(0, 26, 61, 0.22);
 }
 
 .diagnostic-result--unlocked .diagnostic-result__confirmation {
   max-width: 58ch;
-  margin: 15px 0 0;
+  margin: 11px 0 0;
   color: var(--ink-soft);
   font-size: 0.9rem;
   line-height: 1.5;
@@ -17196,9 +17200,9 @@ textarea {
 
 .diagnostic-result__meaning {
   display: grid;
-  gap: 10px;
-  margin-top: 26px;
-  padding-top: 23px;
+  gap: 8px;
+  margin-top: 20px;
+  padding-top: 18px;
   border-top: 1px solid rgba(0, 26, 61, 0.14);
 }
 
@@ -17230,7 +17234,7 @@ textarea {
   align-items: center;
   flex-wrap: wrap;
   gap: 12px 22px;
-  margin-top: 27px;
+  margin-top: 23px;
 }
 
 .diagnostic-result--unlocked .diagnostic-result__actions .button {
@@ -17254,8 +17258,8 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 6px 28px;
-  margin-top: 20px;
-  padding-bottom: 20px;
+  margin-top: 9px;
+  padding-bottom: 7px;
   border-bottom: 1px solid rgba(0, 26, 61, 0.14);
 }
 
@@ -17272,7 +17276,7 @@ textarea {
 }
 
 .diagnostic-result__disclosures {
-  margin-top: 8px;
+  margin-top: 0;
 }
 
 .diagnostic-result__disclosures > details {
@@ -17285,8 +17289,8 @@ textarea {
 }
 
 .diagnostic-result__disclosures summary {
-  min-height: 50px;
-  padding: 14px 4px;
+  min-height: 44px;
+  padding: 10px 4px;
   color: var(--blue-deep);
   font-size: 0.88rem;
   font-weight: 750;
@@ -17351,7 +17355,7 @@ textarea {
 .diagnostic-result__footer {
   display: flex;
   justify-content: flex-start;
-  margin-top: 14px;
+  margin-top: 2px;
   padding: 0;
   border: 0;
 }
@@ -17365,44 +17369,36 @@ textarea {
 @media (max-width: 720px) {
   .diagnostic-result--unlocked {
     width: calc(100% - 36px);
-    padding-block: 26px 24px;
+    padding-block: 22px 20px;
   }
 
   .diagnostic-result__headline {
-    display: grid;
-    gap: 10px;
-    margin-top: 17px;
+    gap: 7px;
+    margin-top: 15px;
   }
 
   .diagnostic-result--unlocked .diagnostic-result__hero h2 {
-    font-size: clamp(1.95rem, 8vw, 2.4rem);
+    font-size: clamp(2.15rem, 8vw, 2.5rem);
   }
 
-  .diagnostic-result__score {
-    display: flex;
-    align-items: baseline;
-    justify-items: start;
-    gap: 8px;
-  }
-
-  .diagnostic-result__score strong {
-    font-size: 1.2rem;
+  .diagnostic-result__meta {
+    gap: 4px 8px;
   }
 
   .diagnostic-result--unlocked .diagnostic-result__confirmation {
-    margin-top: 12px;
+    margin-top: 10px;
   }
 
   .diagnostic-result__meaning {
     gap: 8px;
-    margin-top: 20px;
-    padding-top: 18px;
+    margin-top: 17px;
+    padding-top: 16px;
   }
 
   .diagnostic-result--unlocked .diagnostic-result__actions {
     display: grid;
     gap: 4px;
-    margin-top: 22px;
+    margin-top: 20px;
   }
 
   .diagnostic-result--unlocked .diagnostic-result__actions .button {
@@ -17417,7 +17413,7 @@ textarea {
   .diagnostic-result__next-links {
     justify-content: space-between;
     gap: 0 10px;
-    margin-top: 10px;
-    padding-bottom: 10px;
+    margin-top: 4px;
+    padding-bottom: 5px;
   }
 }
