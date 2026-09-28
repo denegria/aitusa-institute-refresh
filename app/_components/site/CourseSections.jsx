@@ -15,12 +15,11 @@ function ProgramCard({ program, activeTab }) {
   return (
     <article className="program-card chooser-card" id={`curso-${program.slug}`} data-category={program.category}>
       <Image className="program-card__image" src={program.image} alt={program.imageAlt}
-        width={1200} height={900} sizes="(max-width: 719px) 104px, (max-width: 1040px) 44vw, 30vw" />
+        width={1200} height={900} sizes="(max-width: 719px) 160px, (max-width: 1040px) 160px, 176px" />
       <div className="program-card__body">
-        <span className="chooser-card__mode">{program.mode}</span>
+        <p className="chooser-card__format">{facts.compactFormat}</p>
         <h3>{program.title}</h3>
         <p className="chooser-card__fit">{facts.fit}</p>
-        <p className="chooser-card__format">{facts.compactFormat}</p>
         <Link className="chooser-card__action" href={`/cursos/${program.slug}/?grupo=${activeTab}`}
           data-course-detail-link={program.slug} aria-label={`${program.cta}: ${program.title}`}>
           {program.cta}<span aria-hidden="true">→</span>
@@ -76,34 +75,38 @@ export function CourseCatalog({ initialGroup = allOfferingsKey }) {
   return (
     <>
       <section className="section course-catalog prospect-catalog course-chooser" id="catalogo-detallado" aria-labelledby="catalog-title">
-        <div className="section-inner">
-          <header className="course-catalog__intro">
-            <div className="course-catalog__intro-copy">
-              <p className="section-kicker">AIT USA · Cursos</p>
-              <h1 id="catalog-title">Encuentra tu próximo curso.</h1>
-              <p className="course-catalog__lead">Elige un área y compara las opciones que mejor encajan contigo.</p>
-            </div>
-            <div className="course-chooser__help" aria-label="Ayuda para elegir">
-              <p className="section-kicker">¿No sabes cuál elegir?</p>
-              <strong>Te ayudamos a elegir.</strong>
-              <p>Admisiones confirma sede, horario, duración y costo antes de inscribirte.</p>
-              <div className="course-chooser__help-actions">
-                <CallbackDialog key={activeTab} defaultSubject="" subjectGroup={activeTab} />
-                <a href={courseInquiryHref(site.whatsappHref, context)} target="_blank" rel="noreferrer">WhatsApp ↗</a>
+        <div className="course-chooser__masthead">
+          <div className="section-inner">
+            <header className="course-catalog__intro">
+              <div className="course-catalog__intro-copy">
+                <p className="section-kicker">AIT USA · Cursos</p>
+                <h1 id="catalog-title">Encuentra tu próximo curso.</h1>
+                <p className="course-catalog__lead">Elige un área y compara las opciones que mejor encajan contigo.</p>
               </div>
+              <div className="course-chooser__help" aria-label="Ayuda para elegir">
+                <p className="section-kicker">¿No sabes cuál elegir?</p>
+                <strong>Te ayudamos a elegir.</strong>
+                <p>Admisiones confirma sede, horario, duración y costo antes de inscribirte.</p>
+                <div className="course-chooser__help-actions">
+                  <CallbackDialog key={activeTab} defaultSubject="" subjectGroup={activeTab} />
+                  <a href={courseInquiryHref(site.whatsappHref, context)} target="_blank" rel="noreferrer">WhatsApp ↗</a>
+                </div>
+              </div>
+            </header>
+            <p className="course-chooser__filter-label">Explora por área</p>
+            <div className="catalog-tabs" role="tablist" aria-label="Filtrar cursos por objetivo">
+              {[{ key: allOfferingsKey, label: "Todos" }, ...catalogChoices].map((choice) => (
+                <button type="button" id={`catalog-tab-${choice.key}`} role="tab"
+                  aria-selected={activeTab === choice.key} aria-controls="catalog-panel"
+                  tabIndex={activeTab === choice.key ? 0 : -1}
+                  onClick={() => selectTab(choice.key)} onKeyDown={handleTabKeyDown} key={choice.key}>
+                  {choice.label}
+                </button>
+              ))}
             </div>
-          </header>
-          <p className="course-chooser__filter-label">Explora por área</p>
-          <div className="catalog-tabs" role="tablist" aria-label="Filtrar cursos por objetivo">
-            {[{ key: allOfferingsKey, label: "Todos" }, ...catalogChoices].map((choice) => (
-              <button type="button" id={`catalog-tab-${choice.key}`} role="tab"
-                aria-selected={activeTab === choice.key} aria-controls="catalog-panel"
-                tabIndex={activeTab === choice.key ? 0 : -1}
-                onClick={() => selectTab(choice.key)} onKeyDown={handleTabKeyDown} key={choice.key}>
-                {choice.label}
-              </button>
-            ))}
           </div>
+        </div>
+        <div className="section-inner course-chooser__body">
           <p className="catalog-result-count" role="status" aria-live="polite" aria-atomic="true">
             {visibleCount} cursos
           </p>
@@ -113,7 +116,6 @@ export function CourseCatalog({ initialGroup = allOfferingsKey }) {
                 <header className="catalog-subgroup__heading">
                   <h2 id={`catalog-subgroup-${group.key}`}>{catalogChoices.find((choice) => choice.key === group.key)?.label}</h2>
                   <p>{catalogChoices.find((choice) => choice.key === group.key)?.description}</p>
-                  {group.key === "digital-technical" ? <p>¿Empiezas desde cero? Revisa computación básica. Si ya manejas tareas digitales y buscas Word, Excel o PowerPoint, compara la ruta de oficina con admisiones.</p> : null}
                 </header>
                 <div className={`program-grid${group.programs.length < 3 ? " program-grid--supporting" : ""}`}>
                   {group.programs.map((slug) => <ProgramCard key={slug} program={programs.find((program) => program.slug === slug)} activeTab={activeTab} />)}
@@ -123,11 +125,7 @@ export function CourseCatalog({ initialGroup = allOfferingsKey }) {
           </section>
           {englishSelected ? <p className="course-chooser__placement"><Link href="/placement-test/">¿No sabes tu nivel de inglés? Explora tu nivel.</Link><span>Opcional · 62 preguntas · 10–15 minutos.</span></p> : null}
           {visibleInformationRoutes.length ? (
-            <aside className="course-chooser__information" aria-labelledby="course-information-title">
-              <div>
-                <p className="section-kicker">Además de los cursos</p>
-                <h2 id="course-information-title">Información para tu próximo paso.</h2>
-              </div>
+            <aside className="course-chooser__information" aria-label="Información adicional, no cursos publicados">
               {visibleInformationRoutes.map((key) => <InformationRouteCard key={key} route={catalogInformationRoutes.find((route) => route.key === key)} />)}
             </aside>
           ) : null}
