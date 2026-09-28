@@ -6,9 +6,6 @@ import { admissionContext, admissionMessage, admissionOptions } from "../../src/
 import { courseInquiryHref } from "../../src/courseDiscovery.js";
 import {
   CONTACT_PERMISSION_COPY_ES,
-  SMS_CONSENT_COPY_ES,
-  SMS_DISCLOSURE_ES,
-  SMS_DISCLOSURE_VERSION,
 } from "../../src/legal/publicLegalContent.js";
 import styles from "./public.module.css";
 
@@ -26,21 +23,12 @@ export function ContactForm({ courseSlug = "orientacion" }) {
     const data = new FormData(form);
     const phone = String(data.get("phone") || "").trim();
     const email = String(data.get("email") || "").trim();
-    const marketingSmsOptIn = data.get("smsConsent") === "yes";
 
     if (!phone && !email) {
       const input = form.elements.namedItem("email");
       input?.setCustomValidity("Ingresa un teléfono o un correo electrónico para que podamos contactarte.");
       input?.reportValidity();
       input?.focus();
-      return;
-    }
-
-    if (marketingSmsOptIn && !phone) {
-      const phoneInput = form.elements.namedItem("phone");
-      phoneInput?.setCustomValidity("Ingresa un teléfono móvil para recibir mensajes de texto.");
-      phoneInput?.reportValidity();
-      phoneInput?.focus();
       return;
     }
 
@@ -66,15 +54,9 @@ export function ContactForm({ courseSlug = "orientacion" }) {
       },
       consent: {
         contactPermission: data.get("contactPermission") === "yes",
-        marketingSmsOptIn,
-        smsConsent: marketingSmsOptIn,
-        marketingSmsEvidence: marketingSmsOptIn
-          ? {
-              disclosureVersion: SMS_DISCLOSURE_VERSION,
-              sourcePath: "/contactanos",
-              consentedAt: submittedAt,
-            }
-          : null,
+        marketingSmsOptIn: false,
+        smsConsent: false,
+        marketingSmsEvidence: null,
       },
       honeypot: String(data.get("companyWebsite") || ""),
       startedAt: startedAt.current,
@@ -183,30 +165,15 @@ export function ContactForm({ courseSlug = "orientacion" }) {
       </label>
 
       <fieldset className={styles.consentGroup}>
-        <legend>Permisos de contacto</legend>
+        <legend>Permiso de contacto</legend>
         <label className={styles.checkboxRow}>
           <input name="contactPermission" type="checkbox" value="yes" required />
           <span>{CONTACT_PERMISSION_COPY_ES}</span>
         </label>
-        <div className={styles.smsConsentBlock}>
-          <label className={styles.checkboxRow}>
-            <input
-              name="smsConsent"
-              type="checkbox"
-              value="yes"
-              aria-describedby="marketing-sms-disclosure"
-              onChange={(event) => {
-                if (!event.currentTarget.checked) phoneRef.current?.setCustomValidity("");
-              }}
-            />
-            <strong>{SMS_CONSENT_COPY_ES}</strong>
-          </label>
-          <p id="marketing-sms-disclosure" className={styles.smsDisclosure}>{SMS_DISCLOSURE_ES}</p>
-          <p className={styles.legalLinks}>
-            <Link href="/privacy-policy">Política de Privacidad</Link> ·{" "}
-            <Link href="/terms-and-conditions">Términos y Condiciones</Link>
-          </p>
-        </div>
+        <p className={styles.legalLinks}>
+          <Link href="/privacy-policy">Política de Privacidad</Link> ·{" "}
+          <Link href="/terms-and-conditions">Términos y Condiciones</Link>
+        </p>
       </fieldset>
 
       <button className={styles.primaryButton} type="submit" disabled={status.state === "submitting"}>

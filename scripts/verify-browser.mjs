@@ -2060,7 +2060,8 @@ const verifyPublicShellRoute = async ({
       sharedFooter: document.querySelectorAll('.site-footer').length,
       hasSkipLink: Boolean(document.querySelector('.skip-link[href="#main-content"]')),
       hasContactForm: Boolean(document.querySelector('[data-lead-form]')),
-      hasOptionalSmsConsent: Boolean(document.querySelector('[name="smsConsent"]:not([required])')),
+      hasInquiryPermission: Boolean(document.querySelector('[data-lead-form] [name="contactPermission"]:required')),
+      hasSmsConsent: Boolean(document.querySelector('[data-lead-form] [name="smsConsent"]')),
       hasLegalToc: Boolean(document.querySelector('[aria-label^="Contenido de"]')),
       overflowing,
     };
@@ -2072,7 +2073,7 @@ const verifyPublicShellRoute = async ({
   if (result.sharedHeader !== 1 || result.sharedFooter !== 1 || !result.hasSkipLink) {
     throw new Error(`${name} does not use the shared public shell: ${JSON.stringify(result)}`);
   }
-  if (expectContactForm && (!result.hasContactForm || !result.hasOptionalSmsConsent)) {
+  if (expectContactForm && (!result.hasContactForm || !result.hasInquiryPermission || result.hasSmsConsent)) {
     throw new Error(`${name} contact form contract is incomplete: ${JSON.stringify(result)}`);
   }
   if (expectLegalToc && !result.hasLegalToc) {

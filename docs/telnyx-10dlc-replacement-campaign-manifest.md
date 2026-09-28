@@ -2,7 +2,8 @@
 
 Issue: MIS-396  
 Prepared: 2026-08-20  
-State: Human Review candidate; **do not submit yet**
+State: Human Review candidate; **do not submit yet**. The earlier marketing
+opt-in path on `/contactanos` has been retired from the refresh candidate.
 
 This is the provider-entry source of truth for the campaign that will replace
 the rejected AIT USA campaign. It contains no API keys, phone numbers, student
@@ -23,7 +24,7 @@ and screenshots exactly.
 Telnyx does not allow a rejected campaign to be edited. The replacement is a
 new paid registration after the implementation/evidence gates below pass.
 
-## 2026-08-20 staging evidence update
+## Historical 2026-08-20 staging evidence — superseded
 
 - Integrated staging commit: `c430596074ee2e100caf08db29606151593b1114`.
 - Ready deployment: `dpl_86dEEgxecuHhfwKJTbEWEgZ5qPMA`.
@@ -34,37 +35,54 @@ new paid registration after the implementation/evidence gates below pass.
   `896bd041fdd682ce792fdbd45c8c65782b0ec62616f43ec108d8b35289849079`.
 - Mobile consent-panel evidence SHA-256:
   `786dcac3b2f03a42a591c8906b5066d3e6c576b227f8fe20f2797f9e96863643`.
-- Both files are attached to MIS-396. The mobile capture shows the separate
-  unchecked marketing control, full disclosure, Privacy/Terms links, and the
-  submit action at a 390 x 844 viewport.
+- Both files are attached to MIS-396. They show a **former** contact-form
+  marketing control, not the current refresh candidate. Do not use them as
+  resubmission evidence.
 - No WhatsApp link was opened, no provider message was sent, and no phone
   number was supplied.
 - Telnyx campaign `4b30019f-4241-e60d-49d6-7a47e4c0a70c` remains rejected and
   unchanged. It was **not edited, replaced, or resubmitted** during this update.
 
-This staging evidence does not satisfy the production/branded-URL checkboxes
-below. Capture the equivalent production evidence after the final production
-gate, then perform the authenticated brand-enum check before creating any new
-campaign.
+This historical evidence does not satisfy the production/branded-URL or final
+opt-in-path gates below. Capture fresh evidence only after the final paths are
+implemented and approved.
 
-## 2026-09-28 contact-form copy revision
+## Historical 2026-09-28 contact-form copy revision — superseded
 
-- The marketing consent text has been shortened without removing its visible
-  disclosures. The version recorded with future checked form submissions is
-  `aitusa-sms-consent-marketing-2026-09-28-v3`; older evidence remains tied to
-  the `2026-08-20-v2` copy above.
+- The marketing consent text was shortened without removing its visible
+  disclosures. It was versioned as
+  `aitusa-sms-consent-marketing-2026-09-28-v3`; any historical records retain
+  their original version. New `/contactanos` submissions no longer collect
+  marketing-SMS permission.
 - The separate unchecked checkbox now names AIT USA Institute and promotional
   SMS. Its adjacent visible disclosure names recurring
   course/enrollment/event/offer messages, up to eight monthly with variable
   frequency, automated delivery, message/data rates, STOP/HELP, no purchase or
   service condition, and no third-party/affiliate marketing sharing. Privacy
-  and Terms remain directly linked. Phone remains optional unless the visitor
-  chooses SMS marketing.
+  and Terms were directly linked. This describes the superseded form, not a
+  current opt-in path.
 - The permission to respond to an inquiry is still separate and required; its
   shorter label authorizes only a response to this request, not promotional SMS
-  or promotional WhatsApp. No new opt-in method, audience eligibility rule,
-  provider behavior, or public submission authority is created by this
-  editorial revision.
+  or promotional WhatsApp.
+
+## 2026-09-28 inquiry-only revision — current refresh candidate
+
+- `/contactanos` and the homepage callback are inquiry-response forms. Neither
+  displays or records marketing-SMS consent. The Orientation form retains its
+  required response permission, optional phone, CRM lead handoff, and
+  Privacy/Terms links; its payload explicitly records `marketingSmsOptIn: false`.
+  The contact API rejects forged marketing opt-ins submitted to these forms.
+- No new marketing-SMS subscription destination has been implemented or
+  selected. Registration currently has no enrollment-welcome SMS opt-in;
+  placement account creation has a narrow result-follow-up channel choice, not
+  welcome or marketing consent.
+- The placement service-SMS screen is **not** submission evidence yet: its
+  visible disclosure omits frequency, HELP, and no-sharing language, while the
+  prior draft below overstated its scope and verification. Repair that screen,
+  its stored evidence, and the campaign wording before citing it.
+- Existing lead/number data and the prior contact-form screenshots cannot be
+  treated as consent for a future marketing campaign. CRM welcome/retargeting
+  execution is deferred to a separate, not-yet-created issue.
 
 ## Campaign selection
 
@@ -88,40 +106,34 @@ campaign.
 - `directLending`: `false`
 - `termsAndConditions`: `true` only after owner approval of the live Terms.
 
-## Description field
+## Description field — provisional, do not paste into Telnyx
 
-> AIT USA Institute sends low-volume customer-care and marketing SMS. Service
-> messages provide requested placement-level confirmations, enrollment and
-> class updates, appointment details, and reminders. Marketing messages provide
-> program announcements, enrollment dates, events, and offers only to contacts
-> with separate marketing-SMS consent. Each recipient is eligible only for the
-> scope they affirmatively selected, and historical students or leads are not
-> automatically enrolled.
+> AIT USA Institute plans low-volume customer-care and marketing SMS. Intended
+> service messages include requested placement-result follow-up and, after a
+> separate enrollment opt-in is implemented, confirmed-enrollment next steps.
+> Intended marketing messages include program announcements and offers only to
+> contacts who affirmatively subscribe through a future, documented marketing
+> opt-in path. Each recipient must be eligible for the specific purpose; phone
+> collection, inquiry permission, and historical records are not SMS consent.
 
-## Message-flow field
+This is a scope draft, **not a claim that any of these paths or sends are live**.
+Reconcile final wording with the actual opt-in surfaces and CRM eligibility
+before provider entry.
 
-Use this text only after both paths are live:
+## Message-flow field — blocked pending actual opt-in paths
 
-> AIT USA Institute uses two separate digital opt-in paths. Marketing SMS:
-> visitors use the public contact form at
-> https://www.aitusainstitute.com/contactanos, enter an optional mobile number,
-> and affirmatively check a separate marketing-SMS checkbox that is unchecked by
-> default. The checkbox names AIT USA Institute and promotional SMS. Its
-> adjacent visible disclosure names recurring course, enrollment, event and offer
-> messages and states up to 8 messages/month with variable frequency, automated delivery,
-> message/data rates, STOP and HELP, no purchase or service condition, and no
-> sharing of mobile information or SMS consent with third parties or affiliates
-> for their marketing. Privacy Policy and Terms links are immediately adjacent.
-> The form submits without SMS consent. Service SMS: after a placement result is
-> saved, the verified user may choose SMS as a
-> confirmation channel and enter/verify an optional mobile number. A separate,
-> unchecked service-SMS checkbox discloses placement-result, enrollment, class,
-> appointment and reminder messages, variable frequency, automated technology,
-> rates, STOP/HELP, no purchase condition, no third-party marketing sharing,
-> Privacy and Terms. Email-only remains available. AIT stores the phone, scope,
-> decision, disclosure version, source URL and timestamp. Under-13 consent and
-> the mobile number must belong to the verified guardian. Existing numbers,
-> service consent and general contact permission never imply marketing consent.
+No submission-ready field text exists now. The prior two-path draft was retired
+because it named `/contactanos` as a marketing opt-in and overstated the
+placement disclosure, scope, and mobile verification. Before drafting the new
+field, record for **each actual digital opt-in path**: public URL, exact
+purpose-specific unchecked checkbox and adjacent terms, subscriber/guardian
+ownership, consent evidence, and a privacy-safe screenshot showing the form and
+submit control. An inquiry response is not itself a marketing-SMS opt-in.
+
+If enrollment welcome and retargeting remain both in scope, the new field must
+name the implemented enrollment-service and marketing paths separately. The
+placement result-only path may be included only after its own repairs and may
+not be described as enrollment-welcome permission.
 
 Do not add verbal, paper, inbound-keyword, WhatsApp, Google Forms, legacy Wix
 forms, or employee-entered consent to this campaign unless that exact method is
@@ -152,9 +164,12 @@ missing marketing permission in the AIT consent ledger.
 > https://www.aitusainstitute.com/contactanos. Pueden aplicarse tarifas de
 > mensajes y datos. Responde STOP para cancelar.
 
-## Sample message fields
+## Sample message fields — purpose drafts, not ready for provider entry
 
-Every production template must retain the brand identity and opt-out language.
+Every eventual production template must retain brand identity and opt-out
+language. Remove any sample whose purpose lacks a live, matching opt-in path;
+the appointment/enrollment/marketing examples below are not authorized by the
+current inquiry form or result-only placement consent.
 
 - `sample1` — placement service:
 
@@ -185,9 +200,16 @@ Every production template must retain the brand identity and opt-out language.
 
 ## Public URLs
 
-- Opt-in path A: `https://www.aitusainstitute.com/contactanos`
-- Opt-in path B: the exact public post-placement URL created by MIS-397; fill
-  this before submission.
+These are intended branded paths, **not proof that the refresh is live at the
+public domain**. Verify actual production routing after migration.
+
+- Inquiry-only path (not an SMS opt-in):
+  `https://www.aitusainstitute.com/contactanos`
+- Marketing-SMS opt-in path: **TBD; no current refresh form collects it.**
+- Enrollment-welcome service-SMS opt-in path: **TBD; Register Now currently
+  collects no SMS permission.**
+- Optional placement-result service-SMS path: exact public URL after MIS-397
+  disclosure, evidence, and ownership repairs; do not claim this path yet.
 - Privacy: `https://www.aitusainstitute.com/privacy-policy`
 - Terms: `https://www.aitusainstitute.com/terms-and-conditions`
 
@@ -221,10 +243,15 @@ All boxes must be checked before Alvaro updates or submits the campaign:
 
 - [ ] Privacy and Terms approved by the business owner and counsel.
 - [ ] Both branded legal URLs are live and not placeholders.
-- [ ] `/contactanos` shows optional phone, unchecked marketing checkbox, full
-      disclosure, Privacy/Terms links and a working submit button.
-- [ ] MIS-397 service-SMS path is live, optional, unchecked and independently
-      recorded; email-only still works.
+- [ ] `/contactanos` inquiry response works without creating SMS consent; the
+      campaign does not name it as an opt-in path.
+- [ ] An intentional public marketing-SMS opt-in path is chosen, implemented,
+      optional, unchecked, purpose-specific, fully disclosed, and recorded.
+- [ ] If enrollment welcome is in campaign scope, Register Now or another
+      enrollment path captures separate subscriber-owned service-SMS consent;
+      a confirmed enrollment/payment transition is not inferred from inquiry.
+- [ ] If placement-result SMS is included, MIS-397 visible disclosure and
+      stored evidence match its **result-only** scope; email-only still works.
 - [ ] Desktop and mobile screenshots show each full form, browser URL and submit
       control without exposing a real student's data.
 - [ ] Checked consent records scope/version/source/time; unchecked consent does

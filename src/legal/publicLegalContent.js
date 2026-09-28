@@ -9,7 +9,8 @@ export const MARKETING_SMS_DISCLOSURE_VERSION =
 export const SERVICE_SMS_DISCLOSURE_VERSION =
   "aitusa-sms-consent-service-2026-08-20-v1";
 
-// Backward-compatible aliases for the existing /contactanos marketing opt-in.
+// Historical aliases retained for versioned policy and consent records; the
+// current /contactanos form does not collect marketing-SMS permission.
 export const SMS_DISCLOSURE_VERSION = MARKETING_SMS_DISCLOSURE_VERSION;
 
 export const PUBLIC_LEGAL_LINKS = Object.freeze({

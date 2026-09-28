@@ -160,7 +160,7 @@ describe("MIS-266 lead contact model", () => {
     assert.match(response.body.advisorHandoff.message, /No indicado/);
   });
 
-  it("preserves versioned source and timestamp evidence for explicit SMS opt-in", () => {
+  it("rejects legacy marketing opt-in claims after the inquiry form stops collecting them", () => {
     const consentedAt = "2026-07-17T21:00:00.000Z";
     const response = evaluateLeadContactSubmission({
       ...validSubmission,
@@ -176,28 +176,19 @@ describe("MIS-266 lead contact model", () => {
       },
     });
 
-    assert.equal(response.status, 200);
-    assert.deepEqual(response.body.crmPayloadPreview.consent.marketingSmsEvidence, {
-      disclosureVersion: SMS_DISCLOSURE_VERSION,
-      sourcePath: "/contactanos",
-      consentedAt,
-    });
-    assert.equal(response.body.crmSyncPreview.event.payload.marketingSmsOptIn, true);
-    assert.equal(
-      response.body.crmSyncPreview.event.payload.marketingSmsDisclosureVersion,
-      SMS_DISCLOSURE_VERSION,
-    );
+    assert.equal(response.status, 422);
+    assert.equal(response.body.errors.includes("marketing_sms_not_collected_on_this_form"), true);
+    assert.equal(response.body.crmWrite, false);
   });
 
-  it("rejects ambiguous or incomplete SMS consent evidence", () => {
+  it("rejects unsupported or contradictory SMS consent evidence", () => {
     const noPhone = validateLeadContactInput({
       ...validSubmission,
       lead: { ...validSubmission.lead, phone: "" },
       consent: { contactPermission: true, marketingSmsOptIn: true },
     });
     assert.equal(noPhone.ok, false);
-    assert.equal(noPhone.errors.includes("marketing_sms_phone_required"), true);
-    assert.equal(noPhone.errors.includes("marketing_sms_evidence_required"), true);
+    assert.equal(noPhone.errors.includes("marketing_sms_not_collected_on_this_form"), true);
 
     const evidenceWithoutOptIn = validateLeadContactInput({
       ...validSubmission,

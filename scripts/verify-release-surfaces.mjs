@@ -293,9 +293,9 @@ try {
           subject: document.querySelector('select[name="course"]')?.value,
           options: document.querySelectorAll('select[name="course"] option').length,
           consent: document.querySelector('[name="contactPermission"]')?.checked,
-          sms: document.querySelector('[name="smsConsent"]')?.checked
+          smsControlPresent: Boolean(document.querySelector('[name="smsConsent"]'))
         }))()`);
-        if (!inquiry.path.includes('contactanos') || inquiry.subject !== "computacion-oficina" || inquiry.options !== 9 || inquiry.consent !== false || inquiry.sms !== false) {
+        if (!inquiry.path.includes('contactanos') || inquiry.subject !== "computacion-oficina" || inquiry.options !== 9 || inquiry.consent !== false || inquiry.smsControlPresent) {
           throw new Error(`Course-to-contact handoff failed: ${JSON.stringify(inquiry)}`);
         }
         const contactHistory = await send("Page.getNavigationHistory");

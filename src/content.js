@@ -69,14 +69,9 @@ const site = {
     terms: "/terms-and-conditions",
     contact: "/contactanos",
   },
-  smsConsent: {
-    disclosureVersion: "aitusa-sms-consent-marketing-2026-09-28-v3",
+  contactConsent: {
     contactPermission:
       "Autorizo a AIT USA Institute a responder esta solicitud por teléfono, correo electrónico o WhatsApp.",
-    checkboxLabel:
-      "Sí, quiero recibir SMS promocionales de AIT USA Institute.",
-    disclosure:
-      "SMS recurrentes sobre cursos, inscripciones, eventos y ofertas. Hasta 8 mensajes al mes (frecuencia variable). Pueden enviarse mediante sistemas automatizados. Pueden aplicarse tarifas de mensajes y datos. Responde STOP para cancelar o HELP para ayuda. Este consentimiento no es necesario para comprar ni recibir servicios. No compartimos tu número ni consentimiento SMS con terceros o afiliados para su marketing.",
   },
   twitterHandle: "@AiTUSA_Institute",
   seoTitle:

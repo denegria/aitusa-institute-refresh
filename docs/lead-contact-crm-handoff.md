@@ -80,8 +80,11 @@ CRM storage notice:
 
 > AIT USA guardará esta solicitud en AIT CRM para que un asesor pueda darle seguimiento.
 
-SMS marketing opt-in stays separate from contact permission. This route accepts
-`marketingSmsOptIn`, but it does not treat that as approval for SMS sending.
+SMS marketing opt-in stays separate from contact permission. As of the
+2026-09-28 inquiry-only revision, this route does **not** collect marketing-SMS
+permission: it records `marketingSmsOptIn: false` and rejects submitted opt-in
+claims. A future SMS subscription path needs its own form, disclosure, evidence,
+and CRM audience gate.
 
 ## Spam And Error Handling
 

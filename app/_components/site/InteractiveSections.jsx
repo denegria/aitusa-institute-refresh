@@ -784,7 +784,7 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
               </label>
               <label className="callback-consent">
                 <input name="contactPermission" type="checkbox" value="yes" required />
-                <span>{site.smsConsent.contactPermission}</span>
+                <span>{site.contactConsent.contactPermission}</span>
               </label>
               <p className="callback-privacy">
                 Consulta nuestra <a href={site.legalLinks.privacy}>Política de Privacidad</a>.

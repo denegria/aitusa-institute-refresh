@@ -2,9 +2,6 @@ import { createHash } from "node:crypto";
 import {
   CONTACT_PERMISSION_COPY_ES,
   PRIVACY_POLICY_VERSION,
-  SMS_CONSENT_COPY_ES,
-  SMS_DISCLOSURE_ES,
-  SMS_DISCLOSURE_VERSION,
   TERMS_VERSION,
 } from "../legal/publicLegalContent.js";
 import {
@@ -28,7 +25,6 @@ export const LEAD_CONTACT_CONTRACT = Object.freeze({
   minSubmitSeconds: 3,
   privacyPolicyVersion: PRIVACY_POLICY_VERSION,
   termsVersion: TERMS_VERSION,
-  smsDisclosureVersion: SMS_DISCLOSURE_VERSION,
 });
 
 export const LEAD_FORM_TYPES = Object.freeze({
@@ -76,9 +72,6 @@ export function getLeadContactConfig() {
     interests: LEAD_INTERESTS,
     consentCopy: {
       contactPermission: CONTACT_PERMISSION_COPY_ES,
-      marketingSmsCheckbox: SMS_CONSENT_COPY_ES,
-      marketingSmsDisclosure: SMS_DISCLOSURE_ES,
-      marketingSmsDisclosureVersion: SMS_DISCLOSURE_VERSION,
       crmStorage:
         "AIT USA guardará esta solicitud en AIT CRM para que un asesor pueda darle seguimiento.",
     },
@@ -450,37 +443,9 @@ function validateMarketingSmsConsent(input, errors) {
     errors.push("sms_consent_alias_mismatch");
   }
 
-  if (!optedIn) {
-    if (evidence !== null && evidence !== undefined) {
-      errors.push("marketing_sms_evidence_without_opt_in");
-    }
-    return;
-  }
-
-  if (!isNonEmptyString(input.lead?.phone)) {
-    errors.push("marketing_sms_phone_required");
-  }
-
-  if (!isRecord(evidence)) {
-    errors.push("marketing_sms_evidence_required");
-    return;
-  }
-
-  if (evidence.disclosureVersion !== SMS_DISCLOSURE_VERSION) {
-    errors.push("marketing_sms_disclosure_version_invalid");
-  }
-
-  const evidencePath = normalizeSourcePath(evidence.sourcePath);
-  const requestPath = normalizeSourcePath(input.source?.path);
-  if (evidencePath !== requestPath) {
-    errors.push("marketing_sms_source_path_mismatch");
-  }
-
-  if (
-    !isNonEmptyString(evidence.consentedAt) ||
-    Number.isNaN(Date.parse(evidence.consentedAt))
-  ) {
-    errors.push("marketing_sms_consented_at_invalid");
+  if (optedIn) errors.push("marketing_sms_not_collected_on_this_form");
+  if (!optedIn && evidence !== null && evidence !== undefined) {
+    errors.push("marketing_sms_evidence_without_opt_in");
   }
 }
 

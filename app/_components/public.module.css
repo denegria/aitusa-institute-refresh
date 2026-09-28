@@ -426,24 +426,6 @@
   accent-color: #1747c8;
 }
 
-.smsConsentBlock {
-  display: grid;
-  gap: 8px;
-  padding-top: 14px;
-  border-top: 1px solid #b9c9e4;
-}
-
-.smsConsentBlock strong {
-  color: #173868;
-}
-
-.smsDisclosure {
-  margin: 0;
-  color: #40526c;
-  font-size: 0.86rem;
-  line-height: 1.5;
-}
-
 .legalLinks {
   margin: 0;
   color: #596b84;
@@ -716,11 +698,7 @@
   background: #f8f5ed;
 }
 
-.contactPage .smsConsentBlock {
-  border-color: #d8c8aa;
-}
-
-.contactPage .smsConsentBlock .legalLinks {
+.contactPage .consentGroup .legalLinks {
   font-size: 0.82rem;
 }
 

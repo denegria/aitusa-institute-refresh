@@ -44,7 +44,8 @@ describe("MIS-221 lead contact route", () => {
     assert.equal(body.ok, true);
     assert.equal(body.leadContact.contract.sourceKey, "aitusa-website-lead-v1");
     assert.equal(body.leadContact.requiredFields.includes("phone"), false);
-    assert.match(body.leadContact.consentCopy.marketingSmsDisclosure, /STOP/);
+    assert.match(body.leadContact.consentCopy.contactPermission, /responder esta solicitud/);
+    assert.equal(Object.hasOwn(body.leadContact.consentCopy, "marketingSmsDisclosure"), false);
     assert.equal(body.crmWrite, true);
   });
 
@@ -68,6 +69,18 @@ describe("MIS-221 lead contact route", () => {
     assert.equal(body.ok, false);
     assert.equal(body.errors.includes("lead_name_required"), true);
     assert.equal(body.errors.includes("contact_permission_consent_required"), true);
+    assert.equal(body.crmWrite, false);
+  });
+
+  it("rejects promotional SMS consent submitted to an inquiry-only form", async () => {
+    const response = await POST(request({
+      ...validBody,
+      consent: { contactPermission: true, marketingSmsOptIn: true, smsConsent: true },
+    }));
+    const body = await response.json();
+
+    assert.equal(response.status, 422);
+    assert.equal(body.errors.includes("marketing_sms_not_collected_on_this_form"), true);
     assert.equal(body.crmWrite, false);
   });
 

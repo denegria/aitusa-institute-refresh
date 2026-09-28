@@ -75,7 +75,8 @@ Live delivery creates or matches an AIT CRM lead/contact with:
 - preferred schedule
 - free-text message, only if retention/copy is approved
 - contact permission consent state
-- SMS marketing opt-in state, stored separately from contact permission
+- SMS marketing opt-in state, stored separately from contact permission when
+  a future opt-in path exists; current inquiry forms record false
 - source key, source name, source path, referrer, and campaign
 - idempotency key
 

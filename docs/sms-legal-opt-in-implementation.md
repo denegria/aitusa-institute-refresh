@@ -2,12 +2,15 @@
 
 Issues: MIS-327, MIS-396
 Prepared: 2026-08-20
-Status: legal/consent contract prepared for Human Review; not legal advice and
-not a Telnyx submission
+Status: legal/consent reference for Human Review; not a Telnyx submission.
+Updated 2026-09-28: `/contactanos` is inquiry-only in the current refresh
+candidate. Earlier marketing opt-in evidence is historical, not resubmission
+evidence.
 
 ## Public routes
 
-- Canonical digital opt-in: `/contactanos`
+- Inquiry response only, **not SMS opt-in**: `/contactanos`
+- Marketing-SMS and enrollment-welcome service-SMS opt-in: not yet implemented
 - Privacy Policy: `/privacy-policy`
 - Terms and Conditions: `/terms-and-conditions`
 - Legacy Privacy alias: `/copy-of-terms-of-use` redirects to `/privacy-policy`
@@ -21,56 +24,51 @@ Institute and legal counsel before the branded-domain launch.
 
 - Privacy version: `aitusa-privacy-2026-08-20-v3`
 - Terms version: `aitusa-terms-2026-08-20-v2`
-- Marketing SMS disclosure: `aitusa-sms-consent-marketing-2026-08-20-v2`
+- Historical marketing SMS disclosure: `aitusa-sms-consent-marketing-2026-08-20-v2`
+  and superseding historical form copy `aitusa-sms-consent-marketing-2026-09-28-v3`
 - Service SMS disclosure: `aitusa-sms-consent-service-2026-08-20-v1`
 
-General response permission, service SMS, and SMS marketing consent are
-separate controls.
-The response permission is required to prepare advisor follow-up. The SMS
-checkbox is optional and unchecked by default. The form submits without a phone
-or SMS permission.
-
-If SMS consent is selected:
-
-- a mobile number is required;
-- `consent.marketingSmsOptIn` and `consent.smsConsent` must both be `true`;
-- the two aliases must agree;
-- `marketingSmsEvidence.disclosureVersion` must match the deployed version;
-- the evidence source path must match the request source path;
-- the consent timestamp must be valid.
-
-If SMS consent is not selected, SMS evidence must be absent or `null`. Existing
-phone numbers, generic contact permission, Terms acceptance, and legacy records
-never imply SMS permission.
+General response permission, service SMS, and SMS marketing consent remain
+distinct purposes. The `/contactanos` response permission is required for
+advisor follow-up by the channels named on the form. Phone is optional, and
+the form submits with no phone or SMS permission. Its payload records
+`marketingSmsOptIn: false`, `smsConsent: false`, and no marketing evidence;
+the contact API rejects attempts to submit marketing opt-in through this
+inquiry-only surface. The homepage callback also records no SMS permission.
+Existing phone numbers, generic contact permission, Terms acceptance, and
+legacy records never imply SMS permission.
 
 ## Current data boundary
 
-The contact API now creates the approved CRM event and consent evidence:
+The contact API creates the approved CRM lead event:
 
 - `crmWrite: true`
-- durable lead and versioned marketing-consent storage are enabled
+- durable lead storage is enabled; new inquiry submissions do not create
+  marketing-SMS consent evidence
 - no provider send until the Telnyx production gate is approved
 - the visitor chooses whether to open and send the prepared WhatsApp message
 
-The event carries the consent source, version, and timestamp metadata. Provider
-sends and campaign audience eligibility remain separately gated.
+Historical consent evidence remains associated with its original disclosure
+version. Provider sends and campaign audience eligibility remain separately
+gated.
 
 ## Other phone collection
 
 The placement-test telephone field is optional and explicitly states that it is
 not a marketing-SMS opt-in source. Its CRM preview always emits
-`marketingSmsOptIn: false`. This keeps placement follow-up separate from the
-canonical `/contactanos` subscription flow.
+`marketingSmsOptIn: false`. Post-placement account creation has a narrower
+result-follow-up channel choice; its SMS disclosure/evidence needs repair
+before it is cited in a Telnyx campaign. Register Now currently has no SMS
+permission for an enrollment welcome.
 
 ## Telnyx replacement campaign
 
-The previous `TELNYX_FAILED` campaign cannot be edited. Create a new campaign
-only after both digital consent paths are live and evidenced:
-
-1. `/contactanos`: separate marketing SMS opt-in, up to 8 messages per month.
-2. Post-placement result save/confirmation flow: separate service SMS opt-in,
-   with variable frequency based on the student's activity. This second path is
-   implemented under MIS-397.
+The previous `TELNYX_FAILED` campaign cannot be edited. Do not register a
+replacement using `/contactanos` as an SMS opt-in URL. No current refresh
+surface authorizes marketing SMS or an enrollment-welcome text. Before a
+mixed-use replacement campaign is submitted, implement and evidence the
+actual marketing and enrollment-service opt-in paths, and repair the
+result-only placement path if it is included.
 
 The campaign may be technically registered as low-volume mixed messaging, but
 recipient eligibility remains purpose-specific. Do not claim verbal consent.
@@ -84,10 +82,12 @@ exact provider field manifest is in
 1. Business-owner and counsel review of the final Privacy and Terms copy.
 2. Live branded URLs return the intended pages.
 3. Footer and form links resolve correctly.
-4. Phone remains optional and the SMS checkbox remains optional and unchecked.
-5. Checked consent requires a phone and emits exact version/source/timestamp.
-6. Unchecked and absent consent never create SMS permission.
+4. Inquiry forms remain available without any SMS subscription decision.
+5. Future SMS opt-in controls are optional, unchecked, purpose-specific, and
+   emit exact subscriber/number/version/source/timestamp evidence.
+6. Absent consent never creates SMS permission.
 7. Production CRM storage is enabled only through the MIS-301 approval gate.
 8. STOP/HELP and opt-out behavior is tested before any audience launch.
-9. Both service and marketing opt-in paths are fully functional and evidenced.
+9. Each service and marketing opt-in path named in the campaign is fully
+   functional and evidenced.
 10. Telnyx campaign narrative, use case, samples, and public flows are consistent.

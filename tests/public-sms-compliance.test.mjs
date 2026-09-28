@@ -94,25 +94,21 @@ describe("MIS-327 public legal and SMS compliance", () => {
     assert.match(text, /decisiones separadas/i);
   });
 
-  it("renders the canonical form with optional phone and an unchecked SMS checkbox", async () => {
+  it("keeps the inquiry form focused on requested follow-up without collecting SMS marketing", async () => {
     const source = await readFile("app/_components/ContactForm.jsx", "utf8");
 
     assert.match(source, /name="phone"/);
     assert.doesNotMatch(source, /name="phone"[\s\S]{0,120}required/);
-    assert.match(source, /name="smsConsent"[\s\S]{0,100}type="checkbox"[\s\S]{0,100}value="yes"/);
-    assert.doesNotMatch(source, /name="smsConsent"[^>]*defaultChecked/);
-    assert.match(source, /marketingSmsEvidence/);
-    assert.match(source, /smsConsent: marketingSmsOptIn/);
-    assert.match(source, /disclosureVersion: SMS_DISCLOSURE_VERSION/);
-    assert.match(source, /aria-describedby="marketing-sms-disclosure"/);
-    assert.match(source, /id="marketing-sms-disclosure"/);
-    assert.match(source, /sourcePath: "\/contactanos"/);
-    assert.match(source, /consentedAt: submittedAt/);
+    assert.match(source, /name="contactPermission"[^>]*type="checkbox"[^>]*required/);
+    assert.doesNotMatch(source, /name="smsConsent"/);
+    assert.match(source, /marketingSmsOptIn: false/);
+    assert.match(source, /smsConsent: false/);
+    assert.match(source, /marketingSmsEvidence: null/);
     assert.match(source, /href="\/privacy-policy"/);
     assert.match(source, /href="\/terms-and-conditions"/);
   });
 
-  it("keeps the Telnyx replacement manifest gated on both digital opt-in paths", async () => {
+  it("keeps the Telnyx replacement manifest gated on a real replacement marketing path", async () => {
     const manifest = await readFile(
       "docs/telnyx-10dlc-replacement-campaign-manifest.md",
       "utf8",
@@ -124,7 +120,8 @@ describe("MIS-327 public legal and SMS compliance", () => {
     assert.match(manifest, /MARKETING/);
     assert.match(manifest, /\/contactanos/);
     assert.match(manifest, /MIS-397/);
-    assert.match(manifest, /historical students or leads are not/i);
+    assert.match(manifest, /Neither\s+displays or records marketing-SMS consent/i);
+    assert.match(manifest, /historical records are not SMS consent/i);
     assert.match(manifest, /STOP/);
     assert.match(manifest, /HELP/);
   });
