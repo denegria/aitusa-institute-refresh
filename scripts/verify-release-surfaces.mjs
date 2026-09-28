@@ -369,8 +369,8 @@ try {
           !passwordState.password ||
           passwordState.passwordSelected !== "true" ||
           passwordState.newStudent === employee ||
-          (employee && passwordState.heading !== "Acceso de empleados") ||
-          (!employee && passwordState.heading !== "Entra a tu Portal")
+          (employee && passwordState.heading !== "Portal de empleados") ||
+          (!employee && passwordState.heading !== "Portal estudiantil")
         ) {
           throw new Error(`${surface.name} password contract failed: ${JSON.stringify(passwordState)}`);
         }
@@ -384,10 +384,10 @@ try {
           return {
             password: Boolean(document.querySelector('input[type="password"]')),
             codeSelected: buttons[1]?.getAttribute('aria-pressed'),
-            copy: document.querySelector('.portal-access__card > p:not(.portal-eyebrow)')?.textContent?.trim(),
+            sendCode: [...document.querySelectorAll('.portal-signin__form button')].some(button => button.textContent.includes('Enviar código')),
           };
         })()`);
-        if (codeState.password || codeState.codeSelected !== "true" || !codeState.copy?.includes("código de seis dígitos")) {
+        if (codeState.password || codeState.codeSelected !== "true" || !codeState.sendCode) {
           throw new Error(`${surface.name} code fallback contract failed: ${JSON.stringify(codeState)}`);
         }
         await evaluate(`document.querySelector('.portal-signin__methods button')?.click()`);

@@ -39,6 +39,7 @@
 
 - Student sign-in footer: Ayuda, Acceso de empleados, Privacidad, Términos. Employee sign-in footer: Ayuda, Portal estudiantil, Privacidad, Términos. Password setup/reset and Placement Test: their existing Ayuda, Privacidad, Términos links. No route, auth, reset, or result-claim contract changes.
 - Keep the first-time student Placement Test link within the sign-in card, one primary auth action, password/code method switch, error/status semantics, 44px interactive targets, and visible keyboard focus.
+- The Portal name is the primary sign-in heading (`Portal estudiantil` or `Portal de empleados`), with a small `Inicia sesión` cue. Do not add redundant password/code instructions above the switch; retain the masked-email and expiry guidance after a code request. Keep the field label `Email` on both audiences.
 - Non-goals: changing the shared public header, adding a marketing footer, moving placement consent, or changing identity-provider behavior.
 
 ## Responsive and evidence contract

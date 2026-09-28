@@ -195,25 +195,17 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
             <span className="is-complete">2</span>
           </div>
         ) : null}
-        <p className="portal-eyebrow">Acceso seguro</p>
+        <p className="portal-eyebrow">Inicia sesión</p>
         <h1 id="portal-signin-title">
           {method === "code" && step === "code"
             ? "Revisa tu email"
             : employee
-              ? "Acceso de empleados"
-              : "Entra a tu Portal"}
+              ? "Portal de empleados"
+              : "Portal estudiantil"}
         </h1>
-        <p>
-          {method === "code" && step === "code"
-            ? `Si ${maskEmail(email)} corresponde a una cuenta activa, recibirás un código que vence en 10 minutos.`
-            : method === "password"
-              ? employee
-                ? "Usa tu email de trabajo y contraseña."
-                : "Usa el email de tu cuenta y tu contraseña."
-              : employee
-                ? "Usa tu email de empleado y recibirás un código de seis dígitos."
-                : "Usa el email de tu cuenta y recibirás un código de seis dígitos."}
-        </p>
+        {method === "code" && step === "code" ? (
+          <p>Si {maskEmail(email)} corresponde a una cuenta activa, recibirás un código que vence en 10 minutos.</p>
+        ) : null}
 
         {step === "email" ? (
           <div className="portal-signin__methods" aria-label="Método de acceso">
