@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { catalogInformationRoutes, courseCatalog, programs, site } from "../../../src/content";
 import { catalogChoices, catalogHref, courseComparison, courseInquiryHref, normalizeCatalogGroup } from "../../../src/courseDiscovery";
 import { CallbackDialog, FaqList } from "./InteractiveSections";
-import { CourseQuickFacts } from "./CourseQuickFacts";
 
 const allOfferingsKey = "all-offerings";
 const primaryGroupKey = "english-paths";
@@ -14,19 +13,18 @@ const primaryGroupKey = "english-paths";
 function ProgramCard({ program, activeTab }) {
   const facts = courseComparison[program.slug];
   return (
-    <article className="program-card" id={`curso-${program.slug}`} data-category={program.category}>
+    <article className="program-card chooser-card" id={`curso-${program.slug}`} data-category={program.category}>
       <Image className="program-card__image" src={program.image} alt={program.imageAlt}
-        width={1200} height={900} sizes="(max-width: 719px) calc(100vw - 32px), (max-width: 1040px) 44vw, 30vw" />
+        width={1200} height={900} sizes="(max-width: 719px) 104px, (max-width: 1040px) 44vw, 30vw" />
       <div className="program-card__body">
+        <span className="chooser-card__mode">{program.mode}</span>
         <h3>{program.title}</h3>
-        <p>{facts.fit}</p>
-        <CourseQuickFacts slug={program.slug} />
-        <div className="button-row">
-          <Link className="button button--primary" href={`/cursos/${program.slug}/?grupo=${activeTab}`}
-            data-course-detail-link={program.slug} aria-label={`${program.cta}: ${program.title}`}>
-            {program.cta}
-          </Link>
-        </div>
+        <p className="chooser-card__fit">{facts.fit}</p>
+        <p className="chooser-card__format">{facts.compactFormat}</p>
+        <Link className="chooser-card__action" href={`/cursos/${program.slug}/?grupo=${activeTab}`}
+          data-course-detail-link={program.slug} aria-label={`${program.cta}: ${program.title}`}>
+          {program.cta}<span aria-hidden="true">→</span>
+        </Link>
       </div>
     </article>
   );
@@ -35,7 +33,7 @@ function ProgramCard({ program, activeTab }) {
 function InformationRouteCard({ route }) {
   return (
     <article className="catalog-information" data-category="information">
-      <p className="section-kicker">{route.label}</p>
+      <p className="section-kicker">Información, no curso publicado</p>
       <h3>{route.title}</h3>
       <p>{route.note}</p>
       <Link href={route.href} data-information-route-link={route.key}>{route.cta} →</Link>
@@ -77,17 +75,25 @@ export function CourseCatalog({ initialGroup = allOfferingsKey }) {
 
   return (
     <>
-      <section className="section course-catalog prospect-catalog" id="catalogo-detallado" aria-labelledby="catalog-title">
+      <section className="section course-catalog prospect-catalog course-chooser" id="catalogo-detallado" aria-labelledby="catalog-title">
         <div className="section-inner">
           <header className="course-catalog__intro">
             <div className="course-catalog__intro-copy">
-              <p className="section-kicker">AIT USA · Catálogo de cursos</p>
-              <h1 id="catalog-title">Encuentra el curso para tu objetivo.</h1>
-              <p className="course-catalog__lead">Compara cursos y encuentra tu próximo paso.</p>
-              <p className="catalog-location-note">Inglés en Nueva Jersey y online. Confirma sede, horario y cupo con admisiones.</p>
+              <p className="section-kicker">AIT USA · Cursos</p>
+              <h1 id="catalog-title">Encuentra tu próximo curso.</h1>
+              <p className="course-catalog__lead">Elige un área y compara las opciones que mejor encajan contigo.</p>
             </div>
-            <a className="catalog-help-link" href="#orientacion-catalogo">¿Necesitas ayuda para elegir? ↓</a>
+            <div className="course-chooser__help" aria-label="Ayuda para elegir">
+              <p className="section-kicker">¿No sabes cuál elegir?</p>
+              <strong>Te ayudamos a elegir.</strong>
+              <p>Admisiones confirma sede, horario, duración y costo antes de inscribirte.</p>
+              <div className="course-chooser__help-actions">
+                <CallbackDialog key={activeTab} defaultSubject="" subjectGroup={activeTab} />
+                <a href={courseInquiryHref(site.whatsappHref, context)} target="_blank" rel="noreferrer">WhatsApp ↗</a>
+              </div>
+            </div>
           </header>
+          <p className="course-chooser__filter-label">Explora por área</p>
           <div className="catalog-tabs" role="tablist" aria-label="Filtrar cursos por objetivo">
             {[{ key: allOfferingsKey, label: "Todos" }, ...catalogChoices].map((choice) => (
               <button type="button" id={`catalog-tab-${choice.key}`} role="tab"
@@ -99,7 +105,7 @@ export function CourseCatalog({ initialGroup = allOfferingsKey }) {
             ))}
           </div>
           <p className="catalog-result-count" role="status" aria-live="polite" aria-atomic="true">
-            {visibleCount} cursos{visibleInformationRoutes.length ? ` · ${visibleInformationRoutes.length} ruta informativa, sin curso publicado` : ""}
+            {visibleCount} cursos
           </p>
           <section className="catalog-panel" id="catalog-panel" role="tabpanel" aria-labelledby={`catalog-tab-${activeTab}`} tabIndex={0}>
             {visibleGroups.map((group) => (
@@ -112,29 +118,20 @@ export function CourseCatalog({ initialGroup = allOfferingsKey }) {
                 <div className={`program-grid${group.programs.length < 3 ? " program-grid--supporting" : ""}`}>
                   {group.programs.map((slug) => <ProgramCard key={slug} program={programs.find((program) => program.slug === slug)} activeTab={activeTab} />)}
                 </div>
-                {(group.informationRoutes || []).map((key) => <InformationRouteCard key={key} route={catalogInformationRoutes.find((route) => route.key === key)} />)}
               </section>
             ))}
           </section>
-        </div>
-      </section>
-      <section className="section catalog-guidance" id="orientacion-catalogo" aria-labelledby="catalog-guidance-title">
-        <div className="section-inner">
-          <div className="section-heading">
-            <p className="section-kicker">Tu siguiente paso · {context}</p>
-            <h2 id="catalog-guidance-title">Elige con ayuda de admisiones.</h2>
-            <p>Cuéntanos qué quieres aprender y tu disponibilidad. Te ayudamos a confirmar duración, requisitos, sede o modalidad, horario y costo antes de inscribirte.</p>
-          </div>
-          <div className="button-row">
-            <CallbackDialog key={activeTab} defaultSubject="" subjectGroup={activeTab} primary />
-            <a className="course-program-text-link" href={courseInquiryHref(site.whatsappHref, context)} target="_blank" rel="noreferrer">Consultar por WhatsApp</a>
-          </div>
-          {englishSelected ? <p className="course-assessment-option"><Link href="/placement-test/">Explorar mi nivel de inglés</Link><span>Opcional antes de consultar · 62 preguntas · 10–15 minutos.</span></p> : null}
-          <details className="catalog-confirmation">
-            <summary>¿Qué necesito confirmar antes de inscribirme?</summary>
-            <p>Elige una ficha para ver el contenido y los horarios publicados. Admisiones confirma el grupo activo, la sede o plataforma, requisitos, materiales y costo. Las duraciones estimadas dependen de tu punto de partida y práctica.</p>
-          </details>
-          {englishSelected ? <div className="catalog-english-faq"><h3>Preguntas sobre estudiar inglés</h3><FaqList /></div> : null}
+          {englishSelected ? <p className="course-chooser__placement"><Link href="/placement-test/">¿No sabes tu nivel de inglés? Explora tu nivel.</Link><span>Opcional · 62 preguntas · 10–15 minutos.</span></p> : null}
+          {visibleInformationRoutes.length ? (
+            <aside className="course-chooser__information" aria-labelledby="course-information-title">
+              <div>
+                <p className="section-kicker">Además de los cursos</p>
+                <h2 id="course-information-title">Información para tu próximo paso.</h2>
+              </div>
+              {visibleInformationRoutes.map((key) => <InformationRouteCard key={key} route={catalogInformationRoutes.find((route) => route.key === key)} />)}
+            </aside>
+          ) : null}
+          {englishSelected ? <details className="course-chooser__faq"><summary>Preguntas sobre estudiar inglés</summary><FaqList /></details> : null}
         </div>
       </section>
     </>

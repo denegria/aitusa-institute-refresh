@@ -20,6 +20,7 @@ export function catalogHref(group = "all-offerings", slug = "") {
 export const courseComparison = {
   "ingles-jovenes-adultos": {
     fit: "Jóvenes y adultos que quieren practicar cara a cara.",
+    compactFormat: "En sede · Nueva Jersey",
     format: "Presencial · Nueva Jersey. Confirma sede y grupo.",
     duration: "Según nivel inicial, frecuencia y práctica; sin plazo único.",
     requirements: "Evaluación inicial para orientar tu nivel y grupo.",
@@ -27,6 +28,7 @@ export const courseComparison = {
   },
   "ingles-hibrido-adultos": {
     fit: "Quienes necesitan combinar encuentros presenciales y apoyo remoto.",
+    compactFormat: "Nueva Jersey + remoto",
     format: "Nueva Jersey + remoto. Alternancia a confirmar con el grupo.",
     duration: "Confirma una ruta según tu nivel y disponibilidad.",
     requirements: "Evaluación inicial; confirma sede y acceso remoto.",
@@ -34,6 +36,7 @@ export const courseComparison = {
   },
   "ingles-online-adultos": {
     fit: "Adultos que buscan practicar inglés en vivo a distancia.",
+    compactFormat: "En vivo · online",
     format: "Online en vivo. Confirma país, zona horaria y grupo.",
     duration: "Confirma una ruta según tu nivel y frecuencia.",
     requirements: "Evaluación inicial y conexión estable; confirma equipo.",
@@ -41,6 +44,7 @@ export const courseComparison = {
   },
   ged: {
     fit: "Personas que buscan prepararse para el examen GED.",
+    compactFormat: "Presencial · sede por confirmar",
     format: "Presencial · confirma sede y bloque disponible.",
     duration: "6 meses estimados; depende de tu base y práctica, sin garantía de aprobación.",
     requirements: "Confirma tu base académica y, por separado, elegibilidad para el examen oficial.",
@@ -48,6 +52,7 @@ export const courseComparison = {
   },
   "tutorias-matematicas": {
     fit: "Estudiantes con una duda, materia o meta académica puntual.",
+    compactFormat: "Presencial u online",
     format: "Presencial u online, según materia y disponibilidad.",
     duration: "Sesiones a coordinar según el tema y la meta.",
     requirements: "Comparte materia, nivel, material y fecha objetivo.",
@@ -55,6 +60,7 @@ export const courseComparison = {
   },
   "computacion-basica": {
     fit: "Principiantes que quieren realizar tareas digitales con autonomía.",
+    compactFormat: "Modalidad por confirmar",
     format: "Sede y modalidad por confirmar con admisiones.",
     duration: "Por confirmar; no hay un plazo publicado.",
     requirements: "Desde cero. Confirma equipo y sistema Windows o Mac.",
@@ -62,6 +68,7 @@ export const courseComparison = {
   },
   "computacion-oficina": {
     fit: "Quienes quieren crear documentos, hojas de cálculo y presentaciones.",
+    compactFormat: "Modalidad por confirmar",
     format: "Sede y modalidad por confirmar con admisiones.",
     duration: "Word y PowerPoint: 4 semanas cada uno; Excel: 8. Estimaciones por módulo.",
     requirements: "Confirma módulo, conocimientos previos, equipo y versión de software.",
@@ -69,6 +76,7 @@ export const courseComparison = {
   },
   "espanol-extranjeros": {
     fit: "Personas que quieren usar el español en la vida diaria, estudios o trabajo.",
+    compactFormat: "Online · horario según país",
     format: "Online · grupo y horario según país y disponibilidad.",
     duration: "Según nivel, frecuencia y objetivo; sin plazo garantizado.",
     requirements: "Comparte tu experiencia previa y confirma plataforma y equipo.",
