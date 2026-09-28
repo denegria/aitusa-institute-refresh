@@ -126,7 +126,8 @@ describe("MIS-271 portal auth boundary prototype", () => {
       "utf8",
     );
 
-    assert.match(source, /Portal estudiantil/);
+    assert.match(source, /<h1 id="portal-signin-title">[\s\S]*"Inicia sesión"/);
+    assert.match(source, /employee \? "Empleados" : "Estudiantes"/);
     assert.doesNotMatch(source, /Acceso seguro/);
     assert.match(source, /Comenzar el Placement Test/);
     assert.match(source, /corresponde a una cuenta activa/i);

@@ -195,13 +195,11 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
             <span className="is-complete">2</span>
           </div>
         ) : null}
-        <p className="portal-eyebrow">Inicia sesión</p>
+        <p className="portal-eyebrow">{employee ? "Empleados" : "Estudiantes"}</p>
         <h1 id="portal-signin-title">
           {method === "code" && step === "code"
             ? "Revisa tu email"
-            : employee
-              ? "Portal de empleados"
-              : "Portal estudiantil"}
+            : "Inicia sesión"}
         </h1>
         {method === "code" && step === "code" ? (
           <p>Si {maskEmail(email)} corresponde a una cuenta activa, recibirás un código que vence en 10 minutos.</p>

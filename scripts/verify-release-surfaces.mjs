@@ -361,6 +361,7 @@ try {
         const employee = surface.name === "employee-entry";
         const passwordState = await evaluate(`(() => ({
           heading: document.querySelector('#portal-signin-title')?.textContent?.trim(),
+          audience: document.querySelector('.portal-access__card > .portal-eyebrow')?.textContent?.trim(),
           password: Boolean(document.querySelector('input[type="password"]')),
           passwordSelected: document.querySelector('.portal-signin__methods button')?.getAttribute('aria-pressed'),
           newStudent: Boolean(document.querySelector('.portal-signin__new-student')),
@@ -369,8 +370,8 @@ try {
           !passwordState.password ||
           passwordState.passwordSelected !== "true" ||
           passwordState.newStudent === employee ||
-          (employee && passwordState.heading !== "Portal de empleados") ||
-          (!employee && passwordState.heading !== "Portal estudiantil")
+          passwordState.heading !== "Inicia sesión" ||
+          passwordState.audience !== (employee ? "Empleados" : "Estudiantes")
         ) {
           throw new Error(`${surface.name} password contract failed: ${JSON.stringify(passwordState)}`);
         }
