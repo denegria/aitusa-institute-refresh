@@ -1358,17 +1358,6 @@ function ResultScreen({
           <a className="button button--gold" href={qaFixture ? "#qa-registration" : "/inscribete/?curso=english_program"}>Inscribirme</a>
           {practiceEligible ? <a className="button button--ghost" href={qaFixture ? "#qa-study" : "/portal/study/"}>Practicar con Study Buddy</a> : null}
         </div>
-        <div className="diagnostic-result__next-links">
-          <a href={qaFixture ? "#qa-portal" : claimReceipt?.portalHref || "/portal/?welcome=1"}>Abrir mi Portal</a>
-          <a
-            href={qaFixture ? "#qa-advisor" : result.advisorHandoff?.href || site.whatsappHref}
-            rel="noreferrer"
-            target={qaFixture ? undefined : "_blank"}
-          >
-            Hablar con un asesor
-          </a>
-        </div>
-        {claimReceipt?.alreadyClaimed !== true ? <PasswordSetupCard /> : null}
       </section>
       <div className="diagnostic-result__details">
         <div className="diagnostic-result__explanation">
@@ -1414,6 +1403,20 @@ function ResultScreen({
           </div>
         </div>
       </div>
+      <section className="diagnostic-result__account" aria-labelledby="diagnostic-account-title">
+        <h3 id="diagnostic-account-title">Acceso y ayuda</h3>
+        <div className="diagnostic-result__next-links">
+          <a href={qaFixture ? "#qa-portal" : claimReceipt?.portalHref || "/portal/?welcome=1"}>Abrir mi Portal</a>
+          <a
+            href={qaFixture ? "#qa-advisor" : result.advisorHandoff?.href || site.whatsappHref}
+            rel="noreferrer"
+            target={qaFixture ? undefined : "_blank"}
+          >
+            Hablar con un asesor
+          </a>
+        </div>
+        {claimReceipt?.alreadyClaimed !== true ? <PasswordSetupCard /> : null}
+      </section>
       <div className="diagnostic-result__footer">
         <button className="diagnostic-text-action" type="button" onClick={onRestart}>
           Repetir el Placement Test

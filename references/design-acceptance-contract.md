@@ -1787,3 +1787,11 @@ and closeout evidence are recorded in
 - **Evidence:** Full repository validation/build; required release-surface verifier with unrelated failures identified; deterministic local QA-fixture DOM and screenshots for desktop/mobile result variants; zero console/runtime errors; exact Git-triggered staging deployment Ready and live staging spot check if protected access permits. Production remains a separate explicit approval gate.
 
 ---
+
+## 2026-09-28 — Placement result mobile hierarchy correction
+
+- **Problem/evidence:** Alvaro rejected the staging mobile composition after viewing it. The tall combined next-step/account card places optional password setup and utility links before the result meaning and score, making the page feel scattered despite no overflow.
+- **Interaction model:** Keep outcome and enrollment first, then explain the result and show the compact score, then offer Portal/advisor/password utility actions. The optional account setup is not part of the primary next step. Desktop retains two columns with enrollment prominent and account actions distinct.
+- **Reference mode/direction:** Inspiration mode from the current staging screenshots and Alvaro's critique. Preserve the AIT navy/ivory/gold language and academic copy; reduce nested-card and mixed-grid noise on narrow screens.
+- **Locked behavior/non-goals:** Preserve claim gate, result/score calculation and copy, practice eligibility, destinations, password request/sent/error/dismiss states, repeat action, and production boundary. No backend, auth, CRM, consent, or payment change.
+- **Responsive/evidence:** Primary 390×844 and 1440×900; regression 320×740, 360×800, 768×1024, 1024×768. Mobile reading order must be level → primary CTA → interpretation → score → optional account actions → repeat, with no horizontal overflow or clipped controls. Inspect full-page screenshots, not only geometry; run targeted tests/build and live staging visual QA after push.

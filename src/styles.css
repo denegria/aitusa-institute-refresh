@@ -17136,7 +17136,7 @@ textarea {
 .diagnostic-result--unlocked {
   grid-template-areas:
     "hero next"
-    "details next"
+    "details account"
     "footer footer";
   grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
   align-items: start;
@@ -17200,9 +17200,8 @@ textarea {
 
 .diagnostic-result__next-links {
   display: grid;
-  margin-top: 5px;
-  padding-block: 8px;
-  border-top: 1px solid rgba(0, 26, 61, 0.14);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 10px;
 }
 
 .diagnostic-result__next-links a {
@@ -17222,30 +17221,43 @@ textarea {
   text-decoration-color: currentColor;
 }
 
-.diagnostic-result__next .diagnostic-password-setup {
+.diagnostic-result__account {
+  grid-area: account;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  min-width: 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 26, 61, 0.12);
+}
+
+.diagnostic-result__account > h3 {
+  margin: 0;
+  color: var(--blue-deep);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+}
+
+.diagnostic-result__account .diagnostic-password-setup {
   grid-template-columns: 1fr;
   gap: 10px;
   margin-top: 0;
-  padding: 16px 0 0;
-  border: 0;
-  border-top: 1px solid rgba(0, 26, 61, 0.14);
-  border-radius: 0;
-  background: transparent;
+  padding: 16px;
 }
 
-.diagnostic-result__next .diagnostic-password-setup h3 {
+.diagnostic-result__account .diagnostic-password-setup h3 {
   margin-top: 4px;
   font-size: 1rem;
 }
 
-.diagnostic-result__next .diagnostic-password-setup__actions {
+.diagnostic-result__account .diagnostic-password-setup__actions {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 8px;
   min-width: 0;
 }
 
-.diagnostic-result__next .diagnostic-password-setup__actions .button {
+.diagnostic-result__account .diagnostic-password-setup__actions .button {
   min-height: 44px;
   padding-inline: 12px;
 }
@@ -17300,13 +17312,17 @@ textarea {
 
 @media (max-width: 900px) {
   .diagnostic-result--unlocked {
-    grid-template-areas: "hero" "next" "details" "footer";
+    grid-template-areas: "hero" "next" "details" "account" "footer";
     grid-template-columns: minmax(0, 1fr);
     gap: 22px;
   }
 }
 
 @media (max-width: 720px) {
+  .diagnostic-shell:has(.diagnostic-result--unlocked) .diagnostic-shell__brand {
+    display: none;
+  }
+
   .diagnostic-result--unlocked {
     width: calc(100% - 32px);
     gap: 20px;
@@ -17322,30 +17338,42 @@ textarea {
   }
 
   .diagnostic-result__next {
-    padding: 18px;
+    padding: 16px;
   }
 
   .diagnostic-result--unlocked .diagnostic-result__metrics-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .diagnostic-result--unlocked .diagnostic-result__metrics-grid article:first-child {
-    grid-column: 1 / -1;
-    grid-template-columns: auto minmax(0, 1fr);
-    column-gap: 10px;
+  .diagnostic-result--unlocked .diagnostic-result__metrics-grid article {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    align-items: start;
+    padding: 11px 8px;
+  }
+
+  .diagnostic-result--unlocked .diagnostic-result__metrics-grid article + article {
+    border-top: 0;
+    border-left: 1px solid rgba(0, 26, 61, 0.12);
   }
 
   .diagnostic-result--unlocked .diagnostic-result__metrics-grid article:first-child strong {
     white-space: nowrap;
   }
 
-  .diagnostic-result--unlocked .diagnostic-result__metrics-grid article:nth-child(2) {
-    border-top: 1px solid rgba(0, 26, 61, 0.12);
-    border-left: 0;
+  .diagnostic-result--unlocked .diagnostic-result__metrics-grid strong {
+    font-size: clamp(1.05rem, 4.8vw, 1.35rem);
   }
 
-  .diagnostic-result--unlocked .diagnostic-result__metrics-grid article:nth-child(3) {
-    border-top: 1px solid rgba(0, 26, 61, 0.12);
-    border-left: 1px solid rgba(0, 26, 61, 0.12);
+  .diagnostic-result--unlocked .diagnostic-result__metrics-grid span {
+    font-size: 0.68rem;
+  }
+
+  .diagnostic-result__account {
+    padding-top: 20px;
+  }
+
+  .diagnostic-result__account .diagnostic-password-setup {
+    padding: 14px;
   }
 }
