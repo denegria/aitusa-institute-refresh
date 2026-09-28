@@ -8,7 +8,7 @@ import { courseInquiryHref } from "../../../src/courseDiscovery.js";
 export const metadata = {
   title: "Contáctanos | AIT USA Institute",
   description:
-    "Habla con AIT USA Institute sobre programas, nivel, horarios y modalidad. El consentimiento SMS es siempre opcional.",
+    "Habla con admisiones de AIT USA Institute sobre cursos, precios, horarios y modalidades antes de inscribirte.",
   alternates: { canonical: "https://www.aitusainstitute.com/contactanos" },
 };
 
@@ -20,11 +20,11 @@ export default async function ContactPage({ searchParams }) {
       <main id="main-content" className={styles.contactMain}>
         <div className={styles.contactLayout}>
           <section className={styles.contactIntro}>
-            <p className={styles.eyebrow}>Orientación de admisiones</p>
-            <h1>Hablemos de tu próximo paso.</h1>
+            <p className={styles.eyebrow}>Habla con admisiones</p>
+            <h1>¿Tienes dudas antes de inscribirte?</h1>
             <p>
-              Si ya tienes un curso en mente o necesitas ayuda para elegir, consulta
-              con admisiones el costo, horario y modalidad antes de inscribirte.
+              Cuéntanos qué curso te interesa o si necesitas ayuda para elegir.
+              Un asesor te responderá sobre precios, horarios y modalidades.
             </p>
             <div className={styles.contactActions}>
               <a className={styles.whatsappLink} href={courseInquiryHref(site.whatsappHref, context.slug === "orientacion" ? "mi próximo curso" : context.title)} target="_blank" rel="noreferrer">Prefiero WhatsApp <span aria-hidden="true">↗</span></a>
@@ -45,7 +45,7 @@ export default async function ContactPage({ searchParams }) {
           </aside>
         </div>
       </main>
-      <SiteFooter />
+      <SiteFooter variant="utility" />
     </div>
   );
 }

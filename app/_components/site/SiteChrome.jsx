@@ -98,7 +98,25 @@ export function SiteHeader({ activePage = "home" }) {
   );
 }
 
-export function SiteFooter() {
+export function SiteFooter({ variant = "full" }) {
+  if (variant === "utility") {
+    return (
+      <footer className="site-footer site-footer--utility">
+        <div className="section-inner site-footer__utility-inner">
+          <nav className="site-footer__utility-links" aria-label="Enlaces del sitio y documentos legales">
+            <a href="/">Inicio</a>
+            <a href="/cursos/">Cursos</a>
+            <a href={site.legalLinks.privacy}>Privacidad</a>
+            <a href={site.legalLinks.terms}>Términos</a>
+          </nav>
+          <span className="site-footer__utility-identity">
+            <strong>AIT USA</strong> · © {new Date().getFullYear()} {site.legal}
+          </span>
+        </div>
+      </footer>
+    );
+  }
+
   return (
     <footer className="site-footer">
       <div className="section-inner site-footer__compact">
