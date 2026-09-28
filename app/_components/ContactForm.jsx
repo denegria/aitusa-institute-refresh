@@ -111,7 +111,7 @@ export function ContactForm({ courseSlug = "orientacion" }) {
   return (
     <form id="solicitar-orientacion" tabIndex={-1} className={styles.contactForm} data-lead-form onSubmit={handleSubmit} aria-busy={status.state === "submitting"}>
       <h2>Cuéntanos qué necesitas</h2>
-      <p id="contact-method-hint" className={styles.formHint}>Elige un curso y deja tu nombre con correo electrónico o teléfono. Solo necesitas una forma de contacto.</p>
+      <p id="contact-method-hint" className={styles.formHint}>Elige un curso y déjanos tu nombre y una forma de contacto.</p>
       <div className={styles.formGrid}>
         <label className={styles.fullField}>
           Curso de interés
@@ -152,7 +152,6 @@ export function ContactForm({ courseSlug = "orientacion" }) {
               emailRef.current?.setCustomValidity("");
             }}
           />
-          <small>No recibirás SMS promocionales salvo que marques la casilla separada.</small>
         </label>
       </div>
       <details className={styles.optionalDetails}>
@@ -189,24 +188,25 @@ export function ContactForm({ courseSlug = "orientacion" }) {
           <input name="contactPermission" type="checkbox" value="yes" required />
           <span>{CONTACT_PERMISSION_COPY_ES}</span>
         </label>
-        <label className={`${styles.checkboxRow} ${styles.smsConsent}`}>
-          <input
-            name="smsConsent"
-            type="checkbox"
-            value="yes"
-            onChange={(event) => {
-              if (!event.currentTarget.checked) phoneRef.current?.setCustomValidity("");
-            }}
-          />
-          <span>
+        <div className={styles.smsConsentBlock}>
+          <label className={styles.checkboxRow}>
+            <input
+              name="smsConsent"
+              type="checkbox"
+              value="yes"
+              aria-describedby="marketing-sms-disclosure"
+              onChange={(event) => {
+                if (!event.currentTarget.checked) phoneRef.current?.setCustomValidity("");
+              }}
+            />
             <strong>{SMS_CONSENT_COPY_ES}</strong>
-            <small>{SMS_DISCLOSURE_ES}</small>
-          </span>
-        </label>
-        <p className={styles.legalLinks}>
-          Consulta nuestra <Link href="/privacy-policy">Política de Privacidad</Link> y{" "}
-          <Link href="/terms-and-conditions">Términos y Condiciones</Link>.
-        </p>
+          </label>
+          <p id="marketing-sms-disclosure" className={styles.smsDisclosure}>{SMS_DISCLOSURE_ES}</p>
+          <p className={styles.legalLinks}>
+            <Link href="/privacy-policy">Política de Privacidad</Link> ·{" "}
+            <Link href="/terms-and-conditions">Términos y Condiciones</Link>
+          </p>
+        </div>
       </fieldset>
 
       <button className={styles.primaryButton} type="submit" disabled={status.state === "submitting"}>

@@ -41,7 +41,6 @@ export default async function ContactPage({ searchParams }) {
             <details className={styles.optionalDetails}>
               <summary>Qué ocurre al enviar el formulario</summary>
               <p>Guardamos tu solicitud de forma segura para que un asesor pueda darle seguimiento. También podrás abrir WhatsApp y enviar la conversación preparada.</p>
-              <p>El formulario funciona aunque no aceptes mensajes SMS. El consentimiento promocional es opcional y separado.</p>
             </details>
           </aside>
         </div>

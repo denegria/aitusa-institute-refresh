@@ -54,13 +54,18 @@ describe("MIS-327 public legal and SMS compliance", () => {
   it("keeps response, service SMS, and marketing SMS permissions separate", () => {
     assert.notEqual(CONTACT_PERMISSION_COPY_ES, SMS_CONSENT_COPY_ES);
     assert.notEqual(SERVICE_SMS_CONSENT_COPY_ES, MARKETING_SMS_CONSENT_COPY_ES);
-    assert.match(CONTACT_PERMISSION_COPY_ES, /no incluye SMS promocionales/i);
+    assert.doesNotMatch(CONTACT_PERMISSION_COPY_ES, /SMS/i);
     assert.match(CONTACT_PERMISSION_COPY_ES, /WhatsApp/i);
     assert.equal(SMS_DISCLOSURE_ES, MARKETING_SMS_DISCLOSURE_ES);
     assert.equal(SMS_DISCLOSURE_VERSION, MARKETING_SMS_DISCLOSURE_VERSION);
-    assert.match(MARKETING_SMS_DISCLOSURE_ES, /promocionales recurrentes/i);
+    assert.match(MARKETING_SMS_CONSENT_COPY_ES, /SMS promocionales de AIT USA Institute/i);
+    assert.match(MARKETING_SMS_DISCLOSURE_ES, /SMS recurrentes sobre cursos, inscripciones, eventos y ofertas/i);
     assert.match(MARKETING_SMS_DISCLOSURE_ES, /Hasta 8 mensajes al mes/i);
     assert.match(MARKETING_SMS_DISCLOSURE_ES, /sistemas automatizados/i);
+    assert.match(MARKETING_SMS_DISCLOSURE_ES, /tarifas de mensajes y datos/i);
+    assert.match(MARKETING_SMS_DISCLOSURE_ES, /STOP.*HELP/i);
+    assert.match(MARKETING_SMS_DISCLOSURE_ES, /no es necesario para comprar ni recibir servicios/i);
+    assert.match(MARKETING_SMS_DISCLOSURE_ES, /No compartimos.*terceros o afiliados.*marketing/i);
     assert.match(SERVICE_SMS_DISCLOSURE_ES, /examen de ubicación/i);
     assert.match(SERVICE_SMS_DISCLOSURE_ES, /La frecuencia varía/i);
     assert.match(SERVICE_SMS_DISCLOSURE_ES, /STOP/);
@@ -99,6 +104,8 @@ describe("MIS-327 public legal and SMS compliance", () => {
     assert.match(source, /marketingSmsEvidence/);
     assert.match(source, /smsConsent: marketingSmsOptIn/);
     assert.match(source, /disclosureVersion: SMS_DISCLOSURE_VERSION/);
+    assert.match(source, /aria-describedby="marketing-sms-disclosure"/);
+    assert.match(source, /id="marketing-sms-disclosure"/);
     assert.match(source, /sourcePath: "\/contactanos"/);
     assert.match(source, /consentedAt: submittedAt/);
     assert.match(source, /href="\/privacy-policy"/);

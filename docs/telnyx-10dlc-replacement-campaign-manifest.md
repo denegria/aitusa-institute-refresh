@@ -47,6 +47,25 @@ below. Capture the equivalent production evidence after the final production
 gate, then perform the authenticated brand-enum check before creating any new
 campaign.
 
+## 2026-09-28 contact-form copy revision
+
+- The marketing consent text has been shortened without removing its visible
+  disclosures. The version recorded with future checked form submissions is
+  `aitusa-sms-consent-marketing-2026-09-28-v3`; older evidence remains tied to
+  the `2026-08-20-v2` copy above.
+- The separate unchecked checkbox now names AIT USA Institute and promotional
+  SMS. Its adjacent visible disclosure names recurring
+  course/enrollment/event/offer messages, up to eight monthly with variable
+  frequency, automated delivery, message/data rates, STOP/HELP, no purchase or
+  service condition, and no third-party/affiliate marketing sharing. Privacy
+  and Terms remain directly linked. Phone remains optional unless the visitor
+  chooses SMS marketing.
+- The permission to respond to an inquiry is still separate and required; its
+  shorter label authorizes only a response to this request, not promotional SMS
+  or promotional WhatsApp. No new opt-in method, audience eligibility rule,
+  provider behavior, or public submission authority is created by this
+  editorial revision.
+
 ## Campaign selection
 
 - `brandId`: retrieve from the approved AIT USA brand at submission time.
@@ -87,14 +106,14 @@ Use this text only after both paths are live:
 > visitors use the public contact form at
 > https://www.aitusainstitute.com/contactanos, enter an optional mobile number,
 > and affirmatively check a separate marketing-SMS checkbox that is unchecked by
-> default. The adjacent disclosure names AIT USA Institute, says messages are
-> recurring marketing texts sent using automated technology, describes program
-> announcements, enrollment dates, events and offers, limits frequency to up to
-> 8 messages/month, states message/data rates may apply, provides STOP and HELP,
-> states consent is not a condition of purchase or service, states mobile data
-> is not shared with third parties or affiliates for their marketing, and links
-> the Privacy Policy and Terms. The form submits without SMS consent. Service
-> SMS: after a placement result is saved, the verified user may choose SMS as a
+> default. The checkbox names AIT USA Institute and promotional SMS. Its
+> adjacent visible disclosure names recurring course, enrollment, event and offer
+> messages and states up to 8 messages/month with variable frequency, automated delivery,
+> message/data rates, STOP and HELP, no purchase or service condition, and no
+> sharing of mobile information or SMS consent with third parties or affiliates
+> for their marketing. Privacy Policy and Terms links are immediately adjacent.
+> The form submits without SMS consent. Service SMS: after a placement result is
+> saved, the verified user may choose SMS as a
 > confirmation channel and enter/verify an optional mobile number. A separate,
 > unchecked service-SMS checkbox discloses placement-result, enrollment, class,
 > appointment and reminder messages, variable frequency, automated technology,

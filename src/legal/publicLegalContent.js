@@ -5,7 +5,7 @@ export const PRIVACY_EFFECTIVE_DATE_ES = LEGAL_EFFECTIVE_DATE_ES;
 export const PRIVACY_POLICY_VERSION = "aitusa-privacy-2026-08-20-v3";
 export const TERMS_VERSION = "aitusa-terms-2026-08-20-v2";
 export const MARKETING_SMS_DISCLOSURE_VERSION =
-  "aitusa-sms-consent-marketing-2026-08-20-v2";
+  "aitusa-sms-consent-marketing-2026-09-28-v3";
 export const SERVICE_SMS_DISCLOSURE_VERSION =
   "aitusa-sms-consent-service-2026-08-20-v1";
 
@@ -19,10 +19,10 @@ export const PUBLIC_LEGAL_LINKS = Object.freeze({
 });
 
 export const MARKETING_SMS_CONSENT_COPY_ES =
-  "Sí, quiero recibir mensajes de texto promocionales recurrentes de AIT USA Institute.";
+  "Sí, quiero recibir SMS promocionales de AIT USA Institute.";
 
 export const MARKETING_SMS_DISCLOSURE_ES =
-  "Al marcar esta casilla, acepto recibir mensajes de texto promocionales recurrentes de AIT USA Institute, incluidos anuncios de programas, fechas de inscripción, eventos y ofertas, mediante sistemas automatizados. Hasta 8 mensajes al mes. Pueden aplicarse tarifas de mensajes y datos. Responde STOP para cancelar y HELP para obtener ayuda. El consentimiento no es una condición para comprar ni recibir servicios. No compartimos información móvil con terceros o afiliados para sus fines promocionales o de marketing.";
+  "SMS recurrentes sobre cursos, inscripciones, eventos y ofertas. Hasta 8 mensajes al mes (frecuencia variable). Pueden enviarse mediante sistemas automatizados. Pueden aplicarse tarifas de mensajes y datos. Responde STOP para cancelar o HELP para ayuda. Este consentimiento no es necesario para comprar ni recibir servicios. No compartimos tu número ni consentimiento SMS con terceros o afiliados para su marketing.";
 
 export const SERVICE_SMS_CONSENT_COPY_ES =
   "Sí, quiero recibir por SMS confirmaciones y actualizaciones de servicio de AIT USA Institute.";
@@ -34,7 +34,7 @@ export const SMS_CONSENT_COPY_ES = MARKETING_SMS_CONSENT_COPY_ES;
 export const SMS_DISCLOSURE_ES = MARKETING_SMS_DISCLOSURE_ES;
 
 export const CONTACT_PERMISSION_COPY_ES =
-  "Autorizo a AIT USA Institute a responder esta solicitud por teléfono, correo electrónico o una conversación individual por WhatsApp. Esta autorización no incluye SMS promocionales ni mensajes automatizados o promocionales de WhatsApp.";
+  "Autorizo a AIT USA Institute a responder esta solicitud por teléfono, correo electrónico o WhatsApp.";
 
 export const privacyPolicy = Object.freeze({
   eyebrow: "Privacidad y confianza",

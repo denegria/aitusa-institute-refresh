@@ -426,17 +426,22 @@
   accent-color: #1747c8;
 }
 
-.smsConsent {
-  padding: 16px;
-  border: 1px solid #b9c9e4;
-  border-radius: 12px;
-  background: #fff;
+.smsConsentBlock {
+  display: grid;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid #b9c9e4;
 }
 
-.smsConsent strong {
-  display: block;
-  margin-bottom: 5px;
+.smsConsentBlock strong {
   color: #173868;
+}
+
+.smsDisclosure {
+  margin: 0;
+  color: #40526c;
+  font-size: 0.86rem;
+  line-height: 1.5;
 }
 
 .legalLinks {
@@ -705,13 +710,18 @@
 }
 
 .contactPage .consentGroup {
+  gap: 12px;
+  padding: 18px;
   border-color: #d8c8aa;
   background: #f8f5ed;
 }
 
-.contactPage .smsConsent {
+.contactPage .smsConsentBlock {
   border-color: #d8c8aa;
-  background: #fffdf9;
+}
+
+.contactPage .smsConsentBlock .legalLinks {
+  font-size: 0.82rem;
 }
 
 .contactPage .checkboxRow input {
