@@ -1776,3 +1776,14 @@ and closeout evidence are recorded in
 - **Responsive/evidence:** Primary 1440×900 and 390×844; regression 360×800 and 1024×768. Verify English and a fixed in-person course on review; no horizontal overflow, clipped course text, changed order amount, or browser error. Run repository validation and release-surface verification; identify any unrelated existing gate failure separately.
 
 ---
+# AIT USA unlocked Placement Test result hierarchy — 2026-09-28
+
+- **User workflow/problem:** After verified claim, the learner needs to understand the recommended English level and choose a next step. The current desktop result scatters three equivalent actions, optional password setup, score details, interpretation, practice, and repeat across one long column; mobile inherits that action overload.
+- **Selected interaction model:** Outcome first. Show the recommended level and one concise AIT-confirmation qualifier; place a single dominant enrollment action in a next-step panel, with practice, Portal, and advisor access at lower visual priority. Keep the optional password setup with Portal access, not between the result and its explanation. Keep score and academic interpretation visible in a quieter results column. On mobile, order is result → next steps → explanation/score → repeat.
+- **Reference mode and visual direction:** Inspiration mode from Alvaro's supplied staging screenshot. Preserve the existing Placement navy/ivory/gold shell, public header and short utility footer. Use a balanced desktop two-column result/next-step composition and a single-column mobile reading order; do not redesign the result-claim gate.
+- **Locked behavior:** Preserve verified claim and guardian/adult gates, enrollment destination, Portal destination, advisor handoff/new-tab behavior, practice eligibility and destination, password-setup request/sent/error/dismiss states, repeat action, recommendation/goal/score/borderline/sync data, and AIT final-level authority. No backend, auth, CRM, consent, or payment changes.
+- **Non-goals:** No change to question flow, claim fields or consent, result calculation, recommendation thresholds, Study Buddy entitlement, or production promotion.
+- **Responsive/content contract:** Primary CSS viewports 1440×900 and 390×844; regression 1024×768, 360×800, and 320×740. Support long level/recommendation/goal copy, borderline and sync notices, eligible and ineligible practice, already-claimed state, and password status/error without overlap or horizontal overflow. Actions and focus targets remain ≥44px.
+- **Evidence:** Full repository validation/build; required release-surface verifier with unrelated failures identified; deterministic local QA-fixture DOM and screenshots for desktop/mobile result variants; zero console/runtime errors; exact Git-triggered staging deployment Ready and live staging spot check if protected access permits. Production remains a separate explicit approval gate.
+
+---
