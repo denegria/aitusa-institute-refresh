@@ -15,7 +15,7 @@ export const metadata = {
 export default async function ContactPage({ searchParams }) {
   const context = admissionContext((await searchParams)?.curso);
   return (
-    <div className={styles.pageShell}>
+    <div className={`${styles.pageShell} ${styles.contactPage}`}>
       <SiteHeader activePage="contact" />
       <main id="main-content" className={styles.contactMain}>
         <div className={styles.contactLayout}>
@@ -27,7 +27,6 @@ export default async function ContactPage({ searchParams }) {
               con admisiones el costo, horario y modalidad antes de inscribirte.
             </p>
             <div className={styles.contactActions}>
-              <a className={styles.formJump} href="#solicitar-orientacion">Ir al formulario <span aria-hidden="true">↓</span></a>
               <a className={styles.whatsappLink} href={courseInquiryHref(site.whatsappHref, context.slug === "orientacion" ? "mi próximo curso" : context.title)} target="_blank" rel="noreferrer">Prefiero WhatsApp <span aria-hidden="true">↗</span></a>
             </div>
           </section>

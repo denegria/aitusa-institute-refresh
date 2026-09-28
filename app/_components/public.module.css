@@ -628,10 +628,9 @@
   }
 }
 
-/* Admissions shares the public action shape and offers a direct form shortcut. */
+/* Admissions keeps the form primary and WhatsApp as a distinct alternative. */
 .contactForm .primaryButton, .contactForm .statusAction { border-radius: 8px; box-shadow: none; }
-.formJump, .whatsappLink { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: #174ea6; font-weight: 750; text-underline-offset: 4px; }
-.whatsappLink { color: #536682; font-weight: 650; }
+.whatsappLink { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 750; text-underline-offset: 4px; }
 .contactForm { scroll-margin-top: 16px; }
 @media (max-width: 719px) {
   .contactMain { padding-top: 24px; }
@@ -641,4 +640,125 @@
   .contactIntro > .eyebrow { margin-top: 0; font-size: .75rem; }
   .contactActions { margin-top: 12px; }
   .contactAside { margin-top: 10px; }
+}
+
+/* Orientation uses the same navy / ivory / gold hierarchy as the refined AIT flows. */
+.contactPage {
+  color: #fffdf9;
+  background: #001a3d;
+}
+
+.contactPage .contactIntro .eyebrow {
+  color: #e3b64e;
+}
+
+.contactPage .contactIntro h1 {
+  color: #fffdf9;
+}
+
+.contactPage .contactIntro > p:not(.eyebrow) {
+  color: #d9e3f2;
+}
+
+.contactPage .whatsappLink {
+  justify-content: center;
+  padding: 0 17px;
+  border: 1px solid #c4932d;
+  border-radius: 999px;
+  color: #fffdf9;
+  background: rgba(196, 147, 45, 0.1);
+  text-decoration: none;
+}
+
+.contactPage .whatsappLink:hover,
+.contactPage .whatsappLink:focus-visible {
+  color: #001a3d;
+  background: #e3b64e;
+}
+
+.contactPage .whatsappLink:focus-visible,
+.contactPage .contactAside a:focus-visible,
+.contactPage .contactAside summary:focus-visible {
+  outline: 3px solid #e3b64e;
+  outline-offset: 3px;
+}
+
+.contactPage .contactForm {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: #fffdf9;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22);
+}
+
+.contactPage .contactForm .primaryButton,
+.contactPage .contactForm .statusAction {
+  border-radius: 999px;
+  color: #001a3d !important;
+  background: #c4932d;
+  box-shadow: 0 10px 24px rgba(196, 147, 45, 0.17);
+}
+
+.contactPage .contactForm .primaryButton:hover,
+.contactPage .contactForm .primaryButton:focus-visible,
+.contactPage .contactForm .statusAction:hover,
+.contactPage .contactForm .statusAction:focus-visible {
+  background: #dfb454;
+}
+
+.contactPage .consentGroup {
+  border-color: #d8c8aa;
+  background: #f8f5ed;
+}
+
+.contactPage .smsConsent {
+  border-color: #d8c8aa;
+  background: #fffdf9;
+}
+
+.contactPage .checkboxRow input {
+  accent-color: #9b6d16;
+}
+
+.contactPage .contactAside {
+  box-sizing: border-box;
+  margin-top: 28px;
+  padding: 20px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
+  background: #0b2b56;
+}
+
+.contactPage .contactAside h2 {
+  color: #f1c661;
+}
+
+.contactPage .directContact {
+  gap: 0;
+  margin-top: 10px;
+}
+
+.contactPage .directContact a {
+  min-height: 48px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  color: #fffdf9;
+  text-decoration-color: rgba(241, 198, 97, 0.75);
+}
+
+.contactPage .directContact a:hover {
+  color: #f1c661;
+}
+
+.contactPage .contactAside .optionalDetails {
+  margin-top: 10px;
+  color: #d9e3f2;
+}
+
+.contactPage .contactAside .optionalDetails summary {
+  color: #f1c661;
+}
+
+@media (max-width: 719px) {
+  .contactPage .contactAside {
+    margin-top: 6px;
+    padding: 18px;
+  }
 }
