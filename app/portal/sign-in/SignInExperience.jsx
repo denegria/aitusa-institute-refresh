@@ -369,26 +369,20 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
           </p>
         ) : null}
 
-        {method === "password" ? (
-          <div className="portal-signin__trust">
-            <span aria-hidden="true">✓</span>
-            <p>WorkOS protege tu contraseña. AIT nunca la guarda ni puede verla.</p>
-          </div>
-        ) : null}
         {step === "email" && !employee ? (
           <p className="portal-signin__new-student">
             ¿Primera vez aquí? <a href="/placement-test/">Comenzar el Placement Test</a>
           </p>
         ) : null}
-        <nav className="portal-signin__footer" aria-label="Ayuda y documentos legales">
-          <a href="/contactanos">Ayuda</a>
-          <a href={employee ? "/portal/sign-in/" : "/employee/sign-in/"}>
-            {employee ? "Portal estudiantil" : "Acceso de empleados"}
-          </a>
-          <a href="/privacy-policy">Privacidad</a>
-          <a href="/terms-and-conditions">Términos</a>
-        </nav>
       </section>
+      <nav className="portal-access__footer" aria-label="Enlaces de acceso y ayuda">
+        <a href="/contactanos">Ayuda</a>
+        <a href={employee ? "/portal/sign-in/" : "/employee/sign-in/"}>
+          {employee ? "Portal estudiantil" : "Acceso de empleados"}
+        </a>
+        <a href="/privacy-policy">Privacidad</a>
+        <a href="/terms-and-conditions">Términos</a>
+      </nav>
     </main>
   );
 }

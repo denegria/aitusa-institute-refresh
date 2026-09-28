@@ -515,7 +515,7 @@ describe("MIS-403 password UX and schema contract", () => {
     assert.match(signIn, /type="password"/);
     assert.match(signIn, /Código por email/);
     assert.match(signIn, /Olvidé mi contraseña/);
-    assert.match(signIn, /WorkOS protege tu contraseña/);
+    assert.doesNotMatch(signIn, /WorkOS protege tu contraseña/);
     assert.doesNotMatch(signIn, /localStorage|sessionStorage/);
     assert.match(placement, /Crea una contraseña para entrar más rápido/);
     assert.match(placement, /\/api\/portal\/auth\/password-setup/);

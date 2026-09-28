@@ -86,7 +86,7 @@ export function PasswordResetExperience({ initialError = "" }) {
         </h1>
         <p>
           {completed
-            ? "WorkOS protegió tu nueva contraseña y cerró las sesiones anteriores. Entra nuevamente con tu nueva contraseña."
+            ? "Contraseña actualizada. Por seguridad, cerramos tus sesiones anteriores. Entra de nuevo con tu nueva contraseña."
             : "Usa al menos 10 caracteres. Una frase larga y única suele ser más fácil de recordar y más segura."}
         </p>
 
@@ -155,16 +155,12 @@ export function PasswordResetExperience({ initialError = "" }) {
           </a>
         ) : null}
 
-        <div className="portal-signin__trust">
-          <span aria-hidden="true">✓</span>
-          <p>WorkOS procesa la contraseña. AIT nunca la guarda ni puede verla.</p>
-        </div>
-        <nav className="portal-signin__footer" aria-label="Ayuda y documentos legales">
-          <a href="/contactanos">Ayuda</a>
-          <a href="/privacy-policy">Privacidad</a>
-          <a href="/terms-and-conditions">Términos</a>
-        </nav>
       </section>
+      <nav className="portal-access__footer" aria-label="Ayuda y documentos legales">
+        <a href="/contactanos">Ayuda</a>
+        <a href="/privacy-policy">Privacidad</a>
+        <a href="/terms-and-conditions">Términos</a>
+      </nav>
     </main>
   );
 }

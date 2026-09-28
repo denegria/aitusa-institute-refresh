@@ -50,8 +50,8 @@ describe("MIS-353 focused entry surfaces", () => {
     assert.match(portalExperience, /Volver al sitio/);
     assert.match(portalStyles, /\.portal-access__header \{/);
     assert.match(portalStyles, /background: #fffdf9;/);
-    assert.match(portalStyles, /\.portal-signin__trust p \{[\s\S]*font-size: 12px;/);
-    assert.match(portalStyles, /\.portal-signin__footer a \{[\s\S]*font-size: 12px;/);
+    assert.match(portalExperience, /<\/section>\s*<nav className="portal-access__footer"/);
+    assert.match(portalStyles, /\.portal-access__footer a \{[\s\S]*font-size: 12px;/);
     assert.match(portalExperience, /Acceso de empleados/);
     assert.match(employeeSignIn, /audience="employee"/);
     assert.match(portalExperience, /Usa tu email de trabajo y contraseña/);
@@ -73,7 +73,7 @@ describe("MIS-353 focused entry surfaces", () => {
       /@media \(min-width: 721px\) and \(max-height: 820px\) \{[\s\S]*\.diagnostic-shell__brand \{[\s\S]*display: none;/,
     );
     assert.match(portalStyles, /\.portal-access \{[\s\S]*box-sizing: border-box;/);
-    assert.match(portalStyles, /grid-template-rows: 68px minmax\(0, 1fr\);/);
+    assert.match(portalStyles, /grid-template-rows: 68px minmax\(min-content, 1fr\) auto;/);
     assert.match(
       portalStyles,
       /\.portal-access__header \{[\s\S]*justify-self: stretch;[\s\S]*min-height: 68px;/,
@@ -82,7 +82,7 @@ describe("MIS-353 focused entry surfaces", () => {
       portalStyles,
       /\.portal-access__header \{[\s\S]*position: absolute;/,
     );
-    assert.match(portalStyles, /grid-template-rows: 64px minmax\(0, 1fr\);/);
+    assert.match(portalStyles, /grid-template-rows: 64px minmax\(min-content, 1fr\) auto;/);
     assert.match(portalStyles, /@media \(min-width: 521px\) and \(max-height: 820px\)/);
     assert.match(portalStyles, /@media \(max-width: 520px\) and \(max-height: 820px\)/);
   });

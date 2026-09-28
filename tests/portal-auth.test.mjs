@@ -130,7 +130,8 @@ describe("MIS-271 portal auth boundary prototype", () => {
     assert.match(source, /Comenzar el Placement Test/);
     assert.match(source, /corresponde a una cuenta activa/i);
     assert.match(source, /Código por email/);
-    assert.match(source, /WorkOS protege tu contraseña/);
+    assert.doesNotMatch(source, /WorkOS protege tu contraseña/);
+    assert.match(source, /<\/section>\s*<nav className="portal-access__footer"/);
     assert.match(source, /href="\/contactanos"/);
     assert.match(source, /href="\/privacy-policy"/);
     assert.match(source, /href="\/terms-and-conditions"/);

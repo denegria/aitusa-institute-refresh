@@ -27,6 +27,28 @@
 
 ---
 
+# AIT USA Portal Access Utility Footer — 2026-09-28
+
+## User workflow and chosen direction
+
+- Student and employee sign-in should present one focused card; help, legal, and cross-portal navigation should remain available without competing inside that card.
+- Reference mode: inspiration constrained by the shipped Placement Test `placement-utility` footer. Use its short navy/gold utility-bar rhythm, not the public site's full footer.
+- Remove vendor-facing WorkOS reassurance from login, post-placement password setup, and password confirmation copy. Keep truthful user-facing security and session-reset instructions where needed.
+
+## Locked behavior, content, and non-goals
+
+- Student sign-in footer: Ayuda, Acceso de empleados, Privacidad, Términos. Employee sign-in footer: Ayuda, Portal estudiantil, Privacidad, Términos. Password setup/reset and Placement Test: their existing Ayuda, Privacidad, Términos links. No route, auth, reset, or result-claim contract changes.
+- Keep the first-time student Placement Test link within the sign-in card, one primary auth action, password/code method switch, error/status semantics, 44px interactive targets, and visible keyboard focus.
+- Non-goals: changing the shared public header, adding a marketing footer, moving placement consent, or changing identity-provider behavior.
+
+## Responsive and evidence contract
+
+- Primary CSS viewports: 390x844 and 1440x900. Regression: 320x740, 390x640, and 1024x768.
+- The external utility footer may wrap at narrow widths but must not overlap the card or crop links. Card stays visually centered in available space; on short screens natural page scrolling wins over overlap.
+- Required evidence: exact link/label targets by audience, no rendered WorkOS disclaimer, focused auth UI tests, full validation/build, and rendered primary/regression checks with no horizontal overflow or browser errors.
+
+---
+
 # AIT USA Password Reset Confirmation — MIS-403
 
 ## User workflow and problem

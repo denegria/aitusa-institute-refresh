@@ -948,8 +948,7 @@ function PasswordSetupCard() {
         <p className="section-kicker">Acceso para la próxima vez</p>
         <h3 id="password-setup-title">Crea una contraseña para entrar más rápido</h3>
         <p>
-          Te enviaremos un enlace seguro al email que acabas de verificar. WorkOS
-          protege la contraseña; AIT nunca la guarda ni puede verla.
+          Te enviaremos un enlace seguro al email que acabas de verificar para crear tu contraseña.
         </p>
       </div>
       {status === "sent" ? (
