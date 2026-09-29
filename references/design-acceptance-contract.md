@@ -1,5 +1,15 @@
 # AIT USA Authenticated Portal Payments — MIS-420
 
+## 2026-09-29 — Inglés presencial final density pass — MIS-427
+
+- **Problem/job:** Alvaro accepts the newer cohesive section system but the mobile timetable still spends too much height on widely spaced hours. A visitor should see all weekday and weekend options at a glance without losing the distinction between start times and complete class ranges.
+- **Chosen model:** Preserve the full-width ruled timetable and its desktop structure. On mobile, keep the two group headings but use four compact, consistently aligned label/time rows. Group title supplies `Lunes a jueves`, so rows can say just `Mañana` and `Noche`; Saturday/Sunday remain explicit. Times stay plain text (no chips, cards, or concealed content). At 320px, morning starts use a deliberate 2×2 reading order. Slightly tighten the transition between outcomes and levels so the academic story reads as connected.
+- **Visual direction/reference mode:** Inspiration from Alvaro's density feedback, within the accepted Register Now/Orientation navy, lifted navy, ivory, and restrained gold palette. No new page-wide typography, colors, artwork, CTA, or desktop redesign. Preserve the approved variation in section composition.
+- **Locked truth/behavior:** Exact four schedule groups and ten published times, the starts-versus-ranges labels, venue/group/cost caveats, all outcomes and levels, method/Jessica, six FAQs, related links, anchor and admissions routes, English/Presencial registration preselection. Other course pages, CRM/payment, provider sends, production untouched.
+- **Responsive/evidence:** Primary 390×844 and 1440×900 CSS pixels, regressions 320×700 and 1024×768. Mobile time text remains at least 15px, no horizontal overflow or clipped labels at 320, no interaction regression. Compare matched schedule and middle-page screenshots before/after, exact rendered timetable height, full validation/build, required release-surface gate, then exact-SHA staging and live QA.
+
+---
+
 ## 2026-09-29 — Inglés presencial cohesive section rhythm — MIS-427
 
 - **Problem and workflow:** A direct visitor needs to find a viable class time, understand what they will learn and how, then choose registration or admissions. The current page repeats oversized left-aligned headings and a framed vertical rail through successive scrolls; its split timetable makes simple published hours feel assembled from unrelated fragments.

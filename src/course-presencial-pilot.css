@@ -182,7 +182,7 @@
 .course-presencial-sheet .course-presencial-decision a { display: inline-flex; align-items: center; min-height: 44px; color: var(--course-navy); font-weight: 800; text-decoration-color: var(--course-gold-ink); text-underline-offset: 4px; }
 
 /* Academic chapters share one calmer typographic scale; contrast and reading form create rhythm. */
-.course-presencial-sheet > .course-program-outcomes { padding-bottom: clamp(48px, 4vw, 62px); background: var(--course-navy); color: #fff; }
+.course-presencial-sheet > .course-program-outcomes { padding-bottom: clamp(40px, 3.5vw, 52px); background: var(--course-navy); color: #fff; }
 .course-presencial-sheet .course-program-outcomes > .section-inner {
   display: grid;
   grid-template-columns: minmax(220px, .48fr) minmax(0, 1fr);
@@ -214,7 +214,7 @@
 .course-presencial-sheet .course-outcome-list p { margin: 0; color: #dce6f0; font-size: .88rem; line-height: 1.55; }
 
 /* Lifted navy follows Orientation's two-tone dark hierarchy without a gold-colored section. */
-.course-presencial-sheet > .course-program-pathway { padding-top: clamp(48px, 4vw, 62px); background: var(--course-navy-raised); color: #fff; border-bottom-color: rgb(255 255 255 / 18%); }
+.course-presencial-sheet > .course-program-pathway { padding-top: clamp(40px, 3.5vw, 52px); background: var(--course-navy-raised); color: #fff; border-bottom-color: rgb(255 255 255 / 18%); }
 .course-presencial-sheet .course-program-pathway__layout { display: block; }
 .course-presencial-sheet .course-program-pathway .course-program-heading { position: static; max-width: 570px; }
 .course-presencial-sheet .course-program-pathway .section-kicker { color: var(--course-gold); }
@@ -339,6 +339,8 @@
   .course-presencial-sheet > :is(section, aside) > .section-inner,
   .course-presencial-sheet > .course-presencial-chapters { width: calc(100% - 40px); }
   .course-presencial-sheet > :is(section, aside) { padding-block: 48px; }
+  .course-presencial-sheet > .course-program-outcomes { padding-bottom: 32px; }
+  .course-presencial-sheet > .course-program-pathway { padding-top: 34px; }
   .course-presencial-sheet .course-program-heading h2,
   .course-presencial-sheet .course-program-method__copy h2,
   .course-presencial-sheet .course-program-story__copy h2 { font-size: clamp(1.85rem, 7.2vw, 2.15rem); }
@@ -351,13 +353,15 @@
   .course-presencial-sheet > .course-program-logistics { padding-block: 44px; }
   .course-presencial-sheet .course-program-logistics .course-program-heading { margin-bottom: 20px; padding-bottom: 0; }
   .course-presencial-timetable__group { grid-template-columns: 1fr; gap: 0; }
-  .course-presencial-timetable__heading { padding: 17px 0 5px; }
-  .course-presencial-timetable__heading h3 { font-size: 1.15rem; }
-  .course-presencial-sheet .course-presencial-timetable__rows > div { grid-template-columns: 1fr; gap: 6px; padding: 13px 0; }
-  .course-presencial-times { gap: 6px 17px; }
-  .course-presencial-times li { font-size: 1rem; }
+  .course-presencial-timetable__heading { padding: 13px 0 4px; }
+  .course-presencial-timetable__heading h3 { font-size: 1.08rem; }
+  .course-presencial-timetable__heading p { margin-top: 3px; }
+  .course-presencial-sheet .course-presencial-timetable__rows > div { grid-template-columns: 76px minmax(0, 1fr); gap: 9px; align-items: center; padding: 10px 0; }
+  .course-presencial-timetable__rows dt { font-size: .87rem; }
+  .course-presencial-times { gap: 4px 10px; }
+  .course-presencial-times li { font-size: .96rem; line-height: 1.32; }
   .course-presencial-sheet .course-schedule-panel__note { font-size: .94rem; }
-  .course-presencial-sheet .course-presencial-decision { grid-template-columns: 1fr; gap: 12px; margin-top: 30px; padding-top: 20px; }
+  .course-presencial-sheet .course-presencial-decision { grid-template-columns: 1fr; gap: 12px; margin-top: 23px; padding-top: 17px; }
   .course-presencial-sheet .course-presencial-decision h3 { max-width: none; }
   .course-presencial-sheet .course-presencial-decision p:not(.section-kicker) { font-size: .98rem; }
   .course-presencial-decision__actions { flex-direction: column; align-items: flex-start; gap: 0; }
@@ -400,6 +404,6 @@
   .course-presencial-sheet .course-presencial-timetable__group:first-child .course-presencial-timetable__rows > div:first-child .course-presencial-times {
     display: grid;
     grid-template-columns: repeat(2, max-content);
-    column-gap: 26px;
+    column-gap: 16px;
   }
 }

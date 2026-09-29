@@ -337,13 +337,13 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
               <div className="course-presencial-timetable" aria-label="Horarios publicados de inglés presencial">
                 <section className="course-presencial-timetable__group" aria-labelledby="course-weekday-title">
                   <header className="course-presencial-timetable__heading">
-                    <h3 id="course-weekday-title">Entre semana</h3>
+                    <h3 id="course-weekday-title">Lunes a jueves</h3>
                     <p>Inicios de clase</p>
                   </header>
                   <dl className="course-presencial-timetable__rows">
                     {editorial.schedule.slice(0, 2).map((group, index) => (
                       <div key={group.label}>
-                        <dt>Lun–jue · {index === 0 ? "mañana" : "noche"}</dt>
+                        <dt>{index === 0 ? "Mañana" : "Noche"}</dt>
                         <dd>
                           <ul className="course-presencial-times">
                             {group.times.map((time) => <li key={time}>{time}</li>)}
