@@ -232,7 +232,7 @@ try {
         const englishState = await evaluate(`(() => ({
           url: location.search,
           placement: document.querySelectorAll('main a[href*="placement-test"]').length,
-          copy: document.querySelector('#orientacion-catalogo').textContent
+          copy: document.querySelector('.course-chooser__placement')?.textContent || ''
         }))()`);
         if (!englishState.url.includes("grupo=english-paths") || englishState.placement !== 1 ||
             !englishState.copy.includes("62 preguntas") || !englishState.copy.includes("10–15 minutos")) {
