@@ -542,12 +542,17 @@ const allCourseRecords = [
           actionLabel: "Ver mi nivel",
           actionHref: "/placement-test/",
         },
+        faq: {
+          eyebrow: "Antes de inscribirte",
+          title: "Preguntas frecuentes.",
+          text: "Si tu situación es distinta, admisiones puede confirmar el grupo, la sede y el siguiente paso.",
+        },
       },
       story: {
         eyebrow: "Historia AIT",
         name: "Jessica",
         role: "De estudiante a docente referente",
-        title: "Conocer el método también significa escuchar a quienes lo vivieron.",
+        title: "Jessica cuenta cómo se aprende aquí.",
         text:
           "Jessica empezó como estudiante de AiT y hoy es una de las docentes referentes del método. En esta conversación comparte más contexto sobre el ritmo de clase, la práctica y los detalles que ayudan a avanzar.",
         video: site.images.jessicaInterviewVideo,

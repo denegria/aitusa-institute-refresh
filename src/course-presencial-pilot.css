@@ -141,6 +141,7 @@
   display: grid;
   grid-template-columns: minmax(250px, .54fr) minmax(0, 1fr);
   column-gap: clamp(55px, 7vw, 110px);
+  row-gap: 0;
   align-items: start;
 }
 .course-presencial-sheet .course-program-logistics .course-program-heading { grid-column: 1; margin: 0; }
@@ -151,31 +152,35 @@
 }
 .course-presencial-sheet .course-logistics-layout { display: contents; }
 .course-presencial-sheet .course-schedule-panel { grid-column: 2; padding: 0; background: transparent; color: var(--course-ink); }
-.course-presencial-timetable { display: grid; grid-template-columns: 1fr .75fr; gap: 30px; }
+.course-presencial-timetable { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(22px, 3vw, 42px); }
 .course-presencial-timetable__group { min-width: 0; border-top: 2px solid var(--course-navy); }
-.course-presencial-timetable__group h3 { margin: 14px 0 8px; color: var(--course-navy); font-family: var(--font-display); font-size: 1.36rem; line-height: 1.15; }
-.course-presencial-sheet .course-presencial-timetable dl > div { display: block; padding: 14px 0; border-top: 1px solid var(--course-rule); }
-.course-presencial-sheet .course-schedule-panel dt { color: var(--course-gold-ink); font-size: .78rem; font-weight: 850; line-height: 1.45; }
-.course-presencial-sheet .course-schedule-panel dd { margin: 8px 0 0; color: var(--course-navy); }
-.course-presencial-times { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px 12px; margin: 0; padding: 0; list-style: none; }
-.course-presencial-times--ranges { grid-template-columns: 1fr; }
-.course-presencial-times li { color: var(--course-navy); font-family: var(--font-display); font-size: .93rem; font-weight: 800; line-height: 1.35; white-space: nowrap; }
-.course-presencial-sheet .course-schedule-panel__note { margin-top: 15px; padding-top: 12px; border-color: var(--course-rule); color: var(--course-body); }
-.course-presencial-sheet .course-schedule-panel .course-program-text-link { margin-top: 9px; color: var(--course-navy); }
-.course-presencial-sheet .course-admissions-facts {
+.course-presencial-timetable__heading { padding: 14px 0 15px; }
+.course-presencial-timetable__heading h3 { margin: 0; color: var(--course-navy); font-family: var(--font-display); font-size: 1.3rem; line-height: 1.15; }
+.course-presencial-timetable__heading p { margin: 5px 0 0; color: var(--course-gold-ink); font-size: .77rem; font-weight: 800; line-height: 1.3; }
+.course-presencial-timetable__dayparts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; border-top: 1px solid var(--course-rule); padding-top: 15px; }
+.course-presencial-timetable__daypart h4 { margin: 0 0 10px; color: var(--course-navy); font-size: .9rem; line-height: 1.3; }
+.course-presencial-times { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.course-presencial-times li { color: var(--course-navy); font-family: var(--font-display); font-size: .98rem; font-weight: 800; line-height: 1.35; white-space: nowrap; }
+.course-presencial-timetable__weekend { margin: 0; }
+.course-presencial-sheet .course-presencial-timetable__weekend > div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 10px; align-items: start; padding: 15px 0; border-top: 1px solid var(--course-rule); }
+.course-presencial-timetable__weekend dt { color: var(--course-navy); font-size: .9rem; font-weight: 800; line-height: 1.4; }
+.course-presencial-timetable__weekend dd { margin: 0; }
+.course-presencial-sheet .course-schedule-panel__note { margin-top: 22px; padding-top: 14px; border-color: var(--course-rule); color: var(--course-body); font-size: .9rem; }
+.course-presencial-sheet .course-schedule-panel .course-program-text-link { margin-top: 11px; color: var(--course-navy); }
+.course-presencial-sheet .course-presencial-decision {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: .75fr 1.25fr;
   gap: 40px;
-  margin-top: 42px;
-  padding: 22px 0 0;
-  border-top: 2px solid var(--course-navy);
-  border-bottom: 0;
-  background: transparent;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--course-rule);
 }
-.course-presencial-sheet .course-admissions-facts h3 { font-size: 1rem; }
-.course-presencial-sheet .course-admissions-facts p { margin-top: 7px; color: var(--course-body); font-size: .88rem; line-height: 1.53; }
-.course-presencial-sheet .course-admissions-facts a { color: var(--course-navy); text-decoration-color: var(--course-gold-ink); }
+.course-presencial-sheet .course-presencial-decision .section-kicker { margin: 0 0 9px; }
+.course-presencial-sheet .course-presencial-decision h3 { max-width: 280px; margin: 0; color: var(--course-navy); font-size: clamp(1.15rem, 1.8vw, 1.45rem); line-height: 1.2; }
+.course-presencial-sheet .course-presencial-decision p:not(.section-kicker) { margin: 0 0 9px; color: var(--course-body); font-size: .92rem; line-height: 1.55; }
+.course-presencial-decision__actions { display: flex; flex-wrap: wrap; gap: 2px 25px; margin-top: 4px; }
+.course-presencial-sheet .course-presencial-decision a { display: inline-flex; align-items: center; min-height: 44px; color: var(--course-navy); font-weight: 800; text-decoration-color: var(--course-gold-ink); text-underline-offset: 4px; }
 
 /* Academic chapters share one calmer typographic scale; contrast and reading form create rhythm. */
 .course-presencial-sheet > .course-program-outcomes { background: var(--course-navy); color: #fff; }
@@ -285,8 +290,8 @@
 .course-presencial-sheet .course-program-closing__actions { justify-items: start; }
 
 @media (max-width: 1050px) {
-  .course-presencial-sheet .course-program-logistics > .section-inner { grid-template-columns: minmax(220px, .5fr) minmax(0, 1fr); gap: 45px; }
-  .course-presencial-timetable { grid-template-columns: 1fr; gap: 17px; }
+  .course-presencial-sheet .course-program-logistics > .section-inner { grid-template-columns: minmax(220px, .5fr) minmax(0, 1fr); column-gap: 45px; }
+  .course-presencial-timetable { grid-template-columns: 1fr; gap: 23px; }
   .course-presencial-sheet .course-program-method__layout { gap: 46px; }
   .course-presencial-sheet .course-program-story__media { grid-template-columns: minmax(0, 190px) minmax(0, 1fr); }
 }
@@ -308,9 +313,10 @@
   .course-presencial-chapters span { flex-basis: 100%; }
   .course-presencial-sheet .course-program-logistics .course-program-heading,
   .course-presencial-sheet .course-schedule-panel,
-  .course-presencial-sheet .course-admissions-facts { grid-column: 1; }
-  .course-presencial-sheet .course-schedule-panel { margin-top: 28px; }
-  .course-presencial-sheet .course-admissions-facts { margin-top: 28px; }
+  .course-presencial-sheet .course-presencial-decision { grid-column: 1; }
+  .course-presencial-sheet .course-program-logistics .course-program-heading { padding-bottom: 26px; }
+  .course-presencial-sheet .course-schedule-panel { margin-top: 0; }
+  .course-presencial-sheet .course-presencial-decision { margin-top: 30px; }
   .course-presencial-sheet .course-program-outcomes > .section-inner { grid-template-columns: 1fr; gap: 28px; }
   .course-presencial-sheet .course-program-outcomes .course-program-heading { max-width: 560px; }
   .course-presencial-sheet .course-outcome-list { gap: 0; }
@@ -343,20 +349,24 @@
   .course-presencial-sheet .course-program-pathway .course-program-heading h2 { font-size: clamp(1.85rem, 7.4vw, 2.2rem); line-height: 1.15; }
   .course-presencial-sheet .course-program-method__copy h2 { font-size: clamp(1.9rem, 7.4vw, 2.25rem); line-height: 1.15; }
   .course-presencial-sheet .course-program-closing h2 { font-size: 2.4rem; }
-  .course-presencial-sheet .course-presencial-timetable { grid-template-columns: 1fr; gap: 19px; }
-  .course-presencial-sheet .course-presencial-timetable dl > div { display: block; padding: 12px 0; }
-  .course-presencial-sheet .course-schedule-panel dt { font-size: .8rem; }
-  .course-presencial-sheet .course-schedule-panel dd { margin-top: 7px; }
-  .course-presencial-times { gap: 8px 15px; }
+  .course-presencial-sheet > .course-program-logistics { padding-block: 44px; }
+  .course-presencial-sheet .course-program-logistics .course-program-heading { padding-bottom: 24px; }
+  .course-presencial-sheet .course-presencial-timetable { grid-template-columns: 1fr; gap: 23px; }
+  .course-presencial-timetable__heading { padding: 11px 0 13px; }
+  .course-presencial-timetable__dayparts { gap: 14px; padding-top: 14px; }
+  .course-presencial-sheet .course-presencial-timetable__weekend > div { grid-template-columns: 83px minmax(0, 1fr); padding: 13px 0; }
+  .course-presencial-times { gap: 9px; }
   .course-presencial-times li { font-size: 1rem; }
-  .course-presencial-sheet .course-admissions-facts p { font-size: .92rem; }
-  .course-presencial-sheet .course-admissions-facts { grid-template-columns: 1fr; gap: 17px; padding: 18px 0 0; }
-  .course-presencial-sheet .course-admissions-facts > div + div { padding-top: 17px; border-top: 1px solid var(--course-rule); }
+  .course-presencial-sheet .course-schedule-panel__note { font-size: .94rem; }
+  .course-presencial-sheet .course-presencial-decision { grid-template-columns: 1fr; gap: 12px; margin-top: 30px; padding-top: 20px; }
+  .course-presencial-sheet .course-presencial-decision h3 { max-width: none; }
+  .course-presencial-sheet .course-presencial-decision p:not(.section-kicker) { font-size: .98rem; }
+  .course-presencial-decision__actions { flex-direction: column; align-items: flex-start; gap: 0; }
   .course-presencial-sheet .course-outcome-list { grid-template-columns: 1fr; gap: 0; margin-top: 0; }
   .course-presencial-sheet .course-outcome-list li { display: grid; grid-template-columns: 35px minmax(0, 1fr); gap: 0 10px; padding: 17px 0; border-top-width: 1px; }
   .course-presencial-sheet .course-outcome-list li > span { grid-row: 1 / span 2; }
   .course-presencial-sheet .course-outcome-list h3 { margin-top: 0; font-size: 1.2rem; }
-  .course-presencial-sheet .course-outcome-list p { grid-column: 2; margin-top: 6px; font-size: .9rem; }
+  .course-presencial-sheet .course-outcome-list p { grid-column: 2; margin-top: 6px; font-size: 1rem; }
   .course-presencial-sheet .course-pathway-list { grid-template-columns: 1fr; gap: 0; margin-top: 28px; border-left: 1px solid var(--course-gold); }
   .course-presencial-sheet .course-pathway-list li,
   .course-presencial-sheet .course-pathway-list li:not(:last-child) { display: grid; grid-template-columns: 35px minmax(0, 1fr); gap: 10px; padding: 0 0 25px 14px; border: 0; }
@@ -364,14 +374,16 @@
   .course-presencial-sheet .course-pathway-list__marker span { font-size: 1rem; }
   .course-presencial-sheet .course-pathway-list__eyebrow { margin-top: 0; }
   .course-presencial-sheet .course-pathway-list h3 { font-size: 1.65rem; }
-  .course-presencial-sheet .course-pathway-list li > div:last-child > p:last-child { margin-top: 7px; font-size: .9rem; }
+  .course-presencial-sheet .course-pathway-list li > div:last-child > p:last-child { margin-top: 7px; font-size: 1rem; }
   .course-presencial-sheet .course-program-method__layout,
   .course-presencial-sheet .course-program-story__layout { gap: 26px; }
-  .course-presencial-sheet .course-program-method__copy li { font-size: .86rem; }
+  .course-presencial-sheet .course-program-method__copy li { font-size: 1rem; }
   .course-presencial-sheet .course-program-story__media { display: block; width: min(100%, 250px); justify-self: center; }
   .course-presencial-sheet .course-program-story__media video { max-height: 450px; }
   .course-presencial-sheet .course-program-story__media figcaption { padding: 10px 0; }
   .course-presencial-sheet .course-program-story__media > p { margin-top: 10px; }
+  .course-presencial-sheet .course-program-story__copy > p[id],
+  .course-presencial-sheet .course-faq-list details > p { font-size: 1rem; line-height: 1.6; }
   .course-presencial-sheet .course-faq-list { grid-template-columns: 1fr; gap: 0; margin-top: 26px; }
   .course-presencial-sheet .course-faq-list details:nth-last-child(2) { border-bottom: 0; }
   .course-presencial-sheet .course-faq-list details:last-child { border-bottom: 1px solid var(--course-rule); }
@@ -379,6 +391,7 @@
   .course-presencial-sheet .course-program-related nav a,
   .course-presencial-sheet .course-program-related nav a:hover,
   .course-presencial-sheet .course-program-related nav a:focus-visible { min-height: 64px; padding-block: 12px; border-top-width: 1px; }
+  .course-presencial-sheet .course-program-related nav small { font-size: .9rem; }
   .course-presencial-sheet .course-program-closing__actions,
   .course-presencial-sheet .course-program-closing__actions .button,
   .course-presencial-sheet .course-program-closing__actions .course-program-text-link { width: 100%; }

@@ -313,13 +313,19 @@ function CourseMethod({ method }) {
   );
 }
 
+function scheduleInquiryHref(title) {
+  const url = new URL(site.whatsappHref);
+  url.searchParams.set("text", `Hola AIT USA, quiero confirmar sede, horarios y próximo grupo disponible para ${title}. ¿Me pueden orientar también sobre el costo total?`);
+  return url.toString();
+}
+
 function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logistics }) {
   return (
     <section className="course-program-section course-program-logistics" id="horarios" aria-labelledby="course-logistics-title">
       <div className="section-inner">
         <header className="course-program-heading section-heading--framed">
           <p className="section-kicker">{copy.eyebrow}</p>
-          <h2 id="course-logistics-title">Organiza tu semana.</h2>
+          <h2 id="course-logistics-title">{program.slug === "ingles-jovenes-adultos" ? "Horarios de clase." : "Organiza tu semana."}</h2>
           {program.slug !== "ingles-jovenes-adultos" ? <p>{copy.text}</p> : null}
         </header>
         <div className="course-logistics-layout">
@@ -328,41 +334,41 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
               <p className="course-schedule-panel__label">{copy.scheduleLabel}</p>
             ) : null}
             {program.slug === "ingles-jovenes-adultos" ? (
-              <div className="course-presencial-timetable">
-                {[
-                  {
-                    title: "Lunes a jueves",
-                    rows: editorial.schedule.slice(0, 2).map((group, index) => ({
-                      ...group,
-                      shortLabel: index === 0 ? "Por la mañana" : "Por la noche",
-                      timeKind: "starts",
-                    })),
-                  },
-                  {
-                    title: "Fin de semana",
-                    rows: editorial.schedule.slice(2).map((group) => ({
-                      ...group,
-                      shortLabel: group.label,
-                      timeKind: "ranges",
-                    })),
-                  },
-                ].map((period) => (
-                  <div className="course-presencial-timetable__group" key={period.title}>
-                    <h3>{period.title}</h3>
-                    <dl>
-                      {period.rows.map((group) => (
-                        <div key={group.label}>
-                          <dt>{group.shortLabel}</dt>
-                          <dd>
-                            <ul className={`course-presencial-times course-presencial-times--${group.timeKind}`}>
-                              {group.times.map((time) => <li key={time}>{time}</li>)}
-                            </ul>
-                          </dd>
-                        </div>
-                      ))}
-                    </dl>
+              <div className="course-presencial-timetable" aria-label="Horarios publicados de inglés presencial">
+                <section className="course-presencial-timetable__group" aria-labelledby="course-weekday-title">
+                  <header className="course-presencial-timetable__heading">
+                    <h3 id="course-weekday-title">Lunes a jueves</h3>
+                    <p>Inicios de clase</p>
+                  </header>
+                  <div className="course-presencial-timetable__dayparts">
+                    {editorial.schedule.slice(0, 2).map((group, index) => (
+                      <div className="course-presencial-timetable__daypart" key={group.label}>
+                        <h4>{index === 0 ? "Mañana" : "Noche"}</h4>
+                        <ul className="course-presencial-times">
+                          {group.times.map((time) => <li key={time}>{time}</li>)}
+                        </ul>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </section>
+                <section className="course-presencial-timetable__group" aria-labelledby="course-weekend-title">
+                  <header className="course-presencial-timetable__heading">
+                    <h3 id="course-weekend-title">Fin de semana</h3>
+                    <p>Clases completas</p>
+                  </header>
+                  <dl className="course-presencial-timetable__weekend">
+                    {editorial.schedule.slice(2).map((group) => (
+                      <div key={group.label}>
+                        <dt>{group.label}</dt>
+                        <dd>
+                          <ul className="course-presencial-times">
+                            {group.times.map((time) => <li key={time}>{time}</li>)}
+                          </ul>
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
               </div>
             ) : (
               <dl>
@@ -375,15 +381,17 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
               </dl>
             )}
             <p className="course-schedule-panel__note">{editorial.logisticsNote}</p>
-            <a
-              className="course-program-text-link"
-              href={courseInquiryHref(site.whatsappHref, program.title)}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Confirmar horario por WhatsApp
-              <i data-lucide="arrow-right" aria-hidden="true" />
-            </a>
+            {program.slug !== "ingles-jovenes-adultos" ? (
+              <a
+                className="course-program-text-link"
+                href={courseInquiryHref(site.whatsappHref, program.title)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Confirmar horario por WhatsApp
+                <i data-lucide="arrow-right" aria-hidden="true" />
+              </a>
+            ) : null}
           </div>
           {program.slug !== "ingles-jovenes-adultos" ? (
             <div
@@ -402,10 +410,27 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
             </div>
           ) : null}
         </div>
-        <div className="course-admissions-facts">
-          <div><h3>Requisitos para empezar</h3><p>{courseComparison[program.slug].requirements}</p></div>
-          <div><h3>Costo y próximo grupo</h3><p>{program.slug === "ingles-jovenes-adultos" ? "El registro desglosa inscripción y materiales. Confirma colegiatura total, grupo y próxima fecha con admisiones." : "Solicita el costo total, los materiales incluidos y la próxima fecha disponible antes de inscribirte."}</p><a href={contactCourseHref(program.slug)}>Consultar costo y disponibilidad</a></div>
-        </div>
+        {program.slug === "ingles-jovenes-adultos" ? (
+          <aside className="course-presencial-decision" aria-labelledby="course-decision-title">
+            <div>
+              <p className="section-kicker">Antes de inscribirte</p>
+              <h3 id="course-decision-title">Confirma tu nivel, costo y grupo.</h3>
+            </div>
+            <div>
+              <p>{courseComparison[program.slug].requirements}</p>
+              <p>El registro desglosa inscripción y materiales. Confirma colegiatura total, grupo y próxima fecha con admisiones.</p>
+              <div className="course-presencial-decision__actions">
+                <a href={contactCourseHref(program.slug)}>Consultar costo y disponibilidad</a>
+                <a href={scheduleInquiryHref(program.title)} target="_blank" rel="noreferrer">Confirmar horario por WhatsApp</a>
+              </div>
+            </div>
+          </aside>
+        ) : (
+          <div className="course-admissions-facts">
+            <div><h3>Requisitos para empezar</h3><p>{courseComparison[program.slug].requirements}</p></div>
+            <div><h3>Costo y próximo grupo</h3><p>Solicita el costo total, los materiales incluidos y la próxima fecha disponible antes de inscribirte.</p><a href={contactCourseHref(program.slug)}>Consultar costo y disponibilidad</a></div>
+          </div>
+        )}
       </div>
     </section>
   );
