@@ -104,13 +104,18 @@ function EnglishPresencialHero({ program, editorial }) {
           </div>
         </div>
       </div>
-      <nav className="course-presencial-chapters section-inner" aria-label="Explorar inglés presencial">
-        <span>En esta página</span>
-        <a href="#horarios">Horarios y requisitos</a>
-        <a href="#resultados">Qué aprenderás</a>
-        <a href="#preguntas">Preguntas frecuentes</a>
-      </nav>
     </section>
+  );
+}
+
+function EnglishPresencialChapters() {
+  return (
+    <nav className="course-presencial-chapters section-inner" aria-label="Explorar inglés presencial">
+      <span>En esta página</span>
+      <a href="#horarios">Horarios y requisitos</a>
+      <a href="#resultados">Qué aprenderás</a>
+      <a href="#preguntas">Preguntas frecuentes</a>
+    </nav>
   );
 }
 
@@ -487,45 +492,53 @@ function CourseClosing({ closing, program }) {
 
 export function CourseProgramPage({ program }) {
   const editorial = program.editorial;
+  const isEnglishPresencial = program.slug === "ingles-jovenes-adultos";
   const pathwayCopy =
     editorial.sectionCopy?.pathway ||
     (isEnglishProgram(program)
       ? defaultSectionCopy.pathway
       : defaultSectionCopy.inquiryPathway);
+  const courseChapters = (
+    <>
+      {editorial.formats?.length && editorial.schedule?.length ? (
+        <CourseLogistics program={program} editorial={editorial} copy={editorial.sectionCopy?.logistics} />
+      ) : null}
+      {editorial.outcomes?.length ? (
+        <CourseOutcomes
+          outcomes={editorial.outcomes}
+          copy={editorial.sectionCopy?.outcomes}
+          id={isEnglishPresencial ? "resultados" : undefined}
+        />
+      ) : null}
+      {editorial.pathway?.length ? (
+        <CoursePathway pathway={editorial.pathway} copy={pathwayCopy} />
+      ) : null}
+      {editorial.method ? <CourseMethod method={editorial.method} /> : null}
+      {editorial.story ? <CourseStory story={editorial.story} /> : null}
+      {editorial.faqs?.length ? (
+        <CourseFaq faqs={editorial.faqs} copy={editorial.sectionCopy?.faq} />
+      ) : null}
+      <CourseRelated program={program} />
+      <CourseClosing closing={editorial.closing} program={program} />
+    </>
+  );
 
   return (
     <>
       <SiteHeader activePage="courses" />
       <main
-        className={`course-program-page${program.slug === "ingles-jovenes-adultos" ? " course-program-page--english-presencial" : ""}`}
+        className={`course-program-page${isEnglishPresencial ? " course-program-page--english-presencial" : ""}`}
         data-course-template={editorial.version}
         data-course-program={program.slug}
         id="main-content"
       >
         <CourseHero program={program} editorial={editorial} />
-        {editorial.formats?.length && editorial.schedule?.length ? (
-          <CourseLogistics program={program} editorial={editorial} copy={editorial.sectionCopy?.logistics} />
-        ) : null}
-        {editorial.outcomes?.length ? (
-          <CourseOutcomes
-            outcomes={editorial.outcomes}
-            copy={editorial.sectionCopy?.outcomes}
-            id={program.slug === "ingles-jovenes-adultos" ? "resultados" : undefined}
-          />
-        ) : null}
-        {editorial.pathway?.length ? (
-          <CoursePathway
-            pathway={editorial.pathway}
-            copy={pathwayCopy}
-          />
-        ) : null}
-        {editorial.method ? <CourseMethod method={editorial.method} /> : null}
-        {editorial.story ? <CourseStory story={editorial.story} /> : null}
-        {editorial.faqs?.length ? (
-          <CourseFaq faqs={editorial.faqs} copy={editorial.sectionCopy?.faq} />
-        ) : null}
-        <CourseRelated program={program} />
-        <CourseClosing closing={editorial.closing} program={program} />
+        {isEnglishPresencial ? (
+          <div className="course-presencial-sheet">
+            <EnglishPresencialChapters />
+            {courseChapters}
+          </div>
+        ) : courseChapters}
       </main>
       <SiteFooter />
     </>
