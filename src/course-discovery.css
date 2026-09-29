@@ -100,7 +100,7 @@
 .course-chooser.prospect-catalog .catalog-subgroup + .catalog-subgroup { border-top: 1px solid #e2d9cc; }
 .course-chooser.prospect-catalog .catalog-subgroup__heading { margin-bottom: 13px; }
 .course-chooser.prospect-catalog .catalog-subgroup__heading h2 { font-size: clamp(1.3rem, 2vw, 1.6rem); }
-.course-chooser.prospect-catalog .catalog-subgroup__heading p { margin-top: 4px; font-size: .84rem; }
+.course-chooser.prospect-catalog .catalog-subgroup__heading p { margin-top: 4px; font-size: .875rem; }
 .course-chooser.prospect-catalog .program-grid { gap: 0; }
 .course-chooser.prospect-catalog .program-card { display: grid; grid-template-columns: 86px minmax(0,1fr); grid-template-rows: auto; min-width: 0; padding: 6px 12px; overflow: visible; border: 0; border-radius: 8px; background: transparent; box-shadow: none; }
 .course-chooser.prospect-catalog .program-card + .program-card { border-left: 1px solid #e2d9cc; border-radius: 0; }
@@ -108,10 +108,10 @@
 .course-chooser.prospect-catalog .program-card:focus-within { transform: none; border-color: #e2d9cc; background: #f7f2e8; box-shadow: none; }
 .course-chooser.prospect-catalog .program-card__image { width: 86px; height: 100%; min-height: 138px; aspect-ratio: auto; border-radius: 8px; object-fit: cover; }
 .course-chooser.prospect-catalog .program-card__body { display: flex; flex-direction: column; min-width: 0; padding: 0 0 0 12px; }
-.course-chooser.prospect-catalog .program-card__body > .chooser-card__format { margin: 0 0 5px; color: #825d18; font-size: .7rem; font-weight: 800; line-height: 1.25; }
+.course-chooser.prospect-catalog .program-card__body > .chooser-card__format { margin: 0 0 5px; color: #825d18; font-size: .75rem; font-weight: 800; line-height: 1.25; }
 .course-chooser.prospect-catalog .program-card h3 { margin: 0 0 5px; color: #001a3d; font-size: 1.08rem; line-height: 1.18; }
-.course-chooser.prospect-catalog .program-card__body > .chooser-card__fit { margin: 0; color: #4f5660; font-size: .81rem; line-height: 1.36; }
-.course-chooser .chooser-card__action { display: inline-flex; align-items: center; justify-content: space-between; gap: 10px; align-self: stretch; min-height: 44px; margin-top: auto; padding-top: 7px; color: #001a3d; font-size: .83rem; font-weight: 800; text-decoration: underline; text-decoration-color: #c4932d; text-underline-offset: 3px; }
+.course-chooser.prospect-catalog .program-card__body > .chooser-card__fit { margin: 0; color: #4f5660; font-size: .875rem; line-height: 1.4; }
+.course-chooser .chooser-card__action { display: inline-flex; align-items: center; justify-content: space-between; gap: 10px; align-self: stretch; min-height: 44px; margin-top: auto; padding-top: 7px; color: #001a3d; font-size: .875rem; font-weight: 800; text-decoration: underline; text-decoration-color: #c4932d; text-underline-offset: 3px; }
 .course-chooser .chooser-card__action span { color: #a87319; font-size: 1.1rem; }
 .course-chooser__placement { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; margin: 0; padding: 14px 0; border-top: 1px solid #e2d9cc; color: #6b6459; font-size: .83rem; }
 .course-chooser__placement a { display: inline-flex; align-items: center; min-height: 44px; color: #001a3d; font-weight: 750; }
