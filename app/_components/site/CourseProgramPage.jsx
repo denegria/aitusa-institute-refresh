@@ -446,8 +446,10 @@ function CourseRelated({ program }) {
   return (
     <aside className="course-program-related" aria-labelledby="course-related-title">
       <div className="section-inner">
-        <p className="section-kicker">Sigue explorando</p>
-        <h2 id="course-related-title">Otras rutas que también puedes comparar.</h2>
+        <div className="course-program-related__intro">
+          <p className="section-kicker">Sigue explorando</p>
+          <h2 id="course-related-title">Otras rutas que también puedes comparar.</h2>
+        </div>
         <nav aria-label="Cursos relacionados">
           {related.map((candidate) => (
             <a href={`/cursos/${candidate.slug}/`} key={candidate.slug}>
