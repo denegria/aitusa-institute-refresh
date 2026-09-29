@@ -125,15 +125,19 @@ describe("homepage community gallery", () => {
     assert.match(styles, /@media \(prefers-reduced-motion: reduce\)[\s\S]*animation: none/);
   });
 
-  it("prioritizes practical homepage FAQ questions without repeating the same schedule objection", async () => {
-    const { faqs } = siteData;
-    const source = await readFile("app/_components/site/InteractiveSections.jsx", "utf8");
+  it("keeps the homepage FAQ school-wide without replacing English-specific chooser help", async () => {
+    const { faqs, schoolFaqs } = siteData;
+    const listSource = await readFile("app/_components/site/InteractiveSections.jsx", "utf8");
+    const pageSource = await readFile("app/_components/site/PublicSections.jsx", "utf8");
 
-    assert.equal(faqs.length, 7);
-    assert.ok(faqs.some((faq) => faq.question.includes("otro país")));
-    assert.ok(faqs.some((faq) => faq.question.includes("no puedo asistir")));
-    assert.equal(faqs.filter((faq) => /Trabajo todo el día|No tengo mucho tiempo/.test(faq.question)).length, 1);
-    assert.match(source, /\{faqs\.map\(\(faq, index\) => \(/);
-    assert.doesNotMatch(source, /faqs\.slice\(0, 6\)/);
+    assert.equal(schoolFaqs.length, 7);
+    assert.ok(schoolFaqs.every((faq) => faq.question && faq.answer));
+    assert.ok(schoolFaqs.some((faq) => /enseñan/i.test(faq.question)));
+    assert.ok(schoolFaqs.some((faq) => /inscribirme/i.test(faq.question)));
+    assert.ok(schoolFaqs.some((faq) => /orientación/i.test(faq.question)));
+    assert.ok(schoolFaqs.every((faq) => !/nivel de inglés|hablar inglés/i.test(faq.question)));
+    assert.ok(faqs.some((faq) => /nivel de inglés/i.test(faq.question)));
+    assert.match(pageSource, /<FaqList items=\{schoolFaqs\} \/>/);
+    assert.match(listSource, /\{items\.map\(\(faq, index\) => \(/);
   });
 });

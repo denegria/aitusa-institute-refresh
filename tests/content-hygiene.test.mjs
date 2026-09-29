@@ -93,6 +93,7 @@ describe("MIS-267 content hygiene", () => {
     const {
       courseCatalog,
       faqs,
+      schoolFaqs,
       locations,
       placementTest,
       productOfferings,
@@ -102,6 +103,7 @@ describe("MIS-267 content hygiene", () => {
     const publicCopy = JSON.stringify({
       courseCatalog,
       faqs,
+      schoolFaqs,
       locations,
       placementTest: {
         intro: placementTest.intro,

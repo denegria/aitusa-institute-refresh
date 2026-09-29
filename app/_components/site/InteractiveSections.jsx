@@ -564,12 +564,12 @@ export function ProofStories() {
   );
 }
 
-export function FaqList() {
+export function FaqList({ items = faqs }) {
   const [openIndex, setOpenIndex] = useState(null);
 
   return (
     <div className="faq-list">
-      {faqs.map((faq, index) => (
+      {items.map((faq, index) => (
         <details
           key={faq.question}
           open={openIndex === index}
@@ -580,14 +580,14 @@ export function FaqList() {
         >
           <summary><span>{faq.question}</span></summary>
           <p>{faq.answer}</p>
-          <p className="proof-line">{faq.outcome || ""}</p>
+          {faq.outcome ? <p className="proof-line">{faq.outcome}</p> : null}
         </details>
       ))}
     </div>
   );
 }
 
-export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offerings", primary = false }) {
+export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offerings", primary = false, compact = false, triggerLabel = "Solicitar orientación" }) {
   const dialogId = useId();
   const group = courseCatalog.find((item) => item.key === subjectGroup);
   const subjectOptions = group ? admissionOptions.filter((program) => group.programs.includes(program.slug)) : admissionOptions;
@@ -710,7 +710,7 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
           onClick={openDialog}
         >
           <i data-lucide="message-circle" aria-hidden="true" />
-          <span>Solicitar orientación</span>
+          <span>{triggerLabel}</span>
         </button>
       </div>
       <dialog
@@ -735,7 +735,9 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
             </button>
           </header>
           <div className="callback-dialog__content">
-            <p>Indica tu curso y un teléfono o email para que admisiones pueda contactarte. Te ayudaremos a confirmar requisitos y disponibilidad.</p>
+            <p>{compact
+              ? "Elige un curso y deja un teléfono o email. Admisiones te contactará para revisar tus opciones."
+              : "Indica tu curso y un teléfono o email para que admisiones pueda contactarte. Te ayudaremos a confirmar requisitos y disponibilidad."}</p>
             <form className="lead-form" data-lead-form onSubmit={submit} aria-busy={busy}>
               <div className="form-grid callback-form-grid">
                 <label>Curso de interés
@@ -754,29 +756,31 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
                   event.currentTarget.form.elements.namedItem("telefono")?.setCustomValidity("");
                   event.currentTarget.form.elements.namedItem("email")?.setCustomValidity("");
                 }} /><small>Escribe un teléfono o un email.</small></label>
-                <label>
-                  Sede o modalidad preferida (opcional)
-                  <select name="ubicacion" defaultValue="">
-                    <option value="">Sin preferencia</option>
-                    <option value="Bound Brook">Bound Brook</option>
-                    <option value="Plainfield">Plainfield</option>
-                    <option value="Piscataway">Piscataway</option>
-                    <option value="Flemington">Flemington con cita previa</option>
-                    <option value="Online">Online</option>
-                    <option value="No estoy seguro">No estoy seguro</option>
-                  </select>
-                </label>
-                <label>
-                  Mejor momento para contactarte
-                  <select name="mejorHorario" required defaultValue="">
-                    <option value="">Selecciona una opción</option>
-                    <option value="Mañana">Mañana</option>
-                    <option value="Tarde">Tarde</option>
-                    <option value="Noche">Noche</option>
-                    <option value="Fin de semana">Fin de semana</option>
-                    <option value="Prefiero coordinar">Prefiero coordinar</option>
-                  </select>
-                </label>
+                {!compact ? <>
+                  <label>
+                    Sede o modalidad preferida (opcional)
+                    <select name="ubicacion" defaultValue="">
+                      <option value="">Sin preferencia</option>
+                      <option value="Bound Brook">Bound Brook</option>
+                      <option value="Plainfield">Plainfield</option>
+                      <option value="Piscataway">Piscataway</option>
+                      <option value="Flemington">Flemington con cita previa</option>
+                      <option value="Online">Online</option>
+                      <option value="No estoy seguro">No estoy seguro</option>
+                    </select>
+                  </label>
+                  <label>
+                    Mejor momento para contactarte
+                    <select name="mejorHorario" required defaultValue="">
+                      <option value="">Selecciona una opción</option>
+                      <option value="Mañana">Mañana</option>
+                      <option value="Tarde">Tarde</option>
+                      <option value="Noche">Noche</option>
+                      <option value="Fin de semana">Fin de semana</option>
+                      <option value="Prefiero coordinar">Prefiero coordinar</option>
+                    </select>
+                  </label>
+                </> : null}
               </div>
               <label className="form-honeypot" aria-hidden="true">
                 Sitio web de empresa

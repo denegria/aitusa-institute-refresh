@@ -7509,17 +7509,6 @@ textarea {
   display: grid;
 }
 
-.home-page .final-cta-actions .button {
-  min-height: 50px;
-  padding-inline: 22px;
-}
-
-.home-page .final-cta-actions .button--primary {
-  background: #c4932d;
-  color: #001a3d;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
-}
-
 .home-page .final-cta-contact-row {
   gap: 0;
 }
@@ -7696,10 +7685,6 @@ textarea {
 
   .home-page .final-cta-actions {
     width: 100%;
-  }
-
-  .home-page .final-cta-actions .button {
-    min-height: 50px;
   }
 
   .home-page .final-cta-contact-row {
@@ -9597,12 +9582,6 @@ textarea {
 
   .home-page .final-cta-actions {
     justify-items: center;
-  }
-
-  .home-page .final-cta-actions .button {
-    min-height: 46px;
-    padding-block: 9px;
-    padding-inline: 18px;
   }
 
   .home-page .final-cta-contact-row {

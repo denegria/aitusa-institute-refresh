@@ -79,13 +79,16 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(source, /supporting-course-card__icon|program\.icon/);
   });
 
-  it("labels the English assessment and offers course-aware guidance", async () => {
+  it("keeps the English assessment in the hero and makes school-wide guidance the final action", async () => {
     const { sections, interactive } = await readSources();
     const source = `${sections}\n${interactive}`;
 
     assert.match(source, /¿Listo para empezar\?/);
     assert.match(source, /Conoce tu nivel de inglés/);
-    assert.match(source, /62 preguntas · 10–15 minutos/);
+    assert.match(sections, /href="\/placement-test\/">Conoce tu nivel de inglés/);
+    assert.match(sections, /<CallbackDialog primary compact triggerLabel="Pedir orientación gratuita" \/>/);
+    assert.match(sections, /final-cta-register-link/);
+    assert.doesNotMatch(sections, /placement-effort/);
     assert.match(source, /final-cta-contact-row/);
     assert.match(source, /Solicitar orientación/);
     assert.match(source, /name="programa"/);

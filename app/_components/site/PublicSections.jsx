@@ -1,5 +1,4 @@
 import {
-  conversionCtas,
   headquarters,
   institutionalProof,
   locations,
@@ -7,6 +6,7 @@ import {
   methodNarrative,
   painHero,
   productOfferings,
+  schoolFaqs,
   site,
   solutionCharacteristics,
 } from "../../../src/content";
@@ -356,9 +356,9 @@ export function FaqSection() {
           <span className="chapter-accent chapter-accent--mobile" aria-hidden="true" />
           <p className="section-kicker">Preguntas frecuentes</p>
           <h2>¿Todavía tienes dudas?</h2>
-          <p>Aquí respondemos dudas sobre tu nivel, la práctica, los horarios y las modalidades.</p>
+          <p>Resolvemos dudas sobre nuestros programas, cómo enseñamos y los pasos para inscribirte.</p>
         </div>
-        <FaqList />
+        <FaqList items={schoolFaqs} />
       </div>
     </section>
   );
@@ -372,17 +372,13 @@ export function FinalCtaSection() {
           <div className="section-heading section-heading--framed">
             <p className="section-kicker">Empieza aquí</p>
             <h2 id="contacto-title">¿Listo para empezar?</h2>
-            <p>Cuéntanos qué quieres estudiar y te ayudamos a elegir curso, horario y modalidad. La orientación inicial es gratuita.</p>
+            <p>¿No sabes qué curso o modalidad elegir? Cuéntanos tu objetivo y admisiones te contactará para orientarte sin costo.</p>
           </div>
           <div className="final-cta-conversion">
-            <CallbackDialog primary />
+            <CallbackDialog primary compact triggerLabel="Pedir orientación gratuita" />
             <div className="final-cta-actions">
-              <a className="button button--primary" href="/inscribete/">Inscribirme ahora<i data-lucide="arrow-right" aria-hidden="true" /></a>
-              <a className="hero__help" href={conversionCtas.placement?.href || "/placement-test/"}>
-                Conoce tu nivel de inglés<i data-lucide="arrow-right" aria-hidden="true" />
-              </a>
+              <a className="final-cta-register-link" href="/inscribete/">Inscribirme directamente<i data-lucide="arrow-right" aria-hidden="true" /></a>
             </div>
-            <p className="placement-effort">Prueba de inglés: 62 preguntas · 10–15 minutos.</p>
           </div>
         </div>
       </div>

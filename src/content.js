@@ -3033,6 +3033,44 @@ const faqs = [
   },
 ];
 
+const schoolFaqs = [
+  {
+    question: "¿Qué puedo estudiar en AIT USA?",
+    answer:
+      "Ofrecemos inglés, español para extranjeros, preparación GED, computación y tutorías de matemáticas. Las modalidades y condiciones varían según el curso; revisa su página para elegir una ruta.",
+  },
+  {
+    question: "¿Cómo enseñan en AIT USA?",
+    answer:
+      "Combinamos explicaciones visuales, práctica guiada y actividades aplicadas a situaciones reales. Cada programa adapta esa práctica a su materia y al punto de partida del estudiante.",
+  },
+  {
+    question: "¿Cómo sé qué curso o nivel me conviene?",
+    answer:
+      "Cuéntanos qué quieres lograr y admisiones te ayudará a comparar opciones. Si te interesa inglés, también puedes hacer la prueba de nivel como punto de partida.",
+  },
+  {
+    question: "¿Hay clases presenciales y online?",
+    answer:
+      "Las opciones dependen del programa. Tenemos sedes presenciales en Nueva Jersey y cursos con modalidad online; consulta la página del curso o habla con admisiones para confirmar disponibilidad.",
+  },
+  {
+    question: "¿Dónde veo los horarios y el costo?",
+    answer:
+      "Cada página de curso reúne la información publicada. Admisiones puede ayudarte a confirmar el grupo, la modalidad, el horario y el costo vigentes antes de inscribirte.",
+  },
+  {
+    question: "¿Qué necesito para inscribirme?",
+    answer:
+      "Elige tu curso y sigue los pasos de Inscríbete. Los requisitos pueden variar por programa, así que revisa su página o consúltalos con admisiones antes de completar el registro.",
+  },
+  {
+    question: "¿Puedo pedir orientación antes de registrarme?",
+    answer:
+      "Sí. La orientación inicial es gratuita. Indica qué quieres estudiar y un teléfono o email para que admisiones te contacte y te ayude a elegir el siguiente paso.",
+  },
+];
+
 const painHero = {
   eyebrow: "Una escuela de inglés para lo que quieres lograr.",
   headline: "Tu próximo capítulo, en inglés.",
@@ -3615,6 +3653,7 @@ export const siteData = {
   differentiators,
   downloads,
   faqs,
+  schoolFaqs,
   heroPoints,
   locations,
   headquarters,
@@ -3653,6 +3692,7 @@ export {
   differentiators,
   downloads,
   faqs,
+  schoolFaqs,
   footerFacts,
   heroHighlights,
   heroPoints,
