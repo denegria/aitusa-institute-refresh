@@ -1,11 +1,12 @@
-/* Inglés presencial: restrained editorial system, scoped away from other courses. */
+/* Inglés presencial: one navy/gold course narrative, scoped away from other courses. */
 .course-program-page--english-presencial {
-  --course-paper: #faf9f5;
+  --course-paper: #fffdf9;
   --course-ink: #001a3d;
-  --course-muted: #475569;
-  --course-line: #d9deda;
-  --course-tint: #edf2f3;
-  --course-accent: #8a6418;
+  --course-muted: #33465e;
+  --course-line: #c9d0d8;
+  --course-tint: #001a3d;
+  --course-gold: #d9b45d;
+  --course-accent: #76520e;
   background: var(--course-paper);
   color: var(--course-ink);
 }
@@ -277,3 +278,83 @@
   .course-presencial-sheet .course-program-closing__actions .button,
   .course-presencial-sheet .course-program-closing__actions .course-program-text-link { width: 100%; }
 }
+
+/* Navy/gold palette: three deliberate acts, with high-contrast ivory reading chapters. */
+.course-program-hero--presencial,
+.course-presencial-stage { background: var(--course-ink); }
+.course-presencial-stage .course-breadcrumb { color: #d9e3ee; }
+.course-presencial-stage .course-breadcrumb a,
+.course-program-hero--presencial h1,
+.course-presencial-facts a,
+.course-program-hero--presencial .course-program-text-link,
+.course-program-hero--presencial .course-program-hero__media figcaption { color: #fff; }
+.course-presencial-stage .course-breadcrumb svg,
+.course-presencial-stage .section-kicker,
+.course-presencial-facts dt,
+.course-program-hero--presencial .course-program-hero__media figcaption span { color: var(--course-gold); }
+.course-program-hero--presencial .course-program-hero__lead,
+.course-presencial-facts dd { color: #e3ebf4; }
+.course-presencial-facts { border-top-color: rgb(217 180 93 / 65%); }
+.course-presencial-facts > div,
+.course-program-hero--presencial .course-program-hero__media figcaption { border-bottom-color: rgb(255 255 255 / 28%); }
+.course-presencial-facts a,
+.course-program-hero--presencial .course-program-text-link { text-decoration-color: var(--course-gold); }
+.course-program-hero--presencial .button--primary,
+.course-presencial-sheet .course-program-closing .button--primary { background: var(--course-gold); color: var(--course-ink); }
+.course-program-hero--presencial .button--primary:hover,
+.course-presencial-sheet .course-program-closing .button--primary:hover { background: #f1cc75; color: var(--course-ink); }
+
+/* Repeated gold chapter rule makes the dense reading sequence scannable. */
+.course-presencial-sheet .course-program-heading::before,
+.course-presencial-sheet .course-program-method__copy::before,
+.course-presencial-sheet .course-program-story__copy::before,
+.course-presencial-sheet .course-program-related__intro::before,
+.course-presencial-sheet .course-program-closing__layout > div:first-child::before {
+  display: block;
+  width: 40px;
+  height: 3px;
+  margin-bottom: 18px;
+  background: var(--course-gold);
+  content: "";
+}
+.course-presencial-sheet .course-program-heading h2,
+.course-presencial-sheet .course-program-closing h2 { color: var(--course-ink); }
+.course-presencial-sheet .course-program-heading > p:last-child,
+.course-presencial-sheet .course-program-closing p { color: var(--course-muted); }
+
+/* Teaching and student proof share one dark chapter, not two competing cards. */
+.course-presencial-sheet > .course-program-method,
+.course-presencial-sheet > .course-program-story { background: var(--course-ink); color: #fff; }
+.course-presencial-sheet > .course-program-method { border-bottom-color: rgb(217 180 93 / 42%); }
+.course-presencial-sheet .course-program-method__copy h2,
+.course-presencial-sheet .course-program-story__copy h2 { color: #fff; }
+.course-presencial-sheet .course-program-method__copy > p,
+.course-presencial-sheet .course-program-story__copy > p { color: #e2eaf3; }
+.course-presencial-sheet :is(.course-program-method, .course-program-story) .section-kicker,
+.course-presencial-sheet .course-program-story__identity,
+.course-presencial-sheet .course-program-story__duration { color: var(--course-gold); }
+.course-presencial-sheet .course-program-method__media figcaption,
+.course-presencial-sheet .course-program-story__media > p { color: #e2eaf3; }
+.course-presencial-sheet .course-program-method__media figcaption,
+.course-presencial-sheet .course-program-story__media figcaption,
+.course-presencial-sheet .course-program-method__copy li { border-color: rgb(255 255 255 / 30%); }
+.course-presencial-sheet .course-program-method__copy li,
+.course-presencial-sheet .course-program-story__media figcaption { color: #fff; }
+.course-presencial-sheet .course-program-method__copy li svg { color: var(--course-gold); }
+
+/* Related routes and enrollment form a single navy endcap. */
+.course-presencial-sheet > .course-program-related,
+.course-presencial-sheet > .course-program-closing { background: var(--course-ink); color: #fff; }
+.course-presencial-sheet > .course-program-related { border-bottom-color: rgb(217 180 93 / 42%); }
+.course-presencial-sheet .course-program-related h2,
+.course-presencial-sheet .course-program-closing h2,
+.course-presencial-sheet .course-program-related nav span,
+.course-presencial-sheet .course-program-closing .course-program-text-link { color: #fff; }
+.course-presencial-sheet :is(.course-program-related, .course-program-closing) .section-kicker,
+.course-presencial-sheet .course-program-related nav svg { color: var(--course-gold); }
+.course-presencial-sheet .course-program-closing p,
+.course-presencial-sheet .course-program-related nav small { color: #dce6f0; }
+.course-presencial-sheet .course-program-related nav,
+.course-presencial-sheet .course-program-related nav a { border-color: rgb(255 255 255 / 30%); }
+.course-presencial-sheet .course-program-related nav a:is(:hover, :focus-visible) { background: rgb(255 255 255 / 9%); }
+.course-presencial-sheet .course-program-closing .course-program-text-link { text-decoration-color: var(--course-gold); }
