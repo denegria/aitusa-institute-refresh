@@ -475,7 +475,7 @@ const allCourseRecords = [
           "Adultos practicando una conversación guiada en una clase de inglés.",
         points: [
           "Explicación visual antes de memorizar listas extensas.",
-          "Práctica oral con corrección durante la clase.",
+          "Práctica oral en grupos pequeños con corrección durante la clase.",
           "Docentes bilingües en los niveles básicos y transición progresiva a docentes estadounidenses.",
           "Talleres y tutorías para reforzar dudas y nivelarse.",
         ],
@@ -552,14 +552,14 @@ const allCourseRecords = [
             "No. El examen de ubicación ofrece una recomendación inicial y un asesor confirma contigo el punto de entrada antes de la inscripción.",
         },
         {
-          question: "¿Puedo elegir entre las sedes?",
-          answer:
-            "AIT cuenta con atención en Nueva Jersey. La sede concreta se confirma según tu nivel, horario y el grupo activo.",
-        },
-        {
           question: "¿En qué sede se ofrece el programa?",
           answer:
             "AIT cuenta con atención en Nueva Jersey. La sede concreta del curso se confirma antes de inscribirte porque los grupos pueden variar.",
+        },
+        {
+          question: "¿La inscripción incluye toda la colegiatura?",
+          answer:
+            "No. El registro muestra la cuota de inscripción y los materiales incluidos antes de pagar; no representa el costo total del programa. Confirma la colegiatura y el grupo con admisiones.",
         },
         {
           question: "¿Cuánto tarda completar la ruta?",

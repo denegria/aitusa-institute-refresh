@@ -55,7 +55,69 @@ function externalLinkProps(link) {
   return link?.external ? { target: "_blank", rel: "noreferrer" } : {};
 }
 
+function EnglishPresencialHero({ program, editorial }) {
+  const registration = courseRegistrationAction(program.slug);
+
+  return (
+    <section className="course-program-hero course-program-hero--presencial" aria-labelledby="course-program-title">
+      <div className="course-presencial-stage">
+        <div className="section-inner">
+          <nav className="course-breadcrumb" aria-label="Ruta de navegación">
+            <CatalogReturnLink slug={program.slug} />
+            <i data-lucide="chevron-right" aria-hidden="true" />
+            <span aria-current="page">{program.title}</span>
+          </nav>
+          <div className="course-presencial-stage__layout">
+            <div className="course-presencial-stage__copy">
+              <p className="section-kicker">Inglés en Nueva Jersey</p>
+              <h1 id="course-program-title">{program.title}</h1>
+              <p className="course-program-hero__lead">
+                Para jóvenes y adultos que quieren comprender y conversar en situaciones reales, con práctica cara a cara y guía constante.
+              </p>
+              <dl className="course-presencial-facts" aria-label="Lo esencial de inglés presencial">
+                <div><dt>Modalidad</dt><dd>En sede de Nueva Jersey; admisiones confirma cuál.</dd></div>
+                <div><dt>Horarios</dt><dd>Mañanas y noches lun–jue; fines de semana. <a href="#horarios">Ver todos</a></dd></div>
+                <div><dt>Costo y grupo</dt><dd>Confirma el costo total y el próximo inicio con admisiones.</dd></div>
+              </dl>
+              <div className="course-program-hero__actions">
+                <a className="button button--primary" href={registration.href}>
+                  {registration.label}
+                  <i data-lucide="arrow-right" aria-hidden="true" />
+                </a>
+                <a className="course-program-text-link" href={contactCourseHref(program.slug)}>
+                  Consultar costo y grupo
+                  <i data-lucide="arrow-right" aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+            <figure className="course-program-hero__media">
+              <Image
+                src={editorial.heroImage}
+                alt={editorial.heroImageAlt}
+                width={1448}
+                height={1086}
+                sizes="(max-width: 820px) 100vw, 48vw"
+                priority
+              />
+              <figcaption><span>Aprender en persona</span><strong>Práctica guiada · Nueva Jersey</strong></figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <nav className="course-presencial-chapters section-inner" aria-label="Explorar inglés presencial">
+        <span>En esta página</span>
+        <a href="#horarios">Horarios y requisitos</a>
+        <a href="#resultados">Qué aprenderás</a>
+        <a href="#preguntas">Preguntas frecuentes</a>
+      </nav>
+    </section>
+  );
+}
+
 function CourseHero({ program, editorial }) {
+  if (program.slug === "ingles-jovenes-adultos") {
+    return <EnglishPresencialHero program={program} editorial={editorial} />;
+  }
   const englishProgram = isEnglishProgram(program);
   const registration = courseRegistrationAction(program.slug);
 
@@ -144,9 +206,9 @@ function CourseHero({ program, editorial }) {
   );
 }
 
-function CourseOutcomes({ outcomes, copy = defaultSectionCopy.outcomes }) {
+function CourseOutcomes({ outcomes, copy = defaultSectionCopy.outcomes, id }) {
   return (
-    <section className="course-program-section course-program-outcomes" aria-labelledby="course-outcomes-title">
+    <section className="course-program-section course-program-outcomes" id={id} aria-labelledby="course-outcomes-title">
       <div className="section-inner">
         <header className="course-program-heading section-heading--framed">
           <p className="section-kicker">{copy.eyebrow}</p>
@@ -294,7 +356,7 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
         </div>
         <div className="course-admissions-facts">
           <div><h3>Requisitos para empezar</h3><p>{courseComparison[program.slug].requirements}</p></div>
-          <div><h3>Costo y próximo grupo</h3><p>Solicita el costo total, los materiales incluidos y la próxima fecha disponible antes de inscribirte.</p><a href={contactCourseHref(program.slug)}>Consultar costo y disponibilidad</a></div>
+          <div><h3>Costo y próximo grupo</h3><p>{program.slug === "ingles-jovenes-adultos" ? "El registro desglosa la inscripción y los materiales. Confirma con admisiones la colegiatura total, el grupo y la próxima fecha antes de decidir." : "Solicita el costo total, los materiales incluidos y la próxima fecha disponible antes de inscribirte."}</p><a href={contactCourseHref(program.slug)}>Consultar costo y disponibilidad</a></div>
         </div>
       </div>
     </section>
@@ -435,7 +497,7 @@ export function CourseProgramPage({ program }) {
     <>
       <SiteHeader activePage="courses" />
       <main
-        className="course-program-page"
+        className={`course-program-page${program.slug === "ingles-jovenes-adultos" ? " course-program-page--english-presencial" : ""}`}
         data-course-template={editorial.version}
         data-course-program={program.slug}
         id="main-content"
@@ -448,6 +510,7 @@ export function CourseProgramPage({ program }) {
           <CourseOutcomes
             outcomes={editorial.outcomes}
             copy={editorial.sectionCopy?.outcomes}
+            id={program.slug === "ingles-jovenes-adultos" ? "resultados" : undefined}
           />
         ) : null}
         {editorial.pathway?.length ? (
