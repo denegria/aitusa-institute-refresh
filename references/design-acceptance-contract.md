@@ -1778,6 +1778,12 @@ and closeout evidence are recorded in
 - **Locked content/behavior:** Preserve all four schedule rows and exact times, venue/group caveat, requirements and honest cost copy, three outcomes and three level descriptions, method/photo, Jessica video/access note, six FAQs, related links, `#resultados`, and registration/admissions destinations. Other seven course pages, checkout, CRM, payment, and production stay unchanged.
 - **Responsive/evidence:** Primary 390×844 and 1440×900 CSS viewports; regressions 320×700 and 1024×768. Inspect full-page rhythm and native-size schedule crops, no horizontal overflow/clipped times or browser errors, keyboard/FAQ/CTA behavior, full `npm run validate`, required release-surface gate (separating known homepage overflow), exact-SHA staging readiness and live QA. Send actual review images, not a temporary share URL.
 
+### 2026-09-29 owner palette correction — supersedes bronze above
+
+- **Reference mode:** Faithful palette reference to the existing Register Now (`src/registration.css`) and Orientation (`app/_components/public.module.css`) pages, while their form-specific layout is not a course-page composition reference. Alvaro explicitly rejected the large bronze/gold backgrounds.
+- **Visual direction:** Restrict large surfaces to navy `#001a3d`, Orientation's lifted navy `#0b2b56`, and ivory `#fffdf9`. Use gold `#c4932d` for primary actions and the lighter `#e3b64e` for small labels, rules, and indicators against navy. No solid bronze/gold chapter surfaces or pale yellow blocks. Keep the previously accepted schedule scan and editorial layouts; do not lose content or change conversion routes.
+- **Responsive acceptance:** Compare Register Now, Orientation, and the corrected course page at 390×844 and 1440×900; check full-page color rhythm, readable timetable at 320px, no overflow, all four schedule rows/ten times, six FAQs, and registration preselection. Keep changes scoped to Inglés presencial until this palette is accepted.
+
 ---
 ## 2026-09-28 — Orientation admissions page UX pass
 
