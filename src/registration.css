@@ -266,7 +266,7 @@
   .registration-order__mobile summary > span { display: grid; min-width: 0; gap: 3px; }
   .registration-order__mobile summary strong { font-size: 1rem; }
   .registration-order__mobile summary small { color: #dce6f2; font-size: .75rem; line-height: 1.4; }
-  .registration-order__mobile-total { text-align: right; white-space: nowrap; }
+  .registration-order__mobile-total { flex: 0 0 auto; text-align: right; white-space: nowrap; }
   .registration-order__mobile-total strong { color: var(--site-gold-light); font-size: 1.16rem !important; }
   .registration-order__mobile .registration-order__collapse { display: none; }
   .registration-order__mobile[open] .registration-order__expand { display: none; }
