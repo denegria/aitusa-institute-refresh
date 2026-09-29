@@ -79,21 +79,10 @@ export function CourseCatalog({ initialGroup = allOfferingsKey }) {
           <div className="section-inner">
             <header className="course-catalog__intro">
               <div className="course-catalog__intro-copy">
-                <p className="section-kicker">AIT USA · Cursos</p>
-                <h1 id="catalog-title">Encuentra tu próximo curso.</h1>
-                <p className="course-catalog__lead">Elige un área y compara las opciones que mejor encajan contigo.</p>
-              </div>
-              <div className="course-chooser__help" aria-label="Ayuda para elegir">
-                <p className="section-kicker">¿No sabes cuál elegir?</p>
-                <strong>Te ayudamos a elegir.</strong>
-                <p>Admisiones confirma sede, horario, duración y costo antes de inscribirte.</p>
-                <div className="course-chooser__help-actions">
-                  <CallbackDialog key={activeTab} defaultSubject="" subjectGroup={activeTab} />
-                  <a href={courseInquiryHref(site.whatsappHref, context)} target="_blank" rel="noreferrer">WhatsApp ↗</a>
-                </div>
+                <h1 id="catalog-title">Encuentra tu curso.</h1>
+                <p className="course-catalog__lead">Compara opciones por área, modalidad y objetivo.</p>
               </div>
             </header>
-            <p className="course-chooser__filter-label">Explora por área</p>
             <div className="catalog-tabs" role="tablist" aria-label="Filtrar cursos por objetivo">
               {[{ key: allOfferingsKey, label: "Todos" }, ...catalogChoices].map((choice) => (
                 <button type="button" id={`catalog-tab-${choice.key}`} role="tab"
@@ -107,7 +96,7 @@ export function CourseCatalog({ initialGroup = allOfferingsKey }) {
           </div>
         </div>
         <div className="section-inner course-chooser__body">
-          <p className="catalog-result-count" role="status" aria-live="polite" aria-atomic="true">
+          <p className={`catalog-result-count${activeTab === allOfferingsKey ? " catalog-result-count--default" : ""}`} role="status" aria-live="polite" aria-atomic="true">
             {visibleCount} cursos
           </p>
           <section className="catalog-panel" id="catalog-panel" role="tabpanel" aria-labelledby={`catalog-tab-${activeTab}`} tabIndex={0}>
@@ -130,6 +119,16 @@ export function CourseCatalog({ initialGroup = allOfferingsKey }) {
             </aside>
           ) : null}
           {englishSelected ? <details className="course-chooser__faq"><summary>Preguntas sobre estudiar inglés</summary><FaqList /></details> : null}
+          <div className="course-chooser__support" aria-label="Ayuda para elegir un curso">
+            <div>
+              <p className="section-kicker">¿No sabes cuál elegir?</p>
+              <p>Admisiones te ayuda a confirmar sede, horario, duración y costo antes de inscribirte.</p>
+            </div>
+            <div className="course-chooser__support-actions">
+              <CallbackDialog key={activeTab} defaultSubject="" subjectGroup={activeTab} />
+              <a href={courseInquiryHref(site.whatsappHref, context)} target="_blank" rel="noreferrer">WhatsApp ↗</a>
+            </div>
+          </div>
         </div>
       </section>
     </>
