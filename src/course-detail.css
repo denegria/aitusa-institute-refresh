@@ -290,6 +290,8 @@
 .course-detail-sheet .course-program-related .section-kicker { color: var(--course-gold); }
 .course-detail-sheet .course-program-related h2 { max-width: 650px; color: #fff; font-size: clamp(1.75rem, 2.2vw, 2.15rem); }
 .course-detail-sheet .course-program-related nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; margin-top: 32px; }
+.course-detail-sheet .course-program-related--1 nav { max-width: 500px; grid-template-columns: minmax(0, 1fr); }
+.course-detail-sheet .course-program-related--2 nav { max-width: 900px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .course-detail-sheet .course-program-related nav a,
 .course-detail-sheet .course-program-related nav a:hover,
 .course-detail-sheet .course-program-related nav a:focus-visible { min-height: 90px; padding: 17px 32px 14px 0; border: 0; border-top: 2px solid var(--course-gold); border-radius: 0; background: transparent; }
@@ -303,6 +305,11 @@
 .course-detail-sheet .course-program-closing h2 { color: #fff; font-size: clamp(2.4rem, 3.5vw, 3.4rem); }
 .course-detail-sheet .course-program-closing p { color: #e2eaf3; }
 .course-detail-sheet .course-program-closing__actions { justify-items: start; }
+
+@media (min-width: 821px) {
+  .course-detail-sheet .course-program-related--1 > .section-inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); gap: 50px; align-items: center; }
+  .course-detail-sheet .course-program-related--1 nav { width: 100%; max-width: none; margin-top: 0; }
+}
 
 @media (max-width: 1050px) {
   .course-detail-sheet .course-program-method__layout { gap: 46px; }
@@ -415,6 +422,7 @@
   .course-detail-sheet .course-faq-list details:nth-last-child(2) { border-bottom: 0; }
   .course-detail-sheet .course-faq-list details:last-child { border-bottom: 1px solid var(--course-rule); }
   .course-detail-sheet .course-program-related nav { grid-template-columns: 1fr; gap: 0; margin-top: 24px; }
+  .course-detail-sheet .course-program-related--2 nav { grid-template-columns: 1fr; }
   .course-detail-sheet .course-program-related nav a,
   .course-detail-sheet .course-program-related nav a:hover,
   .course-detail-sheet .course-program-related nav a:focus-visible { min-height: 64px; padding-block: 12px; border-top-width: 1px; }

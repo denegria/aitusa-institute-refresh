@@ -181,6 +181,7 @@ const site = {
     office: "/assets/generated/annotation/courses/computacion-oficina-class.webp",
     repair: asset("089-reparacion-de-computadoras.jpg"),
     spanish: "/assets/generated/annotation/courses/spanish-conversation.webp",
+    spanishMethod: "/assets/generated/espanol-online-metodo-generated.webp",
     ged: asset("products/product-ged.jpg"),
     math: "/assets/generated/annotation/courses/math-class-algebra.webp",
     methodIcons: {
@@ -841,7 +842,7 @@ const allCourseRecords = [
       ],
       closing: {
         eyebrow: "Tu aula puede estar donde estés",
-        title: "Primero ubica tu nivel. Después confirma la hora correcta.",
+        title: "Confirma tu nivel y tu hora.",
         text:
           "Llega a admisiones con una recomendación inicial y tu zona horaria para elegir un grupo online con menos dudas.",
         primaryLabel: "Descubrir mi nivel",
@@ -980,9 +981,9 @@ const allCourseRecords = [
         title: "Aprender una lengua también significa usarla con un propósito.",
         text:
           "La ruta se organiza alrededor de comprensión, vocabulario y práctica para situaciones reales. El grupo y el nivel determinan el ritmo concreto.",
-        image: site.images.spanish,
+        image: site.images.spanishMethod,
         imageAlt:
-          "Profesora y estudiantes adultos practicando conversación en español en el aula.",
+          "Estudiante adulta conversando por videollamada con una instructora desde su computadora.",
         figcaption: "Español online · comprensión y conversación guiada",
         points: [
           "Situaciones relacionadas con estudio, trabajo y vida diaria.",
@@ -1086,7 +1087,7 @@ const allCourseRecords = [
       ],
       closing: {
         eyebrow: "Tu objetivo marca la ruta",
-        title: "Cuéntanos dónde estás y para qué quieres usar el español.",
+        title: "Hablemos de tu objetivo en español.",
         text:
           "Con tu experiencia previa, objetivo y zona horaria, admisiones puede darte una orientación más concreta.",
         primaryLabel: "Consultar español online",
@@ -1367,7 +1368,7 @@ const allCourseRecords = [
       ],
       closing: {
         eyebrow: "Tu siguiente paso",
-        title: "Empieza con una orientación, no con una promesa.",
+        title: "Planifica tu preparación GED.",
         text:
           "Confirma tu punto de inicio, la sede y el bloque disponible. Después verifica por separado los requisitos del examen oficial.",
         primaryLabel: "Consultar preparación GED",
@@ -1622,7 +1623,7 @@ const allCourseRecords = [
       ],
       closing: {
         eyebrow: "Trae el problema concreto",
-        title: "Materia, tema y fecha: esos tres datos aceleran la orientación.",
+        title: "Encuentra apoyo para ese tema.",
         text:
           "Comparte lo que estás estudiando y dónde aparece la dificultad para confirmar modalidad, tutor y horario.",
         primaryLabel: "Consultar una tutoría",
@@ -1773,7 +1774,7 @@ const allCourseRecords = [
         title: "Cada función se entiende mejor cuando resuelve una tarea real.",
         text:
           "La ruta conecta explicaciones básicas con acciones cotidianas: buscar, escribir, guardar, compartir, instalar y mantener orden.",
-        image: site.images.computing,
+        image: site.images.basicComputingMethod,
         imageAlt:
           "Estudiantes adultos practicando tareas básicas de computación en laptops y computadoras.",
         figcaption: "Computación básica · práctica para tareas cotidianas",
@@ -1887,7 +1888,7 @@ const allCourseRecords = [
       ],
       closing: {
         eyebrow: "Empieza por lo que necesitas resolver",
-        title: "Cuéntanos qué equipo usas y qué tarea quieres dominar primero.",
+        title: "Empieza con una tarea útil.",
         text:
           "Esa información ayuda a confirmar el grupo, el bloque y si computación básica es la ruta correcta.",
         primaryLabel: "Consultar computación básica",
@@ -2046,7 +2047,7 @@ const allCourseRecords = [
         title: "No se trata de memorizar menús; se trata de completar un trabajo real.",
         text:
           "Cada módulo conecta funciones del software con documentos, hojas de cálculo o presentaciones que aparecen en oficina, estudio y administración.",
-        image: site.images.office,
+        image: site.images.officeComputingMethod,
         imageAlt:
           "Estudiantes adultos practicando documentos, datos y presentaciones en laptops durante una clase.",
         figcaption: "Computación para oficina · documentos, datos y presentaciones",
@@ -2160,7 +2161,7 @@ const allCourseRecords = [
       ],
       closing: {
         eyebrow: "Elige por el trabajo que necesitas hacer",
-        title: "Documento, hoja de cálculo o presentación: empieza por tu objetivo.",
+        title: "Elige tu próximo módulo.",
         text:
           "Comparte tu nivel y la herramienta que necesitas para confirmar el módulo, el software y el horario correcto.",
         primaryLabel: "Consultar computación para oficina",
@@ -2430,7 +2431,7 @@ const hybridEnglishProgram = {
     ],
     closing: {
       eyebrow: "Tu semana también cuenta",
-      title: "Confirma una combinación que puedas sostener.",
+      title: "Confirma un formato que puedas sostener.",
       text:
         "Llega con tu nivel y tu disponibilidad para revisar qué parte presencial y qué apoyo remoto están activos.",
       primaryLabel: "Descubrir mi nivel",

@@ -484,18 +484,37 @@ function CourseFaq({ faqs, copy = defaultSectionCopy.faq }) {
   );
 }
 
+const relatedCourseSlugs = {
+  "ingles-jovenes-adultos": ["ingles-hibrido-adultos", "ingles-online-adultos"],
+  "ingles-online-adultos": ["ingles-hibrido-adultos", "ingles-jovenes-adultos"],
+  "ingles-hibrido-adultos": ["ingles-jovenes-adultos", "ingles-online-adultos"],
+  "espanol-extranjeros": [],
+  ged: ["tutorias-matematicas"],
+  "tutorias-matematicas": ["ged"],
+  "computacion-basica": ["computacion-oficina"],
+  "computacion-oficina": ["computacion-basica"],
+};
+
+const relatedHeadings = {
+  ged: "Si necesitas reforzar matemáticas.",
+  "tutorias-matematicas": "Si tu meta también es el GED.",
+  "computacion-basica": "Cuando quieras seguir con herramientas de oficina.",
+  "computacion-oficina": "Si necesitas empezar por la base digital.",
+};
+
 function CourseRelated({ program }) {
-  const related = [
-    ...programs.filter((candidate) => candidate.slug !== program.slug && candidate.category === program.category),
-    ...programs.filter((candidate) => candidate.slug !== program.slug && candidate.category !== program.category),
-  ].slice(0, 3);
+  const related = (relatedCourseSlugs[program.slug] || [])
+    .map((slug) => programs.find((candidate) => candidate.slug === slug))
+    .filter(Boolean);
+
+  if (related.length === 0) return null;
 
   return (
-    <aside className="course-program-related" aria-labelledby="course-related-title">
+    <aside className={`course-program-related course-program-related--${related.length}`} aria-labelledby="course-related-title">
       <div className="section-inner">
         <div className="course-program-related__intro">
           <p className="section-kicker">Sigue explorando</p>
-          <h2 id="course-related-title">{program.slug === "ingles-jovenes-adultos" ? "Sigue explorando otras rutas." : "Otras rutas que también puedes comparar."}</h2>
+          <h2 id="course-related-title">{relatedHeadings[program.slug] || "Compara las opciones de inglés."}</h2>
         </div>
         <nav aria-label="Cursos relacionados">
           {related.map((candidate) => (
@@ -513,14 +532,15 @@ function CourseRelated({ program }) {
 
 function CourseClosing({ closing, program }) {
   const registration = courseRegistrationAction(program.slug);
+  const courseCostLabel = program.slug === "ged" ? "la preparación GED" : program.title.toLowerCase();
 
   return (
     <section className="course-program-closing" aria-labelledby="course-closing-title">
       <div className="section-inner course-program-closing__layout">
         <div>
           <p className="section-kicker">{closing.eyebrow}</p>
-          <h2 id="course-closing-title">{program.slug === "ingles-jovenes-adultos" ? "Elige tu próximo paso con claridad." : "Da el siguiente paso."}</h2>
-          <p>Revisa el precio de inscripción antes de pagar. Admisiones puede ayudarte a confirmar el grupo, el horario y el costo total de {program.title.toLowerCase()}.</p>
+          <h2 id="course-closing-title">{program.slug === "ingles-jovenes-adultos" ? "Elige tu próximo paso con claridad." : closing.title}</h2>
+          <p>Revisa el precio de inscripción antes de pagar. Admisiones puede ayudarte a confirmar el grupo, el horario y el costo total de {courseCostLabel}.</p>
         </div>
         <div className="course-program-closing__actions">
           {registration ? <a className="button button--primary" href={registration.href}>
