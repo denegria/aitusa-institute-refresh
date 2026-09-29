@@ -1757,6 +1757,18 @@ and closeout evidence are recorded in
 - **Evidence:** provider-adapter/service/route/component tests; cross-audience and inactive-account checks; full validation/build; browser proof for both sign-in methods, reset, and optional post-placement setup; independent security review; staging provider identity proof; final funnel regression.
 
 ---
+## 2026-09-29 — Inglés presencial middle-section balance — MIS-427
+
+- **Problem/workflow:** A prospective student scanning the schedule, learning outcomes, and levels on mobile should be able to find a viable time and understand the course without three competing display-size headlines or a long run of pale, differently patterned information blocks.
+- **Reference mode:** Inspiration from Alvaro's annotated staged screenshot. Preserve the schedule's successful navy/gold timetable character; correct its headline scale and the adjacent chapters rather than copying the screenshot's proportions.
+- **Interaction model:** A short schedule introduction leads to the unchanged weekday/weekend timetable and admissions facts. A contrasting outcomes chapter explains three practical capabilities; a connected level progression shows where the student starts and advances. The live class photo remains the next proof point.
+- **Visual direction:** Navy/gold/ivory only; one restrained type scale for the practical/academic middle, with the hero and Jessica story retaining display prominence. Different reading forms have a common numbering, rule, spacing, and typographic language. No new cards or decorative blocks solely to fill space.
+- **Locked behavior/content:** All four schedule rows/times, group/sede/level caveats, three outcomes, three level descriptions, placement link, all six FAQs, registration preselection, and other course routes remain. No form, payment, or production change.
+- **Non-goals:** Site-wide typography or template refactor, changing academic claims, hiding details behind accordions, or changing the enrollment flow.
+- **Viewports/content growth:** Primary 390×844 and 1440×900 CSS pixels; regressions 320×700 and 1024×768. Allow longer translated/edited labels and FAQ answers to wrap without horizontal overflow or visual collisions.
+- **Acceptance evidence:** Matching before/after middle-page crops and full-page renders, heading/timetable/level visual inspection, no overflow/broken media/browser errors, interaction checks, `npm run validate`, required release-surface gate, then exact-candidate staging QA before handoff.
+
+---
 ## 2026-09-28 — Orientation admissions page UX pass
 
 - **User workflow/problem:** A visitor reaches `Orientación` via `/contactanos/`, either undecided or carrying a selected course. On mobile, secondary channels and explanatory content precede the request form, making the principal task feel distant.

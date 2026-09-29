@@ -530,6 +530,18 @@ const allCourseRecords = [
           scheduleLabel: "Horarios publicados",
           actionLabel: "Confirmar sede y horario",
         },
+        outcomes: {
+          eyebrow: "Resultados del aprendizaje",
+          title: "Inglés para usarlo con confianza.",
+          text: "Comprender, responder y seguir practicando: tres habilidades que avanzan juntas.",
+        },
+        pathway: {
+          eyebrow: "Ruta por niveles",
+          title: "Empieza en tu nivel. Sigue avanzando.",
+          text: "La evaluación inicial te ayuda a encontrar el punto de partida adecuado.",
+          actionLabel: "Ver mi nivel",
+          actionHref: "/placement-test/",
+        },
       },
       story: {
         eyebrow: "Historia AIT",

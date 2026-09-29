@@ -319,8 +319,8 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
       <div className="section-inner">
         <header className="course-program-heading section-heading--framed">
           <p className="section-kicker">{copy.eyebrow}</p>
-          <h2 id="course-logistics-title">Organiza tu semana y tu inicio.</h2>
-          <p>{copy.text}</p>
+          <h2 id="course-logistics-title">Organiza tu semana.</h2>
+          {program.slug !== "ingles-jovenes-adultos" ? <p>{copy.text}</p> : null}
         </header>
         <div className="course-logistics-layout">
           <div className="course-schedule-panel">
@@ -365,20 +365,22 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
               <i data-lucide="arrow-right" aria-hidden="true" />
             </a>
           </div>
-          <div
-            className="course-format-list"
-            aria-label={copy.formatsLabel || "Modalidades disponibles"}
-          >
-            {editorial.formats.map((format) => (
-              <article key={format.title}>
-                <i data-lucide={format.icon} aria-hidden="true" />
-                <div>
-                  <h3>{format.title}</h3>
-                  <p>{format.text}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+          {program.slug !== "ingles-jovenes-adultos" ? (
+            <div
+              className="course-format-list"
+              aria-label={copy.formatsLabel || "Modalidades disponibles"}
+            >
+              {editorial.formats.map((format) => (
+                <article key={format.title}>
+                  <i data-lucide={format.icon} aria-hidden="true" />
+                  <div>
+                    <h3>{format.title}</h3>
+                    <p>{format.text}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : null}
         </div>
         <div className="course-admissions-facts">
           <div><h3>Requisitos para empezar</h3><p>{courseComparison[program.slug].requirements}</p></div>
