@@ -780,6 +780,18 @@ const allCourseRecords = [
       logisticsNote:
         "Los horarios se publican en hora de Nueva Jersey. Admisiones confirma la conversión a tu zona horaria, el nivel y el grupo activo antes de la inscripción.",
       sectionCopy: {
+        outcomes: {
+          eyebrow: "Resultados del aprendizaje",
+          title: "Habla con más confianza.",
+          text: "Comprensión, conversación y práctica en vivo forman una rutina que puedes sostener desde tu país.",
+        },
+        pathway: {
+          eyebrow: "Ruta por niveles",
+          title: "Avanza desde tu nivel.",
+          text: "La evaluación inicial orienta el punto de entrada; admisiones confirma el grupo disponible.",
+          actionLabel: "Ver mi nivel",
+          actionHref: "/placement-test/",
+        },
         logistics: {
           eyebrow: "Experiencia online y horarios",
           title: "Una clase remota debe sentirse presente, no grabada.",
@@ -788,6 +800,11 @@ const allCourseRecords = [
           formatsLabel: "Claves de la experiencia online",
           scheduleLabel: "Hora de Nueva Jersey",
           actionLabel: "Confirmar mi zona horaria",
+        },
+        faq: {
+          eyebrow: "Antes de inscribirte",
+          title: "Lo que necesitas saber.",
+          text: "Confirma con admisiones el grupo, tu zona horaria y el próximo inicio antes de registrarte.",
         },
       },
       faqs: [
@@ -2350,14 +2367,14 @@ const hybridEnglishProgram = {
     sectionCopy: {
       outcomes: {
         eyebrow: "Flexibilidad con dirección",
-        title: "La modalidad debe adaptarse a tu semana sin perder el hilo.",
+        title: "Practica sin perder el hilo.",
         text:
           "El programa conecta encuentros, apoyo remoto y seguimiento para que puedas sostener la práctica.",
       },
       pathway: {
         id: "ruta-hibrida",
         eyebrow: "Ruta por niveles",
-        title: "El punto de entrada sigue siendo académico, aunque cambie el espacio.",
+        title: "Una ruta de tres niveles.",
         text:
           "La evaluación inicial orienta el nivel y admisiones confirma qué combinación está disponible para tu grupo.",
         actionLabel: "Ver mi nivel",
@@ -2374,7 +2391,7 @@ const hybridEnglishProgram = {
       },
       faq: {
         eyebrow: "Antes de inscribirte",
-        title: "Respuestas para elegir una ruta híbrida con menos dudas.",
+        title: "Antes de combinar formatos.",
         text:
           "Admisiones puede confirmar qué encuentros, apoyo remoto y bloques corresponden al grupo activo.",
       },

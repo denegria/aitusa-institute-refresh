@@ -1,5 +1,15 @@
 # AIT USA Authenticated Portal Payments — MIS-420
 
+## 2026-09-29 — English online/hybrid detail system — MIS-427
+
+- **Job/model:** Extend the accepted Inglés presencial visual grammar to Inglés online and Inglés híbrido: focused navy/photo decision hero, compact navigation, one full-width ruled timetable, connected navy academic chapters, light photo-led method and FAQ, lifted-navy related routes, and a single navy enrollment close. The two new pages share visual rules but retain their own published claims and caveats.
+- **Visual reference:** The staged presencial page at `4a447bb` is the internal reference (inspiration, not identical content). Register Now/Orientation own the navy `#001a3d`, lifted navy `#0b2b56`, ivory `#fffdf9`, restrained gold accents. No bronze/yellow fills, oversized heading rails, repeated blocks, or chips.
+- **Schedule contract:** Unlike presencial, online/hybrid publish *complete class ranges*. Show three labeled rows under a clear `Lunes a jueves` / `Sábados` hierarchy; never relabel them as start times. Preserve seven exact ranges. Online explicitly identifies New Jersey time and requires timezone conversion confirmation. Hybrid explicitly calls these reference blocks and requires confirmation of venue, alternation, group, and current schedule; do not imply a freely selectable in-person day.
+- **Locked truth/behavior:** Preserve each page's specific audience, live/remote or hybrid guidance, three outcomes, three levels, method/photo, six FAQs, related links, initial assessment, honest cost/availability caveat, WhatsApp/admissions actions, and Inglés/Online or Inglés/Híbrido registration preselection. Presencial and non-English pages must not visually change. Production, checkout, payment, and CRM are out of scope.
+- **Responsive/evidence:** Primary 390×844 and 1440×900; regressions 320×700 and 1024×768. Plain-text ranges must remain in order and legible at narrow widths with no horizontal overflow. Compare baseline/candidate full-page and middle captures, exact schedule strings, media, anchors, FAQ, CTA preselection, console, build/tests, and required release-surface gate. Stage exact SHA and verify deployment/route where access permits. No temporary share link to Alvaro.
+
+---
+
 ## 2026-09-29 — Inglés presencial final density pass — MIS-427
 
 - **Problem/job:** Alvaro accepts the newer cohesive section system but the mobile timetable still spends too much height on widely spaced hours. A visitor should see all weekday and weekend options at a glance without losing the distinction between start times and complete class ranges.

@@ -55,29 +55,42 @@ function externalLinkProps(link) {
   return link?.external ? { target: "_blank", rel: "noreferrer" } : {};
 }
 
-function EnglishPresencialHero({ program, editorial }) {
+function EnglishCourseHero({ program, editorial }) {
   const registration = courseRegistrationAction(program.slug);
+  const presencial = program.slug === "ingles-jovenes-adultos";
+  const online = program.slug === "ingles-online-adultos";
+  const facts = presencial ? [
+    ["Modalidad", "En sede de Nueva Jersey; admisiones confirma cuál."],
+    ["Horarios", "Mañanas y noches lun–jue; fines de semana."],
+    ["Costo y grupo", "Confirma el costo total y el próximo inicio con admisiones."],
+  ] : online ? [
+    ["Modalidad", "100% online y en vivo, desde fuera de Estados Unidos."],
+    ["Horarios", "Bloques en hora de Nueva Jersey; confirma la conversión a tu zona."],
+    ["Nivel y grupo", "La evaluación inicial orienta tu nivel; admisiones confirma el grupo."],
+  ] : [
+    ["Modalidad", "Encuentros presenciales con apoyo remoto, según el grupo activo."],
+    ["Horarios", "Bloques de referencia; confirma sede, alternancia y horario vigente."],
+    ["Nivel y grupo", "La evaluación inicial orienta tu nivel; admisiones confirma la combinación."],
+  ];
 
   return (
-    <section className="course-program-hero course-program-hero--presencial" aria-labelledby="course-program-title">
-      <div className="course-presencial-stage">
+    <section className="course-program-hero course-program-hero--english" aria-labelledby="course-program-title">
+      <div className="course-english-stage">
         <div className="section-inner">
           <nav className="course-breadcrumb" aria-label="Ruta de navegación">
             <CatalogReturnLink slug={program.slug} />
             <i data-lucide="chevron-right" aria-hidden="true" />
             <span aria-current="page">{program.title}</span>
           </nav>
-          <div className="course-presencial-stage__layout">
-            <div className="course-presencial-stage__copy">
-              <p className="section-kicker">Inglés en Nueva Jersey</p>
+          <div className="course-english-stage__layout">
+            <div className="course-english-stage__copy">
+              <p className="section-kicker">{presencial ? "Inglés en Nueva Jersey" : editorial.eyebrow}</p>
               <h1 id="course-program-title">{program.title}</h1>
               <p className="course-program-hero__lead">
-                Para jóvenes y adultos que quieren comprender y conversar en situaciones reales, con práctica cara a cara y guía constante.
+                {presencial ? "Para jóvenes y adultos que quieren comprender y conversar en situaciones reales, con práctica cara a cara y guía constante." : editorial.lead}
               </p>
-              <dl className="course-presencial-facts" aria-label="Lo esencial de inglés presencial">
-                <div><dt>Modalidad</dt><dd>En sede de Nueva Jersey; admisiones confirma cuál.</dd></div>
-                <div><dt>Horarios</dt><dd>Mañanas y noches lun–jue; fines de semana. <a href="#horarios">Ver todos</a></dd></div>
-                <div><dt>Costo y grupo</dt><dd>Confirma el costo total y el próximo inicio con admisiones.</dd></div>
+              <dl className="course-english-facts" aria-label={`Lo esencial de ${program.title}`}>
+                {facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value} {label === "Horarios" ? <a href="#horarios">Ver todos</a> : null}</dd></div>)}
               </dl>
               <div className="course-program-hero__actions">
                 <a className="button button--primary" href={registration.href}>
@@ -85,7 +98,7 @@ function EnglishPresencialHero({ program, editorial }) {
                   <i data-lucide="arrow-right" aria-hidden="true" />
                 </a>
                 <a className="course-program-text-link" href={contactCourseHref(program.slug)}>
-                  Consultar costo y grupo
+                  {presencial ? "Consultar costo y grupo" : "Preguntar a admisiones"}
                   <i data-lucide="arrow-right" aria-hidden="true" />
                 </a>
               </div>
@@ -99,7 +112,7 @@ function EnglishPresencialHero({ program, editorial }) {
                 sizes="(max-width: 820px) 100vw, 48vw"
                 priority
               />
-              <figcaption><span>Aprender en persona</span><strong>Práctica guiada · Nueva Jersey</strong></figcaption>
+              <figcaption><span>{presencial ? "Aprender en persona" : online ? "Clase en vivo" : "Ruta combinada"}</span><strong>{presencial ? "Práctica guiada · Nueva Jersey" : online ? "Profesor y grupo · online" : "Encuentros y apoyo remoto"}</strong></figcaption>
             </figure>
           </div>
         </div>
@@ -108,9 +121,9 @@ function EnglishPresencialHero({ program, editorial }) {
   );
 }
 
-function EnglishPresencialChapters() {
+function EnglishCourseChapters({ program }) {
   return (
-    <nav className="course-presencial-chapters section-inner" aria-label="Explorar inglés presencial">
+    <nav className="course-english-chapters section-inner" aria-label={`Explorar ${program.title}`}>
       <span>En esta página</span>
       <a href="#horarios">Horarios y requisitos</a>
       <a href="#resultados">Qué aprenderás</a>
@@ -120,10 +133,9 @@ function EnglishPresencialChapters() {
 }
 
 function CourseHero({ program, editorial }) {
-  if (program.slug === "ingles-jovenes-adultos") {
-    return <EnglishPresencialHero program={program} editorial={editorial} />;
+  if (isEnglishProgram(program)) {
+    return <EnglishCourseHero program={program} editorial={editorial} />;
   }
-  const englishProgram = isEnglishProgram(program);
   const registration = courseRegistrationAction(program.slug);
 
   return (
@@ -171,9 +183,6 @@ function CourseHero({ program, editorial }) {
             <a href="#preguntas">Preguntas frecuentes</a>
           </nav>
           <CourseQuickFacts slug={program.slug} />
-          {englishProgram ? (
-            <p className="course-assessment-option"><a href={conversionCtas.placement.href}>Explorar mi nivel de inglés</a><span>Opcional antes de consultar · 62 preguntas · 10–15 minutos.</span></p>
-          ) : null}
           {program.slug === "espanol-extranjeros" ? (
             <details className="course-language-summary" lang="en">
               <summary>New to Spanish? Read the English overview</summary>
@@ -313,39 +322,46 @@ function CourseMethod({ method }) {
   );
 }
 
-function scheduleInquiryHref(title) {
+function scheduleInquiryHref(program) {
   const url = new URL(site.whatsappHref);
-  url.searchParams.set("text", `Hola AIT USA, quiero confirmar sede, horarios y próximo grupo disponible para ${title}. ¿Me pueden orientar también sobre el costo total?`);
+  const details = program.slug === "ingles-online-adultos"
+    ? "mi zona horaria, el horario y el próximo grupo disponible"
+    : program.slug === "ingles-hibrido-adultos"
+      ? "la sede, la alternancia presencial/remota, el horario y el próximo grupo disponible"
+      : "sede, horarios y próximo grupo disponible";
+  url.searchParams.set("text", `Hola AIT USA, quiero confirmar ${details} para ${program.title}. ¿Me pueden orientar también sobre el costo total?`);
   return url.toString();
 }
 
 function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logistics }) {
+  const english = isEnglishProgram(program);
+  const presencial = program.slug === "ingles-jovenes-adultos";
   return (
     <section className="course-program-section course-program-logistics" id="horarios" aria-labelledby="course-logistics-title">
       <div className="section-inner">
         <header className="course-program-heading section-heading--framed">
           <p className="section-kicker">{copy.eyebrow}</p>
-          <h2 id="course-logistics-title">{program.slug === "ingles-jovenes-adultos" ? "Horarios de clase." : "Organiza tu semana."}</h2>
-          {program.slug !== "ingles-jovenes-adultos" ? <p>{copy.text}</p> : null}
+          <h2 id="course-logistics-title">{presencial ? "Horarios de clase." : program.slug === "ingles-online-adultos" ? "Horarios en Nueva Jersey." : english ? "Bloques de referencia." : "Organiza tu semana."}</h2>
+          {!english ? <p>{copy.text}</p> : null}
         </header>
         <div className="course-logistics-layout">
           <div className="course-schedule-panel">
-            {program.slug !== "ingles-jovenes-adultos" ? (
+            {!english ? (
               <p className="course-schedule-panel__label">{copy.scheduleLabel}</p>
             ) : null}
-            {program.slug === "ingles-jovenes-adultos" ? (
-              <div className="course-presencial-timetable" aria-label="Horarios publicados de inglés presencial">
-                <section className="course-presencial-timetable__group" aria-labelledby="course-weekday-title">
-                  <header className="course-presencial-timetable__heading">
+            {presencial ? (
+              <div className="course-english-timetable" aria-label="Horarios publicados de inglés presencial">
+                <section className="course-english-timetable__group" aria-labelledby="course-weekday-title">
+                  <header className="course-english-timetable__heading">
                     <h3 id="course-weekday-title">Lunes a jueves</h3>
                     <p>Inicios de clase</p>
                   </header>
-                  <dl className="course-presencial-timetable__rows">
+                  <dl className="course-english-timetable__rows">
                     {editorial.schedule.slice(0, 2).map((group, index) => (
                       <div key={group.label}>
                         <dt>{index === 0 ? "Mañana" : "Noche"}</dt>
                         <dd>
-                          <ul className="course-presencial-times">
+                          <ul className="course-english-times">
                             {group.times.map((time) => <li key={time}>{time}</li>)}
                           </ul>
                         </dd>
@@ -353,22 +369,51 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
                     ))}
                   </dl>
                 </section>
-                <section className="course-presencial-timetable__group" aria-labelledby="course-weekend-title">
-                  <header className="course-presencial-timetable__heading">
+                <section className="course-english-timetable__group" aria-labelledby="course-weekend-title">
+                  <header className="course-english-timetable__heading">
                     <h3 id="course-weekend-title">Fin de semana</h3>
                     <p>Clases completas</p>
                   </header>
-                  <dl className="course-presencial-timetable__rows">
+                  <dl className="course-english-timetable__rows">
                     {editorial.schedule.slice(2).map((group) => (
                       <div key={group.label}>
                         <dt>{group.label}</dt>
                         <dd>
-                          <ul className="course-presencial-times">
+                          <ul className="course-english-times">
                             {group.times.map((time) => <li key={time}>{time}</li>)}
                           </ul>
                         </dd>
                       </div>
                     ))}
+                  </dl>
+                </section>
+              </div>
+            ) : english ? (
+              <div className="course-english-timetable course-english-timetable--ranges" aria-label={`Bloques publicados de ${program.title}`}>
+                <section className="course-english-timetable__group" aria-labelledby="course-weekday-title">
+                  <header className="course-english-timetable__heading">
+                    <h3 id="course-weekday-title">Lunes a jueves</h3>
+                    <p>Bloques completos</p>
+                  </header>
+                  <dl className="course-english-timetable__rows">
+                    {editorial.schedule.slice(0, 2).map((group, index) => (
+                      <div key={group.label}>
+                        <dt>{index === 0 ? "Mañana" : "Noche"}</dt>
+                        <dd><ul className="course-english-times">{group.times.map((time) => <li key={time}>{time}</li>)}</ul></dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
+                <section className="course-english-timetable__group" aria-labelledby="course-weekend-title">
+                  <header className="course-english-timetable__heading">
+                    <h3 id="course-weekend-title">Fin de semana</h3>
+                    <p>Bloques completos</p>
+                  </header>
+                  <dl className="course-english-timetable__rows">
+                    <div>
+                      <dt>Sábados</dt>
+                      <dd><ul className="course-english-times">{editorial.schedule[2].times.map((time) => <li key={time}>{time}</li>)}</ul></dd>
+                    </div>
                   </dl>
                 </section>
               </div>
@@ -383,7 +428,7 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
               </dl>
             )}
             <p className="course-schedule-panel__note">{editorial.logisticsNote}</p>
-            {program.slug !== "ingles-jovenes-adultos" ? (
+            {!english ? (
               <a
                 className="course-program-text-link"
                 href={courseInquiryHref(site.whatsappHref, program.title)}
@@ -395,7 +440,7 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
               </a>
             ) : null}
           </div>
-          {program.slug !== "ingles-jovenes-adultos" ? (
+          {!english ? (
             <div
               className="course-format-list"
               aria-label={copy.formatsLabel || "Modalidades disponibles"}
@@ -412,18 +457,18 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
             </div>
           ) : null}
         </div>
-        {program.slug === "ingles-jovenes-adultos" ? (
-          <aside className="course-presencial-decision" aria-labelledby="course-decision-title">
+        {english ? (
+          <aside className="course-english-decision" aria-labelledby="course-decision-title">
             <div>
               <p className="section-kicker">Antes de inscribirte</p>
               <h3 id="course-decision-title">Confirma tu nivel, costo y grupo.</h3>
             </div>
             <div>
               <p>{courseComparison[program.slug].requirements}</p>
-              <p>El registro desglosa inscripción y materiales. Confirma colegiatura total, grupo y próxima fecha con admisiones.</p>
-              <div className="course-presencial-decision__actions">
+              <p>{presencial ? "El registro desglosa inscripción y materiales. Confirma colegiatura total, grupo y próxima fecha con admisiones." : "Confirma el costo total, los materiales incluidos y la próxima fecha disponible con admisiones antes de inscribirte."}</p>
+              <div className="course-english-decision__actions">
                 <a href={contactCourseHref(program.slug)}>Consultar costo y disponibilidad</a>
-                <a href={scheduleInquiryHref(program.title)} target="_blank" rel="noreferrer">Confirmar horario por WhatsApp</a>
+                <a href={scheduleInquiryHref(program)} target="_blank" rel="noreferrer">Confirmar horario por WhatsApp</a>
               </div>
             </div>
           </aside>
@@ -564,6 +609,7 @@ function CourseClosing({ closing, program }) {
 
 export function CourseProgramPage({ program }) {
   const editorial = program.editorial;
+  const english = isEnglishProgram(program);
   const isEnglishPresencial = program.slug === "ingles-jovenes-adultos";
   const pathwayCopy =
     editorial.sectionCopy?.pathway ||
@@ -579,7 +625,7 @@ export function CourseProgramPage({ program }) {
         <CourseOutcomes
           outcomes={editorial.outcomes}
           copy={editorial.sectionCopy?.outcomes}
-          id={isEnglishPresencial ? "resultados" : undefined}
+          id={english ? "resultados" : undefined}
         />
       ) : null}
       {editorial.pathway?.length ? (
@@ -599,15 +645,15 @@ export function CourseProgramPage({ program }) {
     <>
       <SiteHeader activePage="courses" />
       <main
-        className={`course-program-page${isEnglishPresencial ? " course-program-page--english-presencial" : ""}`}
+        className={`course-program-page${english ? " course-program-page--english-detail" : ""}`}
         data-course-template={editorial.version}
         data-course-program={program.slug}
         id="main-content"
       >
         <CourseHero program={program} editorial={editorial} />
-        {isEnglishPresencial ? (
-          <div className="course-presencial-sheet">
-            <EnglishPresencialChapters />
+        {english ? (
+          <div className="course-english-sheet">
+            <EnglishCourseChapters program={program} />
             {courseChapters}
           </div>
         ) : courseChapters}
