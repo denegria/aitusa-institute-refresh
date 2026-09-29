@@ -280,7 +280,7 @@ try {
       if (surface.name === "course-office") {
         const readingOrder = await evaluate(`(() => ({
           title:document.querySelector('#course-program-title').getBoundingClientRect().top,
-          facts:document.querySelector('.course-quick-facts').getBoundingClientRect().top
+          facts:document.querySelector('.course-detail-facts').getBoundingClientRect().top
         }))()`);
         if (readingOrder.facts <= readingOrder.title) throw new Error("Course facts appear before the course title.");
         await evaluate(`document.querySelector('.course-program-hero__actions a[href*="contactanos"]').click()`);

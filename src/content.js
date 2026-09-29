@@ -1022,14 +1022,14 @@ const allCourseRecords = [
       sectionCopy: {
         outcomes: {
           eyebrow: "Comunicación útil",
-          title: "Practica el español que necesitas usar fuera de clase.",
+          title: "Español para usar cada día.",
           text:
             "La ruta prioriza comprensión y respuesta en contextos cotidianos, académicos y laborales.",
         },
         pathway: {
           id: "ruta-espanol",
           eyebrow: "Ruta de aprendizaje",
-          title: "Tu objetivo y experiencia previa definen dónde empezar.",
+          title: "Empieza desde tu objetivo.",
           text:
             "Tu ruta depende del nivel inicial, la frecuencia y tus objetivos. Confirma el punto de partida antes de comenzar; la duración y el nivel final no están garantizados.",
           actionLabel: "Consultar mi punto de partida",
@@ -1047,7 +1047,7 @@ const allCourseRecords = [
         },
         faq: {
           eyebrow: "Antes de empezar",
-          title: "Lo que conviene confirmar para una ruta online.",
+          title: "Antes de empezar online.",
           text:
             "Una conversación breve con admisiones aclara nivel, meta, horario y tecnología necesaria.",
         },
@@ -1301,14 +1301,14 @@ const allCourseRecords = [
       sectionCopy: {
         outcomes: {
           eyebrow: "Una meta, sin atajos confusos",
-          title: "Prepararte mejor empieza por separar estudio, examen y diploma.",
+          title: "Prepárate con claridad.",
           text:
             "AIT acompaña la preparación académica. La aprobación depende de cumplir los requisitos y puntajes del examen oficial.",
         },
         pathway: {
           id: "areas",
           eyebrow: "Cuatro áreas del examen",
-          title: "Una preparación completa necesita cubrir más que matemáticas.",
+          title: "Cuatro áreas, una ruta.",
           text:
             "El GED actual se divide en cuatro evaluaciones. Tu punto de partida ayuda a decidir dónde concentrar más práctica.",
           actionLabel: "Consultar mi punto de inicio",
@@ -1328,7 +1328,7 @@ const allCourseRecords = [
         },
         faq: {
           eyebrow: "Antes de empezar",
-          title: "Lo que AIT prepara y lo que debes gestionar oficialmente.",
+          title: "Preparación y examen oficial.",
           text:
             "La preparación académica es una parte del proceso. Elegibilidad, registro, examen y diploma siguen las reglas oficiales de GED y Nueva Jersey.",
         },
@@ -1558,14 +1558,14 @@ const allCourseRecords = [
       sectionCopy: {
         outcomes: {
           eyebrow: "Refuerzo con foco",
-          title: "Menos repaso genérico; más claridad sobre el tema que te detiene.",
+          title: "Desbloquea el tema.",
           text:
             "La tutoría organiza diagnóstico, explicación y práctica alrededor de una necesidad académica concreta.",
         },
         pathway: {
           id: "proceso-tutoria",
           eyebrow: "Cómo se coordina",
-          title: "Llegar con contexto permite aprovechar mejor la sesión.",
+          title: "Trae el problema concreto.",
           text:
             "Comparte el curso, el tema, el material y cualquier fecha importante antes de confirmar.",
           actionLabel: "Explicar lo que necesito",
@@ -1583,7 +1583,7 @@ const allCourseRecords = [
         },
         faq: {
           eyebrow: "Antes de reservar",
-          title: "La información que ayuda a coordinar una tutoría útil.",
+          title: "Antes de coordinar.",
           text:
             "Materia, nivel, tema y fecha objetivo permiten confirmar si AIT puede atender el caso.",
         },
@@ -1823,14 +1823,14 @@ const allCourseRecords = [
       sectionCopy: {
         outcomes: {
           eyebrow: "Habilidades funcionales",
-          title: "La meta es depender menos de otra persona para tareas digitales básicas.",
+          title: "Más autonomía digital.",
           text:
             "Navegación, archivos y programas se practican alrededor de acciones que aparecen en la vida diaria.",
         },
         pathway: {
           id: "modulos-computacion-basica",
           eyebrow: "Ruta de práctica",
-          title: "Primero entiende el equipo; después amplía lo que puedes hacer con él.",
+          title: "De lo esencial a lo cotidiano.",
           text:
             "El contenido concreto se ajusta al sistema operativo y al punto de partida del grupo.",
           actionLabel: "Consultar mi punto de inicio",
@@ -1848,7 +1848,7 @@ const allCourseRecords = [
         },
         faq: {
           eyebrow: "Antes de comenzar",
-          title: "Respuestas para quien está empezando desde cero.",
+          title: "Antes de comenzar.",
           text:
             "Admisiones puede confirmar equipo, sistema, sede o modalidad, horario y punto de inicio.",
         },
@@ -2096,14 +2096,14 @@ const allCourseRecords = [
       sectionCopy: {
         outcomes: {
           eyebrow: "Trabajo visible",
-          title: "Cada herramienta debe terminar en algo que puedas usar.",
+          title: "Crea trabajo que puedas usar.",
           text:
             "La ruta convierte funciones de oficina en documentos, análisis y presentaciones concretas.",
         },
         pathway: {
           id: "modulos-oficina",
           eyebrow: "Tres módulos",
-          title: "Documentos, datos y presentaciones requieren habilidades distintas.",
+          title: "Tres herramientas, tres módulos.",
           text:
             "Admisiones puede orientar si conviene comenzar con computación básica o entrar directamente a un módulo de oficina.",
           actionLabel: "Consultar el módulo adecuado",
@@ -2121,7 +2121,7 @@ const allCourseRecords = [
         },
         faq: {
           eyebrow: "Antes de inscribirte",
-          title: "Lo que conviene saber sobre módulos, software y duración.",
+          title: "Antes de elegir módulo.",
           text:
             "Admisiones puede confirmar el punto de entrada, la versión del software, el equipo y el bloque vigente.",
         },

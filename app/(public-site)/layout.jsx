@@ -1,7 +1,7 @@
 import "../../src/styles.css";
 import "../../src/course-discovery.css";
 import "../../src/public-conversion.css";
-import "../../src/course-english-detail.css";
+import "../../src/course-detail.css";
 import "../../src/homepage.css";
 import "../../src/approved-hero.css";
 import "../../src/registration.css";
