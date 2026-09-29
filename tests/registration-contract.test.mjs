@@ -4,6 +4,8 @@ import { describe, it } from "node:test";
 import {
   assertPublicRegistrationSubmission,
   isPricedRegistrationChoice,
+  migrateUnsubmittedSpanishDraft,
+  needsLegacySpanishDraftReconciliation,
   normalizeRegistrationInput,
   programCodeForContext,
   registrationSelectionForContext,
@@ -20,6 +22,7 @@ describe("MIS-421 public registration contract", () => {
   it("preserves course-link format and US pricing for every offered course", () => {
     assert.deepEqual(registrationSelectionForContext("ingles-online-adultos"), { programCode: "english_program", learningModality: "online" });
     assert.deepEqual(registrationSelectionForContext("ingles-hibrido-adultos"), { programCode: "english_program", learningModality: "hybrid" });
+    assert.deepEqual(registrationSelectionForContext("espanol-extranjeros"), { programCode: "espanol-extranjeros", learningModality: "online" });
     assert.deepEqual(registrationSelectionForContext("ged"), { programCode: "ged", learningModality: "in_person" });
     assert.equal(isPricedRegistrationChoice("english_program", "in_person"), true);
     assert.equal(isPricedRegistrationChoice("english_program", "online"), true);
@@ -27,11 +30,30 @@ describe("MIS-421 public registration contract", () => {
     assert.equal(isPricedRegistrationChoice("english_program", "in_person", "CO"), false);
     assert.equal(isPricedRegistrationChoice("english_program", "hybrid", "CO"), false);
     assert.equal(isPricedRegistrationChoice("english_program", "online", "CO"), true);
-    for (const course of ["ged", "espanol-extranjeros", "tutorias-matematicas", "computacion-basica", "computacion-oficina"]) {
+    assert.equal(isPricedRegistrationChoice("espanol-extranjeros", "online", "US"), true);
+    assert.equal(isPricedRegistrationChoice("espanol-extranjeros", "online", "CO"), false);
+    assert.equal(isPricedRegistrationChoice("espanol-extranjeros", "in_person", "US"), false);
+    for (const course of ["ged", "tutorias-matematicas", "computacion-basica", "computacion-oficina"]) {
       assert.equal(isPricedRegistrationChoice(course, "in_person", "US"), true, course);
       assert.equal(isPricedRegistrationChoice(course, "in_person", "CO"), false, course);
       assert.equal(isPricedRegistrationChoice(course, "online", "US"), false, course);
     }
+  });
+
+  it("reconciles old Spanish pickup drafts before replacing a payable checkout key", () => {
+    const draft = { entryContext: "general", programCode: "espanol-extranjeros", learningModality: "in_person", idempotencyKey: "public:old-key" };
+    assert.equal(needsLegacySpanishDraftReconciliation(draft), true);
+    assert.equal(needsLegacySpanishDraftReconciliation({ ...draft, entryContext: "espanol-extranjeros" }), true);
+    assert.equal(needsLegacySpanishDraftReconciliation({ ...draft, idempotencyKey: "" }), false);
+    assert.equal(needsLegacySpanishDraftReconciliation({ ...draft, learningModality: "online" }), false);
+    assert.equal(needsLegacySpanishDraftReconciliation({ ...draft, programCode: "ged" }), false);
+    const restored = { programCode: "espanol-extranjeros", learningModality: "online", idempotencyKey: "public:new-random", step: 2 };
+    const firstTab = migrateUnsubmittedSpanishDraft(restored, draft);
+    const secondTab = migrateUnsubmittedSpanishDraft({ ...restored, idempotencyKey: "public:other-random" }, draft);
+    assert.equal(firstTab.idempotencyKey, draft.idempotencyKey);
+    assert.equal(secondTab.idempotencyKey, draft.idempotencyKey);
+    assert.equal(firstTab.learningModality, "online");
+    assert.equal(firstTab.step, 1);
   });
 
   it("normalizes identities and never accepts browser CRM contact references", () => {

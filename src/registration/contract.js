@@ -5,8 +5,28 @@ export const ENGLISH_PROGRAM_SLUGS = Object.freeze(new Set([
   "ingles-hibrido-adultos",
 ]));
 export const US_PUBLIC_PROGRAM_CODES = Object.freeze(new Set([
-  "espanol-extranjeros", "ged", "tutorias-matematicas", "computacion-basica", "computacion-oficina",
+  "ged", "tutorias-matematicas", "computacion-basica", "computacion-oficina",
 ]));
+export const SPANISH_ONLINE_PROGRAM_CODE = "espanol-extranjeros";
+
+export function needsLegacySpanishDraftReconciliation(saved) {
+  return saved?.programCode === SPANISH_ONLINE_PROGRAM_CODE
+    && saved?.learningModality === "in_person" && Boolean(saved?.idempotencyKey);
+}
+
+export function migrateUnsubmittedSpanishDraft(restored, saved) {
+  return {
+    ...restored,
+    programCode: SPANISH_ONLINE_PROGRAM_CODE,
+    learningModality: "online",
+    residenceCountryCode: "US",
+    billingCountryCode: "US",
+    includeTuitionPrepayment: false,
+    step: 1,
+    // Reuse the original identity so simultaneous tabs cannot create two payable requests.
+    idempotencyKey: saved.idempotencyKey,
+  };
+}
 
 export class RegistrationExperienceError extends Error {
   constructor(code, status = 400, message = "No pudimos continuar con la inscripción.") {
@@ -38,7 +58,7 @@ export function registrationSelectionForContext(value) {
   const context = String(value || "english_program").trim().toLowerCase();
   return {
     programCode: programCodeForContext(context),
-    learningModality: context === "ingles-online-adultos" ? "online"
+    learningModality: context === "ingles-online-adultos" || context === SPANISH_ONLINE_PROGRAM_CODE ? "online"
       : context === "ingles-hibrido-adultos" ? "hybrid" : "in_person",
   };
 }
@@ -48,6 +68,7 @@ export function isPricedRegistrationChoice(programCode, learningModality, reside
   if (programCode === "english_program") {
     return learningModality === "online" || (["in_person", "hybrid"].includes(learningModality) && isUs);
   }
+  if (programCode === SPANISH_ONLINE_PROGRAM_CODE) return learningModality === "online" && isUs;
   return US_PUBLIC_PROGRAM_CODES.has(programCode) && learningModality === "in_person" && isUs;
 }
 

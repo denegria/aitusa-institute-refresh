@@ -139,6 +139,7 @@
 .registration-field-grid--route.is-online { grid-template-columns: 1.12fr 1fr .88fr; }
 .registration-field-grid--route.is-dual { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .registration-field-grid--route.is-single { grid-template-columns: 1fr; }
+.registration-route-note { margin: 12px 0 0; color: var(--site-muted); font-size: .9rem; line-height: 1.5; }
 
 .registration-field-grid label {
   display: grid;

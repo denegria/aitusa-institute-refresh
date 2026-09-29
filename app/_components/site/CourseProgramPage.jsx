@@ -5,6 +5,7 @@ import { CourseQuickFacts } from "./CourseQuickFacts";
 import { CatalogReturnLink } from "./CatalogReturnLink";
 import { contactCourseHref } from "../../../src/admissions.js";
 import { courseComparison, courseInquiryHref } from "../../../src/courseDiscovery.js";
+import { courseRegistrationAction } from "../../../src/courseRegistration.js";
 
 const defaultSectionCopy = {
   outcomes: {
@@ -56,6 +57,7 @@ function externalLinkProps(link) {
 
 function CourseHero({ program, editorial }) {
   const englishProgram = isEnglishProgram(program);
+  const registration = courseRegistrationAction(program.slug);
 
   return (
     <section className="course-program-hero" aria-labelledby="course-program-title">
@@ -70,17 +72,17 @@ function CourseHero({ program, editorial }) {
           <h1 id="course-program-title">{program.title}</h1>
           <p className="course-program-hero__lead">{editorial.lead}</p>
           <div className="course-program-hero__actions">
-            {englishProgram ? (
-              <a className="button button--primary" href={`/inscribete/?curso=${encodeURIComponent(program.slug)}`}>
-                Inscribirme
+            {registration ? (
+              <a className="button button--primary" href={registration.href}>
+                {registration.label}
                 <i data-lucide="arrow-right" aria-hidden="true" />
               </a>
             ) : null}
             <a
-              className={englishProgram ? "button button--ghost" : "button button--primary"}
+              className={registration ? "button button--ghost" : "button button--primary"}
               href={contactCourseHref(program.slug)}
             >
-              Solicitar orientación
+              {program.slug === "tutorias-matematicas" ? "Consultar opción online" : "Preguntar a admisiones"}
               <i data-lucide="arrow-right" aria-hidden="true" />
             </a>
             <a
@@ -95,6 +97,7 @@ function CourseHero({ program, editorial }) {
           <p className="course-program-hero__note">
             {editorial.heroNote || "Admisiones confirma el punto de inicio, el grupo y el horario antes de comenzar."}
           </p>
+          {program.slug === "espanol-extranjeros" ? <p className="course-program-hero__note">La inscripción online por este sitio está disponible solo para residentes en Estados Unidos. Si estás en otro país, consulta con admisiones.</p> : null}
           <nav className="course-decision-nav" aria-label="Explorar este curso">
             <a href="#horarios">Horarios y requisitos</a>
             <a href={`#${editorial.sectionCopy?.pathway?.id || "niveles"}`}>Qué aprenderás</a>
@@ -393,29 +396,26 @@ function CourseRelated({ program }) {
 }
 
 function CourseClosing({ closing, program }) {
+  const registration = courseRegistrationAction(program.slug);
 
   return (
     <section className="course-program-closing" aria-labelledby="course-closing-title">
       <div className="section-inner course-program-closing__layout">
         <div>
           <p className="section-kicker">{closing.eyebrow}</p>
-          <h2 id="course-closing-title">Da el siguiente paso con orientación.</h2>
-          <p>Cuéntanos tu objetivo y disponibilidad. Admisiones te ayudará a confirmar requisitos, costo y grupo para {program.title.toLowerCase()}.</p>
+          <h2 id="course-closing-title">Da el siguiente paso.</h2>
+          <p>Revisa el precio de inscripción antes de pagar. Admisiones puede ayudarte a confirmar el grupo, el horario y el costo total de {program.title.toLowerCase()}.</p>
         </div>
         <div className="course-program-closing__actions">
-          <a
-            className="button button--primary"
-            href={contactCourseHref(program.slug)}
-          >
-            Solicitar orientación
+          {registration ? <a className="button button--primary" href={registration.href}>
+            {registration.label}
             <i data-lucide="arrow-right" aria-hidden="true" />
-          </a>
+          </a> : null}
           <a
             className="course-program-text-link"
-            href={courseInquiryHref(site.whatsappHref, program.title)}
-            target="_blank" rel="noreferrer"
+            href={contactCourseHref(program.slug)}
           >
-            Consultar por WhatsApp
+            {program.slug === "tutorias-matematicas" ? "Consultar opción online" : "Preguntar a admisiones"}
           </a>
         </div>
       </div>

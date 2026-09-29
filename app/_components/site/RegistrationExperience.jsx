@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { isPricedRegistrationChoice, REGISTRATION_DRAFT_KEY } from "../../../src/registration/contract.js";
+import { isPricedRegistrationChoice, migrateUnsubmittedSpanishDraft, needsLegacySpanishDraftReconciliation, registrationSelectionForContext, REGISTRATION_DRAFT_KEY, SPANISH_ONLINE_PROGRAM_CODE } from "../../../src/registration/contract.js";
 
 const INITIAL_DRAFT = Object.freeze({
   step: 1,
@@ -84,6 +84,7 @@ export function RegistrationExperience({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [paymentState, setPaymentState] = useState(null);
+  const [legacyDraftReview, setLegacyDraftReview] = useState(null);
   const [portalPlacement, setPortalPlacement] = useState(null);
   const [portalStudentEmail, setPortalStudentEmail] = useState("");
 
@@ -92,50 +93,76 @@ export function RegistrationExperience({
     let saved = null;
     try { saved = JSON.parse(sessionStorage.getItem(REGISTRATION_DRAFT_KEY) || "null"); } catch { saved = null; }
     const restored = mergeDraft(saved, initialProgramCode, initialLearningModality, entryContext);
-    if (!courseOptions.some(({ code }) => code === restored.programCode)) {
-      restored.programCode = initialProgramCode;
-      restored.learningModality = initialLearningModality;
-      restored.step = 1;
-    }
-    if (restored.programCode !== "english_program") restored.learningModality = "in_person";
-    else if (!["in_person", "hybrid", "online"].includes(restored.learningModality)) restored.learningModality = initialLearningModality;
-    if (restored.programCode !== "english_program" || restored.learningModality !== "online") {
-      if (restored.residenceCountryCode !== "US" || restored.billingCountryCode !== "US") {
+    function finishRestore() {
+      if (!active) return;
+      setLegacyDraftReview(null);
+      if (!courseOptions.some(({ code }) => code === restored.programCode)) {
+        restored.programCode = initialProgramCode;
+        restored.learningModality = initialLearningModality;
+        restored.step = 1;
+      }
+      if (restored.programCode !== "english_program") {
+        const requiredModality = registrationSelectionForContext(restored.programCode).learningModality;
+        if (restored.learningModality !== requiredModality) {
+          restored.learningModality = requiredModality;
+          restored.step = 1;
+          restored.includeTuitionPrepayment = false;
+          restored.idempotencyKey = idempotencyKey();
+        }
+      } else if (!["in_person", "hybrid", "online"].includes(restored.learningModality)) restored.learningModality = initialLearningModality;
+      if (restored.programCode !== "english_program" || restored.learningModality !== "online") {
+        if (restored.residenceCountryCode !== "US" || restored.billingCountryCode !== "US") {
+          restored.step = 1;
+          restored.includeTuitionPrepayment = false;
+          restored.idempotencyKey = idempotencyKey();
+        }
+        restored.residenceCountryCode = "US";
+        restored.billingCountryCode = "US";
+      }
+      if (!isPricedRegistrationChoice(restored.programCode, restored.learningModality, restored.residenceCountryCode, restored.billingCountryCode)) {
         restored.step = 1;
         restored.includeTuitionPrepayment = false;
-        restored.idempotencyKey = idempotencyKey();
       }
-      restored.residenceCountryCode = "US";
-      restored.billingCountryCode = "US";
+      setDraft(restored);
+      if (restored.step > 1 && !returnToken) {
+        setQuoteLoading(true);
+        request("/api/registration/quote/", restored)
+          .then((result) => {
+            if (!active) return;
+            if (result.state === "advisor_required") {
+              setQuote(result);
+              setDraft((current) => ({ ...current, step: 1 }));
+            } else if (hasReviewableQuote(result)) {
+              setQuote(result);
+            } else {
+              throw new Error("No pudimos actualizar el precio. Confirma tu ruta para intentarlo de nuevo.");
+            }
+          })
+          .catch((reason) => {
+            if (!active) return;
+            setQuote(null);
+            setError(reason.message || "No pudimos actualizar el precio. Confirma tu ruta para intentarlo de nuevo.");
+            setDraft((current) => ({ ...current, step: 1 }));
+          })
+          .finally(() => { if (active) setQuoteLoading(false); });
+      }
+      setReady(true);
     }
-    if (!isPricedRegistrationChoice(restored.programCode, restored.learningModality, restored.residenceCountryCode, restored.billingCountryCode)) {
-      restored.step = 1;
-      restored.includeTuitionPrepayment = false;
-    }
-    setDraft(restored);
-    if (restored.step > 1 && !returnToken) {
-      setQuoteLoading(true);
-      request("/api/registration/quote/", restored)
+    if (!returnToken && needsLegacySpanishDraftReconciliation(saved)) {
+      setLegacyDraftReview({ state: "checking" });
+      request("/api/registration/reconcile/", { idempotencyKey: saved.idempotencyKey })
         .then((result) => {
           if (!active) return;
-          if (result.state === "advisor_required") {
-            setQuote(result);
-            setDraft((current) => ({ ...current, step: 1 }));
-          } else if (hasReviewableQuote(result)) {
-            setQuote(result);
-          } else {
-            throw new Error("No pudimos actualizar el precio. Confirma tu ruta para intentarlo de nuevo.");
+          if (result.exists === true) setLegacyDraftReview({ state: "blocked", paymentState: result.state });
+          else if (result.exists === false) {
+            setDraft(migrateUnsubmittedSpanishDraft(restored, saved));
+            setLegacyDraftReview(null);
+            setReady(true);
           }
+          else throw new Error("No pudimos verificar la inscripción anterior.");
         })
-        .catch((reason) => {
-          if (!active) return;
-          setQuote(null);
-          setError(reason.message || "No pudimos actualizar el precio. Confirma tu ruta para intentarlo de nuevo.");
-          setDraft((current) => ({ ...current, step: 1 }));
-        })
-        .finally(() => { if (active) setQuoteLoading(false); });
-    }
-    setReady(true);
+        .catch(() => { if (active) setLegacyDraftReview({ state: "unavailable" }); });
+    } else finishRestore();
     fetch("/api/registration/prefill/", { cache: "no-store" })
       .then((response) => response.ok ? response.json() : null)
       .then((body) => {
@@ -188,7 +215,7 @@ export function RegistrationExperience({
     setDraft((current) => ({
       ...current,
       programCode,
-      learningModality: "in_person",
+      learningModality: registrationSelectionForContext(programCode).learningModality,
       residenceCountryCode: "US",
       billingCountryCode: "US",
       includeTuitionPrepayment: false,
@@ -299,6 +326,19 @@ export function RegistrationExperience({
     return <PaymentStatusPanel state={paymentState} redirectState={redirectState} busy={busy} error={error} onVerify={() => verifyPayment()} onRestart={startNewRegistration} />;
   }
 
+  if (legacyDraftReview) return <section className="registration-status" role="status" aria-live="polite">
+    <p className="section-kicker">Inscripción</p>
+    <h1>{legacyDraftReview.state === "checking" ? "Revisando tu inscripción anterior" : "Revisemos tu inscripción anterior"}</h1>
+    <p>{legacyDraftReview.state === "checking"
+      ? "Consultamos si ya existe una solicitud de pago antes de actualizar la modalidad de Español a online."
+      : legacyDraftReview.state === "unavailable"
+        ? "No pudimos verificar la solicitud anterior. Para evitar un pago duplicado, no abriremos otro pago ahora."
+        : legacyDraftReview.paymentState === "confirmed"
+          ? "Ya existe un pago confirmado para esta inscripción. Admisiones puede ayudarte a ajustar la modalidad a online."
+          : "Ya existe una solicitud de pago para esta inscripción. Admisiones debe revisar su estado y la modalidad antes de abrir otro pago."}</p>
+    {legacyDraftReview.state !== "checking" ? <a className="button button--primary" href="/contactanos/?curso=espanol-extranjeros">Hablar con admisiones</a> : null}
+  </section>;
+
   const reviewable = hasReviewableQuote(quote);
   const courseName = draft.programCode === "english_program"
     ? "Inglés" : courseOptions.find(({ code }) => code === draft.programCode)?.label || "Curso seleccionado";
@@ -340,6 +380,7 @@ export function RegistrationExperience({
               </> : null}
               {draft.programCode === "english_program" && draft.learningModality === "online" ? <label>País de residencia<select value={draft.residenceCountryCode} disabled={busy || quoteLoading} onChange={(event) => { update("residenceCountryCode", event.target.value); update("billingCountryCode", event.target.value); }}>{COUNTRIES.map(([code, label]) => <option value={code} key={code}>{label}</option>)}</select></label> : null}
             </div>
+            {draft.programCode === SPANISH_ONLINE_PROGRAM_CODE ? <p className="registration-route-note">Español online · inscripción disponible para residentes en Estados Unidos.</p> : null}
             {pricedRoute ? <label className="registration-check"><input type="checkbox" checked={draft.includeTuitionPrepayment} disabled={busy || quoteLoading} onChange={(event) => update("includeTuitionPrepayment", event.target.checked)} /><span><strong>Anticipar cuatro semanas de matrícula</strong><small>Opcional. Se muestra por separado y queda como crédito al confirmar tu grupo.</small></span></label> : null}
             {quote?.state === "advisor_required" ? <AdvisorState course={inquiryCourse} /> : null}
             <FormError error={error} />

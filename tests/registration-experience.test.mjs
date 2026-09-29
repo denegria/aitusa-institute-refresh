@@ -42,8 +42,18 @@ describe("MIS-421 registration experience", () => {
     assert.match(component, /Solo la pedimos para estudiantes online dentro de Estados Unidos/);
   });
 
+  it("blocks legacy Spanish checkout migration until CRM confirms no prior payment request", () => {
+    assert.match(component, /needsLegacySpanishDraftReconciliation\(saved\)/);
+    assert.match(component, /request\("\/api\/registration\/reconcile\/", \{ idempotencyKey: saved\.idempotencyKey \}\)/);
+    assert.match(component, /result\.exists === true\) setLegacyDraftReview\(\{ state: "blocked"/);
+    assert.match(component, /result\.exists === false\) \{[\s\S]*setDraft\(migrateUnsubmittedSpanishDraft\(restored, saved\)\)/);
+    assert.match(component, /if \(legacyDraftReview\) return <section/);
+  });
+
   it("provides contextual registration CTAs across public, placement, and portal surfaces", () => {
-    for (const source of [header, course, placement, portal]) assert.match(source, /\/inscribete\//);
+    for (const source of [header, placement, portal]) assert.match(source, /\/inscribete\//);
+    assert.match(course, /courseRegistrationAction\(program\.slug\)/);
+    assert.match(course, /href=\{registration\.href\}/);
   });
 
   it("has explicit mobile and narrow-width guards", () => {
