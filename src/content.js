@@ -503,7 +503,7 @@ const allCourseRecords = [
           icon: "building-2",
           title: "Práctica cara a cara",
           text:
-            "Práctica cara a cara y corrección inmediata en una sede de Nueva Jersey.",
+            "Corrección inmediata en una sede de Nueva Jersey.",
         },
         {
           icon: "messages-square",
@@ -515,19 +515,19 @@ const allCourseRecords = [
           icon: "building-2",
           title: "Sedes de Nueva Jersey",
           text:
-            "El asesor confirma la sede y el grupo activo antes de la inscripción.",
+            "Un asesor confirma la sede y el grupo activo.",
         },
       ],
       logisticsNote:
-        "Los horarios de inicio entre semana y los bloques de fin de semana pueden variar por sede. Un asesor confirma la sede, el grupo y el horario antes de la inscripción.",
+        "Los horarios pueden variar por sede. Confirma grupo, sede y horario antes de inscribirte.",
       sectionCopy: {
         logistics: {
           eyebrow: "Modalidad y horarios",
           title: "Una ruta presencial que también debe funcionar con tu semana.",
           text:
-            "Revisa los horarios de inicio entre semana y los bloques de fin de semana. Tu grupo final se confirma según el nivel, la sede y la disponibilidad.",
+            "Hay opciones de mañana, noche y fin de semana. Tu grupo se confirma según el nivel, la sede y la disponibilidad.",
           formatsLabel: "Claves de la experiencia presencial",
-          scheduleLabel: "Inicios entre semana y bloques de fin de semana",
+          scheduleLabel: "Horarios publicados",
           actionLabel: "Confirmar sede y horario",
         },
       },

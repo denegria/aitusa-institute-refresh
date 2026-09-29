@@ -325,14 +325,35 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
         <div className="course-logistics-layout">
           <div className="course-schedule-panel">
             <p className="course-schedule-panel__label">{copy.scheduleLabel}</p>
-            <dl>
-              {editorial.schedule.map((group) => (
-                <div key={group.label}>
-                  <dt>{group.label}</dt>
-                  <dd>{group.times.join(" · ")}</dd>
-                </div>
-              ))}
-            </dl>
+            {program.slug === "ingles-jovenes-adultos" ? (
+              <div className="course-presencial-timetable">
+                {[
+                  { title: "Entre semana", rows: editorial.schedule.slice(0, 2) },
+                  { title: "Fin de semana", rows: editorial.schedule.slice(2) },
+                ].map((period) => (
+                  <div className="course-presencial-timetable__group" key={period.title}>
+                    <h3>{period.title}</h3>
+                    <dl>
+                      {period.rows.map((group) => (
+                        <div key={group.label}>
+                          <dt>{group.label}</dt>
+                          <dd>{group.times.join(" · ")}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <dl>
+                {editorial.schedule.map((group) => (
+                  <div key={group.label}>
+                    <dt>{group.label}</dt>
+                    <dd>{group.times.join(" · ")}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
             <p className="course-schedule-panel__note">{editorial.logisticsNote}</p>
             <a
               className="course-program-text-link"
@@ -361,14 +382,14 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
         </div>
         <div className="course-admissions-facts">
           <div><h3>Requisitos para empezar</h3><p>{courseComparison[program.slug].requirements}</p></div>
-          <div><h3>Costo y próximo grupo</h3><p>{program.slug === "ingles-jovenes-adultos" ? "El registro desglosa la inscripción y los materiales. Confirma con admisiones la colegiatura total, el grupo y la próxima fecha antes de decidir." : "Solicita el costo total, los materiales incluidos y la próxima fecha disponible antes de inscribirte."}</p><a href={contactCourseHref(program.slug)}>Consultar costo y disponibilidad</a></div>
+          <div><h3>Costo y próximo grupo</h3><p>{program.slug === "ingles-jovenes-adultos" ? "El registro desglosa inscripción y materiales. Confirma colegiatura total, grupo y próxima fecha con admisiones." : "Solicita el costo total, los materiales incluidos y la próxima fecha disponible antes de inscribirte."}</p><a href={contactCourseHref(program.slug)}>Consultar costo y disponibilidad</a></div>
         </div>
       </div>
     </section>
   );
 }
 
-function CourseStory({ story }) {
+function CourseStory({ story, isEnglishPresencial = false }) {
   const videoDescriptionId = "course-story-video-description";
   const transcriptNoteId = "course-story-video-transcript-note";
 
@@ -379,7 +400,7 @@ function CourseStory({ story }) {
           <p className="section-kicker">{story.eyebrow}</p>
           <p className="course-program-story__identity">{story.name} · {story.role}</p>
           <h2 id="course-story-title">{story.title}</h2>
-          <p>{story.text}</p>
+          <p id={isEnglishPresencial ? videoDescriptionId : undefined}>{story.text}</p>
           <span className="course-program-story__duration">
             <i data-lucide="play" aria-hidden="true" />
             Conversación completa · {story.duration}
@@ -400,9 +421,9 @@ function CourseStory({ story }) {
             Tu navegador no puede reproducir este video.
           </video>
           <figcaption>{story.videoLabel}</figcaption>
-          <p id={videoDescriptionId}>
+          {isEnglishPresencial ? null : <p id={videoDescriptionId}>
             <strong>Sobre esta entrevista:</strong> {story.text}
-          </p>
+          </p>}
           <p id={transcriptNoteId}>
             No hay subtítulos ni una transcripción verificable disponible para este video.
           </p>
@@ -448,7 +469,7 @@ function CourseRelated({ program }) {
       <div className="section-inner">
         <div className="course-program-related__intro">
           <p className="section-kicker">Sigue explorando</p>
-          <h2 id="course-related-title">Otras rutas que también puedes comparar.</h2>
+          <h2 id="course-related-title">{program.slug === "ingles-jovenes-adultos" ? "Sigue explorando otras rutas." : "Otras rutas que también puedes comparar."}</h2>
         </div>
         <nav aria-label="Cursos relacionados">
           {related.map((candidate) => (
@@ -472,7 +493,7 @@ function CourseClosing({ closing, program }) {
       <div className="section-inner course-program-closing__layout">
         <div>
           <p className="section-kicker">{closing.eyebrow}</p>
-          <h2 id="course-closing-title">Da el siguiente paso.</h2>
+          <h2 id="course-closing-title">{program.slug === "ingles-jovenes-adultos" ? "Elige tu próximo paso con claridad." : "Da el siguiente paso."}</h2>
           <p>Revisa el precio de inscripción antes de pagar. Admisiones puede ayudarte a confirmar el grupo, el horario y el costo total de {program.title.toLowerCase()}.</p>
         </div>
         <div className="course-program-closing__actions">
@@ -516,7 +537,7 @@ export function CourseProgramPage({ program }) {
         <CoursePathway pathway={editorial.pathway} copy={pathwayCopy} />
       ) : null}
       {editorial.method ? <CourseMethod method={editorial.method} /> : null}
-      {editorial.story ? <CourseStory story={editorial.story} /> : null}
+      {editorial.story ? <CourseStory story={editorial.story} isEnglishPresencial={isEnglishPresencial} /> : null}
       {editorial.faqs?.length ? (
         <CourseFaq faqs={editorial.faqs} copy={editorial.sectionCopy?.faq} />
       ) : null}
