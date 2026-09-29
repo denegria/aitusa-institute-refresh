@@ -337,26 +337,28 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
               <div className="course-presencial-timetable" aria-label="Horarios publicados de inglés presencial">
                 <section className="course-presencial-timetable__group" aria-labelledby="course-weekday-title">
                   <header className="course-presencial-timetable__heading">
-                    <h3 id="course-weekday-title">Lunes a jueves</h3>
+                    <h3 id="course-weekday-title">Entre semana</h3>
                     <p>Inicios de clase</p>
                   </header>
-                  <div className="course-presencial-timetable__dayparts">
+                  <dl className="course-presencial-timetable__rows">
                     {editorial.schedule.slice(0, 2).map((group, index) => (
-                      <div className="course-presencial-timetable__daypart" key={group.label}>
-                        <h4>{index === 0 ? "Mañana" : "Noche"}</h4>
-                        <ul className="course-presencial-times">
-                          {group.times.map((time) => <li key={time}>{time}</li>)}
-                        </ul>
+                      <div key={group.label}>
+                        <dt>Lun–jue · {index === 0 ? "mañana" : "noche"}</dt>
+                        <dd>
+                          <ul className="course-presencial-times">
+                            {group.times.map((time) => <li key={time}>{time}</li>)}
+                          </ul>
+                        </dd>
                       </div>
                     ))}
-                  </div>
+                  </dl>
                 </section>
                 <section className="course-presencial-timetable__group" aria-labelledby="course-weekend-title">
                   <header className="course-presencial-timetable__heading">
                     <h3 id="course-weekend-title">Fin de semana</h3>
                     <p>Clases completas</p>
                   </header>
-                  <dl className="course-presencial-timetable__weekend">
+                  <dl className="course-presencial-timetable__rows">
                     {editorial.schedule.slice(2).map((group) => (
                       <div key={group.label}>
                         <dt>{group.label}</dt>

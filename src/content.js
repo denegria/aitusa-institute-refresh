@@ -467,7 +467,7 @@ const allCourseRecords = [
       ],
       method: {
         eyebrow: "Método Graphic Concept",
-        title: "Primero entiendes la estructura. Después la usas para hablar.",
+        title: "Aprendes con práctica guiada.",
         text:
           "Graphic Concept organiza tiempos, palabras y contexto de forma visual. La clase conecta esa estructura con conversación, repetición oral y corrección inmediata.",
         image: site.images.englishInPersonMethodGenerated,
@@ -532,12 +532,12 @@ const allCourseRecords = [
         },
         outcomes: {
           eyebrow: "Resultados del aprendizaje",
-          title: "Inglés para usarlo con confianza.",
+          title: "Lo que vas a practicar.",
           text: "Comprender, responder y seguir practicando: tres habilidades que avanzan juntas.",
         },
         pathway: {
           eyebrow: "Ruta por niveles",
-          title: "Empieza en tu nivel. Sigue avanzando.",
+          title: "Empieza en tu nivel.",
           text: "La evaluación inicial te ayuda a encontrar el punto de partida adecuado.",
           actionLabel: "Ver mi nivel",
           actionHref: "/placement-test/",
@@ -552,7 +552,7 @@ const allCourseRecords = [
         eyebrow: "Historia AIT",
         name: "Jessica",
         role: "De estudiante a docente referente",
-        title: "Jessica cuenta cómo se aprende aquí.",
+        title: "Jessica cuenta su experiencia.",
         text:
           "Jessica empezó como estudiante de AiT y hoy es una de las docentes referentes del método. En esta conversación comparte más contexto sobre el ritmo de clase, la práctica y los detalles que ayudan a avanzar.",
         video: site.images.jessicaInterviewVideo,

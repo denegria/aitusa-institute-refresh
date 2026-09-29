@@ -1,5 +1,16 @@
 # AIT USA Authenticated Portal Payments — MIS-420
 
+## 2026-09-29 — Inglés presencial cohesive section rhythm — MIS-427
+
+- **Problem and workflow:** A direct visitor needs to find a viable class time, understand what they will learn and how, then choose registration or admissions. The current page repeats oversized left-aligned headings and a framed vertical rail through successive scrolls; its split timetable makes simple published hours feel assembled from unrelated fragments.
+- **Chosen model:** A single ruled schedule with two clearly labeled groups and four uniform rows. Each row pairs its daypart/day label with the published times in natural reading order. Distinguish weekday start times from weekend full class ranges once at group level. Place a modest heading *above* the full-width schedule, not beside it. Keep the admissions decision footer after the timetable. Across the page, vary composition by job: compact timetable header, one side-intro outcomes chapter, low-profile three-level progression, photograph-led method, video-led Jessica proof, quiet FAQ, then one decisive close.
+- **Visual direction/reference mode:** User feedback and the earlier schedule are inspiration for clarity, not faithful screenshots. Register Now and Orientation remain palette authority: navy, lifted navy, ivory, restrained gold accents. No bronze/yellow section fill, cards, chips, tabs, new artwork, or extra decorative rails. Remove the English page's framed heading rail and mobile level rail; use thin dividers and deliberate type scale instead of repeated giant display headings.
+- **Locked behavior/content:** English in-person course only; preserve all four schedule groups and exact ten times, venue/group caveat, initial assessment and honest cost guidance, three outcomes, three levels, method/photo, Jessica video/visible access note, six FAQs, related routes, keyboard/anchor behavior, admissions actions, and Register Now Inglés/Presencial preselection. No invented timetable, tuition, availability, or outcome claims. Other seven course pages, CRM, checkout, payment, and production are out of scope.
+- **Responsive contract:** Primary CSS viewports 390×844 and 1440×900; regressions 320×700 and 1024×768. The mobile schedule must read top-to-bottom without a zigzag or cramped chips; no horizontal overflow or truncation. Content may wrap naturally. Middle headings should have at least two distinct alignments/compositions over the page, with only hero/close using display-scale type. Preserve legible >=16px mobile body copy and no abrupt background overstack.
+- **Evidence:** Compare matched full-page and schedule crops before/after; inspect native-size mobile and desktop render, section rhythm and timetable scan; verify all exact times, six FAQs, image/video, anchor, CTA preselection, no browser errors/overflow. Run `npm run validate` and required release-surface gate, then exact-SHA staging/live QA. Do not send Alvaro a temporary protected share link.
+
+---
+
 ## User workflow and problem
 
 - An authenticated student needs one trustworthy place to understand the current four-week tuition charge, original and remaining amounts, due date, unapplied credit, payment verification state, and receipts.
