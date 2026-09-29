@@ -324,20 +324,40 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
         </header>
         <div className="course-logistics-layout">
           <div className="course-schedule-panel">
-            <p className="course-schedule-panel__label">{copy.scheduleLabel}</p>
+            {program.slug !== "ingles-jovenes-adultos" ? (
+              <p className="course-schedule-panel__label">{copy.scheduleLabel}</p>
+            ) : null}
             {program.slug === "ingles-jovenes-adultos" ? (
               <div className="course-presencial-timetable">
                 {[
-                  { title: "Entre semana", rows: editorial.schedule.slice(0, 2) },
-                  { title: "Fin de semana", rows: editorial.schedule.slice(2) },
+                  {
+                    title: "Lunes a jueves",
+                    rows: editorial.schedule.slice(0, 2).map((group, index) => ({
+                      ...group,
+                      shortLabel: index === 0 ? "Por la mañana" : "Por la noche",
+                      timeKind: "starts",
+                    })),
+                  },
+                  {
+                    title: "Fin de semana",
+                    rows: editorial.schedule.slice(2).map((group) => ({
+                      ...group,
+                      shortLabel: group.label,
+                      timeKind: "ranges",
+                    })),
+                  },
                 ].map((period) => (
                   <div className="course-presencial-timetable__group" key={period.title}>
                     <h3>{period.title}</h3>
                     <dl>
                       {period.rows.map((group) => (
                         <div key={group.label}>
-                          <dt>{group.label}</dt>
-                          <dd>{group.times.join(" · ")}</dd>
+                          <dt>{group.shortLabel}</dt>
+                          <dd>
+                            <ul className={`course-presencial-times course-presencial-times--${group.timeKind}`}>
+                              {group.times.map((time) => <li key={time}>{time}</li>)}
+                            </ul>
+                          </dd>
                         </div>
                       ))}
                     </dl>

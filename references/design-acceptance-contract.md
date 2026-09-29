@@ -1769,6 +1769,16 @@ and closeout evidence are recorded in
 - **Acceptance evidence:** Matching before/after middle-page crops and full-page renders, heading/timetable/level visual inspection, no overflow/broken media/browser errors, interaction checks, `npm run validate`, required release-surface gate, then exact-candidate staging QA before handoff.
 
 ---
+## 2026-09-29 — Inglés presencial dark-rhythm consistency pilot — MIS-427
+
+- **Owner correction:** The 390px schedule still compresses starts and ranges into long inline strings. White and pale-cream sections in succession feel dull and inconsistent. Detailed course pages should use dark blue plus dark gold/bronze as their dominant visual language, with white sections used deliberately.
+- **Reference mode/user job:** Inspiration mode from the supplied staged mobile screenshot and Alvaro's stated palette preference. A prospective student must scan weekday starts, weekend blocks, requirements, cost uncertainty, learning outcomes, and levels without deciphering a dense line of times or alternating unrelated section styles.
+- **Interaction model:** Keep the visible timetable and four published rows. On small screens, separate weekday start times into a simple two-column typographic grid and show weekend ranges as complete lines; no tabs, hidden details, pills, or added cards. Keep one admissions decision area following the timetable.
+- **Visual contract:** Reuse AIT navy `#001a3d`, gold, and white. Introduce one deep bronze `#634917` surface with high-contrast light text for the level progression and related-course comparison. Schedule, photo-led method, and FAQ are the intentional white reading breaks. Outcomes, Jessica proof, hero, and closing stay navy. Use the same content width, kicker, rules, heading scale, link treatment, and numbering logic across the page; remove pale-cream fills and redundant borders. The palette remains route-scoped until the pilot is visually accepted, then can be applied page by page to other detailed courses.
+- **Locked content/behavior:** Preserve all four schedule rows and exact times, venue/group caveat, requirements and honest cost copy, three outcomes and three level descriptions, method/photo, Jessica video/access note, six FAQs, related links, `#resultados`, and registration/admissions destinations. Other seven course pages, checkout, CRM, payment, and production stay unchanged.
+- **Responsive/evidence:** Primary 390×844 and 1440×900 CSS viewports; regressions 320×700 and 1024×768. Inspect full-page rhythm and native-size schedule crops, no horizontal overflow/clipped times or browser errors, keyboard/FAQ/CTA behavior, full `npm run validate`, required release-surface gate (separating known homepage overflow), exact-SHA staging readiness and live QA. Send actual review images, not a temporary share URL.
+
+---
 ## 2026-09-28 — Orientation admissions page UX pass
 
 - **User workflow/problem:** A visitor reaches `Orientación` via `/contactanos/`, either undecided or carrying a selected course. On mobile, secondary channels and explanatory content precede the request form, making the principal task feel distant.
