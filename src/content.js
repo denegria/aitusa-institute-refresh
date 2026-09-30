@@ -3052,7 +3052,7 @@ const schoolFaqs = [
   {
     question: "¿Hay clases presenciales y online?",
     answer:
-      "Las opciones dependen del programa. Tenemos sedes presenciales en Nueva Jersey y cursos con modalidad online; consulta la página del curso o habla con admisiones para confirmar disponibilidad.",
+      "Depende del programa. Las clases presenciales se ofrecen en Nueva Jersey; el inglés online también está disponible desde España y otros países. Admisiones confirma el grupo y el horario según tu zona horaria.",
   },
   {
     question: "¿Dónde veo los horarios y el costo?",

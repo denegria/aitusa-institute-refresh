@@ -19,9 +19,9 @@ import { catalogChoices, catalogHref } from "../../../src/courseDiscovery";
 export function HeroSection() {
   return (
     <section className="approved-hero" id="inicio" aria-labelledby="home-hero-title">
-      <aside className="approved-hero__spain" aria-label="AIT USA ya está en España">
-        <span className="approved-hero__spain-location"><i data-lucide="map-pin" aria-hidden="true" />MADRID · ESPAÑA</span>
-        <p>¡Hola, España! Bienvenidos a la familia AIT.</p>
+      <aside className="approved-hero__spain" aria-label="Inglés online disponible desde España">
+        <span className="approved-hero__spain-location"><i data-lucide="globe-2" aria-hidden="true" />ESPAÑA · ONLINE</span>
+        <p>Inglés online desde España.</p>
       </aside>
       <div className="approved-hero__scene">
         <div className="approved-hero__copy">
@@ -30,7 +30,7 @@ export function HeroSection() {
             <span>Tu próximo capítulo,</span><span>en inglés.</span>
           </h1>
           <p className="approved-hero__promise">Para conversar, estudiar y trabajar<br className="approved-hero__desktop-break" /> con más confianza.</p>
-          <p className="approved-hero__location">Inglés en Nueva Jersey y online.</p>
+          <p className="approved-hero__location">Presencial en Nueva Jersey u online desde donde estés.</p>
           <Link className="approved-hero__cta" href="/placement-test/">Conoce tu nivel de inglés <i data-lucide="arrow-right" aria-hidden="true" /></Link>
           <Link className="approved-hero__alternate approved-hero__registration" href="/inscribete/">Ya sé cómo quiero estudiar <span aria-hidden="true">Inscribirme →</span></Link>
           <nav className="approved-hero__modalities" aria-label="Formatos de inglés">
@@ -292,9 +292,9 @@ export function LocationsSection() {
     <section className="section section--white" id="sedes">
       <div className="section-inner">
         <div className="section-heading section-heading--framed">
-          <p className="section-kicker">Nueva Jersey · coordinación en Nueva York</p>
-          <h2 id="sedes-title">Sedes cerca de ti.</h2>
-          <p>Revisa las sedes presenciales y coordina tu atención según la alternativa más conveniente.</p>
+          <p className="section-kicker">Sedes y coordinación</p>
+          <h2 id="sedes-title">Sedes en Nueva Jersey.</h2>
+          <p>El mapa muestra nuestras sedes presenciales y la coordinación en Nueva York. ¿Estás en España? <Link className="locations-online-link" href="/cursos/ingles-online-adultos/">Conoce el curso de inglés online</Link>.</p>
         </div>
         <LocationExplorer
           locations={locationList}

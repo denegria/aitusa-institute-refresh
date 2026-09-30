@@ -177,6 +177,8 @@
   & #sedes .section-heading h2 { color: var(--home-navy); }
   & #sedes .section-kicker { color: var(--home-gold-text); }
   & #sedes .section-heading > p:last-child:not(.section-kicker) { color: var(--home-muted); }
+  & #sedes .locations-online-link { color: var(--home-blue); font-weight: 700; text-underline-offset: .2em; }
+  & #sedes .locations-online-link:is(:hover, :focus-visible) { color: var(--home-navy); }
   & #sedes :is(.real-map-card, .compact-location-row, .location-hours-panel) { border: 1px solid var(--home-card-border); border-radius: var(--home-feature-radius); background: rgb(255 255 255 / 92%); box-shadow: var(--home-shadow-raised); }
   & #sedes .location-hours-panel { color: var(--home-navy); }
   & #sedes :is(.compact-location-row__copy strong, .compact-location-row__copy > span, .location-hours-panel h3, .location-hours-panel li) { color: var(--home-navy); }

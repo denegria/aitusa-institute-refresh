@@ -175,7 +175,9 @@ describe("homepage React integration", () => {
     assert.match(hero, /id="home-hero-title"/);
     assert.match(hero, /approved-hero__modalities/);
     assert.match(hero, /approved-hero__spain/);
-    assert.match(hero, /¡Hola, España! Bienvenidos a la familia AIT\./);
+    assert.match(hero, /ESPAÑA · ONLINE/);
+    assert.match(hero, /Inglés online desde España\./);
+    assert.doesNotMatch(hero, /MADRID · ESPAÑA/);
     assert.doesNotMatch(hero, /España es nuestra próxima parada|Muy pronto|Próximamente/);
     assert.doesNotMatch(hero, /hero__conversion/);
     assert.doesNotMatch(hero, /hero__summary|hero__objections/);
@@ -222,7 +224,8 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(interactive, /flag: "[🇦-🇿]/u);
     assert.match(launchPolish, /\.country-proof__flags\s*\{[\s\S]*display: flex/);
     assert.match(launchPolish, /supporting-course-card__link\s*\{[\s\S]*border: 1px solid[\s\S]*border-radius: 6px/);
-    assert.match(sections, /¡Hola, España! Bienvenidos a la familia AIT\./);
+    assert.match(sections, /Sedes en Nueva Jersey\./);
+    assert.match(sections, /href="\/cursos\/ingles-online-adultos\/"\>Conoce el curso de inglés online/);
     assert.doesNotMatch(sections, /España es nuestra próxima parada|Muy pronto, una nueva comunidad|Próximamente en España/);
     assert.doesNotMatch(sections, /supporting-course-card__status|>Curso de apoyo</);
     assert.match(styles, /\.community-proof__tabs\s*\{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);

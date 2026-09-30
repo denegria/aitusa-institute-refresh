@@ -54,7 +54,6 @@
 .approved-hero__spain::before { content: ""; position: absolute; z-index: 0; top: -25%; bottom: -25%; left: -28%; width: 30%; pointer-events: none; border-radius: 50%; background: radial-gradient(ellipse at center, rgb(255 236 176 / 72%) 0%, rgb(230 189 104 / 42%) 28%, rgb(230 189 104 / 0%) 70%); filter: blur(8px); mix-blend-mode: screen; transform: skewX(-18deg); animation: spain-route-shimmer 4.8s ease-in-out infinite; }
 .approved-hero__spain::after { content: ""; position: absolute; inset: auto 0 -28px; height: 30px; pointer-events: none; background: linear-gradient(180deg, rgb(0 27 62 / 92%), transparent); }
 .approved-hero__spain-location { position: relative; z-index: 1; display: flex; align-items: center; flex-shrink: 0; gap: 16px; font-size: 1rem; font-weight: 700; letter-spacing: .11em; color: var(--hero-gold); }
-.approved-hero__spain-location::after { content: ""; position: absolute; left: 14px; top: 50%; width: 10px; height: 10px; border-radius: 999px; background: rgb(217 180 93 / 36%); transform: translate(-50%, -50%); box-shadow: 0 0 0 0 rgb(217 180 93 / 45%); animation: spain-location-pulse 2.8s ease-out infinite; }
 .approved-hero__spain-location svg { width: 28px; height: 32px; color: inherit; }
 .approved-hero__spain p { position: relative; z-index: 1; margin: 0; padding-left: 30px; border-left: 2px solid var(--hero-gold-divider); font-family: var(--font-display); font-size: clamp(1.125rem, 1.65vw, 1.625rem); font-weight: 700; line-height: 1.2; letter-spacing: -.03em; color: #fff; }
 .approved-hero__scene { position: relative; isolation: isolate; min-height: max(51vw, calc(100svh - 278px)); display: grid; align-items: center; }
@@ -89,7 +88,6 @@
 #main-content.home-page #inicio.approved-hero :is(a, button):focus-visible { outline: 3px solid var(--hero-gold); outline-offset: 5px; }
 #main-content.home-page #inicio.approved-hero .approved-hero__modalities a:focus-visible { outline: 2px solid #4f84f6; outline-offset: -2px; }
 
-@keyframes spain-location-pulse { 70%, 100% { box-shadow: 0 0 0 18px rgb(217 180 93 / 0%); opacity: .72; } }
 @keyframes spain-route-drift { from { background-position: 48% center; } to { background-position: 52% center; } }
 @keyframes spain-route-shimmer { 0%, 12% { left: -28%; opacity: 0; } 24% { opacity: .95; } 66% { opacity: .72; } 82%, 100% { left: 104%; opacity: 0; } }
 
@@ -204,6 +202,6 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .approved-hero__spain, .approved-hero__spain::before, .approved-hero__spain-location::after { animation: none; }
+  .approved-hero__spain, .approved-hero__spain::before { animation: none; }
   .approved-hero__cta, .approved-hero__modalities a { transition: none; transform: none; }
 }
