@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { communityGallery, courseCatalog, faqs, site, testimonials } from "../../../src/content";
 import { admissionContext, admissionMessage, admissionOptions } from "../../../src/admissions.js";
 
@@ -593,24 +594,37 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
   const subjectOptions = group ? admissionOptions.filter((program) => group.programs.includes(program.slug)) : admissionOptions;
   const dialogRef = useRef(null);
   const triggerRef = useRef(null);
+  const successRef = useRef(null);
+  const focusSuccessOnClose = useRef(false);
+  const submittingRef = useRef(false);
   const startedAt = useRef(new Date().toISOString());
   const submissionId = useRef(globalThis.crypto?.randomUUID?.() || `callback-${Date.now()}`);
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const openDialog = (event) => {
     triggerRef.current = event.currentTarget;
+    startedAt.current = new Date().toISOString();
+    setStatus(null);
+    setSuccess(null);
     dialogRef.current?.showModal();
     document.documentElement.classList.add("has-callback-dialog");
   };
   const closeDialog = () => dialogRef.current?.close();
   const closeCleanup = () => {
     document.documentElement.classList.remove("has-callback-dialog");
-    triggerRef.current?.focus();
+    if (focusSuccessOnClose.current) {
+      focusSuccessOnClose.current = false;
+      requestAnimationFrame(() => successRef.current?.focus());
+    } else {
+      triggerRef.current?.focus();
+    }
   };
 
   const submit = async (event) => {
     event.preventDefault();
+    if (submittingRef.current) return;
     const form = event.currentTarget;
     const formData = new FormData(form);
     const phone = String(formData.get("telefono") || "").trim();
@@ -672,6 +686,7 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
     };
 
     setStatus({ text: "Enviando tu solicitud…" });
+    submittingRef.current = true;
     setBusy(true);
     try {
       const response = await fetch("/api/leads/contact", {
@@ -682,11 +697,11 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
       const body = await response.json();
       if (!response.ok || !body.ok) throw new Error("invalid_submission");
       submissionId.current = globalThis.crypto?.randomUUID?.() || `callback-${Date.now()}`;
-      setStatus({
-        text: "Recibimos tu solicitud de orientación. Un asesor podrá contactarte por teléfono o email. ",
-        href: body.advisorHandoff.href,
-        label: "Abrir WhatsApp",
-      });
+      setStatus(null);
+      setSuccess({ href: body.advisorHandoff?.href });
+      form.reset();
+      focusSuccessOnClose.current = true;
+      closeDialog();
     } catch {
       setStatus({
         text: "No pudimos confirmar la recepción de tu solicitud. Reintenta o ",
@@ -694,6 +709,7 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
         label: "Escribir directamente por WhatsApp",
       });
     } finally {
+      submittingRef.current = false;
       setBusy(false);
     }
   };
@@ -713,6 +729,18 @@ export function CallbackDialog({ defaultSubject = "", subjectGroup = "all-offeri
           <span>{triggerLabel}</span>
         </button>
       </div>
+      {success && typeof document !== "undefined" ? createPortal(<div className="callback-confirmation" data-callback-confirmation role="status" tabIndex={-1} ref={successRef}>
+        <span className="callback-confirmation__mark" aria-hidden="true">✓</span>
+        <div className="callback-confirmation__copy">
+          <h3>Solicitud recibida</h3>
+          <p>Recibimos tu solicitud de orientación. Un asesor podrá contactarte por teléfono o email.</p>
+          {success.href ? <a href={success.href} target="_blank" rel="noreferrer">Abrir WhatsApp (opcional)</a> : null}
+        </div>
+        <button className="callback-confirmation__close" type="button" aria-label="Cerrar confirmación" onClick={() => {
+          setSuccess(null);
+          triggerRef.current?.focus();
+        }}>×</button>
+      </div>, document.body) : null}
       <dialog
         className="callback-dialog"
         id={dialogId}
