@@ -12,6 +12,8 @@ import {
 import { SiteFooter, SiteHeader } from "../_components/site/SiteChrome";
 import { site } from "../../src/content";
 
+const homeShareImage = site.images.classroomHero;
+
 export const metadata = {
   title: "AiT USA Institute | Aprende inglés con confianza en New Jersey",
   description:
@@ -31,14 +33,14 @@ export const metadata = {
     siteName: site.name,
     title: site.seoTitle,
     description: site.seoDescription,
-    images: [{ url: site.seoImage, width: site.seoVideoWidth, height: site.seoVideoHeight, alt: site.seoImageAlt }],
+    images: [{ url: homeShareImage, width: 1756, height: 896, alt: "Estudiantes aprendiendo juntos en un salón de AIT USA Institute." }],
   },
   twitter: {
     card: "summary_large_image",
     site: site.twitterHandle,
     title: site.seoTitle,
     description: site.seoDescription,
-    images: [site.seoImage],
+    images: [homeShareImage],
   },
 };
 
