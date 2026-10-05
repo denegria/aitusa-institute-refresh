@@ -142,7 +142,7 @@
   .approved-hero__fact strong { font-size: 1.45rem; line-height: 1.15; }
 }
 @media (min-width: 1041px) and (max-height: 760px) {
-  .approved-hero__copy { padding-block: 34px 18px; transform: translateY(4px); }
+  .approved-hero__copy { padding-block: 30px 16px; transform: translateY(4px); }
   .approved-hero__modalities { margin-top: 14px; }
   .approved-hero__alternate { margin-top: 6px; }
 }
