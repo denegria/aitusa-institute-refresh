@@ -192,6 +192,12 @@
 .registration-check input { flex: 0 0 20px; width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--site-gold); }
 .registration-check span { display: grid; gap: 3px; }
 .registration-check small { color: var(--site-muted); }
+.registration-check--tuition { margin: 8px 0 18px; padding-block: 18px; border-bottom: 1px solid var(--site-border); }
+.registration-check--tuition small { line-height: 1.5; }
+.registration-tuition-option { margin: 8px 0 18px; padding-block: 14px; border-block: 1px solid var(--site-border); }
+.registration-tuition-option p { margin: 0 0 5px; color: var(--site-muted); font-size: .86rem; line-height: 1.5; }
+.registration-tuition-option__action { min-height: 44px; padding: 8px 0; border: 0; background: transparent; color: var(--site-navy); font: inherit; font-size: .86rem; font-weight: 800; text-align: left; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.registration-tuition-option__action:disabled { opacity: .65; cursor: wait; }
 
 .registration-next { width: 100%; margin-top: 8px; }
 .registration-route-handoff { margin-top: 25px; padding-top: 19px; border-top: 1px solid var(--site-border); }
@@ -205,6 +211,7 @@
 .registration-order h2 { margin: 0; color: #fff; font-size: 1.4rem; line-height: 1.2; }
 .registration-order__program { margin: 10px 0 22px; color: #dce6f2; font-size: .92rem; overflow-wrap: anywhere; }
 .registration-order__secure { margin: 21px 0 0; padding-top: 16px; border-top: 1px solid rgb(255 255 255 / 22%); color: #dce6f2; font-size: .8rem; line-height: 1.5; }
+.registration-order__tuition { margin: 16px 0 0; color: #dce6f2; font-size: .84rem; line-height: 1.5; }
 .registration-quote-loading { width: min(760px, 100%); margin: 0 auto; padding: 30px 0; color: var(--site-navy); font-weight: 700; }
 
 .registration-error {

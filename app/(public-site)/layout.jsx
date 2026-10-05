@@ -5,6 +5,7 @@ import "../../src/course-detail.css";
 import "../../src/homepage.css";
 import "../../src/approved-hero.css";
 import "../../src/registration.css";
+import "../../src/site-cohesion.css";
 import { IconRuntime } from "../_components/site/IconRuntime";
 
 export default function PublicSiteLayout({ children }) {

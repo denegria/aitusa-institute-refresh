@@ -360,9 +360,10 @@ export function SignInExperience({ audience = "student", returnTo = "/portal/" }
         ) : null}
 
         {step === "email" && !employee ? (
-          <p className="portal-signin__new-student">
-            ¿Primera vez aquí? <a href="/placement-test/">Comenzar el Placement Test</a>
-          </p>
+          <div className="portal-signin__new-student">
+            <p>¿Vas a comenzar inglés? <a href="/placement-test/">Hacer la prueba de nivel</a></p>
+            <p>¿Buscas otro programa? <a href="/contactanos/">Pedir orientación</a></p>
+          </div>
         ) : null}
       </section>
       <nav className="portal-access__footer" aria-label="Enlaces de acceso y ayuda">

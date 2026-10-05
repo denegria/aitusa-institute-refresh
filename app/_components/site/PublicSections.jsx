@@ -19,28 +19,15 @@ import { catalogChoices, catalogHref } from "../../../src/courseDiscovery";
 export function HeroSection() {
   return (
     <section className="approved-hero" id="inicio" aria-labelledby="home-hero-title">
-      <aside className="approved-hero__spain" aria-label="Inglés online disponible desde España">
-        <span className="approved-hero__spain-location"><i data-lucide="globe-2" aria-hidden="true" />ESPAÑA · ONLINE</span>
-        <p>Inglés online desde España.</p>
-      </aside>
       <div className="approved-hero__scene">
         <div className="approved-hero__copy">
           <p className="approved-hero__eyebrow">{painHero.eyebrow}</p>
           <h1 id="home-hero-title">
             <span>Tu próximo capítulo,</span><span>en inglés.</span>
           </h1>
-          <p className="approved-hero__promise">Para conversar, estudiar y trabajar<br className="approved-hero__desktop-break" /> con más confianza.</p>
-          <p className="approved-hero__location">Presencial en Nueva Jersey u online desde donde estés.</p>
-          <Link className="approved-hero__cta" href="/placement-test/">Conoce tu nivel de inglés <i data-lucide="arrow-right" aria-hidden="true" /></Link>
-          <Link className="approved-hero__alternate approved-hero__registration" href="/inscribete/">Ya sé cómo quiero estudiar <span aria-hidden="true">Inscribirme →</span></Link>
-          <nav className="approved-hero__modalities" aria-label="Formatos de inglés">
-            <a href="/cursos/ingles-jovenes-adultos/"><i data-lucide="users-round" aria-hidden="true" /><span>Presencial</span></a>
-            <a href="/cursos/ingles-online-adultos/"><i data-lucide="laptop" aria-hidden="true" /><span>Online</span></a>
-            <a href="/cursos/ingles-hibrido-adultos/"><i data-lucide="monitor-smartphone" aria-hidden="true" /><span>Híbrido</span></a>
-          </nav>
-          <a className="approved-hero__alternate" href="#elige-tu-curso">
-            ¿Buscas otra meta académica? <span aria-hidden="true">Ver programas</span>
-          </a>
+          <p className="approved-hero__promise">Aprende a conversar, estudiar y trabajar con más confianza, en Nueva Jersey o en clases online en vivo.</p>
+          <Link className="approved-hero__cta" href="#cursos">Encuentra tu clase de inglés <i data-lucide="arrow-right" aria-hidden="true" /></Link>
+          <Link className="approved-hero__alternate" href="/contactanos/">Prefiero hablar con admisiones <span aria-hidden="true">→</span></Link>
         </div>
         <div className="approved-hero__art" aria-hidden="true">
             <img
@@ -68,42 +55,19 @@ export function HeroSection() {
 
 export function MethodSection() {
   return (
-    <section className="method-story-section" id="metodo" aria-labelledby="method-title">
-      <div className="method-story-frame">
-        <div className="method-story__opening">
-          <header className="method-story__intro section-heading section-heading--framed">
-            <p className="method-kicker">{methodNarrative.eyebrow || "Método Graphic Concept"}</p>
+    <section className="method-story-section cohesion-method" id="metodo" aria-labelledby="method-title">
+      <div className="section-inner">
+          <header className="section-heading section-heading--framed">
+            <p className="method-kicker">Método Graphic Concept</p>
             <h2 id="method-title" className="method-story__display-title">
               {(methodNarrative.headingLines || [methodNarrative.heading || ""]).map((line, index, lines) => (
                 <span key={line}>{line}{index < lines.length - 1 ? " " : ""}</span>
               ))}
             </h2>
-            <p className="method-story__intro-copy">{methodNarrative.introduction || ""}</p>
+            <p>Un método visual para comprender el inglés y practicar cómo usarlo en el trabajo, los estudios y la vida diaria, sin memorizar listas interminables.</p>
           </header>
-        </div>
-      </div>
-      <section className="method-story__community" aria-labelledby="method-community-title">
-        <div className="method-story__community-inner">
-          <header className="method-story__community-copy">
-            <p className="method-story-kicker">{methodNarrative.painEyebrow || "Lo que escuchamos"}</p>
-            <h3 id="method-community-title">{methodNarrative.painHeading || "¿Te suena familiar?"}</h3>
-          </header>
-          <ul className="method-story__questions" aria-label="Preguntas comunes al aprender inglés">
-            {(methodNarrative.painPoints || []).map((item) => (
-              <li key={item}>
-                <p>{item}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-      <div className="method-story-frame">
-        <section className="method-story__conclusion" aria-labelledby="method-principles-title">
-          <div className="method-story__principles-heading">
-            <p className="method-story-kicker">{methodNarrative.reasonsEyebrow || "Nuestra respuesta"}</p>
-            <h3 id="method-principles-title">{methodNarrative.reasonsHeading || "Lo que cambia cuando entiendes el método."}</h3>
-          </div>
-          <ul className="method-reasons" aria-label="Resultados prácticos del método">
+        <div className="cohesion-method__practice">
+          <ul className="cohesion-method__reasons" aria-label="Cómo practicarás con el método">
             {solutionCharacteristics.map((item) => (
               <li key={item.key}>
                 <span className="method-reason__icon" aria-hidden="true">
@@ -119,13 +83,13 @@ export function MethodSection() {
                     <i data-lucide={item.icon || "circle-check"} />
                   )}
                 </span>
-                <div><h4>{item.title}</h4><p>{item.body}</p></div>
+                <div><h3>{item.title}</h3><p>{item.body}</p></div>
               </li>
             ))}
           </ul>
           <MethodVideo narrative={methodNarrative} />
-        </section>
-        <a className="home-text-link method-orientation-link" href="#contacto">Encuentra tu curso con orientación de admisiones <span aria-hidden="true">→</span></a>
+        </div>
+        <BooksSection />
       </div>
     </section>
   );
@@ -221,7 +185,7 @@ export function OfferingPathSection() {
           {productOfferings.slice(0, 3).map((item) => (
             <article className={`offer-node offer-node--${item.emphasis || "secondary"}`} key={item.key}>
               <div>
-                {item.emphasis === "primary" ? <span className="offer-node__status">Programa principal</span> : null}
+                <span className="offer-node__status">{item.badge}</span>
                 <h3>{item.title}</h3>
                 <p>
                   <span className="offer-node__summary-full">
@@ -238,6 +202,16 @@ export function OfferingPathSection() {
               </a>
             </article>
           ))}
+        </div>
+        <div className="offer-path__next-step">
+          <p><strong>¿No sabes por dónde empezar?</strong> Admisiones te ayuda a elegir modalidad, grupo y horario.</p>
+          <a className="home-text-link" href="/contactanos/">Pedir orientación <span aria-hidden="true">→</span></a>
+          <details className="placement-effort">
+            <summary>Ya quiero conocer mi nivel de inglés</summary>
+            <p>El examen tiene 62 preguntas y toma aproximadamente 10–15 minutos. Para recibir el resultado necesitas verificar tu email y crear tu cuenta.</p>
+            <a className="home-text-link" href="/placement-test/">Comenzar el examen de nivel <span aria-hidden="true">→</span></a>
+          </details>
+          <p className="offer-path__online-note">¿Estás en España o en otro país? <Link href="/cursos/ingles-online-adultos/">Consulta las clases online y tu zona horaria</Link>.</p>
         </div>
       </div>
     </section>
@@ -310,28 +284,24 @@ export function LocationsSection() {
 
 export function BooksSection() {
   const galleryBooks = bookLibrary.levels.flatMap((level) => level.books);
+  const featuredBooks = [bookLibrary.intro, galleryBooks[0], galleryBooks[2]];
 
   return (
-    <section className="section books-section" id="libros" aria-labelledby="books-title">
-      <div className="section-inner books-section__inner">
-        <header className="section-heading section-heading--framed books-section__heading">
-          <p className="section-kicker">Ruta Graphic Concept</p>
-          <h2 id="books-title">Nuestros libros.</h2>
-          <p>La colección acompaña la ruta Graphic Concept. <a href="/cursos/ingles-jovenes-adultos/#niveles">Conoce la progresión por niveles</a> y confirma con admisiones qué materiales corresponden a tu grupo.</p>
+    <div className="cohesion-books" id="libros" aria-labelledby="books-title">
+        <header className="cohesion-books__copy">
+          <p className="section-kicker">Materiales propios</p>
+          <h3 id="books-title">Una guía para cada paso.</h3>
+          <p>Los libros acompañan la práctica en clase. <a href="/cursos/ingles-jovenes-adultos/#niveles">Conoce la progresión por niveles</a>; admisiones confirma el material de tu grupo.</p>
+          <details className="cohesion-books__collection">
+            <summary>Ver la colección completa</summary>
+            <div className="cohesion-books__all">
+              {galleryBooks.map((book) => <figure key={book.title}><img src={book.image} alt={book.imageAlt} width="177" height="219" loading="lazy" /><figcaption>{book.title}</figcaption></figure>)}
+            </div>
+          </details>
         </header>
-        <div className="books-gallery" aria-label="Colección de libros de AIT USA Institute">
-          <figure className="books-gallery__intro">
-            <img
-              src={bookLibrary.intro.image}
-              alt={bookLibrary.intro.imageAlt}
-              width="160"
-              height="209"
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-          {galleryBooks.map((book, index) => (
-            <figure className={`books-gallery__book books-gallery__book--${index + 1}`} key={book.title}>
+        <div className="cohesion-books__covers" aria-label="Ejemplos de materiales Graphic Concept">
+          {featuredBooks.map((book) => (
+            <figure key={book.title}>
               <img
                 src={book.image}
                 alt={book.imageAlt}
@@ -340,11 +310,11 @@ export function BooksSection() {
                 loading="lazy"
                 decoding="async"
               />
+              <figcaption>{book.title}</figcaption>
             </figure>
           ))}
         </div>
-      </div>
-    </section>
+    </div>
   );
 }
 

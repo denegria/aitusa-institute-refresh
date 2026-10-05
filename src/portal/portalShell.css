@@ -1671,6 +1671,10 @@
   text-underline-offset: 3px;
 }
 
+.portal-signin__new-student p {
+  margin: 5px 0;
+}
+
 .portal-access__footer {
   align-items: center;
   border-top: 1px solid rgba(217, 180, 93, 0.22);
@@ -2007,6 +2011,11 @@
     margin-inline: -12px;
     min-height: 64px;
     padding-inline: 16px;
+    width: calc(100% + 24px);
+  }
+
+  .portal-access__footer {
+    margin-inline: -12px;
     width: calc(100% + 24px);
   }
 

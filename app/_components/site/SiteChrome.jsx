@@ -75,7 +75,7 @@ export function SiteHeader({ activePage = "home" }) {
           {primaryNavigation.map(({ label, href, page }) => {
             const current = activePage === page ? "page" : undefined;
             return (
-              <a key={href} href={href} aria-current={current} onClick={closeMenu}>
+              <a key={href} className={page === "registration" ? "site-nav__registration" : undefined} href={href} aria-current={current} onClick={closeMenu}>
                 {label}
               </a>
             );

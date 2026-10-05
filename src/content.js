@@ -610,14 +610,14 @@ const allCourseRecords = [
     title: "Inglés online",
     category: "ingles",
     mode: "100% online",
-    audience: "Adultos y jóvenes fuera de EE. UU.",
+    audience: "Adultos y jóvenes en Estados Unidos y otros países.",
     bestFor: "Ideal si estudias desde otro país y necesitas clases en vivo.",
     fit: "Ideal si estudias desde otro país y necesitas sesiones en vivo con guía clara.",
     cta: "Ver online",
     image: site.images.onlineEnglish,
     imageAlt: "Instructora con audífonos guiando una clase de inglés online.",
     summary:
-      "Acceso desde cualquier país con sesiones en vivo y materiales visuales para avanzar más rápido.",
+      "Clases online en vivo y materiales visuales, con disponibilidad según país y grupo.",
     details: [
       "Conexión desde laptop, tableta o móvil con conexión estable.",
       "Práctica guiada para hablar con menos miedo y más fluidez.",
@@ -625,7 +625,7 @@ const allCourseRecords = [
     ],
     courseDetail: {
       lead:
-        "Ruta 100% online para estudiantes fuera de Estados Unidos que necesitan clases en vivo, guía visual y acompañamiento remoto.",
+        "Ruta 100% online con clases en vivo, guía visual y acompañamiento remoto. Admisiones confirma disponibilidad según país y grupo.",
       sections: [
         {
           title: "Metodología online",
@@ -653,14 +653,14 @@ const allCourseRecords = [
         },
       ],
       schedule: [
-        "Formato online desde cualquier país.",
+        "Formato online; confirma disponibilidad según país y grupo.",
         "Requiere equipo con internet, audífono y micrófono para participar con claridad.",
       ],
       note: "Pregunta por tutorías, niveles, talleres y becas disponibles para tu grupo.",
     },
     editorial: {
       version: "course-editorial-v1",
-      eyebrow: "Inglés en vivo desde cualquier país",
+      eyebrow: "Inglés en vivo, según país y grupo",
       lead:
         "Una ruta 100% online para comprender, conversar y avanzar con un profesor en tiempo real, materiales visuales y acompañamiento remoto.",
       heroImage: site.images.englishOnlineHeroGenerated,
@@ -683,7 +683,7 @@ const allCourseRecords = [
         },
         {
           label: "Acceso",
-          value: "Desde cualquier país",
+          value: "Según país y grupo",
         },
       ],
       outcomes: [
@@ -769,7 +769,7 @@ const allCourseRecords = [
           icon: "globe-2",
           title: "Desde tu país",
           text:
-            "Conéctate desde fuera de Estados Unidos y confirma el bloque correspondiente a tu zona horaria.",
+            "Conéctate desde Estados Unidos u otro país y confirma disponibilidad, grupo y zona horaria con admisiones.",
         },
         {
           icon: "headphones",
@@ -817,7 +817,7 @@ const allCourseRecords = [
         {
           question: "¿Puedo estudiar desde cualquier país?",
           answer:
-            "Sí. Este programa está dirigido a jóvenes y adultos fuera de Estados Unidos. Admisiones confirma la disponibilidad y convierte el horario publicado a tu zona.",
+            "Puedes estudiar desde Estados Unidos u otro país, según la disponibilidad del grupo y del país. Admisiones confirma tu acceso y el horario en tu zona antes de la inscripción.",
         },
         {
           question: "¿Qué equipo necesito?",
@@ -1129,7 +1129,7 @@ const allCourseRecords = [
           title: "Cómo funciona",
           items: [
             "Tiempo estimado: 6 meses.",
-            "Dos clases por semana, una hora por clase.",
+            "Dos horas semanales de referencia; admisiones confirma cómo se distribuyen.",
             "Orientación inicial para explicar proceso, nivel y punto de arranque.",
           ],
         },
@@ -1182,7 +1182,7 @@ const allCourseRecords = [
         },
         {
           label: "Ritmo publicado",
-          value: "2 clases por semana",
+          value: "2 horas semanales de referencia",
         },
         {
           label: "Bloques publicados",
@@ -1255,7 +1255,7 @@ const allCourseRecords = [
         points: [
           "Orientación inicial para entender el proceso y el punto de arranque.",
           "Ruta alrededor de las cuatro áreas que componen el examen GED actual.",
-          "Dos clases de una hora por semana según la información publicada por AIT.",
+          "Dos horas semanales de referencia; admisiones confirma cómo se distribuyen.",
           "Duración estimada de seis meses, sin garantía de fecha de aprobación.",
         ],
       },
@@ -1288,7 +1288,7 @@ const allCourseRecords = [
           icon: "calendar-days",
           title: "Rutina semanal",
           text:
-            "La información publicada contempla dos clases de una hora por semana y bloques de atención los sábados.",
+            "La referencia es de dos horas semanales, con bloques publicados los sábados. Confirma con admisiones cómo se distribuyen las clases.",
         },
         {
           icon: "badge-check",
@@ -1353,7 +1353,7 @@ const allCourseRecords = [
         {
           question: "¿Cuántas clases hay por semana?",
           answer:
-            "La información publicada por AIT indica dos clases de una hora por semana. Admisiones confirma cómo se organiza ese ritmo dentro del bloque disponible.",
+            "La referencia publicada suma dos horas semanales. Los horarios muestran bloques de dos horas los sábados; admisiones confirma cuántos encuentros tendrá tu grupo y cómo se distribuyen.",
         },
         {
           question: "¿Cuáles son los requisitos para presentar el examen en Nueva Jersey?",

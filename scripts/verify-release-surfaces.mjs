@@ -123,6 +123,8 @@ try {
     { name: "citizenship", pathname: "/ciudadania/", selector: "#citizenship-page-title", anchor: null },
     { name: "privacy", pathname: "/privacy-policy/", selector: "main h1", anchor: null },
     { name: "terms", pathname: "/terms-and-conditions/", selector: "main h1", anchor: null },
+    { name: "registration", pathname: "/inscribete/", selector: "main h1", anchor: null },
+    { name: "password-reset", pathname: "/portal/reset-password/", selector: "main h1", anchor: null },
     { name: "placement", pathname: "/placement-test/", selector: "main h1", anchor: null },
     { name: "portal-entry", pathname: "/portal/sign-in/", selector: "#portal-signin-title", anchor: null },
     { name: "employee-entry", pathname: "/employee/sign-in/", selector: "#portal-signin-title", anchor: null },
@@ -402,12 +404,12 @@ try {
             return { left: box.left, right: box.right, top: box.top, bottom: box.bottom, height: box.height };
           };
           return {
-            header: rect('.site-header'), ribbon: rect('.approved-hero__spain'),
+            header: rect('.site-header'), art: rect('.approved-hero__art'),
             scene: rect('.approved-hero__scene'), facts: rect('.approved-hero__facts'),
             factCount: document.querySelectorAll('.approved-hero__fact').length,
             cta: rect('.approved-hero__cta'),
             copy: rect('.approved-hero__copy'),
-            controls: [...document.querySelectorAll('.approved-hero__modalities a')].map(element => {
+            controls: [...document.querySelectorAll('#cursos .offer-node__link')].map(element => {
               const box = element.getBoundingClientRect();
               return { href: element.getAttribute('href'), left: box.left, right: box.right, width: box.width, height: box.height };
             }),
@@ -429,6 +431,10 @@ try {
           control.left < 0 || control.right > viewport.width)) {
           throw new Error(`Delivery links are missing or not usable on ${viewport.name}: ${JSON.stringify(opening.controls)}`);
         }
+        const heroChoices = await evaluate(`document.querySelectorAll('.approved-hero__copy a').length`);
+        if (heroChoices !== 2 || (viewport.mobile && opening.art.top >= viewport.height)) {
+          throw new Error(`Focused mobile hero contract failed: ${JSON.stringify({heroChoices, opening})}`);
+        }
         // Short windows may scroll; normal laptop/desktop openings must fit whole.
         if (viewport.width >= 1041 && viewport.height >= 720 && opening.facts.bottom > viewport.height + 1) {
           throw new Error(`Opening exceeds ${viewport.name} viewport: ${JSON.stringify(opening)}`);
@@ -441,7 +447,7 @@ try {
 
       if (surface.name === "homepage" && viewport.name === "desktop") {
         const controlStates = [];
-        for (const selector of ['.approved-hero__cta', '.approved-hero__modalities a']) {
+        for (const selector of ['.approved-hero__cta']) {
           const readControl = () => evaluate(`(() => {
             const element = document.querySelector(${JSON.stringify(selector)});
             const style = getComputedStyle(element);
@@ -483,13 +489,12 @@ try {
         }
         await writeFile(path.join(outputDir, 'hero-control-states.json'), `${JSON.stringify(controlStates, null, 2)}\n`);
         await evaluate(`document.querySelector('.approved-hero__cta').click()`);
-        for (let attempt = 0; attempt < 50; attempt += 1) {
-          if (await evaluate(`['/placement-test', '/placement-test/'].includes(location.pathname) && document.querySelector('main h1')?.textContent.includes('Conoce tu nivel de inglés')`)) break;
-          await sleep(100);
+        await sleep(400);
+        if (!await evaluate(`location.hash === '#cursos' && document.querySelector('#cursos').getBoundingClientRect().top >= 0 && document.querySelector('#cursos').getBoundingClientRect().top < innerHeight`)) {
+          throw new Error('Homepage CTA did not reach the English format comparison.');
         }
-        if (!await evaluate(`['/placement-test', '/placement-test/'].includes(location.pathname) && document.querySelector('main h1')?.textContent.includes('Conoce tu nivel de inglés')`)) {
-          throw new Error('Homepage CTA did not reach the placement-test page.');
-        }
+        const formatShot = await send("Page.captureScreenshot", { format: "png", captureBeyondViewport: false });
+        await writeFile(path.join(outputDir, 'homepage-formats-desktop.png'), Buffer.from(formatShot.data, 'base64'));
       }
     }
   }

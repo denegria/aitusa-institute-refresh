@@ -54,51 +54,26 @@ function externalLinkProps(link) {
   return link?.external ? { target: "_blank", rel: "noreferrer" } : {};
 }
 
-const otherCourseFacts = {
-  "espanol-extranjeros": [
-    ["Modalidad", "Online; el grupo y la zona horaria se confirman con admisiones."],
-    ["Disponibilidad", "Horario coordinado según país y grupo activo."],
-    ["Inscripción", "Online por este sitio solo para residentes en Estados Unidos."],
-  ],
-  ged: [
-    ["Objetivo", "Preparación académica para las cuatro áreas del GED."],
-    ["Ritmo", "Dos clases de una hora por semana según la información publicada."],
-    ["Examen oficial", "Elegibilidad, registro, examen y diploma se gestionan por separado."],
-  ],
-  "tutorias-matematicas": [
-    ["Nivel", "Secundaria o universidad; comparte la materia y el tema."],
-    ["Modalidad", "Presencial u online según tutor, material y disponibilidad."],
-    ["Disponibilidad", "Tutor y horario coordinados para cada caso."],
-  ],
-  "computacion-basica": [
-    ["Nivel", "Para principiantes que necesitan una base funcional."],
-    ["Equipo", "Windows o Mac según el grupo; confirma qué llevar."],
-    ["Horarios", "Bloques publicados de mañana, noche y sábado."],
-  ],
-  "computacion-oficina": [
-    ["Herramientas", "Word, Excel y PowerPoint por módulos."],
-    ["Entrada", "El módulo inicial depende de tu base digital."],
-    ["Horarios", "Bloques publicados de mañana, noche y sábado."],
-  ],
-};
-
 function CourseDetailHero({ program, editorial }) {
   const registration = courseRegistrationAction(program.slug);
   const english = isEnglishProgram(program);
   const presencial = program.slug === "ingles-jovenes-adultos";
   const online = program.slug === "ingles-online-adultos";
-  const facts = !english ? otherCourseFacts[program.slug] : presencial ? [
-    ["Modalidad", "En sede de Nueva Jersey; admisiones confirma cuál."],
-    ["Horarios", "Mañanas y noches lun–jue; fines de semana."],
-    ["Costo y grupo", "Confirma el costo total y el próximo inicio con admisiones."],
-  ] : online ? [
-    ["Modalidad", "100% online y en vivo, desde fuera de Estados Unidos."],
-    ["Horarios", "Bloques en hora de Nueva Jersey; confirma la conversión a tu zona."],
-    ["Nivel y grupo", "La evaluación inicial orienta tu nivel; admisiones confirma el grupo."],
-  ] : [
-    ["Modalidad", "Encuentros presenciales con apoyo remoto, según el grupo activo."],
-    ["Horarios", "Bloques de referencia; confirma sede, alternancia y horario vigente."],
-    ["Nivel y grupo", "La evaluación inicial orienta tu nivel; admisiones confirma la combinación."],
+  const comparison = courseComparison[program.slug];
+  const hasPublishedTimes = editorial.schedule.some((group) => group.times.some((time) => /\d/.test(time)));
+  const referenceDays = [...new Set(editorial.schedule.map((group) => group.label.split(" · ")[0]))].join(" · ");
+  const referencePeriods = [...new Set(editorial.schedule.map((group) => group.label.match(/mañana|noche/i)?.[0]).filter(Boolean))].join(" y ");
+  const scheduleSummary = hasPublishedTimes
+    ? `${referenceDays}${referencePeriods ? ` · ${referencePeriods}` : ""}. Hora de Nueva Jersey (Eastern Time).`
+    : program.slug === "espanol-extranjeros"
+      ? "Grupo y horario coordinados según país y zona horaria."
+      : "Horario y zona horaria a confirmar según materia, tutor, modalidad y disponibilidad.";
+  const facts = [
+    ["Para quién", program.audience],
+    ["Modalidad", comparison.format],
+    [program.slug === "ged" ? "Ritmo y duración" : "Duración", program.slug === "ged" ? `Dos horas semanales de referencia. ${comparison.duration}` : comparison.duration],
+    ["Inicio y costo", "Próximo grupo, colegiatura y materiales por confirmar con admisiones."],
+    ["Horario de referencia", <>{scheduleSummary} <a className="course-schedule-preview-link" href="#horarios">Ver horarios y requisitos</a></>],
   ];
 
   return (
@@ -117,9 +92,17 @@ function CourseDetailHero({ program, editorial }) {
               <p className="course-program-hero__lead">
                 {presencial ? "Para jóvenes y adultos que quieren comprender y conversar en situaciones reales, con práctica cara a cara y guía constante." : editorial.lead}
               </p>
+              {program.slug === "espanol-extranjeros" ? (
+                <div className="course-language-summary" lang="en">
+                  <h2>Learn Spanish online</h2>
+                  <p>Practice Spanish for everyday life, study or work. Admissions confirms your starting level, group and time zone.</p>
+                  <a href={contactCourseHref(program.slug)}>Ask about the Spanish course</a>
+                </div>
+              ) : null}
               <dl className="course-detail-facts" aria-label={`Lo esencial de ${program.title}`}>
-                {facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value} {["Horarios", "Disponibilidad"].includes(label) ? <a href="#horarios">{english ? "Ver todos" : "Ver detalles"}</a> : null}</dd></div>)}
+                {facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
               </dl>
+              {program.slug === "espanol-extranjeros" ? <p className="course-registration-note">Inscripción online por este sitio solo para residentes en Estados Unidos. Para otros países, consulta con admisiones.</p> : null}
               <div className="course-program-hero__actions">
                 <a className="button button--primary" href={registration.href}>
                   {registration.label}
@@ -130,13 +113,6 @@ function CourseDetailHero({ program, editorial }) {
                   <i data-lucide="arrow-right" aria-hidden="true" />
                 </a>
               </div>
-              {program.slug === "espanol-extranjeros" ? (
-                <details className="course-language-summary" lang="en">
-                  <summary>New to Spanish? Read the English overview</summary>
-                  <p>Practice Spanish online for everyday life, study or work. Your starting level, group and time zone are confirmed with admissions. Duration depends on your level, goals and study frequency.</p>
-                  <a href={contactCourseHref(program.slug)}>Ask about the Spanish course</a>
-                </details>
-              ) : null}
             </div>
             <figure className="course-program-hero__media">
               <Image
@@ -167,9 +143,11 @@ function CourseDetailChapters({ program }) {
   );
 }
 
-function CourseOutcomes({ outcomes, copy = defaultSectionCopy.outcomes, id }) {
+function CourseLearning({ editorial, pathwayCopy, program }) {
+  const copy = editorial.sectionCopy?.outcomes || defaultSectionCopy.outcomes;
+  const pathwayLabel = isEnglishProgram(program) ? "Ver los niveles del programa" : program.slug === "ged" ? "Ver las cuatro áreas del examen" : program.slug.startsWith("computacion-") ? "Ver los módulos del programa" : "Ver la ruta de aprendizaje";
   return (
-    <section className="course-program-section course-program-outcomes" id={id} aria-labelledby="course-outcomes-title">
+    <section className="course-program-section course-program-outcomes" id="resultados" aria-labelledby="course-outcomes-title">
       <div className="section-inner">
         <header className="course-program-heading section-heading--framed">
           <p className="section-kicker">{copy.eyebrow}</p>
@@ -177,7 +155,7 @@ function CourseOutcomes({ outcomes, copy = defaultSectionCopy.outcomes, id }) {
           <p>{copy.text}</p>
         </header>
         <ol className="course-outcome-list">
-          {outcomes.map((outcome) => (
+          {editorial.outcomes.map((outcome) => (
             <li key={outcome.number}>
               <span aria-hidden="true">{outcome.number}</span>
               <h3>{outcome.title}</h3>
@@ -185,51 +163,38 @@ function CourseOutcomes({ outcomes, copy = defaultSectionCopy.outcomes, id }) {
             </li>
           ))}
         </ol>
-      </div>
-    </section>
-  );
-}
-
-function CoursePathway({ pathway, copy = defaultSectionCopy.pathway }) {
-  return (
-    <section
-      className="course-program-section course-program-pathway"
-      id={copy.id || "niveles"}
-      aria-labelledby="course-pathway-title"
-    >
-      <div className="section-inner course-program-pathway__layout">
-        <header className="course-program-heading">
-          <p className="section-kicker">{copy.eyebrow}</p>
-          <h2 id="course-pathway-title">{copy.title}</h2>
-          <p>{copy.text}</p>
-          {copy.actionLabel && copy.actionHref ? (
-            <a
-              className="course-program-text-link"
-              href={copy.actionHref}
-              {...externalLinkProps(copy)}
-            >
-              {copy.actionLabel}
-              {copy.external && !copy.actionLabel.includes("WhatsApp") ? " · WhatsApp" : ""}
-              <i data-lucide="arrow-right" aria-hidden="true" />
-            </a>
-          ) : null}
-        </header>
-        <ol className="course-pathway-list" data-stage-count={pathway.length}>
-          {pathway.map((stage) => (
-            <li key={stage.stage}>
-              <div className="course-pathway-list__marker" aria-hidden="true">
-                <span>{stage.marker || stage.stage.replace(/^(Etapa|Área)\s+/, "")}</span>
-              </div>
-              <div>
-                <p className="course-pathway-list__eyebrow">
-                  {stage.stage}{stage.focus ? ` · ${stage.focus}` : ""}
-                </p>
-                <h3>{stage.title}</h3>
-                <p>{stage.text}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+        {editorial.pathway?.length ? (
+          <details className="course-learning-pathway" id={pathwayCopy.id || "niveles"}>
+            <summary><span>{pathwayLabel}</span><i data-lucide="plus" aria-hidden="true" /></summary>
+            <p className="course-learning-pathway__intro">{pathwayCopy.text}</p>
+            <ol className="course-pathway-list" data-stage-count={editorial.pathway.length}>
+              {editorial.pathway.map((stage) => (
+                <li key={stage.stage}>
+                  <div className="course-pathway-list__marker" aria-hidden="true">
+                    <span>{stage.marker || stage.stage.replace(/^(Etapa|Área)\s+/, "")}</span>
+                  </div>
+                  <div>
+                    <p className="course-pathway-list__eyebrow">
+                      {stage.stage}{stage.focus ? ` · ${stage.focus}` : ""}
+                    </p>
+                    <h3>{stage.title}</h3>
+                    <p>{stage.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            {pathwayCopy.actionLabel && pathwayCopy.actionHref ? (
+              <>
+                <a className="course-program-text-link" href={pathwayCopy.actionHref} {...externalLinkProps(pathwayCopy)}>
+                  {pathwayCopy.actionLabel}
+                  {pathwayCopy.external && !pathwayCopy.actionLabel.includes("WhatsApp") ? " · WhatsApp" : ""}
+                  <i data-lucide="arrow-right" aria-hidden="true" />
+                </a>
+                {pathwayCopy.actionHref === conversionCtas.placement.href ? <p className="course-learning-pathway__readiness">62 preguntas · 10–15 min. Para ver y guardar el resultado, debes verificar tu correo y crear una cuenta.</p> : null}
+              </>
+            ) : null}
+          </details>
+        ) : null}
       </div>
     </section>
   );
@@ -309,6 +274,9 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
         <header className="course-program-heading section-heading--framed">
           <p className="section-kicker">{copy.eyebrow}</p>
           <h2 id="course-logistics-title">{presencial ? "Horarios de clase." : program.slug === "ingles-online-adultos" ? "Horarios en Nueva Jersey." : english ? "Bloques de referencia." : otherScheduleTitles[program.slug]}</h2>
+          {editorial.schedule.some((group) => group.times.some((time) => /\d/.test(time))) ? (
+            <p className="course-schedule-timezone">Hora de Nueva Jersey · Eastern Time (America/New_York). Si estudias desde otra zona, confirma tu hora local con admisiones; la diferencia puede cambiar con el horario de verano.</p>
+          ) : null}
         </header>
         <div className="course-logistics-layout">
           <div className="course-schedule-panel">
@@ -393,7 +361,7 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
                 </dl>
               </div>
             )}
-            <p className="course-schedule-panel__note">{editorial.logisticsNote}</p>
+            <p className="course-schedule-panel__note">{program.slug === "ged" ? "AIT publica una referencia de dos horas semanales y estos bloques de dos horas los sábados. Admisiones confirma la frecuencia de encuentros, el bloque y la sede de tu grupo antes de inscribirte." : editorial.logisticsNote}</p>
           </div>
         </div>
         <aside className="course-detail-decision" aria-labelledby="course-decision-title">
@@ -403,7 +371,6 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
             </div>
             <div>
               <p>{courseComparison[program.slug].requirements}</p>
-              <p>{presencial ? "El registro desglosa inscripción y materiales. Confirma colegiatura total, grupo y próxima fecha con admisiones." : "Confirma el costo total, los materiales incluidos y la próxima fecha disponible con admisiones antes de inscribirte."}</p>
               <div className="course-detail-decision__actions">
                 <a href={contactCourseHref(program.slug)}>Consultar costo y disponibilidad</a>
                 <a href={scheduleInquiryHref(program)} target="_blank" rel="noreferrer">{program.slug === "tutorias-matematicas" ? "Consultar opción online por WhatsApp" : "Confirmar horario por WhatsApp"}</a>
@@ -573,14 +540,7 @@ export function CourseProgramPage({ program }) {
         <CourseLogistics program={program} editorial={editorial} copy={editorial.sectionCopy?.logistics} />
       ) : null}
       {editorial.outcomes?.length ? (
-        <CourseOutcomes
-          outcomes={editorial.outcomes}
-          copy={editorial.sectionCopy?.outcomes}
-          id="resultados"
-        />
-      ) : null}
-      {editorial.pathway?.length ? (
-        <CoursePathway pathway={editorial.pathway} copy={pathwayCopy} />
+        <CourseLearning editorial={editorial} pathwayCopy={pathwayCopy} program={program} />
       ) : null}
       {editorial.method ? <CourseMethod method={editorial.method} /> : null}
       {editorial.story ? <CourseStory story={editorial.story} isEnglishPresencial={isEnglishPresencial} /> : null}

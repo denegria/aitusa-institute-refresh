@@ -9,8 +9,8 @@ const selectedQuestions = [
   "¿Te obligan a memorizar miles de palabras y sientes que no te alcanzan ni el tiempo ni la cabeza?",
 ];
 
-describe("homepage Method community story", () => {
-  it("keeps the approved narrative and fundamentals verbatim", () => {
+describe("homepage Method and materials", () => {
+  it("keeps the approved method identity, fundamentals, and original media", () => {
     const { methodNarrative, solutionCharacteristics } = siteData;
 
     assert.equal(methodNarrative.eyebrow, "Nuestra filosofía");
@@ -25,74 +25,47 @@ describe("homepage Method community story", () => {
     assert.deepEqual(methodNarrative.painPoints, selectedQuestions);
     assert.equal(methodNarrative.reasonsEyebrow, "Nuestra respuesta");
     assert.equal(methodNarrative.reasonsHeading, "Lo que cambia cuando entiendes el método.");
-    assert.equal(methodNarrative.promise, undefined);
-    assert.equal(methodNarrative.painIntroduction, undefined);
-    assert.equal(methodNarrative.solutionHeading, undefined);
     assert.equal(methodNarrative.video, "/assets/wix/videos/intro-video-great.mp4");
     assert.equal(methodNarrative.videoPoster, "/assets/wix/videos/posters/intro-video-great.jpg");
     assert.equal(methodNarrative.videoLabel, "Conoce el método completo · 1:45");
-    assert.deepEqual(
-      solutionCharacteristics.map(({ title, body }) => ({ title, body })),
-      [
-        {
-          title: "Comprende sin traducir",
-          body: "Entrena tu comprensión para entender inglés directamente, sin traducir palabra por palabra.",
-        },
-        {
-          title: "Habla sin memorizar",
-          body: "Practica estructuras útiles para hablar desde la primera clase, sin listas interminables.",
-        },
-        {
-          title: "Avanza a tu ritmo",
-          body: "Graphic Concept se adapta a tu nivel: un método propio, patentado y probado para hablar con más facilidad.",
-        },
-      ],
-    );
-    assert.deepEqual(
-      solutionCharacteristics.map(({ icon }) => icon),
-      ["ear", "message-circle", "route"],
-    );
+    assert.deepEqual(solutionCharacteristics.map(({ title, body }) => ({ title, body })), [
+      { title: "Comprende sin traducir", body: "Entrena tu comprensión para entender inglés directamente, sin traducir palabra por palabra." },
+      { title: "Habla sin memorizar", body: "Practica estructuras útiles para hablar desde la primera clase, sin listas interminables." },
+      { title: "Avanza a tu ritmo", body: "Graphic Concept se adapta a tu nivel: un método propio, patentado y probado para hablar con más facilidad." },
+    ]);
+    assert.deepEqual(solutionCharacteristics.map(({ icon }) => icon), ["ear", "message-circle", "route"]);
   });
 
-  it("renders the community band and unnumbered semantic questions", async () => {
+  it("combines teaching fundamentals, real video, and materials in one method chapter", async () => {
     const source = await readFile("app/_components/site/PublicSections.jsx", "utf8");
-    const method = source.slice(
-      source.indexOf("export function MethodSection"),
-      source.indexOf("const supportingPrograms"),
-    );
+    const method = source.slice(source.indexOf("export function MethodSection"), source.indexOf("export function StudyGoalsSection"));
 
-    assert.match(method, /method-story__opening/);
-    assert.match(method, /method-story__community/);
-    assert.match(method, /method-story__community-inner/);
-    assert.match(method, /method-story__conclusion/);
-    assert.match(method, /<ul className="method-story__questions"/);
-    assert.match(method, /<ul className="method-reasons"/);
-    assert.match(method, /aria-label="Preguntas comunes al aprender inglés"/);
-    assert.match(method, /aria-label="Resultados prácticos del método"/);
-    assert.doesNotMatch(method, /<ol/);
-    assert.doesNotMatch(method, /method-question__index|method-question__slash|Tres preguntas/);
-    assert.doesNotMatch(method, /method-story__promise|method-story__bridge|painIntroduction/);
+    assert.match(method, /id="metodo" aria-labelledby="method-title"/);
+    assert.match(method, /<h2 id="method-title"/);
+    assert.match(method, /methodNarrative\.headingLines/);
+    assert.match(method, /<ul className="cohesion-method__reasons"/);
+    assert.match(method, /aria-label="Cómo practicarás con el método"/);
+    assert.match(method, /solutionCharacteristics\.map/);
+    assert.match(method, /<h3>\{item\.title\}<\/h3><p>\{item\.body\}<\/p>/);
+    assert.equal((method.match(/<MethodVideo/g) || []).length, 1);
+    assert.equal((method.match(/<BooksSection/g) || []).length, 1);
+    assert.ok(method.indexOf("solutionCharacteristics.map") < method.indexOf("<BooksSection"));
+    assert.ok(method.indexOf("<MethodVideo") < method.indexOf("<BooksSection"));
+    assert.doesNotMatch(method, /method-story__community|method-story__questions|painPoints|painIntroduction|<ol/);
     assert.doesNotMatch(method, /graphic-concept-(compass-source|pain-|principle-|path)/);
     assert.equal((method.match(/className="method-reason__icon"/g) || []).length, 1);
     assert.match(method, /data-lucide=\{item\.icon \|\| "circle-check"\}/);
-    assert.doesNotMatch(method, /Resumen del método en tres razones|method-reason__(number|mark)/);
-    assert.doesNotMatch(method, /footer-note|trust-note|videoEyebrow|videoHeading|videoIntroduction/);
-    assert.doesNotMatch(method, /method-section|method-editorial/);
+    assert.match(method, /src=\{item\.iconImage\}/);
+    assert.doesNotMatch(method, /href="\/placement-test\/"|<CallbackDialog/);
   });
 
-  it("renders the existing native Method video exactly once with its required behavior", async () => {
+  it("renders the existing native Method video exactly once without autoplay", async () => {
     const [sections, interactive] = await Promise.all([
       readFile("app/_components/site/PublicSections.jsx", "utf8"),
       readFile("app/_components/site/InteractiveSections.jsx", "utf8"),
     ]);
-    const method = sections.slice(
-      sections.indexOf("export function MethodSection"),
-      sections.indexOf("const supportingPrograms"),
-    );
-    const video = interactive.slice(
-      interactive.indexOf("export function MethodVideo"),
-      interactive.indexOf("export function TestimonialsSection"),
-    );
+    const method = sections.slice(sections.indexOf("export function MethodSection"), sections.indexOf("export function StudyGoalsSection"));
+    const video = interactive.slice(interactive.indexOf("export function MethodVideo"), interactive.indexOf("export function TestimonialsSection"));
 
     assert.equal((method.match(/<MethodVideo/g) || []).length, 1);
     assert.equal((video.match(/<video/g) || []).length, 1);
@@ -107,53 +80,29 @@ describe("homepage Method community story", () => {
     assert.doesNotMatch(video, /autoplay|muted|playsInline/);
   });
 
-  it("locks the faithful community-story layout across desktop and compact viewports", async () => {
-    const styles = await readFile("src/styles.css", "utf8");
-    const correctionStart = styles.lastIndexOf("/* MIS-378 correction");
-    const layer = styles.slice(
-      correctionStart,
-      styles.indexOf("/* MIS-378 source-art baseline", correctionStart),
-    );
+  it("shows three representative covers while preserving the complete six-step collection", async () => {
+    const { bookLibrary } = siteData;
+    const books = bookLibrary.levels.flatMap((level) => level.books);
+    const source = await readFile("app/_components/site/PublicSections.jsx", "utf8");
+    const section = source.slice(source.indexOf("export function BooksSection"), source.indexOf("export function FaqSection"));
 
-    assert.match(layer, /method-story__community\s*\{[\s\S]*background: var\(--home-navy\)/);
-    assert.match(layer, /method-story__intro::before\s*\{[\s\S]*width: 5px;[\s\S]*linear-gradient\(180deg, var\(--home-blue\), var\(--home-gold\)\)/);
-    assert.match(styles, /MIS-378 homepage rhythm polish:[\s\S]*method-story__intro-copy\s*\{[\s\S]*max-width: 700px;[\s\S]*line-height: 1\.62/);
-    assert.match(styles, /MIS-378 homepage rhythm polish:[\s\S]*method-story__community-inner\s*\{[\s\S]*grid-template-columns: minmax\(220px, \.58fr\) minmax\(0, 1\.62fr\)/);
-    assert.match(styles, /MIS-378 homepage rhythm polish:[\s\S]*method-story__questions\s*\{[\s\S]*grid-template-columns: minmax\(0, \.9fr\) minmax\(0, 1\.05fr\) minmax\(0, 1\.25fr\)/);
-    assert.match(styles, /MIS-378 homepage rhythm polish:[\s\S]*method-story__questions p\s*\{[\s\S]*font-size: clamp\(1\.08rem, 1\.45vw, 1\.36rem\);[\s\S]*line-height: 1\.34/);
-    assert.match(layer, /method-story__conclusion\s*\{[\s\S]*grid-template-areas:[\s\S]*"heading video"[\s\S]*"reasons video"/);
-    assert.match(layer, /method-story__community \.method-story-kicker\s*\{[\s\S]*color: var\(--home-gold-light\)/);
-    assert.match(layer, /method-story__conclusion \.method-reasons li\s*\{[\s\S]*grid-template-columns: 42px minmax\(0, 1fr\)/);
-    assert.match(layer, /method-story__conclusion \.method-reason__icon\s*\{[\s\S]*width: 40px;[\s\S]*background: rgba\(196, 147, 45, \.1\)/);
-    assert.match(layer, /@media \(max-width: 900px\)[\s\S]*method-story__questions\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)/);
-    assert.match(layer, /@media \(max-width: 900px\)[\s\S]*"heading"[\s\S]*"reasons"[\s\S]*"video"/);
-    assert.match(layer, /@media \(max-width: 719px\)[\s\S]*method-story__media\s*\{[\s\S]*width: min\(100%, 300px\)/);
-    assert.doesNotMatch(layer, /radial-gradient|mix-blend-mode|margin: 0 -|width: 145%/);
-  });
-
-  it("isolates the story from legacy Method grids so chapter order and tablet stacking cannot regress", async () => {
-    const [sections, styles] = await Promise.all([
-      readFile("app/_components/site/PublicSections.jsx", "utf8"),
-      readFile("src/styles.css", "utf8"),
-    ]);
-    const method = sections.slice(
-      sections.indexOf("export function MethodSection"),
-      sections.indexOf("const supportingPrograms"),
-    );
-    const correctionStart = styles.lastIndexOf("/* MIS-378 correction");
-    const layer = styles.slice(
-      correctionStart,
-      styles.indexOf("/* MIS-378 source-art baseline", correctionStart),
-    );
-
-    assert.ok(method.indexOf("method-story__opening") < method.indexOf("method-story__community"));
-    assert.ok(method.indexOf("method-story__community") < method.indexOf("method-story__conclusion"));
-    assert.doesNotMatch(method, /method-section|method-editorial/);
-    assert.doesNotMatch(method, /method-story__bridge|method-story__promise/);
-    assert.match(layer, /#metodo\.method-story-section\s*\{[\s\S]*display: block/);
-    assert.match(layer, /method-story-frame\s*\{[\s\S]*width: min\(1180px, calc\(100% - 32px\)\)/);
-    assert.match(layer, /method-story__conclusion\s*\{[\s\S]*padding-top: clamp\(56px, 7vw, 92px\)/);
-    assert.match(layer, /@media \(max-width: 900px\)[\s\S]*method-story__community-inner,[\s\S]*method-story__conclusion\s*\{[\s\S]*grid-template-columns: minmax\(0, 1fr\)/);
-    assert.match(layer, /method-story__media figcaption\s*\{[\s\S]*text-transform: none/);
+    assert.equal(bookLibrary.intro.title, "Intro Plus");
+    assert.equal(bookLibrary.intro.image, "/assets/books/intro-book-portada.avif");
+    assert.deepEqual(books.map((book) => book.title), ["Step 1 Plus", "Step 2 Plus", "Step 3 Plus", "Step 4 Plus", "Step 5 Plus", "Step 6 Plus"]);
+    for (const book of [bookLibrary.intro, ...books]) {
+      assert.match(book.image, /^\/assets\/books\/.+\.avif$/);
+      assert.match(book.imageAlt, /Portada del libro .+ de AIT USA Institute\./);
+      await readFile(`public${book.image}`);
+    }
+    assert.match(section, /featuredBooks = \[bookLibrary\.intro, galleryBooks\[0\], galleryBooks\[2\]\]/);
+    assert.match(section, /featuredBooks\.map/);
+    const completeCollection = section.match(/<details className="cohesion-books__collection">([\s\S]*?)<\/details>/)?.[1];
+    assert.ok(completeCollection);
+    assert.match(completeCollection, /<summary>Ver la colección completa<\/summary>/);
+    assert.match(completeCollection, /galleryBooks\.map/);
+    assert.match(section, /alt=\{book\.imageAlt\}/);
+    assert.match(section, /<figcaption>\{book\.title\}<\/figcaption>/);
+    assert.match(section, /href="\/cursos\/ingles-jovenes-adultos\/#niveles"/);
+    assert.match(section, /admisiones confirma el material de tu grupo/);
   });
 });

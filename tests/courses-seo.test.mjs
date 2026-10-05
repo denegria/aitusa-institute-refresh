@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { describe, it } from "node:test";
 import { catalogInformationRoutes, courseCatalog, productOfferings, programs, schedules } from "../src/content.js";
 import { getCourseMetaDescription } from "../src/seo/courseMetadata.js";
+import { isPricedRegistrationChoice } from "../src/registration/contract.js";
 
 const activeSlugs = [
   "ingles-jovenes-adultos",
@@ -186,6 +187,23 @@ describe("AIT USA native course routes and SEO contract", () => {
       "Microsoft PowerPoint",
     ]);
     assert.match(officeComputing.editorial.logisticsNote, /referencias, no garantías/i);
+  });
+
+  it("keeps online English country guidance consistent with the registration route", () => {
+    const online = programs.find((program) => program.slug === "ingles-online-adultos");
+    assert.equal(isPricedRegistrationChoice("english_program", "online", "US"), true);
+    assert.equal(isPricedRegistrationChoice("english_program", "online", "CO"), true);
+    assert.doesNotMatch(JSON.stringify({ audience: online.audience, detail: online.courseDetail, editorial: online.editorial }), /fuera de (?:Estados Unidos|EE\. UU\.)/);
+    assert.match(online.editorial.faqs.find((faq) => faq.question.includes("país")).answer, /confirma/i);
+  });
+
+  it("keeps GED reference blocks distinct from the confirmed meeting frequency", () => {
+    const ged = programs.find((program) => program.slug === "ged");
+    assert.deepEqual(ged.editorial.schedule.map((group) => group.times), [["9:00–11:00 am"], ["11:00 am–1:00 pm"], ["2:00–4:00 pm"], ["4:00–6:00 pm"]]);
+    const rhythm = ged.editorial.faqs.find((faq) => faq.question.includes("semana")).answer;
+    assert.doesNotMatch(rhythm, /dos clases de una hora/i);
+    assert.match(rhythm, /admisiones confirma/i);
+    assert.match(rhythm, /dos horas/i);
   });
 
   it("keeps the catalog compact and makes all active cards crawlable", async () => {
