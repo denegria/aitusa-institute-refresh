@@ -27,7 +27,6 @@ const browser = spawn(chrome, [
   "--headless=new",
   "--no-sandbox",
   "--disable-dev-shm-usage",
-  "--hide-scrollbars",
   "--disable-extensions",
   "--disable-background-networking",
   "--no-first-run",

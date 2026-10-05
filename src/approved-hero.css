@@ -91,7 +91,7 @@
 @keyframes spain-route-drift { from { background-position: 48% center; } to { background-position: 52% center; } }
 @keyframes spain-route-shimmer { 0%, 12% { left: -28%; opacity: 0; } 24% { opacity: .95; } 66% { opacity: .72; } 82%, 100% { left: 104%; opacity: 0; } }
 
-@media (min-width: 1041px) and (max-width: 1240px) {
+@media (min-width: 1041px) and (max-width: 1320px) {
   .site-header:has(+ :is(.home-page, .registration-page)) { padding-inline: 24px; gap: 18px; }
   .site-header:has(+ :is(.home-page, .registration-page)) .site-nav { gap: 4px 18px; }
   .site-header:has(+ :is(.home-page, .registration-page)) .brand img { width: 52px; height: 52px; }
