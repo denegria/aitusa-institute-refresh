@@ -2024,3 +2024,12 @@ and closeout evidence are recorded in
 - **Course/enrollment clarity:** Show audience, format, duration, next step, and reference schedule before course actions; retain complete detail below. Label published times as New Jersey references and confirm country/group availability through admissions. Separate registration/books from ongoing tuition using authoritative quotes. Request the optional four-week quote only when asked. Keep contact phone-or-email behavior and portal preview gates.
 - **Responsive/evidence:** Compose flexible viewport chapters at desktop/mobile, retaining visible scrollbars and the MIS-427 short-desktop correction. Verify 1440×1000, 1366×768, 1280×720, 390×844, and 320×700/740 without clipping or overflow; verify mobile navigation, course discovery, Method video/books, manual media controls, registration, and portal entry.
 - **Boundaries:** Preserve real proof/media, course routes, consent, CRM/provider/auth contracts, and payment flags. Do not invent captions, testimonials, operating schedules, availability, or prices. No real form submissions, account creation, payment capture, private-data writes, telemetry changes, or production promotion during this release.
+
+
+## 2026-10-06 - Selective staging revision - Alvaro approval
+
+- Restore the current production homepage at `5ac02218bfd1a8c765c33fc13f5cfa9daf6a7ba6`: full section order, hero, books, proof and homepage header treatment. Keep accepted course sizing and other surfaces from staging `6567827c54a4fdab2961184af7ba8dc9228d5ac6`. This supersedes the October 5 homepage composition and optional-tuition presentation.
+- Show the optional, initially unchecked four-week tuition checkbox directly in purchase step one. Step two collects personal information. Keep base/optional quote validation and CRM/provider contracts.
+- Remove daylight-saving copy and unconfirmed class timetables from current and legacy runtime data. For in-person courses, explicitly distinguish office inquiries from class times. No independently confirmed office-hour source was found in permitted local memory summaries or repository provenance, so direct visitors to admissions without numeric hours. Online courses direct visitors to call or request information about class times.
+- Author commits as Denegria. Staging Git deployment is authorized; production promotion, live form submissions, charges and data migrations are excluded.
+- Run standard validation, desktop/mobile/narrow visual QA, mocked purchase-choice tests, and verify the exact staging deployment.

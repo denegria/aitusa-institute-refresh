@@ -6,6 +6,9 @@ import { createPortal } from "react-dom";
 import { communityGallery, courseCatalog, faqs, site, testimonials } from "../../../src/content";
 import { admissionContext, admissionMessage, admissionOptions } from "../../../src/admissions.js";
 
+const COMMUNITY_TAB_CYCLE_MS = 8000;
+const COMMUNITY_PHOTO_CYCLE_MS = 2600;
+
 const SPANISH_SPEAKING_COUNTRIES = [
   { name: "Argentina", src: "/assets/flags/ar.svg" },
   { name: "Bolivia", src: "/assets/flags/bo.svg" },
@@ -87,8 +90,6 @@ export function TestimonialsSection() {
     testimonials.find((item) => item.name === "Jessica"),
     ...testimonials.filter((item) => item.name !== "Jessica"),
   ].filter(Boolean);
-  const featuredStory = orderedStories[0];
-  const dialogId = useId();
   const dialogRef = useRef(null);
   const triggerRef = useRef(null);
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
@@ -118,60 +119,39 @@ export function TestimonialsSection() {
       <div className="section-inner testimonials-section__inner">
         <header className="section-heading section-heading--framed testimonials-section__heading">
           <p className="section-kicker">Testimonios</p>
-          <h2 id="testimonials-title">Conoce a quienes aprenden con AIT.</h2>
-          <p>Escucha una entrevista y explora las clases y graduaciones de nuestra comunidad.</p>
+          <h2 id="testimonials-title">Historias que se cuentan en primera persona.</h2>
+          <p>Escucha a estudiantes y docentes contar qué cambia cuando el método y el acompañamiento se sienten reales.</p>
         </header>
 
-        <div className="testimonials-feature">
-          <button
-            className="testimonial-card testimonial-card--featured"
-            type="button"
-            onClick={(event) => openStory(0, event.currentTarget)}
-            aria-label={`Ver entrevista en inglés con ${shortLabels[featuredStory.name] || featuredStory.name}`}
-            aria-haspopup="dialog"
-            aria-controls={dialogId}
-          >
-            <span className="testimonial-card__media">
-              <Image
-                src={featuredStory.videoPoster || featuredStory.image}
-                alt=""
-                fill
-                sizes="(max-width: 719px) calc(100vw - 40px), (max-width: 1040px) 60vw, 44vw"
-                style={{ objectPosition: featuredStory.posterPosition }}
-              />
-              <span className="testimonial-card__shade" aria-hidden="true" />
-              <span className="community-proof__play" aria-hidden="true"><i data-lucide="play" /></span>
-              <span className="testimonial-card__duration">{featuredStory.duration}</span>
-            </span>
-            <span className="testimonial-card__copy">
-              <span>{featuredStory.result}</span>
-              <strong>{shortLabels[featuredStory.name] || featuredStory.name}</strong>
-              <small>{featuredStory.headline}</small>
-              <span className="testimonial-card__watch">Ver entrevista en inglés</span>
-            </span>
-          </button>
-          <aside className="testimonials-more" aria-labelledby="testimonials-more-title">
-            <h3 id="testimonials-more-title">También puedes escuchar</h3>
-            {orderedStories.slice(1).map((story, index) => (
-              <button
-                className="testimonial-story-choice"
-                id={story.name === "Eric" ? "testimonio-eric" : undefined}
-                type="button"
-                key={story.video}
-                onClick={(event) => openStory(index + 1, event.currentTarget)}
-                aria-label={`Ver entrevista en inglés con ${shortLabels[story.name] || story.name}`}
-                aria-haspopup="dialog"
-                aria-controls={dialogId}
-              >
-                <span className="testimonial-story-choice__copy">
-                  <strong>{shortLabels[story.name] || story.name}</strong>
-                  <span>{story.headline}</span>
-                  <small>Entrevista en inglés · {story.duration}</small>
-                </span>
-                <i data-lucide="circle-play" aria-hidden="true" />
-              </button>
-            ))}
-          </aside>
+        <div className="testimonials-grid">
+          {orderedStories.map((story, index) => (
+            <button
+              className="testimonial-card"
+              id={story.name === "Eric" ? "testimonio-eric" : undefined}
+              type="button"
+              key={story.video}
+              onClick={(event) => openStory(index, event.currentTarget)}
+              aria-label={`Ver entrevista en inglés con ${shortLabels[story.name] || story.name}`}
+            >
+              <span className="testimonial-card__media">
+                <Image
+                  src={story.videoPoster || story.image}
+                  alt=""
+                  fill
+                  sizes="(max-width: 719px) 100vw, (max-width: 1040px) 50vw, 33vw"
+                  style={{ objectPosition: story.posterPosition }}
+                />
+                <span className="testimonial-card__shade" aria-hidden="true" />
+                <span className="community-proof__play" aria-hidden="true"><i data-lucide="play" /></span>
+                <span className="testimonial-card__duration">{story.duration}</span>
+              </span>
+              <span className="testimonial-card__copy">
+                <span>{story.result}</span>
+                <strong>{shortLabels[story.name] || story.name}</strong>
+                <small>{story.headline}</small>
+              </span>
+            </button>
+          ))}
         </div>
 
         <aside className="country-proof" aria-labelledby="country-proof-title">
@@ -179,29 +159,25 @@ export function TestimonialsSection() {
             <span>Una comunidad sin fronteras</span>
             <strong id="country-proof-title">Estudiantes de todo el mundo han aprendido con AIT USA.</strong>
           </div>
-          <details className="country-proof__details">
-            <summary>Explorar países de nuestra comunidad</summary>
-            <ul className="country-proof__flags" aria-label="Países hispanohablantes de nuestra comunidad">
-              {SPANISH_SPEAKING_COUNTRIES.map((country) => (
-                <li key={country.name} title={country.name}>
-                  <Image
-                    src={country.src}
-                    alt={`Bandera de ${country.name}`}
-                    width={36}
-                    height={27}
-                    unoptimized
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </li>
-              ))}
-            </ul>
-          </details>
+          <ul className="country-proof__flags" aria-label="Países hispanohablantes de nuestra comunidad">
+            {SPANISH_SPEAKING_COUNTRIES.map((country) => (
+              <li key={country.name} title={country.name}>
+                <Image
+                  src={country.src}
+                  alt={`Bandera de ${country.name}`}
+                  width={36}
+                  height={27}
+                  unoptimized
+                  loading="lazy"
+                  decoding="async"
+                />
+              </li>
+            ))}
+          </ul>
         </aside>
 
         <dialog
           className="proof-dialog testimonial-dialog"
-          id={dialogId}
           aria-labelledby="testimonial-dialog-title"
           ref={dialogRef}
           onClose={closeStoryCleanup}
@@ -257,11 +233,16 @@ export function ProofStories() {
   const sectionRef = useRef(null);
   const imageDialogRef = useRef(null);
   const triggerRef = useRef(null);
+  const pauseTimerRef = useRef(null);
   const [activeTab, setActiveTab] = useState("classroom");
-  const [previewPhotoIndex, setPreviewPhotoIndex] = useState(0);
+  const [mediaCycleIndex, setMediaCycleIndex] = useState(0);
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
   const [lightboxTab, setLightboxTab] = useState("graduations");
   const [isInView, setIsInView] = useState(false);
+  const [hoverPaused, setHoverPaused] = useState(false);
+  const [focusPaused, setFocusPaused] = useState(false);
+  const [interactionPaused, setInteractionPaused] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const tabMeta = {
     graduations: {
@@ -279,16 +260,34 @@ export function ProofStories() {
   };
 
   const photosForTab = communityGallery[activeTab] || [];
-  const previewPhoto = photosForTab[previewPhotoIndex] || communityGallery.graduations[0];
+  const photoAutoRotates = activeTab === "graduations" || activeTab === "celebrations";
+  const activePhotoCycleIndex = photosForTab.length && photoAutoRotates
+    ? mediaCycleIndex % photosForTab.length
+    : 0;
+  const activePhotoCycle = photosForTab[activePhotoCycleIndex] || communityGallery.graduations[0];
   const visiblePhotoCount = Math.min(photosForTab.length, 3);
   const galleryLayout = visiblePhotoCount <= 1 ? "single" : visiblePhotoCount === 2 ? "pair" : "mosaic";
   const sidePhotoCount = Math.max(visiblePhotoCount - 1, 0);
   const sidePhotos = Array.from({ length: sidePhotoCount }, (_, offset) => {
-    const index = photosForTab.length ? (previewPhotoIndex + offset + 1) % photosForTab.length : 0;
+    const index = photosForTab.length ? (activePhotoCycleIndex + offset + 1) % photosForTab.length : 0;
     return { photo: photosForTab[index], index };
   }).filter((item) => item.photo);
   const lightboxPhotos = communityGallery[lightboxTab] || communityGallery.graduations;
   const activePhoto = lightboxPhotos[activePhotoIndex] || lightboxPhotos[0];
+
+  const pauseAfterInteraction = () => {
+    setInteractionPaused(true);
+    window.clearTimeout(pauseTimerRef.current);
+    pauseTimerRef.current = window.setTimeout(() => setInteractionPaused(false), 12000);
+  };
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updatePreference = () => setPrefersReducedMotion(media.matches);
+    updatePreference();
+    media.addEventListener?.("change", updatePreference);
+    return () => media.removeEventListener?.("change", updatePreference);
+  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -309,13 +308,49 @@ export function ProofStories() {
   }, []);
 
   useEffect(() => {
+    if (!isInView || hoverPaused || focusPaused || interactionPaused || prefersReducedMotion) return undefined;
+    const timer = window.setInterval(() => {
+      setActiveTab((currentTab) => {
+        const currentIndex = communityGallery.tabs.findIndex((tab) => tab.id === currentTab);
+        return communityGallery.tabs[(currentIndex + 1) % communityGallery.tabs.length].id;
+      });
+      setActivePhotoIndex(0);
+    }, COMMUNITY_TAB_CYCLE_MS);
+    return () => window.clearInterval(timer);
+  }, [focusPaused, hoverPaused, interactionPaused, isInView, prefersReducedMotion]);
+
+  useEffect(() => {
+    if (
+      !photoAutoRotates
+      || !isInView
+      || hoverPaused
+      || focusPaused
+      || interactionPaused
+      || prefersReducedMotion
+    ) return undefined;
+
+    const timer = window.setInterval(() => {
+      setMediaCycleIndex((index) => index + 1);
+    }, COMMUNITY_PHOTO_CYCLE_MS);
+    return () => window.clearInterval(timer);
+  }, [focusPaused, hoverPaused, interactionPaused, isInView, photoAutoRotates, prefersReducedMotion]);
+
+  useEffect(() => {
     window.lucide?.createIcons?.();
-  }, [activePhotoIndex, activeTab, previewPhotoIndex]);
+  }, [activePhotoIndex, activeTab, mediaCycleIndex]);
+
+  useEffect(
+    () => () => {
+      window.clearTimeout(pauseTimerRef.current);
+    },
+    [],
+  );
 
   const selectTab = (tabId) => {
     setActiveTab(tabId);
-    setPreviewPhotoIndex(0);
+    setMediaCycleIndex(0);
     setActivePhotoIndex(0);
+    pauseAfterInteraction();
   };
 
   const handleTabKeyDown = (event, index) => {
@@ -356,20 +391,18 @@ export function ProofStories() {
     setActivePhotoIndex((index) => (index + 1) % lightboxPhotos.length);
   };
 
-  const showPreviousPreview = () => {
-    setPreviewPhotoIndex((index) => (index - 1 + photosForTab.length) % photosForTab.length);
-  };
-
-  const showNextPreview = () => {
-    setPreviewPhotoIndex((index) => (index + 1) % photosForTab.length);
-  };
-
   return (
     <section
       className={`section community-proof${isInView ? " is-visible" : ""}`}
       id="experiencia"
       ref={sectionRef}
       data-community-proof
+      onMouseEnter={() => setHoverPaused(true)}
+      onMouseLeave={() => setHoverPaused(false)}
+      onFocusCapture={() => setFocusPaused(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setFocusPaused(false);
+      }}
     >
       <div className="community-proof__inner">
         <header className="community-proof__heading" style={{ "--reveal-order": 0 }}>
@@ -380,10 +413,10 @@ export function ProofStories() {
         </header>
 
         <div
-          className="community-proof__tabs"
+          className={`community-proof__tabs${isInView && !hoverPaused && !focusPaused && !interactionPaused && !prefersReducedMotion ? " is-auto-cycling" : ""}`}
           role="tablist"
           aria-label="Explorar experiencias de AIT"
-          style={{ "--reveal-order": 1 }}
+          style={{ "--community-cycle-duration": `${COMMUNITY_TAB_CYCLE_MS}ms`, "--reveal-order": 1 }}
         >
           {communityGallery.tabs.map((tab, index) => (
             <button
@@ -414,24 +447,26 @@ export function ProofStories() {
           <button
               className="community-proof__feature community-proof__feature--photo"
               type="button"
-              key={previewPhoto.id}
-              onClick={(event) => openPhoto(previewPhotoIndex, event.currentTarget)}
-              aria-label={`Ampliar: ${previewPhoto.alt}`}
-              aria-haspopup="dialog"
+              key={activePhotoCycle.id}
+              onClick={(event) => {
+                pauseAfterInteraction();
+                openPhoto(activePhotoCycleIndex, event.currentTarget);
+              }}
+              aria-label={`Ampliar: ${activePhotoCycle.alt}`}
             >
               <Image
-                src={previewPhoto.src}
+                src={activePhotoCycle.src}
                 alt=""
                 fill
-                className={communityPhotoClassName(previewPhoto)}
+                className={communityPhotoClassName(activePhotoCycle)}
                 loading={isInView ? "eager" : "lazy"}
                 sizes="(max-width: 719px) calc(100vw - 32px), 48vw"
-                style={{ objectPosition: previewPhoto.position }}
+                style={{ objectPosition: activePhotoCycle.position }}
               />
               <span className="community-proof__media-shade" aria-hidden="true" />
-              {photosForTab.length > 1 ? (
+              {photoAutoRotates ? (
                 <span className="community-proof__photo-count" aria-hidden="true">
-                  {String(previewPhotoIndex + 1).padStart(2, "0")} / {String(photosForTab.length).padStart(2, "0")}
+                  {String(activePhotoCycleIndex + 1).padStart(2, "0")} / {String(photosForTab.length).padStart(2, "0")}
                 </span>
               ) : null}
             </button>
@@ -445,11 +480,13 @@ export function ProofStories() {
                 <button
                   className="community-proof__tile"
                   type="button"
-                  key={`${activeTab}-${photo.id}`}
+                  key={`${activeTab}-${mediaCycleIndex}-${photo.id}`}
                   style={{ "--tile-order": tileIndex }}
-                  onClick={(event) => openPhoto(index, event.currentTarget)}
+                  onClick={(event) => {
+                    pauseAfterInteraction();
+                    openPhoto(index, event.currentTarget);
+                  }}
                   aria-label={`Ampliar: ${photo.alt}`}
-                  aria-haspopup="dialog"
                 >
                   <Image
                     src={photo.src}
@@ -476,17 +513,11 @@ export function ProofStories() {
         ) : null}
 
         <div className="community-proof__toolbar">
-          {photosForTab.length > 1 ? (
-            <div className="community-proof__preview-nav" role="group" aria-label="Cambiar fotografías de la galería">
-              <button type="button" onClick={showPreviousPreview} aria-label="Fotografía anterior de la galería"><i data-lucide="arrow-left" aria-hidden="true" /></button>
-              <p aria-live="polite">Fotografía {previewPhotoIndex + 1} de {photosForTab.length}</p>
-              <button type="button" onClick={showNextPreview} aria-label="Fotografía siguiente de la galería"><i data-lucide="arrow-right" aria-hidden="true" /></button>
-            </div>
-          ) : null}
           <button className="home-secondary-button" type="button" onClick={(event) => openPhoto(0, event.currentTarget)}>
             Ver las {photosForTab.length} fotografías de {tabMeta[activeTab].eyebrow.toLowerCase()}
             <i data-lucide="arrow-right" aria-hidden="true" />
           </button>
+          {prefersReducedMotion ? <p className="community-pause-note">Elige una categoría para explorar la galería.</p> : null}
         </div>
 
         <dialog
@@ -494,16 +525,6 @@ export function ProofStories() {
           aria-labelledby="community-lightbox-title"
           ref={imageDialogRef}
           onClose={closeImageCleanup}
-          onKeyDown={(event) => {
-            if (event.key === "ArrowLeft") {
-              event.preventDefault();
-              showPreviousPhoto();
-            }
-            if (event.key === "ArrowRight") {
-              event.preventDefault();
-              showNextPhoto();
-            }
-          }}
           onClick={(event) => {
             if (event.target === imageDialogRef.current) closeImageDialog();
           }}

@@ -2,6 +2,7 @@ import { ProofStories, TestimonialsSection } from "../_components/site/Interacti
 import {
   FaqSection,
   FinalCtaSection,
+  BooksSection,
   HeroSection,
   LocationsSection,
   MethodSection,
@@ -85,11 +86,12 @@ export default function HomePage() {
       <main id="main-content" className="home-page">
         <HeroSection />
         <OfferingPathSection />
+        <StudyGoalsSection />
         <MethodSection />
+        <BooksSection />
         <TestimonialsSection />
         <ProofStories />
         <LocationsSection />
-        <StudyGoalsSection />
         <FaqSection />
         <FinalCtaSection />
       </main>

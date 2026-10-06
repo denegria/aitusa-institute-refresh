@@ -389,12 +389,7 @@ const allCourseRecords = [
           ],
         },
       ],
-      schedule: [
-        "Lunes a jueves por la mañana: clases con inicio a las 8:30 am, 9:30 am, 10:30 am y 11:30 am.",
-        "Lunes a jueves por la noche: clases con inicio a las 6:30 pm, 7:40 pm y 8:45 pm.",
-        "Sábados: 10:00 am–1:00 pm y 3:30 pm–5:30 pm.",
-        "Domingos: 10:30 am–12:30 pm.",
-      ],
+      schedule: ["Llama o solicita información a admisiones para confirmar el horario de tu grupo."],
       note: "Los formatos y horarios pueden variar por sede. Confirma tu grupo antes de inscribirte.",
     },
     editorial: {
@@ -481,24 +476,7 @@ const allCourseRecords = [
           "Talleres y tutorías para reforzar dudas y nivelarse.",
         ],
       },
-      schedule: [
-        {
-          label: "Lun–jue · inicios por la mañana",
-          times: ["8:30 am", "9:30 am", "10:30 am", "11:30 am"],
-        },
-        {
-          label: "Lun–jue · inicios por la noche",
-          times: ["6:30 pm", "7:40 pm", "8:45 pm"],
-        },
-        {
-          label: "Sábados",
-          times: ["10:00 am–1:00 pm", "3:30–5:30 pm"],
-        },
-        {
-          label: "Domingos",
-          times: ["10:30 am–12:30 pm"],
-        },
-      ],
+      schedule: [{ label: "Consulta con admisiones", times: ["Llama o solicita información para confirmar el horario de tu grupo."] }],
       formats: [
         {
           icon: "building-2",
@@ -519,16 +497,15 @@ const allCourseRecords = [
             "Un asesor confirma la sede y el grupo activo.",
         },
       ],
-      logisticsNote:
-        "Los horarios pueden variar por sede. Confirma grupo, sede y horario antes de inscribirte.",
+      logisticsNote: "Llama o solicita información a admisiones para confirmar días, horas, frecuencia y disponibilidad antes de inscribirte.",
       sectionCopy: {
         logistics: {
           eyebrow: "Modalidad y horarios",
           title: "Una ruta presencial que también debe funcionar con tu semana.",
           text:
-            "Hay opciones de mañana, noche y fin de semana. Tu grupo se confirma según el nivel, la sede y la disponibilidad.",
+            "Llama o solicita información a admisiones para confirmar el horario de tu grupo según el nivel, la sede y la disponibilidad.",
           formatsLabel: "Claves de la experiencia presencial",
-          scheduleLabel: "Horarios publicados",
+          scheduleLabel: "Consulta de horarios",
           actionLabel: "Confirmar sede y horario",
         },
         outcomes: {
@@ -652,10 +629,7 @@ const allCourseRecords = [
           ],
         },
       ],
-      schedule: [
-        "Formato online; confirma disponibilidad según país y grupo.",
-        "Requiere equipo con internet, audífono y micrófono para participar con claridad.",
-      ],
+      schedule: ["Llama o solicita información a admisiones para confirmar el horario de tu grupo."],
       note: "Pregunta por tutorías, niveles, talleres y becas disponibles para tu grupo.",
     },
     editorial: {
@@ -744,20 +718,7 @@ const allCourseRecords = [
           "Tutoría remota para reforzar dudas, sujeta a disponibilidad del grupo.",
         ],
       },
-      schedule: [
-        {
-          label: "Lun–jue · mañanas",
-          times: ["9:30–10:30 am", "10:30–11:30 am"],
-        },
-        {
-          label: "Lun–jue · noches",
-          times: ["6:20–7:30 pm", "7:30–8:40 pm", "8:40–9:50 pm"],
-        },
-        {
-          label: "Sábados",
-          times: ["10:00 am–1:00 pm", "2:00–5:00 pm"],
-        },
-      ],
+      schedule: [{ label: "Consulta con admisiones", times: ["Llama o solicita información para confirmar el horario de tu grupo."] }],
       formats: [
         {
           icon: "video",
@@ -778,8 +739,7 @@ const allCourseRecords = [
             "Puedes usar laptop, desktop, tableta o teléfono con internet estable, audífonos y micrófono.",
         },
       ],
-      logisticsNote:
-        "Los horarios se publican en hora de Nueva Jersey. Admisiones confirma la conversión a tu zona horaria, el nivel y el grupo activo antes de la inscripción.",
+      logisticsNote: "Llama o solicita información a admisiones para confirmar días, horas, frecuencia y disponibilidad antes de inscribirte.",
       sectionCopy: {
         outcomes: {
           eyebrow: "Resultados del aprendizaje",
@@ -797,7 +757,7 @@ const allCourseRecords = [
           eyebrow: "Experiencia online y horarios",
           title: "Una clase remota debe sentirse presente, no grabada.",
           text:
-            "Revisa cómo participar y los bloques publicados. Tu horario final depende del nivel, el grupo activo y tu zona horaria.",
+            "Llama o solicita información para confirmar cómo participar y el horario de tu grupo online.",
           formatsLabel: "Claves de la experiencia online",
           scheduleLabel: "Hora de Nueva Jersey",
           actionLabel: "Confirmar mi zona horaria",
@@ -889,7 +849,7 @@ const allCourseRecords = [
           ],
         },
       ],
-      schedule: ["Horario online a confirmar por WhatsApp según país y disponibilidad."],
+      schedule: ["Llama o solicita información a admisiones para confirmar el horario de tu grupo."],
       note: "Confirma el grupo disponible y la zona horaria antes de inscribirte.",
     },
     editorial: {
@@ -992,12 +952,7 @@ const allCourseRecords = [
           "Seguimiento remoto para coordinar continuidad y dudas.",
         ],
       },
-      schedule: [
-        {
-          label: "Grupo online",
-          times: ["Horario por confirmar según país y disponibilidad"],
-        },
-      ],
+      schedule: [{ label: "Consulta con admisiones", times: ["Llama o solicita información para confirmar el horario de tu grupo."] }],
       formats: [
         {
           icon: "monitor-smartphone",
@@ -1018,8 +973,7 @@ const allCourseRecords = [
             "El horario se coordina según el país del estudiante y la disponibilidad vigente.",
         },
       ],
-      logisticsNote:
-        "Confirma tu nivel, horario, zona horaria, plataforma y grupo disponible con admisiones antes de inscribirte.",
+      logisticsNote: "Llama o solicita información a admisiones para confirmar días, horas, frecuencia y disponibilidad antes de inscribirte.",
       sectionCopy: {
         outcomes: {
           eyebrow: "Comunicación útil",
@@ -1129,7 +1083,7 @@ const allCourseRecords = [
           title: "Cómo funciona",
           items: [
             "Tiempo estimado: 6 meses.",
-            "Dos horas semanales de referencia; admisiones confirma cómo se distribuyen.",
+            "Admisiones confirma la frecuencia y duración de las clases de tu grupo.",
             "Orientación inicial para explicar proceso, nivel y punto de arranque.",
           ],
         },
@@ -1142,11 +1096,7 @@ const allCourseRecords = [
           ],
         },
       ],
-      schedule: [
-        "Sábados: 9:00 am a 11:00 am.",
-        "Sábados: 11:00 am a 1:00 pm.",
-        "Sábados: 2:00 pm a 4:00 pm o 4:00 pm a 6:00 pm.",
-      ],
+      schedule: ["Llama o solicita información a admisiones para confirmar el horario de tu grupo."],
       note: "Confirma el bloque disponible y tu punto de inicio antes de inscribirte.",
     },
     editorial: {
@@ -1182,10 +1132,10 @@ const allCourseRecords = [
         },
         {
           label: "Ritmo publicado",
-          value: "2 horas semanales de referencia",
+          value: "Frecuencia por confirmar con admisiones",
         },
         {
-          label: "Bloques publicados",
+          label: "Disponibilidad por confirmar",
           value: "Sábados",
         },
       ],
@@ -1255,28 +1205,11 @@ const allCourseRecords = [
         points: [
           "Orientación inicial para entender el proceso y el punto de arranque.",
           "Ruta alrededor de las cuatro áreas que componen el examen GED actual.",
-          "Dos horas semanales de referencia; admisiones confirma cómo se distribuyen.",
+          "Admisiones confirma la frecuencia y duración de las clases de tu grupo.",
           "Duración estimada de seis meses, sin garantía de fecha de aprobación.",
         ],
       },
-      schedule: [
-        {
-          label: "Sábado · bloque 1",
-          times: ["9:00–11:00 am"],
-        },
-        {
-          label: "Sábado · bloque 2",
-          times: ["11:00 am–1:00 pm"],
-        },
-        {
-          label: "Sábado · bloque 3",
-          times: ["2:00–4:00 pm"],
-        },
-        {
-          label: "Sábado · bloque 4",
-          times: ["4:00–6:00 pm"],
-        },
-      ],
+      schedule: [{ label: "Consulta con admisiones", times: ["Llama o solicita información para confirmar el horario de tu grupo."] }],
       formats: [
         {
           icon: "book-open-check",
@@ -1288,7 +1221,7 @@ const allCourseRecords = [
           icon: "calendar-days",
           title: "Rutina semanal",
           text:
-            "La referencia es de dos horas semanales, con bloques publicados los sábados. Confirma con admisiones cómo se distribuyen las clases.",
+            "Admisiones confirma los días, la frecuencia y la duración de las clases de tu grupo.",
         },
         {
           icon: "badge-check",
@@ -1297,8 +1230,7 @@ const allCourseRecords = [
             "Prepararte con AIT no sustituye el registro, la elegibilidad ni la evaluación administrada por las vías oficiales.",
         },
       ],
-      logisticsNote:
-        "Los bloques son los publicados por AIT y pueden cambiar según sede, cupo y grupo. Confirma disponibilidad antes de organizar tu semana.",
+      logisticsNote: "Llama o solicita información a admisiones para confirmar días, horas, frecuencia y disponibilidad antes de inscribirte.",
       sectionCopy: {
         outcomes: {
           eyebrow: "Una meta, sin atajos confusos",
@@ -1322,9 +1254,9 @@ const allCourseRecords = [
           eyebrow: "Modalidad y horarios",
           title: "Confirma el bloque antes de planificar tu preparación.",
           text:
-            "Estos son los horarios publicados por AIT. La sede, el cupo y la organización del grupo se confirman con admisiones.",
+            "Admisiones confirma los días y horas de clase, la sede, el cupo y la organización del grupo.",
           formatsLabel: "Claves de la preparación GED",
-          scheduleLabel: "Bloques publicados",
+          scheduleLabel: "Disponibilidad por confirmar",
           actionLabel: "Confirmar sede y bloque",
         },
         faq: {
@@ -1353,7 +1285,7 @@ const allCourseRecords = [
         {
           question: "¿Cuántas clases hay por semana?",
           answer:
-            "La referencia publicada suma dos horas semanales. Los horarios muestran bloques de dos horas los sábados; admisiones confirma cuántos encuentros tendrá tu grupo y cómo se distribuyen.",
+            "Llama o solicita información a admisiones para confirmar cuántos encuentros tendrá tu grupo y cuánto durará cada clase.",
         },
         {
           question: "¿Cuáles son los requisitos para presentar el examen en Nueva Jersey?",
@@ -1425,7 +1357,7 @@ const allCourseRecords = [
           ],
         },
       ],
-      schedule: ["Horario presencial u online a confirmar según materia, nivel y disponibilidad."],
+      schedule: ["Llama o solicita información a admisiones para confirmar el horario de tu grupo."],
       note: "La materia, el nivel y el horario se confirman antes de empezar.",
     },
     editorial: {
@@ -1528,12 +1460,7 @@ const allCourseRecords = [
           "Siguiente práctica acordada según la necesidad del estudiante.",
         ],
       },
-      schedule: [
-        {
-          label: "Tutoría",
-          times: ["Horario por confirmar según materia, nivel y disponibilidad"],
-        },
-      ],
+      schedule: [{ label: "Consulta con admisiones", times: ["Llama o solicita información para confirmar el horario de tu grupo."] }],
       formats: [
         {
           icon: "building-2",
@@ -1554,8 +1481,7 @@ const allCourseRecords = [
             "Coordina la materia, el nivel y el horario antes de empezar.",
         },
       ],
-      logisticsNote:
-        "Comparte la materia, el nivel y la fecha objetivo para confirmar tutor, modalidad y horario.",
+      logisticsNote: "Llama o solicita información a admisiones para confirmar días, horas, frecuencia y disponibilidad antes de inscribirte.",
       sectionCopy: {
         outcomes: {
           eyebrow: "Refuerzo con foco",
@@ -1678,11 +1604,7 @@ const allCourseRecords = [
           ],
         },
       ],
-      schedule: [
-        "Cursos básicos: lunes y miércoles 10:00 am a 11:00 am.",
-        "Sábados: 2:00 pm a 4:00 pm.",
-        "Noches: lunes y miércoles 6:00 pm a 7:00 pm.",
-      ],
+      schedule: ["Llama o solicita información a admisiones para confirmar el horario de tu grupo."],
       note: "Preguntar por otros horarios disponibles.",
     },
     editorial: {
@@ -1785,20 +1707,7 @@ const allCourseRecords = [
           "Hábitos preventivos básicos para el equipo.",
         ],
       },
-      schedule: [
-        {
-          label: "Lun y mié · mañana",
-          times: ["10:00–11:00 am"],
-        },
-        {
-          label: "Lun y mié · noche",
-          times: ["6:00–7:00 pm"],
-        },
-        {
-          label: "Sábados",
-          times: ["2:00–4:00 pm"],
-        },
-      ],
+      schedule: [{ label: "Consulta con admisiones", times: ["Llama o solicita información para confirmar el horario de tu grupo."] }],
       formats: [
         {
           icon: "book-open-check",
@@ -1814,13 +1723,12 @@ const allCourseRecords = [
         },
         {
           icon: "calendar-days",
-          title: "Bloques publicados",
+          title: "Disponibilidad por confirmar",
           text:
             "Consulta las opciones de mañana, noche y sábado según el grupo disponible.",
         },
       ],
-      logisticsNote:
-        "Los bloques provienen de la información publicada por AIT y pueden cambiar. Confirma sistema, sede o modalidad, cupo y horario antes de inscribirte.",
+      logisticsNote: "Llama o solicita información a admisiones para confirmar días, horas, frecuencia y disponibilidad antes de inscribirte.",
       sectionCopy: {
         outcomes: {
           eyebrow: "Habilidades funcionales",
@@ -1844,7 +1752,7 @@ const allCourseRecords = [
           text:
             "La práctica depende del sistema operativo, el equipo disponible y la organización del grupo.",
           formatsLabel: "Claves del curso",
-          scheduleLabel: "Bloques publicados",
+          scheduleLabel: "Disponibilidad por confirmar",
           actionLabel: "Confirmar equipo y horario",
         },
         faq: {
@@ -1871,7 +1779,7 @@ const allCourseRecords = [
             "La ruta publicada incluye internet, comunicación, archivos, contraseñas, instalación y desinstalación de programas, y mantenimiento preventivo básico.",
         },
         {
-          question: "¿Los horarios publicados están garantizados?",
+          question: "¿Cómo confirmo los horarios de clase?",
           answer:
             "No. Son bloques de referencia y dependen del grupo activo, la sede o modalidad y el cupo disponible.",
         },
@@ -1951,11 +1859,7 @@ const allCourseRecords = [
           ],
         },
       ],
-      schedule: [
-        "Cursos de oficina: martes y jueves 10:00 am a 11:00 am.",
-        "Sábados: 4:00 pm a 6:00 pm.",
-        "Noches: martes y jueves 6:00 pm a 7:00 pm.",
-      ],
+      schedule: ["Llama o solicita información a admisiones para confirmar el horario de tu grupo."],
       note: "Preguntar por otros horarios disponibles.",
     },
     editorial: {
@@ -2058,20 +1962,7 @@ const allCourseRecords = [
           "Presentaciones con una secuencia visual clara.",
         ],
       },
-      schedule: [
-        {
-          label: "Mar y jue · mañana",
-          times: ["10:00–11:00 am"],
-        },
-        {
-          label: "Mar y jue · noche",
-          times: ["6:00–7:00 pm"],
-        },
-        {
-          label: "Sábados",
-          times: ["4:00–6:00 pm"],
-        },
-      ],
+      schedule: [{ label: "Consulta con admisiones", times: ["Llama o solicita información para confirmar el horario de tu grupo."] }],
       formats: [
         {
           icon: "book-open-check",
@@ -2087,13 +1978,12 @@ const allCourseRecords = [
         },
         {
           icon: "calendar-days",
-          title: "Bloques publicados",
+          title: "Disponibilidad por confirmar",
           text:
             "Consulta las opciones de mañana, noche y sábado según el grupo disponible.",
         },
       ],
-      logisticsNote:
-        "Las duraciones estimadas son cuatro semanas para Word y PowerPoint y ocho para Excel. Son referencias, no garantías; confirma módulo, versión, grupo y horario vigente.",
+      logisticsNote: "Llama o solicita información a admisiones para confirmar días, horas, frecuencia y disponibilidad antes de inscribirte.",
       sectionCopy: {
         outcomes: {
           eyebrow: "Trabajo visible",
@@ -2117,7 +2007,7 @@ const allCourseRecords = [
           text:
             "Los bloques y duraciones publicados son referencias; la oferta concreta depende de grupo, cupo y software.",
           formatsLabel: "Claves de la ruta de oficina",
-          scheduleLabel: "Bloques publicados",
+          scheduleLabel: "Disponibilidad por confirmar",
           actionLabel: "Confirmar módulo y horario",
         },
         faq: {
@@ -2149,9 +2039,9 @@ const allCourseRecords = [
             "La descripción incluye formatos, datos, gráficos y operaciones matemáticas aplicadas a situaciones de oficina.",
         },
         {
-          question: "¿Los horarios publicados están garantizados?",
+          question: "¿Cómo confirmo los horarios de clase?",
           answer:
-            "No. Son bloques de referencia y dependen del módulo activo, el grupo, el cupo y la modalidad disponible.",
+            "Llama o solicita información a admisiones para confirmar los días y horas del módulo y grupo disponibles.",
         },
         {
           question: "¿Necesito computadora propia o Microsoft Office instalado?",
@@ -2226,11 +2116,7 @@ const hybridEnglishProgram = {
         ],
       },
     ],
-    schedule: [
-      "Lunes a jueves por la mañana: 9:30 am–10:30 am y 10:30 am–11:30 am.",
-      "Lunes a jueves por la noche: 6:20 pm–7:30 pm, 7:30 pm–8:40 pm y 8:40 pm–9:50 pm.",
-      "Sábados: 10:00 am–1:00 pm y 2:00 pm–5:00 pm.",
-    ],
+    schedule: ["Llama o solicita información a admisiones para confirmar el horario de tu grupo."],
     note: "Los formatos, la alternancia y los horarios pueden variar por sede y grupo. Confirma tu ruta antes de inscribirte.",
   },
   editorial: {
@@ -2329,20 +2215,7 @@ const hybridEnglishProgram = {
         "Talleres y tutorías para reforzar dudas y nivelarse.",
       ],
     },
-    schedule: [
-      {
-        label: "Lun–jue · mañanas",
-        times: ["9:30–10:30 am", "10:30–11:30 am"],
-      },
-      {
-        label: "Lun–jue · noches",
-        times: ["6:20–7:30 pm", "7:30–8:40 pm", "8:40–9:50 pm"],
-      },
-      {
-        label: "Sábados",
-        times: ["10:00 am–1:00 pm", "2:00–5:00 pm"],
-      },
-    ],
+    schedule: [{ label: "Consulta con admisiones", times: ["Llama o solicita información para confirmar el horario de tu grupo."] }],
     formats: [
       {
         icon: "building-2",
@@ -2363,8 +2236,7 @@ const hybridEnglishProgram = {
           "La alternancia, el grupo y el bloque final se confirman antes de la inscripción.",
       },
     ],
-    logisticsNote:
-      "Los bloques publicados son referencias de la ruta de inglés. Admisiones confirma sede, alternancia, nivel, grupo y horario vigente.",
+    logisticsNote: "Llama o solicita información a admisiones para confirmar días, horas, frecuencia y disponibilidad antes de inscribirte.",
     sectionCopy: {
       outcomes: {
         eyebrow: "Flexibilidad con dirección",
@@ -2387,7 +2259,7 @@ const hybridEnglishProgram = {
         text:
           "La combinación de encuentros presenciales y remotos depende del grupo, la sede, el nivel y el horario. Consulta cómo se organiza tu grupo.",
         formatsLabel: "Claves de la ruta híbrida",
-        scheduleLabel: "Bloques publicados",
+        scheduleLabel: "Disponibilidad por confirmar",
         actionLabel: "Confirmar mi combinación",
       },
       faq: {
@@ -2416,7 +2288,7 @@ const hybridEnglishProgram = {
       {
         question: "¿Se mantienen los mismos horarios del programa de inglés?",
         answer:
-          "Los bloques publicados corresponden a la ruta de inglés, pero la combinación híbrida, el grupo y la sede deben confirmarse antes de organizar tu calendario.",
+          "Admisiones confirma la combinación híbrida, los días de clase, el grupo y la sede antes de organizar tu calendario.",
       },
       {
         question: "¿Hay talleres y tutorías?",
@@ -2522,56 +2394,7 @@ const methodCharacteristics = [
   },
 ];
 
-const schedules = [
-  {
-    label: "Mañanas · lun–jue",
-    timeProfile: "mañana",
-    times: ["8:30 am", "9:30 am", "10:30 am", "11:30 am"],
-    bestFor: "Ideal para quienes quieren aprender al inicio de la semana con energía y constancia.",
-    badge: "Más elegido",
-    duration: "Horarios de inicio",
-    availability: "4 cupos disponibles por clase",
-    commitment: "Ideal si puedes asegurar 1 día por semana de forma estable.",
-    cta: "Ver mañanas",
-    whatsappHint: "Me conviene más el turno de mañana.",
-  },
-  {
-    label: "Noches · lun–jue",
-    timeProfile: "noche",
-    times: ["6:30 pm", "7:40 pm", "8:45 pm"],
-    bestFor: "Pensado para después del trabajo o de las clases de la semana.",
-    badge: "Máxima flexibilidad",
-    duration: "Horarios de inicio",
-    availability: "5 cupos disponibles por clase",
-    commitment: "Útil si tu rutina cambia entre semana o teletrabajas.",
-    cta: "Ver noches",
-    whatsappHint: "Me conviene más el turno de noche.",
-  },
-  {
-    label: "Sábados",
-    timeProfile: "fin-de-semana",
-    times: ["10:00 am a 1:00 pm", "3:30 pm a 5:30 pm"],
-    bestFor: "Perfecto si entre semana estás ocupado y prefieres recuperar el ritmo en fin de semana.",
-    badge: "Para familias",
-    duration: "Bloques publicados",
-    availability: "3 cupos por horario",
-    commitment: "Buen ajuste para quienes tienen agenda académica o laboral variable.",
-    cta: "Ver sábados",
-    whatsappHint: "Me conviene más el turno de sábado.",
-  },
-  {
-    label: "Domingos",
-    timeProfile: "fin-de-semana",
-    times: ["10:30 am a 12:30 pm"],
-    bestFor: "Conserva el impulso semanal sin sacrificar tus días laborales.",
-    badge: "Reentrada",
-    duration: "Bloque publicado",
-    availability: "2 cupos por semana",
-    commitment: "Te conviene si solo tienes un bloque fuerte disponible los domingos.",
-    cta: "Ver domingos",
-    whatsappHint: "Me conviene más el turno de domingo.",
-  },
-];
+const schedules = [{ label: "Consulta con admisiones", timeProfile: "por-confirmar", times: ["Horario de clases por confirmar"], bestFor: "Confirma una opción que encaje con tu disponibilidad.", badge: "Orientación", duration: "Consulta tu grupo", availability: "Disponibilidad por confirmar", commitment: "Comparte tu disponibilidad con admisiones.", cta: "Solicitar información", whatsappHint: "Quiero confirmar el horario de mi grupo." }];
 
 const modalities = [
   {
@@ -2621,22 +2444,10 @@ const methodBlocks = [
   },
 ];
 
-const verifiedBoundBrookHours = [
-  {
-    label: "Entre semana",
-    slots: [
-      { label: "Lun–jue", times: "9:30 am–10:00 pm" },
-      { label: "Vie", times: "9:30 am–8:00 pm" },
-    ],
-  },
-  {
-    label: "Fin de semana",
-    slots: [
-      { label: "Sáb", times: "9:30 am–6:00 pm" },
-      { label: "Dom", times: "10:30 am–1:30 pm" },
-    ],
-  },
-];
+const boundBrookOfficeContactGuidance = [{
+  label: "Horario de oficina",
+  slots: [{ label: "Admisiones", times: "Llama o solicita información para confirmar el horario de oficina antes de visitar." }],
+}];
 
 const centralLocationContact = {
   phone: site.phone,
@@ -2656,8 +2467,8 @@ const locations = [
     highlight: "Sede presencial con apoyo para confirmar nivel y horario.",
     cta: "Escribir sobre Bound Brook",
     ...centralLocationContact,
-    hoursLabel: "Horario de atención",
-    hours: verifiedBoundBrookHours,
+    hoursLabel: "Horario de oficina",
+    hours: boundBrookOfficeContactGuidance,
   },
   {
     city: "Plainfield, New Jersey",
@@ -3013,7 +2824,7 @@ const faqs = [
   {
     question: "Trabajo todo el día y tengo poco tiempo. ¿Aun así puedo avanzar?",
     answer:
-      "Sí. Puedes empezar con 15 a 20 minutos diarios y elegir una opción presencial, híbrida u online con horarios de mañana, noche o fin de semana.",
+      "Sí. Puedes empezar con 15 a 20 minutos diarios y elegir una opción presencial, híbrida u online con disponibilidad a confirmar con admisiones.",
     outcome: "Te proponemos un ritmo realista para avanzar sin desordenar tu agenda.",
     cta: "Ver horarios",
   },
@@ -3221,7 +3032,7 @@ const productOfferings = [
     emphasis: "primary",
     audience: "Adultos y jóvenes que quieren practicar más de cerca",
     summary:
-      "Practica cara a cara y recibe corrección inmediata en una sede de Nueva Jersey, con horarios publicados para sostener tu rutina.",
+      "Practica cara a cara y recibe corrección inmediata en una sede de Nueva Jersey, con un grupo y horario a confirmar con admisiones.",
     mobileSummary:
       "Práctica cara a cara con corrección inmediata en Nueva Jersey.",
     details: [

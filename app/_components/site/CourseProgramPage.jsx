@@ -60,20 +60,16 @@ function CourseDetailHero({ program, editorial }) {
   const presencial = program.slug === "ingles-jovenes-adultos";
   const online = program.slug === "ingles-online-adultos";
   const comparison = courseComparison[program.slug];
-  const hasPublishedTimes = editorial.schedule.some((group) => group.times.some((time) => /\d/.test(time)));
-  const referenceDays = [...new Set(editorial.schedule.map((group) => group.label.split(" · ")[0]))].join(" · ");
-  const referencePeriods = [...new Set(editorial.schedule.map((group) => group.label.match(/mañana|noche/i)?.[0]).filter(Boolean))].join(" y ");
-  const scheduleSummary = hasPublishedTimes
-    ? `${referenceDays}${referencePeriods ? ` · ${referencePeriods}` : ""}. Hora de Nueva Jersey (Eastern Time).`
-    : program.slug === "espanol-extranjeros"
-      ? "Grupo y horario coordinados según país y zona horaria."
-      : "Horario y zona horaria a confirmar según materia, tutor, modalidad y disponibilidad.";
+  const onlineOnly = /online/i.test(program.mode) && !/presencial/i.test(program.mode);
+  const scheduleSummary = onlineOnly
+    ? "Llama o solicita información a admisiones para conocer las horas de clase de tu grupo."
+    : "Consulta el horario de oficina con admisiones antes de visitar. Las horas de clase se confirman para tu grupo.";
   const facts = [
     ["Para quién", program.audience],
     ["Modalidad", comparison.format],
-    [program.slug === "ged" ? "Ritmo y duración" : "Duración", program.slug === "ged" ? `Dos horas semanales de referencia. ${comparison.duration}` : comparison.duration],
+    ["Duración", comparison.duration],
     ["Inicio y costo", "Próximo grupo, colegiatura y materiales por confirmar con admisiones."],
-    ["Horario de referencia", <>{scheduleSummary} <a className="course-schedule-preview-link" href="#horarios">Ver horarios y requisitos</a></>],
+    [onlineOnly ? "Horario de clases" : "Horario de oficina", <>{scheduleSummary} <a className="course-schedule-preview-link" href="#horarios">Ver horarios y requisitos</a></>],
   ];
 
   return (
@@ -249,14 +245,6 @@ function scheduleInquiryHref(program) {
   return url.toString();
 }
 
-const otherScheduleTitles = {
-  "espanol-extranjeros": "Horario según tu país.",
-  ged: "Bloques de preparación.",
-  "tutorias-matematicas": "Coordina tu tutoría.",
-  "computacion-basica": "Horarios publicados.",
-  "computacion-oficina": "Horarios por módulo.",
-};
-
 const otherDecisionTitles = {
   "espanol-extranjeros": "Confirma país, costo y grupo.",
   ged: "Confirma sede, costo y bloque.",
@@ -267,101 +255,22 @@ const otherDecisionTitles = {
 
 function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logistics }) {
   const english = isEnglishProgram(program);
-  const presencial = program.slug === "ingles-jovenes-adultos";
+  const onlineOnly = /online/i.test(program.mode) && !/presencial/i.test(program.mode);
   return (
     <section className="course-program-section course-program-logistics" id="horarios" aria-labelledby="course-logistics-title">
       <div className="section-inner">
         <header className="course-program-heading section-heading--framed">
           <p className="section-kicker">{copy.eyebrow}</p>
-          <h2 id="course-logistics-title">{presencial ? "Horarios de clase." : program.slug === "ingles-online-adultos" ? "Horarios en Nueva Jersey." : english ? "Bloques de referencia." : otherScheduleTitles[program.slug]}</h2>
-          {editorial.schedule.some((group) => group.times.some((time) => /\d/.test(time))) ? (
-            <p className="course-schedule-timezone">Hora de Nueva Jersey · Eastern Time (America/New_York). Si estudias desde otra zona, confirma tu hora local con admisiones; la diferencia puede cambiar con el horario de verano.</p>
-          ) : null}
+          <h2 id="course-logistics-title">{onlineOnly ? "Consulta las horas de tus clases online." : "Consulta el horario de oficina."}</h2>
         </header>
         <div className="course-logistics-layout">
           <div className="course-schedule-panel">
-            {presencial ? (
-              <div className="course-english-timetable" aria-label="Horarios publicados de inglés presencial">
-                <section className="course-english-timetable__group" aria-labelledby="course-weekday-title">
-                  <header className="course-english-timetable__heading">
-                    <h3 id="course-weekday-title">Lunes a jueves</h3>
-                    <p>Inicios de clase</p>
-                  </header>
-                  <dl className="course-english-timetable__rows">
-                    {editorial.schedule.slice(0, 2).map((group, index) => (
-                      <div key={group.label}>
-                        <dt>{index === 0 ? "Mañana" : "Noche"}</dt>
-                        <dd>
-                          <ul className="course-english-times">
-                            {group.times.map((time) => <li key={time}>{time}</li>)}
-                          </ul>
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-                </section>
-                <section className="course-english-timetable__group" aria-labelledby="course-weekend-title">
-                  <header className="course-english-timetable__heading">
-                    <h3 id="course-weekend-title">Fin de semana</h3>
-                    <p>Clases completas</p>
-                  </header>
-                  <dl className="course-english-timetable__rows">
-                    {editorial.schedule.slice(2).map((group) => (
-                      <div key={group.label}>
-                        <dt>{group.label}</dt>
-                        <dd>
-                          <ul className="course-english-times">
-                            {group.times.map((time) => <li key={time}>{time}</li>)}
-                          </ul>
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-                </section>
-              </div>
-            ) : english ? (
-              <div className="course-english-timetable course-english-timetable--ranges" aria-label={`Bloques publicados de ${program.title}`}>
-                <section className="course-english-timetable__group" aria-labelledby="course-weekday-title">
-                  <header className="course-english-timetable__heading">
-                    <h3 id="course-weekday-title">Lunes a jueves</h3>
-                    <p>Bloques completos</p>
-                  </header>
-                  <dl className="course-english-timetable__rows">
-                    {editorial.schedule.slice(0, 2).map((group, index) => (
-                      <div key={group.label}>
-                        <dt>{index === 0 ? "Mañana" : "Noche"}</dt>
-                        <dd><ul className="course-english-times">{group.times.map((time) => <li key={time}>{time}</li>)}</ul></dd>
-                      </div>
-                    ))}
-                  </dl>
-                </section>
-                <section className="course-english-timetable__group" aria-labelledby="course-weekend-title">
-                  <header className="course-english-timetable__heading">
-                    <h3 id="course-weekend-title">Fin de semana</h3>
-                    <p>Bloques completos</p>
-                  </header>
-                  <dl className="course-english-timetable__rows">
-                    <div>
-                      <dt>Sábados</dt>
-                      <dd><ul className="course-english-times">{editorial.schedule[2].times.map((time) => <li key={time}>{time}</li>)}</ul></dd>
-                    </div>
-                  </dl>
-                </section>
-              </div>
-            ) : (
-              <div className={program.slug === "ged" ? "course-detail-availability-group" : undefined}>
-                {program.slug === "ged" ? <h3 className="course-detail-availability__day">Sábados</h3> : null}
-                <dl className={`course-detail-availability${editorial.schedule.length === 1 ? " course-detail-availability--coordinated" : ""}`} aria-label={copy.scheduleLabel}>
-                  {editorial.schedule.map((group) => (
-                    <div key={group.label}>
-                      <dt>{program.slug === "ged" ? group.label.replace("Sábado · bloque", "Bloque") : group.label}</dt>
-                      <dd>{group.times.join(" · ")}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            )}
-            <p className="course-schedule-panel__note">{program.slug === "ged" ? "AIT publica una referencia de dos horas semanales y estos bloques de dos horas los sábados. Admisiones confirma la frecuencia de encuentros, el bloque y la sede de tu grupo antes de inscribirte." : editorial.logisticsNote}</p>
+            <h3>{onlineOnly ? "Información de tu grupo" : "Atención de oficina"}</h3>
+            <p>{onlineOnly ? "Llama o solicita información a admisiones para conocer los días y horas de clase disponibles para tu país y grupo." : "Antes de visitar, llama o solicita información para confirmar el horario de oficina y la sede. Este horario corresponde a atención de oficina; los días y horas de clase se confirman por separado para tu grupo."}</p>
+            <div className="course-detail-decision__actions">
+              <a href={site.phoneHref}>Llamar a admisiones</a>
+              <a href={contactCourseHref(program.slug)}>Solicitar información</a>
+            </div>
           </div>
         </div>
         <aside className="course-detail-decision" aria-labelledby="course-decision-title">

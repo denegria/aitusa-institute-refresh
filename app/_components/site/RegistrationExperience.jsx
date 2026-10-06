@@ -192,6 +192,27 @@ export function RegistrationExperience({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [returnToken]);
 
+  useEffect(() => {
+    if (!ready || returnToken || draft.step !== 1) return;
+    let active = true;
+    if (!isPricedRegistrationChoice(draft.programCode, draft.learningModality, draft.residenceCountryCode, draft.billingCountryCode)) return;
+    setQuoteLoading(true);
+    setError("");
+    loadRegistrationQuoteOptions((selection) => request("/api/registration/quote/", selection), draft)
+      .then((options) => {
+        if (!active) return;
+        setQuoteOptions(options);
+        setQuote(options.base.state === "advisor_required" ? options.base : quoteForSelection(options, draft.includeTuitionPrepayment));
+      })
+      .catch((reason) => {
+        if (!active) return;
+        setQuote(null); setQuoteOptions(null);
+        setError(reason.message || "No pudimos confirmar el precio. Inténtalo de nuevo.");
+      })
+      .finally(() => { if (active) setQuoteLoading(false); });
+    return () => { active = false; };
+  }, [ready, returnToken, draft.step, draft.programCode, draft.learningModality, draft.residenceCountryCode, draft.billingCountryCode]);
+
   function update(path, value) {
     if (["residenceCountryCode", "billingCountryCode", "learningModality"].includes(path)) {
       setQuote(null);
@@ -204,7 +225,7 @@ export function RegistrationExperience({
         learningModality: value,
         residenceCountryCode: value === "online" ? current.residenceCountryCode : "US",
         billingCountryCode: value === "online" ? current.billingCountryCode : "US",
-        includeTuitionPrepayment: value !== "online" && current.residenceCountryCode !== "US" ? false : current.includeTuitionPrepayment,
+        includeTuitionPrepayment: false,
       };
       if (!path.includes(".")) return { ...current, [path]: value };
       const [group, field] = path.split(".");
@@ -242,32 +263,18 @@ export function RegistrationExperience({
     if (!isPricedRegistrationChoice(draft.programCode, draft.learningModality, draft.residenceCountryCode, draft.billingCountryCode)) return;
     setBusy(true); setError(""); setQuote(null); setQuoteOptions(null);
     try {
-      const result = await request("/api/registration/quote/", { ...draft, includeTuitionPrepayment: false });
-      const options = { base: result, withPrepayment: null, prepaymentLine: null };
+      const options = await loadRegistrationQuoteOptions((selection) => request("/api/registration/quote/", selection), draft);
       setQuoteOptions(options);
-      if (result.state === "advisor_required") {
-        setQuote(result); setDraft((current) => ({ ...current, step: 1 }));
-      } else if (hasReviewableQuote(result)) {
-        setQuote(result); setDraft((current) => ({ ...current, step: 2, includeTuitionPrepayment: false }));
+      if (options.base.state === "advisor_required") {
+        setQuote(options.base); setDraft((current) => ({ ...current, step: 1 }));
+      } else if (quoteForSelection(options, draft.includeTuitionPrepayment)) {
+        setQuote(quoteForSelection(options, draft.includeTuitionPrepayment));
+        setDraft((current) => ({ ...current, step: 2 }));
       } else {
         throw new Error("No pudimos confirmar el precio. Inténtalo de nuevo.");
       }
     } catch (reason) { setError(reason.message); }
     finally { setBusy(false); }
-  }
-
-  async function requestTuitionOptions() {
-    setBusy(true);
-    setError("");
-    try {
-      const options = await loadRegistrationQuoteOptions((selection) => request("/api/registration/quote/", selection), draft, quoteOptions?.base);
-      setQuoteOptions(options);
-      if (!options.prepaymentLine) setError("No pudimos consultar el anticipo de matrícula. Puedes continuar con la inscripción y el libro o consultarlo con admisiones.");
-    } catch {
-      setError("No pudimos consultar el anticipo de matrícula. Puedes continuar con la inscripción y el libro.");
-    } finally {
-      setBusy(false);
-    }
   }
 
   function selectTuitionPrepayment(includeTuitionPrepayment) {
@@ -411,9 +418,10 @@ export function RegistrationExperience({
             </div>
             {draft.programCode === SPANISH_ONLINE_PROGRAM_CODE ? <p className="registration-route-note">Español online · inscripción disponible para residentes en Estados Unidos.</p> : null}
             {draft.programCode === "english_program" && draft.learningModality === "online" ? <p className="registration-route-note">¿Tu país no aparece? <a href={`/contactanos/?curso=${encodeURIComponent(inquiryCourse)}`}>Consulta tu inscripción con admisiones.</a></p> : null}
+            {pricedRoute ? <label className="registration-check registration-check--tuition"><input type="checkbox" checked={draft.includeTuitionPrepayment} disabled={busy || quoteLoading || (!quoteOptions?.prepaymentLine && !draft.includeTuitionPrepayment)} onChange={(event) => selectTuitionPrepayment(event.target.checked)} /><span><strong>Anticipar cuatro semanas de matrícula{quoteOptions?.prepaymentLine ? ` · ${money(quoteOptions.prepaymentLine.amount, quoteOptions.prepaymentLine.currency)}` : ""}</strong><small>Opcional y adicional a la inscripción y el libro. Queda como crédito para la matrícula al confirmar tu grupo.</small>{quoteLoading ? <small role="status">Consultando el precio del anticipo.</small> : !quoteOptions?.prepaymentLine ? <small>El anticipo no está disponible para añadirlo ahora. Puedes continuar con la inscripción y el libro o consultar con admisiones.</small> : null}</span></label> : null}
             {quote?.state === "advisor_required" ? <AdvisorState course={inquiryCourse} /> : null}
             <FormError error={error} />
-            {pricedRoute ? <button className="button button--primary registration-next" disabled={busy || !ready} type="submit">{busy ? "Calculando…" : "Ver precio y continuar"}</button>
+            {pricedRoute ? <button className="button button--primary registration-next" disabled={busy || quoteLoading || !ready} type="submit">{busy ? "Calculando…" : "Ver precio y continuar"}</button>
               : <div className="registration-route-handoff"><p>Esta combinación de curso y país necesita confirmación de admisiones antes del pago.</p><a className="button button--primary registration-next" href={`/contactanos/?curso=${encodeURIComponent(inquiryCourse)}`}>Consultar inscripción</a></div>}
           </form>
         </section>
@@ -435,7 +443,7 @@ export function RegistrationExperience({
                 {linkedPlacement ? <><strong>{linkedPlacement.status === "confirmed" ? "Nivel confirmado por AIT" : "Nivel recomendado"}</strong><span>{linkedPlacement.levelLabel}{linkedPlacement.status !== "confirmed" ? " · AIT confirmará el nivel final" : ""}</span></>
                   : <><strong>Prueba de nivel pendiente</strong><span>Podrás hacerla después del pago.</span></>}
               </div> : null}
-              {quoteOptions?.prepaymentLine ? <label className="registration-check registration-check--tuition"><input type="checkbox" checked={draft.includeTuitionPrepayment} disabled={busy} onChange={(event) => selectTuitionPrepayment(event.target.checked)} /><span><strong>Anticipar cuatro semanas de matrícula · {money(quoteOptions.prepaymentLine.amount, quoteOptions.prepaymentLine.currency)}</strong><small>Opcional y adicional a la inscripción y el libro. Queda como crédito para la matrícula al confirmar tu grupo.</small></span></label> : <div className="registration-tuition-option"><p>La matrícula de las clases se paga por separado. Si deseas anticipar cuatro semanas, consulta el importe antes de añadirlo.</p><button className="registration-tuition-option__action" type="button" disabled={busy} onClick={requestTuitionOptions}>{busy ? "Consultando anticipo…" : "Consultar anticipo de cuatro semanas"}</button></div>}
+
               <label className="registration-check"><input type="checkbox" checked={draft.separatePayer} onChange={(event) => update("separatePayer", event.target.checked)} /><span><strong>Otra persona pagará</strong>{draft.separatePayer ? <small>Registraremos sus datos por separado.</small> : null}</span></label>
               {draft.separatePayer ? <IdentityFields legend="Persona que paga" prefix="payer" value={draft.payer} update={update} /> : null}
               {quote?.fulfillment?.deliveryMode === "shipment" ? <AddressFields value={draft.shippingAddress} update={update} /> : null}

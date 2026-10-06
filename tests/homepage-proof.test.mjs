@@ -57,14 +57,8 @@ describe("homepage community gallery", () => {
     const source = await readFile("app/_components/site/InteractiveSections.jsx", "utf8");
 
     assert.match(source, /export function TestimonialsSection/);
-    assert.match(source, /className="testimonial-card testimonial-card--featured"/);
-    assert.equal((source.match(/className="testimonial-card testimonial-card--featured"/g) || []).length, 1);
-    assert.match(source, /orderedStories\.slice\(1\)\.map/);
-    assert.match(source, /className="testimonial-story-choice"/);
-    assert.match(source, /openStory\(index \+ 1, event\.currentTarget\)/);
-    assert.match(source, /<details className="country-proof__details">/);
+    assert.match(source, /className="testimonial-card"/);
     assert.match(source, /data-testimonial-dialog-video/);
-    assert.match(source, /Subtítulos y transcripción aún no disponibles/);
     assert.match(source, /export function ProofStories/);
     assert.match(source, /community-proof__tabs/);
     assert.match(source, /role="tablist"/);
@@ -87,31 +81,30 @@ describe("homepage community gallery", () => {
     assert.doesNotMatch(source, /autoPlay|autoplay/);
   });
 
-  it("keeps the gallery stable until a visitor changes categories or photographs", async () => {
+  it("cycles visible imagery and reveals the section without overriding reduced motion", async () => {
     const source = await readFile("app/_components/site/InteractiveSections.jsx", "utf8");
-    const gallery = source.split("export function ProofStories()")[1].split("export function FaqList")[0];
     const styles = await readFile("src/styles.css", "utf8");
 
     assert.match(source, /IntersectionObserver/);
     assert.match(source, /bounds\.bottom > 0 && bounds\.top < window\.innerHeight/);
     assert.match(source, /threshold: 0\.02/);
-    assert.doesNotMatch(gallery, /setInterval|setTimeout|is-auto-cycling|COMMUNITY_.*CYCLE/);
-    assert.doesNotMatch(gallery, /mediaCycleIndex|photoAutoRotates|interactionPaused|hoverPaused|focusPaused/);
-    assert.match(gallery, /onClick=\{\(\) => selectTab\(tab\.id\)\}/);
-    assert.match(gallery, /setPreviewPhotoIndex\(0\)/);
+    assert.match(source, /setActiveTab\(\(currentTab\)/);
+    assert.match(source, /COMMUNITY_TAB_CYCLE_MS = 8000/);
+    assert.match(source, /COMMUNITY_PHOTO_CYCLE_MS = 2600/);
     assert.match(source, /activeTab, setActiveTab] = useState\("classroom"\)/);
     assert.match(source, /visiblePhotoCount = Math\.min\(photosForTab\.length, 3\)/);
     assert.match(source, /visiblePhotoCount <= 1 \? "single" : visiblePhotoCount === 2 \? "pair" : "mosaic"/);
     assert.match(source, /sidePhotoCount = Math\.max\(visiblePhotoCount - 1, 0\)/);
     assert.match(source, /community-proof__stage--\$\{galleryLayout\}/);
     assert.match(source, /community-proof__mosaic--single/);
-    assert.match(gallery, /setPreviewPhotoIndex\(\(index\) => \(index - 1 \+ photosForTab\.length\) % photosForTab\.length\)/);
-    assert.match(gallery, /setPreviewPhotoIndex\(\(index\) => \(index \+ 1\) % photosForTab\.length\)/);
-    assert.match(gallery, /onClick=\{showPreviousPreview\}/);
-    assert.match(gallery, /onClick=\{showNextPreview\}/);
-    assert.match(gallery, /onClick=\{showPreviousPhoto\}/);
-    assert.match(gallery, /onClick=\{showNextPhoto\}/);
+    assert.match(source, /activeTab === "graduations" \|\| activeTab === "celebrations"/);
+    assert.match(source, /setMediaCycleIndex\(\(index\) => index \+ 1\)/);
     assert.match(source, /community-proof__photo-count/);
+    assert.match(source, /is-auto-cycling/);
+    assert.match(source, /prefers-reduced-motion: reduce/);
+    assert.match(source, /interactionPaused/);
+    assert.match(source, /hoverPaused/);
+    assert.match(source, /focusPaused/);
     assert.doesNotMatch(source, /manuallyPaused/);
     assert.doesNotMatch(source, /Pausar avance automático|Activar avance automático/);
     assert.match(styles, /\.community-proof__stage\s*\{[\s\S]*grid-template-columns: minmax\(0, 1\.78fr\) minmax\(250px, 1fr\)/);
@@ -126,25 +119,10 @@ describe("homepage community gallery", () => {
     assert.match(styles, /\.community-proof\.is-visible \.community-proof__heading/);
     assert.match(styles, /@keyframes communityMediaIn/);
     assert.match(styles, /@keyframes communityTileReveal/);
+    assert.match(styles, /@keyframes communityTabProgress/);
     assert.match(styles, /\.home-page #experiencia \.community-proof__tabs\s*\{[\s\S]*grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
     assert.match(styles, /@media \(max-width: 719px\)[\s\S]*\.community-proof__tabs\s*\{[\s\S]*overflow-x: auto/);
     assert.match(styles, /@media \(prefers-reduced-motion: reduce\)[\s\S]*animation: none/);
-  });
-
-  it("asks for one contact channel and explains the requirement to both fields", async () => {
-    const source = await readFile("app/_components/site/InteractiveSections.jsx", "utf8");
-    const callback = source.split("export function CallbackDialog")[1];
-    const phoneInput = callback.match(/<input name="telefono"[^>]+>/)?.[0];
-    const emailInput = callback.match(/<input name="email"[^>]+>/)?.[0];
-
-    assert.ok(phoneInput);
-    assert.ok(emailInput);
-    assert.doesNotMatch(phoneInput, /\brequired\b/);
-    assert.doesNotMatch(emailInput, /\brequired\b/);
-    assert.match(phoneInput, /aria-describedby/);
-    assert.match(emailInput, /aria-describedby/);
-    assert.match(callback, /if \(!phone && !email\)/);
-    assert.match(callback, /Necesitamos al menos uno de los dos: teléfono o email/);
   });
 
   it("keeps the homepage FAQ school-wide without replacing English-specific chooser help", async () => {

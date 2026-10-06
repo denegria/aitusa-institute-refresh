@@ -95,56 +95,12 @@ describe("AIT USA native course routes and SEO contract", () => {
     assert.equal(presencial.mode, "Presencial");
     assert.match(presencial.editorial.lead, /presencial/i);
     assert.doesNotMatch(presencial.editorial.lead, /híbrido|online/i);
-    assert.deepEqual(presencial.editorial.schedule, [
-      {
-        label: "Lun–jue · inicios por la mañana",
-        times: ["8:30 am", "9:30 am", "10:30 am", "11:30 am"],
-      },
-      {
-        label: "Lun–jue · inicios por la noche",
-        times: ["6:30 pm", "7:40 pm", "8:45 pm"],
-      },
-      {
-        label: "Sábados",
-        times: ["10:00 am–1:00 pm", "3:30–5:30 pm"],
-      },
-      {
-        label: "Domingos",
-        times: ["10:30 am–12:30 pm"],
-      },
-    ]);
-    assert.deepEqual(presencial.courseDetail.schedule, [
-      "Lunes a jueves por la mañana: clases con inicio a las 8:30 am, 9:30 am, 10:30 am y 11:30 am.",
-      "Lunes a jueves por la noche: clases con inicio a las 6:30 pm, 7:40 pm y 8:45 pm.",
-      "Sábados: 10:00 am–1:00 pm y 3:30 pm–5:30 pm.",
-      "Domingos: 10:30 am–12:30 pm.",
-    ]);
-    assert.deepEqual(schedules.map(({ label, times, duration }) => ({ label, times, duration })), [
-      {
-        label: "Mañanas · lun–jue",
-        times: ["8:30 am", "9:30 am", "10:30 am", "11:30 am"],
-        duration: "Horarios de inicio",
-      },
-      {
-        label: "Noches · lun–jue",
-        times: ["6:30 pm", "7:40 pm", "8:45 pm"],
-        duration: "Horarios de inicio",
-      },
-      {
-        label: "Sábados",
-        times: ["10:00 am a 1:00 pm", "3:30 pm a 5:30 pm"],
-        duration: "Bloques publicados",
-      },
-      {
-        label: "Domingos",
-        times: ["10:30 am a 12:30 pm"],
-        duration: "Bloque publicado",
-      },
-    ]);
-    assert.doesNotMatch(
-      JSON.stringify({ courseDetail: presencial.courseDetail, editorial: presencial.editorial, schedules }),
-      /6:20|8:40|9:50|2:00 pm|3:00 pm|10:00 am a 12:30 pm/,
-    );
+    for (const program of [presencial, hybrid, online]) {
+      assert.match(JSON.stringify(program.editorial.schedule), /admisiones|confirmar/i);
+      assert.match(program.courseDetail.schedule.join(" "), /admisiones/i);
+      assert.doesNotMatch(JSON.stringify({editorial: program.editorial.schedule, detail: program.courseDetail.schedule}), /\d{1,2}:\d{2}/);
+    }
+    assert.doesNotMatch(JSON.stringify(schedules), /\d{1,2}:\d{2}|cupos disponibles/);
     assert.equal(hybrid.title, "Inglés híbrido");
     assert.equal(hybrid.mode, "Presencial + remoto");
     assert.match(hybrid.editorial.lead, /presencial.*remoto/i);
@@ -153,10 +109,7 @@ describe("AIT USA native course routes and SEO contract", () => {
     assert.equal(online.mode, "100% online");
     assert.match(online.editorial.lead, /100% online/i);
     assert.match(online.editorial.formats.find((format) => format.title === "Clase en vivo").text, /no pregrabada/);
-    assert.deepEqual(online.editorial.schedule[1], {
-      label: "Lun–jue · noches",
-      times: ["6:20–7:30 pm", "7:30–8:40 pm", "8:40–9:50 pm"],
-    });
+
   });
 
   it("keeps the remaining five program pages complete", () => {
@@ -167,7 +120,7 @@ describe("AIT USA native course routes and SEO contract", () => {
     const officeComputing = programs.find((program) => program.slug === "computacion-oficina");
 
     assert.equal(spanish.editorial.schedule.length, 1);
-    assert.match(spanish.editorial.schedule[0].times[0], /por confirmar/i);
+    assert.match(spanish.editorial.schedule[0].times[0], /confirmar/i);
     assert.equal(ged.editorial.pathway.length, 4);
     assert.deepEqual(ged.editorial.pathway.map((area) => area.title), [
       "Razonamiento matemático",
@@ -186,7 +139,7 @@ describe("AIT USA native course routes and SEO contract", () => {
       "Microsoft Excel",
       "Microsoft PowerPoint",
     ]);
-    assert.match(officeComputing.editorial.logisticsNote, /referencias, no garantías/i);
+    assert.match(officeComputing.editorial.logisticsNote, /admisiones.*confirmar/i);
   });
 
   it("keeps online English country guidance consistent with the registration route", () => {
@@ -197,13 +150,20 @@ describe("AIT USA native course routes and SEO contract", () => {
     assert.match(online.editorial.faqs.find((faq) => faq.question.includes("país")).answer, /confirma/i);
   });
 
-  it("keeps GED reference blocks distinct from the confirmed meeting frequency", () => {
+  it("directs all course timetable and frequency inquiries to admissions", async () => {
+    for (const program of programs) {
+      assert.doesNotMatch(JSON.stringify(program.editorial.schedule), /\d{1,2}:\d{2}/);
+      assert.doesNotMatch(JSON.stringify(program.courseDetail.schedule), /\d{1,2}:\d{2}/);
+    }
     const ged = programs.find((program) => program.slug === "ged");
-    assert.deepEqual(ged.editorial.schedule.map((group) => group.times), [["9:00–11:00 am"], ["11:00 am–1:00 pm"], ["2:00–4:00 pm"], ["4:00–6:00 pm"]]);
     const rhythm = ged.editorial.faqs.find((faq) => faq.question.includes("semana")).answer;
-    assert.doesNotMatch(rhythm, /dos clases de una hora/i);
-    assert.match(rhythm, /admisiones confirma/i);
-    assert.match(rhythm, /dos horas/i);
+    assert.doesNotMatch(rhythm, /dos (?:clases|horas)|sábados/i);
+    assert.match(rhythm, /admisiones.*confirmar/i);
+    const source = await readFile("app/_components/site/CourseProgramPage.jsx", "utf8");
+    assert.doesNotMatch(source, /horario de verano|Eastern Time|America\/New_York|Inicios de clase|Clases completas/);
+    assert.match(source, /horario corresponde a atención de oficina/);
+    assert.match(source, /Llamar a admisiones/);
+    assert.match(source, /Solicitar información/);
   });
 
   it("keeps the catalog compact and makes all active cards crawlable", async () => {
