@@ -141,7 +141,7 @@
 
   /* Decision cards share spacing, typography and action affordances. */
   & #elige-tu-curso { background: linear-gradient(145deg, #edf4fd 0%, #f8fbff 64%, #e5eef9 100%); }
-  & .study-goals__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+  & .study-goals__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
   & .study-goal { position: relative; display: flex; flex-direction: column; align-items: flex-start; min-height: 330px; padding: 30px; border: 1px solid var(--home-card-border); border-radius: var(--home-feature-radius); background: rgb(255 255 255 / 88%); text-decoration: none; box-shadow: var(--home-shadow-raised); transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease; overflow: hidden; }
   & .study-goal::after { content: ""; position: absolute; inset: auto -40px -70px auto; width: 170px; height: 170px; border-radius: 999px; background: radial-gradient(circle, rgb(23 78 166 / 9%), transparent 68%); pointer-events: none; }
   & .study-goal:hover { border-color: rgb(23 78 166 / 48%); background: white; box-shadow: var(--home-shadow-hover); transform: translateY(-4px); }

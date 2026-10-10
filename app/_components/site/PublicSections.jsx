@@ -19,15 +19,15 @@ import { catalogChoices, catalogHref } from "../../../src/courseDiscovery";
 export function HeroSection() {
   return (
     <section className="approved-hero" id="inicio" aria-labelledby="home-hero-title">
-      <aside className="approved-hero__spain" aria-label="Inglés online disponible desde España">
+      <aside className="approved-hero__spain" aria-label="Descuentos para nuevos alumnos">
         <span className="approved-hero__spain-location"><i data-lucide="globe-2" aria-hidden="true" />ESPAÑA · ONLINE</span>
-        <p>Inglés online desde España.</p>
+        <p>30% de descuento para nuevos alumnos y 10% adicional para parejas y grupos.</p>
       </aside>
       <div className="approved-hero__scene">
         <div className="approved-hero__copy">
           <p className="approved-hero__eyebrow">{painHero.eyebrow}</p>
           <h1 id="home-hero-title">
-            <span>Tu próximo capítulo,</span><span>en inglés.</span>
+            <span>{painHero.headlineLead} </span><span>{painHero.headlineEmphasis}</span>
           </h1>
           <p className="approved-hero__promise">Para conversar, estudiar y trabajar<br className="approved-hero__desktop-break" /> con más confianza.</p>
           <p className="approved-hero__location">Presencial en Nueva Jersey u online desde donde estés.</p>
@@ -39,7 +39,7 @@ export function HeroSection() {
             <a href="/cursos/ingles-hibrido-adultos/"><i data-lucide="monitor-smartphone" aria-hidden="true" /><span>Híbrido</span></a>
           </nav>
           <a className="approved-hero__alternate" href="#elige-tu-curso">
-            ¿Buscas otra meta académica? <span aria-hidden="true">Ver programas</span>
+            ¿Buscas otra meta diferente al inglés? <span aria-hidden="true">Ver programas</span>
           </a>
         </div>
         <div className="approved-hero__art" aria-hidden="true">
@@ -132,7 +132,12 @@ export function MethodSection() {
 }
 
 export function StudyGoalsSection() {
-  const secondaryChoices = catalogChoices.filter((choice) => choice.key !== "english-paths");
+  const secondaryChoices = [
+    { key: "ged", label: "Preparación GED", goal: "Obtener tu diploma de bachillerato o escuela secundaria (GED)", description: "Prepárate para el examen GED y avanza hacia tu meta académica.", icon: "graduation-cap", href: "/cursos/ged/" },
+    { ...catalogChoices.find((choice) => choice.key === "digital-technical"), goal: "Clases de computación" },
+    { ...catalogChoices.find((choice) => choice.key === "additional-languages"), goal: "Clases de español" },
+    { key: "math-tutoring", label: "Tutorías de matemáticas", goal: "Tutorías en matemáticas", description: "Apoyo personalizado según tu materia, nivel y objetivo, presencial u online.", icon: "calculator", href: "/cursos/tutorias-matematicas/" },
+  ];
 
   return (
     <section className="section study-goals" id="elige-tu-curso" aria-labelledby="study-goals-title">
@@ -144,7 +149,7 @@ export function StudyGoalsSection() {
         </header>
         <div className="study-goals__grid">
           {secondaryChoices.map((choice) => (
-            <Link className="study-goal" href={catalogHref(choice.key)} key={choice.key}>
+            <Link className="study-goal" href={choice.href || catalogHref(choice.key)} key={choice.key}>
               <span className="study-goal__icon" aria-hidden="true"><i data-lucide={choice.icon} /></span>
               <span className="study-goal__label">Programa complementario</span>
               <h3>{choice.goal}</h3>

@@ -2883,14 +2883,18 @@ const schoolFaqs = [
 ];
 
 const painHero = {
-  eyebrow: "Una escuela de inglés para lo que quieres lograr.",
-  headline: "Tu próximo capítulo, en inglés.",
-  headlineLead: "Tu próximo capítulo,",
-  headlineEmphasis: "en inglés.",
+  eyebrow: "Una escuela de inglés diferente para gente con propósito.",
+  headline: "Aprende inglés de una manera diferente: sin traducir, sin memorizar, en solo 10 meses.",
+  headlineLead: "Aprende inglés de una manera diferente:",
+  headlineEmphasis: "sin traducir, sin memorizar, en solo 10 meses.",
   headlineAccent: "",
 };
 
 const institutionalProof = [
+  {
+    value: "Alcance Internacional",
+    label: "EE. UU., Centroamérica, Sudamérica y Europa",
+  },
   {
     value: "Desde 2004",
     label: "Educación en Nueva Jersey",
@@ -2903,16 +2907,12 @@ const institutionalProof = [
     value: `${publishedLocationCount} Puntos de atención`,
     label: "Sedes, atención con cita y coordinación administrativa",
   },
-  {
-    value: "Alcance Internacional",
-    label: "EE. UU., Centroamérica, Sudamérica y Europa",
-  },
 ];
 
 const methodNarrative = {
   eyebrow: "Nuestra filosofía",
-  heading: "Primero comprendes. Después hablas.",
-  headingLines: ["Primero comprendes.", "Después hablas."],
+  heading: "Metodología única y patentada, probada por más de 20 años.",
+  headingLines: ["Metodología única y patentada,", "probada por más de 20 años."],
   introduction:
     "Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. De esa experiencia nació Graphic Concept: nuestro método visual para ayudarte a pensar en inglés y comunicarte en el trabajo, los estudios y la vida diaria. Es fácil de aprender y está pensado para cualquier persona, sin importar su nivel académico, para que comprendas y hables con más facilidad y fluidez, sin memorizar listas interminables.",
   painEyebrow: "Lo que escuchamos",
@@ -2923,7 +2923,7 @@ const methodNarrative = {
     "¿Te obligan a memorizar miles de palabras y sientes que no te alcanzan ni el tiempo ni la cabeza?",
   ],
   reasonsEyebrow: "Nuestra respuesta",
-  reasonsHeading: "Lo que cambia cuando entiendes el método.",
+  reasonsHeading: "Así resolvemos tu problema de hablar inglés: te enseñamos a comprender cuando te hablan sin tener que traducir.",
   videoLabel: "Conoce el método completo · 1:45",
   videoAriaLabel: "Conoce el método Graphic Concept completo",
   video: site.images.introVideo,
@@ -2947,7 +2947,7 @@ const solutionCharacteristics = [
     iconImage: site.images.methodIcons.speak,
     title: "Habla sin memorizar",
     body:
-      "Practica estructuras útiles para hablar desde la primera clase, sin listas interminables.",
+      "Te enseñamos a hablar sin tener que memorizar miles de palabras.",
   },
   {
     key: "graphic-concept",

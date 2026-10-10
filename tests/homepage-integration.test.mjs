@@ -176,7 +176,7 @@ describe("homepage React integration", () => {
     assert.match(hero, /approved-hero__modalities/);
     assert.match(hero, /approved-hero__spain/);
     assert.match(hero, /ESPAÑA · ONLINE/);
-    assert.match(hero, /Inglés online desde España\./);
+    assert.match(hero, /30% de descuento para nuevos alumnos y 10% adicional para parejas y grupos\./);
     assert.doesNotMatch(hero, /MADRID · ESPAÑA/);
     assert.doesNotMatch(hero, /España es nuestra próxima parada|Muy pronto|Próximamente/);
     assert.doesNotMatch(hero, /hero__conversion/);
@@ -194,17 +194,17 @@ describe("homepage React integration", () => {
     const { sections } = await readSources();
     const publishedLocationCount = locations.filter((location) => location.status !== "online").length + 1;
 
-    assert.equal(painHero.eyebrow, "Una escuela de inglés para lo que quieres lograr.");
+    assert.equal(painHero.eyebrow, "Una escuela de inglés diferente para gente con propósito.");
     assert.equal(institutionalProof.length, 4);
     assert.equal(headquarters.status, "headquarters");
     assert.equal(publishedLocationCount, 7);
     assert.deepEqual(
       institutionalProof.map((proof) => proof.value),
-      ["Desde 2004", "+1,000", `${publishedLocationCount} Puntos de atención`, "Alcance Internacional"],
+      ["Alcance Internacional", "Desde 2004", "+1,000", `${publishedLocationCount} Puntos de atención`],
     );
-    assert.equal(institutionalProof[2].label, "Sedes, atención con cita y coordinación administrativa");
+    assert.equal(institutionalProof[3].label, "Sedes, atención con cita y coordinación administrativa");
     assert.doesNotMatch(institutionalProof.map((proof) => proof.value).join(" "), /4 sedes/);
-    assert.match(institutionalProof.at(-1).label, /EE\. UU\., Centroamérica, Sudamérica y Europa/);
+    assert.match(institutionalProof[0].label, /EE\. UU\., Centroamérica, Sudamérica y Europa/);
     assert.match(sections, /className="approved-hero__facts"/);
     assert.match(sections, /institutionalProof\.map/);
   });

@@ -119,7 +119,7 @@ export function TestimonialsSection() {
       <div className="section-inner testimonials-section__inner">
         <header className="section-heading section-heading--framed testimonials-section__heading">
           <p className="section-kicker">Testimonios</p>
-          <h2 id="testimonials-title">Historias que se cuentan en primera persona.</h2>
+          <h2 id="testimonials-title">Testimonios</h2>
           <p>Escucha a estudiantes y docentes contar qué cambia cuando el método y el acompañamiento se sienten reales.</p>
         </header>
 
