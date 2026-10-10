@@ -1,0 +1,1357 @@
+[
+  {
+    "surface": "homepage",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/",
+    "file": "homepage-desktop.png",
+    "heading": "Aprende inglés de una manera diferente: sin traducir, sin memorizar, en solo 10 meses.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1425,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1425,
+        "top": 76,
+        "bottom": 146,
+        "height": 70
+      },
+      "scene": {
+        "left": 0,
+        "right": 1425,
+        "top": 146,
+        "bottom": 885.46875,
+        "height": 739.46875
+      },
+      "facts": {
+        "left": 0,
+        "right": 1425,
+        "top": 885.46875,
+        "bottom": 1000,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 48,
+        "right": 394,
+        "top": 674.53125,
+        "bottom": 726.875,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 48,
+        "right": 1377,
+        "top": 141.203125,
+        "bottom": 878.25,
+        "height": 737.046875
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 48,
+          "right": 193.09375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 199.09375,
+          "right": 316.390625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 322.390625,
+          "right": 445.6875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 897.46875,
+          "bottom": 988,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        },
+        {
+          "top": 897.46875,
+          "bottom": 988,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 897.46875,
+          "bottom": 988,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 897.46875,
+          "bottom": 988,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        }
+      ],
+      "extendsBelowViewport": false
+    }
+  },
+  {
+    "surface": "method",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/#metodo",
+    "file": "method-desktop.png",
+    "heading": "Nuestra filosofíaMetodología única y patentada, probada por más de 20 años.Durante más de 20 años hemos escuchado las ne"
+  },
+  {
+    "surface": "faq",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/#faq",
+    "file": "faq-desktop.png",
+    "heading": "Preguntas frecuentes¿Todavía tienes dudas?Resolvemos dudas sobre nuestros programas, cómo enseñamos y los pasos para ins"
+  },
+  {
+    "surface": "catalog",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/cursos/",
+    "file": "catalog-desktop.png",
+    "heading": "Encuentra tu curso."
+  },
+  {
+    "surface": "catalog-computing",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/cursos/?grupo=digital-technical",
+    "file": "catalog-computing-desktop.png",
+    "heading": "Computación"
+  },
+  {
+    "surface": "course-office",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/cursos/computacion-oficina/?grupo=digital-technical",
+    "file": "course-office-desktop.png",
+    "heading": "Computación para oficina"
+  },
+  {
+    "surface": "course-ingles-jovenes-adultos",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/cursos/ingles-jovenes-adultos/",
+    "file": "course-ingles-jovenes-adultos-desktop.png",
+    "heading": "Inglés presencial"
+  },
+  {
+    "surface": "course-ingles-hibrido-adultos",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/cursos/ingles-hibrido-adultos/",
+    "file": "course-ingles-hibrido-adultos-desktop.png",
+    "heading": "Inglés híbrido"
+  },
+  {
+    "surface": "course-ingles-online-adultos",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/cursos/ingles-online-adultos/",
+    "file": "course-ingles-online-adultos-desktop.png",
+    "heading": "Inglés online"
+  },
+  {
+    "surface": "course-ged",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/cursos/ged/",
+    "file": "course-ged-desktop.png",
+    "heading": "GED"
+  },
+  {
+    "surface": "course-tutorias-matematicas",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/cursos/tutorias-matematicas/",
+    "file": "course-tutorias-matematicas-desktop.png",
+    "heading": "Tutorías en matemáticas"
+  },
+  {
+    "surface": "course-computacion-basica",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/cursos/computacion-basica/",
+    "file": "course-computacion-basica-desktop.png",
+    "heading": "Computación básica"
+  },
+  {
+    "surface": "course-espanol-extranjeros",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/cursos/espanol-extranjeros/",
+    "file": "course-espanol-extranjeros-desktop.png",
+    "heading": "Español para extranjeros"
+  },
+  {
+    "surface": "contact",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/contactanos/?curso=espanol-extranjeros",
+    "file": "contact-desktop.png",
+    "heading": "¿Tienes dudas antes de inscribirte?"
+  },
+  {
+    "surface": "citizenship",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/ciudadania/",
+    "file": "citizenship-desktop.png",
+    "heading": "Información sobre ciudadanía"
+  },
+  {
+    "surface": "privacy",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/privacy-policy/",
+    "file": "privacy-desktop.png",
+    "heading": "Política de Privacidad"
+  },
+  {
+    "surface": "terms",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/terms-and-conditions/",
+    "file": "terms-desktop.png",
+    "heading": "Términos y Condiciones"
+  },
+  {
+    "surface": "placement",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/placement-test/",
+    "file": "placement-desktop.png",
+    "heading": "Conoce tu nivel de inglés"
+  },
+  {
+    "surface": "portal-entry",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/portal/sign-in/",
+    "file": "portal-entry-desktop.png",
+    "heading": "Inicia sesión"
+  },
+  {
+    "surface": "employee-entry",
+    "viewport": "desktop",
+    "url": "http://127.0.0.1:3010/employee/sign-in/",
+    "file": "employee-entry-desktop.png",
+    "heading": "Inicia sesión"
+  },
+  {
+    "surface": "homepage",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/",
+    "file": "homepage-mobile.png",
+    "heading": "Aprende inglés de una manera diferente: sin traducir, sin memorizar, en solo 10 meses.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 390,
+        "top": 0,
+        "bottom": 72,
+        "height": 72
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 390,
+        "top": 72,
+        "bottom": 214,
+        "height": 142
+      },
+      "scene": {
+        "left": 0,
+        "right": 390,
+        "top": 214,
+        "bottom": 1258.5625,
+        "height": 1044.5625
+      },
+      "facts": {
+        "left": 0,
+        "right": 390,
+        "top": 1258.5625,
+        "bottom": 1526.375,
+        "height": 267.8125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 24,
+        "right": 366,
+        "top": 724.8125,
+        "bottom": 780.8125,
+        "height": 56
+      },
+      "copy": {
+        "left": 24,
+        "right": 366,
+        "top": 214,
+        "bottom": 985.5625,
+        "height": 771.5625
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 24,
+          "right": 134,
+          "width": 110,
+          "height": 61.6875
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 140,
+          "right": 250,
+          "width": 110,
+          "height": 61.6875
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 256,
+          "right": 366,
+          "width": 110,
+          "height": 61.6875
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 1284.5625,
+          "bottom": 1374.5625,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        },
+        {
+          "top": 1284.5625,
+          "bottom": 1374.5625,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 1398.5625,
+          "bottom": 1500.375,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 1398.5625,
+          "bottom": 1500.375,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        }
+      ],
+      "extendsBelowViewport": true
+    }
+  },
+  {
+    "surface": "method",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/#metodo",
+    "file": "method-mobile.png",
+    "heading": "Nuestra filosofíaMetodología única y patentada, probada por más de 20 años.Durante más de 20 años hemos escuchado las ne"
+  },
+  {
+    "surface": "faq",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/#faq",
+    "file": "faq-mobile.png",
+    "heading": "Preguntas frecuentes¿Todavía tienes dudas?Resolvemos dudas sobre nuestros programas, cómo enseñamos y los pasos para ins"
+  },
+  {
+    "surface": "catalog",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/cursos/",
+    "file": "catalog-mobile.png",
+    "heading": "Encuentra tu curso."
+  },
+  {
+    "surface": "catalog-computing",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/cursos/?grupo=digital-technical",
+    "file": "catalog-computing-mobile.png",
+    "heading": "Computación"
+  },
+  {
+    "surface": "course-office",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/cursos/computacion-oficina/?grupo=digital-technical",
+    "file": "course-office-mobile.png",
+    "heading": "Computación para oficina"
+  },
+  {
+    "surface": "course-ingles-jovenes-adultos",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/cursos/ingles-jovenes-adultos/",
+    "file": "course-ingles-jovenes-adultos-mobile.png",
+    "heading": "Inglés presencial"
+  },
+  {
+    "surface": "course-ingles-hibrido-adultos",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/cursos/ingles-hibrido-adultos/",
+    "file": "course-ingles-hibrido-adultos-mobile.png",
+    "heading": "Inglés híbrido"
+  },
+  {
+    "surface": "course-ingles-online-adultos",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/cursos/ingles-online-adultos/",
+    "file": "course-ingles-online-adultos-mobile.png",
+    "heading": "Inglés online"
+  },
+  {
+    "surface": "course-ged",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/cursos/ged/",
+    "file": "course-ged-mobile.png",
+    "heading": "GED"
+  },
+  {
+    "surface": "course-tutorias-matematicas",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/cursos/tutorias-matematicas/",
+    "file": "course-tutorias-matematicas-mobile.png",
+    "heading": "Tutorías en matemáticas"
+  },
+  {
+    "surface": "course-computacion-basica",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/cursos/computacion-basica/",
+    "file": "course-computacion-basica-mobile.png",
+    "heading": "Computación básica"
+  },
+  {
+    "surface": "course-espanol-extranjeros",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/cursos/espanol-extranjeros/",
+    "file": "course-espanol-extranjeros-mobile.png",
+    "heading": "Español para extranjeros"
+  },
+  {
+    "surface": "contact",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/contactanos/?curso=espanol-extranjeros",
+    "file": "contact-mobile.png",
+    "heading": "¿Tienes dudas antes de inscribirte?"
+  },
+  {
+    "surface": "citizenship",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/ciudadania/",
+    "file": "citizenship-mobile.png",
+    "heading": "Información sobre ciudadanía"
+  },
+  {
+    "surface": "privacy",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/privacy-policy/",
+    "file": "privacy-mobile.png",
+    "heading": "Política de Privacidad"
+  },
+  {
+    "surface": "terms",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/terms-and-conditions/",
+    "file": "terms-mobile.png",
+    "heading": "Términos y Condiciones"
+  },
+  {
+    "surface": "placement",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/placement-test/",
+    "file": "placement-mobile.png",
+    "heading": "Conoce tu nivel de inglés"
+  },
+  {
+    "surface": "portal-entry",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/portal/sign-in/",
+    "file": "portal-entry-mobile.png",
+    "heading": "Inicia sesión"
+  },
+  {
+    "surface": "employee-entry",
+    "viewport": "mobile",
+    "url": "http://127.0.0.1:3010/employee/sign-in/",
+    "file": "employee-entry-mobile.png",
+    "heading": "Inicia sesión"
+  },
+  {
+    "surface": "homepage",
+    "viewport": "laptop",
+    "url": "http://127.0.0.1:3010/",
+    "file": "homepage-laptop.png",
+    "heading": "Aprende inglés de una manera diferente: sin traducir, sin memorizar, en solo 10 meses.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1351,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1351,
+        "top": 76,
+        "bottom": 132,
+        "height": 56
+      },
+      "scene": {
+        "left": 0,
+        "right": 1351,
+        "top": 132,
+        "bottom": 741.859375,
+        "height": 609.859375
+      },
+      "facts": {
+        "left": 0,
+        "right": 1351,
+        "top": 741.859375,
+        "bottom": 856.390625,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 48,
+        "right": 394,
+        "top": 532.140625,
+        "bottom": 584.484375,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 48,
+        "right": 1303,
+        "top": 126,
+        "bottom": 735.859375,
+        "height": 609.859375
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 48,
+          "right": 193.09375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 199.09375,
+          "right": 316.390625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 322.390625,
+          "right": 445.6875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 753.859375,
+          "bottom": 844.390625,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        },
+        {
+          "top": 753.859375,
+          "bottom": 844.390625,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 753.859375,
+          "bottom": 844.390625,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 753.859375,
+          "bottom": 844.390625,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        }
+      ],
+      "extendsBelowViewport": true
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "desktop-900",
+    "url": "http://127.0.0.1:3010/",
+    "file": "homepage-desktop-900.png",
+    "heading": "Aprende inglés de una manera diferente: sin traducir, sin memorizar, en solo 10 meses.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1425,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1425,
+        "top": 76,
+        "bottom": 139,
+        "height": 63
+      },
+      "scene": {
+        "left": 0,
+        "right": 1425,
+        "top": 139,
+        "bottom": 844.40625,
+        "height": 705.40625
+      },
+      "facts": {
+        "left": 0,
+        "right": 1425,
+        "top": 844.40625,
+        "bottom": 958.9375,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 48,
+        "right": 394,
+        "top": 634.6875,
+        "bottom": 687.03125,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 48,
+        "right": 1377,
+        "top": 133,
+        "bottom": 838.40625,
+        "height": 705.40625
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 48,
+          "right": 193.09375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 199.09375,
+          "right": 316.390625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 322.390625,
+          "right": 445.6875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 856.40625,
+          "bottom": 946.9375,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        },
+        {
+          "top": 856.40625,
+          "bottom": 946.9375,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 856.40625,
+          "bottom": 946.9375,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 856.40625,
+          "bottom": 946.9375,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        }
+      ],
+      "extendsBelowViewport": true
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "short-desktop",
+    "url": "http://127.0.0.1:3010/",
+    "file": "homepage-short-desktop.png",
+    "heading": "Aprende inglés de una manera diferente: sin traducir, sin memorizar, en solo 10 meses.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1265,
+        "top": 0,
+        "bottom": 107.5,
+        "height": 107.5
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1265,
+        "top": 107.5,
+        "bottom": 163.5,
+        "height": 56
+      },
+      "scene": {
+        "left": 0,
+        "right": 1265,
+        "top": 163.5,
+        "bottom": 732.109375,
+        "height": 568.609375
+      },
+      "facts": {
+        "left": 0,
+        "right": 1265,
+        "top": 732.109375,
+        "bottom": 846.640625,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 48,
+        "right": 394,
+        "top": 552.390625,
+        "bottom": 604.734375,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 48,
+        "right": 1217,
+        "top": 167.5,
+        "bottom": 736.109375,
+        "height": 568.609375
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 48,
+          "right": 193.09375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 199.09375,
+          "right": 316.390625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 322.390625,
+          "right": 445.6875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 744.109375,
+          "bottom": 834.640625,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        },
+        {
+          "top": 744.109375,
+          "bottom": 834.640625,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 744.109375,
+          "bottom": 834.640625,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 744.109375,
+          "bottom": 834.640625,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        }
+      ],
+      "extendsBelowViewport": true
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "wide-desktop",
+    "url": "http://127.0.0.1:3010/",
+    "file": "homepage-wide-desktop.png",
+    "heading": "Aprende inglés de una manera diferente: sin traducir, sin memorizar, en solo 10 meses.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1633,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1633,
+        "top": 76,
+        "bottom": 140.390625,
+        "height": 64.390625
+      },
+      "scene": {
+        "left": 0,
+        "right": 1633,
+        "top": 140.390625,
+        "bottom": 853.203125,
+        "height": 712.8125
+      },
+      "facts": {
+        "left": 0,
+        "right": 1633,
+        "top": 853.203125,
+        "bottom": 967.734375,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 48,
+        "right": 394,
+        "top": 643.484375,
+        "bottom": 695.828125,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 48,
+        "right": 1585,
+        "top": 134.390625,
+        "bottom": 847.203125,
+        "height": 712.8125
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 48,
+          "right": 193.09375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 199.09375,
+          "right": 316.390625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 322.390625,
+          "right": 445.6875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 865.203125,
+          "bottom": 955.734375,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        },
+        {
+          "top": 865.203125,
+          "bottom": 955.734375,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 865.203125,
+          "bottom": 955.734375,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 865.203125,
+          "bottom": 955.734375,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        }
+      ],
+      "extendsBelowViewport": true
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "short-window",
+    "url": "http://127.0.0.1:3010/",
+    "file": "homepage-short-window.png",
+    "heading": "Aprende inglés de una manera diferente: sin traducir, sin memorizar, en solo 10 meses.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1265,
+        "top": 0,
+        "bottom": 107.5,
+        "height": 107.5
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1265,
+        "top": 107.5,
+        "bottom": 163.5,
+        "height": 56
+      },
+      "scene": {
+        "left": 0,
+        "right": 1265,
+        "top": 163.5,
+        "bottom": 732.109375,
+        "height": 568.609375
+      },
+      "facts": {
+        "left": 0,
+        "right": 1265,
+        "top": 732.109375,
+        "bottom": 846.640625,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 48,
+        "right": 394,
+        "top": 552.390625,
+        "bottom": 604.734375,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 48,
+        "right": 1217,
+        "top": 167.5,
+        "bottom": 736.109375,
+        "height": 568.609375
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 48,
+          "right": 193.09375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 199.09375,
+          "right": 316.390625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 322.390625,
+          "right": 445.6875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 744.109375,
+          "bottom": 834.640625,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        },
+        {
+          "top": 744.109375,
+          "bottom": 834.640625,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 744.109375,
+          "bottom": 834.640625,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 744.109375,
+          "bottom": 834.640625,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        }
+      ],
+      "extendsBelowViewport": true
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "full-hd",
+    "url": "http://127.0.0.1:3010/",
+    "file": "homepage-full-hd.png",
+    "heading": "Aprende inglés de una manera diferente: sin traducir, sin memorizar, en solo 10 meses.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1905,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1905,
+        "top": 76,
+        "bottom": 149,
+        "height": 73
+      },
+      "scene": {
+        "left": 0,
+        "right": 1905,
+        "top": 149,
+        "bottom": 992.765625,
+        "height": 843.765625
+      },
+      "facts": {
+        "left": 0,
+        "right": 1905,
+        "top": 992.765625,
+        "bottom": 1107.296875,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 112.5,
+        "right": 458.5,
+        "top": 783.046875,
+        "bottom": 835.390625,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 112.5,
+        "right": 1792.5,
+        "top": 143,
+        "bottom": 986.765625,
+        "height": 843.765625
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 112.5,
+          "right": 257.59375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 263.59375,
+          "right": 380.890625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 386.890625,
+          "right": 510.1875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 1004.765625,
+          "bottom": 1095.296875,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        },
+        {
+          "top": 1004.765625,
+          "bottom": 1095.296875,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 1004.765625,
+          "bottom": 1095.296875,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 1004.765625,
+          "bottom": 1095.296875,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        }
+      ],
+      "extendsBelowViewport": true
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "full-hd-980",
+    "url": "http://127.0.0.1:3010/",
+    "file": "homepage-full-hd-980.png",
+    "heading": "Aprende inglés de una manera diferente: sin traducir, sin memorizar, en solo 10 meses.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1905,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1905,
+        "top": 76,
+        "bottom": 144.59375,
+        "height": 68.59375
+      },
+      "scene": {
+        "left": 0,
+        "right": 1905,
+        "top": 144.59375,
+        "bottom": 881.640625,
+        "height": 737.046875
+      },
+      "facts": {
+        "left": 0,
+        "right": 1905,
+        "top": 881.640625,
+        "bottom": 996.171875,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 112.5,
+        "right": 458.5,
+        "top": 671.921875,
+        "bottom": 724.265625,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 112.5,
+        "right": 1792.5,
+        "top": 138.59375,
+        "bottom": 875.640625,
+        "height": 737.046875
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 112.5,
+          "right": 257.59375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 263.59375,
+          "right": 380.890625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 386.890625,
+          "right": 510.1875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 893.640625,
+          "bottom": 984.171875,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        },
+        {
+          "top": 893.640625,
+          "bottom": 984.171875,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 893.640625,
+          "bottom": 984.171875,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 893.640625,
+          "bottom": 984.171875,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        }
+      ],
+      "extendsBelowViewport": true
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "full-hd-900",
+    "url": "http://127.0.0.1:3010/",
+    "file": "homepage-full-hd-900.png",
+    "heading": "Aprende inglés de una manera diferente: sin traducir, sin memorizar, en solo 10 meses.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 1905,
+        "top": 0,
+        "bottom": 76,
+        "height": 76
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 1905,
+        "top": 76,
+        "bottom": 139,
+        "height": 63
+      },
+      "scene": {
+        "left": 0,
+        "right": 1905,
+        "top": 139,
+        "bottom": 844.40625,
+        "height": 705.40625
+      },
+      "facts": {
+        "left": 0,
+        "right": 1905,
+        "top": 844.40625,
+        "bottom": 958.9375,
+        "height": 114.53125
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 112.5,
+        "right": 458.5,
+        "top": 634.6875,
+        "bottom": 687.03125,
+        "height": 52.34375
+      },
+      "copy": {
+        "left": 112.5,
+        "right": 1792.5,
+        "top": 133,
+        "bottom": 838.40625,
+        "height": 705.40625
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 112.5,
+          "right": 257.59375,
+          "width": 145.09375,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 263.59375,
+          "right": 380.890625,
+          "width": 117.296875,
+          "height": 44
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 386.890625,
+          "right": 510.1875,
+          "width": 123.296875,
+          "height": 44
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 856.40625,
+          "bottom": 946.9375,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        },
+        {
+          "top": 856.40625,
+          "bottom": 946.9375,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 856.40625,
+          "bottom": 946.9375,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 856.40625,
+          "bottom": 946.9375,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        }
+      ],
+      "extendsBelowViewport": true
+    }
+  },
+  {
+    "surface": "homepage",
+    "viewport": "narrow-mobile",
+    "url": "http://127.0.0.1:3010/",
+    "file": "homepage-narrow-mobile.png",
+    "heading": "Aprende inglés de una manera diferente: sin traducir, sin memorizar, en solo 10 meses.",
+    "opening": {
+      "header": {
+        "left": 0,
+        "right": 320,
+        "top": 0,
+        "bottom": 72,
+        "height": 72
+      },
+      "ribbon": {
+        "left": 0,
+        "right": 320,
+        "top": 72,
+        "bottom": 240,
+        "height": 168
+      },
+      "scene": {
+        "left": 0,
+        "right": 320,
+        "top": 240,
+        "bottom": 1408.203125,
+        "height": 1168.203125
+      },
+      "facts": {
+        "left": 0,
+        "right": 320,
+        "top": 1408.203125,
+        "bottom": 1719.703125,
+        "height": 311.5
+      },
+      "factCount": 4,
+      "cta": {
+        "left": 24,
+        "right": 296,
+        "top": 880.140625,
+        "bottom": 936.140625,
+        "height": 56
+      },
+      "copy": {
+        "left": 24,
+        "right": 296,
+        "top": 240,
+        "bottom": 1158.203125,
+        "height": 918.203125
+      },
+      "controls": [
+        {
+          "href": "/cursos/ingles-jovenes-adultos/",
+          "left": 24,
+          "right": 110.65625,
+          "width": 86.65625,
+          "height": 61.6875
+        },
+        {
+          "href": "/cursos/ingles-online-adultos/",
+          "left": 116.65625,
+          "right": 203.328125,
+          "width": 86.671875,
+          "height": 61.6875
+        },
+        {
+          "href": "/cursos/ingles-hibrido-adultos/",
+          "left": 209.328125,
+          "right": 296,
+          "width": 86.671875,
+          "height": 61.6875
+        }
+      ],
+      "wordmarkColor": "rgb(138, 100, 18)",
+      "factBoxes": [
+        {
+          "top": 1434.203125,
+          "bottom": 1551.953125,
+          "text": "Alcance InternacionalEE. UU., Centroamérica, Sudamérica y Europa"
+        },
+        {
+          "top": 1434.203125,
+          "bottom": 1551.953125,
+          "text": "Desde 2004Educación en Nueva Jersey"
+        },
+        {
+          "top": 1575.953125,
+          "bottom": 1693.703125,
+          "text": "+1,000Estudiantes guiados"
+        },
+        {
+          "top": 1575.953125,
+          "bottom": 1693.703125,
+          "text": "7 Puntos de atenciónSedes, atención con cita y coordinación administrativa"
+        }
+      ],
+      "extendsBelowViewport": true
+    }
+  }
+]
