@@ -179,3 +179,79 @@
     height: 22px;
   }
 }
+
+/* Homepage polish follow-up (2026-10-12).
+   Keep documentary proof, complementary programs, locations, transitions,
+   and the utility footer in one restrained surface family without changing
+   content, type, targets, or interaction behavior. */
+#main-content.home-page #experiencia .testimonial-card,
+#main-content.home-page #elige-tu-curso .study-goal,
+#main-content.home-page #sedes .compact-location-row {
+  border-color: rgb(0 26 61 / 14%);
+  box-shadow: 0 12px 28px rgb(0 26 61 / 8%);
+}
+
+#main-content.home-page #experiencia .testimonial-card:hover,
+#main-content.home-page #experiencia .testimonial-card:focus-visible,
+#main-content.home-page #elige-tu-curso .study-goal:hover,
+#main-content.home-page #elige-tu-curso .study-goal:focus-visible,
+#main-content.home-page #sedes .compact-location-row:hover,
+#main-content.home-page #sedes .compact-location-row:focus-visible,
+#main-content.home-page #sedes .compact-location-row:target {
+  border-color: rgb(196 147 45 / 68%);
+  box-shadow: 0 16px 34px rgb(0 26 61 / 12%);
+}
+
+/* The featured English route keeps its deliberate gold outline. */
+#main-content.home-page #cursos .offer-node--primary {
+  border-color: rgb(196 147 45 / 62%);
+}
+
+/* Use the real video frame as a subject-led poster; the source mapping is
+   derived from the existing testimonial video, not synthetic imagery. */
+#main-content.home-page #experiencia .testimonial-card__media img {
+  object-position: 50% 50%;
+}
+
+#main-content.home-page #experiencia .testimonial-card__shade {
+  background: linear-gradient(180deg, rgb(0 11 33 / 0), rgb(0 11 33 / 28%));
+}
+
+#main-content.home-page #experiencia .testimonial-card .community-proof__play {
+  width: 54px;
+  height: 54px;
+  border-color: rgb(255 255 255 / 86%);
+  background: rgb(0 15 43 / 58%);
+}
+
+#main-content.home-page #experiencia .testimonial-card .community-proof__play svg {
+  width: 21px;
+  height: 21px;
+}
+
+/* Replace full-width gold glow at the FAQ boundary with a quiet rule and
+   enough breathing room for the existing gold kicker/rule to lead. */
+#main-content.home-page .faq-section {
+  border-top: 1px solid rgb(0 26 61 / 10%);
+  box-shadow: none;
+  background: #f5f7fa;
+}
+
+#main-content.home-page .faq-section .section-inner {
+  padding-top: clamp(8px, 1.4vw, 18px);
+}
+
+/* The footer is a sibling of the homepage main, so :has keeps this spacing
+   route-scoped and leaves every other public footer untouched. */
+body:has(#main-content.home-page) > .site-footer {
+  margin-top: clamp(18px, 3vw, 34px);
+  border-top-color: rgb(217 180 93 / 30%);
+  box-shadow: none;
+}
+
+@media (max-width: 719px) {
+  body:has(#main-content.home-page) > .site-footer {
+    margin-top: 24px;
+    padding-top: 32px;
+  }
+}

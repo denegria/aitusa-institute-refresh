@@ -43,3 +43,24 @@ Final commit, validation log, release-surface log, screenshots, geometry
 measurements, and residual limitations are recorded under
 `runtime/audits/aitusa-cohesion-implementation-2026-10-12/` after finalist
 verification.
+
+## Polish follow-up — 2026-10-12
+
+- **Testimonial poster:** The international student card now uses a poster
+  cropped from the existing real testimonial video so the person fills the
+  same documentary card frame as the neighboring interviews. The overlay is
+  lighter and the play control remains clearly legible. No generated or
+  composited person imagery was introduced.
+- **Surface family:** Complementary-program cards, testimonial cards, and
+  compact location rows share a restrained border/shadow family. The primary
+  English offer retains its intentional gold outline.
+- **Boundaries:** The FAQ transition uses a quiet navy rule and deliberate
+  breathing room instead of a full-width gold glow; the local gold kicker/rule
+  remains the section cue.
+- **Closing/footer:** On the homepage only, the final conversion block and
+  utility footer gain a quiet separation and mobile breathing room. Copy,
+  actions, targets, and footer links are unchanged.
+
+The polish remains homepage-scoped. Locked hero, Method, books, palette,
+font, copy, section order, URLs, JavaScript behavior, routes, dependencies,
+configuration, auth, payment, and production state are unchanged.

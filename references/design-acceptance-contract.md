@@ -2087,3 +2087,33 @@ and closeout evidence are recorded in
 - **Public header wordmark:** Use one responsive scale across public headers: at widths ≥1440px, AIT USA 24px / INSTITUTE 22px; ≤1280px 21px / 19px; ≤1040px 20px / 18px; ≤580px 16px / 14px. Keep line-height 1.15 / 1.3 and weights 800 / 700. Do not change header heights, logo/icon dimensions, spacing, or navigation behavior. The institute wordmark remains `rgb(138, 100, 18)`.
 - **Homepage/form/detail typography:** At ≤374px, the hero title is 36px, line-height 1.06, letter-spacing about -.04em; preserve its ≥375px scale and desktop hero sizing. At ≤580px use title line-height 1.04 where it does not disturb layout invariants. Contact and enrollment labels are 14px/700; inputs, selects and textareas are explicitly 16px/500 with inherited family. Buttons stay 16px/700; control geometry and borders are locked. Mobile homepage proof-fact captions are 13px/600, line-height 1.4, preserving current case/copy. Location address/help details are at least 13px, line-height 1.4, and are not clamped or ellipsized. The map focus label is 13px/700 only if visible; decorative footer headings are unchanged.
 - **Acceptance/evidence:** Primary 1440×1000 and 390×844; regression 320×844, 375×812, 1366×768, 1280×600, plus 200% text. Compare live staging before/after for hero/ribbon/eyebrow/links, facts, program tiles, Method opening/response, and desktop/mobile Testimonios. Unchanged regions must remain unchanged. No content/JSX, dependency, behavior, data, or production changes. Parent owns visual review, validation, staging push and delivery.
+
+## 2026-10-12 — Homepage cohesion polish follow-up (approved staging candidate)
+
+- **User job/problem:** After the prior homepage cohesion pass, documentary
+  testimonials, complementary programs, locations, FAQ transition, and the
+  closing/footer seam still read as separate surface systems. Improve the
+  shared visual grammar without adding content or changing any action.
+- **Reference mode:** Inspiration mode from the live approved AIT homepage
+  and the read-only cohesion follow-up audit at
+  `runtime/audits/aitusa-cohesion-followup-2026-10-12/README.md`. Existing
+  real testimonial video frames remain the media authority; no generated
+  people or composited imagery are permitted.
+- **Locked behavior/content:** Preserve all copy, font sizes/families, palette,
+  hero, Method, books layout and imagery, section order, URLs, targets,
+  JavaScript business logic, routes, environment, dependencies, config,
+  authentication, payment, and flows. Preserve the English featured offer's
+  gold outline. No form submissions or production changes.
+- **Accepted refinements:** Use a subject-centered poster cropped from the
+  existing international testimonial video with a lighter overlay and legible
+  play icon; align border/shadow strength across `.study-goal`, testimonial,
+  and compact location surfaces; replace the FAQ boundary glow with a quiet
+  rule and deliberate spacing while retaining its kicker/rule; separate the
+  homepage closing conversion and utility footer on mobile with quiet spacing
+  and divider only.
+- **Responsive/evidence:** Primary 1440×1000 and 390×844; regressions
+  1024×768 and 320×700. Verify poster subject framing, play affordance,
+  card-family consistency, FAQ boundary, footer seam, no overflow/errors,
+  unchanged copy/actions/routes, `npm run validate`, and the exact release
+  surface gate on isolated port 3014. Parent independently owns staging push,
+  visual verdict, screenshots, and live QA.
