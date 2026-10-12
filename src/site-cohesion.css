@@ -184,15 +184,15 @@
    Keep documentary proof, complementary programs, locations, transitions,
    and the utility footer in one restrained surface family without changing
    content, type, targets, or interaction behavior. */
-#main-content.home-page #experiencia .testimonial-card,
+#main-content.home-page #testimonios .testimonial-card,
 #main-content.home-page #elige-tu-curso .study-goal,
 #main-content.home-page #sedes .compact-location-row {
   border-color: rgb(0 26 61 / 14%);
   box-shadow: 0 12px 28px rgb(0 26 61 / 8%);
 }
 
-#main-content.home-page #experiencia .testimonial-card:hover,
-#main-content.home-page #experiencia .testimonial-card:focus-visible,
+#main-content.home-page #testimonios .testimonial-card:hover,
+#main-content.home-page #testimonios .testimonial-card:focus-visible,
 #main-content.home-page #elige-tu-curso .study-goal:hover,
 #main-content.home-page #elige-tu-curso .study-goal:focus-visible,
 #main-content.home-page #sedes .compact-location-row:hover,
@@ -207,24 +207,21 @@
   border-color: rgb(196 147 45 / 62%);
 }
 
-/* Use the real video frame as a subject-led poster; the source mapping is
-   derived from the existing testimonial video, not synthetic imagery. */
-#main-content.home-page #experiencia .testimonial-card__media img {
-  object-position: 50% 50%;
-}
-
-#main-content.home-page #experiencia .testimonial-card__shade {
+/* Keep the individual documentary crops; the new poster is derived from
+   the existing testimonial video, not synthetic imagery. */
+#main-content.home-page #testimonios .testimonial-card__shade {
   background: linear-gradient(180deg, rgb(0 11 33 / 0), rgb(0 11 33 / 28%));
 }
 
-#main-content.home-page #experiencia .testimonial-card .community-proof__play {
+#main-content.home-page #testimonios .testimonial-card .community-proof__play {
   width: 54px;
   height: 54px;
   border-color: rgb(255 255 255 / 86%);
   background: rgb(0 15 43 / 58%);
+  color: #fff;
 }
 
-#main-content.home-page #experiencia .testimonial-card .community-proof__play svg {
+#main-content.home-page #testimonios .testimonial-card .community-proof__play svg {
   width: 21px;
   height: 21px;
 }
@@ -244,14 +241,12 @@
 /* The footer is a sibling of the homepage main, so :has keeps this spacing
    route-scoped and leaves every other public footer untouched. */
 body:has(#main-content.home-page) > .site-footer {
-  margin-top: clamp(18px, 3vw, 34px);
   border-top-color: rgb(217 180 93 / 30%);
   box-shadow: none;
 }
 
 @media (max-width: 719px) {
   body:has(#main-content.home-page) > .site-footer {
-    margin-top: 24px;
     padding-top: 32px;
   }
 }
