@@ -228,13 +228,13 @@
 
 /* Replace full-width gold glow at the FAQ boundary with a quiet rule and
    enough breathing room for the existing gold kicker/rule to lead. */
-#main-content.home-page .faq-section {
+#main-content.home-page #faq {
   border-top: 1px solid rgb(0 26 61 / 10%);
   box-shadow: none;
   background: #f5f7fa;
 }
 
-#main-content.home-page .faq-section .section-inner {
+#main-content.home-page #faq .section-inner {
   padding-top: clamp(8px, 1.4vw, 18px);
 }
 
