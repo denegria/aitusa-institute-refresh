@@ -18,3 +18,164 @@
   font-size: 13px;
   font-weight: 700;
 }
+
+/* Homepage cohesion pass (2026-10-12).
+   This layer is intentionally last in the public shell so the accepted
+   typography/media/interaction contract remains authoritative. */
+#main-content.home-page {
+  --home-action-gold: rgb(196 147 45 / 88%);
+  --home-action-gold-hover: rgb(217 180 93 / 96%);
+  --home-action-shadow: inset 0 1px 0 rgb(255 255 255 / 38%), 0 14px 34px rgb(0 10 30 / 24%);
+  --home-content-rail: min(1180px, calc(100% - 32px));
+}
+
+/* Shared chapter rail: the navy/cream contrast and local heading scale stay
+   intact while kickers, rules, and following content start on one rhythm. */
+#main-content.home-page > section:not(#inicio) .section-heading,
+#main-content.home-page > section:not(#inicio) .community-proof__heading,
+#main-content.home-page #libros .books-section__heading {
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
+
+#main-content.home-page > section:not(#inicio) .section-heading::before,
+#main-content.home-page > section:not(#inicio) .community-proof__heading::before,
+#main-content.home-page #libros .books-section__heading::before,
+#main-content.home-page #metodo .method-story__intro::before {
+  width: 48px;
+  height: 3px;
+  margin-bottom: 18px;
+  border-radius: 0;
+  background: var(--home-gold);
+}
+
+#main-content.home-page > section:not(#inicio) .section-heading h2,
+#main-content.home-page > section:not(#inicio) .community-proof__heading h2,
+#main-content.home-page #libros .books-section__heading h2 {
+  margin-top: 0;
+}
+
+#main-content.home-page #metodo .method-story__opening {
+  width: 100%;
+  max-width: none;
+}
+
+#main-content.home-page #metodo .method-story__intro {
+  padding-left: 0;
+  border-left: 0;
+}
+
+#main-content.home-page #metodo .method-story__intro::before {
+  display: block;
+  position: static;
+}
+
+/* Baseline: opening was a single left-aligned block capped at 860px. The
+   desktop editorial opening now shares that same rail without growing the
+   section; the DOM remains kicker → title → intro paragraph. */
+@media (min-width: 901px) {
+  #main-content.home-page #metodo .method-story__intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(280px, .72fr);
+    grid-template-areas:
+      "accent accent"
+      "kicker kicker"
+      "title intro";
+    column-gap: clamp(40px, 6vw, 92px);
+    align-items: end;
+    padding-left: 0;
+  }
+
+  #main-content.home-page #metodo .method-story__intro::before {
+    position: static;
+    grid-area: accent;
+    margin-bottom: 18px;
+  }
+
+  #main-content.home-page #metodo .method-story__intro .method-kicker {
+    grid-area: kicker;
+    margin: 0 0 14px;
+  }
+
+  #main-content.home-page #metodo .method-story__intro h2 {
+    grid-area: title;
+    margin-top: 0;
+  }
+
+  #main-content.home-page #metodo .method-story__intro-copy {
+    grid-area: intro;
+    align-self: end;
+    max-width: 34rem;
+    margin: 0 0 .35rem;
+  }
+}
+
+@media (max-width: 900px) {
+  #main-content.home-page #metodo .method-story__intro::before {
+    width: 42px;
+    height: 3px;
+    margin-bottom: 14px;
+  }
+
+  #main-content.home-page #metodo .method-story__intro .method-kicker {
+    margin-left: 0;
+  }
+}
+
+/* Primary action grammar: exact hero fill/hover values, the hero's 14px
+   radius, and its inset/raised shadow. Contextual outline/text actions stay
+   untouched. */
+#main-content.home-page :is(#cursos .offer-node--primary .offer-node__link,
+  #contacto .final-cta-contact-row .button--primary) {
+  border: 1px solid rgb(255 239 194 / 72%);
+  border-radius: 14px;
+  background: var(--home-action-gold);
+  color: var(--home-navy);
+  box-shadow: var(--home-action-shadow);
+}
+
+#main-content.home-page :is(#cursos .offer-node--primary .offer-node__link,
+  #contacto .final-cta-contact-row .button--primary):is(:hover, :focus-visible, :active) {
+  border-color: #fff0be;
+  background: var(--home-action-gold-hover);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 52%), 0 18px 42px rgb(0 10 30 / 30%);
+}
+
+/* Desktop: Intro Plus is the intentional feature column beside a defined 3×2
+   cover grid. Existing source order and true cover aspect ratios stay intact. */
+@media (min-width: 901px) {
+  #main-content.home-page #libros .books-gallery {
+    grid-template-columns: minmax(280px, 1.12fr) repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(230px, auto));
+    column-gap: clamp(28px, 3.4vw, 52px);
+    row-gap: 32px;
+  }
+
+  #main-content.home-page #libros .books-gallery__intro img {
+    width: min(100%, 250px);
+    max-width: 250px;
+  }
+}
+
+/* The earlier complementary-program region is #elige-tu-curso. Compact only
+   its decorative icon and container spacing on mobile; labels/body type and
+   the full card link target remain unchanged. */
+@media (max-width: 719px) {
+  #main-content.home-page #elige-tu-curso .study-goals__grid {
+    gap: 10px;
+  }
+
+  #main-content.home-page #elige-tu-curso .study-goal {
+    padding: 18px;
+  }
+
+  #main-content.home-page #elige-tu-curso .study-goal__icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 12px;
+  }
+
+  #main-content.home-page #elige-tu-curso .study-goal__icon svg {
+    width: 22px;
+    height: 22px;
+  }
+}

@@ -1,5 +1,52 @@
 # AIT USA Authenticated Portal Payments — MIS-420
 
+## 2026-10-12 — Homepage cohesion pass
+
+- **User workflow/problem:** A homepage visitor should move from the approved
+  hero into a consistent chapter rhythm, understand the Method opening without
+  a dead desktop column, compare the Intro Plus feature book with the six-book
+  progression, and recognize the primary next action without losing contextual
+  secondary links.
+- **Chosen interaction model:** Preserve the existing homepage DOM/source order,
+  anchors, URLs, card links, media, and section order. This is a CSS-only
+  editorial composition pass: Method title remains the display-scale opening,
+  with its existing introduction as a right-hand desktop companion; below
+  900px the source order returns to a single stack. The book gallery remains one
+  Intro Plus feature plus a 3×2 six-book grid on desktop and Intro Plus followed
+  by a two-column book sequence on mobile.
+- **Visual direction/reference mode:** Inspiration mode constrained by the
+  shipped homepage at `35cb6b6`, the approved hero gold treatment, and the
+  existing navy/cream chapter contrast. Preserve all existing fonts, palette,
+  real media, section-specific hierarchy, English-format gold outline, and
+  contextual secondary action grammar.
+- **Locked behavior/content:** No copy, whitespace-normalized text, URLs,
+  font metrics, media, links, interaction logic, form behavior, or section
+  order changes. All interactive targets remain at least 44px. The actual
+  complementary-program region is `#elige-tu-curso`; its mobile refinement is
+  limited to decorative icon footprint, card padding, and grid gap. The
+  `#cursos-apoyo` region is not used for this recommendation.
+- **Layout/rhythm invariants:** Primary CSS viewports are 1440×1000 and
+  390×844. Regressions are 1280×600, 1366×768, 320×844, and ≤900px Method
+  reflow. Desktop Method opening is a balanced two-column rail with the title
+  retaining its intentional scale; it must not create a taller opening or an
+  oversized empty right half. Section kickers use a consistent horizontal
+  gold rule and shared heading/intro/content rails while retaining navy/cream
+  chapter contrast. Desktop books use defined columns/gutters and natural
+  `160/209` Intro Plus and `177/219` cover ratios; mobile remains Intro Plus
+  followed by two columns.
+- **Action/content-growth assumptions:** Future copy may wrap naturally in
+  headings, descriptions, and book labels. Primary gold actions share the
+  hero's `14px` corner, fill, and raised shadow; secondary outline/text actions
+  retain contextual variants. The six-book inventory remains six covers unless
+  a separate content contract changes it.
+- **Evidence required:** Run `npm run validate` once finalist, then start the
+  owned Next server on port 3013 and run
+  `VERIFY_BASE_URL=http://127.0.0.1:3013 npm run verify:release-surfaces`.
+  Capture/inspect desktop, mobile, narrow, 1280×600, Method, books, and
+  homepage actions. Report no overflow/clipping, unchanged copy/URLs/font
+  metrics, Method and book geometry, and section-height impact. Independent
+  parent review owns production/staging decisions.
+
 ## 2026-09-29 — Remaining five individual course details — MIS-427
 
 - **User job/problem:** Direct visitors need to understand fit, published availability or the absence of a fixed schedule, what the course covers, prerequisites/limits, and the right enrollment or admissions action. The remaining five pages still use the older large-heading/rail, stacked dark-panel-plus-format-list template, unlike the accepted English detail pages.
