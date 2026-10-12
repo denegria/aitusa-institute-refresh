@@ -1,2 +1,20 @@
 .callback-contact-help { grid-column: 1 / -1; color: var(--site-muted); font-size: .875rem; margin: 0; }
 .citizenship-information-page .course-program-hero { background: #f7f2e8; }
+
+/* Keep meaningful campus address and access details readable at every width. */
+#main-content.home-page #sedes .compact-location-row__copy small {
+  display: block;
+  min-width: 0;
+  overflow: visible;
+  font-size: 13px;
+  line-height: 1.4;
+  text-overflow: clip;
+  white-space: normal;
+  -webkit-line-clamp: unset;
+  -webkit-box-orient: initial;
+}
+
+#main-content.home-page .real-map-card__focus-label {
+  font-size: 13px;
+  font-weight: 700;
+}

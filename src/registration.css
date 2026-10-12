@@ -145,8 +145,8 @@
   display: grid;
   gap: 7px;
   color: var(--site-navy);
-  font-size: .85rem;
-  font-weight: 800;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .registration-field-grid input,
@@ -159,6 +159,9 @@
   background: var(--registration-surface);
   color: var(--site-navy);
   box-shadow: 0 2px 8px rgb(0 26 61 / 4%);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .registration-field-grid input:focus,
