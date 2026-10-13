@@ -57,7 +57,7 @@
 .approved-hero__spain::after { content: ""; position: absolute; inset: auto 0 -28px; height: 30px; pointer-events: none; background: linear-gradient(180deg, rgb(0 27 62 / 92%), transparent); }
 .approved-hero__spain-location { position: relative; z-index: 1; display: flex; align-items: center; flex-shrink: 0; gap: 16px; font-size: 1rem; font-weight: 700; letter-spacing: .11em; color: var(--hero-gold); }
 .approved-hero__spain-location svg { width: 28px; height: 32px; color: inherit; }
-.approved-hero__offer { position: relative; z-index: 1; display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px clamp(18px, 2vw, 34px); width: fit-content; max-width: 100%; min-width: 0; padding-left: clamp(22px, 2.1vw, 30px); border-left: 2px solid var(--hero-gold-divider); background: #001b3e; white-space: normal; }
+.approved-hero__offer { position: relative; z-index: 1; display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px .35em; width: fit-content; max-width: 100%; min-width: 0; padding-left: clamp(22px, 2.1vw, 30px); border-left: 2px solid var(--hero-gold-divider); background: transparent; white-space: normal; }
 .approved-hero__offer-group { display: inline-flex; align-items: baseline; flex-wrap: wrap; gap: 0 .35em; margin: 0; font-family: var(--font-display); font-size: clamp(1.125rem, 1.65vw, 1.625rem); font-weight: 700; line-height: 1.2; letter-spacing: -.012em; color: #fff; }
 .approved-hero__offer-group strong { color: #fff; font-weight: 800; }
 .approved-hero__scene { position: relative; isolation: isolate; min-height: max(51vw, calc(100svh - 278px)); display: grid; align-items: center; }
@@ -187,7 +187,7 @@
   .approved-hero__offer-group { gap: 0 .2em; font-size: .78rem; line-height: 1.15; letter-spacing: -.012em; }
   .approved-hero__eyebrow { max-width: 320px; font-size: 0.875rem; margin-bottom: 10px; }
   .approved-hero__copy { padding-top: 24px; }
-  #main-content.home-page #home-hero-title { font-size: clamp(30px, 8.2vw, 32px); }
+  #main-content.home-page #home-hero-title { font-size: clamp(1.875rem, 8.2vw, 2rem); }
   .approved-hero__promise { margin-top: 16px; }
   .approved-hero__promise { font-size: 1.125rem; line-height: 1.45; }
   .approved-hero__desktop-break { display: none; }
@@ -198,17 +198,23 @@
   .approved-hero__modalities svg { width: 26px; height: 26px; }
   .approved-hero__art { width: 100vw; height: clamp(210px, 56vw, 250px); margin: 8px 0 0 calc((100% - 100vw) / 2); overflow: hidden; }
   .approved-hero__art img { height: calc(100% + 80px); transform: translateY(-64px); }
-  .approved-hero__alternate { width: 100%; justify-content: center; margin-top: 14px; }
-  .approved-hero__fact { padding-inline: 18px; }
+  .approved-hero__alternate { width: 100%; min-height: 44px; justify-content: center; margin-top: 14px; }
+  .approved-hero__facts-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .approved-hero__fact { min-width: 0; padding-inline: 18px; overflow-wrap: anywhere; }
   .approved-hero__fact strong { font-size: 1.25rem; line-height: 1.2; }
   .approved-hero__fact span { font-size: 13px; line-height: 1.4; font-weight: 600; }
-  #main-content.home-page #home-hero-title { line-height: 1.04; }
+  #main-content.home-page #home-hero-title { line-height: 1.04; overflow-wrap: anywhere; }
+}
+/* Enlarged text needs a full-width offer rather than a narrow second column. */
+@container approved-hero (max-width: 12.5em) {
+  .approved-hero__spain { grid-template-columns: 1fr; }
+  .approved-hero__offer { padding-left: 0; border-left: 0; }
 }
 @media (max-width: 374px) {
   .approved-hero__spain { grid-template-columns: 1fr; gap: 3px; padding-block: 7px; }
   .approved-hero__offer { padding-left: 0; border-left: 0; }
   .approved-hero__offer-group { font-size: .8rem; }
-  #main-content.home-page #home-hero-title { font-size: 30px; line-height: 1.06; letter-spacing: -.04em; }
+  #main-content.home-page #home-hero-title { font-size: 1.875rem; line-height: 1.06; letter-spacing: -.04em; }
   .approved-hero__alternate {
     flex-direction: column;
     align-items: center;
