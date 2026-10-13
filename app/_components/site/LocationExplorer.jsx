@@ -78,22 +78,23 @@ function LocationRow({ location, index, selected, onSelect, whatsappHref }) {
   );
 }
 
-function ScheduleGroup({ group }) {
+const officeDayLabels = {
+  "Lun–jue": "Lunes a jueves",
+  "Vie": "Viernes",
+  "Sáb": "Sábado",
+  "Dom": "Domingo",
+};
+
+function OfficeSchedule({ groups }) {
   return (
-    <li className="location-hours-panel__group">
-      <strong>{group.label}</strong>
-      <dl>
-        {group.slots.map((slot) => {
-          const range = slot.times.split("–");
-          return (
-            <div className="location-hours-panel__slot" data-schedule-slot key={slot.label}>
-              <dt>{slot.label}</dt>
-              <dd>{range.length === 2 ? <><span>{range[0]}</span><span>–{range[1]}</span></> : slot.times}</dd>
-            </div>
-          );
-        })}
-      </dl>
-    </li>
+    <dl className="location-hours-panel__schedule">
+      {groups.flatMap((group) => group.slots.map((slot) => (
+        <div className="location-hours-panel__slot" data-schedule-slot key={`${group.label}:${slot.label}`}>
+          <dt>{officeDayLabels[slot.label] || slot.label}</dt>
+          <dd>{slot.times}</dd>
+        </div>
+      )))}
+    </dl>
   );
 }
 
@@ -249,7 +250,7 @@ export function LocationExplorer({ locations, hours, hoursTitle, hoursEyebrow = 
             </span>
           </div>
           <div className="location-hours-panel__content">
-            <ul>{hours.map((group) => <ScheduleGroup key={group.label} group={group} />)}</ul>
+            <OfficeSchedule groups={hours} />
           </div>
         </section>
         )}

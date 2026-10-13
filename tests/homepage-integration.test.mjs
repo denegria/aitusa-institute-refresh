@@ -117,7 +117,11 @@ describe("homepage React integration", () => {
     assert.match(source, /real-map-card__overview/);
     assert.match(source, /google\.com\/maps\/search/);
     assert.match(source, /<section className="location-hours-panel"/);
-    assert.match(source, /<ScheduleGroup key=\{group\.label\} group=\{group\}/);
+    assert.match(source, /<OfficeSchedule groups=\{hours\}/);
+    assert.match(source, /<dl className="location-hours-panel__schedule"/);
+    for (const day of ["Lunes a jueves", "Viernes", "Sábado", "Domingo"]) {
+      assert.equal(locationExplorer.includes(day), true);
+    }
     assert.match(source, /data-schedule-slot/);
     assert.match(sections, /hours=\{mapped\.find\(\(location\) => location\.mapKey === "bound-brook"\)\?\.hours \|\| \[\]\}/);
     assert.match(sections, /hoursTitle="Bound Brook · Sede principal"/);

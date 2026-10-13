@@ -2189,3 +2189,11 @@ the task-local server.
 - Inspiration/continuity mode grounded in the verified source and today's current mobile audit captures, not a new brand/redesign or synthetic asset. Locked: hero/banner/books/proof/community/FAQ/contact/other locations/class schedules and all routes/provider/data behavior.
 - Primary 390×844 and 1440×1000 CSS px. Regression320/375/720/1024 and 200%text reflow. No new overflow or collisions; all schedule rows and program/Method content remains accessible. Source data is unchanged.
 - Gates: `npm run validate`, 49 release surfaces, selected-region desktop/mobile screenshots and DOM checks; staging exact-SHA READY/live QA. Production stays17cb0c2 absent new approval. Artifacts: runtime/audits/aitusa-cohesion-v2-2026-10-13/ outside the repo.
+
+# Plain office schedule — Telegram23987 — 2026-10-13
+
+- Supersedes the hours grid only. User reports that multiple columns/rows and abbreviated days hinder understanding.
+- Render one chronological definition list of four plain day/time statements: Lunes a jueves, Viernes, Sábado, Domingo. Full day labels, no weekday/weekend category headings, tiles, columns, or hidden schedule content. Each day and time form one inline sentence, wrapping naturally only when needed.
+- Preserve the exact four source ranges and office-hours/campus label. Canonical content.js remains untouched. Keep all accepted Other Programs/Method styling and content unchanged.
+- Reuse navy/gold card tokens and moderate source-like emphasis. Primary390px, regressions320/375/720/1024/1440 and enlarged text. No clipping/new overflow.
+- Required: npm run validate,49release surfaces, four-row/full-name/time DOM assertions, responsive screenshots, exact stagingSHA/READY/liveQA. Production remains17cb0c2 pending new approval.
