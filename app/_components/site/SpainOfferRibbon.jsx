@@ -7,6 +7,8 @@ const OFFER = "30% de descuento para nuevos alumnos y 10% adicional para parejas
 export function SpainOfferRibbon() {
   const viewportRef = useRef(null);
   const pausedRef = useRef(false);
+  const manualPausedRef = useRef(false);
+  const interactionHeldRef = useRef(false);
   const interactionTimerRef = useRef(null);
   const motionTimerRef = useRef(null);
   const [paused, setPaused] = useState(false);
@@ -25,10 +27,12 @@ export function SpainOfferRibbon() {
 
     const holdForInteraction = () => {
       if (reducedMotion.matches) return;
+      interactionHeldRef.current = true;
       pausedRef.current = true;
       window.clearTimeout(interactionTimerRef.current);
       interactionTimerRef.current = window.setTimeout(() => {
-        pausedRef.current = false;
+        interactionHeldRef.current = false;
+        pausedRef.current = manualPausedRef.current;
       }, 1600);
     };
 
@@ -39,6 +43,7 @@ export function SpainOfferRibbon() {
       }
       const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
       if (maxScroll === 0) {
+        lastFrame = now;
         return;
       }
       if (phase === "initial" && now - phaseStarted < initialDwell) {
@@ -68,6 +73,10 @@ export function SpainOfferRibbon() {
       if (reducedMotion.matches) {
         pausedRef.current = true;
         viewport.scrollLeft = 0;
+        lastFrame = performance.now();
+      } else {
+        pausedRef.current = manualPausedRef.current || interactionHeldRef.current;
+        lastFrame = performance.now();
       }
     };
     const onKeyDown = (event) => {
@@ -106,8 +115,9 @@ export function SpainOfferRibbon() {
   }, []);
 
   const togglePause = () => {
-    pausedRef.current = !pausedRef.current;
-    setPaused(pausedRef.current);
+    manualPausedRef.current = !manualPausedRef.current;
+    pausedRef.current = manualPausedRef.current || interactionHeldRef.current;
+    setPaused(manualPausedRef.current);
   };
 
   return (
