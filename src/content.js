@@ -2445,10 +2445,22 @@ const methodBlocks = [
   },
 ];
 
-const boundBrookOfficeContactGuidance = [{
-  label: "Horario de oficina",
-  slots: [{ label: "Admisiones", times: "Llama o solicita información para confirmar el horario de oficina antes de visitar." }],
-}];
+const verifiedBoundBrookHours = [
+  {
+    label: "Entre semana",
+    slots: [
+      { label: "Lun–jue", times: "9:30 am–10:00 pm" },
+      { label: "Vie", times: "9:30 am–8:00 pm" },
+    ],
+  },
+  {
+    label: "Fin de semana",
+    slots: [
+      { label: "Sáb", times: "9:30 am–6:00 pm" },
+      { label: "Dom", times: "10:30 am–1:30 pm" },
+    ],
+  },
+];
 
 const centralLocationContact = {
   phone: site.phone,
@@ -2469,7 +2481,7 @@ const locations = [
     cta: "Escribir sobre Bound Brook",
     ...centralLocationContact,
     hoursLabel: "Horario de oficina",
-    hours: boundBrookOfficeContactGuidance,
+    hours: verifiedBoundBrookHours,
   },
   {
     city: "Plainfield, New Jersey",

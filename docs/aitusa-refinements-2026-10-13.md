@@ -28,3 +28,22 @@ official or project-origin source was found within the bounded discovery scope.
 
 Final validation and release-surface logs/screenshots are recorded outside this
 worktree under `runtime/audits/aitusa-refinements-2026-10-13/`.
+
+## Discount banner and Bound Brook office-hours release
+
+The homepage discount ribbon preserves `ESPAÑA · ONLINE`, the original font
+sizes and Spain artwork. It separates the 30% new-student offer from the
+additional 10% couples/groups benefit; no CTA or combined “40%” claim is added.
+Mobile benefits stack compactly without increasing the accepted ribbon height.
+Desktop artwork occupies the far-right zone, clear of the offer text.
+
+Bound Brook's four office-hour slots are restored exactly from client-approved
+source `750a5d5a978f72db357e663b3cefda845f73121a` (August 11), removed by
+`3f66671`. The `Horario de oficina` label and all class schedules/other locations
+remain unchanged. A regression assertion protects all four approved slots.
+
+Telegram 23968 authorizes production after validation and live staging QA.
+Director recovered the existing uncommitted candidate after the original worker
+became unavailable, corrected the reduced-type-size deviation, and owns final
+validation, staging acceptance, and production promotion. Evidence is stored in
+`runtime/audits/aitusa-discount-banner-2026-10-13/` outside this repository.

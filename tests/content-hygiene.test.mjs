@@ -17,7 +17,7 @@ describe("MIS-267 content hygiene", () => {
     assert.equal(JSON.stringify(site.forms).includes("Google Form"), false);
   });
 
-  it("keeps active-location contact details and keeps unconfirmed office hours as an admissions inquiry", async () => {
+  it("keeps the client-approved Bound Brook office hours separate from class schedules", async () => {
     const { headquarters, locations, site } = await loadSiteData();
     const activeLocations = locations.filter((location) => location.status === "active");
 
@@ -37,8 +37,24 @@ describe("MIS-267 content hygiene", () => {
     assert.equal(headquarters.note, "HQ");
     assert.equal(boundBrook.note, "Sede principal");
     assert.equal(boundBrook.hoursLabel, "Horario de oficina");
-    assert.match(JSON.stringify(boundBrook.hours), /confirmar el horario de oficina/i);
-    assert.doesNotMatch(JSON.stringify(boundBrook.hours), /\d{1,2}:\d{2}/);
+    assert.deepEqual(boundBrook.hours, [
+      {
+        label: "Entre semana",
+        slots: [
+          { label: "Lun–jue", times: "9:30 am–10:00 pm" },
+          { label: "Vie", times: "9:30 am–8:00 pm" },
+        ],
+      },
+      {
+        label: "Fin de semana",
+        slots: [
+          { label: "Sáb", times: "9:30 am–6:00 pm" },
+          { label: "Dom", times: "10:30 am–1:30 pm" },
+        ],
+      },
+    ]);
+    assert.equal(boundBrook.hours.flatMap((group) => group.slots).length, 4);
+    assert.doesNotMatch(JSON.stringify(boundBrook.hours), /Horario de clases|clases/i);
     assert.equal(locations.filter((location) => location.status === "limited").length, 3);
   });
 
