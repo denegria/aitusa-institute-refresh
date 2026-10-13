@@ -5,6 +5,7 @@ import { describe, it } from "node:test";
 const readSources = async () => ({
   page: await readFile("app/(public-site)/page.jsx", "utf8"),
   sections: await readFile("app/_components/site/PublicSections.jsx", "utf8"),
+  offerRibbon: await readFile("app/_components/site/SpainOfferRibbon.jsx", "utf8"),
   interactive: await readFile("app/_components/site/InteractiveSections.jsx", "utf8"),
   locationExplorer: await readFile("app/_components/site/LocationExplorer.jsx", "utf8"),
   chrome: await readFile("app/_components/site/SiteChrome.jsx", "utf8"),
@@ -167,7 +168,7 @@ describe("homepage React integration", () => {
   });
 
   it("keeps the approved hero hierarchy while moving the method story below", async () => {
-    const { sections } = await readSources();
+    const { sections, offerRibbon } = await readSources();
     const hero = sections.slice(
       sections.indexOf("export function HeroSection"),
       sections.indexOf("export function MethodSection"),
@@ -179,10 +180,10 @@ describe("homepage React integration", () => {
     assert.match(hero, /id="home-hero-title"/);
     assert.match(hero, /approved-hero__modalities/);
     assert.match(hero, /approved-hero__spain/);
-    assert.match(hero, /ESPAÑA · ONLINE/);
-    assert.match(hero, /<strong>30% de descuento<\/strong>\{' '\}<span>para nuevos alumnos<\/span>\{' '\}/);
-    assert.match(hero, /<strong>y 10% adicional<\/strong>\{' '\}<span>para parejas y grupos\.<\/span>/);
-    assert.doesNotMatch(hero, /40%/);
+    assert.match(offerRibbon, /ESPAÑA/);
+    assert.match(offerRibbon, /· ONLINE/);
+    assert.match(offerRibbon, /30% de descuento para nuevos alumnos y 10% adicional para parejas y grupos\./);
+    assert.doesNotMatch(`${hero}\n${offerRibbon}`, /40%/);
     assert.doesNotMatch(hero, /MADRID · ESPAÑA/);
     assert.doesNotMatch(hero, /España es nuestra próxima parada|Muy pronto|Próximamente/);
     assert.doesNotMatch(hero, /hero__conversion/);

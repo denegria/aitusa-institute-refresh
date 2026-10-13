@@ -14,15 +14,13 @@ import { CallbackDialog, FaqList, MethodVideo } from "./InteractiveSections";
 import { LocationExplorer } from "./LocationExplorer";
 import Link from "next/link";
 import { catalogChoices, catalogHref } from "../../../src/courseDiscovery";
+import { SpainOfferRibbon } from "./SpainOfferRibbon";
 
 export function HeroSection() {
   return (
     <section className="approved-hero" id="inicio" aria-labelledby="home-hero-title">
       <aside className="approved-hero__spain" aria-label="Descuentos para nuevos alumnos">
-        <div className="approved-hero__offer" aria-label="Oferta para nuevos alumnos">
-          <span className="approved-hero__spain-location"><i data-lucide="globe-2" aria-hidden="true" />ESPAÑA · ONLINE</span>{' '}
-          <p className="approved-hero__offer-copy" aria-label="30% de descuento para nuevos alumnos y 10% adicional para parejas y grupos."><strong>30% de descuento</strong>{' '}<span>para nuevos alumnos</span>{' '}<strong>y 10% adicional</strong>{' '}<span>para parejas y grupos.</span></p>
-        </div>
+        <SpainOfferRibbon />
       </aside>
       <div className="approved-hero__scene">
         <div className="approved-hero__copy">
