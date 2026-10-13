@@ -34,6 +34,15 @@ export function HeroSection() {
           <p className="approved-hero__promise">Para conversar, estudiar y trabajar<br className="approved-hero__desktop-break" /> con más confianza.</p>
           <p className="approved-hero__location">Presencial en Nueva Jersey u online desde donde estés.</p>
           <Link className="approved-hero__cta" href="/placement-test/">Conoce tu nivel de inglés <i data-lucide="arrow-right" aria-hidden="true" /></Link>
+          <div className="approved-hero__art" aria-hidden="true">
+            <img
+              src={site.images.classroomHero}
+              alt=""
+              width="1756"
+              height="896"
+              fetchPriority="high"
+            />
+          </div>
           <Link className="approved-hero__alternate approved-hero__registration" href="/inscribete/">Ya sé cómo quiero estudiar <span aria-hidden="true">Inscribirme →</span></Link>
           <nav className="approved-hero__modalities" aria-label="Formatos de inglés">
             <a href="/cursos/ingles-jovenes-adultos/"><i data-lucide="users-round" aria-hidden="true" /><span>Presencial</span></a>
@@ -43,15 +52,6 @@ export function HeroSection() {
           <a className="approved-hero__alternate" href="#elige-tu-curso">
             ¿Buscas otra meta diferente al inglés? <span aria-hidden="true">Ver programas</span>
           </a>
-        </div>
-        <div className="approved-hero__art" aria-hidden="true">
-            <img
-              src={site.images.classroomHero}
-              alt=""
-              width="1756"
-              height="896"
-              fetchPriority="high"
-            />
         </div>
       </div>
       <aside className="approved-hero__facts" aria-label="Trayectoria de AIT USA Institute">

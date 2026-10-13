@@ -50,10 +50,10 @@
   gap: clamp(24px, 3vw, 56px);
   min-height: 73px;
   padding: 14px clamp(24px, 4.8vw, 80px);
-  background: #001b3e;
+  background: #001b3e url('/assets/hero/approved-spain-ribbon.webp') center / 102% auto no-repeat;
   overflow: visible;
 }
-.approved-hero__spain::before { content: ""; position: absolute; z-index: 0; inset: 0 0 0 auto; width: clamp(280px, 31%, 500px); pointer-events: none; background: url('/assets/hero/approved-spain-ribbon.webp') right center / auto 100% no-repeat; }
+.approved-hero__spain::before { content: ""; position: absolute; z-index: 0; inset: 0 0 0 auto; width: clamp(280px, 31%, 500px); pointer-events: none; }
 .approved-hero__spain::after { content: ""; position: absolute; inset: auto 0 -28px; height: 30px; pointer-events: none; background: linear-gradient(180deg, rgb(0 27 62 / 92%), transparent); }
 .approved-hero__spain-location { position: relative; z-index: 1; display: flex; align-items: center; flex-shrink: 0; gap: 16px; font-size: 1rem; font-weight: 700; letter-spacing: .11em; color: var(--hero-gold); }
 .approved-hero__spain-location svg { width: 28px; height: 32px; color: inherit; }
@@ -117,6 +117,7 @@
    Auto rows reserve their real content height; the scene gets the remainder.
    Minimum sizing lets short windows or enlarged text grow without clipping. */
 @media (min-width: 1041px) {
+  .approved-hero__art { inset: 0 auto 0 50%; width: 100cqw; transform: translateX(-50%); }
   .site-header:has(+ :is(.home-page, .registration-page)) { min-height: 76px; padding-block: 7px; }
   .site-header:has(+ :is(.home-page, .registration-page)) .brand img { width: 54px; height: 54px; }
   #main-content.home-page #inicio.approved-hero {
@@ -147,7 +148,8 @@
    visitors enlarge text, keeping copy away from the people and bright glass. */
 @container approved-hero (max-width: 56.25em) {
   .approved-hero__spain { display: grid; grid-template-columns: 1fr; gap: 5px; padding: 9px 24px; }
-  .approved-hero__spain::before { inset: 0 0 auto auto; width: 48%; height: 48px; background-size: auto 48px; }
+  .approved-hero__spain { background-position: right top; background-size: auto 48px; }
+  .approved-hero__spain::before { display: none; }
   .approved-hero__spain-location { width: fit-content; font-size: 0.875rem; background: rgb(0 26 61 / 90%); box-shadow: 0 0 10px 5px rgb(0 26 61 / 90%); }
   .approved-hero__spain-location svg { width: 22px; height: 24px; }
   .approved-hero__offer { display: grid; gap: 3px; width: 100%; max-width: 550px; padding-left: 0; border: 0; white-space: normal; }
@@ -172,19 +174,30 @@
   .site-header:has(+ :is(.home-page, .registration-page)) .header-cta { display: none; }
   .site-header:has(+ :is(.home-page, .registration-page)) { grid-template-columns: 1fr auto auto; }
   .site-header:has(+ :is(.home-page, .registration-page)) .student-portal-entry { width: 44px; height: 44px; }
-  .approved-hero__spain { padding: 9px 24px; }
-  .approved-hero__offer { max-width: 340px; }
-  .approved-hero__offer-group { font-size: 1.25rem; line-height: 1.15; }
-  .approved-hero__eyebrow { max-width: 320px; font-size: 0.875rem; margin-bottom: 18px; }
-  .approved-hero__copy { padding-top: 40px; }
+  .approved-hero__spain {
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 10px;
+    min-height: 0;
+    padding: 8px 16px;
+    background: #001b3e;
+  }
+  .approved-hero__spain-location { gap: 6px; font-size: .7rem; letter-spacing: .08em; }
+  .approved-hero__spain-location svg { width: 20px; height: 22px; }
+  .approved-hero__offer { display: flex; align-items: baseline; gap: 4px 8px; max-width: none; padding-left: 10px; border-left-width: 1px; }
+  .approved-hero__offer-group { gap: 0 .2em; font-size: .78rem; line-height: 1.15; letter-spacing: -.012em; }
+  .approved-hero__eyebrow { max-width: 320px; font-size: 0.875rem; margin-bottom: 10px; }
+  .approved-hero__copy { padding-top: 24px; }
+  #main-content.home-page #home-hero-title { font-size: clamp(30px, 8.2vw, 32px); }
+  .approved-hero__promise { margin-top: 16px; }
   .approved-hero__promise { font-size: 1.125rem; line-height: 1.45; }
   .approved-hero__desktop-break { display: none; }
-  .approved-hero__location { font-size: 1rem; }
-  .approved-hero__cta { width: 100%; min-height: 56px; padding: 12px 16px; font-size: 1rem; }
+  .approved-hero__location { margin-top: 6px; font-size: 1rem; }
+  .approved-hero__cta { width: 100%; min-height: 56px; margin-top: 16px; padding: 12px 16px; font-size: 1rem; }
   .approved-hero__modalities { justify-content: space-between; margin-top: 22px; }
   .approved-hero__modalities a { flex: 1; flex-direction: column; gap: 4px; padding: 4px; font-size: 0.875rem; }
   .approved-hero__modalities svg { width: 26px; height: 26px; }
-  .approved-hero__art { height: clamp(250px, 70vw, 340px); }
+  .approved-hero__art { width: 100vw; height: clamp(210px, 56vw, 250px); margin: 8px 0 0 calc((100% - 100vw) / 2); overflow: hidden; }
+  .approved-hero__art img { height: calc(100% + 80px); transform: translateY(-64px); }
   .approved-hero__alternate { width: 100%; justify-content: center; margin-top: 14px; }
   .approved-hero__fact { padding-inline: 18px; }
   .approved-hero__fact strong { font-size: 1.25rem; line-height: 1.2; }
@@ -192,7 +205,10 @@
   #main-content.home-page #home-hero-title { line-height: 1.04; }
 }
 @media (max-width: 374px) {
-  #main-content.home-page #home-hero-title { font-size: 36px; line-height: 1.06; letter-spacing: -.04em; }
+  .approved-hero__spain { grid-template-columns: 1fr; gap: 3px; padding-block: 7px; }
+  .approved-hero__offer { padding-left: 0; border-left: 0; }
+  .approved-hero__offer-group { font-size: .8rem; }
+  #main-content.home-page #home-hero-title { font-size: 30px; line-height: 1.06; letter-spacing: -.04em; }
   .approved-hero__alternate {
     flex-direction: column;
     align-items: center;
