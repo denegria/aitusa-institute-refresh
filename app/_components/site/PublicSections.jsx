@@ -10,7 +10,6 @@ import {
   site,
   solutionCharacteristics,
 } from "../../../src/content";
-import Image from "next/image";
 import { CallbackDialog, FaqList, MethodVideo } from "./InteractiveSections";
 import { LocationExplorer } from "./LocationExplorer";
 import Link from "next/link";
@@ -107,17 +106,7 @@ export function MethodSection() {
             {solutionCharacteristics.map((item) => (
               <li key={item.key}>
                 <span className="method-reason__icon" aria-hidden="true">
-                  {item.iconImage ? (
-                    <Image
-                      className="method-reason__icon-image"
-                      src={item.iconImage}
-                      alt=""
-                      width={64}
-                      height={64}
-                    />
-                  ) : (
-                    <i data-lucide={item.icon || "circle-check"} />
-                  )}
+                  <i data-lucide={item.icon || "circle-check"} aria-hidden="true" />
                 </span>
                 <div><h4>{item.title}</h4><p>{item.body}</p></div>
               </li>

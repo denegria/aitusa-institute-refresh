@@ -2117,3 +2117,47 @@ and closeout evidence are recorded in
   unchanged copy/actions/routes, `npm run validate`, and the exact release
   surface gate on isolated port 3014. Parent independently owns staging push,
   visual verdict, screenshots, and live QA.
+
+---
+
+# 2026-10-13 — AIT USA homepage refinements
+
+**Scope:** staging-only task `aitusa-refinements-20261013`, based on
+`origin/staging` at `dc780de5c245931218e5d6ca9b52baa40aeacb92`.
+
+## Approved deviations (exactly four)
+
+1. At narrow mobile widths, the two alternate hero prompts group their label
+   and destination naturally without changing copy, font size, or URL.
+2. The Method orientation text link keeps its arrow attached to the label on
+   narrow mobile widths.
+3. The single office-hours message in `#sedes` uses the available mobile card
+   width without changing copy or font size.
+4. Method's three illustrated pictograms are replaced by the established repo
+   Lucide line-icon system: `ear`, `message-circle`, and `route`, with the same
+   listening/speaking/progress meanings, navy/gold treatment, and hidden
+   decorative semantics.
+
+## Book-art source decision
+
+The seven existing cover assets remain unchanged. Local project discovery found
+only the existing `/public/assets/books/*portada.avif` files and no checked-in
+origin inventory or higher-resolution source. Bounded public-source discovery
+also checked the canonical production homepage (`https://www.aitusainstitute.com/`)
+on 2026-10-13; it serves the same seven asset paths. No genuine higher-resolution
+original was found, so no redraw, upscale, regeneration, or artwork substitution
+is permitted in this candidate.
+
+## Locked surfaces
+
+All copy, URLs, font sizes, hero layout/headline, promotional discount banner,
+Method architecture, book layout/order, section order, real proof/video, and
+forms/flows remain locked. This candidate is staging-only; it performs no
+business-data, form, provider, payment, production, or Linear writes.
+
+## Required review viewports
+
+Primary: `1440x1000` and `390x844`. Regression: `320`, `375`, `720`, and
+`1024` widths. Required checks are `npm run validate` and
+`VERIFY_BASE_URL=http://127.0.0.1:3015 npm run verify:release-surfaces` against
+the task-local server.

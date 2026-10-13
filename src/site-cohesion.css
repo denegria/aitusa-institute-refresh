@@ -19,6 +19,40 @@
   font-weight: 700;
 }
 
+/* Mobile link grouping: keep each alternate hero action as one natural inline
+   sentence at narrow widths. Copy, size, and destinations remain unchanged. */
+@media (max-width: 580px) {
+  #main-content.home-page #inicio .approved-hero__alternate {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  #main-content.home-page #inicio .approved-hero__alternate span {
+    display: inline-block;
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+
+  /* The arrow belongs to the text-link label, not a separate flex column. */
+  #main-content.home-page #metodo .method-orientation-link {
+    display: block;
+    min-height: 44px;
+    padding-block: 10px;
+  }
+
+  #main-content.home-page #metodo .method-orientation-link span {
+    display: inline-block;
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+
+  /* One office-hours group should use the full card width on mobile. */
+  #main-content.home-page #sedes .location-hours-panel ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 /* Homepage cohesion pass (2026-10-12).
    This layer is intentionally last in the public shell so the accepted
    typography/media/interaction contract remains authoritative. */
