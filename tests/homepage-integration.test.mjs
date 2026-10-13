@@ -180,8 +180,8 @@ describe("homepage React integration", () => {
     assert.match(hero, /approved-hero__modalities/);
     assert.match(hero, /approved-hero__spain/);
     assert.match(hero, /ESPAÑA · ONLINE/);
-    assert.match(hero, /<strong>30% de descuento<\/strong><span>para nuevos alumnos<\/span>/);
-    assert.match(hero, /<strong>y 10% adicional<\/strong><span>para parejas y grupos\.<\/span>/);
+    assert.match(hero, /<strong>30% de descuento<\/strong>\{' '\}<span>para nuevos alumnos<\/span>\{' '\}/);
+    assert.match(hero, /<strong>y 10% adicional<\/strong>\{' '\}<span>para parejas y grupos\.<\/span>/);
     assert.doesNotMatch(hero, /40%/);
     assert.doesNotMatch(hero, /MADRID · ESPAÑA/);
     assert.doesNotMatch(hero, /España es nuestra próxima parada|Muy pronto|Próximamente/);

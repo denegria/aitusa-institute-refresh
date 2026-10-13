@@ -57,8 +57,6 @@
 .approved-hero__spain-location svg { width: 28px; height: 32px; color: inherit; }
 .approved-hero__offer { position: relative; z-index: 1; display: flex; align-items: baseline; gap: clamp(12px, 1.2vw, 18px); width: min(80%, 1100px); max-width: 100%; min-width: 0; }
 .approved-hero__offer-copy { margin: 0; font-family: var(--font-display); font-size: clamp(1.125rem, 1.4vw, 1.25rem); font-weight: 700; line-height: 1.2; letter-spacing: -.012em; color: #fff; }
-.approved-hero__offer-copy span { margin-left: .35em; }
-.approved-hero__offer-copy span + strong { margin-left: .35em; }
 .approved-hero__offer-copy strong { color: #fff; font-weight: 800; }
 .approved-hero__scene { position: relative; isolation: isolate; min-height: max(51vw, calc(100svh - 278px)); display: grid; align-items: center; }
 .approved-hero__art { position: absolute; inset: 0; z-index: -1; }
@@ -181,7 +179,7 @@
   }
   .approved-hero__spain::after { display: none; }
   .approved-hero__offer { display: block; width: 100%; }
-  .approved-hero__spain-location { display: inline; gap: 0; margin-right: .4em; font-size: .68rem; letter-spacing: .06em; color: #174ea6; vertical-align: baseline; }
+  .approved-hero__spain-location { display: inline; gap: 0; font-size: .68rem; letter-spacing: .06em; color: #174ea6; vertical-align: baseline; }
   .approved-hero__spain-location svg { display: inline-block; width: 18px; height: 20px; margin-right: 4px; vertical-align: -.2em; }
   .approved-hero__offer-copy { display: inline; font-size: .84rem; line-height: 1.25; color: #001a3d; }
   .approved-hero__offer-copy strong { color: #001a3d; }
