@@ -284,3 +284,106 @@ body:has(#main-content.home-page) > .site-footer {
     padding-top: 32px;
   }
 }
+
+/* Client-approved office hours use the same calm card rhythm as the location
+   rail. Preserve the four source slots and their weekday/weekend grouping. */
+#main-content.home-page #sedes .location-hours-panel {
+  container: office-hours / inline-size;
+}
+
+#main-content.home-page #sedes .location-hours-panel__header {
+  min-height: 0;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--home-card-border);
+}
+
+#main-content.home-page #sedes .location-hours-panel__heading {
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+#main-content.home-page #sedes .location-hours-panel__heading h3 {
+  max-width: none;
+  margin-top: 3px;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  font-size: .875rem;
+  line-height: 1.4;
+}
+
+#main-content.home-page #sedes .location-hours-panel__content {
+  padding: 16px 18px 18px;
+}
+
+#main-content.home-page #sedes .location-hours-panel ul {
+  gap: 16px;
+}
+
+#main-content.home-page #sedes .location-hours-panel__group {
+  gap: 10px;
+}
+
+#main-content.home-page #sedes .location-hours-panel__group > strong {
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .055em;
+  line-height: 1.4;
+}
+
+#main-content.home-page #sedes .location-hours-panel__group + .location-hours-panel__group {
+  padding-left: 18px;
+  border-left: 1px solid var(--home-card-border);
+}
+
+#main-content.home-page #sedes .location-hours-panel__group dl {
+  gap: 8px;
+}
+
+#main-content.home-page #sedes .location-hours-panel__slot {
+  grid-template-columns: minmax(0, 1fr) max-content;
+  align-items: baseline;
+  gap: 12px;
+}
+
+#main-content.home-page #sedes .location-hours-panel__slot dt {
+  font-size: .875rem;
+  font-weight: 500;
+  letter-spacing: normal;
+  line-height: 1.4;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+#main-content.home-page #sedes .location-hours-panel__slot dd {
+  font-size: .9375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-align: right;
+}
+
+@container office-hours (max-width: 440px) {
+  #main-content.home-page #sedes .location-hours-panel ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #main-content.home-page #sedes .location-hours-panel__group + .location-hours-panel__group {
+    padding: 14px 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--home-card-border);
+  }
+}
+
+@container office-hours (max-width: 16rem) {
+  #main-content.home-page #sedes .location-hours-panel__slot {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3px;
+  }
+
+  #main-content.home-page #sedes .location-hours-panel__slot dd {
+    text-align: left;
+    white-space: normal;
+  }
+}
