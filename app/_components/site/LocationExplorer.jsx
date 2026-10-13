@@ -83,12 +83,15 @@ function ScheduleGroup({ group }) {
     <li className="location-hours-panel__group">
       <strong>{group.label}</strong>
       <dl>
-        {group.slots.map((slot) => (
-          <div className="location-hours-panel__slot" data-schedule-slot key={slot.label}>
-            <dt>{slot.label}</dt>
-            <dd>{slot.times}</dd>
-          </div>
-        ))}
+        {group.slots.map((slot) => {
+          const range = slot.times.split("–");
+          return (
+            <div className="location-hours-panel__slot" data-schedule-slot key={slot.label}>
+              <dt>{slot.label}</dt>
+              <dd>{range.length === 2 ? <><span>{range[0]}</span><span>–{range[1]}</span></> : slot.times}</dd>
+            </div>
+          );
+        })}
       </dl>
     </li>
   );

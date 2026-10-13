@@ -2179,3 +2179,13 @@ the task-local server.
 - Primary: 390×844. Regression: 320, 375, 720, 1024 and 1440 CSS widths; enlarged text must reflow without losing hours. No horizontal overflow, clipping, text collisions or runtime errors.
 - Required evidence: matching before/after location-section captures; all four exact rows remain visible; unchanged non-hours homepage regions; `npm run validate` and 49 release surfaces; verified staging SHA/deployment and live QA.
 - Delivery: staging polish is within the workspace's Director acceptance authority. Production remains on 17cb0c2 pending explicit approval for this new correction.
+
+# Mobile cohesion follow-up — Telegram 23979 — 2026-10-13
+
+- User approves implementation of the audited Other Programs and Method recommendations, and asks for more compact/appealing hours with stronger production-like bolding and no weekend indentation.
+- Hours: four day-group tiles in a 2×2 week-at-a-glance grid, grouped weekdays/weekends with identical formatting. Exact four schedules, office-hours label, and grouped definition-list semantics stay. Ranges may wrap between opening/closing spans at narrow widths; enlarged text may stack groups. Do not hide hours behind a selector, tabs or carousel.
+- Other Programs: remove repeated “Programa complementario” chrome; compact mobile icon-rail cards. Preserve all four program names, descriptions, destinations, citizenship/location notes, full-card targets, legibility, and focus behavior. Desktop card composition stays.
+- Method: preserve the complete philosophy → questions → response narrative, every question/reason, line icons, genuine video/source/poster/controls and admissions link. Use a continuous warm mobile rail with a contained navy questions inset; align 20px section gutters and reduce redundant chapter spacing. Desktop composition stays.
+- Inspiration/continuity mode grounded in the verified source and today's current mobile audit captures, not a new brand/redesign or synthetic asset. Locked: hero/banner/books/proof/community/FAQ/contact/other locations/class schedules and all routes/provider/data behavior.
+- Primary 390×844 and 1440×1000 CSS px. Regression320/375/720/1024 and 200%text reflow. No new overflow or collisions; all schedule rows and program/Method content remains accessible. Source data is unchanged.
+- Gates: `npm run validate`, 49 release surfaces, selected-region desktop/mobile screenshots and DOM checks; staging exact-SHA READY/live QA. Production stays17cb0c2 absent new approval. Artifacts: runtime/audits/aitusa-cohesion-v2-2026-10-13/ outside the repo.

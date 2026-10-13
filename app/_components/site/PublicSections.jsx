@@ -143,7 +143,6 @@ export function StudyGoalsSection() {
           {secondaryChoices.map((choice) => (
             <Link className="study-goal" href={choice.href || catalogHref(choice.key)} key={choice.key}>
               <span className="study-goal__icon" aria-hidden="true"><i data-lucide={choice.icon} /></span>
-              <span className="study-goal__label">Programa complementario</span>
               <h3>{choice.goal}</h3>
               <p>{choice.description}</p>
               <span className="study-goal__cta">{choice.label} <span aria-hidden="true">→</span></span>

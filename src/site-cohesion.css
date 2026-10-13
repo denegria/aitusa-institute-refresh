@@ -387,3 +387,182 @@ body:has(#main-content.home-page) > .site-footer {
     white-space: normal;
   }
 }
+
+/* Approved 2026-10-13 follow-up: four visible schedule tiles, stronger source-
+   like emphasis, and equal weekday/weekend treatment. No fact changes. */
+#main-content.home-page #sedes .location-hours-panel__header {
+  padding: 12px 16px;
+}
+
+#main-content.home-page #sedes .location-hours-panel__content {
+  padding: 12px 14px 14px;
+}
+
+#main-content.home-page #sedes .location-hours-panel ul {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+#main-content.home-page #sedes .location-hours-panel__group {
+  align-content: start;
+  gap: 8px;
+}
+
+#main-content.home-page #sedes .location-hours-panel__group + .location-hours-panel__group {
+  padding: 0;
+  border: 0;
+}
+
+#main-content.home-page #sedes .location-hours-panel__group > strong {
+  font-size: .75rem;
+  font-weight: 750;
+  letter-spacing: .025em;
+}
+
+#main-content.home-page #sedes .location-hours-panel__group dl {
+  gap: 8px;
+}
+
+#main-content.home-page #sedes .location-hours-panel__slot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: 5px;
+  padding: 8px;
+  border: 1px solid var(--home-card-border);
+  border-radius: var(--home-radius);
+  background: var(--home-soft);
+}
+
+#main-content.home-page #sedes .location-hours-panel__slot dt {
+  color: var(--home-navy);
+  font-size: .875rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+#main-content.home-page #sedes .location-hours-panel__slot dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  color: var(--home-navy);
+  font-size: .875rem;
+  font-weight: 650;
+  line-height: 1.4;
+  text-align: left;
+  white-space: normal;
+}
+
+#main-content.home-page #sedes .location-hours-panel__slot dd > span {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  white-space: nowrap;
+}
+
+/* Enlarge the content, not horizontal overflow, when readers enlarge text. */
+@container office-hours (max-width: 16rem) {
+  #main-content.home-page #sedes .location-hours-panel ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 719px) {
+  /* The icon becomes a left rail; remove repeated category labels, not the
+     four offerings, descriptions, notes, or full-card link target. */
+  #main-content.home-page #elige-tu-curso .study-goal {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr);
+    align-content: start;
+    column-gap: 12px;
+    row-gap: 10px;
+    padding: 18px;
+  }
+
+  #main-content.home-page #elige-tu-curso .study-goal__icon {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    width: 36px;
+    height: 36px;
+    margin: 0;
+  }
+
+  #main-content.home-page #elige-tu-curso .study-goal :is(h3, p, .study-goal__cta) {
+    grid-column: 2;
+    margin: 0;
+    min-width: 0;
+  }
+
+  #main-content.home-page #elige-tu-curso .study-goal h3 {
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
+
+  #main-content.home-page #elige-tu-curso .study-goal p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  /* One warm narrative rail; the questions stay navy but become a contained
+     inset, rather than a second edge-to-edge chapter. Content order stays. */
+  #main-content.home-page #metodo .method-story-frame {
+    width: calc(100% - 40px);
+    min-width: 0;
+    gap: 24px;
+  }
+
+  #main-content.home-page #metodo .method-story__opening,
+  #main-content.home-page #metodo .method-story__intro {
+    min-width: 0;
+  }
+
+  #main-content.home-page #metodo .method-story__intro {
+    margin-bottom: 0;
+    padding: 0;
+  }
+
+  #main-content.home-page #metodo :is(h2, h3, p) {
+    overflow-wrap: anywhere;
+  }
+
+  #main-content.home-page #metodo .method-story__intro-copy {
+    margin-top: 20px;
+  }
+
+  #main-content.home-page #metodo .method-story__community {
+    width: calc(100% - 40px);
+    margin: 28px auto 0;
+    padding: 22px 18px;
+    border: 1px solid var(--home-dark-border);
+    border-radius: var(--home-feature-radius);
+  }
+
+  #main-content.home-page #metodo .method-story__community-inner {
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  #main-content.home-page #metodo .method-story__community-copy h3 {
+    margin-top: 10px;
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  #main-content.home-page #metodo .method-story__questions li {
+    min-height: 0;
+    padding-block: 16px;
+  }
+
+  #main-content.home-page #metodo .method-story__questions p {
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: normal;
+  }
+
+  #main-content.home-page #metodo .method-story__conclusion {
+    padding-top: 28px;
+    gap: 20px;
+  }
+}
