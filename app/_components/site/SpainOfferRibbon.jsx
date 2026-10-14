@@ -7,11 +7,9 @@ const OFFER = "30% de descuento para nuevos alumnos y 10% adicional para parejas
 export function SpainOfferRibbon() {
   const viewportRef = useRef(null);
   const pausedRef = useRef(false);
-  const manualPausedRef = useRef(false);
   const interactionHeldRef = useRef(false);
   const interactionTimerRef = useRef(null);
   const motionTimerRef = useRef(null);
-  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -21,9 +19,8 @@ export function SpainOfferRibbon() {
     let phase = "initial";
     let phaseStarted = performance.now();
     let lastFrame = phaseStarted;
-    const initialDwell = 2200;
-    const endDwell = 1800;
-    const speed = 24;
+    const initialDwell = 700;
+    const traversalDuration = 4000;
 
     const holdForInteraction = () => {
       if (reducedMotion.matches) return;
@@ -32,7 +29,7 @@ export function SpainOfferRibbon() {
       window.clearTimeout(interactionTimerRef.current);
       interactionTimerRef.current = window.setTimeout(() => {
         interactionHeldRef.current = false;
-        pausedRef.current = manualPausedRef.current;
+        pausedRef.current = false;
       }, 1600);
     };
 
@@ -55,16 +52,12 @@ export function SpainOfferRibbon() {
         lastFrame = now;
       }
       if (phase === "moving") {
-        viewport.scrollLeft = Math.min(maxScroll, viewport.scrollLeft + (now - lastFrame) * speed / 1000);
-        if (viewport.scrollLeft >= maxScroll - 0.5) {
+        const progress = Math.min(1, (now - phaseStarted) / traversalDuration);
+        viewport.scrollLeft = Math.round(maxScroll * progress);
+        if (progress >= 1) {
           viewport.scrollLeft = maxScroll;
-          phase = "end";
-          phaseStarted = now;
+          phase = "done";
         }
-      } else if (phase === "end" && now - phaseStarted >= endDwell) {
-        viewport.scrollLeft = 0;
-        phase = "initial";
-        phaseStarted = now;
       }
       lastFrame = now;
     };
@@ -75,7 +68,7 @@ export function SpainOfferRibbon() {
         viewport.scrollLeft = 0;
         lastFrame = performance.now();
       } else {
-        pausedRef.current = manualPausedRef.current || interactionHeldRef.current;
+        pausedRef.current = interactionHeldRef.current;
         lastFrame = performance.now();
       }
     };
@@ -114,12 +107,6 @@ export function SpainOfferRibbon() {
     };
   }, []);
 
-  const togglePause = () => {
-    manualPausedRef.current = !manualPausedRef.current;
-    pausedRef.current = manualPausedRef.current || interactionHeldRef.current;
-    setPaused(manualPausedRef.current);
-  };
-
   return (
     <div className="approved-hero__offer" aria-label="Oferta para nuevos alumnos">
       <span className="approved-hero__spain-location">
@@ -129,15 +116,6 @@ export function SpainOfferRibbon() {
       <div className="approved-hero__offer-viewport" ref={viewportRef} tabIndex="0" role="region" aria-label={OFFER}>
         <p className="approved-hero__offer-copy">{OFFER}</p>
       </div>
-      <button
-        className="approved-hero__offer-toggle"
-        type="button"
-        onClick={togglePause}
-        aria-label={paused ? "Reanudar desplazamiento de la oferta" : "Pausar desplazamiento de la oferta"}
-        aria-pressed={paused}
-      >
-        <span aria-hidden="true">{paused ? "▶" : "Ⅱ"}</span>
-      </button>
     </div>
   );
 }
