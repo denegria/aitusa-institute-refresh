@@ -402,3 +402,55 @@
   .approved-hero__modalities { order: 7; }
   .approved-hero__alternate:not(.approved-hero__registration) { order: 8; }
 }
+
+/* Selected desktop hero composition: preserve the approved mobile/tablet
+   chapter while giving wide screens the reviewed left-aligned treatment. */
+@media (min-width: 1041px) {
+  .approved-hero__scene { min-height: 0; }
+  .approved-hero__copy {
+    --hero-content-gutter: clamp(24px, 4.25vw, 72px);
+    width: calc(100% - 2 * var(--hero-content-gutter));
+    margin-inline: var(--hero-content-gutter);
+    padding-block: 64px 48px;
+    text-align: left;
+    transform: none;
+  }
+  .approved-hero__eyebrow { max-width: 540px; margin-bottom: 16px; }
+  #main-content.home-page #home-hero-title {
+    max-width: clamp(510px, 37.5vw, 680px);
+    font-size: clamp(36px, 2.64vw, 48px);
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -.035em;
+    text-wrap: balance;
+  }
+  #home-hero-title span { display: inline; }
+  .approved-hero__support {
+    display: block;
+    max-width: 510px;
+    margin: 22px 0 0;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+  .approved-hero__support > .approved-hero__promise {
+    display: inline;
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: normal;
+  }
+  .approved-hero__support > .approved-hero__location,
+  .approved-hero__desktop-break { display: none; }
+  .approved-hero__cta { margin-top: 22px; }
+  .approved-hero__scene::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(0, 26, 61, .72) 0%, rgba(0, 26, 61, .6) 32%, rgba(0, 26, 61, .2) 46%, transparent 61%);
+  }
+}
+@media (min-width: 1041px) and (max-width: 1240px) {
+  .approved-hero__copy { --hero-content-gutter: 24px; }
+}
