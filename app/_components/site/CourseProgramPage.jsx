@@ -9,13 +9,13 @@ import { courseRegistrationAction } from "../../../src/courseRegistration.js";
 const defaultSectionCopy = {
   outcomes: {
     eyebrow: "Resultados del aprendizaje",
-    title: "Lo que practicarás para usar el inglés con más confianza.",
+    title: "Lo que practicarás para usar el inglés con más confianza",
     text:
       "El programa conecta comprensión, conversación y una rutina sostenible en vez de tratar cada habilidad por separado.",
   },
   pathway: {
     eyebrow: "Ruta por niveles",
-    title: "Una progresión clara, desde la base hasta una comunicación más amplia.",
+    title: "Una progresión clara, desde la base hasta una comunicación más amplia",
     text:
       "Tu punto de entrada se define con la evaluación inicial. No tienes que adivinar dónde comenzar.",
     actionLabel: "Ver mi nivel",
@@ -23,7 +23,7 @@ const defaultSectionCopy = {
   },
   inquiryPathway: {
     eyebrow: "Siguiente paso",
-    title: "Confirma si este programa encaja con tu objetivo.",
+    title: "Confirma si este programa encaja con tu objetivo",
     text:
       "Comparte tu objetivo, punto de partida y disponibilidad por WhatsApp para recibir orientación sobre el programa.",
     actionLabel: "Consultar por WhatsApp",
@@ -32,7 +32,7 @@ const defaultSectionCopy = {
   },
   logistics: {
     eyebrow: "Formatos y horarios",
-    title: "Una ruta académica que también debe funcionar con tu semana.",
+    title: "Una ruta académica que también debe funcionar con tu semana",
     text:
       "Compara cómo estudiar y revisa los bloques publicados. La combinación final se confirma según tu nivel y el grupo activo.",
     scheduleLabel: "Bloques publicados",
@@ -40,7 +40,7 @@ const defaultSectionCopy = {
   },
   faq: {
     eyebrow: "Antes de inscribirte",
-    title: "Respuestas claras para elegir con menos dudas.",
+    title: "Respuestas claras para elegir con menos dudas",
     text:
       "Si tu situación es distinta, admisiones puede confirmar el grupo, la sede y el siguiente paso.",
   },
@@ -246,11 +246,11 @@ function scheduleInquiryHref(program) {
 }
 
 const otherDecisionTitles = {
-  "espanol-extranjeros": "Confirma país, costo y grupo.",
-  ged: "Confirma sede, costo y bloque.",
-  "tutorias-matematicas": "Confirma tutor, modalidad y costo.",
-  "computacion-basica": "Confirma equipo, costo y grupo.",
-  "computacion-oficina": "Confirma módulo, software y costo.",
+  "espanol-extranjeros": "Confirma país, costo y grupo",
+  ged: "Confirma sede, costo y bloque",
+  "tutorias-matematicas": "Confirma tutor, modalidad y costo",
+  "computacion-basica": "Confirma equipo, costo y grupo",
+  "computacion-oficina": "Confirma módulo, software y costo",
 };
 
 function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logistics }) {
@@ -261,7 +261,7 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
       <div className="section-inner">
         <header className="course-program-heading section-heading--framed">
           <p className="section-kicker">{copy.eyebrow}</p>
-          <h2 id="course-logistics-title">{onlineOnly ? "Consulta las horas de tus clases online." : "Consulta el horario de oficina."}</h2>
+          <h2 id="course-logistics-title">{onlineOnly ? "Consulta las horas de tus clases online" : "Consulta el horario de oficina"}</h2>
         </header>
         <div className="course-logistics-layout">
           <div className="course-schedule-panel">
@@ -276,7 +276,7 @@ function CourseLogistics({ program, editorial, copy = defaultSectionCopy.logisti
         <aside className="course-detail-decision" aria-labelledby="course-decision-title">
             <div>
               <p className="section-kicker">Antes de inscribirte</p>
-              <h3 id="course-decision-title">{english ? "Confirma tu nivel, costo y grupo." : otherDecisionTitles[program.slug]}</h3>
+              <h3 id="course-decision-title">{english ? "Confirma tu nivel, costo y grupo" : otherDecisionTitles[program.slug]}</h3>
             </div>
             <div>
               <p>{courseComparison[program.slug].requirements}</p>
@@ -372,10 +372,10 @@ const relatedCourseSlugs = {
 };
 
 const relatedHeadings = {
-  ged: "Si necesitas reforzar matemáticas.",
-  "tutorias-matematicas": "Si tu meta también es el GED.",
-  "computacion-basica": "Cuando quieras seguir con herramientas de oficina.",
-  "computacion-oficina": "Si necesitas empezar por la base digital.",
+  ged: "Si necesitas reforzar matemáticas",
+  "tutorias-matematicas": "Si tu meta también es el GED",
+  "computacion-basica": "Cuando quieras seguir con herramientas de oficina",
+  "computacion-oficina": "Si necesitas empezar por la base digital",
 };
 
 function CourseRelated({ program }) {
@@ -390,7 +390,7 @@ function CourseRelated({ program }) {
       <div className="section-inner">
         <div className="course-program-related__intro">
           <p className="section-kicker">Sigue explorando</p>
-          <h2 id="course-related-title">{relatedHeadings[program.slug] || "Compara las opciones de inglés."}</h2>
+          <h2 id="course-related-title">{relatedHeadings[program.slug] || "Compara las opciones de inglés"}</h2>
         </div>
         <nav aria-label="Cursos relacionados">
           {related.map((candidate) => (
@@ -415,7 +415,7 @@ function CourseClosing({ closing, program }) {
       <div className="section-inner course-program-closing__layout">
         <div>
           <p className="section-kicker">{closing.eyebrow}</p>
-          <h2 id="course-closing-title">{program.slug === "ingles-jovenes-adultos" ? "Elige tu próximo paso con claridad." : closing.title}</h2>
+          <h2 id="course-closing-title">{program.slug === "ingles-jovenes-adultos" ? "Elige tu próximo paso con claridad" : closing.title}</h2>
           <p>Revisa el precio de inscripción antes de pagar. Admisiones puede ayudarte a confirmar el grupo, el horario y el costo total de {courseCostLabel}.</p>
         </div>
         <div className="course-program-closing__actions">
