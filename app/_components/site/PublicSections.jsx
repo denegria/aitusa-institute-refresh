@@ -28,8 +28,10 @@ export function HeroSection() {
           <h1 id="home-hero-title">
             <span>{painHero.headlineLead} </span><span>{painHero.headlineEmphasis}</span>
           </h1>
-          <p className="approved-hero__promise">Para conversar, estudiar y trabajar<br className="approved-hero__desktop-break" /> con más confianza.</p>
-          <p className="approved-hero__location">Presencial en Nueva Jersey u online desde donde estés.</p>
+          <p className="approved-hero__support">
+            <span className="approved-hero__promise">Para conversar, estudiar y trabajar<br className="approved-hero__desktop-break" /> con más confianza.</span>{" "}
+            <span className="approved-hero__location">Presencial en Nueva Jersey u online desde donde estés.</span>
+          </p>
           <Link className="approved-hero__cta" href="/placement-test/">Conoce tu nivel de inglés <i data-lucide="arrow-right" aria-hidden="true" /></Link>
           <div className="approved-hero__art" aria-hidden="true">
             <img

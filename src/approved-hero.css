@@ -71,6 +71,9 @@
 #main-content.home-page #home-hero-title { max-width: 630px; margin: 0; color: #fff; font-family: var(--font-display); font-size: clamp(3.125rem, 4.25vw, 4.75rem); line-height: .96; letter-spacing: -.048em; font-weight: 800; text-transform: none; text-wrap: initial; }
 #home-hero-title span { display: block; }
 .approved-hero__copy { text-shadow: 0 1px 3px #001b3e; }
+.approved-hero__support { display: contents; }
+.approved-hero__support > .approved-hero__promise,
+.approved-hero__support > .approved-hero__location { display: block; }
 .approved-hero__promise { max-width: 430px; margin: 26px 0 0; font-size: 1.1875rem; line-height: 1.5; letter-spacing: -.012em; font-weight: 500; color: rgb(255 255 255 / 92%); }
 .approved-hero__location { margin: 10px 0 0; font-size: 1.25rem; line-height: 1.4; letter-spacing: -.025em; color: #fff; }
 .approved-hero__cta { display: inline-flex; align-items: center; justify-content: center; gap: 16px; min-height: 60px; width: 346px; max-width: 100%; margin-top: 22px; padding: 14px 18px; border: 1px solid rgb(255 239 194 / 72%); border-radius: 14px; background: rgb(196 147 45 / 88%); backdrop-filter: blur(14px) saturate(120%); color: var(--hero-navy); font-size: 1.125rem; font-weight: 700; text-decoration: none; text-shadow: none; box-shadow: inset 0 1px 0 rgb(255 255 255 / 38%), 0 14px 34px rgb(0 10 30 / 24%); transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
@@ -362,8 +365,20 @@
     font-weight: 400;
     color: rgb(255 255 255 / 86%);
   }
-  .approved-hero__promise { order: 3; margin-top: 16px; }
-  .approved-hero__location { order: 4; margin-top: 4px; }
+  .approved-hero__support {
+    order: 3;
+    display: block;
+    margin-top: 16px;
+    font-size: 1rem;
+    line-height: 1.45;
+    color: rgb(255 255 255 / 86%);
+  }
+  .approved-hero__support > .approved-hero__promise,
+  .approved-hero__support > .approved-hero__location {
+    display: inline;
+    margin: 0;
+  }
+  .approved-hero__desktop-break { display: none; }
   .approved-hero__cta {
     order: 5;
     min-height: 52px;
