@@ -14,8 +14,8 @@ describe("homepage Method community story", () => {
     const { methodNarrative, solutionCharacteristics } = siteData;
 
     assert.equal(methodNarrative.eyebrow, "Nuestra filosofía");
-    assert.equal(methodNarrative.heading, "Metodología única y patentada, probada por más de 20 años.");
-    assert.deepEqual(methodNarrative.headingLines, ["Metodología única y patentada,", "probada por más de 20 años."]);
+    assert.equal(methodNarrative.heading, "Metodología única y patentada, probada por más de 20 años");
+    assert.deepEqual(methodNarrative.headingLines, ["Metodología única y patentada,", "probada por más de 20 años"]);
     assert.equal(
       methodNarrative.introduction,
       "Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. De esa experiencia nació Graphic Concept: nuestro método visual para ayudarte a pensar en inglés y comunicarte en el trabajo, los estudios y la vida diaria. Es fácil de aprender y está pensado para cualquier persona, sin importar su nivel académico, para que comprendas y hables con más facilidad y fluidez, sin memorizar listas interminables.",
@@ -24,7 +24,7 @@ describe("homepage Method community story", () => {
     assert.equal(methodNarrative.painHeading, "¿Te suena familiar?");
     assert.deepEqual(methodNarrative.painPoints, selectedQuestions);
     assert.equal(methodNarrative.reasonsEyebrow, "Nuestra respuesta");
-    assert.equal(methodNarrative.reasonsHeading, "Así resolvemos tu problema de hablar inglés: te enseñamos a comprender cuando te hablan sin tener que traducir.");
+    assert.equal(methodNarrative.reasonsHeading, "Así resolvemos tu problema de hablar inglés: te enseñamos a comprender cuando te hablan sin tener que traducir");
     assert.equal(methodNarrative.promise, undefined);
     assert.equal(methodNarrative.painIntroduction, undefined);
     assert.equal(methodNarrative.solutionHeading, undefined);

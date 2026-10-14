@@ -125,7 +125,7 @@ export default function CitizenshipInformationPage() {
         <section className="course-program-section citizenship-resources" aria-labelledby="citizenship-resources-title">
           <div className="section-inner">
             <p className="section-kicker">Fuentes y próximos pasos</p>
-            <h2 id="citizenship-resources-title">Aclara tu pregunta antes de decidir.</h2>
+            <h2 id="citizenship-resources-title">Aclara tu pregunta antes de decidir</h2>
             <div className="citizenship-resource-grid">
               <article>
                 <h3>Consulta la información oficial</h3>

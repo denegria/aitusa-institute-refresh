@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const OFFER = "30% de descuento para nuevos alumnos y 10% adicional para parejas y grupos.";
+const OFFER = "30% de descuento para nuevos alumnos y 10% adicional para parejas y grupos";
 
 export function SpainOfferRibbon() {
   const viewportRef = useRef(null);
@@ -20,7 +20,8 @@ export function SpainOfferRibbon() {
     let phaseStarted = performance.now();
     let lastFrame = phaseStarted;
     const initialDwell = 700;
-    const traversalDuration = 4000;
+    // Preserve the finite pass at 75% of its previous speed.
+    const traversalDuration = 4000 / 0.75;
 
     const holdForInteraction = () => {
       if (reducedMotion.matches) return;

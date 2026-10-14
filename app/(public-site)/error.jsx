@@ -16,7 +16,7 @@ export default function PublicError({ reset }) {
           <div className="section-inner">
             <div className="hero__copy">
               <p className="section-kicker">AIT USA Institute</p>
-              <h1 id="public-error-title">Algo no cargó como esperábamos.</h1>
+              <h1 id="public-error-title">Algo no cargó como esperábamos</h1>
               <p>Intenta nuevamente o vuelve al inicio para continuar explorando AiT USA Institute.</p>
               <div className="hero__actions">
                 <button className="button button--primary" type="button" onClick={() => reset()}>

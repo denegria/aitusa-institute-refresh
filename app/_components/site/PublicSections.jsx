@@ -100,7 +100,7 @@ export function MethodSection() {
         <section className="method-story__conclusion" aria-labelledby="method-principles-title">
           <div className="method-story__principles-heading">
             <p className="method-story-kicker">{methodNarrative.reasonsEyebrow || "Nuestra respuesta"}</p>
-            <h3 id="method-principles-title">{methodNarrative.reasonsHeading || "Lo que cambia cuando entiendes el método."}</h3>
+            <h3 id="method-principles-title">{methodNarrative.reasonsHeading || "Lo que cambia cuando entiendes el método"}</h3>
           </div>
           <ul className="method-reasons" aria-label="Resultados prácticos del método">
             {solutionCharacteristics.map((item) => (
@@ -243,7 +243,7 @@ export function SupportingCoursesSection() {
       <div className="section-inner supporting-courses-section__inner">
         <header className="section-heading section-heading--framed supporting-courses-section__heading">
           <p className="section-kicker">Más rutas para metas concretas</p>
-          <h2 id="supporting-courses-title">Cursos de apoyo.</h2>
+          <h2 id="supporting-courses-title">Cursos de apoyo</h2>
           <p>
             Si buscas una meta académica, laboral o de integración, aquí puedes comparar otras rutas de AIT USA.
           </p>
@@ -286,7 +286,7 @@ export function LocationsSection() {
       <div className="section-inner">
         <div className="section-heading section-heading--framed">
           <p className="section-kicker">Sedes y coordinación</p>
-          <h2 id="sedes-title">Sedes en Nueva Jersey.</h2>
+          <h2 id="sedes-title">Sedes en Nueva Jersey</h2>
           <p>El mapa muestra nuestras sedes presenciales y la coordinación en Nueva York. ¿Estás en España? <Link className="locations-online-link" href="/cursos/ingles-online-adultos/">Conoce el curso de inglés online</Link>.</p>
         </div>
         <LocationExplorer
@@ -309,7 +309,7 @@ export function BooksSection() {
       <div className="section-inner books-section__inner">
         <header className="section-heading section-heading--framed books-section__heading">
           <p className="section-kicker">Ruta Graphic Concept</p>
-          <h2 id="books-title">Nuestros libros.</h2>
+          <h2 id="books-title">Nuestros libros</h2>
           <p>La colección acompaña la ruta Graphic Concept. <a href="/cursos/ingles-jovenes-adultos/#niveles">Conoce la progresión por niveles</a> y confirma con admisiones qué materiales corresponden a tu grupo.</p>
         </header>
         <div className="books-gallery" aria-label="Colección de libros de AIT USA Institute">

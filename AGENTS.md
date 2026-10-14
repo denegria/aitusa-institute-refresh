@@ -30,6 +30,7 @@ The release-surface check must produce deterministic desktop and mobile evidence
 ## Product and security boundaries
 
 - Preserve the approved Spanish-first funnel and real AIT USA proof/media.
+- Do not use periods in headlines or promotional banner copy unless Alvaro explicitly requests them; retain normal punctuation in body copy.
 - Keep portal routes preview-gated until auth, privacy, CRM-backed identity, and production approval are complete.
 - No payment capture, production data writes, private Wix access, provider sends, or production promotion without explicit approval.
 - Routes/actions own auth, policy, state transitions, and user-facing failures. Services own reusable mechanics and provider boundaries.

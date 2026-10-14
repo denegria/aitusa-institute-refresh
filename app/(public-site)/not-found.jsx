@@ -9,7 +9,7 @@ export default function PublicNotFound() {
           <div className="section-inner">
             <div className="hero__copy">
               <p className="section-kicker">AIT USA Institute</p>
-              <h1 id="not-found-title">No encontramos esta página.</h1>
+              <h1 id="not-found-title">No encontramos esta página</h1>
               <p>Puede que el enlace haya cambiado. Regresa al inicio o explora el catálogo de cursos.</p>
               <div className="hero__actions">
                 <a className="button button--primary" href="/">Volver al inicio</a>

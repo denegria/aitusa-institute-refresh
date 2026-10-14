@@ -182,7 +182,7 @@ describe("homepage React integration", () => {
     assert.match(hero, /approved-hero__spain/);
     assert.match(offerRibbon, /ESPAÑA/);
     assert.match(offerRibbon, /· ONLINE/);
-    assert.match(offerRibbon, /30% de descuento para nuevos alumnos y 10% adicional para parejas y grupos\./);
+    assert.match(offerRibbon, /30% de descuento para nuevos alumnos y 10% adicional para parejas y grupos"/);
     assert.doesNotMatch(`${hero}\n${offerRibbon}`, /40%/);
     assert.doesNotMatch(hero, /MADRID · ESPAÑA/);
     assert.doesNotMatch(hero, /España es nuestra próxima parada|Muy pronto|Próximamente/);
@@ -201,7 +201,7 @@ describe("homepage React integration", () => {
     const { sections } = await readSources();
     const publishedLocationCount = locations.filter((location) => location.status !== "online").length + 1;
 
-    assert.equal(painHero.eyebrow, "Una escuela de inglés diferente para gente con propósito.");
+    assert.equal(painHero.eyebrow, "Una escuela de inglés diferente para gente con propósito");
     assert.equal(institutionalProof.length, 4);
     assert.equal(headquarters.status, "headquarters");
     assert.equal(publishedLocationCount, 7);
@@ -231,7 +231,7 @@ describe("homepage React integration", () => {
     assert.doesNotMatch(interactive, /flag: "[🇦-🇿]/u);
     assert.match(launchPolish, /\.country-proof__flags\s*\{[\s\S]*display: flex/);
     assert.match(launchPolish, /supporting-course-card__link\s*\{[\s\S]*border: 1px solid[\s\S]*border-radius: 6px/);
-    assert.match(sections, /Sedes en Nueva Jersey\./);
+    assert.match(sections, /Sedes en Nueva Jersey</);
     assert.match(sections, /href="\/cursos\/ingles-online-adultos\/"\>Conoce el curso de inglés online/);
     assert.doesNotMatch(sections, /España es nuestra próxima parada|Muy pronto, una nueva comunidad|Próximamente en España/);
     assert.doesNotMatch(sections, /supporting-course-card__status|>Curso de apoyo</);

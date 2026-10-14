@@ -33,7 +33,7 @@ const site = {
   description:
     "Aprende inglés con práctica guiada, clases reales y opciones presenciales, híbridas u online.",
   heroHeadline:
-    "Aprende inglés sin traducir ni memorizar miles de palabras.",
+    "Aprende inglés sin traducir ni memorizar miles de palabras",
   heroLead:
     "Método Graphic Concept, práctica guiada, videos reales y una ruta clara para saber por dónde empezar.",
   heroQuote:
@@ -464,7 +464,7 @@ const allCourseRecords = [
       ],
       method: {
         eyebrow: "Método Graphic Concept",
-        title: "Aprendes con práctica guiada.",
+        title: "Aprendes con práctica guiada",
         text:
           "Graphic Concept organiza tiempos, palabras y contexto de forma visual. La clase conecta esa estructura con conversación, repetición oral y corrección inmediata.",
         image: site.images.englishInPersonMethodGenerated,
@@ -502,7 +502,7 @@ const allCourseRecords = [
       sectionCopy: {
         logistics: {
           eyebrow: "Modalidad y horarios",
-          title: "Una ruta presencial que también debe funcionar con tu semana.",
+          title: "Una ruta presencial que también debe funcionar con tu semana",
           text:
             "Llama o solicita información a admisiones para confirmar el horario de tu grupo según el nivel, la sede y la disponibilidad.",
           formatsLabel: "Claves de la experiencia presencial",
@@ -511,19 +511,19 @@ const allCourseRecords = [
         },
         outcomes: {
           eyebrow: "Resultados del aprendizaje",
-          title: "Lo que vas a practicar.",
+          title: "Lo que vas a practicar",
           text: "Comprender, responder y seguir practicando: tres habilidades que avanzan juntas.",
         },
         pathway: {
           eyebrow: "Ruta por niveles",
-          title: "Empieza en tu nivel.",
+          title: "Empieza en tu nivel",
           text: "La evaluación inicial te ayuda a encontrar el punto de partida adecuado.",
           actionLabel: "Ver mi nivel",
           actionHref: "/placement-test/",
         },
         faq: {
           eyebrow: "Antes de inscribirte",
-          title: "Preguntas frecuentes.",
+          title: "Preguntas frecuentes",
           text: "Si tu situación es distinta, admisiones puede confirmar el grupo, la sede y el siguiente paso.",
         },
       },
@@ -531,7 +531,7 @@ const allCourseRecords = [
         eyebrow: "Historia AIT",
         name: "Jessica",
         role: "De estudiante a docente referente",
-        title: "Jessica cuenta su experiencia.",
+        title: "Jessica cuenta su experiencia",
         text:
           "Jessica empezó como estudiante de AiT y hoy es una de las docentes referentes del método. En esta conversación comparte más contexto sobre el ritmo de clase, la práctica y los detalles que ayudan a avanzar.",
         video: site.images.jessicaInterviewVideo,
@@ -575,7 +575,7 @@ const allCourseRecords = [
       ],
       closing: {
         eyebrow: "Tu punto de partida",
-        title: "No elijas un curso a ciegas.",
+        title: "No elijas un curso a ciegas",
         text:
           "Descubre tu nivel inicial y llega a la conversación con admisiones con una recomendación más clara.",
         primaryLabel: "Descubrir mi nivel",
@@ -706,7 +706,7 @@ const allCourseRecords = [
       ],
       method: {
         eyebrow: "Método Graphic Concept",
-        title: "La pantalla no reemplaza la interacción: la organiza.",
+        title: "La pantalla no reemplaza la interacción: la organiza",
         text:
           "Graphic Concept presenta tiempos, palabras y contexto de forma visual. El profesor conecta esa estructura con práctica oral y corrección durante la sesión.",
         image: site.images.englishOnlineMethodGenerated,
@@ -744,19 +744,19 @@ const allCourseRecords = [
       sectionCopy: {
         outcomes: {
           eyebrow: "Resultados del aprendizaje",
-          title: "Habla con más confianza.",
+          title: "Habla con más confianza",
           text: "Comprensión, conversación y práctica en vivo forman una rutina que puedes sostener desde tu país.",
         },
         pathway: {
           eyebrow: "Ruta por niveles",
-          title: "Avanza desde tu nivel.",
+          title: "Avanza desde tu nivel",
           text: "La evaluación inicial orienta el punto de entrada; admisiones confirma el grupo disponible.",
           actionLabel: "Ver mi nivel",
           actionHref: "/placement-test/",
         },
         logistics: {
           eyebrow: "Experiencia online y horarios",
-          title: "Una clase remota debe sentirse presente, no grabada.",
+          title: "Una clase remota debe sentirse presente, no grabada",
           text:
             "Llama o solicita información para confirmar cómo participar y el horario de tu grupo online.",
           formatsLabel: "Claves de la experiencia online",
@@ -765,7 +765,7 @@ const allCourseRecords = [
         },
         faq: {
           eyebrow: "Antes de inscribirte",
-          title: "Lo que necesitas saber.",
+          title: "Lo que necesitas saber",
           text: "Confirma con admisiones el grupo, tu zona horaria y el próximo inicio antes de registrarte.",
         },
       },
@@ -803,7 +803,7 @@ const allCourseRecords = [
       ],
       closing: {
         eyebrow: "Tu aula puede estar donde estés",
-        title: "Confirma tu nivel y tu hora.",
+        title: "Confirma tu nivel y tu hora",
         text:
           "Llega a admisiones con una recomendación inicial y tu zona horaria para elegir un grupo online con menos dudas.",
         primaryLabel: "Descubrir mi nivel",
@@ -939,7 +939,7 @@ const allCourseRecords = [
       ],
       method: {
         eyebrow: "Práctica conversacional",
-        title: "Aprender una lengua también significa usarla con un propósito.",
+        title: "Aprender una lengua también significa usarla con un propósito",
         text:
           "La ruta se organiza alrededor de comprensión, vocabulario y práctica para situaciones reales. El grupo y el nivel determinan el ritmo concreto.",
         image: site.images.spanishMethod,
@@ -978,14 +978,14 @@ const allCourseRecords = [
       sectionCopy: {
         outcomes: {
           eyebrow: "Comunicación útil",
-          title: "Español para usar cada día.",
+          title: "Español para usar cada día",
           text:
             "La ruta prioriza comprensión y respuesta en contextos cotidianos, académicos y laborales.",
         },
         pathway: {
           id: "ruta-espanol",
           eyebrow: "Ruta de aprendizaje",
-          title: "Empieza desde tu objetivo.",
+          title: "Empieza desde tu objetivo",
           text:
             "Tu ruta depende del nivel inicial, la frecuencia y tus objetivos. Confirma el punto de partida antes de comenzar; la duración y el nivel final no están garantizados.",
           actionLabel: "Consultar mi punto de partida",
@@ -994,7 +994,7 @@ const allCourseRecords = [
         },
         logistics: {
           eyebrow: "Modalidad y coordinación",
-          title: "Confirma el horario en tu zona antes de organizar la semana.",
+          title: "Confirma el horario en tu zona antes de organizar la semana",
           text:
             "El curso es online. Consulta el grupo disponible y el horario que corresponde a tu zona.",
           formatsLabel: "Claves de la modalidad online",
@@ -1003,7 +1003,7 @@ const allCourseRecords = [
         },
         faq: {
           eyebrow: "Antes de empezar",
-          title: "Antes de empezar online.",
+          title: "Antes de empezar online",
           text:
             "Una conversación breve con admisiones aclara nivel, meta, horario y tecnología necesaria.",
         },
@@ -1042,7 +1042,7 @@ const allCourseRecords = [
       ],
       closing: {
         eyebrow: "Tu objetivo marca la ruta",
-        title: "Hablemos de tu objetivo en español.",
+        title: "Hablemos de tu objetivo en español",
         text:
           "Con tu experiencia previa, objetivo y zona horaria, admisiones puede darte una orientación más concreta.",
         primaryLabel: "Consultar español online",
@@ -1196,7 +1196,7 @@ const allCourseRecords = [
       ],
       method: {
         eyebrow: "Preparación guiada",
-        title: "Refuerza por áreas antes de reservar el examen oficial.",
+        title: "Refuerza por áreas antes de reservar el examen oficial",
         text:
           "La preparación organiza el trabajo académico y el seguimiento. El ritmo real depende de tu base, asistencia y práctica; la duración publicada es una estimación.",
         image: site.images.gedStudyGroup,
@@ -1235,14 +1235,14 @@ const allCourseRecords = [
       sectionCopy: {
         outcomes: {
           eyebrow: "Una meta, sin atajos confusos",
-          title: "Prepárate con claridad.",
+          title: "Prepárate con claridad",
           text:
             "AIT acompaña la preparación académica. La aprobación depende de cumplir los requisitos y puntajes del examen oficial.",
         },
         pathway: {
           id: "areas",
           eyebrow: "Cuatro áreas del examen",
-          title: "Cuatro áreas, una ruta.",
+          title: "Cuatro áreas, una ruta",
           text:
             "El GED actual se divide en cuatro evaluaciones. Tu punto de partida ayuda a decidir dónde concentrar más práctica.",
           actionLabel: "Consultar mi punto de inicio",
@@ -1253,7 +1253,7 @@ const allCourseRecords = [
         },
         logistics: {
           eyebrow: "Modalidad y horarios",
-          title: "Confirma el bloque antes de planificar tu preparación.",
+          title: "Confirma el bloque antes de planificar tu preparación",
           text:
             "Admisiones confirma los días y horas de clase, la sede, el cupo y la organización del grupo.",
           formatsLabel: "Claves de la preparación GED",
@@ -1262,7 +1262,7 @@ const allCourseRecords = [
         },
         faq: {
           eyebrow: "Antes de empezar",
-          title: "Preparación y examen oficial.",
+          title: "Preparación y examen oficial",
           text:
             "La preparación académica es una parte del proceso. Elegibilidad, registro, examen y diploma siguen las reglas oficiales de GED y Nueva Jersey.",
         },
@@ -1301,7 +1301,7 @@ const allCourseRecords = [
       ],
       closing: {
         eyebrow: "Tu siguiente paso",
-        title: "Planifica tu preparación GED.",
+        title: "Planifica tu preparación GED",
         text:
           "Confirma tu punto de inicio, la sede y el bloque disponible. Después verifica por separado los requisitos del examen oficial.",
         primaryLabel: "Consultar preparación GED",
@@ -1447,7 +1447,7 @@ const allCourseRecords = [
       ],
       method: {
         eyebrow: "Tutoría por objetivo",
-        title: "Primero se delimita el problema; después se practica lo que lo desbloquea.",
+        title: "Primero se delimita el problema; después se practica lo que lo desbloquea",
         text:
           "Una tutoría útil no intenta cubrir toda la materia a la vez. Se concentra en el tema actual, la base que falta y los próximos ejercicios.",
         image: site.images.math,
@@ -1486,14 +1486,14 @@ const allCourseRecords = [
       sectionCopy: {
         outcomes: {
           eyebrow: "Refuerzo con foco",
-          title: "Desbloquea el tema.",
+          title: "Desbloquea el tema",
           text:
             "La tutoría organiza diagnóstico, explicación y práctica alrededor de una necesidad académica concreta.",
         },
         pathway: {
           id: "proceso-tutoria",
           eyebrow: "Cómo se coordina",
-          title: "Trae el problema concreto.",
+          title: "Trae el problema concreto",
           text:
             "Comparte el curso, el tema, el material y cualquier fecha importante antes de confirmar.",
           actionLabel: "Explicar lo que necesito",
@@ -1502,7 +1502,7 @@ const allCourseRecords = [
         },
         logistics: {
           eyebrow: "Modalidad y horario",
-          title: "El formato depende de la materia, el tutor y la disponibilidad.",
+          title: "El formato depende de la materia, el tutor y la disponibilidad",
           text:
             "Las sesiones presenciales y online se coordinan según tu materia, el tutor y la disponibilidad.",
           formatsLabel: "Opciones de coordinación",
@@ -1511,7 +1511,7 @@ const allCourseRecords = [
         },
         faq: {
           eyebrow: "Antes de reservar",
-          title: "Antes de coordinar.",
+          title: "Antes de coordinar",
           text:
             "Materia, nivel, tema y fecha objetivo permiten confirmar si AIT puede atender el caso.",
         },
@@ -1550,7 +1550,7 @@ const allCourseRecords = [
       ],
       closing: {
         eyebrow: "Trae el problema concreto",
-        title: "Encuentra apoyo para ese tema.",
+        title: "Encuentra apoyo para ese tema",
         text:
           "Comparte lo que estás estudiando y dónde aparece la dificultad para confirmar modalidad, tutor y horario.",
         primaryLabel: "Consultar una tutoría",
@@ -1694,7 +1694,7 @@ const allCourseRecords = [
       ],
       method: {
         eyebrow: "Aprender haciendo",
-        title: "Cada función se entiende mejor cuando resuelve una tarea real.",
+        title: "Cada función se entiende mejor cuando resuelve una tarea real",
         text:
           "La ruta conecta explicaciones básicas con acciones cotidianas: buscar, escribir, guardar, compartir, instalar y mantener orden.",
         image: site.images.basicComputingMethod,
@@ -1733,14 +1733,14 @@ const allCourseRecords = [
       sectionCopy: {
         outcomes: {
           eyebrow: "Habilidades funcionales",
-          title: "Más autonomía digital.",
+          title: "Más autonomía digital",
           text:
             "Navegación, archivos y programas se practican alrededor de acciones que aparecen en la vida diaria.",
         },
         pathway: {
           id: "modulos-computacion-basica",
           eyebrow: "Ruta de práctica",
-          title: "De lo esencial a lo cotidiano.",
+          title: "De lo esencial a lo cotidiano",
           text:
             "El contenido concreto se ajusta al sistema operativo y al punto de partida del grupo.",
           actionLabel: "Consultar mi punto de inicio",
@@ -1749,7 +1749,7 @@ const allCourseRecords = [
         },
         logistics: {
           eyebrow: "Equipo y horarios",
-          title: "Confirma qué llevar y qué bloque sigue activo.",
+          title: "Confirma qué llevar y qué bloque sigue activo",
           text:
             "La práctica depende del sistema operativo, el equipo disponible y la organización del grupo.",
           formatsLabel: "Claves del curso",
@@ -1758,7 +1758,7 @@ const allCourseRecords = [
         },
         faq: {
           eyebrow: "Antes de comenzar",
-          title: "Antes de comenzar.",
+          title: "Antes de comenzar",
           text:
             "Admisiones puede confirmar equipo, sistema, sede o modalidad, horario y punto de inicio.",
         },
@@ -1797,7 +1797,7 @@ const allCourseRecords = [
       ],
       closing: {
         eyebrow: "Empieza por lo que necesitas resolver",
-        title: "Empieza con una tarea útil.",
+        title: "Empieza con una tarea útil",
         text:
           "Esa información ayuda a confirmar el grupo, el bloque y si computación básica es la ruta correcta.",
         primaryLabel: "Consultar computación básica",
@@ -1949,7 +1949,7 @@ const allCourseRecords = [
       ],
       method: {
         eyebrow: "Productividad aplicada",
-        title: "No se trata de memorizar menús; se trata de completar un trabajo real.",
+        title: "No se trata de memorizar menús; se trata de completar un trabajo real",
         text:
           "Cada módulo conecta funciones del software con documentos, hojas de cálculo o presentaciones que aparecen en oficina, estudio y administración.",
         image: site.images.officeComputingMethod,
@@ -1988,14 +1988,14 @@ const allCourseRecords = [
       sectionCopy: {
         outcomes: {
           eyebrow: "Trabajo visible",
-          title: "Crea trabajo que puedas usar.",
+          title: "Crea trabajo que puedas usar",
           text:
             "La ruta convierte funciones de oficina en documentos, análisis y presentaciones concretas.",
         },
         pathway: {
           id: "modulos-oficina",
           eyebrow: "Tres módulos",
-          title: "Tres herramientas, tres módulos.",
+          title: "Tres herramientas, tres módulos",
           text:
             "Admisiones puede orientar si conviene comenzar con computación básica o entrar directamente a un módulo de oficina.",
           actionLabel: "Consultar el módulo adecuado",
@@ -2004,7 +2004,7 @@ const allCourseRecords = [
         },
         logistics: {
           eyebrow: "Software y horarios",
-          title: "Confirma el módulo activo antes de organizar tu calendario.",
+          title: "Confirma el módulo activo antes de organizar tu calendario",
           text:
             "Los bloques y duraciones publicados son referencias; la oferta concreta depende de grupo, cupo y software.",
           formatsLabel: "Claves de la ruta de oficina",
@@ -2013,7 +2013,7 @@ const allCourseRecords = [
         },
         faq: {
           eyebrow: "Antes de inscribirte",
-          title: "Antes de elegir módulo.",
+          title: "Antes de elegir módulo",
           text:
             "Admisiones puede confirmar el punto de entrada, la versión del software, el equipo y el bloque vigente.",
         },
@@ -2052,7 +2052,7 @@ const allCourseRecords = [
       ],
       closing: {
         eyebrow: "Elige por el trabajo que necesitas hacer",
-        title: "Elige tu próximo módulo.",
+        title: "Elige tu próximo módulo",
         text:
           "Comparte tu nivel y la herramienta que necesitas para confirmar el módulo, el software y el horario correcto.",
         primaryLabel: "Consultar computación para oficina",
@@ -2203,7 +2203,7 @@ const hybridEnglishProgram = {
     ],
     method: {
       eyebrow: "Método Graphic Concept",
-      title: "La flexibilidad funciona mejor cuando la estructura se mantiene.",
+      title: "La flexibilidad funciona mejor cuando la estructura se mantiene",
       text:
         "Graphic Concept organiza tiempos, palabras y contexto de forma visual. Esa referencia común ayuda a conectar el trabajo presencial con el apoyo remoto.",
       image: site.images.englishHybridMethodGenerated,
@@ -2241,14 +2241,14 @@ const hybridEnglishProgram = {
     sectionCopy: {
       outcomes: {
         eyebrow: "Flexibilidad con dirección",
-        title: "Practica sin perder el hilo.",
+        title: "Practica sin perder el hilo",
         text:
           "El programa conecta encuentros, apoyo remoto y seguimiento para que puedas sostener la práctica.",
       },
       pathway: {
         id: "ruta-hibrida",
         eyebrow: "Ruta por niveles",
-        title: "Una ruta de tres niveles.",
+        title: "Una ruta de tres niveles",
         text:
           "La evaluación inicial orienta el nivel y admisiones confirma qué combinación está disponible para tu grupo.",
         actionLabel: "Ver mi nivel",
@@ -2256,7 +2256,7 @@ const hybridEnglishProgram = {
       },
       logistics: {
         eyebrow: "Encuentros y apoyo remoto",
-        title: "Confirma la combinación que realmente está activa.",
+        title: "Confirma la combinación que realmente está activa",
         text:
           "La combinación de encuentros presenciales y remotos depende del grupo, la sede, el nivel y el horario. Consulta cómo se organiza tu grupo.",
         formatsLabel: "Claves de la ruta híbrida",
@@ -2265,7 +2265,7 @@ const hybridEnglishProgram = {
       },
       faq: {
         eyebrow: "Antes de inscribirte",
-        title: "Antes de combinar formatos.",
+        title: "Antes de combinar formatos",
         text:
           "Admisiones puede confirmar qué encuentros, apoyo remoto y bloques corresponden al grupo activo.",
       },
@@ -2304,7 +2304,7 @@ const hybridEnglishProgram = {
     ],
     closing: {
       eyebrow: "Tu semana también cuenta",
-      title: "Confirma un formato que puedas sostener.",
+      title: "Confirma un formato que puedas sostener",
       text:
         "Llega con tu nivel y tu disponibilidad para revisar qué parte presencial y qué apoyo remoto están activos.",
       primaryLabel: "Descubrir mi nivel",
@@ -2576,7 +2576,7 @@ const publishedLocationCount = publishedLocationInventory.length;
 const testimonials = [
   {
     name: "Testimonio internacional",
-    headline: "Una conversación sobre el proceso y lo que ayuda a avanzar con claridad.",
+    headline: "Una conversación sobre el proceso y lo que ayuda a avanzar con claridad",
     image: site.images.internationalStudentVideoCardPoster,
     video: site.images.internationalStudentVideo,
     videoPoster: site.images.internationalStudentVideoCardPoster,
@@ -2591,7 +2591,7 @@ const testimonials = [
   },
   {
     name: "Eric",
-    headline: "Una entrevista breve sobre el método y el acompañamiento constante.",
+    headline: "Una entrevista breve sobre el método y el acompañamiento constante",
     image: site.images.ericInterviewVideoPoster,
     video: site.images.ericInterviewVideo,
     videoPoster: site.images.ericInterviewVideoPoster,
@@ -2607,7 +2607,7 @@ const testimonials = [
   },
   {
     name: "Jessica",
-    headline: "Una conversación sobre el ritmo de clase y la práctica que ayuda a avanzar.",
+    headline: "Una conversación sobre el ritmo de clase y la práctica que ayuda a avanzar",
     image: site.images.jessicaInterviewVideoPoster,
     video: site.images.jessicaInterviewVideo,
     videoPoster: site.images.jessicaInterviewVideoPoster,
@@ -2670,7 +2670,7 @@ const communityServicePhotos = [
 
 const communityGallery = {
   eyebrow: "Experiencias reales",
-  title: "Más que clases: una comunidad que avanza.",
+  title: "Más que clases: una comunidad que avanza",
   introduction:
     "Clases reales, graduaciones, celebraciones y servicio comunitario: momentos de una comunidad que avanza junta.",
   tabs: [
@@ -2687,7 +2687,7 @@ const communityGallery = {
   "community-service": communityServicePhotos,
   serviceNote: {
     eyebrow: "St. Jude",
-    title: "Servicio que también se comparte fuera del salón.",
+    title: "Servicio que también se comparte fuera del salón",
     text: "Este espacio queda listo para documentar el apoyo comunitario junto a St. Jude con fotografías y detalles aprobados.",
   },
 };
@@ -2896,10 +2896,10 @@ const schoolFaqs = [
 ];
 
 const painHero = {
-  eyebrow: "Una escuela de inglés diferente para gente con propósito.",
-  headline: "Aprende inglés de una manera diferente: sin traducir, sin memorizar, en solo 10 meses.",
+  eyebrow: "Una escuela de inglés diferente para gente con propósito",
+  headline: "Aprende inglés de una manera diferente: sin traducir, sin memorizar, en solo 10 meses",
   headlineLead: "Aprende inglés de una manera diferente:",
-  headlineEmphasis: "sin traducir, sin memorizar, en solo 10 meses.",
+  headlineEmphasis: "sin traducir, sin memorizar, en solo 10 meses",
   headlineAccent: "",
 };
 
@@ -2924,8 +2924,8 @@ const institutionalProof = [
 
 const methodNarrative = {
   eyebrow: "Nuestra filosofía",
-  heading: "Metodología única y patentada, probada por más de 20 años.",
-  headingLines: ["Metodología única y patentada,", "probada por más de 20 años."],
+  heading: "Metodología única y patentada, probada por más de 20 años",
+  headingLines: ["Metodología única y patentada,", "probada por más de 20 años"],
   introduction:
     "Durante más de 20 años hemos escuchado las necesidades y frustraciones de nuestra comunidad. De esa experiencia nació Graphic Concept: nuestro método visual para ayudarte a pensar en inglés y comunicarte en el trabajo, los estudios y la vida diaria. Es fácil de aprender y está pensado para cualquier persona, sin importar su nivel académico, para que comprendas y hables con más facilidad y fluidez, sin memorizar listas interminables.",
   painEyebrow: "Lo que escuchamos",
@@ -2936,7 +2936,7 @@ const methodNarrative = {
     "¿Te obligan a memorizar miles de palabras y sientes que no te alcanzan ni el tiempo ni la cabeza?",
   ],
   reasonsEyebrow: "Nuestra respuesta",
-  reasonsHeading: "Así resolvemos tu problema de hablar inglés: te enseñamos a comprender cuando te hablan sin tener que traducir.",
+  reasonsHeading: "Así resolvemos tu problema de hablar inglés: te enseñamos a comprender cuando te hablan sin tener que traducir",
   videoLabel: "Conoce el método completo · 1:45",
   videoAriaLabel: "Conoce el método Graphic Concept completo",
   video: site.images.introVideo,

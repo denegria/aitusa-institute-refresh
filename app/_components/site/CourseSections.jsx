@@ -79,7 +79,7 @@ export function CourseCatalog({ initialGroup = allOfferingsKey }) {
           <div className="section-inner">
             <header className="course-catalog__intro">
               <div className="course-catalog__intro-copy">
-                <h1 id="catalog-title">Encuentra tu curso.</h1>
+                <h1 id="catalog-title">Encuentra tu curso</h1>
                 <p className="course-catalog__lead">Compara opciones por área, modalidad y objetivo.</p>
               </div>
             </header>
