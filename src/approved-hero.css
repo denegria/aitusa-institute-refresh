@@ -54,7 +54,7 @@
 }
 .approved-hero__spain::before { content: ""; position: absolute; z-index: 0; top: -25%; bottom: -25%; left: -28%; width: 30%; pointer-events: none; border-radius: 50%; background: radial-gradient(ellipse at center, rgb(255 236 176 / 72%) 0%, rgb(230 189 104 / 42%) 28%, rgb(230 189 104 / 0%) 70%); filter: blur(8px); mix-blend-mode: screen; transform: skewX(-18deg); }
 .approved-hero__spain::after { content: ""; position: absolute; inset: auto 0 -28px; height: 30px; pointer-events: none; background: linear-gradient(180deg, rgb(0 27 62 / 92%), transparent); }
-.approved-hero__spain-location { position: relative; z-index: 2; display: flex; align-items: center; flex-shrink: 0; gap: 16px; padding-inline-end: 4px; background: #001b3e; font-size: 1rem; font-weight: 700; letter-spacing: .11em; color: var(--hero-gold); white-space: nowrap; }
+.approved-hero__spain-location { position: relative; z-index: 1; display: flex; align-items: center; flex-shrink: 0; gap: 16px; font-size: 1rem; font-weight: 700; letter-spacing: .11em; color: var(--hero-gold); white-space: nowrap; }
 .approved-hero__spain-location svg { width: 28px; height: 32px; color: inherit; }
 .approved-hero__spain-online { margin-left: -.7125em; }
 .approved-hero__offer { position: relative; z-index: 1; display: flex; align-items: center; min-width: 0; flex: 1; gap: 30px; }
@@ -152,9 +152,9 @@
    visitors enlarge text, keeping copy away from the people and bright glass. */
 @container approved-hero (max-width: 56.25em) {
   .approved-hero__spain { display: flex; gap: 10px; padding: 8px 24px; }
-  .approved-hero__spain { background-position: right top; background-size: auto 48px; }
+  .approved-hero__spain { background-position: calc(100% + 110px) top; background-size: auto 48px; }
   .approved-hero__spain::before { display: none; }
-  .approved-hero__spain-location { width: auto; font-size: .875rem; background: #001b3e; box-shadow: 8px 0 10px 5px #001b3e; }
+  .approved-hero__spain-location { width: auto; z-index: 2; padding-inline-end: 4px; font-size: .875rem; background: #001b3e; box-shadow: 8px 0 10px 5px #001b3e; }
   .approved-hero__spain-location svg { width: 22px; height: 24px; }
   .approved-hero__offer { display: flex; align-items: center; width: auto; gap: 10px; padding-inline-end: clamp(32px, 10vw, 44px); }
   .approved-hero__offer-divider { display: block; width: 1px; height: 24px; }
@@ -184,12 +184,12 @@
   .approved-hero__spain {
     min-height: 0;
     padding: 8px 12px;
-    background: #001b3e url('/assets/hero/approved-spain-ribbon.webp') right top / auto 48px no-repeat;
+    background: #001b3e url('/assets/hero/approved-spain-ribbon.webp') calc(100% + 110px) top / auto 48px no-repeat;
     color: #fff;
     border-bottom: 0;
   }
   .approved-hero__spain::after { display: none; }
-  .approved-hero__spain-location { gap: 8px; padding-inline-end: 6px; font-size: .875rem; letter-spacing: .08em; }
+  .approved-hero__spain-location { z-index: 2; gap: 8px; padding-inline-end: 6px; background: #001b3e; box-shadow: 8px 0 10px 5px #001b3e; font-size: .875rem; letter-spacing: .08em; }
   .approved-hero__spain-location svg { width: 22px; height: 24px; }
   .approved-hero__spain-online { display: none; margin-left: 0; }
   .approved-hero__offer { display: flex; flex: 1 1 auto; min-width: 0; gap: 8px; }

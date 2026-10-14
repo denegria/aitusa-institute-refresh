@@ -24,6 +24,9 @@ export function SpainOfferRibbon() {
 
     const holdForInteraction = () => {
       if (reducedMotion.matches) return;
+      // Once a visitor touches, swipes, wheels, or uses the keyboard, preserve
+      // their position instead of letting the finite auto pass overwrite it.
+      phase = "done";
       interactionHeldRef.current = true;
       pausedRef.current = true;
       window.clearTimeout(interactionTimerRef.current);
@@ -66,6 +69,8 @@ export function SpainOfferRibbon() {
       if (reducedMotion.matches) {
         pausedRef.current = true;
         viewport.scrollLeft = 0;
+        phase = "initial";
+        phaseStarted = performance.now();
         lastFrame = performance.now();
       } else {
         pausedRef.current = interactionHeldRef.current;
