@@ -20,8 +20,8 @@ export function SpainOfferRibbon() {
     let phaseStarted = performance.now();
     let lastFrame = phaseStarted;
     const initialDwell = 700;
-    // Preserve the finite pass at 75% of its previous speed.
-    const traversalDuration = 4000 / 0.75;
+    // Preserve the finite pass at 63.75% of the original speed.
+    const traversalDuration = 4000 / (0.75 * 0.85);
 
     const holdForInteraction = () => {
       if (reducedMotion.matches) return;
