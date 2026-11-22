@@ -11,7 +11,9 @@
 - Source: `main`; QA/staging: `staging`; production: `main` only after explicit Alvaro approval.
 - Work in a fresh issue-bound worktree. Never use the durable staging worktree as a scratch lane.
 - Git pushes trigger deployment. Do not run an additional manual Vercel deploy.
-- Use `Builder <alvarodenegri98@gmail.com>` for project commits.
+- Attribute project commits to Denegria (GitHub account `denegria`, email
+  `alvarodenegri98@gmail.com`). Verify connected-tool commits resolve to that
+  account; do not use a bot or the former Builder identity.
 - Do not delete or overwrite uncommitted work in another checkout.
 
 ## Required validation
