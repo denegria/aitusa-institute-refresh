@@ -98,6 +98,14 @@ export function SiteHeader({ activePage = "home" }) {
   );
 }
 
+function SiteFooterCredit() {
+  return (
+    <span className="site-footer__credit">
+      Sitio web y plataforma por <a href="https://denegriworks.com/">DenegriWorks</a>
+    </span>
+  );
+}
+
 export function SiteFooter({ variant = "full" }) {
   if (variant === "utility") {
     return (
@@ -111,6 +119,7 @@ export function SiteFooter({ variant = "full" }) {
           </nav>
           <span className="site-footer__utility-identity">
             <strong>AIT USA</strong> · © {new Date().getFullYear()} {site.legal}
+            <SiteFooterCredit />
           </span>
         </div>
       </footer>
@@ -159,6 +168,7 @@ export function SiteFooter({ variant = "full" }) {
         <div className="site-footer__legal">
           <span className="site-footer__identity">
             <strong>AIT USA</strong> · © {new Date().getFullYear()} {site.legal}
+            <SiteFooterCredit />
           </span>
           <div className="site-footer__legal-links">
             <a href={site.legalLinks.privacy}>Privacidad</a>

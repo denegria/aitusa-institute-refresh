@@ -5356,6 +5356,27 @@ textarea {
   font-weight: 850;
 }
 
+.site-footer__credit {
+  display: block;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.site-footer .site-footer__credit a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.site-footer .site-footer__credit a:hover,
+.site-footer .site-footer__credit a:focus-visible {
+  background: transparent;
+  color: #fff;
+}
+
 .site-footer__legal-links {
   display: flex;
   flex-wrap: wrap;
